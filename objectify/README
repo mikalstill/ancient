@@ -1,0 +1,55 @@
+Welcome to objectify 0.1. This script is by Michael Still (mikal@stillhq.com), and is Copyright (c) 2002. It is released under the terms of the GNU GPL.
+
+The script munches your c headers, and produces a c++ wrapper header for the functions in that header. It is therefore important to have all the functions in one header, or they wont make sense when output.
+
+There are two additional tags you can use:
+
+  #define SUPPRESS(x)
+  #define INTERNAL
+
+SUPPRESS means functions creating that pointer type will not be converted. For example:
+
+  SUPPRESS(panda_object)
+
+excludes all of this from the c++ header:
+  panda_object *panda_newobject (panda_pdf *, int);
+
+the other option is INTERNAL. It is used to mark that a function is not to be wrapped. For example:
+
+  INTERNAL void panda_insertTIFF (panda_pdf *, panda_page *, panda_object *, char *);
+  INTERNAL void panda_insertJPEG (panda_pdf *, panda_page *, panda_object *, char *);
+  INTERNAL void panda_insertPNG (panda_pdf *, panda_page *, panda_object *, char *);
+  INTERNAL  panda_object *panda_getfontobj (panda_pdf *, char *);
+  INTERNAL  void panda_closetext (panda_pdf *, panda_object *);
+  INTERNAL  void panda_processtrans (panda_pdf *, panda_object *);
+  INTERNAL  panda_object *panda_newobject (panda_pdf *, int);
+
+Will exclude all of these functions from the exported classes.
+
+See the example functions.h if you need help.
+
+How does it work?
+-----------------
+
+So, how does it work? The basic premis the based on a passing comment made by a workmate (Rory Kleeman) a few months ago. If you are converting a c set of functions to a set of c++ classes, then the first guideline to use is that if a group of functions all take the same pointer type, then they should all be methods of a class named after that pointer.
+
+For example:
+  void linestart(line *, int x, int y);
+  void lineend(line *, int x, int y);
+  int linelen(line *);
+
+Should produce a c++ class like:
+  class line{
+   public:
+    line();
+    ~line();
+
+    void start(int x, int y);
+    void end(int x, int y);
+    int len();
+
+   private:
+    line *m_ptr;
+  };
+
+It's a bit more ugly than that, but that's the basic concept.
