@@ -29,6 +29,10 @@
 	changed implementation of vectors to suit definition. Not yet 
 	complete.
 
+2002-05-07 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+	Addressed more todos.
+	Fixed implementation of vectors in both windows and ham.
+
 
 
  
