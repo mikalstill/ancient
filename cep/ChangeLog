@@ -34,7 +34,6 @@
 	Fixed implementation of vectors in both windows and ham.
 
 2002-05-07 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
-	Added private members to cepDataset.h.
 	Added constructor to cepDataset.cpp to deal with window and 
 	hamming return paramaters.
 
@@ -64,6 +63,9 @@
 	modified configure.in to to link fftw libraries
 	committed configure after re running autoconf
 	
-
+2002-07-23 Kristy Van Der Vlist bobhchicken@bigpond.com
+	added buildreport.pl to the meetings directory. This script should be
+	used to generate the meeting reports rather than buildreport.sh as it
+	fixes the problems associated with the first one. 
 
  
