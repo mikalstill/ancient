@@ -9,15 +9,8 @@
 # docbook compliant XML. This script is somewhat Greg specific at the moment, but I would
 # love to make it more generalised over time...
 
-# Index entries also need work
 # Screen is not entirely appropriate for display mapping
-# Email address are not properly identified
-# Bold is also an emphasis at the moment
-# Strip styles out when we are in display state
 # There are some section references which need to be manually fixed (search for "Section reference" in the SGML
-
-# Next release:
-#  - display text substitution...
 
 use strict;
 my($INPUT, $OUTPUT, $outputstyle);
@@ -27,16 +20,16 @@ my($chapters, $chapter, $chaptercount, $temp, $inputused);
 my($linecount, $condlinecount);
 
 # We need to check the command line arguements...
-#if( eq "jade"){
+if($ARGV[0] eq "jade" ){
     print "Jade output style selected (one big file).\n";
     print "The output will go to output.sgml\n";
     $outputstyle = "jade";
-#}
-#else{
-#    print "Output style is gmat (many docbook files).\n";
-#    print "The files will have .sgml extensions...\n";
-#    $outputstyle = "gmat";
-#}
+}
+else{
+    print "Output style is gmat (many docbook files).\n";
+    print "The files will have .sgml extensions...\n";
+    $outputstyle = "gmat";
+}
 
 $chapters = "introduction concepts evolution quickinstall shareinstall install xsetup postinstall ports problems xtheory unixref starting filesys disks tapes printers desktop building current emulate netintro netsetup isp modems ppp slip dns firewall netdebug nfs netbasics email www fax micronet mobile";
 
@@ -115,22 +108,20 @@ foreach $chapter (split(/ /, $chapters)){
 	s/µ/&mu;/g;
 
 	# Sometimes there are some other special characters that we deal with
-	s/\\\(ae/&ccdeil;g/;
+	s/\\\(ae/&aelig;g/;
 
 	# Footnote thingie we don't use
 	s/\\\*F//g;
 
-	# Bold italic for a single word
-	s/\\f\(BI([^ \t\"\\]*)/<command><emphasis>$1<\/emphasis><\/command>/ig;
+	# Bold italic for a single word (there is no equivalent, so merely italics)
+	s/\\f\(BI([^ \t\"\\]*)/<emphasis>$1<\/emphasis>/ig;
 
 	# Italic for a single word
 	s/\\\(em([^ \t\"\\]*)/<emphasis> $1<\/emphasis>/ig;
 
 	# We run some little conversion rules to deal with things like italics et al
-	if($displaystate == 0){
-	    $temp = processstyles($_);
-	    $_ = $temp;	
-	}
+	$temp = processstyles($displaystate, $_);
+	$_ = $temp;	
 
 	# Table row stuff
 #	if(($tablestate == 1) && (/^[^.].*/)){
@@ -476,8 +467,12 @@ foreach $chapter (split(/ /, $chapters)){
 	    $sectionstate++;
 	    }
 
-	elsif(/^\.X[ \t]\"*([^ \"]*)\"*/i){
-	    print OUTPUT "<indexterm><primary>$1</primary></indexterm>\n";
+	elsif(/^\.X[ \t]\"*([^ \",]*)[ \t,]*([^ \"]*)\"*/i){
+	    print OUTPUT "<indexterm><primary>$1</primary>";
+	    if($2 ne ""){
+		print OUTPUT "<secondary>$2</secondary>";
+		}
+	    print OUTPUT "</indexterm>\n";
 	}
 	
 	# We don't know anything about this command at all
@@ -496,7 +491,14 @@ foreach $chapter (split(/ /, $chapters)){
 		$tablestate = 3;
 	    }
 
+	    if($displaystate > 0){
+		chomp;
+	    }
 	    print OUTPUT "$_";
+	    if($displaystate > 0){
+		print OUTPUT "\n";
+	    }
+
 	    $tablecellline = "";
 	}
     }
@@ -572,7 +574,7 @@ sub startpara(){
 }
 
 sub processstyles(){
-    my($line) = @_;
+    my($displaystate, $line) = @_;
     my($newline, $word, $retStr, $length);
     
     $newline = "";
@@ -587,39 +589,67 @@ sub processstyles(){
 
 	    $_ = $word;
 	    if(/(.*)\\fB(.*)/){
-		$word = closeallstates() . "$1<command>$2";
-		$stylestate = "$stylestate" . "B";
+		if($displaystate == 0){
+		    $word = closeallstates() . "$1<command>$2";
+		    $stylestate = "$stylestate" . "B";
+		}
+		else{
+		    $word = "$1 $2";
+		}
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\fI(.*)/){
-		$word = "$1<emphasis>$2";
-		$stylestate = "$stylestate" . "I";
+		if($displaystate == 0){
+		    $word = "$1<emphasis>$2";
+		    $stylestate = "$stylestate" . "I";
+		}
+		else{
+		    $word = "$1 $2";
+		}
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\fC(.*)/){
-		$word = closeallstates() . "$1<command>$2";
-		$stylestate = "$stylestate" . "c";
+		if($displaystate == 0){
+		    $word = closeallstates() . "$1<command>$2";
+		    $stylestate = "$stylestate" . "c";
+		}
+		else{
+		    $word = "$1 $2";
+		}
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\f\(CW(.*)/){
-		$word = "$1<emphasis>$2";
-		$stylestate = "$stylestate" . "W";
+		if($displaystate == 0){
+		    $word = "$1<emphasis>$2";
+		    $stylestate = "$stylestate" . "W";
+		}
+		else{
+		    $word = "$1 $2";
+		}
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\f\(CB(.*)/){
-		$word = closeallstates() . "$1<command>$2";
-		$stylestate = "$stylestate" . "b";
+		if($displaystate == 0){
+		    $word = closeallstates() . "$1<command>$2";
+		    $stylestate = "$stylestate" . "b";
+		}
+		else{
+		    $word = "$1 $2";
+		}
 	    }
 	    
 	    $_ = $word;
 	    if(/(.*)\\f([RP])(.*)/){
 		dblog("{$stylestate}");
 		
-		if($2 eq "R"){
+		if($displaystate > 0){
+		    $word = "$1 $3";
+		}
+		elsif($2 eq "R"){
 		    $word = "$1" . closeallstates() . "$3";
 		}
 		else{
