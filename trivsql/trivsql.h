@@ -19,6 +19,7 @@ extern "C"
 #define TRIVSQL_TDBNULLDATA 6
 #define TRIVSQL_TDBSTOREERROR 7
 #define TRIVSQL_NOSUCHCOLUMN 8
+#define TRIVSQL_NOROWSTOUPDATE 9
 
 #define SELTRUE 1
 #define SELFALSE 0
@@ -28,6 +29,7 @@ typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
 typedef struct trivsql_internal_col
 {
   char *val;
+  char *key;
   struct trivsql_internal_col *next;
 } trivsql_col;
 
@@ -95,6 +97,9 @@ void trivsql_rsmovenext(trivsql_recordset *);
 int trivsql_rseof(trivsql_recordset *);
 int trivsql_rsbof(trivsql_recordset *);
 char *trivsql_rsfield(trivsql_recordset *, int);
+void trivsql_updaters(trivsql_state *, trivsql_recordset *, char *, char *);
+void trivsql_rsupdatefield(trivsql_state *, trivsql_recordset *, 
+			   int, char *newval);
 
 #ifdef __cplusplus
 }

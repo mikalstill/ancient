@@ -17,6 +17,8 @@
 #define	ALTER	267
 #define	ADD	268
 #define	COLUMN	269
+#define	UPDATE	270
+#define	SET	271
 
 #line 1 "parser.y"
 
@@ -39,19 +41,19 @@
 
 
 
-#define	YYFINAL		56
+#define	YYFINAL		66
 #define	YYFLAG		-32768
-#define	YYNTBASE	23
+#define	YYNTBASE	25
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 269 ? yytranslate[x] : 32)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 271 ? yytranslate[x] : 35)
 
 static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,    22,    16,
-    17,    19,     2,    20,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,    18,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,    24,    18,
+    19,    22,     2,    23,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,    20,     2,
     21,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -72,32 +74,34 @@ static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     1,     3,     4,     5,     6,
-     7,     8,     9,    10,    11,    12,    13,    14,    15
+     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
+    17
 };
 
 #if YYDEBUG != 0
 static const short yyprhs[] = {     0,
-     0,     3,     6,     9,    12,    13,    21,    33,    40,    47,
-    49,    51,    55,    57,    62,    67,    68,    70
+     0,     3,     6,     9,    12,    15,    16,    24,    36,    43,
+    50,    59,    61,    63,    67,    69,    74,    79,    80,    82
 };
 
-static const short yyrhs[] = {    24,
-    23,     0,    25,    23,     0,    26,    23,     0,    27,    23,
-     0,     0,     3,     4,    10,    16,    29,    17,    18,     0,
-     5,     7,    10,    16,    29,    17,     6,    16,    29,    17,
-    18,     0,     8,    28,     9,    10,    30,    18,     0,    13,
-    10,    14,    15,    10,    18,     0,    29,     0,    19,     0,
-    31,    20,    29,     0,    31,     0,    11,    31,    21,    31,
-     0,    11,    31,    12,    31,     0,     0,    10,     0,    22,
-    10,    22,     0
+static const short yyrhs[] = {    26,
+    25,     0,    27,    25,     0,    28,    25,     0,    29,    25,
+     0,    30,    25,     0,     0,     3,     4,    10,    18,    32,
+    19,    20,     0,     5,     7,    10,    18,    32,    19,     6,
+    18,    32,    19,    20,     0,     8,    31,     9,    10,    33,
+    20,     0,    13,    10,    14,    15,    10,    20,     0,    16,
+    10,    17,    10,    21,    34,    33,    20,     0,    32,     0,
+    22,     0,    34,    23,    32,     0,    34,     0,    11,    34,
+    21,    34,     0,    11,    34,    12,    34,     0,     0,    10,
+     0,    24,    10,    24,     0
 };
 
 #endif
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    17,    17,    17,    17,    18,    21,    25,    29,    33,    37,
-    38,    41,    42,    45,    46,    47,    50,    51
+    18,    18,    18,    18,    18,    19,    22,    26,    30,    34,
+    38,    42,    43,    46,    47,    50,    51,    52,    55,    56
 };
 #endif
 
@@ -106,67 +110,71 @@ static const short yyrline[] = { 0,
 
 static const char * const yytname[] = {   "$","error","$undefined.","CREATE",
 "TABLE","INSERT","VALUES","INTO","SELECT","FROM","STRING","WHERE","LIKE","ALTER",
-"ADD","COLUMN","'('","')'","';'","'*'","','","'='","'\\''","sql","create","insert",
-"sel","alt","cvsaster","colvalspec","selector","str", NULL
+"ADD","COLUMN","UPDATE","SET","'('","')'","';'","'='","'*'","','","'\\''","sql",
+"create","insert","sel","alt","upd","cvsaster","colvalspec","selector","str", NULL
 };
 #endif
 
 static const short yyr1[] = {     0,
-    23,    23,    23,    23,    23,    24,    25,    26,    27,    28,
-    28,    29,    29,    30,    30,    30,    31,    31
+    25,    25,    25,    25,    25,    25,    26,    27,    28,    29,
+    30,    31,    31,    32,    32,    33,    33,    33,    34,    34
 };
 
 static const short yyr2[] = {     0,
-     2,     2,     2,     2,     0,     7,    11,     6,     6,     1,
-     1,     3,     1,     4,     4,     0,     1,     3
+     2,     2,     2,     2,     2,     0,     7,    11,     6,     6,
+     8,     1,     1,     3,     1,     4,     4,     0,     1,     3
 };
 
-static const short yydefact[] = {     5,
-     0,     0,     0,     0,     5,     5,     5,     5,     0,     0,
-    17,    11,     0,     0,    10,    13,     0,     1,     2,     3,
-     4,     0,     0,     0,     0,     0,     0,     0,     0,    18,
-    16,    12,     0,     0,     0,     0,     0,     0,     0,     0,
-     0,     8,     9,     6,     0,     0,     0,     0,    15,    14,
-     0,     0,     7,     0,     0,     0
+static const short yydefact[] = {     6,
+     0,     0,     0,     0,     0,     6,     6,     6,     6,     6,
+     0,     0,    19,    13,     0,     0,    12,    15,     0,     0,
+     1,     2,     3,     4,     5,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,    20,    18,    14,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     9,    10,
+    18,     7,     0,     0,     0,     0,     0,    17,    16,    11,
+     0,     0,     8,     0,     0,     0
 };
 
-static const short yydefgoto[] = {    18,
-     5,     6,     7,     8,    14,    15,    37,    16
+static const short yydefgoto[] = {    21,
+     6,     7,     8,     9,    10,    16,    17,    43,    18
 };
 
-static const short yypact[] = {     6,
-     1,    -1,    -9,    -2,     6,     6,     6,     6,     5,    13,
--32768,-32768,    14,    16,-32768,     9,    17,-32768,-32768,-32768,
--32768,    18,    19,     8,    22,    -6,    21,    -6,    -6,-32768,
-    26,-32768,    23,    24,    25,    -6,    27,    28,    29,    32,
-     0,-32768,-32768,-32768,    33,    -6,    -6,    -6,-32768,-32768,
-    31,    34,-32768,    39,    40,-32768
+static const short yypact[] = {     4,
+     1,    -1,    -9,     8,    12,     4,     4,     4,     4,     4,
+    15,    16,-32768,-32768,    22,    24,-32768,   -15,    20,    18,
+-32768,-32768,-32768,-32768,-32768,    19,    23,    14,    26,    -8,
+    25,    29,    -8,    -8,-32768,    31,-32768,    33,    27,    28,
+    30,    -8,    32,    34,    -8,    35,    38,    -2,-32768,-32768,
+    31,-32768,    39,    -8,    -8,    36,    -8,-32768,-32768,-32768,
+    40,    41,-32768,    45,    46,-32768
 };
 
-static const short yypgoto[] = {    20,
--32768,-32768,-32768,-32768,-32768,   -26,-32768,   -29
+static const short yypgoto[] = {    21,
+-32768,-32768,-32768,-32768,-32768,-32768,   -30,     0,   -31
 };
 
 
-#define	YYLAST		52
+#define	YYLAST		61
 
 
-static const short yytable[] = {    32,
-    11,    34,    35,    11,     9,    10,    41,    17,     1,    12,
-     2,    46,    13,     3,    22,    13,    49,    50,     4,    54,
-    47,    51,    23,    24,    25,    19,    20,    21,    26,    30,
-    27,    31,    38,    28,    29,    33,    36,    45,    55,    56,
-    39,    40,     0,     0,    42,    43,    44,    52,    48,     0,
-     0,    53
+static const short yytable[] = {    37,
+    13,    13,    40,    41,    11,    12,     1,    30,     2,    54,
+    48,     3,    14,    51,    15,    15,     4,    19,    55,     5,
+    64,    20,    58,    59,    26,    27,    61,    22,    23,    24,
+    25,    28,    29,    31,    32,    36,    33,    35,    39,    38,
+    34,    42,    44,    53,    65,    66,    46,    45,    47,     0,
+    56,    49,     0,    50,    52,    60,    57,     0,    62,     0,
+    63
 };
 
-static const short yycheck[] = {    26,
-    10,    28,    29,    10,     4,     7,    36,    10,     3,    19,
-     5,    12,    22,     8,    10,    22,    46,    47,    13,     0,
-    21,    48,    10,    10,     9,     6,     7,     8,    20,    22,
-    14,    10,    10,    16,    16,    15,    11,     6,     0,     0,
-    17,    17,    -1,    -1,    18,    18,    18,    17,    16,    -1,
-    -1,    18
+static const short yycheck[] = {    30,
+    10,    10,    33,    34,     4,     7,     3,    23,     5,    12,
+    42,     8,    22,    45,    24,    24,    13,    10,    21,    16,
+     0,    10,    54,    55,    10,    10,    57,     7,     8,     9,
+    10,    10,     9,    14,    17,    10,    18,    24,    10,    15,
+    18,    11,    10,     6,     0,     0,    19,    21,    19,    -1,
+    51,    20,    -1,    20,    20,    20,    18,    -1,    19,    -1,
+    20
 };
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line 3 "/usr/lib/bison.simple"
@@ -711,56 +719,60 @@ yyreduce:
 
   switch (yyn) {
 
-case 6:
-#line 22 "parser.y"
+case 7:
+#line 23 "parser.y"
 { gState->rs = trivsql_makers((char *) yyvsp[-4]); trivsql_docreate((char *) yyvsp[-4], (char *) yyvsp[-2]); ;
     break;}
-case 7:
-#line 26 "parser.y"
+case 8:
+#line 27 "parser.y"
 { gState->rs = trivsql_makers((char *) yyvsp[-8]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-8]); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doinsert((char *) yyvsp[-8], (char *) yyvsp[-6], (char *) yyvsp[-2]);};
     break;}
-case 8:
-#line 30 "parser.y"
+case 9:
+#line 31 "parser.y"
 { gState->rs = trivsql_makers((char *) yyvsp[-2]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-2]); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) yyvsp[-2], (char *) yyvsp[-4]);};
     break;}
-case 9:
-#line 34 "parser.y"
+case 10:
+#line 35 "parser.y"
 { gState->rs = trivsql_makers((char *) yyvsp[-4]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-4]); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doalter((char *) yyvsp[-4], (char *) yyvsp[-1]);};
     break;}
-case 10:
-#line 37 "parser.y"
-{ yyval = trivsql_xsnprintf("%s", (char *) yyvsp[0]); ;
-    break;}
 case 11:
-#line 38 "parser.y"
-{ yyval = trivsql_xsnprintf("*"); ;
+#line 39 "parser.y"
+{gState->rs = trivsql_makers((char *) yyvsp[-6]); gState->rs->errno = trivsql_checktable((char *) yyvsp[-6]); if(gState->rs->errno == TRIVSQL_FALSE){trivsql_doselect((char *) yyvsp[-6], (char *) yyvsp[-4]); trivsql_updaters(gState, gState->rs, (char *) yyvsp[-4], (char *) yyvsp[-2]);};
     break;}
 case 12:
-#line 41 "parser.y"
-{ yyval = trivsql_xsnprintf("%s;%s", (char *) yyvsp[-2], (char *) yyvsp[0]); ;
-    break;}
-case 13:
 #line 42 "parser.y"
 { yyval = trivsql_xsnprintf("%s", (char *) yyvsp[0]); ;
     break;}
+case 13:
+#line 43 "parser.y"
+{ yyval = trivsql_xsnprintf("*"); ;
+    break;}
 case 14:
-#line 45 "parser.y"
-{ gState->selector = trivsql_selequal; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
+#line 46 "parser.y"
+{ yyval = trivsql_xsnprintf("%s;%s", (char *) yyvsp[-2], (char *) yyvsp[0]); ;
     break;}
 case 15:
-#line 46 "parser.y"
-{ gState->selector = trivsql_sellike; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
+#line 47 "parser.y"
+{ yyval = trivsql_xsnprintf("%s", (char *) yyvsp[0]); ;
     break;}
 case 16:
-#line 47 "parser.y"
-{ gState->selector = NULL ;
+#line 50 "parser.y"
+{ gState->selector = trivsql_selequal; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
     break;}
 case 17:
-#line 50 "parser.y"
-{ yyval = yyvsp[0] ;
+#line 51 "parser.y"
+{ gState->selector = trivsql_sellike; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
     break;}
 case 18:
-#line 51 "parser.y"
+#line 52 "parser.y"
+{ gState->selector = NULL ;
+    break;}
+case 19:
+#line 55 "parser.y"
+{ yyval = yyvsp[0] ;
+    break;}
+case 20:
+#line 56 "parser.y"
 { yyval = yyvsp[-1] ;
     break;}
 }
@@ -985,7 +997,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 54 "parser.y"
+#line 59 "parser.y"
 
 
 int yyerror(char *s){

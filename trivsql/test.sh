@@ -3,7 +3,7 @@
 function verify (){
     touch testout/$2
     echo -n "    - \"$1\" "
-    echo "$1" | ./sample > testout/$2.new
+    echo "$1" | ./sample foo.tdb > testout/$2.new
     if [ `diff testout/$2 testout/$2.new | wc -l | tr -d " "` -gt 0 ]
       then
       echo ""
@@ -59,10 +59,22 @@ verify "SELECT * FROM foo;" sel002
 verify "SELECT cola, colc FROM foo;" sel003
 verify "SELECT cola, colb, colc FROM foo WHERE cola = 'duck';" sel004
 verify "SELECT * FROM nosuchtable;" sel005
+verify "SELECT cola FROM foo;" se006
 
 echo ""
 echo "Alter tests"
 verify "ALTER foo ADD COLUMN cold;" alter001
 verify "SELECT * FROM foo;" alter002
 verify "INSERT INTO foo (cola, cold) VALUES('duck', 'gerkin');" alter003
-verify "SELECT * FROM foo;" alter002
+verify "SELECT * FROM foo;" alter004
+
+echo ""
+echo "Update tests"
+verify "CREATE TABLE upd (one, two);" update001
+verify "INSERT INTO upd (one, two) VALUES('a', 'b');" update002
+verify "SELECT * FROM upd;" update003
+verify "UPDATE upd SET one = 'c';" update004
+verify "SELECT * FROM upd;" update005
+verify "INSERT INTO upd (one, two) VALUES('e', 'f');" update006
+verify "UPDATE upd SET two = 'g' WHERE two = 'f';" update007
+verify "SELECT * FROM upd;" update008

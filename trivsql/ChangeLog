@@ -20,3 +20,9 @@ Trivsql 0.3.1 -> 0.3.2
 
 20020606 Michael Still (mikal@stillhq.com)
 	ALTER TABLE command
+
+20020607 Michael Still (mikal@stillhq.com)
+	The key names for the cells are now stored in the recordset to enable updatable recordsets to be implemented soon...
+
+20020608 Michael Still (mikal@stillhq.com)
+	Updateable recordsets now work

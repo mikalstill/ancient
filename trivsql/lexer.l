@@ -19,6 +19,8 @@
 [Aa][Ll][Tt][Ee][Rr]                       { return ALTER; }
 [Aa][Dd][Dd]                               { return ADD; }
 [Cc][Oo][Ll][Uu][Mm][Nn]                   { return COLUMN; }
+[Uu][Pp][Dd][Aa][Tt][Ee]                   { return UPDATE; }
+[Ss][Ee][Tt]                               { return SET; }
 
 [a-zA-Z0-9%\-]+                            { yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
 [ \t\r\n]                                  { }

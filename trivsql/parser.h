@@ -14,6 +14,8 @@
 #define	ALTER	267
 #define	ADD	268
 #define	COLUMN	269
+#define	UPDATE	270
+#define	SET	271
 
 
 extern YYSTYPE yylval;

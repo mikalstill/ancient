@@ -400,11 +400,10 @@ void trivsql_addrow(trivsql_recordset *rs, char *tname, int row, int *cols){
     t = trivsql_xsnprintf("trivsql_%s_col%drow%d", tname, cols[colCount], row);
 
     theCol->val = trivsql_dbread(gState, t);
+    theCol->key = t;
     theCol->next = trivsql_xmalloc(sizeof(trivsql_col));
     theCol->next->next = NULL;
     theCol = theCol->next;
-
-    trivsql_xfree(t);
   }
 }
 

@@ -6,7 +6,12 @@ int main(int argc, char *argv[]){
   trivsql_recordset *rs;
   char cmd[1000];
 
-  ourState = trivsql_opendb("foo.tdb");
+  if(argc != 2){
+    fprintf(stderr, "Please specify a db file\n");
+    exit(42);
+  }
+
+  ourState = trivsql_opendb(argv[1]);
 
   while(fgets(cmd, 1000, stdin) != NULL){
     rs = trivsql_execute(ourState, cmd);

@@ -39,8 +39,6 @@ int trivsql_gettext(char *buffer, int maxlen){
 void trivsql_displayrs(trivsql_recordset *rs){
   int i, col;
   char *t, *u, *c, *localCols;
-  trivsql_row *theRow;
-  trivsql_col *theCol;
 
   // Was there an error?
   switch(rs->errno){
@@ -127,4 +125,43 @@ char *trivsql_rsfield(trivsql_recordset *rs, int colnum){
   }
 
   return theCol->val;
+}
+
+void trivsql_updaters(trivsql_state *state, trivsql_recordset *rs, 
+		      char *col, char *newval){
+  // Was there an error?
+  switch(rs->errno){
+  case TRIVSQL_FALSE:
+    gState->rs->errno = TRIVSQL_NOROWSTOUPDATE;
+    return;
+
+  case TRIVSQL_TRUE:
+    break;
+
+  default:
+    return;
+  }
+
+  // For the moment we assume there is only one column
+  trivsql_rsmovefirst(rs);
+  while(trivsql_rseof(rs) != TRIVSQL_TRUE){
+    trivsql_rsupdatefield(state, rs, 0, newval);
+    trivsql_rsmovenext(rs);
+  }
+}
+
+// NOTE: The existing recordset is not updated -- you need to reselect
+void trivsql_rsupdatefield(trivsql_state *state, trivsql_recordset *rs, 
+			   int colnum, char *newval){
+  int count;
+  trivsql_col *theCol;
+
+  count = 0;
+  theCol = rs->currentRow->cols;
+  while((theCol->next != NULL) && (count < colnum)){
+    theCol = theCol->next;
+    count++;
+  }
+
+  trivsql_dbwrite(state, theCol->key, newval);
 }
