@@ -272,28 +272,44 @@ template < class CPLX > cepMatrix<ComplexDble>
   int arraySize = numRows;
   int col, row, table,count;
   int checkValues1, checkValues2;
-
+  
+  const int FIRSTCOLUMN = 0;
+  const int FIRSTROW = 0;
   const int NUMCHECKS = 3;
+  const double SECSINYEAR = 31557600; //365.25*24*3600 - days*hours*minutes(in seconds)
   int checks[NUMCHECKS];
 
   ComplexDble arrayToFft[arraySize];
   cepMatrix<ComplexDble> ffteedMatrix( numRows, numCols, numTables); //matrix contain to store processed values
 
+//calculate the frequency scale and place it in the return matrix
+  for (table=0; table < numTables; table++)
+  {
+    //size of dataset = numRows
+    int halfSetSize = (int)(numRows*0.5);
+    double sampleRate = ( matrix.getValue(0,0,0)  - matrix.getValue(0,0,1) )*SECSINYEAR;
+    double freq = 1/sampleRate;
+    
+    for(row=0; row< halfSetSize; row++)
+    {
+    	ffteedMatrix.setValue(table,row,FIRSTCOLUMN, (freq*row)/numRows);
+    }
+	
+  }
+
   //populate the array to send to fft module.
-  //start at 1st column as we do not want to fft the date.
+  //start at 1st column as we do not want to fft this.
   for (table = 0; table < numTables; table++)
   {
       
     for (col = 1; col < numCols; col++)
     {//while there are still columns
-    
         for (row = 0; row < numRows-1; row++)
         {
 	    for (count = 0; count < NUMCHECKS; count++)
     	    {
 	        checks[count] = matrix.getValue(count,col);
 	    }
-	       
 	    if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
 	        ;//todo daniel: throw an error values not equidistant.
             else
@@ -325,13 +341,11 @@ template < class CPLX > cepMatrix<ComplexDble>
              cout << ffteedMatrix.getValue(table,row,col);
          }//
     } //for col
-
     
   }//end for table
   
   return ffteedMatrix;
 }//end method
-
 
 
 
