@@ -10,6 +10,7 @@
 #define	FROM	263
 #define	STRING	264
 #define	WHERE	265
+#define	LIKE	266
 
 
 extern YYSTYPE yylval;
