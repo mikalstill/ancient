@@ -224,7 +224,7 @@ cepPresentation::createBitmap ()
 				      (unsigned int) (m_height - 
 						      ((m_data[i] - m_yminval) 
 						       / yscale)));
-		cepDebugPrint("Erroneous data point in graph (starting point of zoomed view). plot_setlinestart called with out of bounds arguements. The data point being graphed is " + cepItoa(m_data[i]) + " which results in the following calculation: " + cepItoa(m_height) + " - ((" + cepItoa(m_data[i]) + " - " + cepItoa(m_yminval) + ") / " + cepFtoa(yscale) + ")).");
+		cepDebugPrint("Zoomed graph point. The data point being graphed is " + cepItoa(m_data[i]) + " which results in the following calculation: " + cepItoa(m_height) + " - ((" + cepItoa(m_data[i]) + " - " + cepItoa(m_yminval) + ") / " + cepFtoa(yscale) + ")).");
 		linestarted = true;
 	      }
 	    else{
@@ -232,7 +232,7 @@ cepPresentation::createBitmap ()
 				   (unsigned int) (m_height - 
 						   ((m_data[i] - m_yminval) 
 						    / yscale)));
-	      cepDebugPrint("Erroneous data point in graph (continuing point of zoomed view). plot_addlinesegment called with out of bounds arguements. The data point being graphed is " + cepItoa(m_data[i]) + " which results in the following calculation: " + cepItoa(m_height) + " - ((" + cepItoa(m_data[i]) + " - " + cepItoa(m_yminval) + ") / " + cepFtoa(yscale) + ")) = " + cepItoa((unsigned int) (m_height - ((m_data[i] - m_yminval) / yscale))));
+	      cepDebugPrint("Zoomed graph point. The data point being graphed is " + cepItoa(m_data[i]) + " which results in the following calculation: " + cepItoa(m_height) + " - ((" + cepItoa(m_data[i]) + " - " + cepItoa(m_yminval) + ") / " + cepFtoa(yscale) + ")) = " + cepItoa((unsigned int) (m_height - ((m_data[i] - m_yminval) / yscale))));
 	    }
 	  }
       }    

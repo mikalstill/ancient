@@ -1,8 +1,9 @@
 * Work out how to do include dependancies in automake
-* cepData current returns incorrect display dates (they're off by a couple of days)
+* cepDatae currently returns incorrect display dates (they're off by a couple of days)
 * operator= to convert string to wxString?
 * define a with wx macro for the ui target only, the current way is broken...
 * tooltips
 * documentation as HTML (perhaps in docbook so we can have a printed manual as well)
 * autoconf tests for X libraries always fail (are they needed at all?)
 * reinstate the config for error display
+* BAHR dataset breaks the UI on zoomed view in Z dimension. Is this because of the negative values?
