@@ -229,6 +229,16 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     // Force a redraw of the canvas
     Refresh();
   }
+  else{
+    // The left button is not down, so just show the date we are hovering over
+    float extracted = ((pt.x - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
+    cepDate hoverDate(extracted);
+    string hover = hoverDate.getDay() + " " + hoverDate.getShortMonthName() + " " +
+      hoverDate.getYear();
+    
+    string sel = string(m_selDirString + " " + hover);
+    ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(sel.c_str(), 2);
+  }
 }
 
 // Determine which graph we are over (and display it to the user in the status bar)
