@@ -1,0 +1,1 @@
+This simple example of how to call an x86 instruction inside GCC c code calls the cpuid instruction and displays the results.
