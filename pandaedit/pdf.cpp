@@ -83,37 +83,30 @@ vector < object > &pdf::getObjects ()
   return m_objects;
 }
 
-object&
-pdf::getCatalogObject()
+bool
+pdf::getCatalogObject(object& catalog)
 {
-  debug(dlTrace, "Extracting the catalog");
-  object & catalog = gNoSuchObject;
-  if (!findObject (dictitem::diTypeName, "Type", "Catalog", catalog))
-    {
-      debug(dlError, "Bad PDF: No catalog");
-    }
-
-  return catalog;
+  return findObject (dictitem::diTypeName, "Type", "Catalog", catalog);
 }
 
-object&
-pdf::getPagesObject()
+bool
+pdf::getPagesObject(object& pages)
 {
-  object& catalog = getCatalogObject();
+  object& catalog = gNoSuchObject
+  if(!getCatalogObject(catalog))
+    {
+      debug(dlError, "Couldn't find catalog object");
+      return false;
+    }
   if (!catalog.hasDictItem (dictitem::diTypeObjectReference, "Pages"))
     {
-      debug(dlTrace, "Bad PDF: No pages object refered to in catalog");
-      return gNoSuchObject;
+      return false;
     }
-  object & pages = gNoSuchObject;
   if (!catalog.getDict ().getValue ("Pages", *this, pages))
     {
-      debug(dlTrace, "Bad PDF: Could not get pages object, but the catalog "
-	    "references it!");
-      return gNoSuchObject;
+      return false;
     }
-  
-  return pages;
+  return true;
 }
 
 objectlist
@@ -121,8 +114,8 @@ pdf::getPages ()
 {
   try
   {
-    object& pages = getPagesObject();
-    if(pages.getNumber() == objNumNoSuch)
+    object& pages = gNoSuchObject
+    if(!getPagesObject(pages))
       return objectlist();
     
     // Now find all the page objects referenced in the pages object
@@ -160,7 +153,11 @@ void
 pdf::appendPage(object& thePage)
 {
   debug(dlTrace, "PDF appending page");
-  object & pages = getPagesObject();
+  object & pages = gNoSuchObject;
+  if(!getPagesObject(pages)){
+    debug(dlError, "Cannot append to non-existant pages object");
+    return;
+  }
   
   debug(dlTrace, "Finding the kids list within the pages object");
   objectlist footoo;

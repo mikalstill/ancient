@@ -12,6 +12,7 @@
 #include "stringArray.h"
 
 int gUniqueSelection = 1;
+extern object gNoSuchObject;
 
 object::object (int number, int generation):
 m_number (number),
@@ -24,6 +25,10 @@ m_height(-1)
 
 object::object (const object & other)
 {
+  debug(dlTrace, string("Copied object ") + toString(other.m_number) + 
+        string(" ") + toString(other.m_generation) + string(" over ") +
+        toString(m_number) + string(" ") + toString(m_generation));
+
   m_number = other.m_number;
   m_generation = other.m_generation;
   m_dictionary = other.m_dictionary;
@@ -64,6 +69,10 @@ object::~object ()
 object
 object::operator= (const object & other)
 {
+  debug(dlTrace, string("Assigned object ") + toString(other.m_number) + 
+        string(" ") + toString(other.m_generation) + string(" over ") +
+        toString(m_number) + string(" ") + toString(m_generation));
+  
   m_number = other.m_number;
   m_generation = other.m_generation;
   m_dictionary = other.m_dictionary;
@@ -362,7 +371,21 @@ object::getStreamLength ()
 void
 object::appendCommand(command cmd)
 {
+  // TODO mikal: debugging
+  getCommandCount();
+
+  debug(dlTrace, "Appending command");
   m_commands.push_back(cmd);
+  m_changed = true;
+
+  // TODO mikal: debugging
+  getCommandCount();
+}
+
+void
+object::clearCommands()
+{
+  m_commands.clear();
   m_changed = true;
 }
 
@@ -382,6 +405,11 @@ object::rewriteCommand(int index, commandType cType,
 unsigned int
 object::getCommandCount()
 {
+  debug(dlTrace, string("Command count ") + toString(m_number) + string(" ") +
+	toString(m_generation) + string(": ") + 
+	toString(m_commands.size()));
+  debug(dlTrace, string("Command count for gNoSuchObject: ") + 
+	toString(gNoSuchObject.m_commands.size()));
   return m_commands.size();
 }
 

@@ -279,6 +279,9 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     debug_menu->Append (GENMENU_FORCEREFRESH, "Force page refresh",
 			"Force the page to repaint");
 
+    debug_menu->Append (GENMENU_FORCEREPARSE, "Force page reparse",
+			"Force the page to be reparsed");
+
     menu_bar->Append(debug_menu, "Debugging");
 
     ////////

@@ -160,6 +160,8 @@ public:
   void appendCommand(command cmd);
   void rewriteCommand(int index, commandType type, 
 		      vector<wxPoint> controlPoints);
+  void clearCommands();
+  void executeCommand(int index, panda_page *pg);
 
   unsigned int getCommandCount();
   void getCommandLineColor(int index, int& r, int& g, int &b);
@@ -168,8 +170,6 @@ public:
   int getCommandId(int index);
   unsigned char *getCommandRaster(int index);
   bool getLastCommand(command& cmd);
-
-  void executeCommand(int index, panda_page *pg);
 
   void setHeight(int height);
 
@@ -226,8 +226,8 @@ public:
   string getFilename();
 
   objectlist getPages ();
-  object& getCatalogObject();
-  object& getPagesObject();
+  bool getCatalogObject(object& obj);
+  bool getPagesObject(object& obj);
 
 private:
   string m_filename;

@@ -78,6 +78,7 @@ IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
   BEGIN_EVENT_TABLE (pdfView, wxView)
   EVT_MENU (GENMENU_SAVEPAGESTREAM, pdfView::OnSavePageStream)
   EVT_MENU (GENMENU_FORCEREFRESH, pdfView::OnForceRefresh)
+  EVT_MENU (GENMENU_FORCEREPARSE, pdfView::OnForceReparse)
 
   EVT_MENU (GENMENU_NEWPAGE, pdfView::OnNewPage)
   EVT_MENU (GENMENU_ZOOM, pdfView::OnZoom)
@@ -189,7 +190,7 @@ pdfView::OnDraw (wxDC * dc)
       if((x != cx) || (y != cy))
 	{
 	  debug(dlTrace, "Resizing window");
-	  ((wxFrame *) wxGetApp ().GetTopWindow ())->SetSize(x, y + 120);
+	  ((wxFrame *) wxGetApp ().GetTopWindow ())->SetSize(x + 20, y + 120);
 	}
     }
 
@@ -228,7 +229,12 @@ bool
 pdfView::populatePageFromPDF(pdfDoc* theDoc, string& filename)
 {
   try{
-    object& pages = theDoc->getPagesObject();
+    object pages(objNumNoSuch, objNumNoSuch);
+    if(!theDoc->getPagesObject(pages))
+      {
+	debug(dlError, "Could not populate, as there is no pages object");
+	return false;
+      }
     
     // Now find all the page objects referenced in the pages object
     string kids;
@@ -564,7 +570,7 @@ pdfView::OnSavePageStream (wxCommandEvent & event)
       char *stream;
       unsigned long length;
       
-      stream = ((object) contents[i]).getStream (length);
+      stream = ((object &) contents[i]).getStream (length);
       if(le == leUnknown)
 	{
 	  for(unsigned int j = 0; j < length; j++)
@@ -634,6 +640,27 @@ pdfView::OnZoom(wxCommandEvent&)
 void
 pdfView::OnForceRefresh (wxCommandEvent & event)
 {
+  m_dirty = true;
+  canvas->Refresh();
+}
+
+// Force a reparse of the page
+void
+pdfView::OnForceReparse (wxCommandEvent & event)
+{
+  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+  if(!theDoc){
+    debug(dlTrace, "No document");
+    return;
+  }
+
+  if(!theDoc->isReady()){
+    debug(dlTrace, "Reparse ignored because PDF document not ready");
+    return;
+  }
+
+  theDoc->getPage(m_page).clearCommands();
+
   m_dirty = true;
   canvas->Refresh();
 }

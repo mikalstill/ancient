@@ -368,7 +368,12 @@ pdfDoc::appendPage()
     newpage.getDict().add(di);
   }
   {
-    object & pages = getPagesObject();
+    object & pages = gNoSuchObject;
+    if(!getPagesObject(pages)){
+      debug(dlError, "Could not find pages object");
+      return;
+    }
+
     dictitem di("Parent", m_pdf);
     di.setValue(pages);
     newpage.getDict().add(di);
@@ -406,8 +411,12 @@ pdfDoc::getPageSize(int pageno, string& mediaBox)
 {
   getPage(pageno).getDict ().getValue ("MediaBox", mediaBox);
   if(mediaBox == ""){
-    debug(dlTrace, "No page size specified in page object, trying pages object...");
-    getPagesObject().getDict ().getValue ("MediaBox", mediaBox);
+    debug(dlTrace, 
+	  "No page size specified in page object, trying pages object...");
+    object& pages = gNoSuchObject;
+    if(!getPagesObject(gNoSuchObject))
+      return false;
+    pages.getDict ().getValue ("MediaBox", mediaBox);
   }
   if(mediaBox == ""){
     debug(dlError, "The document does not specify a page size");
@@ -436,10 +445,10 @@ pdfDoc::getPageSize(int pageno, unsigned int& x, unsigned int& y)
   return true;
 }
 
-object&
-pdfDoc::getPagesObject()
+bool
+pdfDoc::getPagesObject(object &obj)
 {
   if(m_pdf == NULL)
-    return gNoSuchObject;
-  return m_pdf->getPagesObject();
+    return false;
+  return m_pdf->getPagesObject(obj);
 }

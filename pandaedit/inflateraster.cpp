@@ -46,7 +46,7 @@ char *inflateraster(char *input, unsigned long width, unsigned long height,
     outset = 0;
     for(inset = 0; inset < width * height * channels; inset += bytedepth){
       // todo_mikal: This will only work for images with a bytedepth of one
-      output[outset] = input[inset] * scalefactor;
+      output[outset] = (unsigned char) (input[inset] * scalefactor);
       outset += targetbytedepth;
     }
   }

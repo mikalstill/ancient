@@ -18,7 +18,7 @@ flate::decompress (char *input, unsigned long length, unsigned long &newlength)
   
   debug(dlTrace, string("Input stream: ") + binaryToString(input, length));
 
-  while(decompSize < 1000000){
+  while(decompSize < 100000000){
     if((decomp = (char *) malloc(decompSize)) == NULL){
       debug(dlError, "Could not allocate memory whilst decompressing "
 	    "flate stream");
@@ -29,8 +29,6 @@ flate::decompress (char *input, unsigned long length, unsigned long &newlength)
 	  toString((long) decompSize));
     int err = uncompress((Bytef *) decomp, &decompSize, (Bytef *) input, 
 			 length);
-    debug(dlTrace, string("After compression buffer size is ") +
-	  toString((long) decompSize));
 
     switch(err){
     case Z_OK:
@@ -49,7 +47,6 @@ flate::decompress (char *input, unsigned long length, unsigned long &newlength)
       break;
 
     case Z_BUF_ERROR:
-      debug(dlTrace, "zlib buffer too small");
       decompSize *= 2;
       free(decomp);
     }

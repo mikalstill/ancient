@@ -56,18 +56,21 @@ genToString (float number, bool suppressTrailingZeros)
   snprintf (buffer, 10, "%f", number);
 
   // Remove trailing zeros (sometimes)
-  if(suppressTrailingZeros){
-    int i = strlen(buffer) - 1;
-    while(buffer[i] == '0'){
-      i--;
+  if (suppressTrailingZeros)
+    {
+      int i = strlen (buffer) - 1;
+      while (buffer[i] == '0')
+	{
+	  i--;
+	}
+      buffer[i + 1] = '\0';
     }
-    buffer[i + 1] = '\0';
-  }
 
   // If there is just a point sign, then put a zero back...
-  if(buffer[strlen(buffer) - 1] == '.'){
-    return string(string(buffer) + "0");
-  }
+  if (buffer[strlen (buffer) - 1] == '.')
+    {
+      return string (string (buffer) + "0");
+    }
 
   return string (buffer);
 }
@@ -75,7 +78,8 @@ genToString (float number, bool suppressTrailingZeros)
 string
 genToString (bool val)
 {
-  if(val) return "true";
+  if (val)
+    return "true";
   return "false";
 }
 
@@ -85,7 +89,7 @@ genToString (char val)
   char buffer[2];
 
   snprintf (buffer, 2, "%c", val);
-  return string(buffer);
+  return string (buffer);
 }
 
 string
@@ -94,7 +98,7 @@ genToString (size_t val)
   char buffer[10];
 
   snprintf (buffer, 10, "%d", val);
-  return string(buffer);
+  return string (buffer);
 }
 
 bool
@@ -112,7 +116,8 @@ genIsBlank (char c)
   return false;
 }
 
-bool genIsNumeric(char c)
+bool
+genIsNumeric (char c)
 {
   // This line of code:
   //
@@ -121,19 +126,19 @@ bool genIsNumeric(char c)
   //
   // Became:
 
-  if(isdigit(c))
+  if (isdigit (c))
     {
       return true;
     }
-  if(c == '.')
+  if (c == '.')
     {
       return true;
     }
-  if(c == '-')
+  if (c == '-')
     {
-    return true;
+      return true;
     }
-  
+
   return false;
 }
 
@@ -161,22 +166,24 @@ genAbs (int a)
   return a;
 }
 
-string genToLower(string in)
+string
+genToLower (string in)
 {
   string out;
 
-  for(unsigned int count = 0; count < in.length(); count++)
-    out += tolower(in.c_str()[count]);
-  
+  for (unsigned int count = 0; count < in.length (); count++)
+    out += tolower (in.c_str ()[count]);
+
   return out;
 }
 
-string genToUpper(string in)
+string
+genToUpper (string in)
 {
   string out;
 
-  for(unsigned int count = 0; count < in.length(); count++)
-    out += toupper(in.c_str()[count]);
-  
+  for (unsigned int count = 0; count < in.length (); count++)
+    out += toupper (in.c_str ()[count]);
+
   return out;
 }

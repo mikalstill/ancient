@@ -53,7 +53,6 @@ void
 matrix::setIdentity ()
 {
   debug(dlTrace, "Setting matrix to identity\n");
-  dumpMatrix ();
   for (int i = 0; i < 3; i++)
     for (int j = 0; j < 3; j++)
       {
@@ -62,7 +61,6 @@ matrix::setIdentity ()
 	else
 	  m_matrix[i][j] = 0.0;
       }
-  dumpMatrix ();
 }
 
 void
@@ -77,7 +75,6 @@ matrix::setValues (float vals[6])
 	toString(vals[5]) + string(", ") + 
 	toString(vals[6]));
 
-  dumpMatrix ();
   int count = 0;
   m_matrix[0][0] = vals[count++];
   m_matrix[1][0] = vals[count++];
@@ -85,7 +82,6 @@ matrix::setValues (float vals[6])
   m_matrix[1][1] = vals[count++];
   m_matrix[0][2] = vals[count++];
   m_matrix[1][2] = vals[count++];
-  dumpMatrix ();
 }
 
 float

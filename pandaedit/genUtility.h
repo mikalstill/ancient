@@ -37,7 +37,7 @@ string genToUpper (string in);
 
 // Evaluation methods
 bool genIsBlank (char chr);
-bool genIsNumeric(char chr);
+bool genIsNumeric (char chr);
 
 // Mathematical methods
 int genMax (int a, int b);

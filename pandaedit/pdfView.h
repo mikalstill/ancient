@@ -62,6 +62,7 @@ public:
 
   void OnSavePageStream (wxCommandEvent & event);
   void OnForceRefresh (wxCommandEvent & event);
+  void OnForceReparse (wxCommandEvent & event);
 
   void OnNewPage (wxCommandEvent & event);
   void OnZoom (wxCommandEvent & event);
