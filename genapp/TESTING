@@ -1,0 +1,4 @@
+When testing, there are a few scenarios we need to remember:
+
+* With a config database ($HOME/.cep)
+* Without a config database

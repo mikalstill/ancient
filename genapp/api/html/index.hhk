@@ -1,0 +1,426 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML><HEAD></HEAD><BODY>
+<OBJECT type="text/site properties">
+<param name="FrameName" value="right">
+</OBJECT>
+<UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="addDataPoint"><param name="Name" value="addDataPoint"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a5"><param name="Name" value="cepPresentation"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="canvas"><param name="Name" value="canvas"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#m1"><param name="Name" value="cepView"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structcep__internal__datarow.html"><param name="Name" value="cep_internal_datarow"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structcep__internal__datarow.html#m0"><param name="Name" value="date"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structcep__internal__datarow.html#m2"><param name="Name" value="error"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structcep__internal__datarow.html#m1"><param name="Name" value="sample"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html"><param name="Name" value="cepApp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#a0"><param name="Name" value="cepApp"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#n0"><param name="Name" value="config"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#a3"><param name="Name" value="CreateChildFrame"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#n2"><param name="Name" value="errHandler"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#n1"><param name="Name" value="m_docManager"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#n3"><param name="Name" value="m_error"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#a2"><param name="Name" value="OnExit"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#a1"><param name="Name" value="OnInit"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepCanvas.html"><param name="Name" value="cepCanvas"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepCanvas.html#a0"><param name="Name" value="cepCanvas"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepCanvas.html#a1"><param name="Name" value="OnDraw"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepCanvas.html#a2"><param name="Name" value="OnMouseEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepCanvas.html#m0"><param name="Name" value="view"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html"><param name="Name" value="cepConfiguration"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#b0"><param name="Name" value="cepConfiguration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#d1"><param name="Name" value="getInstance"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#a3"><param name="Name" value="getValue"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#d0"><param name="Name" value="initialise"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#a6"><param name="Name" value="setValue"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#a0"><param name="Name" value="~cepConfiguration"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html"><param name="Name" value="cepDataset"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#a0"><param name="Name" value="cepDataset"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#s3"><param name="Name" value="direction"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#a5"><param name="Name" value="doHam"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#a4"><param name="Name" value="doWindow"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#a7"><param name="Name" value="getDataPtr"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#a6"><param name="Name" value="munch"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html"><param name="Name" value="cepDate"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a0"><param name="Name" value="cepDate"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a1"><param name="Name" value="popDayOfYear"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a2"><param name="Name" value="popDaysInYear"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a4"><param name="Name" value="popMonthAndDay"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a3"><param name="Name" value="popYear"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a5"><param name="Name" value="toString"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="cepDoLeastSquares"><param name="Name" value="cepDoLeastSquares"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepLs.html#a2"><param name="Name" value="cepLs"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html"><param name="Name" value="cepError"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a0"><param name="Name" value="cepError"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a5"><param name="Name" value="clear"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a7"><param name="Name" value="display"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a8"><param name="Name" value="getMessage"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a9"><param name="Name" value="getSeverity"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a4"><param name="Name" value="isReal"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a6"><param name="Name" value="log"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#d0"><param name="Name" value="setErrorHandler"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#s7"><param name="Name" value="severity"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a3"><param name="Name" value="~cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepErrorHandler.html"><param name="Name" value="cepErrorHandler"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepErrorHandler.html#a0"><param name="Name" value="cepErrorHandler"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepErrorHandler.html#a2"><param name="Name" value="displayError"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepErrorHandler.html#a3"><param name="Name" value="logError"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepErrorHandler.html#a1"><param name="Name" value="~cepErrorHandler"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepLs.html"><param name="Name" value="cepLs"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepLs.html#a2"><param name="Name" value="cepDoLeastSquares"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepLs.html#a0"><param name="Name" value="cepLs"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepLs.html#a1"><param name="Name" value="~cepLs"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html"><param name="Name" value="cepMatrix"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a0"><param name="Name" value="cepMatrix"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a15"><param name="Name" value="getNumCols"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a14"><param name="Name" value="getNumRows"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a12"><param name="Name" value="getValue"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a11"><param name="Name" value="isDiagonal"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a8"><param name="Name" value="operator *="></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a5"><param name="Name" value="operator+="></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a6"><param name="Name" value="operator-="></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a9"><param name="Name" value="operator="></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a10"><param name="Name" value="operator=="></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a13"><param name="Name" value="setValue"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a4"><param name="Name" value="transpose"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a3"><param name="Name" value="~cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html"><param name="Name" value="cepPresentation"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a5"><param name="Name" value="addDataPoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a0"><param name="Name" value="cepPresentation"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a7"><param name="Name" value="createBitmap"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a6"><param name="Name" value="createPDF"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a8"><param name="Name" value="createPNG"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a3"><param name="Name" value="xAxisScale"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a1"><param name="Name" value="xAxisTitle"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a4"><param name="Name" value="yAxisScale"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a2"><param name="Name" value="yAxisTitle"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepTSB.html"><param name="Name" value="cepTSB"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepTSB.html#a0"><param name="Name" value="cepTSB"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepTSB.html#a3"><param name="Name" value="get"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepTSB.html#a5"><param name="Name" value="set"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepTSB.html#s3"><param name="Name" value="state"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html"><param name="Name" value="cepView"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#m1"><param name="Name" value="canvas"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a0"><param name="Name" value="cepView"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#m0"><param name="Name" value="frame"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a5"><param name="Name" value="OnClose"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a2"><param name="Name" value="OnCreate"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a6"><param name="Name" value="OnCut"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a3"><param name="Name" value="OnDraw"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a4"><param name="Name" value="OnUpdate"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a1"><param name="Name" value="~cepView"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepWxErrorHandler.html"><param name="Name" value="cepWxErrorHandler"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepWxErrorHandler.html#a0"><param name="Name" value="cepWxErrorHandler"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepWxErrorHandler.html#a2"><param name="Name" value="displayError"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepWxErrorHandler.html#a3"><param name="Name" value="logError"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepWxErrorHandler.html#a1"><param name="Name" value="~cepWxErrorHandler"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="clear"><param name="Name" value="clear"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a5"><param name="Name" value="cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="config"><param name="Name" value="config"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#n0"><param name="Name" value="cepApp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="createBitmap"><param name="Name" value="createBitmap"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a7"><param name="Name" value="cepPresentation"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="CreateChildFrame"><param name="Name" value="CreateChildFrame"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#a3"><param name="Name" value="cepApp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="createPDF"><param name="Name" value="createPDF"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a6"><param name="Name" value="cepPresentation"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="createPNG"><param name="Name" value="createPNG"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a8"><param name="Name" value="cepPresentation"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="date"><param name="Name" value="date"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structcep__internal__datarow.html#m0"><param name="Name" value="cep_internal_datarow"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="direction"><param name="Name" value="direction"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#s3"><param name="Name" value="cepDataset"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="display"><param name="Name" value="display"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a7"><param name="Name" value="cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="displayError"><param name="Name" value="displayError"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepErrorHandler.html#a2"><param name="Name" value="cepErrorHandler"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepWxErrorHandler.html#a2"><param name="Name" value="cepWxErrorHandler"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="doHam"><param name="Name" value="doHam"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#a5"><param name="Name" value="cepDataset"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="doWindow"><param name="Name" value="doWindow"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#a4"><param name="Name" value="cepDataset"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="errHandler"><param name="Name" value="errHandler"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#n2"><param name="Name" value="cepApp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="error"><param name="Name" value="error"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structcep__internal__datarow.html#m2"><param name="Name" value="cep_internal_datarow"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="frame"><param name="Name" value="frame"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#m0"><param name="Name" value="cepView"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="get"><param name="Name" value="get"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepTSB.html#a3"><param name="Name" value="cepTSB"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="getDataPtr"><param name="Name" value="getDataPtr"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#a7"><param name="Name" value="cepDataset"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="getInstance"><param name="Name" value="getInstance"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#d1"><param name="Name" value="cepConfiguration"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="getMessage"><param name="Name" value="getMessage"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a8"><param name="Name" value="cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="getNumCols"><param name="Name" value="getNumCols"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a15"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="getNumRows"><param name="Name" value="getNumRows"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a14"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="getSeverity"><param name="Name" value="getSeverity"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a9"><param name="Name" value="cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="getValue"><param name="Name" value="getValue"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#a3"><param name="Name" value="cepConfiguration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a12"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="initialise"><param name="Name" value="initialise"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#d0"><param name="Name" value="cepConfiguration"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="isDiagonal"><param name="Name" value="isDiagonal"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a11"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="isReal"><param name="Name" value="isReal"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a4"><param name="Name" value="cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="log"><param name="Name" value="log"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a6"><param name="Name" value="cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="logError"><param name="Name" value="logError"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepErrorHandler.html#a3"><param name="Name" value="cepErrorHandler"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepWxErrorHandler.html#a3"><param name="Name" value="cepWxErrorHandler"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="m_docManager"><param name="Name" value="m_docManager"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#n1"><param name="Name" value="cepApp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="m_error"><param name="Name" value="m_error"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#n3"><param name="Name" value="cepApp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="munch"><param name="Name" value="munch"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDataset.html#a6"><param name="Name" value="cepDataset"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="OnClose"><param name="Name" value="OnClose"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a5"><param name="Name" value="cepView"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="OnCreate"><param name="Name" value="OnCreate"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a2"><param name="Name" value="cepView"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="OnCut"><param name="Name" value="OnCut"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a6"><param name="Name" value="cepView"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="OnDraw"><param name="Name" value="OnDraw"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepCanvas.html#a1"><param name="Name" value="cepCanvas"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a3"><param name="Name" value="cepView"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="OnExit"><param name="Name" value="OnExit"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#a2"><param name="Name" value="cepApp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="OnInit"><param name="Name" value="OnInit"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepApp.html#a1"><param name="Name" value="cepApp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="OnMouseEvent"><param name="Name" value="OnMouseEvent"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepCanvas.html#a2"><param name="Name" value="cepCanvas"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="OnUpdate"><param name="Name" value="OnUpdate"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a4"><param name="Name" value="cepView"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="operator *="><param name="Name" value="operator *="></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a8"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="operator+="><param name="Name" value="operator+="></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a5"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="operator-="><param name="Name" value="operator-="></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a6"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="operator=="><param name="Name" value="operator=="></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a10"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="operator="><param name="Name" value="operator="></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a9"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="popDayOfYear"><param name="Name" value="popDayOfYear"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a1"><param name="Name" value="cepDate"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="popDaysInYear"><param name="Name" value="popDaysInYear"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a2"><param name="Name" value="cepDate"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="popMonthAndDay"><param name="Name" value="popMonthAndDay"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a4"><param name="Name" value="cepDate"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="popYear"><param name="Name" value="popYear"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a3"><param name="Name" value="cepDate"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="sample"><param name="Name" value="sample"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structcep__internal__datarow.html#m1"><param name="Name" value="cep_internal_datarow"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="set"><param name="Name" value="set"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepTSB.html#a5"><param name="Name" value="cepTSB"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="setErrorHandler"><param name="Name" value="setErrorHandler"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#d0"><param name="Name" value="cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="setValue"><param name="Name" value="setValue"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#a6"><param name="Name" value="cepConfiguration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a13"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="severity"><param name="Name" value="severity"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#s7"><param name="Name" value="cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="state"><param name="Name" value="state"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepTSB.html#s3"><param name="Name" value="cepTSB"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="toString"><param name="Name" value="toString"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepDate.html#a5"><param name="Name" value="cepDate"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="transpose"><param name="Name" value="transpose"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a4"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="view"><param name="Name" value="view"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepCanvas.html#m0"><param name="Name" value="cepCanvas"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="xAxisScale"><param name="Name" value="xAxisScale"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a3"><param name="Name" value="cepPresentation"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="xAxisTitle"><param name="Name" value="xAxisTitle"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a1"><param name="Name" value="cepPresentation"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="yAxisScale"><param name="Name" value="yAxisScale"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a4"><param name="Name" value="cepPresentation"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="yAxisTitle"><param name="Name" value="yAxisTitle"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepPresentation.html#a2"><param name="Name" value="cepPresentation"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="~cepConfiguration"><param name="Name" value="~cepConfiguration"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepConfiguration.html#a0"><param name="Name" value="cepConfiguration"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="~cepError"><param name="Name" value="~cepError"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepError.html#a3"><param name="Name" value="cepError"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="~cepErrorHandler"><param name="Name" value="~cepErrorHandler"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepErrorHandler.html#a1"><param name="Name" value="cepErrorHandler"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="~cepLs"><param name="Name" value="~cepLs"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepLs.html#a1"><param name="Name" value="cepLs"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="~cepMatrix"><param name="Name" value="~cepMatrix"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepMatrix.html#a3"><param name="Name" value="cepMatrix"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="~cepView"><param name="Name" value="~cepView"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepView.html#a1"><param name="Name" value="cepView"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="~cepWxErrorHandler"><param name="Name" value="~cepWxErrorHandler"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classcepWxErrorHandler.html#a1"><param name="Name" value="cepWxErrorHandler"></OBJECT>
+</UL>

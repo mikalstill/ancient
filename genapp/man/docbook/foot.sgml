@@ -1,0 +1,22 @@
+
+<refsect1>
+    <title>VERSION</title>
+    <para>
+This documentation was generated for the <command>Geodetic Data Manipulation System</command> 0.1 by <command>autodocbook</command> (http://www.stillhq.com).
+    </para>
+</refsect1>
+
+<refsect1>
+    <title>AUTHOR</title>
+    <para>
+The <command>Geodetic Data Manipulation System</command> is under development by Michael Still (mikal@stillhq.com), Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling, and Nick Wheatstone. All code is Copyright 2002 Michael Still, Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling and Nick Wheatstone,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
+</para>
+</refsect1>
+
+<refsect1>
+    <title>BUGS</title>
+    <para>
+There  are no known bugs in the <command>Geodetic Data Manipulation System</command>. If you find one, please contact mikal@stillhq.com and let me know.
+</para>
+</refsect1>
+</refentry>

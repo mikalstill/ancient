@@ -1,0 +1,41 @@
+20020417 Michael Still (mikal@stillhq.com)
+	Added the cepPresentation class.
+
+20020417 Michael Still (mikal@stillhq.com)
+	Added the cepDate class
+
+20020528 Michael Still (mikal@stillhq.com)
+	Removed compile errors from cepDataset.cpp
+
+20020529 Michael Still (mikal@stillhq.com)
+	Added cvs reporting script
+
+20020529 Michael Still (mikal@stillhq.com)
+	Started implementing the UI
+
+20020602 Michael Still (mikal@stillhq.com)
+	Started on the open dialog. Got cepError working with wxWindows
+
+20020602 Michael Still (mikal@stillhq.com)
+	UI improvements
+
+20020603 Michael Still (mikal@stillhq.com)
+	Started implementing the configuration database per user...
+
+20020603 Michael Still (mikal@stillhq.com)
+	Made everything which makes sense const
+
+20020604 Michael Still (mikal@stillhq.com)
+	When the main window closes, we now try to remember it's size
+
+20020606 Michael Still (mikal@stillhq.com)
+	Scary debug print macro (cepDebugPrint)
+
+20020609 Michael Still (mikal@stillhq.com)
+	Started implementing docbook documentation templates for the various classes.
+
+20020609 Michael Still (mikal@stillhq.com)
+	Code to show that I can draw bitmaps onto the dataset frame
+
+20020614 Blake Swadling (blake@swadling.org)
+	Reworked the build procedure. removed spurious files from cvs

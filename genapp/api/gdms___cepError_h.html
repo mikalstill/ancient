@@ -1,0 +1,293 @@
+<HTML>
+<HEAD>
+<TITLE>Source: gdms/cepError.h</TITLE>
+
+<META NAME="Generator" CONTENT="KDOC ">
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#000099" alink= "#ffffff">
+<TABLE WIDTH="100%" BORDER="0">
+<TR>
+<TD>
+	<TABLE BORDER="0">
+		<TR><TD valign="top" align="left" cellspacing="10">
+		<h1>Source: gdms/cepError.h</h1>
+		</TD>
+		<TD valign="top" align="right" colspan="1"></TD></TR>
+	</TABLE>
+	<HR>
+	<TABLE BORDER="0">
+		
+	</TABLE>
+	</TD>
+<TD align="right"><TABLE BORDER="0"><TR><TD><small><A HREF="index-long.html">Annotated List</A></small></TD></TR>
+<TR><TD><small><A HREF="header-list.html">Files</A></small></TD></TR>
+<TR><TD><small><A HREF="all-globals.html">Globals</A></small></TD></TR>
+<TR><TD><small><A HREF="hier.html">Hierarchy</A></small></TD></TR>
+<TR><TD><small><A HREF="index.html">Index</A></small></TD></TR>
+</TABLE></TD></TR></TABLE>
+<pre>
+
+/****************************************************************************** 
+   Imp for the CEP error
+   Copyright (C) Michael Still                       2002
+   Copyright (C) Blake Swadling <blake@swadling.org> 2002
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+******************************************************************************/
+
+#ifndef CEP_ERROR_HEADER
+#define CEP_ERROR_HEADER
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION cepDebugPrint
+PURPOSE print out debugging information via cepError
+
+SYNOPSIS START
+cepDebugPrint(string debugMessage);
+SYNOPSIS END
+
+DESCRIPTION START
+<command>cepDebugPrint</command> creates a cepError of debug severity and immediately displays it -- this will normally result in the debug message being logged. The macro also pack into the message the name of the source file which called <command>cepDebugPrint</command>, and the line number that the call occurred at, for ease of debugging.
+DESCRIPTION END
+
+SEEALSO cepDebug
+DOCBOOK END
+******************************************************************************/
+
+// This prints out some debugging information which is useful, use it instead
+// of:
+// cepError cepDebugPrint("Some text", cepError::sevDebug);
+// cepDebugPrint.display();
+
+///////////////////////////////////////////////////////////////////////////////
+// THIS CANNOT DO A DISPLAY, AS THE CONFIG DB CODE USES THIS TO LOG DB PROBLEMS
+// AND cepError::display() USES THE CONFIG DB...
+///////////////////////////////////////////////////////////////////////////////
+#define cepDebugPrint(errmsg) \
+  { \
+    cepError newname_cepDebugPrint(string("") + string(errmsg) + string(" at ") + string(__FILE__) + \
+			string(":") + cepToString(__LINE__), cepError::sevDebug); \
+    newname_cepDebugPrint.log(); \
+  }
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION cepError
+PURPOSE represent errors
+
+SYNOPSIS START
+enum severity
+{
+  sevOk = 0,
+  sevDebug,
+  sevInformational,
+  sevWarning,
+  sevErrorRecoverable,
+  sevErrorFatal,
+  sevMax
+};
+
+cepError ();
+cepError (const string& msg);
+cepError (const string& msg, severity level);
+~cepError ();
+
+bool isReal ();
+void clear();
+void log();
+void display ();
+string &amp; getMessage();
+int getSeverity();
+SYNOPSIS END
+
+DESCRIPTION START
+This class represents errors that may be generated during execution
+</para>
+
+<para>
+The enumeration <command>severity</command> defines the possible error levels available to <command>cepError</command>. These levels have differing default resposes within the <command>cepError</command> class, depending on their perceived importance:
+
+//todo_mikal: implement error level actions as defined here
+<orderedlist>
+<listitem><para><command>sevOk</command>: this error is not really an error, and will not be displayed. This is the default error level.</para></listitem>
+<listitem><para><command>sevDebug</command>: this is a debugging message, which will normally be logged, but not displayed. There may be a very large number of these during the normal operation of the application.</para></listitem>
+<listitem><para><command>sevInformational</command>: this is an informational message which will be displayed, and logged.</para></listitem>
+<listitem><para><command>sevWarning</command>: this is a warning that would normally be of interest to the user. It will be logged and displayed by default.</para></listitem>
+<listitem><para><command>sevErrorRecoverable</command>: this level reports an error, which the application can recover from. It will be displayed and logged by default.</para></listitem>
+<listitem><para><command>sevErrorFatal</command>: this is an error. It will be by default displayed, logged, and the application will exit after the user has acknowledged the error. Display of this error type cannot be disabled by the user.</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+<command>cepError ();</command>
+Default constructor. This will create a <command>cepError</command> with a default severity of <command>sevOk</command>.
+</para>
+
+<para>
+<command>cepError (const string&amp; msg);</command>
+Contruct a <command>cepError</command> with a severity of <command>sevErrorFatal</command>.
+</para>
+
+<para>
+<command>cepError (const string&amp; msg, severity level);</command>
+Construct a <command>cepError</command> with the specified severity.
+</para>
+
+<para>
+<command>~cepError ();</command>
+If the <command>cepError</command> has not been actioned (checked if real, copied, displayed or logged) by the time the destructor is called, then it will be actioned at this point.
+</para>
+
+<para>
+<command>bool isReal ();</command>
+If the <command>cepError</command> has a severity of anything other than sevOk
+</para>
+
+<para>
+<command>void clear();</command>
+Clears the <command>cepError</command> by setting severity to sevOk and removing the current message.
+</para>
+
+<para>
+<command>void log();</command>
+Write the <command>cepError</command> to the log if there is an errorhandler installed.
+</para>
+
+<para>
+<command>void display ();</command>
+Display the <command>cepError</command> if there is an errorHandler installed.
+</para>
+
+<para>
+<command>string&amp; getMessage ();</command>
+queries the description of this <command>cepError</command>.
+</para>
+
+<para>
+<command>int getSeverity ();</command>
+queries the severity of this <command>cepError</command>.
+</para>
+DESCRIPTION END
+
+SEEALSO cepErrorHandler
+DOCBOOK END
+******************************************************************************/
+
+#include <string>
+#include "cepErrorHandler.h"
+#include "cepUtility.h"
+
+using namespace std;
+
+class cepError
+{
+public:
+  /** various available levels of severity */
+  enum severity
+  {
+    sevOk = 0,
+    sevDebug,
+    sevInformational,
+    sevWarning,
+    sevErrorRecoverable,
+    sevErrorFatal,
+    sevMax
+  };
+
+  /** Default constructor. Creates a new instance of <code>cepError</code> */
+  cepError ();
+  
+  /** Constructor. Creates a new instance of <code>cepError</code>
+   * @param msg a description of the cause of the error
+   */
+  cepError (const string & msg);
+  
+  /** Constructor. Creates a new instance of <code>cepError</code>
+   * @param msg a description of the cause of the error
+   * @param level the severity of the error
+   */
+  cepError (const string & msg, severity level);
+
+  /**
+   * Adds a global <code>cepErrorHandler</code> which will be used to display and log errors.
+   * If no error handler is installed then display and log are not performed
+   * @param h the error handler to be used by all <code>cepErrors</code>
+   */
+  static void setErrorHandler( class cepErrorHandler& h );
+
+  /** Destructor. if this is called and the error has not been actioned then the error
+   * is logged. Note that if no error handler is installed, failure to action will
+   * not be detected
+   */
+  ~cepError ();
+
+  /** Check the status of the <code>cepError</code>
+   * @return false if the severity is sevOk, true otherwise.
+   */
+  bool isReal ();
+
+  /** Clears the <code>cepError</code> by setting severity to sevOk
+   * and removing the current message
+   */
+  void clear ();
+
+  /** Logs the <code>cepError</code> via the currently installed error handler.
+   * If there is no error handler installed hen no action is taken
+   */
+  void log ();
+
+  /** Displays the <code>cepError</code> via the currently installed error handler.
+   * If there is no error handler installed hen no action is taken
+   */
+  void display ();
+
+  // BS - remove these when we get the friend thing for cepErrorHandler sorted
+
+  /** Queries the description of the current <code>cepError</code>
+   * @return a description of the current <code>cepError</code>
+   */
+  string & getMessage();
+
+  /** Queries the severity of the current <code>cepError</code>
+   * @return the severity of the current <code>cepError</code>
+   */
+  int getSeverity();
+
+private:
+
+  /** whether there is an error handler installed */
+  static bool handlerInstalled;
+  /** the current error handler */
+  static class cepErrorHandler *handler;
+
+  /** a description of the error */
+  string message;
+  /** the severity of the error */
+  severity level;
+  /** whether the error has been actioned */
+  bool actioned;
+};
+
+#endif
+</pre>
+<HR>
+	<table>
+	<tr><td><small>Generated by: pob on trillian on Sat Aug 10 17:26:42 2002, using kdoc 2.0a53.</small></td></tr>
+	</table>
+</BODY>
+</HTML>

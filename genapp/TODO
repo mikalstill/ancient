@@ -1,0 +1,26 @@
+* Work out how to do include dependancies in automake
+* cepDatae currently returns incorrect display dates (they're off by a couple of days)
+* operator= to convert string to wxString?
+* define a with wx macro for the ui target only, the current way is broken...
+* tooltips
+* documentation as HTML (perhaps in docbook so we can have a printed manual as well)
+* autoconf tests for X libraries always fail (are they needed at all?)
+* reinstate the config for error display
+
+
+* Dataset offsetting
+* Error bar format
+* No line between data points
+* Date holes
+
+* m_ for member variables
+* greater use of initializers
+* resolve todos
+* rationalize debugging output
+
+* bug with the highlight drawing code
+
+* is it possible to use a vector inside a template?
+
+* selecting too close to an edge can cause a crash as well...
+* magical missing horizontal axes...

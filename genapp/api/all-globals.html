@@ -1,0 +1,105 @@
+<HTML>
+<HEAD>
+<TITLE>GDMS Globals</TITLE>
+
+<META NAME="Generator" CONTENT="KDOC ">
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#000099" alink= "#ffffff">
+<TABLE WIDTH="100%" BORDER="0">
+<TR>
+<TD>
+	<TABLE BORDER="0">
+		<TR><TD valign="top" align="left" cellspacing="10">
+		<h1>GDMS Globals</h1>
+		</TD>
+		<TD valign="top" align="right" colspan="1"></TD></TR>
+	</TABLE>
+	<HR>
+	<TABLE BORDER="0">
+		
+	</TABLE>
+	</TD>
+<TD align="right"><TABLE BORDER="0"><TR><TD><small><A HREF="index-long.html">Annotated List</A></small></TD></TR>
+<TR><TD><small><A HREF="header-list.html">Files</A></small></TD></TR>
+<TR><TD><small><A HREF="all-globals.html">Globals</A></small></TD></TR>
+<TR><TD><small><A HREF="hier.html">Hierarchy</A></small></TD></TR>
+<TR><TD><small><A HREF="index.html">Index</A></small></TD></TR>
+</TABLE></TD></TR></TABLE>
+<h3>gdms/cepDataset.h</h3><ul>
+<LI>typedef void &nbsp;(*<b><A HREF="#ref1136">cepDatasetProgressCB</A></b>) (int plane, long lineno) 
+</LI>
+<LI>typedef struct cep_internal_datarow
+</LI>
+<LI>typedef vector < cep_datarow >  cep_datacol
+</LI>
+</ul>
+<h3>gdms/cepDoc.h</h3><ul>
+<LI>void &nbsp;<b>ds_progressCallback</b> (int plane, long line) 
+</LI>
+</ul>
+<h3>gdms/cepUI.h</h3><ul>
+<LI>extern <A HREF="cepFrame.html">cepFrame</A> *&nbsp;<b>GetMainFrame</b> (void) 
+</LI>
+</ul>
+<h3>gdms/cepUtility.h</h3><ul>
+<LI>string &nbsp;<b><A HREF="#ref1147">cepToString</A></b> (int number) 
+</LI>
+<LI>string &nbsp;<b>cepToString</b> (long number) 
+</LI>
+<LI>string &nbsp;<b>cepToString</b> (double number) 
+</LI>
+<LI>string &nbsp;<b>cepToString</b> (float number) 
+</LI>
+<LI>bool &nbsp;<b>cepIsBlank</b> (char chr) 
+</LI>
+</ul>
+<h2>Global member Documentation</h2>
+<A NAME="cepDatasetProgressCB"></A><A NAME="ref1136"></A><table width="100%"><tr bgcolor="#eeeeee"><td>typedef void &nbsp;(*<strong>cepDatasetProgressCB</strong>) (int plane, long lineno)
+</td><td align="right"><h3>(*<strong>cepDatasetProgressCB</strong>)</h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepDataset_h.html">gdms/cepDataset.h</A>&gt;</code></small></p><p>
+DOCBOOK START
+</p>
+<p>FUNCTION cepDatasetProgressCB
+PURPOSE report progress on dataset parsing to the calling method
+</p>
+<p>SYNOPSIS START
+typedef void (*cepDatasetProgressCB) (int plane, long lineno);
+SYNOPSIS END
+</p>
+<p>DESCRIPTION START
+This type is used to define a callback function which will be called whenever a line has been read from the dataset files. <command>plane</command> will the plane that the line belongs to (for example: x, y, and z) and <command>lineno</command> is the line number for the current dataset file.
+DESCRIPTION END
+</p>
+<p>SEEALSO cepDataset
+DOCBOOK END
+****************************************************************************</p>
+<A NAME="cep_internal_datarow"></A><A NAME="ref1137"></A><table width="100%"><tr bgcolor="#eeeeee"><td>typedef struct <strong>cep_internal_datarow</strong></td><td align="right"><h3><strong>cep_internal_datarow</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepDataset_h.html">gdms/cepDataset.h</A>&gt;</code></small></p><A NAME="cep_datacol"></A><A NAME="ref1138"></A><table width="100%"><tr bgcolor="#eeeeee"><td>typedef vector < cep_datarow >  <strong>cep_datacol</strong></td><td align="right"><h3><strong>cep_datacol</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepDataset_h.html">gdms/cepDataset.h</A>&gt;</code></small></p><A NAME="ds_progressCallback"></A><A NAME="ref1156"></A><table width="100%"><tr bgcolor="#eeeeee"><td>void &nbsp;<strong>ds_progressCallback</strong> (int plane, long line)
+<br></td><td align="right"><h3><strong>ds_progressCallback</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepDoc_h.html">gdms/cepDoc.h</A>&gt;</code></small></p><A NAME="GetMainFrame"></A><A NAME="ref1145"></A><table width="100%"><tr bgcolor="#eeeeee"><td>extern <A HREF="cepFrame.html">cepFrame</A> *&nbsp;<strong>GetMainFrame</strong> (void)
+<br></td><td align="right"><h3><strong>GetMainFrame</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUI_h.html">gdms/cepUI.h</A>&gt;</code></small></p><A NAME="cepToString"></A><A NAME="ref1147"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepToString</strong> (int number)
+<br></td><td align="right"><h3><strong>cepToString</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><p>
+   Utility methods for CEP
+   Copyright (C) Michael Still                    2002
+</p>
+<p>   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+</p>
+<p>   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+</p>
+<p>   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+****************************************************************************</p>
+<A NAME="cepToString"></A><A NAME="ref1148"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepToString</strong> (long number)
+<br></td><td align="right"><h3><strong>cepToString</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><A NAME="cepToString"></A><A NAME="ref1149"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepToString</strong> (double number)
+<br></td><td align="right"><h3><strong>cepToString</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><A NAME="cepToString"></A><A NAME="ref1150"></A><table width="100%"><tr bgcolor="#eeeeee"><td>string &nbsp;<strong>cepToString</strong> (float number)
+<br></td><td align="right"><h3><strong>cepToString</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><A NAME="cepIsBlank"></A><A NAME="ref1151"></A><table width="100%"><tr bgcolor="#eeeeee"><td>bool &nbsp;<strong>cepIsBlank</strong> (char chr)
+<br></td><td align="right"><h3><strong>cepIsBlank</strong></h3></td></tr></table><p></p><p><small><code>#include &lt;<A HREF="gdms___cepUtility_h.html">gdms/cepUtility.h</A>&gt;</code></small></p><HR>
+	<table>
+	<tr><td><small>Generated by: pob on trillian on Sat Aug 10 17:26:42 2002, using kdoc 2.0a53.</small></td></tr>
+	</table>
+</BODY>
+</HTML>

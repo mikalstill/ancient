@@ -1,0 +1,158 @@
+dnl  Configuration options for the application
+dnl     Copyright (C) Michael Still 2002
+dnl     Copyright (C) Blake Swadling 2002
+dnl     Copyright (C) Daniel Fernandez 2002
+dnl     
+dnl  This program is free software; you can redistribute it and/or modify it
+dnl  under the terms of the GNU General Public License as published by the Free
+dnl  Software Foundation; either version 2 of the License, or (at your option)
+dnl  any later version.
+dnl   
+dnl  This program is distributed in the hope that it will be useful, but WITHOUT 
+dnl  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+dnl  FITNESS FOR A PARTICULAR PURPOSE.dnl    See the GNU General Public License for
+dnl  more details.
+dnl   
+dnl  You should have received a copy of the GNU General Public License along
+dnl  with this program; if not, write to the Free Software Foundation, Inc., 675 
+dnl  Mass Ave, Cambridge, MA 02139, USA.
+
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(cepError.cpp)
+AC_CONFIG_AUX_DIR(config)
+AM_INIT_AUTOMAKE(cep, 0.1)
+AM_MAINTAINER_MODE
+
+dnl Libtool
+dnl AC_LIBTOOL_WIN32_DLL
+dnl AC_LIBTOOL_DLOPEN
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_INSTALL
+AC_PROG_RANLIB
+dnl AC_PROG_LIBTOOL
+
+dnl Checks for libraries.
+dnl The syntax is library name, function, action if found, action if not found
+dnl We just use the default if found action which adds -l<lib> to the LIBS var
+dnl and #defined HAVE_LIB<lib>
+
+dnl -lm:
+AC_CHECK_LIB(m, atan)
+
+dnl -lpthread
+AC_CHECK_LIB(pthread, pthread_mutex_unlock)
+
+dnl -lXi
+AC_CHECK_LIB(Xi, XAllowDeviceEvents)
+
+dnl -lXext
+AC_CHECK_LIB(Xext, XGetVisualInfo)
+
+dnl -lX11
+AC_CHECK_LIB(X11, XFreeFontInfo)
+
+dnl -lwx 
+dnl This must seek a global. mangled names will no do at all
+dnl AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent, [], [
+AC_CHECK_LIB(wx_gtk-2.2, wxTheApp, [], [
+  echo
+  echo "    *****************************************"
+  echo "    *                                       *"
+  echo "    *   libwx_gtk-2.2 not found, aborting   *"
+  echo "    *    (this is suplied in contrib dir)   *"
+  echo "    *                                       *"
+  echo "    *****************************************"
+  echo
+  exit 1
+  ])
+
+dnl -lmplot
+AC_CHECK_LIB(mplot, plot_newplot ,[], [
+  echo
+  echo "    *****************************************"
+  echo "    *                                       *"
+  echo "    *     libmplot not found, aborting      *"
+  echo "    *   (this is suplied in contrib dir)    *"
+  echo "    *                                       *"
+  echo "    *****************************************"
+  echo
+  exit 1
+  ])
+
+dnl -lpng
+AC_CHECK_LIB(png, png_create_write_struct, [], [
+  echo
+  echo "    *****************************************"
+  echo "    *                                       *"
+  echo "    *      libpng not found, aborting       *"
+  echo "    *   (this is suplied in contrib dir)    *"
+  echo "    *                                       *"
+  echo "    *****************************************"
+  echo
+  exit 1
+  ])
+
+
+dnl -lpcre
+AC_CHECK_LIB(pcre, pcre_exec, [], [
+  echo
+  echo "    *****************************************"
+  echo "    *                                       *"
+  echo "    *     libpcre not found, aborting       *"
+  echo "    *   (this is suplied in contrib dir)    *"
+  echo "    *                                       *"
+  echo "    *****************************************"
+  echo
+  exit 1
+  ])
+      
+dnl Checks for header files.
+dnl STDC checks for stdlib.h stdarg.h string.h and float.h
+AC_HEADER_STDC
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+
+dnl Tell wx that it is using GTK, and not to load the UI automatically
+AC_DEFINE(__WXGTK__)
+
+dnl Ensure developers don't ignore warnings
+AC_CANONICAL_HOST
+AC_DEFINE(_GNU_SOURCE)
+
+dnl todo: Shouldn't this be the build system $build?
+case "$host" in
+  *-*-openbsd*)
+    CFLAGS="$CFLAGS -pthread"
+    CPPFLAGS="$CPPFLAGS -D_REENTRANT"
+    CXXFLAGS="$CXXFLAGS -pthread"
+    echo "Setting OpenBSD compilation options";;
+  *-*-freebsd*)
+    CFLAGS="$CFLAGS -pthread"
+    CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
+    CXXFLAGS="$CXXFLAGS -pthread"
+    echo "Setting FreeBSD compilation options";;
+  *-*-solaris*)
+    CPPFLAGS="$CPPFLAGS -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -DUSE_SOLARIS -DPIC -fPIC"
+    LDFLAGS="$LDFLAGS -mimpure-text"
+    echo "Setting Solaris compilation options";;
+  *-*-linux*)
+    dnl Assume that this sucker will be multi threaded. Are we going to be generating shared libs
+    dnl be nice, don't file on warnings but inform the developers concerned
+    dnl CPPFLAGS="$CPPFLAGS -fPIC -DPIC -D_REENTRANT -Wall -Werror"
+    CPPFLAGS="$CPPFLAGS -D_REENTRANT -Wall"
+    echo "Setting Linux compilation options";;
+  *-*-aix*)
+    CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
+    LIBS="$LIBS -lc_r"
+    echo "Setting AIX compilation options";;
+  *-*-irix*)
+    LDFLAGS="$LDFLAGS -L/usr/lib32"
+    echo "Setting Irix compilation options";;
+  *)
+  echo "This project may not compile on this system. Good luck :-)";;
+esac
+
+AC_OUTPUT(tests/Makefile Makefile)

@@ -1,0 +1,261 @@
+<HTML>
+<HEAD>
+<TITLE>Source: gdms/cepConfiguration.h</TITLE>
+
+<META NAME="Generator" CONTENT="KDOC ">
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#000099" alink= "#ffffff">
+<TABLE WIDTH="100%" BORDER="0">
+<TR>
+<TD>
+	<TABLE BORDER="0">
+		<TR><TD valign="top" align="left" cellspacing="10">
+		<h1>Source: gdms/cepConfiguration.h</h1>
+		</TD>
+		<TD valign="top" align="right" colspan="1"></TD></TR>
+	</TABLE>
+	<HR>
+	<TABLE BORDER="0">
+		
+	</TABLE>
+	</TD>
+<TD align="right"><TABLE BORDER="0"><TR><TD><small><A HREF="index-long.html">Annotated List</A></small></TD></TR>
+<TR><TD><small><A HREF="header-list.html">Files</A></small></TD></TR>
+<TR><TD><small><A HREF="all-globals.html">Globals</A></small></TD></TR>
+<TR><TD><small><A HREF="hier.html">Hierarchy</A></small></TD></TR>
+<TR><TD><small><A HREF="index.html">Index</A></small></TD></TR>
+</TABLE></TD></TR></TABLE>
+<pre>
+
+/***************************************************************************
+                          cepconfiguration2.h  -  description
+                             -------------------
+    begin                : Sun Aug 4 2002
+    copyright            : (C) 2002 by Blake Swadling
+    email                : blake@swadling.org
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION cepConfiguration
+PURPOSE store user definable configuration information
+
+SYNOPSIS START
+cepConfiguration::cepConfiguration(string&amp; persistFile);
+
+SYNOPSIS END
+
+DESCRIPTION START
+This class stores user definable configuration information such as the size
+of the main window on startup. It is implemented using <command>trivsql</command>,a trivial SQL implementation from Michael Still (mikal@stillhq.com).
+</para>
+
+<para>
+<command>static intialise (const string&amp; filename);</command>
+Initilises the configuration at a specific location
+<command>filename</command> defines the location of the configuration database. One will be created if there is no database at this location already.
+</para>
+
+<para>
+<command>static cepConfiguration&amp; getInstance();</command>
+Get a reference to the current configuration.
+</para>
+
+<para>
+<command>cepError getValue(const string&amp; valkey, const string&amp; defval, string&amp; outval);</command>
+Get a string value from the configuration database. <command>valkey</command> defines the unique keyname for this value, and <command>defval</command> defines the default value to be used if a value isn't found in the database. If the database lacks a value for this key, then the default value is also written into the database for next time.
+</para>
+
+<para>
+<command> cepError getValue(const string&amp; valkey, const bool&amp; defval, bool&amp; outval);</command>
+The same as the string version of <command>getValue</command>, but with a bool value.
+</para>
+
+<para>
+<command>cepError getValue(const string&amp; valkey, const int&amp; defval, int&amp; outval);</command>
+The same as the string version of <command>getValue</command>, but with an int value.
+</para>
+
+<para>
+<command>cepError setValue(const string&amp; valkey, const string&amp; value);</command>
+Set a string value in the configuration database with key <command>valkey</command> to the value <command>value</command>.
+</para>
+
+<para>
+<command>cepError setValue(const string&amp; valkey, const int&amp; value);</command>
+The same as the string version of <command>setValue</command>, but for an int.
+</para>
+
+<para>
+<command>cepError setValue(const string&amp; valkey, const bool&amp; value);</command>
+The same as the string version of <command>setValue</command>, but for a bool.
+DESCRIPTION END
+
+DOCBOOK END
+******************************************************************************/
+
+#ifndef CEP_CONFIGURATION_H
+#define CEP_CONFIGURATION_H
+
+#include <map>
+#include <iostream.h>
+#include <fstream>
+#include <functional>
+#include <string>
+
+#include "cepError.h"
+
+using namespace std;
+
+/**A drop in replacement for the original cepConfiguration.
+  *This implements a whiteboard pattern.
+  *@author Blake Swadling
+  *@version $Revision: 1.1.1.1 $
+  */
+
+class cepConfiguration
+{
+public:
+  /** Default destructor */
+  ~cepConfiguration ();
+  
+  /** Makes a new config using a config file called <code>filename</code>
+   * @param filename the name of the file to use for persistance
+   */
+  static void initialise(  const string & filename );
+  
+  /** Gets a reference to the configuration.
+   * @return a reference to the current configuration
+   */
+  static cepConfiguration & getInstance();
+
+  /** Get the value for a given configuration item. If the key does not exist
+   * then the deafult value is returned
+   * @param valkey The key to lookup
+   * @param defval The default value
+   * @param outval This is set by the method.
+   * @see cepError
+   */
+  cepError getValue (const string & valkey, const string & defval, string & outval);
+
+  /** Get the value for a given configuration item. If the key does not exist
+   * then the deafult value is returned
+   * @param valkey The key to lookup
+   * @param defval The default value
+   * @param outval This is set by the method.
+   * @see cepError
+   */
+  cepError getValue (const string & valkey, const bool & defval, bool & outval);
+
+  /** Get the value for a given configuration item. If the key does not exist
+   * then the deafult value is returned
+   * @param valkey The key to lookup
+   * @param defval The default value
+   * @param outval This is set by the method.
+   * @see cepError
+   */
+  cepError getValue (const string & valkey, const int &defval, int &outval);
+
+  /** Set the value for a given configuration item. If the key does not exist
+   * then it is created
+   * @param valkey The key to lookup
+   * @param value The value to set
+   * @see cepError
+   */
+  cepError setValue (const string & valkey, const string & value);
+
+  /** Set the value for a given configuration item. If the key does not exist
+   * then it is created
+   * @param valkey The key to lookup
+   * @param value The value to set
+   * @see cepError
+   */
+  cepError setValue (const string & valkey, const int &value);
+  
+  /** Set the value for a given configuration item. If the key does not exist
+   * then it is created
+   * @param valkey The key to lookup
+   * @param value The value to set
+   * @see cepError
+   */   
+  cepError setValue (const string & valkey, const bool & value);
+
+protected:
+
+  /** Constructor. this is protected to ensure that there can be only one.
+   * @param filename the canonical path to the config file
+   */
+  cepConfiguration (const string & filename);
+
+private:
+  /** the current configuration */
+  static cepConfiguration *config;
+
+  typedef map < string, string, less < string > >map_t;
+  /** the data repository */
+  map_t map;
+  /** the canonicla path to the config file */
+  string path;
+
+  /** Load the data from the config file
+   * @param filename the canonical path to the config file
+   * @return the cepError. use cepError::isReal() to see if an error occurred.
+   * @see cepError
+   */
+  cepError load (const string & filename);
+
+  /** Load the data from the config file
+   * @param filename the canonical path to the config file
+   * @return the cepError. use cepError::isReal() to see if an error occurred.
+   * @see cepError
+   */
+  cepError save (const string & filename);
+
+  /** Reads the config data from the input stream
+   * @param in the input stream from which to read
+   * @return the cepError. use cepError::isReal() to see if an error occurred.
+   * @see cepError
+   */
+  cepError readConfig ( ifstream & in);
+
+  /** Parses a single entry fromt he config file
+   * @param entry the line fromt he file to parse
+   * @param data the data extracte. this is populated by the method.
+   * @return the cepError. use cepError::isReal() to see if an error occurred.
+   */
+  cepError parseConfigEntry (const string & entry, pair < string,
+                             string > &data);
+
+  /** Writes the config data to the output stream
+   * @param out the output stream to write to
+   * @return the cepError. use cepError::isReal() to see if an error occurred.
+   * @see cepError
+   */
+  cepError writeConfig (ofstream & out);
+
+  /** Builds the path to the config file. this checks to see if the environment
+   * variable HOME is set. if so, then the path points to it, otherwise it is
+   * pointed at the current working directory
+   * @return the path to the config file
+   */
+  static const string & getDefaultConfigPath();
+};
+
+#endif // ! CEP_CONFIGURATION_H
+</pre>
+<HR>
+	<table>
+	<tr><td><small>Generated by: pob on trillian on Sat Aug 10 17:26:42 2002, using kdoc 2.0a53.</small></td></tr>
+	</table>
+</BODY>
+</HTML>

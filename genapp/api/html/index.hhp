@@ -1,0 +1,66 @@
+[OPTIONS]
+Compatibility=1.1
+Full-text search=Yes
+Contents file=index.hhc
+Default Window=main
+Default topic=main.html
+Index file=index.hhk
+Language=0x409 English (United States)
+Title=Geodetic Data Modelling System
+
+[WINDOWS]
+main="Geodetic Data Modelling System","index.hhc","index.hhk","main.html","main.html",,,,,0x23520,,0x387e,,,,,,,,0
+
+[FILES]
+main.html
+files.html
+cepConfiguration_8h-source.html
+cepCore_8h-source.html
+cepDataset_8h-source.html
+cepDate_8h-source.html
+cepDoc_8h-source.html
+cepError_8h-source.html
+cepErrorHandler_8h-source.html
+cepLs_8h-source.html
+cepMatrix_8h-source.html
+cepPresentation_8h-source.html
+cepTSB_8h-source.html
+cepUI_8h-source.html
+cepUtility_8h-source.html
+cepView_8h-source.html
+cepWxErrorHandler_8h-source.html
+config_8h-source.html
+annotated.html
+classes.html
+hierarchy.html
+functions.html
+structcep__internal__datarow.html
+structcep__internal__datarow-members.html
+classcepApp.html
+classcepApp-members.html
+classcepCanvas.html
+classcepCanvas-members.html
+classcepConfiguration.html
+classcepConfiguration-members.html
+classcepDataset.html
+classcepDataset-members.html
+classcepDate.html
+classcepDate-members.html
+classcepDoc.html
+classcepError.html
+classcepError-members.html
+classcepErrorHandler.html
+classcepErrorHandler-members.html
+classcepFrame.html
+classcepLs.html
+classcepLs-members.html
+classcepMatrix.html
+classcepMatrix-members.html
+classcepPresentation.html
+classcepPresentation-members.html
+classcepTSB.html
+classcepTSB-members.html
+classcepView.html
+classcepView-members.html
+classcepWxErrorHandler.html
+classcepWxErrorHandler-members.html
