@@ -5,7 +5,7 @@
 
 <sect3><title>Authors</title>
 <para>
-<command>libmplot</command> is developed by Michael Still, and can be downloaded from http://www.stillhq.com
+<command>libmplot</command> is developed by Michael Still, and can be downloaded from http://www.stillhq.com. It was specifically developed for the GDMS project, but is of general use, so is available in the separate library form.
 </para>
 </sect3>
 

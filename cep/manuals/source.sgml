@@ -1,0 +1,10 @@
+<chapter><title>Appendix One: GDMS Source Code</title>
+<sect1><title>Introduction</title>
+<para>
+This chapter contains a paper copy of the source code for the GDMS application for your reference.
+</para>
+
+<execute><cmd>insertall</cmd><args>code2db ../source *.h$ 2</args></execute>
+<execute><cmd>insertall</cmd><args>code2db ../source *.cpp$ 2</args></execute>
+</sect1>
+</chapter>
