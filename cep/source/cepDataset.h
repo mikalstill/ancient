@@ -81,15 +81,18 @@ public:
   // Actually process the file
   cepError munch ();
   bool isReady();
+  bool isWellFormed();
 
   // Accessor methods
   vector < cep_datarow > &getData (direction dir);
-  cepMatrix <double> getMatrix(direction dir);
+  cepMatrix <double> *getMatrix(direction dir);
+
 private:
     string m_filename;
     cepDatasetProgressCB m_progress;
     vector < cep_datarow > m_datax, m_datay, m_dataz;
     bool m_ready;
+    bool m_wellformed;
 };
 
 #endif

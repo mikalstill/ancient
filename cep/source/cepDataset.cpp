@@ -25,14 +25,16 @@
 
 cepDataset::cepDataset (const string & filename):
   m_filename (filename),
-  m_ready(false)
+  m_ready(false),
+  m_wellformed(false)
 {
   m_progress = NULL;
 }
 
 cepDataset::cepDataset (const string & filename, cepDatasetProgressCB callback):
-m_filename (filename),
-  m_ready(false)
+  m_filename (filename),
+  m_ready(false),
+  m_wellformed(false)
 {
   m_progress = callback;
 }
@@ -70,6 +72,7 @@ cepError cepDataset::munch ()
 
   if (errString != "")
   {
+    m_ready = true;
     return cepError("File IO error for this dataset. Could not open the file(s):" + errString + ".");
   }
 
@@ -133,13 +136,15 @@ cepError cepDataset::munch ()
         {
           if(row.date < lastRow.date)
           {
+	    m_ready = true;
             return cepError("dataset: " + m_filename + ".dat" + cepToString(i + 1) + " is not in date order! At line " + cepToString(numLines), cepError::sevErrorRecoverable);
           }
           else
           {
             if(row.date == lastRow.date)
             {
-              return cepError("dataset: " + m_filename + ".dat" + cepToString(i + 1) + " contains repeated values! At line " + cepToString(numLines),cepError::sevErrorRecoverable);
+	      m_ready = true;
+              return cepError("dataset: " + m_filename + ".dat" + cepToString(i + 1) + " contains repeated values at line " + cepToString(numLines),cepError::sevErrorRecoverable);
             }
             else
             {
@@ -158,10 +163,12 @@ cepError cepDataset::munch ()
   // Are the files over the same period??
   if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) || ((m_datax.back().date != m_datay.back().date) || (m_datay.back().date != m_dataz.back().date)))
   {
+    m_ready = true;
     return cepError("The data set " + m_filename + " values do not represent the same time period",cepError::sevErrorRecoverable);
   }
     
   m_ready = true;
+  m_wellformed = true;
   return cepError ();
 }
 
@@ -186,20 +193,28 @@ vector < cep_datarow > &cepDataset::getData (direction dir)
   return m_datax;
 }
 
-cepMatrix < double > cepDataset::getMatrix(direction dir)
+// This needs to return a pointer so that the view class can have a NULL
+// until the dataset has finished parsing...
+cepMatrix < double > *cepDataset::getMatrix(direction dir)
 {
   vector < cep_datarow > vec = getData(dir);
-  cepMatrix < double > mat((signed)vec.size(), 3);
+  cepMatrix < double > *mat = new cepMatrix<double>((signed) vec.size(), 3);
 
   for(int i = 0; i < (signed)vec.size(); i ++)
   {
-    mat.setValue(i, 0, vec[i].date);
-    mat.setValue(i, 1, vec[i].sample);
-    mat.setValue(i, 2, vec[i].error);
+    mat->setValue(i, 0, vec[i].date);
+    mat->setValue(i, 1, vec[i].sample);
+    mat->setValue(i, 2, vec[i].error);
   }
   return mat;
 }
+
 bool cepDataset::isReady()
 {
   return m_ready;
+}
+
+bool cepDataset::isWellFormed()
+{
+  return m_wellformed;
 }

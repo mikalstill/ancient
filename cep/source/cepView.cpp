@@ -54,6 +54,8 @@
 #include "cepUI.h"
 #include "cepDoc.h"
 #include "cepView.h"
+#include "cepLs.h"
+
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -74,6 +76,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
   EVT_MENU (CEPMENU_SHOWY, cepView::OnToggleY)
   EVT_MENU (CEPMENU_SHOWZ, cepView::OnToggleZ)
+  EVT_MENU (CEPMENU_LS, cepView::OnLeastSquares)
 END_EVENT_TABLE ()
   
 cepView::cepView ():
@@ -82,10 +85,21 @@ cepView::cepView ():
   canvas = (cepCanvas *) NULL;
   frame = (wxFrame *) NULL;
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
+
+  // The matrices are initially NULL
+  m_x = NULL;
+  m_y = NULL;
+  m_z = NULL;
 }
 
 cepView::~cepView ()
 {
+  if(m_x != NULL)
+    delete m_x;
+  if(m_y != NULL)
+    delete m_y;
+  if(m_z != NULL)
+    delete m_z;
 }
 
 // What to do when a view is created. Creates actual
@@ -117,11 +131,34 @@ cepView::OnDraw (wxDC * dc)
   dc->SetFont (*wxNORMAL_FONT);
   dc->SetPen (*wxBLACK_PEN);
 
+  // Extract the dataset
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
 
+  // We can only handle this event if we are ready
   if (theDataset && theDataset->isReady())
   {
+    // If the dataset was malformed, then we close the tab here
+    if (!theDataset->isWellFormed())
+    {
+      OnClose();
+      return;
+    }
+
+    // Get the matrices if we don't have them yet
+    if(m_x == NULL){
+      m_x = theDataset->getMatrix(cepDataset::dirX);
+    }
+
+    if(m_y == NULL){
+      m_y = theDataset->getMatrix(cepDataset::dirY);
+    }
+
+    if(m_z == NULL){
+      m_z = theDataset->getMatrix(cepDataset::dirZ);
+    }
+
+    // Graph the matrices
     int width, height, gCount = 0;
     frame->GetSize (&width, &height);
     bool showX, showY, showZ;
@@ -204,7 +241,7 @@ bool cepView::OnClose (bool deleteWindow)
   // and the canvas stays.
   cepDebugPrint ("Clean up the canvas");
 
-  // The following line was causing a segv
+  // todo: The following line was causing a segv
   // canvas->Clear ();
   canvas->view = (wxView *) NULL;
   canvas = (cepCanvas *) NULL;
@@ -216,15 +253,12 @@ bool cepView::OnClose (bool deleteWindow)
     frame->SetTitle (s);
 
   SetFrame ((wxFrame *) NULL);
-
   Activate (FALSE);
 
-  cepDebugPrint ("Close the window");
   if (deleteWindow)
   {
-    delete
-      frame;
-
+    cepDebugPrint ("Close the window");
+    delete frame;
     return TRUE;
   }
   return TRUE;
@@ -472,8 +506,10 @@ void cepView::OnToggleX (wxCommandEvent &pevt)
 
   // todo_mikal: this doesn't work at the moment...
   // Force a repaint of the window
-  wxPaintEvent evt(0);
-  wxPostEvent(frame, evt);
+  cepDebugPrint("Posting a paint event for the window " +
+		cepToString(frame->GetId()));
+  wxPaintEvent event( frame->GetId() );
+  wxPostEvent(frame, event);
 }
 
 void cepView::OnToggleY (wxCommandEvent &pevt)
@@ -483,8 +519,10 @@ void cepView::OnToggleY (wxCommandEvent &pevt)
 
   // todo_mikal: this doesn't work at the moment...
   // Force a repaint of the window
-  wxPaintEvent evt(0);
-  wxPostEvent(frame, evt);
+  cepDebugPrint("Posting a paint event for the window " +
+		cepToString(frame->GetId()));
+  wxPaintEvent event( frame->GetId() );
+  wxPostEvent(frame, event);
 }
 
 void cepView::OnToggleZ (wxCommandEvent &pevt)
@@ -532,8 +570,6 @@ cepCanvas::OnDraw (wxDC & dc)
     view->OnDraw (&dc);
 }
 
-// This implements a tiny doodling program. Drag the mouse using
-// the left button.
 void
 cepCanvas::OnMouseEvent (wxMouseEvent & event)
 {
@@ -544,5 +580,37 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 
   PrepareDC (dc);
   dc.SetPen (*wxBLACK_PEN);
-  wxPoint pt (event.GetLogicalPosition (dc));
+  // wxPoint pt (event.GetLogicalPosition (dc));
+}
+
+// Perform a least squares regression on the dataset (in all directions)
+void cepView::OnLeastSquares (wxCommandEvent &pevt)
+{
+  m_dirty = true;
+
+  LeastSquares(m_x, "x");
+  LeastSquares(m_y, "y");
+  LeastSquares(m_z, "z");
+  
+  // todo_mikal post redraw
+}
+
+void cepView::LeastSquares(cepMatrix<double> *mat, string direction)
+{
+  // Do we have any data?
+  if(mat == NULL){
+    cepError err("Cannot perform least squares regression on the " + 
+		 direction + "matrix, because it is empty",
+		 cepError::sevErrorRecoverable);
+    err.display();
+    return;
+  }
+
+  // Build a temporary matrix P matrix
+  // todo_mikal: Build a UI
+  cepMatrix<double> pmatrix(mat->getNumRows(), mat->getNumRows());
+
+  // Do the LS
+  cepLs myLs;
+  myLs.cepDoVCV(*mat, pmatrix);
 }

@@ -85,6 +85,9 @@ public:
   void OnToggleX (wxCommandEvent& event);
   void OnToggleY (wxCommandEvent& event);
   void OnToggleZ (wxCommandEvent& event);
+  void OnLeastSquares (wxCommandEvent& event);
+
+  void LeastSquares (cepMatrix<double> *mat, string direction);
 
 private:
   DECLARE_DYNAMIC_CLASS (cepView) 
@@ -98,6 +101,8 @@ private:
   bool m_plotfailed;
   cepConfiguration *m_config;
   cepWxErrorHandler *errHandler;
+
+  cepMatrix<double> *m_x, *m_y, *m_z;
 };
 
 

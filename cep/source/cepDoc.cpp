@@ -107,7 +107,8 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   cepDebugPrint ("Starting to load the dataset now");
   cepError loadErr = m_dataset->munch ();
 
-  // todo_mikal: we should handle this error better
+  // A load error here will magically cause the view to be abandoned the first
+  // time OnDraw() is called. Fear not that it isn't closed here...
   if (loadErr.isReal ())
     loadErr.display ();
 

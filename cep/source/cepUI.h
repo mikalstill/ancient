@@ -105,6 +105,7 @@ GetMainFrame (void);
 #define CEPMENU_SHOWZ 13
 #define CEPMENU_COLORERROR 14
 #define CEPMENU_ERRORS 15
+#define CEPMENU_LS 16
 
 extern bool singleWindowMode;
 

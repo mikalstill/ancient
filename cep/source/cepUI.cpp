@@ -321,124 +321,136 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 
   wxMenu *edit_menu = (wxMenu *) NULL;
   wxMenu *view_menu = (wxMenu *) NULL;
-
-  if (isCanvas)
-  {
-    edit_menu = new wxMenu;
-    edit_menu->Append (wxID_UNDO, "&Undo");
-    edit_menu->Append (wxID_REDO, "&Redo");
-    edit_menu->AppendSeparator ();
-    // todo_mikal: remove
-    edit_menu->Append (CEPMENU_CUTSEGMENT, "&Cut last segment");
-    doc->GetCommandProcessor ()->SetEditMenu (edit_menu);
-
-    ///////////////////////////////////////////////////////////////////////////
-    // The view menu -- the get their initial state from the config db
-    bool confval;
-    cepError err;
-
-    m_config = (cepConfiguration *)&cepConfiguration::getInstance();
-    view_menu = new wxMenu(wxMENU_TEAROFF);
-
-    view_menu->Append (CEPMENU_AVERAGE, "Show averages",
-		       "Toggle whether the average value is shown on graphs",
-		       TRUE);
-        err = m_config->getValue("ui-viewmenu-showaverages", false, confval);
-    if(err.isReal()){
-      view_menu->Check(CEPMENU_AVERAGE, false);
-      err.display();
-    }
-    else
-      view_menu->Check(CEPMENU_AVERAGE, confval);
-
-    view_menu->Append (CEPMENU_ERRORS, "Show error bars",
-		       "Toggle whether the error bars are shown on graphs",
-		       TRUE);
-    err = m_config->getValue("ui-viewmenu-showerrors", true, confval);
-    if(err.isReal()){
-      view_menu->Check(CEPMENU_ERRORS, true);
-      err.display();
-    }
-    else
-      view_menu->Check(CEPMENU_ERRORS, confval);
-
-    view_menu->Append (CEPMENU_ELIMINATEOUTLIERS, "Eliminate outlying samples",
-		       "Removes samples which are outside a given tolerance",
-		       FALSE);
-    view_menu->Enable(CEPMENU_ELIMINATEOUTLIERS, false);
-
-    view_menu->AppendSeparator();
-
-    view_menu->Append (CEPMENU_VIEWCENTERED, "View centered graphs",
-		       "Center the graphs around the horizontal axes",
-		       TRUE);
-    err = m_config->getValue("ui-viewmenu-viewcentered", true, confval);
-    if(err.isReal()){
-      view_menu->Check(CEPMENU_VIEWCENTERED, true);
-      err.display();
-    }
-    else
-      view_menu->Check(CEPMENU_VIEWCENTERED, confval);
-
-    view_menu->Append (CEPMENU_VIEWZOOMED, "View zoomed graphs",
-		       "Zoom in on the interesting elements in the graph",
-		       TRUE);
-    err = m_config->getValue("ui-viewmenu-viewzoomed", false, confval);
-    if(err.isReal()){
-      view_menu->Check(CEPMENU_VIEWZOOMED, false);
-      err.display();
-    }
-    else
-      view_menu->Check(CEPMENU_VIEWZOOMED, confval);
-
-    view_menu->AppendSeparator();
-
-    view_menu->Append(CEPMENU_SHOWX, "Show X",
-		     "Show the X direction graph", TRUE);
-    err = m_config->getValue("ui-viewmenu-showx", true, confval);
-    if(err.isReal()){
-      view_menu->Check(CEPMENU_SHOWX, true);
-      err.display();
-    }
-    else
-      view_menu->Check(CEPMENU_SHOWX, confval);
-
-    view_menu->Append(CEPMENU_SHOWY, "Show Y",
-		     "Show the Y direction graph", TRUE);
-    err = m_config->getValue("ui-viewmenu-showy", true, confval);
-    if(err.isReal()){
-      view_menu->Check(CEPMENU_SHOWY, true);
-      err.display();
-    }
-    else
-      view_menu->Check(CEPMENU_SHOWY, confval);
-
-    view_menu->Append(CEPMENU_SHOWZ, "Show Z",
-		     "Show the Z direction graph", TRUE);
-    err = m_config->getValue("ui-viewmenu-showz", true, confval);
-    if(err.isReal()){
-      view_menu->Check(CEPMENU_SHOWZ, true);
-      err.display();
-    }
-    else
-      view_menu->Check(CEPMENU_SHOWZ, confval);
-
-    view_menu->AppendSeparator();
-
-    view_menu->Append (CEPMENU_COLORAXES, "Axes color",
-		       "The color of the axes on the graph", FALSE);
-    
-    view_menu->Append (CEPMENU_COLORLINE, "Graph color",
-		       "The color of the data line on the graph", FALSE);
-    
-    view_menu->Append (CEPMENU_COLORAVERAGE, "Average color",
-		       "The color of the average line on the graph", FALSE);
-
-    view_menu->Append (CEPMENU_COLORERROR, "Error color",
-		       "The color of the error bars on the graph", FALSE);
-  }
-
+  wxMenu *maths_menu = (wxMenu *) NULL;
   wxMenu *dev_menu = (wxMenu *) NULL;
+  
+  if (isCanvas)
+    {
+      edit_menu = new wxMenu;
+      edit_menu->Append (wxID_UNDO, "&Undo");
+      edit_menu->Append (wxID_REDO, "&Redo");
+      edit_menu->AppendSeparator ();
+      // todo_mikal: remove
+      edit_menu->Append (CEPMENU_CUTSEGMENT, "&Cut last segment");
+      doc->GetCommandProcessor ()->SetEditMenu (edit_menu);
+      
+      /////////////////////////////////////////////////////////////////////////
+      // The view menu -- the get their initial state from the config db
+      bool confval;
+      cepError err;
+      
+      m_config = (cepConfiguration *)&cepConfiguration::getInstance();
+      view_menu = new wxMenu(wxMENU_TEAROFF);
+
+      view_menu->Append (CEPMENU_AVERAGE, "Show averages",
+			 "Toggle whether the average value is shown on graphs",
+			 TRUE);
+      err = m_config->getValue("ui-viewmenu-showaverages", false, confval);
+      if(err.isReal()){
+	view_menu->Check(CEPMENU_AVERAGE, false);
+	err.display();
+    }
+      else
+	view_menu->Check(CEPMENU_AVERAGE, confval);
+      
+      view_menu->Append (CEPMENU_ERRORS, "Show error bars",
+		       "Toggle whether the error bars are shown on graphs",
+			 TRUE);
+      err = m_config->getValue("ui-viewmenu-showerrors", true, confval);
+      if(err.isReal()){
+	view_menu->Check(CEPMENU_ERRORS, true);
+      err.display();
+      }
+      else
+	view_menu->Check(CEPMENU_ERRORS, confval);
+      
+      view_menu->Append (CEPMENU_ELIMINATEOUTLIERS, 
+			 "Eliminate outlying samples",
+			 "Removes samples which are outside a given tolerance",
+			 FALSE);
+      view_menu->Enable(CEPMENU_ELIMINATEOUTLIERS, false);
+      
+      view_menu->AppendSeparator();
+      
+      view_menu->Append (CEPMENU_VIEWCENTERED, "View centered graphs",
+			 "Center the graphs around the horizontal axes",
+			 TRUE);
+      err = m_config->getValue("ui-viewmenu-viewcentered", true, confval);
+      if(err.isReal()){
+	view_menu->Check(CEPMENU_VIEWCENTERED, true);
+	err.display();
+      }
+      else
+	view_menu->Check(CEPMENU_VIEWCENTERED, confval);
+      
+      view_menu->Append (CEPMENU_VIEWZOOMED, "View zoomed graphs",
+			 "Zoom in on the interesting elements in the graph",
+			 TRUE);
+      err = m_config->getValue("ui-viewmenu-viewzoomed", false, confval);
+      if(err.isReal()){
+	view_menu->Check(CEPMENU_VIEWZOOMED, false);
+	err.display();
+      }
+      else
+	view_menu->Check(CEPMENU_VIEWZOOMED, confval);
+      
+      view_menu->AppendSeparator();
+      
+      view_menu->Append(CEPMENU_SHOWX, "Show X",
+			"Show the X direction graph", TRUE);
+      err = m_config->getValue("ui-viewmenu-showx", true, confval);
+      if(err.isReal()){
+	view_menu->Check(CEPMENU_SHOWX, true);
+	err.display();
+      }
+      else
+	view_menu->Check(CEPMENU_SHOWX, confval);
+      
+      view_menu->Append(CEPMENU_SHOWY, "Show Y",
+			"Show the Y direction graph", TRUE);
+      err = m_config->getValue("ui-viewmenu-showy", true, confval);
+      if(err.isReal()){
+	view_menu->Check(CEPMENU_SHOWY, true);
+	err.display();
+      }
+      else
+	view_menu->Check(CEPMENU_SHOWY, confval);
+      
+      view_menu->Append(CEPMENU_SHOWZ, "Show Z",
+			"Show the Z direction graph", TRUE);
+      err = m_config->getValue("ui-viewmenu-showz", true, confval);
+      if(err.isReal()){
+	view_menu->Check(CEPMENU_SHOWZ, true);
+	err.display();
+      }
+      else
+	view_menu->Check(CEPMENU_SHOWZ, confval);
+      
+      view_menu->AppendSeparator();
+      
+      view_menu->Append (CEPMENU_COLORAXES, "Axes color",
+			 "The color of the axes on the graph", FALSE);
+      
+      view_menu->Append (CEPMENU_COLORLINE, "Graph color",
+			 "The color of the data line on the graph", FALSE);
+      
+      view_menu->Append (CEPMENU_COLORAVERAGE, "Average color",
+			 "The color of the average line on the graph", FALSE);
+      
+      view_menu->Append (CEPMENU_COLORERROR, "Error color",
+			 "The color of the error bars on the graph", FALSE);
+      
+      /////////////////////////////////////////////////////////////////////////
+      // The maths menu
+      maths_menu = new wxMenu(wxMENU_TEAROFF);
+      
+      maths_menu->Append (CEPMENU_LS, "Least squares",
+			 "Perform a least squares regression on the dataset",
+			 FALSE);
+    }
+  
+  /////////////////////////////////////////////////////////////////////////////
+  // The developer's menu
   dev_menu = new wxMenu(wxMENU_TEAROFF);
   dev_menu->Append (CEPMENU_TESTERRORS, "Test error handling",
 		    "This will test that the UI is handling errors correctly",
@@ -452,6 +464,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   if (isCanvas){
     menu_bar->Append (edit_menu, "&Edit");
     menu_bar->Append (view_menu, "View");
+    menu_bar->Append (maths_menu, "Maths");
   }
   menu_bar->Append (dev_menu, "Developers");
   menu_bar->Append (help_menu, "&Help");
