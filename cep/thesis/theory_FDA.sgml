@@ -78,7 +78,7 @@
  </para>
   
   <equation>
-    <title>Inverse Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
+    <title>Descrete Frequency</title>
     <execute><cmd>eqimg</cmd><args>fOfk.bmp</args></execute>
   </equation>
 <para>  
