@@ -589,11 +589,11 @@ main (int argc, char *argv[])
 
 <sect2><title>inetd and xinetd patches</title>
 <para>
-The two standard inetd implementations that most people use are called <command>inetd</command> and <command>xinetd</command>. Neither of these implements a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic.
+The two standard inetd implementations that most people use are called <command>inetd</command> and <command>xinetd</command>. <command>inetd</command> doesn't implement a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic using a stock <command>inetd</command>. <command>xinetd</command> however does connect the socket before calling the script.
 </para>
 
 <para>
-It seems logical to me to include some patches to make <command>inetd</command> and <command>xinetd</command> behave in the manner that I would like them to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us?
+It seems logical to me to include a patch to make <command>inetd</command> behave in the manner that I would like it to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us?
 </para>
 
 <sect3><title>inetd patch</title>
@@ -677,16 +677,6 @@ Note that we can't use the name <emphasis>echo</emphasis> for our service becaus
 </itemizedlist>
 
 
-</sect3>
-
-<sect3><title>xinetd patch</title>
-<para>
-<command>xinetd</command> is the <command>inetd</command> implementation shipped by Red Hat. It is much more complex than that implemented by <emphasis>netkit</emphasis>.
-</para>
-
-<para>
-TODO PATCH
-</para>
 </sect3>
 </sect2>
 </sect1>

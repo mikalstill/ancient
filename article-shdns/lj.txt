@@ -121,9 +121,9 @@ You'll recall that a couple of examples ago I showed you the code for a simple &
 inetd and xinetd patches
 ------------------------
 
-The two standard inetd implementations that most people use are called &lt;b&gt;inetd&lt;/b&gt; and &lt;b&gt;xinetd&lt;/b&gt;. Neither of these implements a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic. 
+The two standard inetd implementations that most people use are called &lt;b&gt;inetd&lt;/b&gt; and &lt;b&gt;xinetd&lt;/b&gt;. &lt;b&gt;inetd&lt;/b&gt; doesn't implement a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic using a stock &lt;b&gt;inetd&lt;/b&gt;. &lt;b&gt;xinetd&lt;/b&gt; however does connect the socket before calling the script. 
 
-It seems logical to me to include some patches to make &lt;b&gt;inetd&lt;/b&gt; and &lt;b&gt;xinetd&lt;/b&gt; behave in the manner that I would like them to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us? 
+It seems logical to me to include a patch to make &lt;b&gt;inetd&lt;/b&gt; behave in the manner that I would like it to. After all, if our goal is as noble as implementing a DNS server in shell script, then surely the operating system should be modified to accommodate us? 
 
 inetd patch
 -----------
@@ -162,13 +162,6 @@ This service has the following characteristics:
 [dot] The server should be started with these arguments. Note that the name of the executable is always the first argument. Checkout &lt;i&gt;execve&lt;/i&gt;(2) for more details.
 
 [endlist]
-
-xinetd patch
-------------
-
-&lt;b&gt;xinetd&lt;/b&gt; is the &lt;b&gt;inetd&lt;/b&gt; implementation shipped by Red Hat. It is much more complex than that implemented by &lt;i&gt;netkit&lt;/i&gt;. 
-
-TODO PATCH 
 
 shdns
 =====
