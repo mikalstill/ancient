@@ -22,15 +22,19 @@
 DOCBOOK START
 
 FUNCTION <!-- class name -->
-cepConfiguration
+cepDataWindower
 
 PURPOSE <!-- use cases -->
-provides storage of name/value pairs
+allows for the widowing of datasets using a variety of difference windowing algorithms
 
 SYNOPSIS START
 <!-- how to instantiate one? -->
-cepConfiguration::getInstance();
+default constuctor makes an unititialised windower. If this method is useed then
+the wondower must be initialised using the <command>setWindowType<command> method
+<command>cepDataWindower windower = new cepDataWindower();</command>
 
+this method instantiates a windower that is ready to go
+<command>cepDataWindower windower = new cepDataWindower( int type, int size, int overlap);</command>
 SYNOPSIS END
 
 DESCRIPTION START
@@ -74,9 +78,11 @@ public:
 
   const cepError setWindowType( const windowType type, const int size, const int overlap );
   
-  // G is the gain, dw is the side lobe attenuation
+  // att is the side lobe attenuation as required for dolph-chebyshev
   const cepError setChebAttenuation( double att );
 
+  // windowedData is in/out param. numRows is the number of windows, numCols is the windows size
+  // and the tird dimension is 2 (date and value)
   const cepError window( const cepMatrix<double> & dataIn, cepMatrix<double> & windowedData );
 
 protected:
