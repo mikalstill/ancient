@@ -7,6 +7,6 @@ There are some core terms which are used throughout this tutorial. This section 
 These terms are presented in alphabetical order. Some of them might seem a bit odd, but they're here because the are interesting...
 </para>
 
-<execute><cmd>insertall.sh</cmd><args>concept-.*.sgml</args></execute>
+<execute><cmd>insertall</cmd><args>concept-.*.sgml</args></execute>
 <execute><cmd>nextedition</cmd><input>References</input></execute>
 </chapter>

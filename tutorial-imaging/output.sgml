@@ -2106,7 +2106,7 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2229,7 +2229,7 @@ Specify the percentage of the blue channel to use (default 11).
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2490,7 +2490,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 
 <sect2><title>tiffcmp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2616,7 +2616,7 @@ ImageWidth: 256 520
 
 
 <sect2><title>tiffcp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2937,7 +2937,7 @@ tiffcp -c none -,=% -b CCD,X.tif CCD,X%1%.tif result.tif
 
 
 <sect2><title>tiffdither</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3110,7 +3110,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 
 <sect2><title>tiffdump</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3238,7 +3238,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 
 <sect2><title>tiffgt</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3581,7 +3581,7 @@ crashing old versions of the window manager.
 
 
 <sect2><title>tiffinfo</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3759,7 +3759,7 @@ Strip 0:
 
 
 <sect2><title>tiffmedian</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3905,7 +3905,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 
 
 <sect2><title>tiffsplit</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3991,7 +3991,7 @@ is used.
 
 
 <sect2><title>tiffsv</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4331,7 +4331,7 @@ It is also useful to have the man pages for the libtiff API man pages to refer t
 </para>
 
 <sect2><title>TIFFbuffer</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4443,7 +4443,7 @@ was unable to dynamically allocate space for a data buffer.
 
 
 <sect2><title>TIFFClose</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4510,7 +4510,7 @@ routine.
 
 
 <sect2><title>TIFFcodec</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4663,7 +4663,7 @@ compression schemes.
 
 
 <sect2><title>TIFFError</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4778,7 +4778,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFFlush</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4878,7 +4878,7 @@ routine.
 
 
 <sect2><title>TIFFGetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5180,7 +5180,7 @@ routine.
 
 
 <sect2><title>TIFFmemory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5307,7 +5307,7 @@ repsectively.
 
 
 <sect2><title>TIFFOpen</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5645,7 +5645,7 @@ This is a limitation of the library.
 
 
 <sect2><title>TIFFPrintDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5733,7 +5733,7 @@ parameter defaults to 0.
 
 
 <sect2><title>TIFFquery</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5915,7 +5915,7 @@ library software.
 
 
 <sect2><title>TIFFReadDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6133,7 +6133,7 @@ the missing value based on the file size.
 
 
 <sect2><title>TIFFReadEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6230,7 +6230,7 @@ routine.
 
 
 <sect2><title>TIFFReadEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6330,7 +6330,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6412,7 +6412,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6496,7 +6496,7 @@ routine.
 
 
 <sect2><title>TIFFReadRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6734,7 +6734,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBAStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6965,7 +6965,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBATile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7200,7 +7200,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7327,7 +7327,7 @@ the strip- and tile-based interfaces to read these formats.
 
 
 <sect2><title>TIFFReadTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7466,7 +7466,7 @@ routine.
 
 
 <sect2><title>TIFFRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7839,7 +7839,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFSetDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7947,7 +7947,7 @@ points to the next directory in a file.
 
 
 <sect2><title>TIFFSetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8200,7 +8200,7 @@ An invalid value was supplied for the named tag.
 
 
 <sect2><title>TIFFsize</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8275,7 +8275,7 @@ if data is stored as separate planes.
 
 
 <sect2><title>TIFFstrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -8402,7 +8402,7 @@ returns the number of strips in the image.
 
 
 <sect2><title>TIFFswab</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8522,7 +8522,7 @@ i.e.
 
 
 <sect2><title>TIFFtile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8739,7 +8739,7 @@ returns the number of tiles in the image.
 
 
 <sect2><title>TIFFWarning</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8831,7 +8831,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFWriteDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8983,7 +8983,7 @@ written.
 
 
 <sect2><title>TIFFWriteEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9122,7 +9122,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9252,7 +9252,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9380,7 +9380,7 @@ currently specified image dimensions.
 
 
 <sect2><title>TIFFWriteRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9494,7 +9494,7 @@ specified image dimensions.
 
 
 <sect2><title>TIFFWriteScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9698,7 +9698,7 @@ the library does not pack the block-interleaved samples.
 
 
 <sect2><title>TIFFWriteTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.56 2002-07-18 02:18:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.57 2002-08-02 01:18:06 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -11040,7 +11040,7 @@ You can get the latest libpng code from http://www.libpng.org.
 
 <sect2><title>Unix</title>
 <para>
-libpng doesn't have a a configure script. You'll need to follow the steps below to get it to compile:
+libpng doesn't have a configure script. You'll need to follow the steps below to get it to compile:
 </para>
 
 <itemizedlist>
@@ -11277,7 +11277,7 @@ This is the image header chunk. This chunk <emphasis>must be first</emphasis> in
 </table>
 
 <para>
-There are various values which are valid for the color type field. Each of these types has only certain bite depths allowed.
+There are various values which are valid for the color type field. Each of these types has only certain byte depths allowed.
 </para>
 
 <table frame='all'><title>PNG on disc: IHDR chunk color types</title>
@@ -11327,6 +11327,16 @@ There are various values which are valid for the color type field. Each of these
 <para>
 For all of these types, the sample depth is the same as the bit depth, except for type three, where the sample depth is always eight bits.
 </para>
+
+<sect3><title>Filtering algorithm</title>
+<para>
+The PNG specification states on page 16 of version 1.2:
+
+<quote>
+Filter method is a single-byte integer that indicates the preprocessing method applied to the image data be-fore compression. At present, only filter method 0 (adaptive filtering with five basic filter types) is defined. As with the compression method field, decoders must check this byte and report an error if it holds an unrec-ognized code. See Filter Algorithms (Chapter 6) for details.
+</quote
+</para>
+</sect3>
 
 <table frame='all'><title>PNG on disc: IHDR chunk</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
@@ -12093,51 +12103,58 @@ The <command>pnginfo</command> command implemented here is modeled on the <comma
 #include &lt;png.h&gt;
 #include &lt;unistd.h&gt;
 
-void pnginfo_displayfile(char *, int, int);
-void pnginfo_error(char *);
-void *pnginfo_xmalloc(size_t);
-void usage(void);
+void pnginfo_displayfile (char *, int, int);
+void pnginfo_error (char *);
+void *pnginfo_xmalloc (size_t);
+void usage (void);
 
 #define pnginfo_true 1
 #define pnginfo_false 0
 
-int main(int argc, char *argv[]){
-  int i, optchar, extractBitmap = pnginfo_false, displayBitmap = pnginfo_false;
+int
+main (int argc, char *argv[])
+{
+  int i, optchar, extractBitmap = pnginfo_false, displayBitmap =
+    pnginfo_false;
 
   // Initialise the argument that filenames start at
   i = 1;
-  
+
   // Use getopt to determine what we have been asked to do
-  while((optchar = getopt(argc, argv, "Dd")) != -1){
-    switch(optchar){
-    case 'd':
-      displayBitmap = pnginfo_true;
-      extractBitmap = pnginfo_true;
-      i++;
-      break;
+  while ((optchar = getopt (argc, argv, "Dd")) != -1)
+    {
+      switch (optchar)
+	{
+	case 'd':
+	  displayBitmap = pnginfo_true;
+	  extractBitmap = pnginfo_true;
+	  i++;
+	  break;
 
-    case 'D':
-      extractBitmap = pnginfo_true;
-      i++;
-      break;
+	case 'D':
+	  extractBitmap = pnginfo_true;
+	  i++;
+	  break;
 
-    case '?':
-    default:
-      usage();
-      break;
+	case '?':
+	default:
+	  usage ();
+	  break;
+	}
     }
-  }
 
   // Determine if we were given a filename on the command line
-  if(argc &lt; 2)
-    usage();
+  if (argc &lt; 2)
+    usage ();
 
   // For each filename that we have:
-  for(; i &lt; argc; i++)
-    pnginfo_displayfile(argv[i], extractBitmap, displayBitmap);
+  for (; i &lt; argc; i++)
+    pnginfo_displayfile (argv[i], extractBitmap, displayBitmap);
 }
 
-void pnginfo_displayfile(char *filename, int extractBitmap, int displayBitmap){
+void
+pnginfo_displayfile (char *filename, int extractBitmap, int displayBitmap)
+{
   FILE *image;
   unsigned long imageBufSize, width, height, runlen;
   unsigned char signature;
@@ -12149,243 +12166,261 @@ void pnginfo_displayfile(char *filename, int extractBitmap, int displayBitmap){
   png_bytepp row_pointers = NULL;
   char *bitmap;
 
-  printf("%s...\n", filename);
+  printf ("%s...\n", filename);
 
   // Open the file
   if ((image = fopen (filename, "rb")) == NULL)
     pnginfo_error ("Could not open the specified PNG file.");
 
   // Check that it really is a PNG file
-  fread(sig, 1, 8, image);
-  if(!png_check_sig(sig, 8)){
-    printf("  This file is not a valid PNG file\n");
-    fclose(image);
-    return;
-  }
+  fread (sig, 1, 8, image);
+  if (!png_check_sig (sig, 8))
+    {
+      printf ("  This file is not a valid PNG file\n");
+      fclose (image);
+      return;
+    }
 
   // Start decompressing
-  if((png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, 
-				   NULL, NULL)) == NULL)
-    pnginfo_error("Could not create a PNG read structure (out of memory?)");
+  if ((png = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL,
+				     NULL, NULL)) == NULL)
+    pnginfo_error ("Could not create a PNG read structure (out of memory?)");
 
-  if((info = png_create_info_struct(png)) == NULL)
-    pnginfo_error("Could not create PNG info structure (out of memory?)");
-  
+  if ((info = png_create_info_struct (png)) == NULL)
+    pnginfo_error ("Could not create PNG info structure (out of memory?)");
+
   // If pnginfo_error did not exit, we would have to call 
   // png_destroy_read_struct
 
-  if(setjmp(png_jmpbuf(png)))
-    pnginfo_error("Could not set PNG jump value");
+  if (setjmp (png_jmpbuf (png)))
+    pnginfo_error ("Could not set PNG jump value");
 
   // Get ready for IO and tell the API we have already read the image signature
-  png_init_io(png, image);
-  png_set_sig_bytes(png, 8);
-  png_read_info(png, info);
-  png_get_IHDR(png, info, &amp;width, &amp;height, &amp;bitdepth, &amp;colourtype, NULL, 
-	       NULL, NULL);
+  png_init_io (png, image);
+  png_set_sig_bytes (png, 8);
+  png_read_info (png, info);
+  png_get_IHDR (png, info, &amp;width, &amp;height, &amp;bitdepth, &amp;colourtype, NULL,
+		NULL, NULL);
 
   ///////////////////////////////////////////////////////////////////////////
   // Start displaying information
   ///////////////////////////////////////////////////////////////////////////
-  
-  printf("  Image Width: %d Image Length: %d\n", width, height);
-  printf("  Bits/Sample: %d\n", bitdepth);
-  printf("  Samples/Pixel: %d\n", info-&gt;channels);
-  printf("  Pixel Depth: %d\n", info-&gt;pixel_depth);  // Does this add value?
+
+  printf ("  Image Width: %d Image Length: %d\n", width, height);
+  printf ("  Bits/Sample: %d\n", bitdepth);
+  printf ("  Samples/Pixel: %d\n", info-&gt;channels);
+  printf ("  Pixel Depth: %d\n", info-&gt;pixel_depth);	// Does this add value?
 
   // Photometric interp packs a lot of information
-  printf("  Colour Type (Photometric Interpretation): ");
+  printf ("  Colour Type (Photometric Interpretation): ");
 
-  switch(colourtype){
-  case PNG_COLOR_TYPE_GRAY:
-    printf("GRAYSCALE ");
-    break;
-
-  case PNG_COLOR_TYPE_PALETTE:
-    printf("PALETTED COLOUR ");
-    if(info-&gt;num_trans &gt; 0) printf("with alpha ");
-    printf("(%d colours, %d transparent) ", 
-	   info-&gt;num_palette, info-&gt;num_trans);
-    break;
-
-  case PNG_COLOR_TYPE_RGB:
-    printf("RGB ");
-    break;
-
-  case PNG_COLOR_TYPE_RGB_ALPHA:
-    printf("RGB with alpha channel ");
-    break;
-
-  case PNG_COLOR_TYPE_GRAY_ALPHA:
-    printf("GRAYSCALE with alpha channel ");
-    break;
-
-  default:
-    printf("Unknown photometric interpretation!");
-    break;
-  }
-  printf("\n");
-
-  printf("  Image filter: ");
-  switch(info-&gt;filter_type){
-  case PNG_FILTER_TYPE_BASE:
-    printf("Single row per byte filter ");
-    break;
-
-  case PNG_INTRAPIXEL_DIFFERENCING:
-    printf("Intrapixel differencing (MNG only) ");
-    break;
-
-  default:
-    printf("Unknown filter! ");
-    break;
-  }
-  printf("\n");
-
-  printf("  Interlacing: ");
-  switch(info-&gt;interlace_type){
-  case PNG_INTERLACE_NONE:
-    printf("No interlacing ");
-    break;
-
-  case PNG_INTERLACE_ADAM7:
-    printf("Adam7 interlacing ");
-    break;
-
-  default:
-    printf("Unknown interlacing ");
-    break;
-  }
-  printf("\n");
-
-  printf("  Compression Scheme: ");
-  switch(info-&gt;compression_type){
-  case PNG_COMPRESSION_TYPE_BASE:
-    printf("Deflate method 8, 32k window");
-    break;
-
-  default:
-    printf("Unknown compression scheme!");
-    break;
-  }
-  printf("\n");
-
-  printf("  Resolution: %d, %d ", 
-	 info-&gt;x_pixels_per_unit, info-&gt;y_pixels_per_unit);
-  switch(info-&gt;phys_unit_type){
-  case PNG_RESOLUTION_UNKNOWN:
-    printf("(unit unknown)");
-    break;
-
-  case PNG_RESOLUTION_METER:
-    printf("(pixels per meter)");
-    break;
-
-  default:
-    printf("(Unknown value for unit stored)");
-    break;
-  }
-  printf("\n");
-
-  // FillOrder is always msb-to-lsb, big endian
-  printf("  FillOrder: msb-to-lsb\n  Byte Order: Network (Big Endian)\n");
-
-  // Text comments
-  printf("  Number of text strings: %d of %d\n", 
-	 info-&gt;num_text, info-&gt;max_text);
-
-  for(i = 0; i &lt; info-&gt;num_text; i++){
-    printf("    %s ", info-&gt;text[i].key);
-
-    switch(info-&gt;text[1].compression){
-    case -1:
-      printf("(tEXt uncompressed)");
+  switch (colourtype)
+    {
+    case PNG_COLOR_TYPE_GRAY:
+      printf ("GRAYSCALE ");
       break;
 
-    case 0:
-      printf("(xTXt deflate compressed)");
+    case PNG_COLOR_TYPE_PALETTE:
+      printf ("PALETTED COLOUR ");
+      if (info-&gt;num_trans &gt; 0)
+	printf ("with alpha ");
+      printf ("(%d colours, %d transparent) ",
+	      info-&gt;num_palette, info-&gt;num_trans);
       break;
 
-    case 1:
-      printf("(iTXt uncompressed)");
+    case PNG_COLOR_TYPE_RGB:
+      printf ("RGB ");
       break;
 
-    case 2:
-      printf("(iTXt deflate compressed)");
+    case PNG_COLOR_TYPE_RGB_ALPHA:
+      printf ("RGB with alpha channel ");
+      break;
+
+    case PNG_COLOR_TYPE_GRAY_ALPHA:
+      printf ("GRAYSCALE with alpha channel ");
       break;
 
     default:
-      printf("(unknown compression)");
+      printf ("Unknown photometric interpretation!");
       break;
     }
+  printf ("\n");
 
-    printf(": ");
-    j = 0;
-    while(info-&gt;text[i].text[j] != '\0'){
-      if(info-&gt;text[i].text[j] == '\n') printf("\\n");
-      else fputc(info-&gt;text[i].text[j], stdout);
+  printf ("  Image filter: ");
+  switch (info-&gt;filter_type)
+    {
+    case PNG_FILTER_TYPE_BASE:
+      printf ("Single row per byte filter ");
+      break;
 
-      j++;
+    case PNG_INTRAPIXEL_DIFFERENCING:
+      printf ("Intrapixel differencing (MNG only) ");
+      break;
+
+    default:
+      printf ("Unknown filter! ");
+      break;
+    }
+  printf ("\n");
+
+  printf ("  Interlacing: ");
+  switch (info-&gt;interlace_type)
+    {
+    case PNG_INTERLACE_NONE:
+      printf ("No interlacing ");
+      break;
+
+    case PNG_INTERLACE_ADAM7:
+      printf ("Adam7 interlacing ");
+      break;
+
+    default:
+      printf ("Unknown interlacing ");
+      break;
+    }
+  printf ("\n");
+
+  printf ("  Compression Scheme: ");
+  switch (info-&gt;compression_type)
+    {
+    case PNG_COMPRESSION_TYPE_BASE:
+      printf ("Deflate method 8, 32k window");
+      break;
+
+    default:
+      printf ("Unknown compression scheme!");
+      break;
+    }
+  printf ("\n");
+
+  printf ("  Resolution: %d, %d ",
+	  info-&gt;x_pixels_per_unit, info-&gt;y_pixels_per_unit);
+  switch (info-&gt;phys_unit_type)
+    {
+    case PNG_RESOLUTION_UNKNOWN:
+      printf ("(unit unknown)");
+      break;
+
+    case PNG_RESOLUTION_METER:
+      printf ("(pixels per meter)");
+      break;
+
+    default:
+      printf ("(Unknown value for unit stored)");
+      break;
+    }
+  printf ("\n");
+
+  // FillOrder is always msb-to-lsb, big endian
+  printf ("  FillOrder: msb-to-lsb\n  Byte Order: Network (Big Endian)\n");
+
+  // Text comments
+  printf ("  Number of text strings: %d of %d\n",
+	  info-&gt;num_text, info-&gt;max_text);
+
+  for (i = 0; i &lt; info-&gt;num_text; i++)
+    {
+      printf ("    %s ", info-&gt;text[i].key);
+
+      switch (info-&gt;text[1].compression)
+	{
+	case -1:
+	  printf ("(tEXt uncompressed)");
+	  break;
+
+	case 0:
+	  printf ("(xTXt deflate compressed)");
+	  break;
+
+	case 1:
+	  printf ("(iTXt uncompressed)");
+	  break;
+
+	case 2:
+	  printf ("(iTXt deflate compressed)");
+	  break;
+
+	default:
+	  printf ("(unknown compression)");
+	  break;
+	}
+
+      printf (": ");
+      j = 0;
+      while (info-&gt;text[i].text[j] != '\0')
+	{
+	  if (info-&gt;text[i].text[j] == '\n')
+	    printf ("\\n");
+	  else
+	    fputc (info-&gt;text[i].text[j], stdout);
+
+	  j++;
+	}
+
+      printf ("\n");
     }
 
-    printf("\n");
-  }
-
   // Print a blank line
-  printf("\n");
+  printf ("\n");
 
   // Do we want to extract the image data? We are meant to tell the user if
   // there are errors, but we don't currently trap any errors here -- I need
   // to look into this
-  if(extractBitmap == pnginfo_true){
-    if (colourtype == PNG_COLOR_TYPE_PALETTE)
-      png_set_expand (png);
+  if (extractBitmap == pnginfo_true)
+    {
+      if (colourtype == PNG_COLOR_TYPE_PALETTE)
+	png_set_expand (png);
 
-    png_set_strip_alpha (png);
-    png_read_update_info (png, info);
-    
-    rowbytes = png_get_rowbytes (png, info);
-    bitmap =
-      (unsigned char *) pnginfo_xmalloc ((rowbytes * height) + 1);
-    row_pointers = pnginfo_xmalloc (height * sizeof (png_bytep));
-    
-    // Get the image bitmap
-    for (i = 0; i &lt; height; ++i)
-      row_pointers[i] = bitmap + (i * rowbytes);
-    png_read_image (png, row_pointers);
-    free(row_pointers);
-    png_read_end (png, NULL);
-    
-    // Do we want to display this bitmap?
-    if(displayBitmap == pnginfo_true){
-      printf("Dumping the bitmap for this image:\n");
+      png_set_strip_alpha (png);
+      png_read_update_info (png, info);
 
-      runlen = 0;
-      for(i = 0; i &lt; rowbytes * height / 3; i+=3){
-	if((runlen != 0) &amp;&amp; (bitmap[i] == 0) &amp;&amp; (bitmap[i] == 0)
-	   &amp;&amp; (bitmap[i] == 0)) runlen++;
-	else if(runlen != 0){
-	  if(runlen &gt; 1) printf("* %d ", runlen);
+      rowbytes = png_get_rowbytes (png, info);
+      bitmap = (unsigned char *) pnginfo_xmalloc ((rowbytes * height) + 1);
+      row_pointers = pnginfo_xmalloc (height * sizeof (png_bytep));
+
+      // Get the image bitmap
+      for (i = 0; i &lt; height; ++i)
+	row_pointers[i] = bitmap + (i * rowbytes);
+      png_read_image (png, row_pointers);
+      free (row_pointers);
+      png_read_end (png, NULL);
+
+      // Do we want to display this bitmap?
+      if (displayBitmap == pnginfo_true)
+	{
+	  printf ("Dumping the bitmap for this image:\n");
+
 	  runlen = 0;
-	}
+	  for (i = 0; i &lt; rowbytes * height / 3; i += 3)
+	    {
+	      if ((runlen != 0) &amp;&amp; (bitmap[i] == 0) &amp;&amp; (bitmap[i] == 0)
+		  &amp;&amp; (bitmap[i] == 0))
+		runlen++;
+	      else if (runlen != 0)
+		{
+		  if (runlen &gt; 1)
+		    printf ("* %d ", runlen);
+		  runlen = 0;
+		}
 
-	if((runlen == 0) &amp;&amp; (bitmap[i] == 0) &amp;&amp; (bitmap[i] == 0)
-	   &amp;&amp; (bitmap[i] == 0)){
-	  printf("[0, 0, 0] ");
-	  runlen++;
+	      if ((runlen == 0) &amp;&amp; (bitmap[i] == 0) &amp;&amp; (bitmap[i] == 0)
+		  &amp;&amp; (bitmap[i] == 0))
+		{
+		  printf ("[0, 0, 0] ");
+		  runlen++;
+		}
+
+	      if (runlen == 0)
+		printf ("[%02x %02x %02x] ", (unsigned char) bitmap[i],
+			(unsigned char) bitmap[i + 1],
+			(unsigned char) bitmap[i + 2]);
+	    }
 	}
-	
-	if(runlen == 0)
-	  printf("[%02x %02x %02x] ", (unsigned char) bitmap[i],
-		 (unsigned char) bitmap[i + 1],
-		 (unsigned char) bitmap[i + 2]);
-      }
     }
-  }
 
   // This cleans things up for us in the PNG library
-  fclose(image);
-  png_destroy_read_struct(&amp;png, &amp;info, NULL);
+  fclose (image);
+  png_destroy_read_struct (&amp;png, &amp;info, NULL);
 }
 
 // You can bang or head or you can drown in a hole
@@ -12411,8 +12446,10 @@ pnginfo_xmalloc (size_t size)
   return buffer;
 }
 
-void usage(){
-  pnginfo_error("Usage: pnginfo [-d] [-D] &lt;filenames&gt;");
+void
+usage ()
+{
+  pnginfo_error ("Usage: pnginfo [-d] [-D] &lt;filenames&gt;");
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/pngtools/pnginfo.c</emphasis></para>
@@ -12715,7 +12752,7 @@ if (setjmp (png_jmpbuf (png))){
 
 // If this call is done before png_create_write_struct, then everything 
 // seg faults...
-pthread_mutex_lock (&amp;convMutex);
+pthread_mutex_lock (&amp;amp;convMutex);
 
 png_set_write_fn (png, NULL, (png_rw_ptr) libpngDummyWriteProc,
 		  (png_flush_ptr) libpngDummyFlushProc);
@@ -12730,12 +12767,12 @@ png_write_info (png, info);
 
 png_write_image (png, row_pointers);
 png_write_end (png, info);
-png_destroy_write_struct (&amp;png, &amp;info);
+png_destroy_write_struct (&amp;amp;png, &amp;amp;info);
 
 ///////////////////////////////////////////////////////////////////////////////
 // When we get back to here we have the image data
 
-  pthread_mutex_unlock (&amp;convMutex);
+  pthread_mutex_unlock (&amp;amp;convMutex);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Callbacks
@@ -12777,7 +12814,7 @@ libpngDummyWriteProc (png_structp png, png_bytep data, png_uint_32 len)
       
       globalIsIDAT = panda_false;
     }
-  else if ((len == 4) &amp;&amp; (strcmp (tempString, "IDAT") == 0))
+  else if ((len == 4) &amp;amp;&amp;amp; (strcmp (tempString, "IDAT") == 0))
     globalIsIDAT = panda_true;
   else
     globalIsIDAT = panda_false;

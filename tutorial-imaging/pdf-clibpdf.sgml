@@ -7,7 +7,7 @@ ClibPDF was my first introduction to PDF generation APIs. It is available from h
 Note that ClibPDF is not free software. The license is included below for your reference:
 </para>
 
-<execute><cmd>pdf2db.sh</cmd><args>clibpdf-license.pdf "ClibPDF license"</args></execute>
+<execute><cmd>pdf2db</cmd><args>clibpdf-license.pdf "ClibPDF license"</args></execute>
 
 <para>
 To summarise the license, this quote from the ClibPDF README page sums it up:
@@ -80,13 +80,13 @@ ClibPDF doesn't support win32 directly. It is however written in ANSI C, so a po
 The most basic PDF example is the hello world application. Here is the ClibPDF iteration:
 </para>
 
-<execute><cmd>code2db.pl</cmd><input>source/pdf/clibpdf/hello/hello.c</input></execute>
+<execute><cmd>code2db</cmd><input>source/pdf/clibpdf/hello/hello.c</input></execute>
 
 <para>
 This produces a PDF which looks like (somewhat reduced from it's real size)...
 </para>
 
-<execute><cmd>pdf2db.sh</cmd><args>source/pdf/clibpdf/hello/hello.pdf "ClibPDF hello world"</args></execute>
+<execute><cmd>pdf2db</cmd><args>source/pdf/clibpdf/hello/hello.pdf "ClibPDF hello world"</args></execute>
 
 <para>
 The first block initializes ClibPDF, then we create a page, put some text on it, and then close the document.

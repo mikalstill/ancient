@@ -117,7 +117,7 @@ This dictionary specifies that the key <quote>Type</quote> has the value <quote>
 What data types are valid in dictionaries? Well, version 1.3 of the PDF specification names the following data types:
 </para>
 
-<execute><cmd>insertall.sh</cmd><args>pdf-type-.*.sgml</args></execute>
+<execute><cmd>insertall</cmd><args>pdf-type-.*.sgml</args></execute>
 
 <sect4><title>A lexer for PDF</title>
 <para>
@@ -204,7 +204,7 @@ So what are the possible filters? Well, as of PDF 1.3
 , they are:
 </para>
 
-<execute><cmd>insertall.sh</cmd><args>pdf-filter-.*.sgml</args></execute>
+<execute><cmd>insertall</cmd><args>pdf-filter-.*.sgml</args></execute>
 
 </sect3>
 </sect2>
@@ -314,13 +314,13 @@ Panda currently compiles quite happily on Windows, and if you download the right
 The most basic PDF example is the hello world application. Here is the Panda iteration:
 </para>
 
-<execute><cmd>code2db.pl</cmd><input>source/pdf/panda/hello/hello.c</input></execute>
+<execute><cmd>code2db</cmd><input>source/pdf/panda/hello/hello.c</input></execute>
 
 <para>
 Which produces...
 </para>
 
-<execute><cmd>pdf2db.sh</cmd><args>source/pdf/panda/hello/hello.pdf "Panda hello world"</args></execute>
+<execute><cmd>pdf2db</cmd><args>source/pdf/panda/hello/hello.pdf "Panda hello world"</args></execute>
 </sect2>
 
 <sect2><title>Initialization</title>
@@ -328,8 +328,8 @@ Which produces...
 Initialization of Panda is easy. Simply call <command>panda_init</command>(). You'll also need to create a PDF document, which is done with the <command>panda_open</command> function.
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_init.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_open.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_init.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_open.sgml</input></execute>
 </sect2>
 
 <sect2><title>Creating pages</title>
@@ -337,7 +337,7 @@ Initialization of Panda is easy. Simply call <command>panda_init</command>(). Yo
 Pages are created in Panda using the <command>panda_newpage</command> function. You can magically be editing as many pages at a time as you like with Panda without any additional calls being needed.
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_newpage.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_newpage.sgml</input></execute>
 </sect2>
 
 <sect2><title>Object properties</title>
@@ -345,7 +345,7 @@ Pages are created in Panda using the <command>panda_newpage</command> function. 
 Panda allows you to selectively apply properties to portions of your PDF document. The most common example is choosing which portions of your PDF document to compress.
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_setobjectproperty.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setobjectproperty.sgml</input></execute>
 </sect2>
 
 <sect2><title>Finalizing</title>
@@ -353,7 +353,7 @@ Panda allows you to selectively apply properties to portions of your PDF documen
 Pages don't need to be closed in Panda. This is done when the <command>panda_close</command> function is called. This function writes the entire PDF document out to disc.
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_close.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_close.sgml</input></execute>
 </sect2>
 
 <sect2><title>Inserting text</title>
@@ -361,9 +361,9 @@ Pages don't need to be closed in Panda. This is done when the <command>panda_clo
 One of the advantages which ClibPDF has over Panda is that it currently supported word wrap, whereas Panda doesn't. Panda does have a variety of text functionality however. The public text functions in Panda are: <command>panda_textboxrot</command>, which creates a text box at a jaunty angle, <command>panda_textbox</command>, which creates a horizontal textbox (a zero angle), and <command>panda_textdirection</command>, which sets the flow direction for text.
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_textbox.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_textboxrot.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_textdirection.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_textbox.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_textboxrot.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_textdirection.sgml</input></execute>
 </sect2>
 
 <sect2><title>Fonts</title>
@@ -371,8 +371,8 @@ One of the advantages which ClibPDF has over Panda is that it currently supporte
 Panda currently only supports the standard PDF fonts, and will not allow you to embed arbitrary fonts into your PDF documents (unlike PDFlib). Some users might find this a little limiting for the time being. In Panda, you use fonts by first creating a pointer to the font using <command>panda_createfont</command>, and then start using that font with <command>panda_setfont</command>. This allows you use efficiently create the five fonts you are going to use in the document, and then swap backwards and forwards within that set of five with no performance penalty.
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_createfont.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setfont.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_createfont.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setfont.sgml</input></execute>
 </sect2>
 
 <sect2><title>Font attributes</title>
@@ -380,13 +380,13 @@ Panda currently only supports the standard PDF fonts, and will not allow you to 
 Panda also allows you to set a variety of font attributes...
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_setcharacterspacing.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setfillcolor.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setfontmode.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setfontsize.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_sethorizontalscaling.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setleading.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setwordspacing.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setcharacterspacing.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setfillcolor.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setfontmode.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setfontsize.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_sethorizontalscaling.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setleading.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setwordspacing.sgml</input></execute>
 
 </sect2>
 
@@ -418,8 +418,8 @@ Panda supports PNG fully.
 In Panda you use the <command>panda_imagebox</command>, and the <command>panda_imageboxrot</command> functions to insert images.
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_imagebox.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_imageboxrot.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_imagebox.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_imageboxrot.sgml</input></execute>
 </sect3>
 </sect2>
 
@@ -433,17 +433,17 @@ Panda, supports the full range of PDF vector graphics commands. See the sections
 With Panda, the way you draw a line is to first create a line with <command>panda_setlinestart</command>, you then draw line segments with <command>panda_addlinesegment</command>. When you're finished, you close the line with <command>panda_closeline</command>. <command>panda_strokeline</command> is used to force the line to be drawn. You can also add curved segments to a line using <command>panda_addcubiccurvesegment</command>, <command>panda_addquadraticcurvesegmentone</command>, and <command>panda_addquadraticcurvesegmenttwo</command>. Finally, if all you want is a rectangle, then use <command>panda_rectangle</command> to do it for you.
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_setlinestart.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_addlinesegment.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_closeline.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_endline.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_strokeline.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setlinestart.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_addlinesegment.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_closeline.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_endline.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_strokeline.sgml</input></execute>
 
-<execute><cmd>builddb.pl</cmd><input>panda_addcubiccurvesegment.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_addquadraticcurvesegmentone.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_addquadraticcurvesegmenttwo.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_addcubiccurvesegment.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_addquadraticcurvesegmentone.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_addquadraticcurvesegmenttwo.sgml</input></execute>
 
-<execute><cmd>builddb.pl</cmd><input>panda_rectangle.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_rectangle.sgml</input></execute>
 </sect3>
 
 <sect3><title>Fills and other line attributes</title>
@@ -451,12 +451,12 @@ With Panda, the way you draw a line is to first create a line with <command>pand
 Once you have drawn a line, then it can be filled. You can also configure the state of the pen <emphasis>before</emphasis> you draw the line to change the way it appears...
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_fillline.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setlinecap.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setlinecolor.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setlinejoin.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setlinewidth.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setlinedashing.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_fillline.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setlinecap.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setlinecolor.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setlinejoin.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setlinewidth.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setlinedashing.sgml</input></execute>
 
 </sect3>
 </sect2>
@@ -466,10 +466,10 @@ Once you have drawn a line, then it can be filled. You can also configure the st
 PDF supports embedding meta data about a document into the PDF itself, and Panda supports this through the following calls:
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_setauthor.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setkeywords.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_setsubject.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_settitle.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setauthor.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setkeywords.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_setsubject.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_settitle.sgml</input></execute>
 
 </sect2>
 
@@ -478,16 +478,16 @@ PDF supports embedding meta data about a document into the PDF itself, and Panda
 PDF can be used for presentations, and therefore allows you to specify a number of interesting things which are normally associated more with Microsoft Power Point presentations...
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_centerwindow.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_fitwindow.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_fullscreen.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_hidemenubar.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_hidetoolbar.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_hidewindowui.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_nfspagemodde.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_pageduration.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_transduration.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_transstyle.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_centerwindow.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_fitwindow.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_fullscreen.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_hidemenubar.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_hidetoolbar.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_hidewindowui.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_nfspagemodde.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_pageduration.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_transduration.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_transstyle.sgml</input></execute>
 
 </sect2>
 
@@ -496,8 +496,8 @@ PDF can be used for presentations, and therefore allows you to specify a number 
 A page template is created using <command>panda_newtemplate</command>. A template is just like any other page, and uses all the normal drawing functions. The cool bit is that you can then apply a template to another page using <command>panda_applytemplate</command>. This allows for the standard parts of the page to only be defined once -- which is very useful for things like letterhead.
 </para>
 
-<execute><cmd>builddb.pl</cmd><input>panda_newtemplate.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>panda_applytemplate.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_newtemplate.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>panda_applytemplate.sgml</input></execute>
 
 </sect2>
 
@@ -506,13 +506,13 @@ A page template is created using <command>panda_newtemplate</command>. A templat
 This section presents a full Panda example showing what the library is capable of. This code comes from the Panda distribution:
 </para>
 
-<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/panda/examples/main.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/panda/examples/main.c</input></execute>
 
 <para>
 It produces output like:
 </para>
 
-<execute><cmd>pdf2db.sh</cmd><input>~mikal/opensource/panda/examples/output.pdf</input></execute>
+<execute><cmd>pdf2db</cmd><input>~mikal/opensource/panda/examples/output.pdf</input></execute>
 </sect2>
 
 </sect1>
@@ -550,27 +550,27 @@ Part of my Panda work has been the development of a lexer for PDF documents know
 </para>
 
 <sect2><title>lexer.l</title>
-<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pandalex/lexer.l</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/lexer.l</input></execute>
 </sect2>
 
 <sect2><title>lexinterface.h</title>
-<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pandalex/lexinterface.h</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/lexinterface.h</input></execute>
 </sect2>
 
 <sect2><title>pandalex.h</title>
-<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pandalex/pandalex.h</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/pandalex.h</input></execute>
 </sect2>
 
 <sect2><title>parser.y</title>
-<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pandalex/parser.y</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/parser.y</input></execute>
 </sect2>
 
 <sect2><title>samples.c</title>
-<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pandalex/samples.c</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/samples.c</input></execute>
 </sect2>
 
 <sect2><title>samples.h</title>
-<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/pandalex/samples.h</input></execute>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/pandalex/samples.h</input></execute>
 </sect2>
 
 </sect1>

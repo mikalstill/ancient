@@ -51,7 +51,7 @@ Now it's time to provide an example of how the ImageMagick commands can be used 
 </para>
 
 <programlisting>
-<execute><cmd>code2db.pl</cmd><input>source/imagemagick/cvsreport/sample.log</input></execute>
+<execute><cmd>code2db</cmd><input>source/imagemagick/cvsreport/sample.log</input></execute>
 </programlisting>
 
 <para>
@@ -59,7 +59,7 @@ The following perl script parses this log file to produce a HTML description of 
 </para>
 
 <programlisting>
-<execute><cmd>code2db.pl</cmd><input>source/imagemagick/cvsreport/cvsreport.pl</input></execute>
+<execute><cmd>code2db</cmd><input>source/imagemagick/cvsreport/cvsreport.pl</input></execute>
 </programlisting>
 
 <para>

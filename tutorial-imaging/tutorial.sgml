@@ -6,15 +6,15 @@
 </authorgroup>
 </bookinfo>
 
-<execute><cmd>builddb.pl</cmd><input>introduction.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>concepts.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>tiff.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>gif.sgml</input></execute>
-<execute><cmd>builddb.pl</cmd><input>png.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>introduction.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>concepts.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>tiff.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>gif.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>png.sgml</input></execute>
 <execute><cmd>nextedition</cmd><input>jpeg.sgml</input></execute>
 <execute><cmd>nextedition</cmd><input>svg.sgml</input></execute>
 <execute><cmd>nextedition</cmd><input>Other raster formats</input></execute>
-<execute><cmd>builddb.pl</cmd><input>pdf.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>pdf.sgml</input></execute>
 <execute><cmd>nextedition</cmd><input>opengl chapter</input></execute>
 <execute><cmd>nextedition</cmd><input>imagemagick.sgml</input></execute>
 <execute><cmd>nextedition</cmd><input>Imlib</input></execute>
