@@ -80,9 +80,9 @@ enum
 // The image types supported
 enum
 {
-  gImageTiff = 0,
-  gImageJpeg,
-  gImagePNG
+  panda_image_tiff = 0,
+  panda_image_jpeg,
+  panda_image_png
 };
 
 #ifdef __cplusplus
