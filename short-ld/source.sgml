@@ -1,0 +1,18 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<article>
+<title>Linux ld hacking howto</title>
+
+<para>
+<quote>ld.so  loads  the  shared  libraries  needed by a program, prepares the program to run, and then runs it.  Unless explicitly specified via the -static option to ld during compilation, all Linux programs are incomplete and require further linking at run time. </quote> -- the ld.so manpage
+</para>
+
+<sect1><title>Introduction to ld.so</title>
+
+</sect1>
+
+<sect1><title>Preloading your own libraries</title>
+<para>
+
+</para>
+</sect1>
+</article>
