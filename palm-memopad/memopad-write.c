@@ -9,6 +9,8 @@
 
 #include "memopad.h"
 
+#define CHUNKSIZE 3000
+
 void memopad_insertstring(FILE *, char *);
 void memopad_insertinteger(FILE *, int);
 void memopad_insertshort(FILE *, int);
@@ -91,8 +93,8 @@ int main(int argc, char *argv[]){
     if(statbuf.st_size > 4095){
       printf("%s is too big for a single chunk and will be split\n",
 	     argv[rcnt + 1]);
-      chunkcnt += statbuf.st_size / 4096;
-      chunkcnt += (statbuf.st_size % 4096 == 0) ? 0 : 1;
+      chunkcnt += statbuf.st_size / CHUNKSIZE;
+      chunkcnt += (statbuf.st_size % CHUNKSIZE == 0) ? 0 : 1;
     }
     else{
       chunkcnt++;
@@ -148,7 +150,9 @@ int main(int argc, char *argv[]){
       memopad_insertinteger(output, 5);
       memopad_insertinteger(output, 0);
       
-      contents = memopad_xsnprintf("File: %s\r\n%s", argv[rcnt + 1], memopad_strlimit(data + offset, 4096));
+      contents = memopad_xsnprintf("File: %s [%03d]\r\n%s", argv[rcnt + 1], 
+				   offset / CHUNKSIZE,
+				   memopad_strlimit(data + offset, CHUNKSIZE));
       memopad_insertstring(output, contents);
       memopad_xfree(contents);
       
@@ -160,7 +164,7 @@ int main(int argc, char *argv[]){
       memopad_insertinteger(output, 1);
       memopad_insertinteger(output, 0);
 
-      offset += 4096;
+      offset += CHUNKSIZE;
     }
 
     printf("\n");
