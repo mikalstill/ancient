@@ -1,4 +1,3 @@
-<chapter id="chap-imagetheory"><title>Imaging theory</title>
 <sect1><title>Theory of color and grayscale storage</title>
 <para>
 The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory. There are two main representations for color and grayscale images. I'll explain these by describing grayscale, and then extend it to color.
@@ -22,4 +21,3 @@ This concept works for grayscale images as well. The only difference is that the
 </para>
 </sect2>
 </sect1>
-</chapter>
