@@ -9,7 +9,6 @@
 
   // The callbacks
   pandalex_callback_type pandalex_callbacks[gpandalex_callback_max];
-  int                    pandalex_callbacks_types[gpandalex_callback_max];
 %}
 
           /* Define the possible yylval values */
@@ -36,25 +35,54 @@
             It would appear that $$ already includes the vale of $1,
 	    so we only need to append the value of $2, $3, $4 et al
           *********************************************************/
-pdf       : header { pandalex_callback(gpandalex_callback_entireheader, gpandalex_callback_type_string, $1); } objects xref trailer
+pdf       : header { 
+                    pandalex_callback(gpandalex_callback_entireheader, 
+				      gpandalex_callback_type_string, $1); } 
+            objects xref trailer
           ;
 
-header    :  VERSION { pandalex_callback(gpandalex_callback_specver, gpandalex_callback_type_string, $1) } binary { strmcat($$, $3); }
+header    :  VERSION { 
+	            pandalex_callback(gpandalex_callback_specver, 
+				      gpandalex_callback_type_string, $1); }
+             binary { 
+                    strmcat($$, $3); }
           ;
 
 objects   : object objects
           |
           ;
 
-object    : INT INT OBJ { pandalex_callback(gpandalex_callback_objstart, gpandalex_callback_type_object, $1, $2); } DBLLT dict DBLGT stream ENDOBJ {}
+object    : INT INT OBJ { 
+                    pandalex_callback(gpandalex_callback_objstart, 
+				      gpandalex_callback_type_object, 
+				      $1, $2); } 
+            DBLLT dict DBLGT stream ENDOBJ {}
           ;
 
-dict      : NAME STRING dict {}
-          | NAME NAME dict {}
-          | NAME ARRAY arrayvals ENDARRAY dict {}
-          | NAME OBJREF dict {}
-          | NAME DBLLT dict DBLGT dict {}
-          | NAME INT dict {}
+dict      : NAME STRING dict { 
+                    pandalex_callback(gpandalex_callback_dictitem_string, 
+				      gpandalex_callback_type_string, 
+				      $1, $2); }
+          | NAME NAME dict { 
+                    pandalex_callback(gpandalex_callback_dictitem_name, 
+				      gpandalex_callback_type_string, 
+				      $1, $2); }
+          | NAME ARRAY arrayvals ENDARRAY dict { 
+	            pandalex_callback(gpandalex_callback_dictitem_array, 
+				      gpandalex_callback_type_string, 
+				      $1, $2); }
+          | NAME OBJREF dict { 
+                    pandalex_callback(gpandalex_callback_dictitem_object, 
+				      gpandalex_callback_type_string, 
+				      $1, $2); }
+          | NAME DBLLT dict DBLGT dict { 
+                    pandalex_callback(gpandalex_callback_dictitem_dict, 
+				      gpandalex_callback_type_string, 
+				      $1, $2); }
+          | NAME INT dict { 
+                    pandalex_callback(gpandalex_callback_dictitem_int, 
+				      gpandalex_callback_type_string, 
+				      $1, $2); }
           |
           ;
 
@@ -106,7 +134,6 @@ void pandalex_init(){
   // Make sure that the callbacks default to nothing
   for(i = 0; i < gpandalex_callback_max; ++i){
     pandalex_callbacks[i] = NULL;
-    pandalex_callbacks_types[i] = gpandalex_callback_type_string;
   }
 }
 
@@ -189,6 +216,19 @@ int main(int argc, char *argv[]){
 			 pandalex_sample_entireheader);
   pandalex_setupcallback(gpandalex_callback_objstart,
 			 pandalex_sample_objstart);
+
+  pandalex_setupcallback(gpandalex_callback_dictitem_string,
+			 pandalex_sample_dictitem_string);
+  pandalex_setupcallback(gpandalex_callback_dictitem_name,
+			 pandalex_sample_dictitem_name);
+  pandalex_setupcallback(gpandalex_callback_dictitem_array,
+			 pandalex_sample_dictitem_array);
+  pandalex_setupcallback(gpandalex_callback_dictitem_object,
+			 pandalex_sample_dictitem_object);
+  pandalex_setupcallback(gpandalex_callback_dictitem_dict,
+			 pandalex_sample_dictitem_dict);
+  pandalex_setupcallback(gpandalex_callback_dictitem_int,
+			 pandalex_sample_dictitem_int);
 
   pandalex_parse();
 
