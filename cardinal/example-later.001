@@ -1,0 +1,17 @@
+Content-Type: text/x-vcard;
+name="Jukka K. Korpela.vcf"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+filename="Jukka K. Korpela.vcf"
+
+BEGIN:VCARD
+VERSION:2.1
+N:Korpela;Jukka;K.
+FN:Jukka K. Korpela
+ADR;HOME:;;P=E4iv=E4ns=E4teenkuja 4 as. 1;Espoo;;02210;Finland
+LABEL;HOME;ENCODING=3DQUOTED-PRINTABLE:P=3DE4iv=3DE4ns=3DE4teenkuja 4 =
+as. 1=3D0D=3D0AEspoo 02210=3D0D=3D0AFinland
+URL:../
+EMAIL;PREF;INTERNET:jkorpela@malibutelecom.com
+REV:20001026T120459Z
+END:VCARD
