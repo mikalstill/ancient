@@ -168,6 +168,11 @@ cepPresentation::createBitmap (float& scale, long& minval)
     err.display();
   }
 
+  // And this bug (one datapoint has a range of zero)
+  if(xrange == 0.0){
+    xrange = m_xminval;
+  }
+
   const int graphInset = 20;
   float yscale = (float) yrange / (m_height - graphInset * 2);
   float xscale = (float) xrange / (m_width - graphInset * 2);
