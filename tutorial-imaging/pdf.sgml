@@ -98,6 +98,13 @@ endobj
 <para>
 This object is the 0th version of object number 1. The text between the &lt;&lt; and the &gt;&gt; is discussed in the next section.
 </para>
+
+<sidebar><title>Order of objects in the file</title>
+<para>
+Note that objects can appear in the file in any order, because there is a lookup table called an XREF table at the end of the file that they can be looked up from.
+</para>
+</sidebar>
+</sect3>
 </sect2>
 
 <sect2><title>Dictionaries</title>
@@ -123,39 +130,155 @@ This dictionary specifies that the key <quote>Type</quote> has the value <quote>
 What data types are valid in dictionaries? Well, version 1.3 of the PDF specification names the following data types:
 </para>
 
+<execute><cmd>insertall.sh</cmd><args>pdf-type-*.sgml</args></execute>
+<execute><cmd>todo</cmd><input>Do these</input></execute>
 
 </sect3>
 
 <sect3><title>Minimal dictionaries</title>
 <para>
-Redirection
+In addition to having full dictionaries, it is possible to have very simple objects which only have one value in the dictionary, these objects look a little different than a normal object, for instance:
 </para>
+
+<programlisting>
+17 0 obj
+203
+endobj
+</programlisting>
+
+<para>
+In this example, the object stores a simple integer value. Why would you want to do this? Well, the answer is that in a dictionary you can have the value for the key stored in another object:
+</para>
+
+<programlisting>
+42 0 obj
+&lt;&lt;
+  /Length 24 0 R
+&gt;&gt;
+endobj
+
+24 0 obj
+462
+endobj
+</programlisting>
+
+<para>
+Here, we don't know the length of the stream associated with the object (I describe these in a second) at the time we wrote the object out, so we can simply insert it later in the document. This is called an object reference, which is in the form:
+</para>
+
+<programlisting>
+objectnumber revision R
+</programlisting>
 </sect3>
 </sect2>
 
 <sect2><title>Streams</title>
 <para>
-
+The other type of data that an object can have associated with it is a stream. Streams are used to store less structured data, for instance descriptions of the items on a page, or random binary data. The form for a stream is:
 </para>
+
+<programlisting>
+42 0 obj
+&lt;&lt;
+  /Length 24 0 R
+&gt;&gt;
+stream
+...stream data...
+endstream
+endobj
+</programlisting>
+
+<para>
+A description for the page layout descriptions is outside the scope of this document. <execute><cmd>nextedition</cmd><input>We should include information about the page description</input></execute> The other type of information which can be stored in a stream is arbitary information such as the content of images (which would normally be raster information). <execute><cmd>nextedition</cmd><input>In depth discussion</input><execute> An indepth discussion of the formatting of the raster information is also outside the scope of this document.
 
 <sect3><title>Filters on streams</title>
 <para>
-
+Streams can be filtered. A filter is an operation which occurs on the stream contents before they are saved into the PDF document, examples include compression, and ASCII85 encoding
+  <footnote><para>ASCII85 encoding is when you take binary data (which will be in the range 0x00 to 0xFF per byte, and force it into the range 0x00 to 0x55. This is done because some transport mediums (such as email), cannot handle binary data, so the data is made to look more like ASCII information. Note that this bloats the size of the data somewhat.</para></footnote>
+, which can't really be called compression.
 </para>
+
+<para>
+So what are the possible filters? Well, as of PDF 1.3
+  <footnote><para>More have been added to this list in PDF 1.4</para></footnote>
+, they are:
+</para>
+
+<execute><cmd>insertall.sh</cmd><args>pdf-filter-*.sgml</args></execute>
+<execute><cmd>todo</cmd><input>Do these</input></execute>
+
 </sect3>
 </sect2>
 
-<sect2><title>Redirection</title>
-<para>
-
-</para>
+<sect2><title>Object structure</title>
+<execute><cmd>todo</cmd><input>Detail here</input></execute>
 </sect2>
 </sect1>
 
+<sect1><title>On with the libraries</title>
+<para>
+Now that we've discussed the format of the PDF file format, we can talk about the different options for building PDF files. The three main options are ClibPDF, PDFlib, and Panda. Adobe also sells a PDf library, but it has a reputation for being extremely expensive.
+</para>
+
+<para>
+In our discussion of the three libraries, we will work through the same set of programs, to give you an opportunity to compare the three libraries. After all, they all have their own strengths, and weaknesses.
+</para>
+<sect1>
+
 <sect1><title>ClibPDF</title>
 <para>
-<execute><cmd>todo</cmd><input>Content</input></execute>
+ClibPDF was my first introduction to PDF generation APIs. It is available from http://www.fastio.com, and was last updated in December 1999, so it is starting to get a little old. There are still many people who use ClibPDF however.
 </para>
+
+<para>
+Note that ClibPDF is not free software. The license is included below for your reference:
+</para>
+
+<figure>
+<title>ClibPDF license, page 1</title>
+<graphic format="EPS" fileref="clibpdf-license.eps.0">
+</figure>
+
+<figure>
+<title>ClibPDF license, page 2</title>
+<graphic format="EPS" fileref="clibpdf-license.eps.1">
+</figure>
+
+<figure>
+<title>ClibPDF license, page 3</title>
+<graphic format="EPS" fileref="clibpdf-license.eps.2">
+</figure>
+
+<figure>
+<title>ClibPDF license, page 4</title>
+<graphic format="EPS" fileref="clibpdf-license.eps.3">
+</figure>
+
+<figure>
+<title>ClibPDF license, page 5</title>
+<graphic format="EPS" fileref="clibpdf-license.eps.4">
+</figure>
+
+<figure>
+<title>ClibPDF license, page 6</title>
+<graphic format="EPS" fileref="clibpdf-license.eps.5">
+</figure>
+
+<figure>
+<title>ClibPDF license, page 7</title>
+<graphic format="EPS" fileref="clibpdf-license.eps.6">
+</figure>
+
+<figure>
+<title>ClibPDF license, page 8</title>
+<graphic format="EPS" fileref="clibpdf-license.eps.7">
+</figure>
+
+<figure>
+<title>ClibPDF license, page 9</title>
+<graphic format="EPS" fileref="clibpdf-license.eps.8">
+</figure>
+</sect2>
 
 <sect2><title>Installation</title>
 <para>
@@ -247,4 +370,3 @@ Redirection
 </sect1>
 
 </chapter>
-
