@@ -1,0 +1,65 @@
+#!/usr/bin/perl
+
+use strict;
+my($count, %fails, $INPUT, @newcount, @oldcount, @totalfail, $atest, $maxcount, $prevfail);
+
+$count=1;
+while(-f "failed$count"){
+    $newcount[$count] = 0;
+    $oldcount[$count] = 0;
+    $totalfail[$count] = 0;
+
+    open INPUT, "< failed$count";
+    while(<INPUT>){
+	if(/.*Test (.*) failed.*/){
+	    # Is this a new failure or an old failure?
+	    if($fails{$1} eq ""){
+		$newcount[$count]++;
+	    }
+	    else{
+		$oldcount[$count]++;
+	    }
+	    
+	    # Record the failure
+	    $fails{$1} = $fails{$1} . "$count; ";
+            $totalfail[$count]++;
+	}
+    }
+
+    print stderr "$newcount[$count] new, $oldcount[$count] old\n";
+    $count++;
+}
+
+# Get ready for display
+$maxcount = $count;
+
+$prevfail = $totalfail[1];
+print "There are 4,568 user interface graphing tests";
+print "<table><tr><td>&nbsp;</td>";
+for($count = 1; $count < $maxcount; $count++){
+    print "<td>N:$newcount[$count]<BR>O:$oldcount[$count]<HR>T:$totalfail[$count]<BR>I:";
+    print $prevfail - $totalfail[$count];
+    print "</td>";
+
+    $prevfail = $totalfail[$count];
+}
+print "</tr>\n";
+
+foreach $atest (sort keys %fails){
+    print "<tr><td>$atest: </td>";
+
+    for($count = 1; $count < $maxcount; $count ++){
+	$_ = $fails{$atest};
+	if(/$count; /){
+	    print "<td bgcolor=\"#FF0000\">&nbsp</td>";
+	    s/[^;]*;//;
+	    $fails{$atest} = $_;
+	}
+	else{
+	    print "<td>&nbsp;</td>";
+	}
+    }
+    print "</tr>\n";
+}
+
+print "</table>";
