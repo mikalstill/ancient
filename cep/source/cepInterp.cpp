@@ -51,9 +51,14 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRa
 	for (int i = 1; i < numSamples; i++)
 	{
 		timeScale.setValue(i,0,timeScale.getValue(i-1,0)+sampleRate);
-		timeScale.setValue(i,2, 0.0);
+	}
+
+	for (int i = 0; i < numSamples; i++)
+	{
+ 		timeScale.setValue(i,2, 0.0);
 		timeScale.setValue(i,3, 0.0);
 	}
+
 
 
 /*	for (int i=0; i < timeScale.getNumRows(); i++)
