@@ -18,16 +18,16 @@
 */
 
 #include "cepInterpUi.h"
-  
+
 BEGIN_EVENT_TABLE (cepInterpShowRate, wxDialog)
   EVT_BUTTON(CEPBTN_RATE_SUBMIT, cepInterpShowRate::dlgRateOnOK)
   EVT_BUTTON(CEPBTN_RATE_CANCEL, cepInterpShowRate::dlgRateOnQuit)
   EVT_CLOSE( cepInterpShowRate::dlgRateOnQuit)
 END_EVENT_TABLE ()
-                          
+
 cepInterpShowRate::cepInterpShowRate(const wxString & val, const double & units):
-  wxDialog((wxDialog *) NULL, -1, "Specify Sample Rate", wxPoint(120,120), wxSize(200, 200))
-{  
+  wxDialog((wxDialog *) NULL, -1, "Specify Sample Rate", wxPoint(120,120), wxSize(200, 130))
+{
   m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
 
   m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 30), wxSize(170, 120));
@@ -39,29 +39,29 @@ cepInterpShowRate::cepInterpShowRate(const wxString & val, const double & units)
 
   m_tbSample = new wxTextCtrl(m_panel, -1, val, wxPoint(110, 40), wxSize(70, 20));
 
-  m_rbYear = new wxRadioButton(m_panel, -1, "Years", wxPoint(25, 65), wxSize(120, 20), wxRB_GROUP);
-  m_rbDays = new wxRadioButton(m_panel, -1, "Month", wxPoint(25, 90));
-  m_rbHours = new wxRadioButton(m_panel, -1, "Days", wxPoint(25, 115));
+//   m_rbYear = new wxRadioButton(m_panel, -1, "Years", wxPoint(25, 65), wxSize(120, 20), wxRB_GROUP);
+//   m_rbDays = new wxRadioButton(m_panel, -1, "Month", wxPoint(25, 90));
+//   m_rbHours = new wxRadioButton(m_panel, -1, "Days", wxPoint(25, 115));
+//
+//   if(units == 1.0)
+//   {
+//       m_rbYear->SetValue(true);
+//   }
+//   else
+//   {
+//     if(units == 12.0)
+//     {
+//       m_rbDays->SetValue(true);
+//     }
+//     else
+//     {
+//       m_rbHours->SetValue(true);
+//     }
+//   }
 
-  if(units == 1.0)
-  {
-      m_rbYear->SetValue(true);
-  }
-  else
-  {
-    if(units == 12.0)
-    {
-      m_rbDays->SetValue(true);
-    }
-    else
-    {
-      m_rbHours->SetValue(true);
-    }
-  }
-    
-  m_bSubmit = new wxButton(m_panel, CEPBTN_RATE_SUBMIT, "Ok", wxPoint(10,160));
+  m_bSubmit = new wxButton(m_panel, CEPBTN_RATE_SUBMIT, "Ok", wxPoint(10,90));
   m_bSubmit->SetDefault();
-  m_bCancel = new wxButton(m_panel, CEPBTN_RATE_CANCEL, "Cancel", wxPoint(110,160));
+  m_bCancel = new wxButton(m_panel, CEPBTN_RATE_CANCEL, "Cancel", wxPoint(110,90));
 
   Center();
   ShowModal();
@@ -89,29 +89,29 @@ void cepInterpShowRate::dlgRateOnQuit(wxCommandEvent& WXUNUSED(event))
 
 void cepInterpShowRate::dlgRateOnOK(wxCommandEvent& WXUNUSED(event))
 {
-  if(m_rbYear->GetValue() == true)
-  {
+/*  if(m_rbYear->GetValue() == true)
+  {*/
     m_sampleUnits = 1.0;
-  }
-  else
-  {
-    if(m_rbDays->GetValue() == true)
-    {
-      m_sampleUnits = 12.0;
-    }
-    else
-    {
-      if(m_rbHours->GetValue() == true)
-      {
-        m_sampleUnits = 365.25;
-      }
-    }
-  }
+//   }
+//   else
+//   {
+//     if(m_rbDays->GetValue() == true)
+//     {
+//       m_sampleUnits = 12.0;
+//     }
+//     else
+//     {
+//       if(m_rbHours->GetValue() == true)
+//       {
+//         m_sampleUnits = 365.25;
+//       }
+//     }
+//   }
 
   m_sampleRate = m_tbSample->GetValue();
-  
+
   EndModal(0);
-  Destroy();  
+  Destroy();
 }
 
 cepInterpUi::cepInterpUi() {}
@@ -131,7 +131,7 @@ void cepInterpUi::showSampleRate(double val)
     return;
   }
 
-  //while sample rate was an invalid value  
+  //while sample rate was an invalid value
   while(isValid == false)
   {
     isValid = true;
@@ -169,6 +169,6 @@ const double cepInterpUi::getSampleRate()
   {
     return -1;
   }
-  
+
   return (atof(m_sampleRate.c_str())/m_sampleUnits);
 }
