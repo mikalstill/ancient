@@ -62,13 +62,20 @@ typedef struct c {
   double imag;
 } complex;
 
+
+/** This code is a direct port of an algorithm originally written on FORTRAN
+ * Refer to "Programs for Digital Signal Processing", Section 5.2
+ * &copy; The Institue of Electrical and Electronics Engineers, INC, 1979
+ * edited by Digital Signal Processing Committee (IEEE Acoustics,
+ * Speech, and Signal Processing Society)
+ */
 cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
 
 #define PIE PI
 #define TWOPI 2.0*PI
 #define NF size
 #define DF df
-  bool even = (size%2==1);
+  bool even = (size%2==0);
 
   int XN=NF-1;
   double C0=cos(PIE*DF);
@@ -126,106 +133,28 @@ cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
     result[i-1]=SUM;
   }
 
+  //cout << "iFFT output"<<endl;
   C1 = result[0];
   for( int i=0; i<N; ++i ) {
     result[i] = result[i]/C1;
+    //cout << i << " " << result[i] << endl;
   }
 
   cepMatrix<double> *foo = new cepMatrix<double>(size,1);
 
+  // TODO Blake
+  // i think there is an issue here.
+  // i still get a small dip in the peak and the coeffs appear not to be symmetrical
   for( int i=0; i<N; ++i ) {
-    foo->setValue(i,0,result[N-i]);
-    foo->setValue(size-i,0,result[N-i]);
+    foo->setValue(i,0,result[N-i-1]);
+    if( i>=size-i ) cout << "Error! overlap while populating coeff matrix" << endl;
+    foo->setValue(size-i-1,0,result[N-i-1]);
   }
-
+  /*
+  cout << "Resulting coeffs" << endl;
   for( int i=0; i<foo->getNumRows(); i++ ) {
     cout << i << " " << foo->getValue(i,0) << endl;
   }
+  */
   return foo;
 }
-
-
-
-
-
-
-
-
-
-
-
-/*
-cepMatrix<double> *cepWindowChebyshev::generateCoeffs( int size ) {
-
-  int M = (int)floor((double)size/2); // the half window size
-  bool odd = (size%2 == 1);
-
-  // calc the ripple
-  double C0=cos(PI*df);
-  double C1=(size-1.0)*acosh(1.0/C0);
-  double dp = 1.0/(cosh(C1)-1.0);                         // the ripple in decibels
-  double X0 = (3.0*cos(2.0*PI*df))/(1.0+cos(2.0*PI*df));  // the chebyshev window constant
-
-  double alpha = (X0-1.0)/2.0;
-  double beta  = (X0-1.0)/2.0;
-
-  complex<double> *cplx = new complex<double>[size];
-
-  for( int i=0; i<size; ++i ) {
-    double f = (double)i/size;
-    double x = alpha*cos(2.0*PI*(double)i)/(double)size + beta;
-    double p = 0.0;
-    if( abs(x) <= 1 ) {
-      p = dp*cos(M*acos(x));
-    } else {
-      p = dp*cosh(M*acosh(x));
-    }
-    if( odd ) {
-      cplx[i] = complex<double>( p, 0.0 );
-    } else {
-      cplx[i] = complex<double>( p*cos(PI*f), -p*sin(PI*f) );
-      if( i > ((double)size/2+1) ) {
-        cplx[i] = -1.0*cplx[i];
-      }
-    }
-  }
-
-  // the coefficient matrix
-  cepMatrix<double> *foo = new cepMatrix<double>(size,1);
-
-  // the ifft
-  double sum = 0.0;
-  double step = 2.0*PI/size;
-  double *value = new double[M];
-  for( int i=0; i<M; ++i ) {
-    for( int j=0; j<size; ++j ) {
-      sum += cplx[j].real()*cos(step*(double)j*(double)i) +
-             cplx[j].imag()*sin(step*(double)j*(double)i);
-    }
-    // sum = (sum<0)?0.0:sum;
-    value[i] = sum;
-  }
-
-  // clean up resources
-  delete[] cplx;
-  delete[] value;
-
-  // normalise the values
-  cout << "normalising" << endl;
-  for( int i=0; i<M; i++ ) {
-    value[i] = value[i]/value[0];
-    cout << i << " " << value[i] << endl;
-  }
-  cout << endl << endl;
-
-  for( int i=0; i<M; ++i ) {
-    foo->setValue(i,1,value[i]);
-    if( i >= size-i ) {
-      cout << "passing the centre, aborting" << endl;
-    }
-  }
-
-  return foo;
-  
-}
-*/
