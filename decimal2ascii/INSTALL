@@ -1,0 +1,3 @@
+Simply type:
+
+  gcc dec2ascii.c -o dec2ascii

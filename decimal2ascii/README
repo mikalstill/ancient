@@ -1,0 +1,1 @@
+This simple C program takes decimal numbers (one per line), and turns them into ASCII text. This was written to quickly decode the PNG file header format, which is in the file pngheader.
