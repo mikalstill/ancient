@@ -1,9 +1,16 @@
 <!--TODO:- ENSURE GLOSSARY IS IN ALPHABETICAL ORDER!-->
 <glossary><title>Glossary of Terms</title>
 
+
+    <glossentry><glossterm>CPPUnit</glossterm>
+      <glossdef><para>
+        The C++ unit testing framework.
+        </para></glossdef>
+    </glossentry>
+
     <glossentry><glossterm>CVIEW</glossterm>
       <glossdef><para>
-	   C File View 
+        C File View
         </para></glossdef>
     </glossentry>
 
@@ -15,19 +22,19 @@
 
     <glossentry><glossterm>GAMIT</glossterm>
       <glossdef><para>
-	   Global Positioning System At Massachusetts Institute of Technology 
+        Global Positioning System At Massachusetts Institute of Technology
         </para></glossdef>
     </glossentry>
 
     <glossentry><glossterm>GDMS</glossterm>
       <glossdef><para>
-	   Geodetic Data Modelling System
+        Geodetic Data Modelling System
         </para></glossdef>
     </glossentry>
 
     <glossentry><glossterm>GPS</glossterm>
       <glossdef><para>
-	   Global Positioning System
+        Global Positioning System
         </para></glossdef>
     </glossentry>
 
@@ -45,20 +52,26 @@
 
     <glossentry><glossterm>IDFT</glossterm>
       <glossdef><para>
-	   Inverse Discrete Fourier Transform
+        Inverse Discrete Fourier Transform
         </para></glossdef>
     </glossentry>
-    
+
 
     <glossentry><glossterm>IFFT</glossterm>
       <glossdef><para>
-	   Inverse  Fast Fourier Transform
+        Inverse  Fast Fourier Transform
         </para></glossdef>
     </glossentry>
-    
+
     <glossentry><glossterm>ISIP</glossterm>
       <glossdef><para>
-	   Institute for Signal and Information Processing, Mississippi State University
+        Institute for Signal and Information Processing, Mississippi State University
+        </para></glossdef>
+    </glossentry>
+
+    <glossentry><glossterm>JUnit</glossterm>
+      <glossdef><para>
+       The Java unit testing framework.
         </para></glossdef>
     </glossentry>
 
@@ -68,7 +81,7 @@
            Massachusetts Institute of Technology
         </para></glossdef>
     </glossentry>
-    
+
     <glossentry><glossterm>NTB</glossterm>
       <glossdef><para>
            Normalised Transition Bandwidth, used for tuning the Dolph-Chebyshev window
@@ -83,13 +96,13 @@
 
     <glossentry><glossterm>SLR</glossterm>
       <glossdef><para>
- 	    Satellite Laser Ranging
+        Satellite Laser Ranging
         </para></glossdef>
     </glossentry>
-    
+
     <glossentry><glossterm>SQL</glossterm>
       <glossdef><para>
- 	    Structured Query Language
+        Structured Query Language
         </para></glossdef>
     </glossentry>
 
@@ -98,13 +111,13 @@
            Time Series View
         </para></glossdef>
     </glossentry>
-    
+
     <glossentry><glossterm>VCV</glossterm>
       <glossdef><para>
            Variance Co-variance
         </para></glossdef>
     </glossentry>
-    
+
     <glossentry><glossterm>VLBI</glossterm>
       <glossdef><para>
            Very Long Baseline Interferometry
