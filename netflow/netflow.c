@@ -11,10 +11,6 @@
 #include <stdlib.h>
 #include <signal.h>
 
-#include <GL/glut.h>
-#include "utility.h"
-#include "glUtils.h"
-
 #define TABLESIZE 100
 
 void netmon ();
@@ -64,7 +60,7 @@ void
 netmon ()
 {
   int i;
-  char *dev = "eth1";
+  char *dev = "eth0";
   char errbuf[PCAP_ERRBUF_SIZE];
   char *time;
   pcap_t *descr;
@@ -74,20 +70,9 @@ netmon ()
   long seconds;
   unsigned long transSize;
   netflow_conn connections[TABLESIZE];
-
   u_char *ptr;			/* printing out hardware header info */
 
-  /* grab a device to peak into... */
-  //    dev = pcap_lookupdev(errbuf);
-
-  if (dev == NULL)
-    {
-      printf ("%s\n", errbuf);
-      exit (1);
-    }
-
   descr = pcap_open_live (dev, BUFSIZ, 0, -1, errbuf);
-
   if (descr == NULL)
     {
       printf ("pcap_open_live(): %s\n", errbuf);
@@ -108,20 +93,20 @@ netmon ()
       packet = pcap_next (descr, &hdr);
 
       if (packet == NULL)
-	{			/* dinna work *sob* */
+	{
 	  printf ("Didn't grab packet\n");
 	  exit (1);
 	}
 
       if (seconds + 10 < hdr.ts.tv_sec)
 	{
-	  printf
-	    ("------------------------------------------------------------\n");
+	  printf("--------------------------------------------------------\n");
 	  for (i = 0; i < TABLESIZE; i++)
 	    if (connections[i].kbps != 0)
 	      {
 		printf
-		  ("%02x:%02x:%02x:%02x:%02x:%02x --> %02x:%02x:%02x:%02x:%02x:%02x (%d bytes, %d packets)\n",
+		  ("%02x:%02x:%02x:%02x:%02x:%02x --> "
+		   "%02x:%02x:%02x:%02x:%02x:%02x (%d bytes, %d packets)\n",
 		   (unsigned char) connections[i].source[0],
 		   (unsigned char) connections[i].source[1],
 		   (unsigned char) connections[i].source[2],
@@ -144,47 +129,25 @@ netmon ()
 
       /* lets start with the ether header... */
       eptr = (struct ether_header *) packet;
-      ptr = eptr->ether_shost;
-      i = ETHER_ADDR_LEN;
-      do
-	{
-	  //      printf ("%s%02x", (i == ETHER_ADDR_LEN) ? "" : ":", *ptr++);
-	}
-      while (--i > 0);
-      //    printf(" to ");
-
-      ptr = eptr->ether_dhost;
-      i = ETHER_ADDR_LEN;
-      do
-	{
-	  //      printf ("%s%02x", (i == ETHER_ADDR_LEN) ? "" : ":", *ptr++);
-	}
-      while (--i > 0);
-
-      //    printf(" %d bytes\n", hdr.len);
-      transSize = hdr.len + 26;	// ignores ethernet frame padding up to min len of 64
-
+      transSize = hdr.len + 26;	
       for (i = 0; i < TABLESIZE; i++)
 	{
 	  if (memcmp (connections[i].source, eptr->ether_shost, 6) != 0)
-	    goto next;
+	    continue;
 	  if (memcmp (connections[i].destination, eptr->ether_dhost, 6) != 0)
-	    goto next;
+	    continue;
 
 	  // We can store the value here
 	  connections[i].kbps += transSize;
 	  ++connections[i].packets;
 	  goto done;
-
-	  // Ugly but efficient
-	next:
 	}
 
       // We didn't find a existing connection
       for (i = 0; i < TABLESIZE; i++)
 	{
 	  if (connections[i].kbps != 0)
-	    goto newnext;
+	    continue;
 
 	  // We can store the value here
 	  memcpy (connections[i].source, eptr->ether_shost, 6);
@@ -192,12 +155,8 @@ netmon ()
 	  connections[i].kbps += transSize;
 	  ++connections[i].packets;
 	  goto done;
-
-	  // Ugly but efficient
-	newnext:
 	}
 
-      // Ugly but efficient
     done:
     }
 }
