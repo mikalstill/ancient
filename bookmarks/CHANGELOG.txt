@@ -1,0 +1,40 @@
+
+ bkmrkconv - Convert Netscape's bookmarks.html to HTML files
+ ~~~~~~~~~   (c) Andrew Flegg 1999, 2000           mailto:andrew@bleb.org
+             v1.09 (20-Sep-2000)  http://www.bleb.org/software/bkmrkconv/
+
+CHANGE LOG
+----------
+ v1.09 (20-Sep-2000)     Tidied up example and my own templates and moved
+                         random.pl to a utils/ directory. Added dilbert.pl
+                         and fixed small bugs in EXEC.
+
+ v1.08 (09-Feb-2000)     Doh! INCLUDE didn't work for multiple includes.
+                         Added some more explanation to README and changed
+                         INCLUDE to assume working directory as output dir.
+
+ v1.07 (07-Feb-2000)     Added <!--INCLUDE "<file>"--> command. Rewrote the
+                         help file.
+
+ v1.06 (19-Jan-2000)     New $NUMLINKS parameter allows you to see how
+                         busy the subsection is. If a file already exists
+                         intelligently handle it.
+
+ v1.05 (18-Jan-2000)     Description field of links can now be used (but
+                         not of sections) and new examples included.
+
+ v1.04 (04-Jan-2000)     New release: added feature so that not all links
+                         need go into the contents page.
+
+ v1.03 (03-Jan-2000)     New features in v1.02 didn't entirely work (too busy
+                         rushing out a release) - private sections weren't
+                         handled properly and the contents page would miss out
+                         the last section. Only released for limited testing.
+                         
+ v1.02 (02-Jan-2000)     Added private links and an alphabetical contents page
+                         (suggested by David S. Cargo).
+
+ v1.01 (16-Dec-1999)     Announced on Freshmeat and some minor bug fixes,
+                         this is the first "proper" version.
+
+ v1.00 (15-Dec-1999)     Initial release.

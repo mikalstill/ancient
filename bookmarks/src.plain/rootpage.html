@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Plain bkmrkconv Output</title>
+</head>
+
+<body>
+<h1>Plain bkmrkconv Output</h1>
+
+<!--IF $numSections>0 THEN-->
+   <h2>Sections</h2>
+   <!--SECTION--><img src="src/dir.gif" alt="[*]" width=16 height=16>&nbsp;
+   <a href="$URL">$NAME</a> <i>($NUMLINKS)</i><br>
+   <!--/SECTION-->
+<!--ENDIF-->
+
+<!--IF $numLinks>0 THEN-->
+    <h2>Links</h2>
+    <!--LINK--><img src="src/text.gif" alt="[-]" width=16 height=16>&nbsp;$NAME
+    <i>(<a href="$URL">$URL</a>)</i><br><!--/LINK-->
+<!--ENDIF-->
+
+<p><img src="src/dir.gif" alt="[*]" width=16 height=16>&nbsp;
+<b><a href="contents.html">Full contents</a></b></p>
+
+<p align="right"><small><i>Produced using <a href="http://www.bleb.org/software/bkmrkconv/">bkmrkconv</a>:<br>
+</i>the<i> Netscape bookmarks to web converter</i></small></p>
+</body>
+</html>

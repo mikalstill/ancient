@@ -1,0 +1,3 @@
+#!/bin/bash
+
+./bkmrkconv.pl -f bookmarks -d output
