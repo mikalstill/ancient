@@ -27,7 +27,6 @@
     as little 10 lines of code, including user interface integration.   
     <figure>
       <title>Windowing Class Structure</title>
-      <alt>Class Structure for Windowing Subsystem</alt>
       <execute><cmd>eqimg</cmd><args>windowing.png</args></execute>
     </figure>    
   </para>
