@@ -100,11 +100,11 @@ cepView::OnDraw (wxDC * dc)
   cepDebugPrint("Adding x direction data points");
   cepDoc *theDoc = (cepDoc *) GetDocument();
   cepDataset *theDataset = theDoc->getDataset();
-  vector < cep_datarow > & xdata = theDataset->getDataPtr (cepDataset::dirX);
+  vector < cep_datarow > & xdata = theDataset->getData (cepDataset::dirX);
 
   // todo_mikal: what is the type of the vector index?
   cepDebugPrint("There are " + 
-		cepItoa(theDataset->getDataPtr(cepDataset::dirX).size()) + 
+		cepItoa(theDataset->getData(cepDataset::dirX).size()) + 
 		" data points to add");
   //  for(int i = 0; i < xdata.size(); i++){
   //    cepDebugPrint("Adding: " + cepItoa(i) + ", " + cepFtoa(xdata[i].sample));

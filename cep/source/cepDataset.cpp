@@ -22,13 +22,15 @@
 #include "cepCore.h"
 
 cepDataset::cepDataset (const string & filename):
-m_filename (filename)
+  m_filename (filename),
+  m_ready(false)
 {
   m_progress = NULL;
 }
 
-cepDataset::cepDataset (const string & filename,
-                        cepDatasetProgressCB callback):m_filename (filename)
+cepDataset::cepDataset (const string & filename, cepDatasetProgressCB callback):
+m_filename (filename),
+  m_ready(false)
 {
   m_progress = callback;
 }
@@ -36,7 +38,9 @@ cepDataset::cepDataset (const string & filename,
 //this may be a little wrong...
 //this constructor will be called at the end of cepDataset::doWindow in order to rerturn
 //the 2 values: the vector of windowed data, and the number of windows in the vector.
-cepDataset::cepDataset (vector < cep_datacol > windowVector, int numWindows)
+cepDataset::cepDataset (vector < cep_datacol > windowVector, int numWindows):
+  m_filename(""),
+  m_ready(false)
 {
   m_windowVector = windowVector;
   m_numWindows = numWindows;
@@ -48,7 +52,9 @@ cepDataset::cepDataset (vector < cep_datacol > windowVector, int numWindows)
 //this may also be a little wrong....
 //this constructor will be called at the end of cepDataset::doHam in order to rerturn
 //the 2 values: the single hamming value, and the weight.
-cepDataset::cepDataset (double value, double weight)
+cepDataset::cepDataset (double value, double weight):
+  m_filename(""),
+  m_ready(false)
 {
   m_hamValue = value;
   m_hamWeight = weight;
@@ -57,7 +63,8 @@ cepDataset::cepDataset (double value, double weight)
   // might be a bad idea.
 }
 
-cepError cepDataset::munch ()
+cepError
+cepDataset::munch ()
 {
   // Step One: ensure that all of the files we need are actually there,
   // it would be crap to read two of the three files, and _then_ report
@@ -151,7 +158,7 @@ cepError cepDataset::munch ()
           if (line != NULL)
             free (line);
 
-          getDataPtr ((cepDataset::direction) i).push_back (row);
+          getData ((cepDataset::direction) i).push_back (row);
 
           cepDebugPrint ("Dataset line parsed to [" +
                          cepFtoa (row.date) + ", " +
@@ -182,13 +189,12 @@ cepError cepDataset::munch ()
        cepItoa (lines[2]) + ").");
   }
 
-  // No error
+  m_ready = true;
   return cepError ();
+}
 
-}                               // end munch
-
-cepDataset
-  cepDataset::doHam (double datRow[3], double startWindow, double winSize)
+cepDataset cepDataset::doHam (double datRow[3], double startWindow, 
+			      double winSize)
 {
 
   /* Imports: * datRow: a data row from the standard array of data
@@ -223,7 +229,7 @@ cepDataset
    * winSize - size of each window (deciaml years) * overlap - amount of
    * overlap between each window Exports: * windowData: WAS -- Vector of
    * windowed data (numWindows X 3 X largestWindow) * numWindows: The number of 
-   * seperate windows that were populated with data */
+   * * seperate windows that were populated with data */
 
   int nextFirstRecord;          // start of next window
   int currentFirstRecord;       // start of current window
@@ -233,7 +239,7 @@ cepDataset
   int numWindows;               // the total number of windows required
   double startWindow;
 
-  vector < cep_datarow > &datPointer = getDataPtr (dir);
+  vector < cep_datarow > &datPointer = getData (dir);
 
   // get timescale of data set 
   firstDate = datPointer[0].date;
@@ -246,6 +252,7 @@ cepDataset
   // todo_mikal: clean up this line (compile warnings)
   numWindows = (int)ceil (((lastDate - firstDate) * (1 + 2 * overlap)) / winSize);      // round 
                                                                                         // 
+  // 
   // up 
   // to 
   // nearest 
@@ -320,8 +327,7 @@ cepDataset
   return cepDataset (windowData, numWindows);
 }                               // end doWindow
 
-// Blake 04/08/2002 : added default return value
-vector < cep_datarow > &cepDataset::getDataPtr (direction dir)
+vector < cep_datarow > &cepDataset::getData (direction dir)
 {
   switch (dir)
   {
@@ -340,4 +346,9 @@ vector < cep_datarow > &cepDataset::getDataPtr (direction dir)
     oor.display ();
   }
   return m_datax;
+}
+
+bool cepDataset::isReady()
+{
+  return m_ready;
 }

@@ -82,19 +82,20 @@ public:
 
   // Actually process the file
   cepError munch ();
+  bool isReady();
 
   // Accessor methods
-  // Blake - returns null if the get fails
-    vector < cep_datarow > &getDataPtr (direction);
+    vector < cep_datarow > &getData (direction);
 
 private:
     string m_filename;
-  cepDatasetProgressCB m_progress;
+    cepDatasetProgressCB m_progress;
     vector < cep_datarow > m_datax, m_datay, m_dataz;
     vector < cep_datacol > m_windowVector;      // vector of windowed data
-  int m_numWindows;             // number of windows in the windowed data
-  double m_hamValue;            // single haming value
-  double m_hamWeight;           // hamming weight
+    int m_numWindows;             // number of windows in the windowed data
+    double m_hamValue;            // single haming value
+    double m_hamWeight;           // hamming weight
+    bool m_ready;
 };
 
 #endif

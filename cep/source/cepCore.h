@@ -35,9 +35,6 @@
 #include <vector>
 #include <math.h>
 
-// !removed - not everyone need access to the wondowing toolkit!
-// #include <wx/image.h>
-
 #include "cepTSB.h"
 #include "cepError.h"
 #include "cepUtility.h"
