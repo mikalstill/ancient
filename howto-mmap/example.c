@@ -41,4 +41,12 @@ int main(int argc, char *argv[]){
     }
 
   // file is now a pointer to the entire contents of the file...
+
+  // Now clean up
+  if(munmap(file, sb.st_size) < 0){
+    perror("Could not unmap memory");
+    exit(43);
+  }
+
+  close(fd);
 }
