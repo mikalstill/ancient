@@ -24,15 +24,15 @@ Below I have included several pictures that illustrate this concept. The first f
 </para>
 
 <figure><title>The original image</title>
-<graphic format="EPS" fileref="grayscale-figure1.eps">
+<execute><cmd>img</cmd><args>grayscale-figure1.jpg</args></execute>
 </figure>
 
 <figure><title>An average of the color values for each pixel</title>
-<graphic format="EPS" fileref="grayscale-figure2.eps">
+<execute><cmd>img</cmd><args>grayscale-figure2.tif</args></execute>
 </figure>
 
 <figure><title>A correct conversion to gray scale</title>
-<graphic format="EPS" fileref="grayscale-figure3.eps">
+<execute><cmd>img</cmd><args>grayscale-figure3.tif</args></execute>
 </figure>
 
 <para>

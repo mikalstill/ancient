@@ -1,5 +1,0 @@
-TITLE: Imaging concepts: Pixel samples
-<li>The value associated with a given pixel
-<li>Black and white: one sample per pixel
-<li>Color: normally three samples per pixel (red, green, and blue)
-

@@ -16,6 +16,6 @@ output.pdf: output.ps
 slides: slides.sgml
 	rm content/*-*
 	slides < slides.sgml 2> slides-gen.log
-	cp *.jpg content/
-	cp -R content /home/httpd/html/notes/presentations/
-	cp slides-list /home/httpd/html/notes/presentations/slides-list
+#	cp *.jpg content/
+#	cp -R content /home/httpd/html/notes/presentations/
+#	cp slides-list /home/httpd/html/notes/presentations/slides-list

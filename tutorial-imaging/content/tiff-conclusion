@@ -1,9 +1,0 @@
-TITLE: TIFF: Conclusion
-<li>So what have we learnt?
-  <ul>
-  <li>Something about the TIFF file format
-  <li>Black and white images with libtiff
-  <li>Color images with libtiff
-  <li>You should now have enough information to at least start to use libtiff...
-  </ul>
-

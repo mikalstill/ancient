@@ -1,9 +1,0 @@
-TITLE: GIF: The GIF on disc format: The header: Version numbers
-<li>The GIF specification states that the image generator should use the lowest version number possible
-<li>Whilst still having the image make sense
-<li>This makes the generation of images a little more complex
-<li>It ensures the maximum backwards compatability
-
-<BR><BR>
-<li>The version number in the header identifies the minimum set of capabilities required to view that image
-

@@ -254,7 +254,7 @@ If the resource is an image or an embedded font, then the additional binary data
 
 <sect3><title>Typical object structure</title>
 <figure><title>A typical PDF object structure</title>
-<graphic format="EPS" fileref="pdf-figure1.eps">
+<execute><cmd>img</cmd><args>pdf-figure1.png</args></execute>
 </figure>
 </sect3>
 </sect2>

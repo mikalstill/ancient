@@ -4,6 +4,7 @@
 <authorgroup>
 <author><firstname>Michael</firstname><surname>Still</surname></author>
 </authorgroup>
+
 </bookinfo>
 
 <chapter id="chap-introduction"><title>Introduction</title>
@@ -15,6 +16,7 @@ This document is the manual associated with my tutorial on imaging programming p
 Please note that all the information in this tutorial is copyright, as described elsewhere in this document.
 </para>
 
+
 <sect1><title>About the author</title>
 <para>
 Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document. You can contact Michael at mikal@stillhq.com.
@@ -23,12 +25,14 @@ Michael has been working in the image processing field for several years, includ
 <para>
 Michael also has a whole bunch of code (most of which relates to imaging) at his website: http://www.stillhq.com
 </para>
+
 </sect1>
 
 <sect1><title>Motivation for this tutorial</title>
 <para>
 This tutorial started life as a series of articles about the TIFF image format, which were published by IBM DeveloperWorks (http://www.ibm.com/developerworks) in April and June 2002. This logically grew into the tutorial you see before you today. This tutorial is based on my several years experience as an imaging developer, and the common mistakes that people seem to make over and over. Perhaps this tutorial will go some way to correcting some common misconceptions.
 </para>
+
 </sect1>
 
 <sect1><title>Assumed knowledge</title>
@@ -44,6 +48,7 @@ This tutorial discusses code. Almost all of the code discussed is written in C. 
 <para>
 It should also be noted that the code samples in this tutorial are not optimal. They have been written to be as readable as possible, and not necessarily the most efficient possible. Please bear this in mind before blindly copying them.
 </para>
+
 </sect2>
 
 <sect2><title>How to compile and link on your chosen operating system</title>
@@ -64,6 +69,7 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 <listitem><para>The make files included with the samples in this tutorial a probably a bad place to look for introductory compile examples, as they use automake and autoconf to try to detect where the various required libraries are installed...</para></listitem>
 </orderedlist>
 </para>
+
 </sect2>
 </sect1>
 
@@ -72,10 +78,10 @@ For those of you using gcc on a unix (or unix-like) operating system, then the f
 There are many people who need to be thanked when one attempts a project of this size. I would specifically like to thank my wife and son, who put up with me being geeky so very often.
 </para>
 
-<figure><title>Catherine and Andrew</title>
-<graphic format="EPS" fileref="introduction-figure1.eps">
-</figure>
 
+<figure><title>Catherine and Andrew</title>
+<graphic format="eps" fileref="gen-introduction-figure1.eps">
+</figure>
 
 <para>
 I should also thank the following people:
@@ -88,6 +94,7 @@ I should also thank the following people:
 <listitem><para>Greg Lehey, for giving me access to his docbook environment when I was having jade pain</para></listitem>
 <listitem><para>Lenny Muellner, of O'Reilly, for helping me with my gmat problems</para></listitem>
 </itemizedlist>
+
 </sect1>
 
 <sect1><title>How this document was produced</title>
@@ -651,40 +658,48 @@ There are some core terms which are used throughout this tutorial. This section 
 </para>
 
 <para>
-These terms are presented in alphabetical order. Some of them might seem a bit odd, but they're here because the are interesting...
+These terms are presented in alphabetical order. Some of them might seem a bit odd, but they're here because they are interesting...
 </para>
+
 
 <sect1><title>Anti-aliasing</title>
 <para>
 Imagine that you are drawing a triangle across an image (or on the screen for that matter). The triangle is sometimes going to cross pixels in a way which makes them not totally turned on. Have a look at the figure below to see what I mean...
 </para>
 
+
 <figure><title>Drawing a triangle</title>
-<graphic format="EPS" fileref="antialias-figure1.eps">
+<graphic format="eps" fileref="gen-antialias-figure1.eps">
 </figure>
 
 <para>
 If we only have a black and white image, then we'll end up with an image like the one in the figure below. I am sure you'll agree that this isn't a very good representation of the side of the triangle.
 </para>
 
+
+
 <figure><title>A triangle with only black pixels</title>
-<graphic format="EPS" fileref="antialias-figure2.eps">
+<graphic format="eps" fileref="gen-antialias-figure2.eps">
 </figure>
 
 <para>
 Anti-aliasing is when we try to correct for this problem by inserting some gray pixels. In the figure below, we have given some of the pixels a gray value which is based on how much of the pixel is <quote>filled</quote> with the triangle.
 </para>
 
+
+
 <figure><title>A triangle with gray scale pixels</title>
-<graphic format="EPS" fileref="antialias-figure3.eps">
+<graphic format="eps" fileref="gen-antialias-figure3.eps">
 </figure>
 
 <para>
 The triangle might be a little clearer without the grid lines.
 </para>
 
+
+
 <figure><title>Anti-aliased triangle without grid lines</title>
-<graphic format="EPS" fileref="antialias-figure4.eps">
+<graphic format="eps" fileref="gen-antialias-figure4.eps">
 </figure>
 
 <para>
@@ -692,7 +707,7 @@ For comparison, there is the triangle we started with...
 </para>
 
 <figure><title>The original triangle</title>
-<graphic format="EPS" fileref="antialias-figure5.eps">
+<graphic format="eps" fileref="gen-antialias-figure5.eps">
 </figure>
 
 <para>
@@ -704,12 +719,15 @@ So, in summary, anti-aliasing is the process of turning on some extra gray scale
 DES in Electronic Code Book (ECB) mode is a particularly poor choice of cryptography for image files. This is because ECB mode implements a look up table between the unencrypted value and the encrypted value. This results in a known input value turning into the same output value over and over. This can have some interesting blurring effects, but wont obscure the image contents. An example will help this make more sense -- the first figure is the logo for the company I am currently working for. I took this image, and ran it through some DES ECB code and produced the second figure.
 </para>
 
+
 <figure><title>The TOWER corporate logo</title>
-<graphic format="EPS" fileref="desecb-figure1.eps">
+<graphic format="eps" fileref="gen-desecb-figure1.eps">
 </figure>
 
+
+
 <figure><title>After ECB encryption</title>
-<graphic format="EPS" fileref="desecb-figure2.eps">
+<graphic format="eps" fileref="gen-desecb-figure2.eps">
 </figure>
 
 <para>
@@ -718,13 +736,17 @@ You can see that whilst the image has certainly changed, the contents of the ima
 
 
 
+
 <para>
 We should note that ECB mode is not commonly used anyway. If you use something like PGP or blowfish, then you should be much happier... 
 </para>
+
 </sect1>
 <sect1><title>Gray scale conversion</title>
 <para>
-How do you convert color images to gray scale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate gray scale representation, you need to apply different coefficients to the color samples. Appropriate coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.</para>
+How do you convert color images to gray scale? Well, my instant answer when I first had to do this was to just average the red, green and blue values. That answer is wrong. The reality is that the human eye is much better at seeing some colors than others. To get an accurate gray scale representation, you need to apply different coefficients to the color samples. Appropriate coefficients are 0.299 for red, 0.587 for green and 0.114 for blue.
+</para>
+
 
 <para>
 Below I have included several pictures that illustrate this concept. The first figure is a color image
@@ -733,15 +755,15 @@ Below I have included several pictures that illustrate this concept. The first f
 </para>
 
 <figure><title>The original image</title>
-<graphic format="EPS" fileref="grayscale-figure1.eps">
+<graphic format="eps" fileref="gen-grayscale-figure1.eps">
 </figure>
 
 <figure><title>An average of the color values for each pixel</title>
-<graphic format="EPS" fileref="grayscale-figure2.eps">
+<graphic format="eps" fileref="gen-grayscale-figure2.eps">
 </figure>
 
 <figure><title>A correct conversion to gray scale</title>
-<graphic format="EPS" fileref="grayscale-figure3.eps">
+<graphic format="eps" fileref="gen-grayscale-figure3.eps">
 </figure>
 
 <para>
@@ -752,11 +774,20 @@ You can see that the sensible algorithm is better, have a look at the shadows on
 The source code to generate these example images may be found in the TIFF chapter.
 </para>
 </sect1>
+<sect1><title>Pixel samples</title>
+<para>
+Each pixel needs to have a value associated with this. Most practitioners call this a sample. For a black and white image we would only have one sample per pixel, whilst for a RGB color image, we would have three samples per pixel -- the red, green and blue components.
+</para>
+
+
+</sect1>
+
 <sect1><title>Pixel</title>
 <para>
      <indexterm><primary>Pixel</primary></indexterm>
 A pixel is the lowest unit of raster image description -- in other words, a raster image is defined in terms of pixels. Example pixels can be seen in the discussion of rasters, later in this chapter.
 </para>
+
 </sect1>
 
 <sect1><title>Rasters</title>
@@ -768,20 +799,23 @@ The most common image format (and the focus of the majority of this tutorial) is
 describing the state of pixels, as opposed to recording the length and locations of primatives such as lines and curves. Common examples include the output of photoshop, the gimp, scanners and digital cameras. Effectively, your monitor and printer are raster output devices.
 </para>
 
+
 <figure><title>A sample raster image</title>
-<graphic format="EPS" fileref="raster-figure1.eps">
+<graphic format="eps" fileref="gen-raster-figure1.eps">
 </figure>
+
 
 <para>
 Raster image formats include TIFF, GIF, PNG, and most of the other formats in this tutorial. If in doubt, assume that it's a raster format unless I tell you otherwise.
 </para>
+
 
 <para>
 If we zoom in enough on a portion of this image, we can see that it is made up of descrete elements -- the pixels. 
 </para>
 
 <figure><title>Zooming in on a portion of the raster image</title>
-<graphic format="EPS" fileref="raster-figure2.eps">
+<graphic format="eps" fileref="gen-raster-figure2.eps">
 </figure>
 
 <para>
@@ -793,16 +827,19 @@ The code to produce this zoomed image is presented in the TIFF chapter of this t
 There are several ways that the value of a pixel can be stored within a raster image. This is a pretty fundamental concept, so it is best to get it out of the way early on before we get caught up in the actual format of images.
 </para>
 
+
 <figure><title>The worst picture of a house you have ever seen</title>
-<graphic format="EPS" fileref="theory-figure1.eps">
+<graphic format="eps" fileref="gen-theory-figure1.eps">
 </figure>
 
 <para>
 I will use the simple image above to demonstrate the ways that the pixel values can be stored...
 </para>
 
+
+
 <figure><title>A zoom in on the house</title>
-<graphic format="EPS" fileref="theory-figure2.eps">
+<graphic format="eps" fileref="gen-theory-figure2.eps">
 </figure>
 
 <para>
@@ -811,50 +848,56 @@ We'll in fact only use a zoomed in portion of the image so that what is happenin
 
 <sect2><title>Direct storage of black and white</title>
 <figure><title>A black and white zoom in</title>
-<graphic format="EPS" fileref="theory-figure3.eps">
+<graphic format="eps" fileref="gen-theory-figure3.eps">
 </figure>
 
 <para>
 Black and white images only really have one pixel value storage option. This is to store the value of the pixel directly at the pixel location in the image data itself. This is a good option for black and white data, because it only takes on bit per pixel anyway.
 </para>
 
+
+
 <figure><title>Black and white data</title>
-<graphic format="EPS" fileref="theory-figure4.eps">
+<graphic format="eps" fileref="gen-theory-figure4.eps">
 </figure>
 
 <para>
 Whilst this is a very simple example, make sure you understand how the diagram works, because it gets more complex from here. Each square represents the storage space in the image data, and in this example the values representing the pixel values is stored inside the image data.
 </para>
+
 </sect2>
 
 <sect2><title>Direct gray scale storage</title>
 <figure><title>A gray scale zoom in</title>
-<graphic format="EPS" fileref="theory-figure5.eps">
+<graphic format="eps" fileref="gen-theory-figure5.eps">
 </figure>
 
 <para>
 In this example, we are storing the gray scale values of the pixels within the image data.
 </para>
+
 </sect2>
 
 <sect2><title>Direct RGB storage</title>
 <figure><title>A RGB zoom in</title>
-<graphic format="EPS" fileref="theory-figure6.eps">
+<graphic format="eps" fileref="gen-theory-figure6.eps">
 </figure>
 
 <para>
 Here we are storing the red green and blue values for each pixel within the image data.
 </para>
+
 </sect2>
 
 <sect2><title>Paletted RGB storage</title>
 <figure><title>A paletted RGB zoom in</title>
-<graphic format="EPS" fileref="theory-figure7.eps">
+<graphic format="eps" fileref="gen-theory-figure7.eps">
 </figure>
 
 <para>
 The other option is to instead store within the image data itself a number which uniquely identifies the color at that pixel. We can then have a table elsewhere in the image file which defines the color that is that unique value. This table is a palette, and this is a very common way of storing RGB data (it is in fact the only option with some formats such as GIF).
 </para>
+
 
 <para>
 You can also use palettes for gray scale images, I just haven't provided an example of that here.
@@ -868,6 +911,7 @@ The big advantage of paletting an image is that the final file is going to be mu
 <para>
 This means that the total saving on an uncompressed image is 11,413,936 bytes. The disadvantage of course is that using the image is almost certainly going to be slightly slower...
 </para>
+
 </sect3>
 </sect2>
 </sect1>
@@ -877,6 +921,7 @@ This means that the total saving on an uncompressed image is 11,413,936 bytes. T
      <indexterm><primary>Image format</primary><secondary>vector</secondary></indexterm>
 Some images aren't raster images. These images are normally composed of primitive drawing commands, such as draw a line, draw a circle, et cetera. The advantage of vector formats is that it is an exact representation of the image, they also scale much better. Examples of vector formats include Scalar Vector Graphics (SVG), Adobe Illustrator files, Windows Meta Files, and to a certain extent PDF documents. A plotter is a vector output device.
 </para>
+
 </sect1>
 </chapter>
 <chapter id="chap-tiff"><title>TIFF</title>
@@ -893,8 +938,11 @@ In this chapter we will discuss the Tagged Image File Format, which is one of th
 TIFF (Tagged Image File Format) is a raster image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing of this chapter, the current version of the TIFF specification is TIFF version 6.0. The TIFF specification can be downloaded from http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf. The TIFF technical notes at http://partners.adobe.com/asn/developer/technotes/main.html
 </para>
 
+
+
 <para>Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. All of the examples in this chapter refer to libtiff.
 </para>
+
 </sect1>
 
 <sect1><title>Installation</title>
@@ -947,13 +995,13 @@ For the Visual Studio challenged, there is a precompiled version of libtiff for 
 </sect2>
 </sect1>
 
-
 <sect1><title>The TIFF on disc format</title>
 <para>
 It is useful for use to know something about how TIFF images are laid out on disc. For a fuller discussion of this, have a look at the TIFF specification version 6, which is referenced in the further reading section of this chapter
   <footnote><para>From page 13 onwards...</para></footnote>
 .
 </para>
+
 
 <sect2><title>File header</title>
 <table frame='all'><title>TIFF on disc: the file header</title>
@@ -1064,6 +1112,8 @@ It is useful for use to know something about how TIFF images are laid out on dis
 These entries have a type associated with them, possible types are:
 </para>
 
+
+
 <itemizedlist>
 <listitem><para>1: BYTE 8 bit unsigned integer</para></listitem>
 <listitem><para>2: ASCII 8 bit byte that contains a 7 bit ASCII code</para></listitem>
@@ -1091,6 +1141,7 @@ Sign is implemented using two's complement notation. New field types may be adde
   <footnote><para>You need not worry about this, because libtiff worries about all of this for you.</para></footnote>
 .
 </para>
+
 </sect2>
 
 <sect2><title>Possible field entries</title>
@@ -1111,6 +1162,7 @@ Interestingly, the image data itself is just stored as another tag value... The 
 <para>	
 Most file format specifications define some basic rules for the representation of the file. For instance, PNG (a competitor to TIFF) documents are always big endian. TIFF doesn't mandate things like this though, here is a list of some of the seemingly basic things that it doesn't define:
 
+
 <orderedlist>
   <listitem><para>The byte order -- big endian, or little endian</para></listitem>
   <listitem><para>The fill order of the bit within the image bytes -- most significant bit first, or least significant</para></listitem>
@@ -1119,19 +1171,23 @@ Most file format specifications define some basic rules for the representation o
 </orderedlist>
 </para>
 
+
 <para>
 This means that creating a TIFF can be very easy, because it is rare to have to do any conversion of the data that you already have. It does mean, on the other hand, that being able to read in random TIFFs created by other applications can be very hard -- you have to code for all these possible combinations in order to be reasonably certain of having a reliable product.
 </para>
 	
+
 <para>
 So how do you write an application which can read in all these different possible permutations of the TIFF format? The most important thing to remember is to <emphasis>never make assumptions about the format of the image data you are reading in</emphasis>.
 </para>
+
 </sect1>
 
 <sect1><title>Writing Black and White TIFF files</title>
 <para>
 The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.
 </para>
+
 	
 <sect2><title>Infrastructure for writing</title>
 <para>
@@ -1149,6 +1205,7 @@ main (int argc, char *argv[])
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-bw-write/write-infrastructure.c</emphasis></para>
+
 
 <para>
 The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...
@@ -1223,6 +1280,7 @@ It's a good example of how hard it can be to handle TIFF images well. If you hav
 The sample code shows the basics of using the libtiff API. The following interesting points should be noted...
 </para>
 
+
 <orderedlist>
 <listitem><para>The buffers presented to and returned from libtiff each contain 8 pixels in a single byte. This means that you have to be able to extract the pixels you are interested in. The use of masks, and the right and left shift operators come in handy here.</para></listitem>
 
@@ -1235,14 +1293,16 @@ The sample code shows the basics of using the libtiff API. The following interes
 <listitem><para>Finally, we close the file with TIFFClose.</para></listitem>
 </orderedlist>
 
+
 <sidebar><title>More information about the libtiff function calls</title>
 <para>
 If you need more information about any of the libtiff function calls mentioned in this chapter, then checkout the extensive man pages which come with the library. Remember that case is important with man pages, so you need to get the case in the function names right -- it's TIFFOpen, not tiffopen.
 </para>
 </sidebar>
 
+
 <figure><title>The Sydney Harbor Bridge, by Michael Still</title>
-<graphic format="EPS" fileref="tiff-figure1.eps">
+<graphic format="eps" fileref="gen-tiff-figure1.eps">
 </figure>
 </sect2>
 </sect1>
@@ -1252,38 +1312,48 @@ If you need more information about any of the libtiff function calls mentioned i
 Reading TIFF files reliably is much harder than writing them. The issue that complicates reading black and white TIFF images the most is the several different storage schemes which are possible within the TIFF file itself. libtiff doesn't hold your hand much with these schemes, so you have to be able to handle them yourself. The three schemes TIFF supports are single stripped images, stripped images, and tiled images.
 </para>
 
+
 <orderedlist>
 <listitem><para>A single strip image is as the name suggests -- a special case of a stripped image. In this case, all of the bitmap is stored in one large block. I have experienced reliability issues with images which are single strip on Windows machines. The general recommendation is that no one strip should take more than 8 kilobytes uncompressed which with black and white images limits us to 65,536 pixels in a single strip.</para></listitem>
 
+
 <listitem><para>A multiple strip image is where horizontal blocks of the image are stored together. More than one strip is joined vertically to make the entire bitmap. Figure 2 shows this concept.</para></listitem>
+
 
 <listitem><para>A tiled image is like your bathroom wall, it is composed of tiles. This representation is show in Figure 3, and is useful for extremely large images -- this is especially true when you might only want to manipulate a small portion of the image at any one time.</para></listitem>
 </orderedlist>
 
 <figure><title>The Sydney Harbor Bridge, in strips</title>
-<graphic format="EPS" fileref="tiff-figure2.eps">
+<graphic format="eps" fileref="gen-tiff-figure2.eps">
 </figure>
 
+
+
 <figure><title>The Sydney Harbor Bridge, in tiles</title>
-<graphic format="EPS" fileref="tiff-figure3.eps">
+<graphic format="eps" fileref="gen-tiff-figure3.eps">
 </figure>
 
 <para>
 Tiled images are comparatively uncommon, so I will focus on stripped images in this chapter. Remember as we go along, that the single stripped case is merely a subset of a multiple strip images.
 </para>
 
+
 <sect2><title>Infrastructure for reading</title>
 <para>
 The most important thing to remember when reading in TIFF images is to be flexible. The example below has the same basic concepts as the writing example above, with the major difference being that it needs to deal with many possible input images. Apart from stripping and tiling, the most important thing to remember to be flexible about is photo metric interpretation. Luckily, with black and white images there are only two photo metric interpretations to worry about (with color and to a certain extent gray scale images there are many more).
 </para>
 
+
 <para>
-What is photo metric interpretation? Well, the representation of the image in the buffer is really a very arbitrary thing. I might code my bitmaps so that 0 means black (TIFFTAG_MINISBLACK), whilst you might find black being 1 (TIFFTAG_MINISWHITE) more convenient. TIFF allows both, so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in MINISWHITE, so we will convert images which are in MINISBLACK.
+What is photo metric interpretation? Well, the representation of the image in the buffer is really a very arbitrary thing. I might code my bitmaps so that 0 means black (PHOTOMETRIC_MINISBLACK), whilst you might find black being 1 (PHOTOMETRIC_MINISWHITE) more convenient. TIFF allows both (in the TIFFTAG_PHOTOMETRIC tag), so our code has to be able to handle both cases. In the example below, I have assumed that the internal buffers need to be in PHOTOMETRIC_MINISWHITE so we will convert images which are in PHOTOMETRIC_MINISBLACK.
 </para>
+
+
 
 <para>
 The other big thing to bear in mind is fill order (whether the first bit in the byte is the highest value, or the lowest). The example below also handles both of these correctly. I have assumed that we want the buffer to have the most significant bit first. TIFF images can be either big endian or little endian, but libtiff handles this for us. Thankfully, libtiff also supports the various compression algorithms without you having to worry about those. These are by far the scariest area of TIFF, so it is still worth your time to use libtiff.
 </para>
+
 
 <programlisting>
 #include &lt;stdio.h&gt;
@@ -1396,6 +1466,7 @@ int main(int argc, char *argv[]){
 <para>
 This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photo metric interpretation the one we handle, and deals with having to swap bits if the fill order is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.
 </para>
+
 </sect2>
 
 <sect2><title>Compression algorithms in libtiff</title>	
@@ -1404,8 +1475,9 @@ There are several compression algorithms available within libtiff. How do you se
 </para>
 
 <para>
-<emphasis>Please note that all the tags in this table should be preceded by COMPRESSION, for example COMPRESSION_CCITTFAXG4...</emphasis>
+<emphasis>Please note that all the tags in this table should be preceded by COMPRESSION, for example COMPRESSION_CCITTFAXG4...</emphasis>. The compression option is stored in the tag TIFFTAG_COMPRESSION.
 </para>
+
 
 <table frame='all'><title>Libtiff compression algorithms</title>
 <tgroup cols='3' align='left' colsep='1' rowsep='1'>
@@ -1413,7 +1485,7 @@ There are several compression algorithms available within libtiff. How do you se
 <row>
   <entry>Compression algorithm</entry>
   <entry>Well suited for</entry>
-  <entry>TIFFTAG</entry>
+  <entry>COMPRESSION</entry>
 </row>
 </thead>
 <tbody>
@@ -1446,32 +1518,38 @@ There are several compression algorithms available within libtiff. How do you se
 </sect2>
 
 <sect2><title>Accumulating loss?</title>
-<para>Why does the loss in lossy compression algorithms such as JPEG accumulate? Imagine that you compress an image using JPEG. You then need to add say a bar code to the image, so you uncompress the image, add the bar code, and recompress it. When the recompression occurs, then a new set of loss is introduced. You can imagine that if you do this enough, then you'll end up with an image which is a big blob.</para>
+<para>
+Why does the loss in lossy compression algorithms such as JPEG accumulate? Imagine that you compress an image using JPEG. You then need to add say a bar code to the image, so you uncompress the image, add the bar code, and recompress it. When the recompression occurs, then a new set of loss is introduced. You can imagine that if you do this enough, then you'll end up with an image which is a big blob.
+</para>
 
-<para>Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.</para>
+
+<para>
+Whether this is a problem depends on the type of your data. To test how much of a problem this is, I wrote a simple libtiff program which repeatedly uncompresses and recompresses an image. What I found was that with pictures, the data is much more resilient to repeated compression.
+</para>
 
 <figure><title>The picture before we compressed it</title>
-<graphic format="EPS" fileref="tiff-figure4.eps">
+<graphic format="eps" fileref="gen-tiff-figure4.eps">
 </figure>
 
 <figure><title>The sample text before we compressed it</title>
-<graphic format="EPS" fileref="tiff-figure5.eps">
+<graphic format="eps" fileref="gen-tiff-figure5.eps">
 </figure>
 
 <para>
 The code I used had a 'quality' rating of 25% on the JPEG compression, which is a way of tweaking the loss of the compression algorithm. The lower the quality, the higher the compression ratio. The default is 75%.</para>
 
 <figure><title>The picture after it has been recompressed 200 times</title>
-<graphic format="EPS" fileref="tiff-figure6.eps">
+<graphic format="eps" fileref="gen-tiff-figure6.eps">
 </figure>
 
 <figure><title>The text after it has been recompressed 200 times</title>
-<graphic format="EPS" fileref="tiff-figure7.eps">
+<graphic format="eps" fileref="gen-tiff-figure7.eps">
 </figure>
 
 <para>
 The code for the repeated compression example is at the end of this chapter.
 </para>
+
 </sect2>
 </sect1>
 
@@ -1482,6 +1560,7 @@ The code for the repeated compression example is at the end of this chapter.
 <para>
 It time to show you how to write a color image to disc. Remember that this is a simple example, which can be elaborated on greatly.
 </para>
+
 
 <programlisting>
 #include &lt;tiffio.h&gt;
@@ -1530,20 +1609,27 @@ int main(int argc, char *argv[]){
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-color-write/write.c</emphasis></para>
 
-<para>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or gray scale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</para>
+
+<para>
+You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or gray scale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.
+</para>
+
 
 <sidebar><title>Other values for samples per pixel?</title>
 <para>
 In this example, we have three samples per pixel. If this was a black and white image, or a gray scale image, then we would have one sample per pixel. There are other valid values for here as well -- for instance, sometimes people will store a transparency value for a given pixel, which is called an alpha channel. This would result in having four samples per pixel. It is possible to have an arbitrary number of samples per pixel, which is good if you need to pack in extra information about a pixel. <emphasis>Note that doing this can break image viewers which make silly assumptions -- I once had to write code for a former employer to strip out alpha channels and the like so that their PDF generator wouldn't crash.</emphasis>
 </para>
+
 </sidebar>
 
 <para>The other interesting thing to discuss here is the planar configuration of the image. Here we have specified PLANARCONFIG_CONTIG, which means that the red green and blue information for a given pixel is grouped together in the strips of image data. The other option is PLANARCONFIG_SEPARATE, where the red samples for the image are stored together, then the blue samples, and finally the green samples.</para>
+
 </sect1>
 
 <sect1><title>Writing a paletted color image</title>
 <para>
 So how do we write a paletted version of this image? Well, libtiff makes this really easy -- all we need to do is change the value of TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE. It's not really worth including an example in this chapter, given it's a one word change.</para>
+
 </sect1>
 
 
@@ -1553,6 +1639,7 @@ So how do we write a paletted version of this image? Well, libtiff makes this re
 <sect1><title>Reading a color image</title>
 <para>
 Now all we have to do is work out how to read other people's color and gray scale images reliably, and we're home free. Initially I was very tempted to not tell you about the TIFFReadRGBAStrip() and TIFFReadRGBBSTile() calls, which hide some of the potential ugliness from the caller. These functions have some limitations I'm not astoundingly happy with. To quote the TIFFReadRGBAStrip() man page:</para>
+
 
 <para><emphasis>
    TIFFReadRGBAStrip reads a single strip of a strip-based image into memory,
@@ -1606,6 +1693,7 @@ Now all we have to do is work out how to read other people's color and gray scal
 </emphasis></para>
 
 <para>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous chapter...</para>
+
 
 <programlisting>
 #include &lt;stdio.h&gt;
@@ -1663,9 +1751,11 @@ int main(int argc, char *argv[]){
 All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and TIFF. For example, you might have customer pictures for id cards, and these would be stored in a database.
 </para>
 
+
 <para>
 The example which I am most familiar with is PDF documents. In PDF files, you can embed images into the document. These images can be in a subset of TIFF if desired, and TIFF is quite clearly the choice for black and white images.
 </para>
+
 
 <sidebar><title>An expanded example</title>
 <para>If you need more information about hooking the file input and output functions within libtiff than this chapter allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at http://www.stillhq.com
@@ -1675,6 +1765,8 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 </sidebar>
 
 <para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
+
+
 
 <programlisting>
 // Please note that this code wont compile, and is intended to only show you 
@@ -1798,15 +1890,18 @@ libtiffDummyCloseProc (thandle_t fd)
 A common request is to be able to store more than one image inside a single TIFF file. This is done with multiple directories, which is one of the reasons they're described at the start of this chapter.
 </para>
 
+
 <para>
 <emphasis>Before embarking on a multiple image per TIFF solution, it is important to remember that the TIFF specification doesn't require TIFF image viewers to implement support for multiple images per TIFF, and many viewers in fact do not
   <footnote><para>Refer to page 16 of the TIFF specification, version 6.</para></footnote>
 .</emphasis>
 </para>
 
+
 <para>
 Anyway, now that I've nagged you, putting multiple images into one TIFF file is really easy, just call the <command>TIFFWriteDirectory</command>(), which writes out the current image so you can move onto the next one. The following sample program is an example of this...
 </para>
+
 
 <programlisting>
 #include &lt;stdio.h&gt;
@@ -1940,8 +2035,9 @@ usage (char *cmd, int exitamt)
 <para><emphasis>Code: /home/mikal/opensource/tiff-directories/create.c</emphasis></para>
 
 <figure><title>Four pictures of my son Andrew</title>
-<graphic format="EPS" fileref="tiff-figure8.eps">
+<graphic format="eps" fileref="gen-tiff-figure8.eps">
 </figure>
+
 </sect1>
 
 <sect1><title>Reading more than one image inside a TIFF</title>
@@ -2097,8 +2193,8 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-directories/read.c</emphasis></para>
-</sect1>
 
+</sect1>
 
 <sect1><title>Man pages</title>
 <para>
@@ -2106,7 +2202,7 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2229,7 +2325,7 @@ Specify the percentage of the blue channel to use (default 11).
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2490,7 +2586,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 
 <sect2><title>tiffcmp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2614,9 +2710,8 @@ ImageWidth: 256 520
 </sect3>
 </sect2>
 
-
 <sect2><title>tiffcp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2937,7 +3032,7 @@ tiffcp -c none -,=% -b CCD,X.tif CCD,X%1%.tif result.tif
 
 
 <sect2><title>tiffdither</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3095,7 +3190,7 @@ program (written by Paul Heckbert).
 </para>
 
 <figure><title>The gray scale input image</title>
-<graphic format="EPS" fileref="tiff-figure9.eps">
+<graphic format="eps" fileref="gen-tiff-figure9.eps">
 </figure>
 
 <para>
@@ -3103,14 +3198,13 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 </para>
 
 <figure><title>The dithered output image</title>
-<graphic format="EPS" fileref="tiff-figure10.eps">
+<graphic format="eps" fileref="gen-tiff-figure10.eps">
 </figure>
 </sect3>
 </sect2>
 
-
 <sect2><title>tiffdump</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3236,9 +3330,8 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 </sect3>
 </sect2>
 
-
 <sect2><title>tiffgt</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3579,9 +3672,8 @@ crashing old versions of the window manager.
 </sect3>
 </sect2>
 
-
 <sect2><title>tiffinfo</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3757,9 +3849,8 @@ Strip 0:
 </sect3>
 </sect2>
 
-
 <sect2><title>tiffmedian</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3903,9 +3994,8 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 </sect3>
 </sect2>
 
-
 <sect2><title>tiffsplit</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3989,9 +4079,8 @@ is used.
 </sect3>
 </sect2>
 
-
 <sect2><title>tiffsv</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4330,8 +4419,9 @@ Author: Patrick J. Naughton (naughton@wind.sun.com).
 It is also useful to have the man pages for the libtiff API man pages to refer to...
 </para>
 
+
 <sect2><title>TIFFbuffer</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4443,7 +4533,7 @@ was unable to dynamically allocate space for a data buffer.
 
 
 <sect2><title>TIFFClose</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4510,7 +4600,7 @@ routine.
 
 
 <sect2><title>TIFFcodec</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4663,7 +4753,7 @@ compression schemes.
 
 
 <sect2><title>TIFFError</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4778,7 +4868,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFFlush</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4878,7 +4968,7 @@ routine.
 
 
 <sect2><title>TIFFGetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5180,7 +5270,7 @@ routine.
 
 
 <sect2><title>TIFFmemory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5307,7 +5397,7 @@ repsectively.
 
 
 <sect2><title>TIFFOpen</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5645,7 +5735,7 @@ This is a limitation of the library.
 
 
 <sect2><title>TIFFPrintDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5733,7 +5823,7 @@ parameter defaults to 0.
 
 
 <sect2><title>TIFFquery</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5915,7 +6005,7 @@ library software.
 
 
 <sect2><title>TIFFReadDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6133,7 +6223,7 @@ the missing value based on the file size.
 
 
 <sect2><title>TIFFReadEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6230,7 +6320,7 @@ routine.
 
 
 <sect2><title>TIFFReadEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6330,7 +6420,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6412,7 +6502,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6496,7 +6586,7 @@ routine.
 
 
 <sect2><title>TIFFReadRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6734,7 +6824,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBAStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6965,7 +7055,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBATile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7200,7 +7290,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7327,7 +7417,7 @@ the strip- and tile-based interfaces to read these formats.
 
 
 <sect2><title>TIFFReadTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7466,7 +7556,7 @@ routine.
 
 
 <sect2><title>TIFFRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7839,7 +7929,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFSetDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7947,7 +8037,7 @@ points to the next directory in a file.
 
 
 <sect2><title>TIFFSetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8200,7 +8290,7 @@ An invalid value was supplied for the named tag.
 
 
 <sect2><title>TIFFsize</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8275,7 +8365,7 @@ if data is stored as separate planes.
 
 
 <sect2><title>TIFFstrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -8402,7 +8492,7 @@ returns the number of strips in the image.
 
 
 <sect2><title>TIFFswab</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8522,7 +8612,7 @@ i.e.
 
 
 <sect2><title>TIFFtile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8739,7 +8829,7 @@ returns the number of tiles in the image.
 
 
 <sect2><title>TIFFWarning</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8831,7 +8921,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFWriteDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8983,7 +9073,7 @@ written.
 
 
 <sect2><title>TIFFWriteEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9122,7 +9212,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9252,7 +9342,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9380,7 +9470,7 @@ currently specified image dimensions.
 
 
 <sect2><title>TIFFWriteRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9494,7 +9584,7 @@ specified image dimensions.
 
 
 <sect2><title>TIFFWriteScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9698,7 +9788,7 @@ the library does not pack the block-interleaved samples.
 
 
 <sect2><title>TIFFWriteTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.58 2002-08-06 06:57:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.59 2002-09-04 23:06:44 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9801,11 +9891,11 @@ routine.
 
 
 
-
 <sect1><title>Example: Pixel enlargement</title>
 <para>
 In the introduction to this tutorial I promised that I would include the code to draw the demonstration that raster images are made up of pixels. Well, this example is that code.
 </para>
+
 
 <programlisting>
 #include &lt;stdio.h&gt;
@@ -10100,6 +10190,7 @@ usage (char *cmd, int exitamt)
 In one of the previous chapters I also promised to provide the source code for the gray scale conversion examples. Here it is, there are two versions -- a broken algorithm (averaging color values), and a non-broken algorithm (using the NTSC recommended color coefficients).
 </para>
 
+
 <sect2><title>A broken algorithm</title>
 <programlisting>
 #include &lt;stdio.h&gt;
@@ -10238,7 +10329,7 @@ Which produces:
 </para>
 
 <figure><title>An average of the color values for each pixel</title>
-<graphic format="EPS" fileref="grayscale-figure2.eps">
+<graphic format="eps" fileref="gen-grayscale-figure2.eps">
 </figure>
 </sect2>
 
@@ -10380,7 +10471,7 @@ Which gives us:
 </para>
 
 <figure><title>A correct conversion to gray scale</title>
-<graphic format="EPS" fileref="grayscale-figure3.eps">
+<graphic format="eps" fileref="gen-grayscale-figure3.eps">
 </figure>
 
 <para>
@@ -10486,10 +10577,10 @@ int main(int argc, char *argv[]){
 
 <sect1><title>Conclusion</title>
 <para>
-In this chapter we've discussed how to program with libtiff for black and white, gray scale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
+In this chapter we've discussed the TIFF file format, how to program with libtiff for black and white, gray scale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
 </para>
-</sect1>
 
+</sect1>
 
 <sect1><title>Further reading</title>
 <para>
@@ -10540,11 +10631,11 @@ The disappearance of GIF from the scene is not a major loss, especially as the f
 
 
 
-
 <sect1><title>The GIF on disc format</title>
 <para>
 The GIF file format is much simpler than that used for TIFF files. Pay attention to this description though, because it will help explain PNG images when we get to them in a later chapter.
 </para>
+
 
 <sidebar><title>Data streams?</title>
 <para>
@@ -10556,6 +10647,7 @@ It should be noted that the GIF specification doesn't speak of files as such. In
 <para>
 The outer body of a GIF image is called a data stream, for reasons described in the last few paragraphs. This data stream can be thought of as a file for the purposes of this discussion. The data stream is composed of header, a section called the logical screen, the image data, and a trailer. These elements are described individually below.
 </para>
+
 </sect2>
 
 <sect2><title>The header</title>
@@ -10587,6 +10679,7 @@ The outer body of a GIF image is called a data stream, for reasons described in 
 There are two main version numbers which are in common use for GIF images. These are:
 </para>
 
+
 <itemizedlist>
 <listitem><para>87a (released in May 1987)</para></listitem>
 <listitem><para>89a (released in July 1989)</para></listitem>
@@ -10597,9 +10690,11 @@ There are two main version numbers which are in common use for GIF images. These
 The GIF specification makes it quite clear that the image generator should use the lowest version number which matches the functionality required to correctly decode the image. This makes the generation of images a little more complex, as the generator needs to know the specification version number of each feature, but it ensures the maximum possible level of backwards compatability, without sacraficing accuracy of decoding of the image. To quote the GIF specification:
 </para>
 
+
 <para>
 <quote>The version number in the Header of a Data Stream is intended to identify the minimum set of capabilities required of a decoder in order to fully process the Data Stream. An encoder should use the earliest possible version number that includes all the blocks used in the Data Stream. ... The encoder should make every attempt to use the earliest version number covering all the blocks in the Data Stream; the unnecessary use of later version numbers will hinder processing by some decoders.</quote>
 </para>
+
 </sect3>
 </sect2>
 
@@ -10607,6 +10702,7 @@ The GIF specification makes it quite clear that the image generator should use t
 <para>
 The logical screen is the area on which the image will be painted. This block defines the characteristics of this virtual screen:
 </para>
+
 
 <table frame='all'><title>GIF on disc: the logical screen block</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
@@ -10650,6 +10746,7 @@ The logical screen is the area on which the image will be painted. This block de
 The packed fields in byte 4 of the logical screen block are as follows:
 </para>
 
+
 <table frame='all'><title>GIF on disc: fields packed into byte 4 of the logical screen block</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -10688,10 +10785,12 @@ The packed fields in byte 4 of the logical screen block are as follows:
 We have now mentioned the global color table, but haven't defined what it actually means. Don't panic, we'll get there in just a second.
 </para>
 
+
 <sect3><title>Formula for global color table size</title>
 <para>
-The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</emphasis>, or 255 items.
+To determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</emphasis>, or 255 items.
 </para>
+
 
 <para>
 There will actually be three times that number of color bytes in the global color table, because each color is 24 bit per pixel.
@@ -10703,6 +10802,7 @@ There will actually be three times that number of color bytes in the global colo
 <para>
 If the logical screen block of the image specified that a global color table is present in the image, then this is the next part of the GIF data stream. The global color table is a palette -- in other words, it maps the values actually stored in the image data to the 24 bit values which are the colors.
 </para>
+
 
 <para>
 The format of the global color table is very simple, it is simply the red, green and blue values stored without any header or footer.
@@ -10756,13 +10856,13 @@ The format of the global color table is very simple, it is simply the red, green
 </tbody>
 </tgroup>
 </table>
-
 </sect2>
 
 <sect2><title>Data</title>
 <para>
 Next comes the images that are stored in the GIF data stream. GIF data streams are valid, even if there are no images stored within the data stream.
 </para>
+
 
 <sect3><title>Image descriptors</title>
 <para>
@@ -10772,6 +10872,7 @@ Next comes the images that are stored in the GIF data stream. GIF data streams a
 <para>
 The image descriptor is stored at the start of each image within the data stream. The image description stores information which is specific to that single image, unlike the logical screen section, which has a global scope over all images in the data stream. The image descriptor has the following layout:
 </para>
+
 
 <table frame='all'><title>GIF on disc: the image descriptor</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
@@ -10821,6 +10922,7 @@ The image descriptor is stored at the start of each image within the data stream
 The packed field byte stores the following information:
 </para>
 
+
 <table frame='all'><title>GIF on disc: fields packed into byte 9 of the image descriptor</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -10865,12 +10967,14 @@ The packed field byte stores the following information:
 <para>
 The format rules for the local color table are identical to those for the global color table.
 </para>
+
 </sect3>
 
 <sect3><title>Image data</title>
 <para>
 The raster information for the image is stored in a series of image data blocks, each block having a maximum size of 255 bytes, which works well on machines with very little memory. Each byte is an index into whatever color table entry is active for this image (remembering that the local color table overrides the global color table). Each of these image data blocks is LZW compressed as part of one big buffer. The format of the image data blocks is:
 </para>
+
 
 <table frame='all'><title>GIF on disc: the image data block</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
@@ -10901,6 +11005,7 @@ The raster information for the image is stored in a series of image data blocks,
 The format of these image data subblocks is:
 </para>
 
+
 <table frame='all'><title>GIF on disc: the image data subblocks</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -10930,6 +11035,7 @@ The format of these image data subblocks is:
 <para>
 The last block in the chain of image data subblocks will be a terminating subblock. It will have the format:
 </para>
+
 
 <table frame='all'><title>GIF on disc: the terminating image subblock</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
@@ -10965,6 +11071,7 @@ The other thing which can be stored in the data area of the data stream of a GIF
 <para>
 This portion of the GIF image format specifies the end of the data stream. It is really quite simple and doesn't justify a table. It is simply a byte with the value 0x3B.
 </para>
+
 </sect2>
 
 
@@ -10981,6 +11088,7 @@ GIF supports the interlacing of images, which is where are the image is loaded, 
 <para>
 In this chapter we have learnt how the GIF format is laid out internally. This will be useful when it is time to dicsuss the PNG format...
 </para>
+
 </sect1>
 </chapter>
 <chapter id="chap-png"><title>PNG</title>
@@ -11002,10 +11110,12 @@ is my favorite image format after TIFF. It is well conceived, well implemented, 
 This chapter will focus on the libpng library. This isn't really a limitation, as the people behind libpng are also the people who write the PNG specification, so you're pretty safe in assuming that if it's useful and PNG does it, then libpng implements it.
 </para>
 
+
 <sect1><title>Introduction</title>
 <para>
 PNG happened because of the patent problems with the GIF format described in an earlier chapter of this tutorial. In the words of the official history of PNG:
 </para>
+
 
 <para>
 <quote>
@@ -11013,6 +11123,7 @@ PNG happened because of the patent problems with the GIF format described in an 
 </quote>
 -- http://www.libpng.org/pub/png/pnghist.html
 </para>
+
 
 <para>
 The PNG has gone from being a simple specification with limitations such as only supporting 8 bit images first announced on comp.graphics, comp.compression and comp.infosystems.www.providers, into a mature and extremely extensible image format.
@@ -11328,16 +11439,6 @@ There are various values which are valid for the color type field. Each of these
 For all of these types, the sample depth is the same as the bit depth, except for type three, where the sample depth is always eight bits.
 </para>
 
-<sect3><title>Filtering algorithm</title>
-<para>
-The PNG specification states on page 16 of version 1.2:
-
-<quote>
-Filter method is a single-byte integer that indicates the preprocessing method applied to the image data be-fore compression. At present, only filter method 0 (adaptive filtering with five basic filter types) is defined. As with the compression method field, decoders must check this byte and report an error if it holds an unrec-ognized code. See Filter Algorithms (Chapter 6) for details.
-</quote
-</para>
-</sect3>
-
 <table frame='all'><title>PNG on disc: IHDR chunk</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <tbody>
@@ -11365,6 +11466,16 @@ Filter method is a single-byte integer that indicates the preprocessing method a
 </tbody>
 </tgroup>
 </table>
+
+<sect3><title>Filtering algorithm</title>
+<para>
+The PNG specification states on page 16 of version 1.2:
+
+<quote>
+Filter method is a single-byte integer that indicates the preprocessing method applied to the image data be-fore compression. At present, only filter method 0 (adaptive filtering with five basic filter types) is defined. As with the compression method field, decoders must check this byte and report an error if it holds an unrec-ognized code. See Filter Algorithms (Chapter 6) for details.
+</quote
+</para>
+</sect3>
 </sect2>
 
 <sect2><title>The PLTE chunk</title>
@@ -11965,7 +12076,6 @@ Time of last image modification.
 
 
 </sect1>
-
 
 
 
@@ -12827,7 +12937,6 @@ libpngDummyFlushProc (png_structp png)
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/png-client/client.c</emphasis></para>
 </sect1>
-
 
 
 
@@ -19138,7 +19247,7 @@ If the resource is an image or an embedded font, then the additional binary data
 
 <sect3><title>Typical object structure</title>
 <figure><title>A typical PDF object structure</title>
-<graphic format="EPS" fileref="pdf-figure1.eps">
+<graphic format="eps" fileref="gen-pdf-figure1.eps">
 </figure>
 </sect3>
 </sect2>
@@ -22395,116 +22504,6 @@ panda_errorCallback (char *description)
 <para>
 It produces output like:
 </para>
-
-<figure>
-<title> page 1</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.0.eps">
-</figure>
-
-<figure>
-<title> page 2</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.1.eps">
-</figure>
-
-<figure>
-<title> page 11</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.10.eps">
-</figure>
-
-<figure>
-<title> page 12</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.11.eps">
-</figure>
-
-<figure>
-<title> page 13</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.12.eps">
-</figure>
-
-<figure>
-<title> page 14</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.13.eps">
-</figure>
-
-<figure>
-<title> page 15</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.14.eps">
-</figure>
-
-<figure>
-<title> page 16</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.15.eps">
-</figure>
-
-<figure>
-<title> page 17</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.16.eps">
-</figure>
-
-<figure>
-<title> page 18</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.17.eps">
-</figure>
-
-<figure>
-<title> page 19</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.18.eps">
-</figure>
-
-<figure>
-<title> page 20</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.19.eps">
-</figure>
-
-<figure>
-<title> page 3</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.2.eps">
-</figure>
-
-<figure>
-<title> page 21</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.20.eps">
-</figure>
-
-<figure>
-<title> page 22</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.21.eps">
-</figure>
-
-<figure>
-<title> page 4</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.3.eps">
-</figure>
-
-<figure>
-<title> page 5</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.4.eps">
-</figure>
-
-<figure>
-<title> page 6</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.5.eps">
-</figure>
-
-<figure>
-<title> page 7</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.6.eps">
-</figure>
-
-<figure>
-<title> page 8</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.7.eps">
-</figure>
-
-<figure>
-<title> page 9</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.8.eps">
-</figure>
-
-<figure>
-<title> page 10</title>
-<graphic format="EPS" fileref="/home/mikal/opensource/panda/examples/output.pdf.9.eps">
-</figure>
 
 </sect2>
 

@@ -1,0 +1,168 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN">
+<article>
+<articleinfo>
+  <author><firstname>Michael</firstname><surname>Still</surname></author>
+  <authorinitials>mbs</authorinitials>
+  <pubdate>2002</pubdate>
+  <title>Proposal for a book covering imaging topics</title>
+  <titleabbrev>imaging-proposal</titleabbrev>
+</articleinfo>
+
+<sect1><title>Introduction</title>
+<para>
+...
+</para>
+</sect1>
+
+
+<sect1><title>What Will the Book Be Good For?</title>
+<para>
+When people buy your book, it will be with some purpose in mind. Your book must, above all, be useful. Books simply describing a particular technology tend to be superseded by other, more practical books. O'Reilly & Associates excels in the "how to" market, and sells well to it. If you can really tell people things that save them time and trouble, then the book itself is cheap.
+
+One of our editors recalls the time when he was writing the RS-232 chapter in Managing UUCP. He bought an expensive hardback that was supposed to be the authoritative guide to RS-232--and it was. It was chock-full of detailed technical information about signal degradation, voltages on various signals, and so on. But he found it surprisingly free of practical, useful information for anyone but RS-232 interface designers.
+
+There is, of course, room for books offering nothing more than technical reference, and people certainly do buy books just to be up on the latest technology. But we always look for the "something more." Here's an editor's comment on the first draft of a proposal for an FDDI book:
+I'd like to see a clearer discussion of what the reader will get out of this book. It may be that the book is directed to someone having to replace Ethernet with FDDI, but in that case, it should spend time on installation issues. It may be that the book is directed to managers who want to understand the benefits of this new technology and plan for it. In this case, it needs to provide concepts more than details. It may be that the book is directed to software engineers who want to know about the implications that faster networks will have on their applications. In this case, it needs to discuss performance issues...
+
+It may be that the book can do all of these things. But its structure needs to flow from an understanding of why each piece of information is important, and to whom it is addressed.
+
+The failure of many technical manuals is that they simply describe the subject. Many fail even in that. But even if they succeed, that's only half the job. What we try to do in our books is to do some of the thinking for the reader, just as you would if you were talking one-on-one with someone, trying to explain what she really needs to know about the subject in order to get her job done.
+Know precisely what you want to achieve, and why your readers will be interested in it. Your proposal to us should summarize the audience and purpose of the book clearly.
+
+Here's an introduction to the FDDI proposal after these comments:
+AUDIENCE AND PURPOSE. At the first level, the book will satisfy those managers, professionals, and engineers who need a conceptual and very general practical answer to the questions, What is FDDI? How does it work? Where does it fit in the networking world? Why do we need it or not need it? All this is mostly overview. It includes explanation of the fog of acronyms and special terminology that seems especially dense in the vicinity of FDDI. It also includes information about some of the many applications and devices produced for FDDI networks--answering the manager's question, What are these things for, and do we need them?
+
+At the second level, the book will provide how-to help for engineers and managers--not those who write FDDI standards or design hot, new FDDI products, but rather those who have to cope with FDDI networks in their workaday environment. They need to be able to recognize the particular hardware components of an FDDI network and understand whether the knee connects to the skull or thighbone. They must comprehend the intricate rules governing the ways networks can be wired together (topologies), and the practical, simplifying ways to impose conceptual order upon these tangled topologies. And they need to know the basics of troubleshooting--as when someone plugs a system into the net incorrectly.
+The discussion of audience is informal and direct. We're not looking for detailed analysis of audience with supporting statistics--just a sense of just who it is you think you're writing for. Note also that the proposal doesn't just talk about the audience in the abstract, but about how the subject matter of the book will address their needs. Ideally, the purpose statement from the proposal could be used in the preface of the finished book, to help the reader figure out if the book is for him or her.
+
+<sect1><title>The Market for the Book</title>
+<para>
+In one sense, the market for the book is implicit in its purpose and audience. If there's a real need for the book, and you do a good job of addressing that need, the book will sell. However, there are often ancillary factors, such as competing works, industry trends, or size of user base, that may have bearing on just how successful the book will be.
+
+Needless to say, we have our own understanding of the market potential in various areas. If you think you have a good idea, but don't feel you have the resources to demonstrate its marketability, feel free to contact us and discuss the matter. Perhaps we can help you through this stage.
+
+Of course, if you do have statistics for the size of the market for the book, they'd be more than welcome. Similarly, if you know that several companies are planning to adopt or promote a given technology, this might be an important point to make about your audience.
+
+If there are competitive books now on the market or foreseen, briefly describe them and explain their relation to your book. View yourself as "selling" us on the likely success of the undertaking.
+
+You should be aware that if there's a really good book on a topic from another publisher, we typically will not want to publish a competing book. However, there are often other books that overlap somewhat in subject matter or in style but do not compete directly. A discussion of these books may help us to evaluate the market for your book, or may help to clarify the approach you plan to take.
+
+For example, you might point out that there are three books currently available on UNIX system administration, but that each has certain drawbacks that you hope to remedy in your own effort. Or you might point out that a particular book has been extremely successful, and that you plan to do a similar book for another subject.
+
+As noted in the previous chapter, we like best to do books on subjects that are poorly documented elsewhere. In that case, the statement of the competition (or lack thereof) is likely to be implicit in the description of the purpose and audience for the book.
+
+<sect1><title>The Outline</title>
+<para>
+Make your outline as detailed as possible. Until we can envision your book in exceedingly concrete terms, we cannot know whether to sign up for it. The outline should include:
+
+    * A statement of purpose for each chapter.
+
+    * A fine-grained breakdown of the contents of each chapter (but see below).
+
+    * An explanation of the rationale for the overall organization of the book.
+
+    * An indication of what use you will make of illustrations.
+
+    * Any special considerations that apply--unusual format, use of color, hard-to-get illustrations, or anything else calling for unusual resources.
+
+    * An estimated page count for the book.
+
+The outline need not consist of bulleted lists. In fact, we prefer a "talking" outline. This is a chapter-by-chapter summary, in paragraph form, explaining what each chapter will cover, and why. Such a paragraph may be followed by lists to show the structure of the chapter, but the talking part is most important.
+
+Here's an example of one chapter's outline in the original proposal for our sendmail book.
+Chapter 1 Introduction
+
+A history of: the sendmail program; the Simple Mail Transfer Protocol, SMTP; the Network Information Center, NIC, and Domain Naming Services, DNS; other contributions like dig, and nslookup. Also a discussion of the strengths, weaknesses and alternatives to each.
+
+Next, a discussion of what the RFCs are and how they define and influence these programs. Instructions for how to get those RFCs will also be provided.
+
+Finally an explanation of:
+
+    * Why all the information will be based on sendmail version 5.65 and bind.8.4 [Or more current versions if they appear during the writing].
+
+    * Where to get that software if you don't already have it. How to compile it on your system.
+
+    * The importance of having the source handy if you are to easily understand their inner workings.
+
+    * What the IDA and Rutgers enhancements are and how they will also be covered.
+
+    * The importance of trying the examples in the book. It is far easier to learn by doing.
+
+In this case, the author didn't even use full paragraphs, but a telegraphic style relying on sentence fragments. Nonetheless, one gets the feeling of a running commentary on the content and flow of the chapter.
+
+Be sure to provide us with an estimate of the size of the book. We aren't wedded to any number you provide, but it will help us to evaluate whether your treatment will be appropriately detailed, and whether your schedule is realistic. It will also help us to estimate the price of the book (and thus calculate the size of the advance we're willing to offer).
+
+<sect1><title>Schedule</title>
+<para>
+Some authors like to start at the beginning of their outline and work steadily, chapter by chapter, to the end. Others jump around, developing several chapters simultaneously, perhaps moving material back and forth between them, and iteratively improving them until they are ready to submit. We are flexible when it comes to different approaches to writing. However, we are going to want some evidence that you have thought through the actual process of putting your words down on paper.
+
+Be realistic in your planning. In particular, you shouldn't plan to submit a complete draft, but rather, to send the book, chapter by chapter (or block by block, if you work in larger or smaller units than chapters) to your editor. This will allow the editor to make helpful comments as you go, and will save everyone a lot of work later on. (We'll return to this subject in Chapter 4.)
+
+Ideally, your proposal should include a chapter-by-chapter schedule for the submission of first drafts. In arriving at dates for later chapters, you should reckon with the need to assimilate editorial comments on earlier chapters. Allow time for specifying and creating at least rough sketches of your illustrations--these will need to be there for both the editorial and technical reviewers. And do not forget the time-consuming task of preparing a useful and comprehensive index.
+
+Be sure to factor in the effects of such things as vacation time and competing demands of other work. Very often the success of a book depends, in substantial part, upon the timing of its publication. If your schedule is not accurate, we lose control of this crucial element. Plan on giving us prompt notification of changes in your schedule as you work on the book.
+
+The schedule culminates in a completed first draft. If you've submitted chapters religiously to your editor, and incorporated his or her comments, your book should by now be substantially complete. Nonetheless, there is a wild card: it is at this point that we will submit your book for technical review by a collection of your peers (as well as by other editors on the ORA staff). If you've done a good job, technical review comments might be incorporated in only a few weeks. But it is equally likely that reviewers might point out major topics that have been left out, or errors in approach that might require more major rewriting.
+
+For purposes of establishing the delivery date in the contract (see Chapter 3), you should allow a month from the time you submit the completed first draft for technical review, and another month to six weeks to incorporate the review comments. The final date in your schedule is the turnover of your manuscript for production. Typically, we allow one month for final production (copyediting, setting page breaks, making sure that conventions are followed consistently, and producing camera-ready copy) and one month for printing.
+
+<sect1><title>Your Writing Sample</title>
+<para>
+If we have not worked with you before, we need to see a sample of your writing. Preferably, this will be a type of writing similar to the book you are proposing, although that certainly is not absolutely necessary. We can probably make the necessary judgments based on any extended piece of writing you provide us. This should be your writing (at least 99.44%)--not the partial work of an editor. If you have provided a "talking outline" as described above, that may prove an adequate writing sample, although it is better if you actually write a section of text from the book you are proposing. If we aren't satisfied with the writing sample you provide, we may ask you to do just that: write a chapter for the proposed book before we sign the contract.
+
+It is not that we are looking for Pulitzer prize-winning authors. Probably the single most important requirement is for you to have a thorough understanding of what you are writing about. But the writing sample will help us gauge the overall process more accurately: for example, our scheduling will be affected by the time we estimate is required for editorial support.
+
+<sect1><title>Tools</title>
+<para>
+Approved Formats
+In order to produce a book as rapidly, accurately, and inexpensively as possible, we need electronic source files that either have paragraph and inline style tags or that we can easily convert to file formats with paragraph and style tags. (If an author formats the source in a word processor by inserting a tab for a new paragraph and printing different levels of headers in gradations of point sizes and in special fonts, etc., so that text *prints* appropriately, that is of no use to us when it comes to book production. We need electronically coded paragraph and inline style tags, not font and point and space specifications.)
+
+Concretely, this means that any of the following formats for source files will optimize the production process for a given O'Reilly book:
+
+    * troff--if tagged with the -mS macro package that we have developed in house over the past decade and that we can provide freely to authors over the net for use with UNIX and Linux (and soon for Windows NT and Windows95).
+
+    * sgml--if tagged according to the DocBook DTD, a public domain specification for the structure of a document for which we can provide free printing and previewing tools for UNIX and Linux (and soon for Windows NT and perhaps even Windows95).
+
+    * Microsoft Word for PC or Macintosh--if tagged according to the paragraph and character style template in RTF (=Microsoft's interchange format) that is available as ftp://ftp.ora.com/pub/frame/templates/mswd/temp98.doc
+
+    * FrameMaker--again, if tagged according to the paragraph and character style tags in the template available for anonymous ftp as, for example for Nutshell books, the template is: ftp://ftp.ora.com/pub/frame/templates/best/best.chap.mif
+
+    * clean LaTeX, where "clean" means without elaborate local macros. If you have an author who wishes to use this option, it is especially important for us to have a sample file and to interact with the author as early as possible in the production process.
+
+<sect1><title>Only-if-you-must Formats</title>
+<para>
+Authors should be discouraged from providing files in the following formats because they will definitely slow down a book's production and increase its cost. Files in these formats will be pushed back to editorial for further work. If necessary, we'll hire freelancers to convert the files to acceptable formats, and then we'll submit the revised files to editorial for review before release to production. All this means not just delays but also increased possibility of screw-ups and hassles for all concerned.
+
+# TeX files marked up in home-grown macros: our filter will not recognize them and will need to be completely reconfigured for a one-shot job.
+
+# WordPerfect files: while WordPerfect has transferable style tags for headings and other paragraph types, its inline tagging is not transferable.
+
+# HTML files: although it is a form of sgml, it is a low level of markup and requires work in order to be acceptable for print. At a minimum, HTML files should be parsable with weblint.
+
+# MacWrite (old versions), Nisus, or files from other word processors that do not provide real paragraph or inline style tags.
+
+# Files in any of the above list of approved formats if they are *incorrectly* tagged with paragraph and inline style tags or, which is worse, *not tagged at all*. (On the other hand, if a file is correctly and completely tagged with paragraph and inline style tags that do not happen to be from our templates, it *is* usable, because we can easily change the tag names to the ones we use.)
+
+# Books in multiple file formats, whether they are in approved or only-if-you-must formats. If a book is in multiple file formats, we cannot then filter all the files of a book at once, but have to run several different filters, each requiring its own cleanup phase (no filter is perfect, and all have different shortcomings). In other words, each additional file format for a file of the same book can require an added amount of work comparable to (though certainly not equal to) that for a whole new book in a single file format. For more information about formats and templates, please contact The ORA Production Tools Department.
+
+<sect1><title>Who Are You?</title>
+<para>
+Obviously, a brief description of your qualifications can help us to evaluate your ability to deliver the manuscript you're proposing. But we're looking for more than a resumé.
+
+You see, we publish books with personality. Too many technical books read like a speech given in a monotone, with the speaker never looking up from the lectern. Personality in a book isn't funny stories (though they can be appropriate at times), or interjection of personal opinion (though that too can be appropriate): it is simply a matter of making "eye contact" with the reader.
+
+Keep in mind that although an "audience" is a class of readers, your book is only read by one person at a time, and so your book is truly a one-on-one between you and that reader.
+
+Despite what most of us learned in school, writing is above all communication--that is, the transfer of information between two parties. Just as we want to see that you've clearly identified your audience, we want to understand how not only your background but who you are will lend itself to the job.
+
+Here's an example of an effective personal statement:
+I've been a system administrator for eight years, managing systems ranging in size from Xenix-based PCs to mini-supercomputers. The largest site I managed had almost 200 systems. I've come to have a keen appreciation for the ten percent of the system that causes 90% of the problems. I believe that I can write a book that will save budding administrators the most painful two (the first two!) of those eight years.
+
+Among other things, I've come to realize that many system problems are really people problems, so I focus on ways to educate users and to create procedures that keep the problems from happening in the first place.
+Obviously, a statement like this might occur in a cover letter, or at the start of a proposal rather than in a little "biographical section" at the end. We don't look for a particular proposal format: we just want you to convince us that the book is worth doing, that you've thought it through, and that you're the person to do it. Exactly how you do that convincing is up to you.
+
+
+
+
+</article>
+
