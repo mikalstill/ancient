@@ -1,0 +1,4 @@
+#!/bin/bash
+
+chown -R mikal.mikal .
+chown -R mikal.mikal /home/httpd/html/cvs

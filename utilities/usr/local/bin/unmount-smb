@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for target in `mount | grep smbfs | sed -e 's/^.*on //' -e 's/ type.*$//'`
+do
+  umount $target
+done

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+mount /mnt/camera
+
+for item in `ls /mnt/camera/dcim/100msdcf/`
+do
+  mv $item .
+  echo -n "."
+done
+echo ""
+
+for item in `ls /mnt/camera/mssony/moml0001/`
+do
+  mv $item .
+  echo -n "."
+done
+echo ""
+
+umount /mnt/camera

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+if [ ! -e .config ]
+then
+  make xconfig
+fi
+
+echo "Recompile"
+make dep
+if [ $? ne 0 ]
+then
+  echo "Non zero return code for dep"
+  exit
+fi
+
+make bzImage
+if [ $? ne 0 ]
+then
+  echo "Non zero return code for bzImage"
+  exit
+fi
+
+make modules
+if [ $? ne 0 ]
+then
+  echo "Non zero return code for modules"
+  exit
+fi
+
+make modules_install
+if [ $? ne 0 ]
+then
+  echo "Non zero return code for modules_install"
+  exit
+fi
+
+echo ""
+echo "Install"
+cp arch/i386/boot/bzImage /boot/lintest
+/sbin/lilo
+lilo -R testkernel apm=debug
+reboot

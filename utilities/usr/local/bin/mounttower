@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mount -t smb //mikal/c /mnt/mikal -o username=still,workgroup=towersoft,rw
+mount -t smb //mikal/cdrom /mnt/cdrom -o username=still,workgroup=towersoft,rw

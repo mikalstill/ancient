@@ -1,0 +1,29 @@
+#!/usr/local/bin/perl
+
+use strict;
+my($CAND, $host, $file);
+
+# Get a list of possible PDF URLs from the comp.text.pdf database
+open CAND, "egrep \"http://[^ ]+\.[pP][dD][fF][^a-z\./]\" * | sed 's/^[0-9]*://' | sed 's/^.*http/http/' | grep -v localhost | grep -v 127.0.0.1 | sort | uniq |";
+
+while(<CAND>){
+    chomp;
+    s/\".*$//;
+    s/\).*$//;
+    s/[ \t].*$//;
+
+    if(/http:\/\/([a-zA-Z0-9\-\.]+)\/(.+\.pdf)(.*)/){
+	if($3 ne ""){
+	    print "Hostname $1, Filename $2\n";
+
+	    $host = $1;
+	    $file = $2;
+	    $_ = $2;
+	    s/.*\///;
+	    `lynx "http://$host/$file" --source --dump > pdfs/$_`;
+	}
+    }
+    else{
+	print "NO MATCH: \"$_\"\n";
+    }
+}
