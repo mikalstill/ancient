@@ -1,0 +1,126 @@
+#!/usr/bin/perl
+
+use strict;
+my($sectlevel, $subst, $suppress);
+
+$sectlevel = 0;
+$suppress = 0;
+while(<>){
+  s/<\?xml version[^>]*>/<!DOCTYPE article PUBLIC "-\/\/OASIS\/\/DTD DocBook V4.1\/\/EN">/;
+  s/<\?xml[^>]*>//;
+  s/<dw-document[^>]*>//;
+  s/<dw-article[^>]*>/<article>/;
+  s/<\/dw-document>//;
+  s/<\/dw-article>/<\/article>/;
+  s/<id domino[^>]*>//;
+  s/<meta[^>]*>//;
+  s/<zone[^>]*>//;
+  s/<content-area[^>]*>//;
+  s/<forumurl[^>]*>//;
+  s/<download-feature[^>]*>//;
+  s/<pdf[^>]*>//;
+  s/<name>.*<\/name>//;
+  s/<img src=""[^>]*>//;
+  s/<br[^>]*//;
+
+  s/<seriestitle[^>]*>//;
+  s/<\/seriestitle[^>]*>//;
+
+  s/<author[^>]*>//;
+  s/<\/author[^>]*>//;
+  s/<bio>/<articleinfo>\n<author>\n<authorblurb>\n<para>/;
+  s/<\/bio>/<\/para>\n<\/authorblurb>\n<\/author>\n<\/articleinfo>/;
+
+  s/<date[^>]*>//;
+  s/<abstract[^>]*>/<abstract>\n<para><emphasis>/;
+  s/<\/abstract>/<\/emphasis><\/para>\n<\/abstract>/;
+  s/<column-info[^>]*>//;
+  s/<docbody>//;
+  s/<\/docbody>//;
+
+  s/<todo>//g;
+  s/<i>/<emphasis>/g;
+  s/<\/i>/<\/emphasis>/g;
+  s/<b>/<command>/g;
+  s/<\/b>/<\/command>/g;
+
+  s/<figure>//;
+  s/<heading refname=""[^>]*>.*<\/heading>//;
+  s/<\/figure>//;
+  s/<img src="([^"]*)"[^>]*>/<execute><cmd>img<\/cmd><args>$1<\/args><\/execute>/;
+
+  s/<code[^>]*>/<programlisting>/;
+  s/<\/code>/<\/programlisting>/;
+
+  if(/<heading refname="" type="major"[^>]*>/){
+    $subst = "";
+    while($sectlevel > 0){
+      $subst = "$subst</sect$sectlevel>\n";
+      $sectlevel--;
+    }
+    s/<heading refname="" type="major"[^>]*>/$subst<sect1><title>/;
+    $sectlevel++;
+  }
+
+  if(/<heading refname="" type="minor"[^>]*>/){
+    $subst = "";
+    while($sectlevel > 1){
+      $subst = "$subst</sect$sectlevel>\n";
+      $sectlevel--;
+    }
+    s/<heading refname="" type="minor"[^>]*>/$subst<sect2><title>/;
+    $sectlevel++;
+  }
+
+  s/<heading refname="" type="sidebar"[^>]*>/<title>/;
+  s/<\/heading>/<\/title>/;
+
+  s/<p>/<para>/g;
+  s/<\/p>/<\/para>/g;
+
+  s/<ul>/<itemizedlist>/;
+  s/<\/ul>/<\/itemizedlist>/;
+  s/<li>/<listitem><para>/;
+  s/<\/li>/<\/para><\/listitem>/;
+
+  s/<a href[^>]*>//g;
+  s/<\/a>//g;
+
+  if(/<resourcelist>/){
+    $subst = "";
+    while($sectlevel > 0){
+      $subst = "$subst</sect$sectlevel>\n";
+      $sectlevel--;
+    }
+    s/<resourcelist>/$subst<sect1><title>Resources<\/title>/;
+    $sectlevel++;
+  }
+
+  if(/<\/resourcelist>/){
+    $subst = "";
+    while($sectlevel > 0){
+      $subst = "$subst</sect$sectlevel>\n";
+      $sectlevel--;
+    }
+    s/<\/resourcelist>/$subst/;
+  }
+
+  if(/<relatedlist>/){
+    $suppress = 1;
+  }
+  elsif(/<\/relatelist>/){
+    $suppress = 0;
+  }
+
+  if($suppress == 0){
+    print $_;
+  }
+}
+
+
+$subst = "";
+while($sectlevel > 0){
+  $subst = "$subst</sect$sectlevel>\n";
+  $sectlevel--;
+}
+print "$subst";

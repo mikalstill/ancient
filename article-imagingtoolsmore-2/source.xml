@@ -1,0 +1,214 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+
+ <?xml-stylesheet
+ type="text/xsl"
+ href="C:\Documents and Settings\Administrator\My Documents\Articles\1 -
+ Templates\dw-document-html-2.1.xsl"?>
+
+ <dw-document
+ xmlns:dw="http://www.ibm.com/developerWorks/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://dw.raleigh.ibm.com/developerworks/library/schema/2.2/dw-document-2.2.xsd">
+
+ <dw-article
+ toc="auto"
+ ratings="auto"
+ level="1"
+ localsite="worldwide"
+ related_contents="auto">
+
+ <id
+ domino-uid=""
+ content-id=""/>
+
+ <meta name="keywords"
+ content="IBM, developerWorks, Linux, Michael Still, image, raster,
+imagemagick, convert, rotate, scale, thumbnail, resize, artistic, graphic,
+graphics, manipulation, conversion, photos, rounded corners, superimpose,
+logo, logos, TODOCHECKTHESE"/>
+
+ <meta name="Last update" content="150204 nm"/>
+
+ <content-area name="linux"/>
+
+<title>Even more graphics from the command line</title>
+<subtitle>Tips and tricks for using ImageMagick on Linux</subtitle>
+
+ <forumurl
+ url=""/>
+
+ <download-feature
+ downloadtype="code"
+ filename=""
+ url-ftp=""/>
+
+ <pdf
+ url=""
+ size="xx KB"/>
+
+ <author
+ jobtitle="Senior Software Engineer"
+ email_cc="youngt01@us.ibm.com"
+ email="mikal@stillhq.com"
+ company="TOWER Software">
+ <bio>Michael has been working in the image processing field for several
+years, including a couple of years managing and developing large image
+databases for an Australian government department. He currently works for
+TOWER Software, which manufactures a world-leading EDMS and Records
+Management package named TRIM. Michael is also the developer of Panda, an
+open-source PDF generation API, as well as a bunch of other Open Source
+code.</bio>
+ <img src="" width="64" height="80"/>
+ <name>Michael Still</name>
+ </author>
+
+ <date day="15" month="03" year="2004"/>
+
+ <date-updated day="15" month="3" year="2004"/>
+
+ <abstract>There's nothing quite like command-line tools for handling large batches of tasks, and image manipulations are no exception. Web developers and administrators will appreciate the ability to handle large numbers of files easily, either at the command line or in scripts. Programmer Michael Still presents more examples of the ImageMagick suite, this time demonstrating how to put cool curved corners on your images, a variety of different frames and borders, converting to and from Adobe's PDF format, and how to extract all the images from multiple page file formats. TODOUPDATE</abstract>
+
+ <column-info
+ col-name=""
+ col-icon="column_icon.gif"/>
+
+ <docbody>
+
+ <column-info
+ col-name=""
+ col-icon="column_icon.gif"/>
+
+ <docbody>
+
+
+
+
+</docbody>
+
+<relatedlist>
+<a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff/">Graphics programming with libtiff</a>
+<a href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff2/">Graphics programming with libtiff, Part 2</a>
+<a href="http://www-106.ibm.com/developerworks/linux/library/l-graf/">Graphics from the command line</a>
+<a href="http://www-106.ibm.com/developerworks/xml/edu/x-dw-xiactsvg-i.html">Interactive, dynamic Scalable Vector Graphics</a>
+<a href="http://www.alphaworks.ibm.com/tech/tk4mpeg4">IBM Toolkit for MPEG-4</a>
+<a href="http://www-106.ibm.com/developerworks/websphere/library/techarticles/0111_kemble/0111_kemble.html">Voice-Enabling Your Web Sites</a>
+<a href="http://www-306.ibm.com/software/tivoli/products/web-site-analyzer/">IBM Tivoli Web Site Analyzer</a>
+</relatedlist>
+
+<resourcelist>
+<ul>
+
+ <li> ImageMagick is a collection of tools and libraries to read, write, 
+and manipulate images in over 89 major formats. 
+The <a href="http://www.imagemagick.org">ImageMagick</a> Web site is
+an excellent resource, and offers downloads of the ImageMagick source
+code. 
+The <a href="http://www.imagemagick.org/www/utilities.html">Command-line
+utilities</a> page gives more information on convert, mogrify, 
+composite and other tools like compare and conjure, as well as 
+their options -- it also gives a complete list of the 
+file formats that are recognized by ImageMagick. </li>
+
+<li>
+You can also invoke ImageMagick capabilities from your favorite 
+programming language, from C and Java to Perl and PHP. Check the list 
+of <a href="http://www.imagemagick.org/www/apis.html">programming 
+interfaces</a> for more information.
+</li>
+
+<li>
+Learn even more at Anthony Thyssen's 
+<a href="http://www.cit.gu.edu.au/~anthony/graphics/imagick6/">ImageMagick Examples</a> page.
+</li>
+
+<li>
+The
+<a href="">GIMP</a>, or GNU Image Manipulation Program, 
+is a freely  
+distributed piece of software suitable for such tasks as photo retouching,
+image composition and image authoring.  It is released under
+the GNU General Public License (GPL).
+</li>
+
+<li>
+Many of the pictures in this article were taken during my recent trip to
+<a href="linux.conf.au">linux.conf.au</a>.
+</li> 
+
+ <li>The <a
+href="http://www.stillhq.com/extracted/article-imagingtoolsmore/corners">corners</a>
+I used in the first example are available for download, I waive the copyright on these images (although I don't waive the copyright on the rest of the images in this article).
+</li>
+
+ <li>"<a
+href="http://www-106.ibm.com/developerworks/linux/library/l-graf/">Graphics
+from the command line</a>" (<i>developerWorks</i>, July 2003) is the first
+article in the series and discusses how to thumbnail, rotate, apply
+interesting graphical manipulations, and determine image information with
+ImageMagick.</li>
+
+ <li>"<a
+href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff/">Graphics
+programming with libtiff</a>" (<i>developerWorks</i>, March 2002)
+discusses black and white imaging concepts, with a particular focus on
+TIFF images.</li>
+
+ <li>"<a
+href="http://www-106.ibm.com/developerworks/linux/library/l-libtiff2/">Graphics
+programming with libtiff, Part 2</a>" (<i>developerWorks</i>, June 2002)
+discusses color TIFF images, but also discusses important topics such as
+which compression scheme is right for you.</li>
+
+<li>
+Scalable Vector Graphics (SVG) 
+is an XML application language which describes 2D vector
+  graphics
+including 
+ animation and scripting functionality. Get started with 
+<a href="http://www-106.ibm.com/developerworks/xml/edu/x-dw-xiactsvg-i.html">Interactive, dynamic Scalable Vector Graphics</a> 
+(<i>developerWorks</i>, February 2002).
+</li>
+
+
+<li>
+The 
+<a href="http://www.alphaworks.ibm.com/tech/tk4mpeg4">IBM Toolkit for MPEG-4</a>
+is a set of Java classes and APIs with sample playback and MPEG-4 
+generation applications. It's also one of the top downloads at 
+alphaWorks -- check it out for yourself to see why!
+</li>
+
+<li>
+Got pictures? Add voice to your Web site 
+with  <a href="www.voicexml.org">VoiceXML</a>. Get started with the article,
+<a href="http://www-106.ibm.com/developerworks/websphere/library/techarticles/0111_kemble/0111_kemble.html">Voice-Enabling Your Web Sites</a> 
+(<i>developerWorks</i>, November 2001).
+</li>
+
+<li>
+Got pictures <i>and</i> voice? Find out what impact it's having with 
+<a href="http://www-306.ibm.com/software/tivoli/products/web-site-analyzer/">IBM Tivoli Web Site Analyzer</a>. IBM Tivoli Web Site Analyzer
+captures, analyzes, stores and reports on 
+Web site usage, 
+health, integrity and site content, and 
+provides essential metrics on visitor site interactions and the site's
+overall performance
+</li>
+
+
+ <li>
+ Find more resources for Linux developers in the <a
+ href="http://www.ibm.com/developerworks/linux/">developerWorks Linux
+ section</a>.
+ </li>
+
+ <li>
+ You'll find a wide selection of books on Linux at the <a
+ href="http://devworks.krcinfo.com/WebForms/ProductList.aspx?Search=Category&amp;id=300&amp;parent=Linux">Linux section</a> of the Developer Bookstore.
+ </li>
+
+    </ul>
+  </resourcelist>
+
+</dw-article>
+</dw-document>

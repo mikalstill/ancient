@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Template created by Chris, and updated by Gretchen and Chris 5/19/03 -->
+<!-- Welcome to the dW article template! Comments show you how to fill in the basic elements:
+  Meta data 
+  Title
+  Author information
+  Abstract
+  Headings and paragraphs
+  Sidebars (optional)
+  Code in sentences (optional)
+  Code listings (optional)
+  Figures (optional)
+  Tables (optional)
+  Related links
+  Resource list
+ -->
+
+<!-- STYLESHEET and SCHEMA LOCATION 
+Edit these lines to point to the stylesheet and schema files on your machine. -->
+<?xml-stylesheet type="text/xsl" href="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-html-2.1.xsl"?>
+<dw-document xmlns:dw="http://www.ibm.com/developerWorks/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-2.1.xsd">
+
+<!-- SKILL LEVEL 
+If known, specify the (skill) level, 1 to 5 -->
+<dw-article toc="auto" ratings="auto" level="1" localsite="worldwide" related_contents="auto">
+<id domino-uid=""/>
+
+<!-- META DATA 
+Enter unique keywords for this article in the content field. -->
+<meta name="keywords" content="Unique keywords for your article go here.  Case doesn't matter; no need to include both upper and lower case for same item.  Separate keywords with commas."/>
+<!-- Fill in or leave blank for production to fill in.  -->
+<meta name="lastupdate" content="2003mmdd your-initials"/>
+
+<!-- ZONE  
+Fill in or leave blank for production to fill in.  -->
+<zone name="java"/>
+
+<!-- TITLE
+If this article belongs to a column or a series of articles, enter the column name or series title on the seriestitle tag.  Enter the article title on the title tag.  Enter the subtitle on the subtitle tag. -->
+<seriestitle>Enter the series title (optional)</seriestitle>
+<title>Enter the title of your article here</title>
+<subtitle>Enter the subtitle for your article here</subtitle>
+<!--  End TITLE -->
+
+<!-- Ignore these lines. -->
+<!-- <forumurl url=""/> -->
+<!-- <zip url=""/> -->
+<!-- <pdf size="" url=""/> -->
+
+<!-- AUTHOR INFO
+Create an author tag for each author. Provide author's company name, e-mail address, job title, name, and brief biography. Bio should convey relevant expertise or qualifications to write this article. -->
+<author company="Author company" email="Author e-mail address" jobtitle="Author job title" name="Author name">
+<bio>Author bio goes here.</bio></author>
+<!--  End AUTHOR -->
+
+<!-- DATE INFO
+Fill in or leave blank for production to fill in.-->
+<date month="5" day="15" year="2003"/>
+
+<!-- ABSTRACT 
+Enter a brief summary of the article. Do not include any line breaks in the content. Do not worry about providing a "miniabstract."  Production will take care of that if it's necessary. -->
+<abstract miniabstract="">Your article summary (3 to 7 sentences) goes here. Highlight the main points of the article or the task the developer will be able to do after reading the article. Put the primary points and key phrases close to the beginning of the abstract, because the abstract may be truncated in search results. Avoid line breaks in the abstract, please.</abstract>
+
+<!-- Ignore these lines. -->
+<column-info col-name="" col-icon=""/>
+<docbody>
+
+<!-- BEGIN THE BODY OF THE ARTICLE -->
+
+<!-- INTRODUCTORY PARAGRAPHS
+Every paragraph needs a <p> and </p>. -->
+<p>Begin the content of your article here.</p>
+
+<!-- MAJOR HEADING and MORE CONTENT  
+On all heading tags, no need to fill in refname, name, or alttoc. Production will handle.  -->
+<heading refname="" type="major" toc="yes" name="" alttoc="">A succinct, lively heading</heading>
+<p>Content continues. Use headings frequently to help the developer scan the article and quickly zero in on the content of interest.  Use sentence-style capitalization (only the first word is capitalized) on all headings.</p>
+
+<p>
+You can have several paragraphs under a heading.
+</p>
+
+<!-- MINOR HEADING and MORE CONTENT -->
+<heading refname="" type="minor" toc="no" name="" alttoc="">A sub-heading of the previous heading</heading>
+<p>This content is a sub-section of the previous content, and so its heading size is smaller.</p>
+
+<!-- SIDEBAR 
+Use sidebars for brief, tangential information. -->
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">When to use sidebars</heading>
+<p>Use a sidebar for content detours or reinforcement.</p> 
+</sidebar>
+<!-- END of SIDEBAR-->
+
+<!-- THIRD-LEVEL HEADING and MORE CONTENT
+If you need a third-level heading, simply use bold tagging and a break tag (br).-->
+<p><b>A third-level heading</b>
+<br />If you need a third-level heading, use the bold tags.
+</p>
+
+<!-- CODE IN A SENTENCE
+type=inline is required. -->
+<p>Programming elements (names of commands, methods, arguments, objects, for example) that occur in sentences should be in a monospace font.  For example, you might speak of the <code type="inline">fdisk</code> command or the <code type="inline">main()</code> method.</p>
+
+<!-- CODE LISTING
+type=section is required.  
+You can include code listings at any point in the article.  Do not exceed the maximum width for code listings: 600 pixels or about 90 characters.  Include a caption for each code listing. 
+
+Type or paste ASCII code into this file, with proper keyboard spacing.  Use the space key to indent lines. Use  &lt; to represent a less-than symbol and &gt; to represent a greater-than symbol.  Use &amp; for any use of ampersand.  If needed for clarity, use the bold tag for bolding text, as shown below. 
+
+Do not place paragraph tags around the code section.  
+ -->
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 1. Caption that identifies the code sample</heading>
+<code type="section">
+\** This is sample code **\
+Here is the first line of code
+    Here is an indented line 
+    Use the space key to indent lines.
+    
+line 50 #sample code cannot go........................beyond the end of this line
+Here is the final line that includes some &lt;angle brackets&gt;
+
+Add code here.  &lt;pre&gt; tags will be added automatically.
+Use the b tag to surround <b>bolded code</b>.
+</code>
+<!-- END OF CODE SAMPLE -->
+
+<!-- FIGURE 
+Figures can appear anywhere in the body of the article.  Do not use paragraph tags around the figure.  The order of the tags is: figure, heading, img, as shown here. Figures should be in gif or jpg format, and no wider than 600 pixels. -->
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 1. Caption for sample figure</heading>
+<img src="xxx.jpg" width="200" height="200" alt="Caption for sample figure"/>
+</figure>
+<!-- END OF FIGURE -->
+
+<!--  TABLES 
+Use standard html table tags -->
+<p><b>Table heading</b>
+<table width="100%" cellspacing="0" cellpadding="3" border="1">
+<tr >
+<td><b>Heading A</b></td>
+<td><b>Heading B</b></td>
+<td><b>Heading C</b></td>
+</tr>
+<tr >
+<td>Row 1 content A</td>
+<td>Row 1 content B</td>
+<td>Row 1 content C</td>
+</tr>
+<tr >
+<td>Row 2 content A</td>
+<td>Row 2 content B</td>
+<td>Row 2 content C</td>
+</tr>
+</table></p>
+<!--  END of TABLE -->
+
+<!-- END THE BODY OF THE ARTICLE -->
+
+<!-- Ignore this line. -->
+</docbody>
+
+<!-- RELATED LIST
+The related list includes 2 or 3 selected links to dW content that is especially relevant to the article.  All resources listed here should also be in the resource list. Links to the dW newsletter and Toolbox subscription are automatically filled in; no need to list them here. -->
+<relatedlist>
+<a href="">Title</a>
+<a href="">Title</a>
+</relatedlist>
+
+<!-- RESOURCE LIST
+The resource list includes links to downloadable code for the article, to all resources mentioned in the article, and to other resources related to the topic.  Resources may be from IBM, developerWorks, alphaWorks, the IBM developer domains or product sites, or non-IBM sites. Annotate each link by explaining the value and relevance for the reader. Put article titles in quotes, book titles in italics. 
+Use the format shown for each type of resource. -->
+<resourcelist>
+<ul>
+
+<!-- EXAMPLE FOR CODE DOWNLOADS -->
+<li>Download the <a href="">source code</a> used in this article.</li>
+
+<!-- EXAMPLE FOR ARTICLES -->
+<li>"<a href="">Article title</a>" offers additional insight on the pros and cons of the techniques discussed in this article.</li>
+
+<!-- EXAMPLE FOR dW ARTICLES -->
+<li>"<a href="">Article title</a>" (<i>developerWorks</i>, month year) offers additional insight on the pros and cons of the techniques discussed in this article.</li>
+
+<!-- EXAMPLE FOR WEB SITES -->
+<li>The <a href="">SANS Institute</a> is the ideal place to locate resources having to do with system administration, networking, and security.</li>
+
+<!-- EXAMPLE FOR BOOKS -->
+<li>The classic work in this field is <a href=""><i>UNIX Power Tools</i></a> by Jerry Peek, Tim O'Reilly, and Mike Loukides (O'Reilly &amp; Associates, 1997).</li>
+</ul>
+</resourcelist>
+
+<!-- END THE ARTICLE -->
+
+<!-- You're done! Ignore these last two lines. -->
+
+</dw-article>
+</dw-document>
