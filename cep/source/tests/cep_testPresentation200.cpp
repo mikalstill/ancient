@@ -464,7 +464,7 @@ retry:
         break;
 
       case 0:
-        sleep(2);
+        sleep(5);
         system("killall -9 gdms");
         exit(0);
         break;
