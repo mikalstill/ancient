@@ -323,8 +323,8 @@ char *returnStr(char *yytext, int len){
   char *lval;
 
   #if defined DEBUG
-     if(binaryMode == 0) printf("Calling returnStr on %s\n", yytext);
-     printf("strlen(yytext) = %d, len = %d\n", strlen(yytext), len);
+//     if(binaryMode == 0) printf("Calling returnStr on %s\n", yytext);
+//     printf("strlen(yytext) = %d, len = %d\n", strlen(yytext), len);
   #endif
 
   if((lval = malloc(sizeof(char) * 

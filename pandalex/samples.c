@@ -103,10 +103,10 @@ void pandalex_sample_stream(int event, va_list argptr){
       now->value = (char *) strmcpy(lengthObj, -1);
       now->filter = (char *) strmcpy(filter, -1);
 
-      now->stream = (char *) strmcpy(streamData + 2, -1);
-      now->stream[strlen(now->stream) - 1] = '\0';
+      now->stream = (char *) strmcpy(streamData + 2, streamDataLen - 2);
+      now->stream[strlen(now->stream)] = '\0';
 
-      now->streamlen = streamDataLen;
+      now->streamlen = streamDataLen - 2;
 
       now->waiting = 1;
       now = now->next;
@@ -190,7 +190,7 @@ void pandalex_sample_dictint(int event, va_list argptr){
 void pandalex_sample_procstream(char *filter, int length, char *data, int dataLen){
   char *uncompressed;
   uLong srcLen, dstLen;
-  int result;
+  int result, i;
 
   printf("Do something with the stream filter = %s, length = %d\n", filter, length);
   printf("-----------------------------------------------------------------------\n");
@@ -213,6 +213,8 @@ void pandalex_sample_procstream(char *filter, int length, char *data, int dataLe
   if(strcmp(filter, "FlateDecode") == 0){
     printf("Do something involving Flate\n");
     
+    length *= 100;
+
     if((uncompressed = (char *) malloc(sizeof(char) * (length) + 1)) == NULL){
       fprintf(stderr, "Could not make enough space to decompress Flate stream\n");
       exit(42);
@@ -238,14 +240,30 @@ void pandalex_sample_procstream(char *filter, int length, char *data, int dataLe
 	break;
       }
 
-      debuglex(data, length, "Flate compression failure", 0);
+      debuglex(data, srcLen, "Flate compression failure", 0);
       fprintf(stderr, "\n\nsrcLen is %d\n", srcLen);
 
       exit(46);
     }
 
-    printf("----------- UNCOMPRESSED STREAM IS -------------------------------------------");
+    printf("----------- UNCOMPRESSED STREAM IS -------------------------------------------\n");
+    printf("[");
     
+    for(i = 0; i < dstLen; i++){
+      printf("%c", ((uncompressed[i] & 128) == 128) ? '1' : '0');
+      printf("%c", ((uncompressed[i] & 64) == 64) ? '1' : '0');
+      printf("%c", ((uncompressed[i] & 32) == 32) ? '1' : '0');
+      printf("%c", ((uncompressed[i] & 16) == 16) ? '1' : '0');
+      printf("%c", ((uncompressed[i] & 8) == 8) ? '1' : '0');
+      printf("%c", ((uncompressed[i] & 4) == 4) ? '1' : '0');
+      printf("%c", ((uncompressed[i] & 2) == 2) ? '1' : '0');
+      printf("%c ", ((uncompressed[i] & 1) == 1) ? '1' : '0');
+    }
+      
+
+    printf("] [%d]\n", dstLen);
+    printf("------------------------------------------------------------------------------\n");
+    exit(4242);
   }
   else if(strcmp(filter, "LZWDecode") == 0){
     fprintf(stderr, "LZW compression is encumbered by Patents and therefore not supported\n");
