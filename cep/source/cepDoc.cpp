@@ -113,13 +113,12 @@ bool cepDoc::OnOpenDocument(const wxString& filename)
 void
 cepDoc::incrementProgress ()
 {
-  // todo_mikal: 10,000 readings is a lot, do we want to do better?
   m_progressCount++;
-  if (m_progressCount > 10000)
+  if (m_progressCount > 5000)
     m_progressCount = 0;
 
-  if (m_progressCount % 100 == 0)
-    m_progress->Update (m_progressCount / 100);
+  if(m_progressCount % 50 == 0)
+    m_progress->Update (m_progressCount / 50);
 }
 
 cepDataset *

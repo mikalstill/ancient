@@ -33,14 +33,9 @@ cepToString (int number)
 string
 cepToString (long number)
 {
-  /* 
-   * todo BS - check the buffer size is sufficient to hold a long
-   * is it possible for all digits be displayed? I think sci
-   * notation might save us here
-   */
-  char buffer[10];
+  char buffer[20];
 
-  snprintf (buffer, 10, "%ld", number);
+  snprintf (buffer, 20, "%ld", number);
   return string (buffer);
 }
 

@@ -237,8 +237,8 @@ cepPresentation::createBitmap ()
   // Now put the text annotations onto the bitmap
   plot_setfontcolor(graph, 26, 22, 249);
   // todo_mikal: check for existance
-  plot_setfont(graph, "n019004l.pfb", 12);
-  // plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 20);
+  //  plot_setfont(graph, "n019004l.pfb", 12);
+  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 20);
   plot_settextlocation(graph, 20, 70);
   plot_writestring(graph, (char *) m_yTitle.c_str());
 

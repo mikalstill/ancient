@@ -73,7 +73,6 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
   EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
   EVT_MENU (CEPMENU_COLORERROR, cepView::OnColorError)
-  EVT_MENU (CEPMENU_ELIMINATEOUTLIERS, cepView::OnEliminateOutliers)
   EVT_MENU (CEPMENU_SHOWX, cepView::OnToggleX)
   EVT_MENU (CEPMENU_SHOWY, cepView::OnToggleY)
   EVT_MENU (CEPMENU_SHOWZ, cepView::OnToggleZ)
@@ -88,7 +87,6 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_INTERP_NATURALSPLINE, cepView::OnInterpNaturalSpline)
   EVT_MENU (CEPMENU_INTERP_CUBICSPLINE, cepView::OnInterpCubicSpline)
   EVT_MENU (CEPMENU_INTERP_DIVIDED, cepView::OnInterpDivided)
-  
 END_EVENT_TABLE ()
   
 cepView::cepView ():
@@ -96,12 +94,8 @@ cepView::cepView ():
 {
   canvas = (cepCanvas *) NULL;
   frame = (wxFrame *) NULL;
+  m_parentFrame = (wxFrame *) NULL;
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
-
-  // The matrices are initially NULL
-  m_x = NULL;
-  m_y = NULL;
-  m_z = NULL;
 
   // Do we want to display a LS regression?
   cepError err;
@@ -117,24 +111,24 @@ cepView::cepView ():
   }
 }
 
+void cepView::setParentFrame(wxFrame *parentFrame)
+{
+  m_parentFrame = parentFrame;
+}
+
 cepView::~cepView ()
 {
-  if(m_x != NULL)
-    delete m_x;
-  if(m_y != NULL)
-    delete m_y;
-  if(m_z != NULL)
-    delete m_z;
 }
 
 // What to do when a view is created. Creates actual
 // windows for displaying the view.
-  bool cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
+bool cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
 {
   frame = wxGetApp ().CreateChildFrame (doc, this, TRUE);
-  frame->SetTitle ("cepView");
+  frame->SetTitle ("");
 
-  canvas = GetMainFrame ()->CreateCanvas (this, frame);
+  //  m_parentFrame = wxGetApp().GetMainFrame();
+  canvas = GetMainFrame()->CreateCanvas (this, frame);
 
 #ifdef __X__
   // X seems to require a forced resize
@@ -162,83 +156,37 @@ cepView::OnDraw (wxDC * dc)
 
   // We can only handle this event if we are ready
   if (theDataset && theDataset->isReady())
-  {
-    // If the dataset was malformed, then we close the tab here
-    if (!theDataset->isWellFormed())
     {
-      OnClose();
-      return;
-    }
-
-    // Get the matrices if we don't have them yet
-    if(m_x == NULL){
-      m_x = theDataset->getMatrix(cepDataset::dirX);
-    }
-
-    if(m_y == NULL){
-      m_y = theDataset->getMatrix(cepDataset::dirY);
-    }
-
-    if(m_z == NULL){
-      m_z = theDataset->getMatrix(cepDataset::dirZ);
-    }
-
-    // Graph the matrices
-    int width, height, gCount = 0;
-    
-    canvas->GetSize(&width, &height);
-    cepDebugPrint("Canvas size: " + cepToString(width) + ", " + cepToString(height));
-
-    frame->GetSize (&width, &height);
-    cepDebugPrint("Frame size: " + cepToString(width) + ", " + cepToString(height));
-
-    bool showX, showY, showZ;
-
-    cepError err;
-    err = m_config->getValue("ui-viewmenu-showx", true, showX);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-viewmenu-showy", true, showY);
-    if(err.isReal()) err.display();
-    err = m_config->getValue("ui-viewmenu-showz", true, showZ);
-    if(err.isReal()) err.display();
-
-    if(showX) gCount++;
-    if(showY) gCount++;
-    if(showZ) gCount++;
-
-    // todo_mikal: I don't like this...
-    if(gCount > 0){
-      int presHeight = height / gCount - 10;
-      int presDrop = 0;
+      // If the dataset was malformed, then we close the tab here
+      if (!theDataset->isWellFormed())
+	{
+	  OnClose();
+	  return;
+	}
       
-      cepDebugPrint ("Dataset valid, so displaying");
-      if(showX){
-	cepDebugPrint("Displaying x direction graph");
-	drawPresentation(theDataset, cepDataset::dirX, presDrop, dc, 
-			 width, presHeight);
-	presDrop += presHeight + 10;
-      }
-
-      if(showY){
-	cepDebugPrint("Displaying y direction graph");
-	drawPresentation(theDataset, cepDataset::dirY, presDrop, dc, 
-			 width, presHeight);
-	presDrop += presHeight + 10;
-      }
+      // Set the title of the tab if we haven't already
+      if(frame->GetTitle() == "")
+	frame->SetTitle(theDataset->getRootFilename().c_str());
       
-      if(showZ){
-	cepDebugPrint("Displaying z direction graph");
-	drawPresentation(theDataset, cepDataset::dirZ, presDrop, dc, 
-			 width, presHeight);
-	presDrop += presHeight + 10;
+      // Graph the matrices
+      cepError err;
+      int top, bottom, width;
+      
+      for(int dir = (int) cepDataset::dirX; dir < (int) cepDataset::dirUnknown; dir++){
+	err = canvas->graphPlacement((cepDataset::direction) dir, top, bottom, width);
+	if(err.isReal()){
+	  err.display();
+	  return;
+	}
+	drawPresentation(theDataset, (cepDataset::direction) dir, top, dc, 
+			 width, bottom - top);
       }
+      m_dirty = false;
     }
-    m_dirty = false;
-  }
   else
-  {
-    cepDebugPrint ("Dataset currently invalid, so not displaying");
-  }
+    {
+      cepDebugPrint ("Dataset currently invalid, so not displaying");
+    }
 }
 
 void
@@ -379,13 +327,6 @@ cepView::OnColorError (wxCommandEvent & WXUNUSED (event))
   }
 }
 
-void cepView::OnEliminateOutliers(wxCommandEvent& event)
-{
-  // todo_mikal: not implemented at this time (and disabled in the menu)
-  cepEliminateDialog elim;
-  elim.display();
-}
-
 void cepView::OnToggleX (wxCommandEvent &pevt)
 {
   m_config->setValue("ui-viewmenu-showx", pevt.IsChecked());
@@ -407,58 +348,9 @@ void cepView::OnToggleZ (wxCommandEvent &pevt)
   canvas->Refresh();
 }
 
-/*
- * Window implementations
- */
-
-BEGIN_EVENT_TABLE (cepCanvas, wxScrolledWindow)
-EVT_MOUSE_EVENTS (cepCanvas::OnMouseEvent) 
-END_EVENT_TABLE ()
-
-// Define a constructor for my canvas
-cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos, 
-		      const wxSize & size, long style):
-wxScrolledWindow (frame, -1, pos, size, style)
-{
-  view = v;
-
-  // Is this where we create new controls?
-  wxPoint pos, size;
-
-  pos.x = 100;
-  pos.y = 42;
-  size.x = -1;
-  size.y = -1;
-
-  // m_button = new wxButton(v, -1, "This is a button", pos, size, 
-}
-
-// Define the repainting behaviour
-void
-cepCanvas::OnDraw (wxDC & dc)
-{
-  if (view)
-    view->OnDraw (&dc);
-}
-
-void
-cepCanvas::OnMouseEvent (wxMouseEvent & event)
-{
-  if (!view)
-    return;
-
-  wxClientDC dc (this);
-
-  PrepareDC (dc);
-  dc.SetPen (*wxBLACK_PEN);
-  // wxPoint pt (event.GetLogicalPosition (dc));
-}
-
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
-
- 
   cepLsUi lsUi;
   cepLs lsX, lsY, lsZ;
   cepMatrix <double> residuals, matP;
@@ -466,176 +358,174 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 
 //  m_dirty = true;
 
-  lsUi.showIsReweight();
+//   lsUi.showIsReweight();
 
-  if(lsUi.getIsReweight() != -1)
-  {
-    lsUi.showWhichDir();
+//   if(lsUi.getIsReweight() != -1)
+//   {
+//     lsUi.showWhichDir();
 
-    if(lsUi.getWhichDir('x') == true)
-    {
-      if(lsUi.getIsReweight() == 1)
-      {
-        lsX.cepDoVCV(*m_x);
-        residuals = lsX.getResidual();
+//     if(lsUi.getWhichDir('x') == true)
+//     {
+//       if(lsUi.getIsReweight() == 1)
+//       {
+//         lsX.cepDoVCV(*m_x);
+//         residuals = lsX.getResidual();
         
-        cout << "equation of the line is " << endl;
-        cout << "y=" << lsX.getB1() << "x+" << lsX.getB2() << endl;
-        cout << "residuals are: " << endl;
-        for(int i = 0; i < residuals.getNumRows(); i++){
-          cout << residuals.getValue(i,0) << " ";
-        }
-        cout << endl;
+//         cout << "equation of the line is " << endl;
+//         cout << "y=" << lsX.getB1() << "x+" << lsX.getB2() << endl;
+//         cout << "residuals are: " << endl;
+//         for(int i = 0; i < residuals.getNumRows(); i++){
+//           cout << residuals.getValue(i,0) << " ";
+//         }
+//         cout << endl;
         
-      }
-      else
-      {
-        lsUi.showIsReadP("x (North)");
+//       }
+//       else
+//       {
+//         lsUi.showIsReadP("x (North)");
 
-        if(lsUi.getIsReadP() == 1)
-        {
-          lsUi.showGetfNameP();
-          if(lsUi.getfNameP() != "")
-          {
-            cout << "x selected: no rewight" << endl;
-            cout << "file read is: " << lsUi.getfNameP() << endl;
-            matP = data.getP(lsUi.getfNameP());
-            for(int i = 0; i < matP.getNumRows(); i++){
-              for(int j = 0; j < matP.getNumCols(); j++){
-                cout << matP.getValue(i,j) << " ";
-              }
-              cout << endl;
-            }
-            lsX.cepDoVCV(*m_x, matP);
-            residuals = lsX.getResidual();
+//         if(lsUi.getIsReadP() == 1)
+//         {
+//           lsUi.showGetfNameP();
+//           if(lsUi.getfNameP() != "")
+//           {
+//             cout << "x selected: no rewight" << endl;
+//             cout << "file read is: " << lsUi.getfNameP() << endl;
+//             matP = data.getP(lsUi.getfNameP());
+//             for(int i = 0; i < matP.getNumRows(); i++){
+//               for(int j = 0; j < matP.getNumCols(); j++){
+//                 cout << matP.getValue(i,j) << " ";
+//               }
+//               cout << endl;
+//             }
+//             lsX.cepDoVCV(*m_x, matP);
+//             residuals = lsX.getResidual();
 
-            cout << "equation of the line is " << endl;
-            cout << "y=" << lsX.getB1() << "x+" << lsX.getB2() << endl;
-            cout << "residuals are: " << endl;
-            for(int i = 0; i < residuals.getNumRows(); i++){
-              cout << residuals.getValue(i,0) << " ";
-            }
-            cout << endl;
-          }   
-        }
-        else
-        {
-          cout << "re-weight graph thingie goes here " << endl;
-        }
-      }
-    }
+//             cout << "equation of the line is " << endl;
+//             cout << "y=" << lsX.getB1() << "x+" << lsX.getB2() << endl;
+//             cout << "residuals are: " << endl;
+//             for(int i = 0; i < residuals.getNumRows(); i++){
+//               cout << residuals.getValue(i,0) << " ";
+//             }
+//             cout << endl;
+//           }   
+//         }
+//         else
+//         {
+//           cout << "re-weight graph thingie goes here " << endl;
+//         }
+//       }
+//     }
 
-    if(lsUi.getWhichDir('y') == true)
-    {
-      if(lsUi.getIsReweight() == 1)
-      {
-        lsY.cepDoVCV(*m_y);
-        residuals = lsY.getResidual();
+//     if(lsUi.getWhichDir('y') == true)
+//     {
+//       if(lsUi.getIsReweight() == 1)
+//       {
+//         lsY.cepDoVCV(*m_y);
+//         residuals = lsY.getResidual();
 
-        cout << "equation of the line is " << endl;
-        cout << "y=" << lsY.getB1() << "x+" << lsY.getB2() << endl;
-        cout << "residuals are: " << endl;
-        for(int i = 0; i < residuals.getNumRows(); i++){
-          cout << residuals.getValue(i,0) << " ";
-        }
-        cout << endl;
+//         cout << "equation of the line is " << endl;
+//         cout << "y=" << lsY.getB1() << "x+" << lsY.getB2() << endl;
+//         cout << "residuals are: " << endl;
+//         for(int i = 0; i < residuals.getNumRows(); i++){
+//           cout << residuals.getValue(i,0) << " ";
+//         }
+//         cout << endl;
 
-      }
-      else
-      {
-        lsUi.showIsReadP("y (East)");
+//       }
+//       else
+//       {
+//         lsUi.showIsReadP("y (East)");
 
-        if(lsUi.getIsReadP() == 1)
-        {
-          lsUi.showGetfNameP();
+//         if(lsUi.getIsReadP() == 1)
+//         {
+//           lsUi.showGetfNameP();
 
-          if(lsUi.getfNameP() != "")
-          {
-            cout << "y selected: no rewight" << endl;
-            cout << "file read is: " << lsUi.getfNameP() << endl;
-            matP = data.getP(lsUi.getfNameP());
-            for(int i = 0; i < matP.getNumRows(); i++){
-              for(int j = 0; j < matP.getNumCols(); j++){
-                cout << matP.getValue(i,j) << " ";
-              }
-              cout << endl;
-            }
-            lsY.cepDoVCV(*m_y, matP);
-            residuals = lsY.getResidual();
+//           if(lsUi.getfNameP() != "")
+//           {
+//             cout << "y selected: no rewight" << endl;
+//             cout << "file read is: " << lsUi.getfNameP() << endl;
+//             matP = data.getP(lsUi.getfNameP());
+//             for(int i = 0; i < matP.getNumRows(); i++){
+//               for(int j = 0; j < matP.getNumCols(); j++){
+//                 cout << matP.getValue(i,j) << " ";
+//               }
+//               cout << endl;
+//             }
+//             lsY.cepDoVCV(*m_y, matP);
+//             residuals = lsY.getResidual();
 
-            cout << "equation of the line is " << endl;
-            cout << "y=" << lsY.getB1() << "x+" << lsY.getB2() << endl;
-            cout << "residuals are: " << endl;
-            for(int i = 0; i < residuals.getNumRows(); i++){
-              cout << residuals.getValue(i,0) << " ";
-            }
-            cout << endl;
-          }
-        }
-        else
-        {
-          cout << "re-weight graph thingie goes here " << endl;
-        }
-      }
-    }
+//             cout << "equation of the line is " << endl;
+//             cout << "y=" << lsY.getB1() << "x+" << lsY.getB2() << endl;
+//             cout << "residuals are: " << endl;
+//             for(int i = 0; i < residuals.getNumRows(); i++){
+//               cout << residuals.getValue(i,0) << " ";
+//             }
+//             cout << endl;
+//           }
+//         }
+//         else
+//         {
+//           cout << "re-weight graph thingie goes here " << endl;
+//         }
+//       }
+//     }
 
-    if(lsUi.getWhichDir('z') == true)
-    {
-      if(lsUi.getIsReweight() == 1)
-      {
-        lsZ.cepDoVCV(*m_z);
-        residuals = lsZ.getResidual();
+//     if(lsUi.getWhichDir('z') == true)
+//     {
+//       if(lsUi.getIsReweight() == 1)
+//       {
+//         lsZ.cepDoVCV(*m_z);
+//         residuals = lsZ.getResidual();
 
-        cout << "equation of the line is " << endl;
-        cout << "y=" << lsZ.getB1() << "x+" << lsZ.getB2() << endl;
-        cout << "residuals are: " << endl;
-        for(int i = 0; i < residuals.getNumRows(); i++){
-          cout << residuals.getValue(i,0) << " ";
-        }
-        cout << endl;
+//         cout << "equation of the line is " << endl;
+//         cout << "y=" << lsZ.getB1() << "x+" << lsZ.getB2() << endl;
+//         cout << "residuals are: " << endl;
+//         for(int i = 0; i < residuals.getNumRows(); i++){
+//           cout << residuals.getValue(i,0) << " ";
+//         }
+//         cout << endl;
 
-      }
-      else
-      {
-        lsUi.showIsReadP("z (Up)");
+//       }
+//       else
+//       {
+//         lsUi.showIsReadP("z (Up)");
 
-        if(lsUi.getIsReadP() == 1)
-        {
-          lsUi.showGetfNameP();
+//         if(lsUi.getIsReadP() == 1)
+//         {
+//           lsUi.showGetfNameP();
 
-          if(lsUi.getfNameP() != "")
-          {
-            cout << "x selected: no rewight" << endl;
-            cout << "file read is: " << lsUi.getfNameP() << endl;
-            matP = data.getP(lsUi.getfNameP());
-            for(int i = 0; i < matP.getNumRows(); i++){
-              for(int j = 0; j < matP.getNumCols(); j++){
-                cout << matP.getValue(i,j) << " ";
-              }
-              cout << endl;
-            }
-            lsZ.cepDoVCV(*m_z, matP);
-            residuals = lsZ.getResidual();
+//           if(lsUi.getfNameP() != "")
+//           {
+//             cout << "x selected: no rewight" << endl;
+//             cout << "file read is: " << lsUi.getfNameP() << endl;
+//             matP = data.getP(lsUi.getfNameP());
+//             for(int i = 0; i < matP.getNumRows(); i++){
+//               for(int j = 0; j < matP.getNumCols(); j++){
+//                 cout << matP.getValue(i,j) << " ";
+//               }
+//               cout << endl;
+//             }
+//             lsZ.cepDoVCV(*m_z, matP);
+//             residuals = lsZ.getResidual();
 
-            cout << "equation of the line is " << endl;
-            cout << "y=" << lsZ.getB1() << "x+" << lsZ.getB2() << endl;
-            cout << "residuals are: " << endl;
-            for(int i = 0; i < residuals.getNumRows(); i++){
-              cout << residuals.getValue(i,0) << " ";
-            }
-            cout << endl;
-          }
-        }
-        else
-        {
-          cout << "re-weight graph thingie goes here " << endl;
-        }
-      }
-    }
-  }
-
-
-  canvas->Refresh();
+//             cout << "equation of the line is " << endl;
+//             cout << "y=" << lsZ.getB1() << "x+" << lsZ.getB2() << endl;
+//             cout << "residuals are: " << endl;
+//             for(int i = 0; i < residuals.getNumRows(); i++){
+//               cout << residuals.getValue(i,0) << " ";
+//             }
+//             cout << endl;
+//           }
+//         }
+//         else
+//         {
+//           cout << "re-weight graph thingie goes here " << endl;
+//         }
+//       }
+//     }
+//   }
+//  canvas->Refresh();
 
 }
 
@@ -662,20 +552,20 @@ void cepView::LeastSquaresVCV(cepMatrix<double> *mat, string direction)
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresRW (wxCommandEvent &pevt)
 {
-  m_dirty = true;
+//   m_dirty = true;
 
-  LeastSquaresVCV(m_x, "x");
-  LeastSquaresVCV(m_y, "y");
-  LeastSquaresVCV(m_z, "z");
+//   LeastSquaresVCV(m_x, "x");
+//   LeastSquaresVCV(m_y, "y");
+//   LeastSquaresVCV(m_z, "z");
 
-  m_displayLs = lsDisplayVCV;
-  cepError err;
-  err = m_config->setValue("ui-mathmenu-displayls", (int) m_displayLs);
-  if(err.isReal()){
-    err.display();
-  }
+//   m_displayLs = lsDisplayVCV;
+//   cepError err;
+//   err = m_config->setValue("ui-mathmenu-displayls", (int) m_displayLs);
+//   if(err.isReal()){
+//     err.display();
+//   }
 
-  canvas->Refresh();
+//   canvas->Refresh();
 }
 
 void cepView::LeastSquaresRW(cepMatrix<double> *mat, string direction)

@@ -26,6 +26,7 @@
 cepDataset::cepDataset ():
   m_filename(""),
   m_offset(""),
+  m_offsetFloat(0.0),
   m_ready(false),
   m_wellformed(false)
 {
@@ -122,13 +123,14 @@ cepError cepDataset::read (const string& filename)
 	    // If this is a data bearing line
 	    if(cepIsNumeric(thisLine.c_str()[0]))
 	      {
+		if (m_progress)
+		  m_progress (i + 1, numLines);
 		numLines ++;
 		
 		// Break the line into it's columns, I prefer this to the strtok method we used to use...
 		cepStringArray sa(thisLine, " ");
 		row.date = atof(sa[0].c_str());
-		// todo_mikal: perhaps cache the float version of the offset in a member variable?
-		row.sample = atof(applyOffset(sa[1]).c_str()) - atof(m_offset.c_str());
+		row.sample = atof(applyOffset(sa[1]).c_str()) - m_offsetFloat;
 		row.error = atof(sa[2].c_str());
 		
 		if(lastRow.date == -1)
@@ -171,6 +173,7 @@ cepError cepDataset::read (const string& filename)
 		if(cepIsNumeric(sa[6].c_str()[0]))
 		  {
 		    m_offset = sa[6];
+		    m_offsetFloat = atof(m_offset.c_str());
 		  }
 	      }
 	    
@@ -395,4 +398,10 @@ string cepDataset::applyOffset(string value)
 		" value = " + newvalue);
   cepDebugPrint("Resultant value = " + retval);
   return retval;
+}
+
+// Return the root filename for the dataset
+string cepDataset::getRootFilename()
+{
+  return m_filename;
 }

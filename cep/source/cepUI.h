@@ -41,7 +41,6 @@
 #include "cepCore.h"
 #include "cepWxErrorHandler.h"
 #include "cepTextErrorHandler.h"
-#include "cepEliminateDialog.h"
 
 class wxDocManager;
 
@@ -64,7 +63,6 @@ protected:
 };
 
 DECLARE_APP (cepApp)
-  // Define a new frame
 class cepCanvas;
 class cepFrame:public wxDocMDIParentFrame
 {
@@ -100,7 +98,7 @@ GetMainFrame (void);
 #define CEPMENU_COLORAXES 4
 #define CEPMENU_COLORLINE 5
 //#define CEPMENU_COLORAVERAGE 6
-#define CEPMENU_ELIMINATEOUTLIERS 7
+//#define CEPMENU_ELIMINATEOUTLIERS 7
 //#define CEPMENU_VIEWCENTERED 8
 //#define CEPMENU_VIEWZOOMED 9
 #define CEPMENU_TESTERRORS 10

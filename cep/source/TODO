@@ -12,3 +12,8 @@
 * Error bar format
 * No line between data points
 * Date holes
+
+* m_ for member variables
+* greater use of initializers
+* resolve todos
+* rationalize debugging output

@@ -21,8 +21,6 @@
 
 #include "cepError.h"
 
-// todo_mikal: copy constructor, should have actioned status
-
 cepError::cepError ()
 {
   m_message = "";

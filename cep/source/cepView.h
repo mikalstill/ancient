@@ -31,32 +31,10 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifdef __GNUG__
-// #pragma interface
-#endif
-
 #ifndef __VIEWSAMPLEH__
 #define __VIEWSAMPLEH__
 
-#include "wx/docview.h"
-#include "cepWxErrorHandler.h"
-#include "cepTextErrorHandler.h"
-
-class cepCanvas:public wxScrolledWindow
-{
-public:
-  wxView * view;
-
-  cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
-             const wxSize & size, long style);
-  virtual void OnDraw (wxDC & dc);
-  void OnMouseEvent (wxMouseEvent & event);
-
-private:
-    DECLARE_EVENT_TABLE ()
-
-    wxButton m_button;
-};
+#include "cepCanvas.h"
 
 class cepView:public wxView
 {
@@ -67,11 +45,13 @@ public:
       lsDisplayRW
   };
 
-  wxFrame * frame;
+  wxFrame * frame, * m_parentFrame;
   cepCanvas *canvas;
 
   cepView();
   ~cepView();
+
+  void setParentFrame(wxFrame *parentFrame);
 
   bool OnCreate (wxDocument * doc, long flags);
   void OnDraw (wxDC * dc);
@@ -79,12 +59,12 @@ public:
   bool OnClose (bool deleteWindow = TRUE);
 
   void OnCut (wxCommandEvent & event);
+  //  void OnMouseEvent (wxMouseEvent & event);
 
   void OnColorAxes  (wxCommandEvent& event);
   void OnColorLine  (wxCommandEvent& event);
   void OnColorAverage  (wxCommandEvent& event);
   void OnColorError  (wxCommandEvent& event);
-  void OnEliminateOutliers (wxCommandEvent& event);
   void OnViewCentered (wxCommandEvent& event);
   void OnViewZoomed (wxCommandEvent& event);
   void OnToggleX (wxCommandEvent& event);
@@ -125,8 +105,7 @@ private:
   cepLsDisplay m_displayLs;
   cepConfiguration *m_config;
   cepErrorHandler *errHandler;
-
-  cepMatrix<double> *m_x, *m_y, *m_z;
+  wxRect m_graphs[3];
 };
 
 

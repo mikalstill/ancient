@@ -167,6 +167,10 @@ cepApp::OnInit (void)
   // Associate the menu bar with the frame
   frame->SetMenuBar (menu_bar);
 
+  // We also have a status bar (3 is the number of fields)
+  frame->CreateStatusBar(3);
+
+  // Center on the window and make it visible
   frame->Centre (wxBOTH);
   frame->Show (TRUE);
 
@@ -179,7 +183,7 @@ cepApp::OnInit (void)
   string filename;
   cepError err;
 
-  while ((optchar = getopt (argc, argv, "d:a:e:x:y:z:cm")) != -1)
+  while ((optchar = getopt (argc, argv, "d:e:x:y:z:")) != -1)
     {
       cepDebugPrint("CLI Options character: " + cepToString((char) optchar));
       switch (optchar)
@@ -331,8 +335,6 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       edit_menu->Append (wxID_UNDO, "&Undo");
       edit_menu->Append (wxID_REDO, "&Redo");
       edit_menu->AppendSeparator ();
-      // todo_mikal: remove
-      edit_menu->Append (CEPMENU_CUTSEGMENT, "&Cut last segment");
       doc->GetCommandProcessor ()->SetEditMenu (edit_menu);
       
       /////////////////////////////////////////////////////////////////////////
@@ -353,12 +355,6 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       }
       else
 	view_menu->Check(CEPMENU_ERRORS, confval);
-      
-      view_menu->Append (CEPMENU_ELIMINATEOUTLIERS, 
-			 "Eliminate outlying samples",
-			 "Removes samples which are outside a given tolerance",
-			 FALSE);
-      view_menu->Enable(CEPMENU_ELIMINATEOUTLIERS, false);
       
       view_menu->AppendSeparator();
       
@@ -534,12 +530,6 @@ cepFrame::OnTestErrors (wxCommandEvent & WXUNUSED (event))
       e.display();
     }
   }
-}
-
-void
-cepFrame::OnOpen (wxCommandEvent& WXUNUSED(event))
-{
-  wxMessageBox("Foo", "Bar");
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing

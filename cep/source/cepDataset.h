@@ -71,7 +71,8 @@ public:
   {
     dirX = 0,
     dirY,
-    dirZ
+    dirZ,
+    dirUnknown
   };
 
   // Filename is the "root filename" e.g. mb_ANKR_GPS
@@ -94,17 +95,20 @@ public:
   
   // Utility methods
   direction getDirectionFromName(string name);
-  string applyOffset(string value);
+  string getRootFilename();
 
 private:
-    string m_filename;
-    string m_header[3];
-    string m_offset;
+  string applyOffset(string value);
 
-    cepDatasetProgressCB m_progress;
-    vector < cep_datarow > m_datax, m_datay, m_dataz;
-    bool m_ready;
-    bool m_wellformed;
+  string m_filename;
+  string m_header[3];
+  string m_offset;
+  float m_offsetFloat;
+
+  cepDatasetProgressCB m_progress;
+  vector < cep_datarow > m_datax, m_datay, m_dataz;
+  bool m_ready;
+  bool m_wellformed;
 };
 
 #endif
