@@ -31,6 +31,7 @@ m_raster (NULL)
 bool
 pdfRender::render ()
 {
+  debug(dlTrace, "Starting render");
   if(m_plot == NULL)
     {
       // Find the size of the page and setup a plot
@@ -61,6 +62,7 @@ pdfRender::render ()
 #else
       debug(dlError, "Libmplot not found at configure time. Graphics "
 	    "functionality is therefore not available");
+      return false;
 #endif
     }
 
@@ -85,6 +87,7 @@ pdfRender::render ()
   debug(dlTrace, "Commence rendering the preprocessed commands");
   for(int cmdcnt = 0; cmdcnt < page.getCommandCount(); cmdcnt++)
     {
+      debug(dlTrace, string("Processing command: ") + toString(cmdcnt));
       if(m_select)
 	{
 	  debug(dlTrace, "Set up selection hinting for object");
@@ -138,7 +141,9 @@ pdfRender::render ()
 						    m_yscale));
 		  debug(dlTrace, string("Line start: ") + 
 			toString(controlPoints[0].pt.x) + string(", ") +
-			toString(controlPoints[0].pt.y));
+			toString(controlPoints[0].pt.y) + 
+			string(" modifier: ") + 
+			toString(controlPoints[0].modifier));
 
 		  for(unsigned int i = 1; i < controlPoints.size(); i++)
 		    {
@@ -158,7 +163,9 @@ pdfRender::render ()
 					   m_yscale));
 		      debug(dlTrace, string("Line segment: ") + 
 			toString(controlPoints[0].pt.x) + string(", ") +
-			toString(controlPoints[0].pt.y));
+			toString(controlPoints[0].pt.y) + 
+			string(" modifier: ") + 
+			toString(controlPoints[0].modifier));
 		    }
 
 		  debug(dlTrace, "Start stroking");
