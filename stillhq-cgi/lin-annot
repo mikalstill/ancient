@@ -10,7 +10,7 @@ my($database, $select, @data);
 my($CFILES, $HTMLFILE);
 my($inputfullfile, $inputfile, $directory, $outfile);
 my($bodyfound, $line, $count, $srcdir, $dir, $icon);
-my($filehash);
+my($filehash, $ano, $cmd);
 
 $result = new CGI();
 $mode = $result->param('mode');
@@ -24,7 +24,7 @@ print $result->header;
 print $result->start_html(-title=>"lin-annot");
 
 $database = DBI->connect("DBI:mysql:database=linux:host=localhost", "root", "vodka4me", { PrintError => 0 });
-$srcdir = "/usr/src/linux-2.4.18";
+$srcdir = "/usr/src/linux-2.4.18-orig";
 
 if(!defined($database)){
     print "Database connection failed" . DBI->errstr;
@@ -80,7 +80,7 @@ if($mode eq ""){
 	    $inputfullfile =~ s/[\*\/]$//;
 	    print "<td width=\"20%\"><BR><a href=\"/cgi-bin/lin-annot?mode=display&page=";
 	    $_ = $srcdir;
-	    s/\/usr\/src\/linux-2.4.18//;
+	    s/\/usr\/src\/linux-2.4.18-orig//;
 	    print "$_/$inputfullfile\"><center><img src=\"/mikalicons/$icon\"><BR><BR><b>$inputfullfile</b></center></a><BR></td>\n";
 	}
 
@@ -126,7 +126,7 @@ elsif($mode eq "insert"){
     s/\'/\'\'/g;
     $annot = $_;
 
-    $filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18/$page | cut -f 1 -d " "`;
+    $filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18-orig/$page | cut -f 1 -d " "`;
     $select = $database->prepare("INSERT INTO annotations (file, line, annot, md5) VALUES ('$page', $line, '$annot', '$filehash')");
     if(!defined($select)){
 	print "Could not arrange select";
@@ -135,7 +135,7 @@ elsif($mode eq "insert"){
     }
     
     $select->execute() or die "Could not execute select" . $select->errstr;
-    print "<I>File hash (md5sum /usr/src/linux-2.4.18/$page): $filehash<BR>Defined the annotation</i><br>\n";
+    print "<I>File hash (md5sum /usr/src/linux-2.4.18-orig/$page): $filehash<BR>Defined the annotation</i><br>\n";
 
     if($word ne ""){
 	$select = $database->prepare("INSERT INTO words (word, file, line) VALUES ('$word', '$page', $line)");
@@ -151,6 +151,54 @@ elsif($mode eq "insert"){
 
     dostuff($srcdir, $page);
 }
+elsif($mode eq "edit"){
+    $ano = $result->param("ano");
+    $cmd = $result->param("cmd");
+
+    $select = $database->prepare("SELECT annot, file, line FROM annotations WHERE ano = $ano");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    # Results?
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	@data = $select->fetchrow_array();
+
+	$filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18-orig/$data[1] | cut -f 1 -d " "`;
+	if($filehash eq ""){
+	    print "Could not generate a hash";
+	    exit;
+	}
+
+	$data[0] =~ s/\'/\'\'/g;
+	if($cmd eq "import"){
+	    $select = $database->prepare("INSERT INTO annotations (file, line, annot, md5) VALUES ('$data[1]', '$data[2]', '$data[0]', '$filehash')");
+	}
+	elsif($cmd eq "delete"){
+	    $select = $database->prepare("INSERT INTO annotations (file, line, annot, md5) VALUES ('$data[1]', '$data[2]', '', '$filehash')");
+	}
+	else{
+	    print "Unknown command";
+	    exit;
+	}
+
+	if(!defined($select)){
+	    print "Could not arrange select";
+	    $database->disconnect();
+	    exit;
+	}
+	
+	# Results?
+	$select->execute() or die "Could not execute insert" . $select->errstr;
+    }
+
+    print "<i>Annotation modified</i><BR>\n";
+    # todo_mikal: there is a bug in how do stuff deals with the redraw. I am not sure why.
+    dostuff($srcdir, $data[1]);
+}
 
 print $result->end_html;
 exit;
@@ -159,11 +207,13 @@ exit;
 
 sub dostuff(){
     my($srcdir, $filename) = @_;
-    my($word, $textline, %hotwords, $rawword, $file);
+    my($word, $textline, %hotwords, $rawword, $file, %annotations);
 
     $file = "$filename";
     $file =~ s/\/\//\//g;
- 
+    $filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18-orig/$page | cut -f 1 -d " "`;
+
+    ###############################################
     # Build a list of all hot words
     $select = $database->prepare("SELECT word, file, line FROM words");
     if(!defined($select)){
@@ -171,8 +221,7 @@ sub dostuff(){
 	$database->disconnect();
 	exit;
     }
-	       
-    # Results?
+    
     $select->execute() or die "Could not execute select" . $select->errstr;
     if($select->rows > 0){
 	while(@data = $select->fetchrow_array()){
@@ -180,9 +229,48 @@ sub dostuff(){
 	}
     }
 
-    open HTMLFILE, "/usr/local/bin/code2html \"$srcdir/$file\" |" or die "Couldn't open";
+    ###############################################
+    # Annotations
+    $select = $database->prepare("SELECT line, annot FROM annotations WHERE file = '$file' AND md5 = '$filehash'");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	print "There are " . $select->rows . " annotations against this file<BR>\n";
 
+	while(@data = $select->fetchrow_array()){
+	    $annotations{$data[0]} = $data[1];
+	}
+    }
+
+    $select = $database->prepare("SELECT line, annot FROM annotations WHERE file = '$file'");
+    if(!defined($select)){
+	print "Could not arrange select";
+	$database->disconnect();
+	exit;
+    }
+    
+    $select->execute() or die "Could not execute select" . $select->errstr;
+    if($select->rows > 0){
+	print "There are " . $select->rows . " annotations against other versions of this file<BR>\n";
+
+	while(@data = $select->fetchrow_array()){
+	    if($annotations{$data[0]} eq ""){
+		$annotations{$data[0]} = "OLD~" . $data[1];
+	    }
+	}
+    }    
+
+    print "<BR>";
+
+    ###############################################
     # Now we go through and post process this to add the links for comments
+    open HTMLFILE, "/usr/local/bin/code2html \"$srcdir/$file\" 2> /dev/null |" or die "Couldn't open";
+
     $bodyfound = 0;
     $line = 1;
     while(<HTMLFILE>){
@@ -202,31 +290,24 @@ sub dostuff(){
 		}
 	    }
 
-	    # todo_mikal: hack alert
-	    $filehash = `/usr/bin/md5sum /usr/src/linux-2.4.18/$page | cut -f 1 -d " "`;
-	    $select = $database->prepare("SELECT annot, md5 FROM annotations WHERE file = '$file' AND line = $line ORDER BY ano DESC");
-	    if(!defined($select)){
-		print "Could not arrange select";
-		$database->disconnect();
-		exit;
-	    }
-	    
-	    # Results?
-	    $select->execute() or die "Could not execute select" . $select->errstr;
-	    if($select->rows > 0){
-		while(@data = $select->fetchrow_array()){
-		    print "<div align=right>";
-		    if($data[1] ne $filehash){
-			print "<table bgcolor=\"BB4444\" width=\"60%\"><tr><td width=\"20%\">Keep here<br>Other</td><td><i><b>This annotation comes from a different version of this source file. There are several operations you can perform on this annotation...</b></i><BR><BR>";
-			}
-		    else{
-			print "<table bgcolor=\"FFBB19\" width=\"60%\"><tr><td>";
-		    }
+	    if($annotations{$line} ne ""){
+		$_ = $annotations{$line};
 
-		    print "$data[0]</td></tr></table></div>";
+		if(/OLD~(.*)/){
+		     print "<table bgcolor=\"BB4444\" width=\"60%\"><tr><td width=\"20%\">";
+		     print "<a href=\"/cgi-bin/lin-annot?mode=edit&ano=$data[2]&cmd=import\">Import</a><br>";
+		     print "<a href=\"/cgi-bin/lin-annot?mode=edit&ano=$data[2]&cmd=delete\">Delete</a><br>";
+		     print "<td><i><b>This annotation comes from a different version of this source file. There are several operations you can perform 
+on this annotation...</b></i><BR><BR>";
+		     print "$_</td></tr></table></div>";
+		}
+		else
+		{
+		    print "<div align=right>";
+		    print "<table bgcolor=\"FFBB19\" width=\"60%\"><tr><td>";
+		    print "$_</td></tr></table></div>";
 		}
 	    }
-
 	    print "\n";
 	}
 	else{
@@ -241,7 +322,8 @@ sub dostuff(){
 	}
 
 	if(/<\/body>/){
-	    print "\nAnnotated by lin-annot <a href=\"http://www.stillhq.com/cgi-bin/getpage?area=linux&page=annot\">http://www.stillhq.com/cgi-bin/getpage?area=linux&page=annot</a>\n";
+	    print "<BR>Annotated by lin-annot <a href=\"http://www.stillhq.com/cgi-bin/getpage?area=linux&page=annot\">http://www.stillhq.com/cgi-bin/getpage?area=linux&page=annot</a><BR>\n";
+	    print "Generation of this page took " . (time - $^T) ." second(s).</i>";
 	}
 
 	$line++;

@@ -23,14 +23,14 @@ local($1, $2, $3, $4);
 # Setup the result of the CGI
 my($result, $area, $page, $path, $titleElement, $CONFIG, $dateString, $NEWS, 
    $NEWSITEM, $newsroot, $newsitemsmax, $numnewsitems, $newspath, $archive, 
-   $elapsedtime, $days, $ANS, $landf, $filename, $hostname, 
+   $elapsedtime, $days, $ANS, $landf, $faqdir, $filename, $hostname, 
    $editmode, $item, $conffile);
 
 $result = new CGI();
 
 # The path is where to find the information to build the pages
-#$path = "/var/www/html/stillhq/";
-$path = "/home/httpd/html/";
+$path = "/var/www/html/stillhq/";
+#$path = "/home/httpd/html/";
 
 $hostname = `hostname`;
 
@@ -77,14 +77,10 @@ if($titleElement eq ""){
   exit;
   }
 
-#<BODY bgcolor="#CCCCCC" text="#FFFFFF" link="#FF9966" background="copper02.jpg">
 print $result->start_html(
-			  -title=>"$titleElement",
-			  -bgcolor=>"#CCCCCC",
-			  -link=>"#FF9966",
-			  -background=>"/common/copper02.jpg"
-#			  -script=>"function doMoveBrowser(form) {parent.location.href = form.list.options[getSelectedValue()].value;}\nfunction getSelectedValue() {return document.quickmenu.list.selectedIndex;}"
-			  );
+ -title=>"$titleElement",
+  -bgcolor=>"FFFFFF",
+   -script=>"function doMoveBrowser(form) {parent.location.href = form.list.options[getSelectedValue()].value;}\nfunction getSelectedValue() {return document.quickmenu.list.selectedIndex;}");
 
 # Output the content of the page -- this is based on the lines in the conf file
 # (where we got the title from before)
@@ -134,6 +130,9 @@ while (<CONFIG>){
   elsif(/^ITEM.*/){
     # Dump the item from the index
     newsitemdisplay($path, "$path/$area/$item", "common/indexitem", "DODATE");
+    }
+  elsif(/^FAQ:[ \t]*(.*)[ \t]+(.*)/){
+      cmdFAQ($1, $2);
     }
   elsif(/^NEWS:[ \t]*(.*)[ \t]+(.*)[ \t]+(.*)/){
       cmdNEWS($1, $2, $3);
@@ -206,101 +205,145 @@ sub error{
 ###############################################################################
 # Display a news item to the user
 sub newsitemdisplay{
-    my($path, $filename, $newsroot, $dateit) = @_;
-    my($NEWSITEM, $temp); 
-    
-    if($editmode == 1){
-	print $result->start_form(-action=>"/cgi-bin/auth/editnews");
+  my($path, $filename, $newsroot, $dateit) = @_;
+  my($NEWSITEM); 
 
-	# Remember where we are adding the news items to
-	print $result->input(
-			     {-type=>'hidden', -name=>'newsitem', -value=>"$filename"});
+  open NEWSITEM, $filename;
+
+  # Output the news starter
+  dumpfile("$path/$newsroot-start");
+
+  # Output the given news item
+  while(<NEWSITEM>){
+    if(/^TITLE:[ \t]*(.*)/){
+      print "$1\n";
+
+      # This is new and allows for editting is we are running on
+      # my laptop
+#      if($hostname == "deathstar"){
+#	print "<div align=right>Edit\n";
+#      }
+
+      dumpfile("$path/$newsroot-divider");
+      }
+    elsif(/POSTDATE:[ \t]*(.*)/){
+      if($dateit ne "NODATE"){
+        print "$1 - ";
+        }
+      }
+    elsif(/POSTER:[ \t]*(.*)/){
+      if($dateit ne "NODATE"){
+        print "<a href=\"mailto:$1\">";
+        }
+      }
+    elsif(/POSTERNAME:[ \t]*(.*)/){
+      if($dateit ne "NODATE"){
+        print "$1</a></b><BR><BR>\n";
+        }
+      else{
+	print "</b>\n";
+        }
+      }
+    elsif(/BEGIN CONTENT/){
+      while(<NEWSITEM>){
+        print "$_";
+        }
+
+      dumpfile("$path/$newsroot-end");
+      }
     }
 
-    open NEWSITEM, $filename;
-    
-    # Output the news starter
+  close(NEWSITEM);
+  }
+
+###############################################################################
+# Display a news item to the user
+sub faqitemdisplay{
+  my($path, $filename, $newsroot, $state) = @_;
+  my($NEWSITEM); 
+
+  open NEWSITEM, $filename or die "Could not open $filename";
+
+  # Output the news starter
+  if($state eq "Q"){
     dumpfile("$path/$newsroot-start");
-    
-    # Output the given news item
-    while(<NEWSITEM>){
-	if(/^TITLE:[ \t]*(.*)/){
-	    if($editmode == 1){
-		$temp = $1;
-		$temp =~ s/\"/&quot\;/g;
-		print $result->input(
-				     {-type=>'text', -size=>100, -name=>"title", -value=>$temp});
-	    }
-	    else{
-		print "$1\n";
-	    }
-
-	    dumpfile("$path/$newsroot-divider");
-	}
-	elsif(/POSTDATE:[ \t]*(.*)/){
-	    if($dateit ne "NODATE"){
-		print "$1 - ";
-	    }
-
-	    if($editmode == 1){
-		$temp = $1;
-		print $result->input(
-				     {-type=>'hidden', -name=>"postdate", -value=>$temp});
-	    }
-	}
-	elsif(/POSTER:[ \t]*(.*)/){
-	    if($dateit ne "NODATE"){
-		print "<a href=\"mailto:$1\">";
-	    }
-
-	    if($editmode == 1){
-		$temp = $1;
-		print $result->input(
-				     {-type=>'hidden', -name=>"postemail", -value=>$temp});
-	    }
-	}
-	elsif(/POSTERNAME:[ \t]*(.*)/){
-	    if($dateit ne "NODATE"){
-		print "$1</a></b><BR><BR>\n";
-	    }
-	    else{
-		print "</b>\n";
-	    }
-
-	    if($editmode == 1){
-		$temp = $1;
-		print $result->input(
-				     {-type=>'hidden', -name=>"poster", -value=>$temp});
-		
-	    }
-	}
-	elsif(/BEGIN CONTENT/){
-	    $temp = "";
-	    while(<NEWSITEM>){
-		if($editmode == 1){
-		    $temp = "$temp$_";
-		    }
-		else{
-		    print "$_";
-		}
-	    }
-	    
-	    if($editmode == 1){
-		print $result->textarea(
-					{-rows=>10, -cols=>70, -wrap=>'physical', -name=>"content", -default=>"$temp"});
-	    }
-
-	    if($editmode == 1){
-		print "<BR><HR><BR><BR>";
-		print $result->submit(-value=>" Are you sure? ", -name=>"commit");
-		print $result->end_form;
-	    }
-
-	    dumpfile("$path/$newsroot-end");
-	}
     }
-    
-    close(NEWSITEM);
+  else{
+    dumpfile("$path/$newsroot-ans-start");
+    }
+
+  # Output the given news item
+  while(<NEWSITEM>){
+    if(/^TITLE:[ \t]*(.*)/){
+      if($state eq "Q"){
+        print "$1\n";
+        dumpfile("$path/$newsroot-divider");
+        }
+      }
+    elsif(/POSTDATE:[ \t]*(.*)/){
+      if($state ne "Q"){
+        print "$1 - ";
+        }
+      }
+    elsif(/POSTER:[ \t]*(.*)/){
+      if($state ne "Q"){
+        print "<a href=\"mailto:$1\">";
+        }
+      }
+    elsif(/POSTERNAME:[ \t]*(.*)/){
+      if($state ne "Q"){
+        print "$1</a></b><BR><BR>\n";
+        }
+      else{
+	print "</b>\n";
+        }
+      }
+    elsif(/KEYWORDS:[.*]/){
+      print " (Indexed)";
+      }
+    elsif(/BEGIN CONTENT/){
+      while(<NEWSITEM>){
+        print "$_";
+        }
+      }
+    }
+
+  if($state ne "Q"){
+    dumpfile("$path/$newsroot-ans-end");
+    }
+
+  close(NEWSITEM);
+  }
+
+###############################################################################
+# Display a list of frequently asked questions (with answers)
+# Doesn't currently work
+sub cmdFAQ{
+    my($faqdir, $landf) = @_;
+    chomp $landf;
+
+    open NEWS, "ls $path/$1 | grep -v 'a' | sort -r |";
+    #open NEWS, "grep TITLE $path/$1 | egrep -v 'a[0-9]+:' | cut -f 2 -d ' ' |";
+    while(<NEWS>){
+      chomp $_;
+
+      $filename = `grep TITLE $path/$1 | grep $_ | sed 's/:.*//'`;
+
+      # Display the question...
+      faqitemdisplay($path, "$path/$1/$filename", $landf, "Q");
+      
+      open ANS, "ls $path/$1/$filename* | sort |";
+      while(<ANS>){
+	if(/^.*\/(.*)-a(.*)/){
+	  faqitemdisplay($path, "$path/$faqdir/$1-a$2", $landf, "A");
+          }
+        }
+
+      close(ANS);
+      dumpfile("$path/$landf-end");
+      }
+
+    close(NEWS);
 }
 
 ###############################################################################
