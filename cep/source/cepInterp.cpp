@@ -39,7 +39,7 @@ interpolation.
 
 cepInterp::cepInterp()
 {
-  delta = 0.00001;
+  delta = 0.000001;
 }
 
 cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRate,
@@ -62,12 +62,13 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRa
                     julianInput.getValue(0,0))/sampleRate)+1;
 	numSamples = (int)(numSamples-(numSamples-winSize)%winLength);
 
+
 	/* build new timescale*/
 	cepMatrix<double> timeScale(numSamples,4);
 	timeScale.setValue(0,0,julianInput.getValue(0,0));
   CHECK_ERROR(input);
   CHECK_ERROR(timeScale);
-	for (int i = 1; i < numSamples; i++)
+	for (int i = 1; i < timeScale.getNumRows(); i++)
 	{
 		timeScale.setValue(i,0,timeScale.getValue(i-1,0)+sampleRate);
     CHECK_ERROR(timeScale);
@@ -403,9 +404,27 @@ cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
 		}
 		else
 		{
-      cout << "Out of bounds error!!!!\n";
-		  // give error once I know how
-			return timeScale;
+      if (timeScale.getValue(i-2,1) == timeScale.getValue(i-3,1))
+      {
+        cout << "Out of bounds error!!!!\n";
+        cout << "i:" << i << " pos:" << position << '\n';
+        cout << "i-2 date:" << timeScale.getValue(i-2,0) << " value:" << timeScale.getValue(i-2,1) << '\n';
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        cout << "i-1 date:" << timeScale.getValue(i-1,0) << " value:" << timeScale.getValue(i-1,1) << '\n';
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+        cout << " pos+1 date:" << input.getValue(position+1,0) << '\n';
+        CHECK_ERROR(timeScale);
+        CHECK_ERROR(input);
+		    // give error once I know how
+			  return timeScale;
+      }
+      else
+      {
+        timeScale.setValue(i-1,1, input.getValue(position+1,1));
+        return timeScale;
+      }
 		}
 	}
 	return timeScale;
@@ -850,7 +869,7 @@ bool cepInterp::inBounds(cepMatrix<double> & input, cepMatrix<double> & timeScal
 								 int & position, int & i, int newSize, int oldSize)
 {
 
-	if ((position < oldSize -1) && input.getValue(position+1,0) < timeScale.getValue(i,0))
+	if ((position < oldSize -1) && input.getValue(position+1,0) < timeScale.getValue(i,0)+delta)
 	{
 		if (position+2 >= oldSize)
 		{
