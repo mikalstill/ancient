@@ -18,6 +18,46 @@
   * Mass Ave, Cambridge, MA 02139, USA. 
 */
 
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION <!-- class name -->
+cepWxErrorHandler
+
+
+PURPOSE <!-- use cases -->
+provides a graphical error notification mechanism
+
+SYNOPSIS START
+<!-- how to instantiate one? -->
+To make use of this class, the user must get an instance of one,
+and then subscribe it as the current error handler. Subscription is
+via a static method on cepError as folows
+
+cepErrorHandler handler = new cepWxErrorHandler();
+cepError::setErrorHandler( handler );
+SYNOPSIS END
+
+DESCRIPTION START
+<!-- description goes here -->
+<para>An implementation of the <command>cepErrorHandler</command> class
+which displays <command>cepErrors</command> using wxWindows. The errors
+are displayed as custom message boxes.
+</para>
+
+<para> <!-- per function descriptions -->
+<command>void displayError( class cepError & error )</command>
+Displays a specific error using the wx windows toolkit
+</para>
+<para> <!-- per function descriptions -->
+<command>void logError( class cepError & error )</command>
+Logs a specific error using an global log file
+</para>
+DESCRIPTION END
+
+DOCBOOK END
+******************************************************************************/
+
 #ifndef __CEP_WXERRORHANDLER_H
 #define __CEP_WXERRORHANDLER_H
 
@@ -44,7 +84,7 @@
 #include "cepErrorHandler.h"
 #include "cepConfiguration.h"
 
-/**an error handler that makes us of the wxWindows UI toolkit
+/** An error handler that makes us of the wxWindows UI toolkit
   *@author Blake Swadling
   */
 
