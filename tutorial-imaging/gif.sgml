@@ -82,6 +82,118 @@ The GIF specification makes it quite clear that the image generator should use t
 </sect3>
 </sect2>
 
+<sect2><title>Logical Screen</title>
+<para>
+The logical screen is the area on which the image will be painted. This block defines the characteristics of this virtual screen:
+</para>
+
+<table frame='all'><title>GIF on disc: the logical screen block</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bytes</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0 - 1</entry>
+  <entry>Width</entry>
+</row>
+
+<row>
+  <entry>2 - 3</entry>
+  <entry>Height</entry>
+</row>
+
+<row>
+  <entry>4</entry>
+  <entry>Packed fields. See below for a description.</entry>
+</row>
+
+<row>
+  <entry>5</entry>
+  <entry>Background color index. If a global color table exists, then this indicates the index into that table to use for pixels which are transparent. For instance, the author of the GIF image might have specified a certain shade of blue as representing a transparent pixel. If the global color table is not supported by this image, this value should be zero.</entry>
+</row>
+
+<row>
+  <entry>6</entry>
+  <entry>Pixel aspect ratio -- of the original image. The default value is zero, but if desired, this value can be used to calculate the original image aspect ratio using the formula <emphasis>aspect ratio = (pixel aspect ratio + 15) / 64</emphasis></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<para>
+The packed fields in byte 4 of the logical screen block are as follows:
+</para>
+
+<table frame='all'><title>GIF on disc: fields packed into byte 4 of the logical screen block</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Bits</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>0</entry>
+  <entry>Global color table flag -- this indicates if there is a global color table in the image file (0 for no, 1 for yes).</entry>
+</row>
+
+<row>
+  <entry>1 - 3</entry>
+  <entry>The color resolution (bits per primary color minus one), of the original image before it was converted to GIF. Therefore, for a 24 bit color image which is converted to GIF, this value would be seven.</entry>
+</row>
+
+<row>
+  <entry>4</entry>
+  <entry>Sort flag -- indicates if the global color table is sorted (0 for no, 1 for yes).</entry>
+</row>
+
+<row>
+  <entry>5 - 7</entry>
+  <entry>Size of the global color table. Please note that this is not a simple number representing the size of the table, but must be converted using a formula described below.</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>
+We have now mentioned the global color table, but haven't defined what it actually means. Don't panic, we'll get there in just a second.
+</para>
+
+<sect3><title>Formula for global color table size</title>
+<para>
+The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (8 + 1)</empasis>
+
+<para>
+The formula for the size of the global color table is as follows: <emphasis>size of table = 3 * 2^(size of global color table + 1)</emphasis>. Therefore, the maximum global color table size of 3 will result in a actual table size of <emphasis>3 * 2^4</emphasis>, which is <emphasis>
+</sect2>
+
+<sect2><title>Global color table</title>
+<para>
+If the logcial screen block of the image specified that a global color table is present in the image, then this is the next part of the GIF data.
+</para>
+</sect2>
+
+<sect2><title>Image data</title>
+<para>
+
+</para>
+</sect2>
+
+<sect2><title>Trailer</title>
+<para>
+This portion of the GIF image format specifies the end of the data stream. It is really quite simple and doesn't justify a table. It is simply a byte with the value 0x3B.
+</para>
+</sect2>
+
+
  <GIF Data Stream>  ::=  Header <Logical Screen> <Data>* Trailer  <Logical Screen>  ::=  Logical Screen Descriptor [Global Color Table]  <Data>  ::=  <Graphic Block> | <Special-Purpose Block>  <Graphic Block>  ::=  [Graphic Control Extension] <Graphic-Rendering Block>  <Graphic-Rendering Block>  ::=  <Table-Based Image> | PlainText Extension  <Table-Based Image>  ::=  Image Descriptor [Local Color Table] Image Data  <Special-Purpose Block>  ::=  Application Extension | Comment Extension
 
 
