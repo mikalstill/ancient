@@ -20,6 +20,7 @@
 */
 
 #include "cepDate.h"
+#include <iomanip.h>
 
 cepDate::cepDate (const double &date)
 {
@@ -90,7 +91,6 @@ cepDate::cepDate(const int &day, string month, const int &year)
       if(month == SHORTMONTH_NAMES[i])
       {
         m_month = i;
-        cout << "in short month " << m_month << endl;
       }
     }
     if(m_month == -1)
@@ -117,17 +117,30 @@ cepDate::cepDate(const int &day, string month, const int &year)
         if(isLeap() == true)
         {
           denom *= LEAP_DAY_VAL;
+          denom += (double)LEAP_DAY_VAL/2;
+          cout << "before ugly conversion " << denom << endl;
+          
+          denom  = ((int)(denom * 10000 + 0.5))/10000.0;
+           cout << "#######denom is " << denom << endl;
+          
+          m_decimalDate = m_year + denom;
+          m_day ++;
         }
         else
         {
           denom *= DAY_VAL;
+          denom += (double)DAY_VAL/2;
+          cout << "before ugly conversion " << denom << endl;
+          //rounding to 4 dp
+          denom  = ((int)(denom * 10000 + 0.5))/10000.0;
+
+          
+          m_decimalDate = m_year + denom;
+          //add an offset to the decimal date to avoid possible rounding errors
+          m_day ++;
         }
 
-        m_decimalDate = m_year + denom;
-
-        //add an offset to the decimal date to avoid possible rounding errors
-        m_decimalDate += OFFSET;
-        m_day ++;
+        
 
       }
       else
@@ -136,7 +149,7 @@ cepDate::cepDate(const int &day, string month, const int &year)
         if(m_day == 0)
         {
           m_decimalDate = (double)m_year;
-          m_decimalDate += OFFSET;
+          m_decimalDate += 0.0014;
           m_day ++;
         }
         else

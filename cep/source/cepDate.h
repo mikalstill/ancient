@@ -25,6 +25,7 @@
 #include <string>
 #include "cepUtility.h"
 #include "cepError.h"
+#include "math.h"
 
 /******************************************************************************
 DOCBOOK START
@@ -131,7 +132,6 @@ const string SHORTMONTH_NAMES[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 const double LEAP_DAY_VAL = 0.002732240437;
 const double DAY_VAL = 0.002739726027;
-const double OFFSET = 0.0014;
 
 class cepError;
 
