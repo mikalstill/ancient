@@ -76,26 +76,26 @@ public:
   
   // ***************get/set methods**************************
   //gets the value of the matrix at matrix[row,col]
-  const T& getValue (int row, int col);
+  const T& getValue (int row, int col) const;
   
   //sets the value of the matrix at matrix[row,col] = value
   void setValue (int row, int col, T value);
 
   //gets the number of rows in the matrix  
-  const int getNumRows ();
+  const int getNumRows () const;
 
   //gets the number of cols in the matrix
-  const int getNumCols ();
+  const int getNumCols () const;
 
   // ***************get/set methods**************************
   //gets the value of the matrix at matrix[row,col,inst]
-  const T& getValue (int row, int col, int tab);
+  const T& getValue (int row, int col, int tab) const;
 
   //sets the value of the matrix at matrix[row,col,inst] = value
   void setValue (int row, int col, int tab, T value);
 
   //gets the number of rows in the matrix
-  const int getNumTables();
+  const int getNumTables() const;
   
 private:
   T *matrix;          //holds the matrix values 
@@ -550,7 +550,7 @@ bool cepMatrix<T>::isDiagonal ()
 //***************get/set methods**************************
 
 template <class T>
-const T& cepMatrix<T>::getValue (int row, int col)
+const T& cepMatrix<T>::getValue (int row, int col) const
 {
   if (matrix == NULL)
   {
@@ -597,13 +597,13 @@ void cepMatrix<T>::setValue (int row, int col, T value)
 }
 
 template <class T>
-const int cepMatrix<T>::getNumRows ()
+const int cepMatrix<T>::getNumRows () const
 {
   return numRows;
 }
 
 template <class T>
-const int cepMatrix<T>::getNumCols ()
+const int cepMatrix<T>::getNumCols () const
 {
   return numCols;
 }
@@ -611,7 +611,7 @@ const int cepMatrix<T>::getNumCols ()
 //***************get/set methods 3D matrix**************************
 
 template <class T>
-const T& cepMatrix<T>::getValue (int row, int col, int tab)
+const T& cepMatrix<T>::getValue (int row, int col, int tab) const
 {
   if (row >= numRows)
   {
@@ -657,7 +657,7 @@ void cepMatrix<T>::setValue (int row, int col, int tab, T value)
 }
 
 template <class T>
-const int cepMatrix<T>::getNumTables ()
+const int cepMatrix<T>::getNumTables () const
 {
   return numTables;
 }
