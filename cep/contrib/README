@@ -1,0 +1,13 @@
+This directory contains all the dependancies for the application. These dependacancies are:
+
+autodocbook: Generates man and html pages from the documentation comments in the header files.
+
+fftw: A fast fourier transform library
+
+panda: A PDF generation library
+
+segv: A segmentation fault handler useful to developers
+
+trivsql: A simple embeddable SQL database which is used to store configuration information
+
+wxWindows: The windowing API we are using

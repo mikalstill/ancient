@@ -57,7 +57,7 @@ DOCBOOK END
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION cepConfiguration
+FUNCTION cepError
 PURPOSE store user definable configuration information
 
 SYNOPSIS START
