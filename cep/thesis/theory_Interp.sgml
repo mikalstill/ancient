@@ -186,7 +186,7 @@
   </para>
   <para>
     The two end values, S<subscript>0</subscript> and S<subscript>n</subscript>, are then
-    set to equal S<subscript>1</subscript> and S<subscript>n<subscript> respectively.
+    set to equal S<subscript>1</subscript> and S<subscript>n</subscript> respectively.
   </para>
   <para>
     A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
@@ -204,8 +204,8 @@
     that two cubic spline methods have been provided for this application.
   </para>
 
-  </sect3><title>Newton Divided Difference Interpolation</title>
-  <sect3>
+  </sect3>
+  <sect3><title>Newton Divided Difference Interpolation</title>
   <para>
     Mathematicians have long know that a nth order difference table can be used to accurately
     recreate a polynomial of degree n.  Newton divided differences uses a similar method to
@@ -225,7 +225,7 @@
     This table can then be used to generate an equation: (TODO: divided difference eq 4)
   </para>
   <para>
-    A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 238.
+    A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 229.
   </para>
   <para>
     Because divided differences estimates a curve by using polynomial, using a polynomial
@@ -233,14 +233,20 @@
     double precision floating point format also creates a limit.
   </para>
   <para>
-    To detect and limit the errors caused by these factors the program calculates error 
-    estimates. As the divided difference table grows it calculates the rough error for 
+    To detect and limit the errors caused by these factors the program calculates error
+    estimates. As the divided difference table grows it calculates the rough error for
     a table of size one less.  If the error estimate has shrunk then the program continues
-    building the table to a higher order.  If the error has grown then the program stops 
+    building the table to a higher order.  If the error has grown then the program stops
     building the table.
   </para>
   <para>
-    The error for 
+    The error for a divided difference of a given order is approximately equal to the change
+    that will be incurred by increasing the order of the divided difference table by one.
+    So for an order n newton divided difference interpolation the mathematical definition
+    of the error is:
+  </para>
+  <para>
+    A full mathematical derivation can be found in Gerald &amp; Wheatley (1999), page 229.
   </para>
   </sect3>
 </sect2> <!--Theory-->
