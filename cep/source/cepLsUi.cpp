@@ -27,24 +27,24 @@ cepLsIsReweight::cepLsIsReweight():
   switch (ShowModal())
   {
     case wxID_YES:    //if yes pressed
-      isReweight = 1;
+      m_isReweight = 1;
       break;
     case wxID_NO:     //if no pressed
-      isReweight = 2;
+      m_isReweight = 0;
       break;
     case wxID_CANCEL: //if cancel pressed
-      isReweight = -1;
+      m_isReweight = -1;
       break;
     default:
       //**************ERROR here!
-      isReweight = -1;
+      m_isReweight = -1;
       break;
   }  
 }
 
 int cepLsIsReweight::getIsReweight()
 {
-  return isReweight;   
+  return m_isReweight;   
 }
 
 BEGIN_EVENT_TABLE (cepLsShowDir, wxDialog)
@@ -56,21 +56,21 @@ END_EVENT_TABLE ()
 cepLsShowDir::cepLsShowDir():
   wxDialog((wxDialog *) NULL, -1, "Choose Direction", wxPoint(120,120), wxSize(200, 200))
 {
-  panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
+  m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
 
-  statBox = new wxStaticBox(panel, -1, "", wxPoint(15, 50), wxSize(170, 100));
+  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 50), wxSize(170, 100));
 
-  statText1 = new wxStaticText(panel, -1, "Please select the direction(s)", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
-  statText2 = new wxStaticText(panel, -1, "you wish to preform the", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
-  statText3 = new wxStaticText(panel, -1, " Least Squares transformation on:", wxPoint(5,33), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText1 = new wxStaticText(m_panel, -1, "Please select the direction(s)", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText2 = new wxStaticText(m_panel, -1, "you wish to preform the", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText3 = new wxStaticText(m_panel, -1, " Least Squares transformation on:", wxPoint(5,33), wxSize(190, 20), wxALIGN_CENTRE);
 
 
-  cbDirX = new wxCheckBox(panel, -1, "Direction: x (North)", wxPoint(25, 70));
-  cbDirY = new wxCheckBox(panel, -1, "Direction: y (East)", wxPoint(25, 90));
-  cbDirZ = new wxCheckBox(panel, -1, "Direction: z (Up)", wxPoint(25, 110));
+  m_cbDirX = new wxCheckBox(m_panel, -1, "Direction: x (North)", wxPoint(25, 65));
+  m_cbDirY = new wxCheckBox(m_panel, -1, "Direction: y (East)", wxPoint(25, 90));
+  m_cbDirZ = new wxCheckBox(m_panel, -1, "Direction: z (Up)", wxPoint(25, 115));
 
-  bSubmit = new wxButton(panel, CEPBTN_DIR_SUBMIT, "SUBMIT", wxPoint(10,160));
-  bCancel = new wxButton(panel, CEPBTN_DIR_CANCEL, "CANCEL", wxPoint(110,160));
+  m_bSubmit = new wxButton(m_panel, CEPBTN_DIR_SUBMIT, "Ok", wxPoint(10,160));
+  m_bCancel = new wxButton(m_panel, CEPBTN_DIR_CANCEL, "Cancel", wxPoint(110,160));
 
   Center();
   ShowModal();
@@ -79,9 +79,9 @@ cepLsShowDir::cepLsShowDir():
 void cepLsShowDir::dlgDirOnQuit(wxCommandEvent& WXUNUSED(event))
 {
   //if cancel or quit button pressed set all values to false
-  cbDirX->SetValue(false);
-  cbDirY->SetValue(false);
-  cbDirZ->SetValue(false);
+  m_cbDirX->SetValue(false);
+  m_cbDirY->SetValue(false);
+  m_cbDirZ->SetValue(false);
   EndModal(1);
   Destroy();
 }
@@ -98,80 +98,43 @@ bool cepLsShowDir::getWhichDir(char dir)
   switch (dir)
   {
     case 'x':
-      return cbDirX->GetValue();
+      return m_cbDirX->GetValue();
     case 'y':
-      return cbDirY->GetValue();
+      return m_cbDirY->GetValue();
     case 'z':
-      return cbDirZ->GetValue();
+      return m_cbDirZ->GetValue();
     default:
       //ERROR here!
       return false;
   }
 }
 
-BEGIN_EVENT_TABLE (cepLsReadP, wxDialog)
-  EVT_BUTTON(CEPBTN_READ_SUBMIT, cepLsReadP::dlgReadOnOK)
-  EVT_BUTTON(CEPBTN_READ_CANCEL, cepLsReadP::dlgReadOnQuit)
-  EVT_CLOSE(cepLsReadP::dlgReadOnQuit)
-END_EVENT_TABLE ()
-
 cepLsReadP::cepLsReadP(string dir):
-  wxDialog((wxDialog *) NULL, -1, "Specify Weighting Matrix", wxPoint(120,120), wxSize(200, 200))
+  wxMessageDialog(NULL, wxString( "Do you wish to load the weighting matrix for direction ") + wxString(dir.c_str()) + wxString(" from a file?:" ), "Specify a Weighting Matrix", wxYES_NO|wxCANCEL)
 {
-  wxString wxDir = "matrix for direction ";
-  wxDir += dir.c_str();
+  Centre();
 
-  isCancel = 0;
-  
-  panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
-
-  statBox = new wxStaticBox(panel, -1, "", wxPoint(15, 50), wxSize(170, 100));
-
-  statText1 = new wxStaticText(panel, -1, "Do you want to load the weighting", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
-  statText2 = new wxStaticText(panel, -1, wxDir, wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
-  statText3 = new wxStaticText(panel, -1, "from a file?:", wxPoint(5,33), wxSize(190, 20), wxALIGN_CENTRE);
-
-  rYes = new wxRadioButton(panel, -1, "Yes", wxPoint(25, 70), wxSize(-1, -1), wxRB_GROUP);
-  rNo = new wxRadioButton(panel, -1, "No", wxPoint(25, 90));
-
-  bSubmit = new wxButton(panel, CEPBTN_READ_SUBMIT, "SUBMIT", wxPoint(10,160));
-  bCancel = new wxButton(panel, CEPBTN_READ_CANCEL, "CANCEL", wxPoint(110,160));
-
-  Center();
-  ShowModal();
-
+  switch (ShowModal())
+  {
+    case wxID_YES:    //if yes pressed
+      m_isRead = 1;
+      break;
+    case wxID_NO:     //if no pressed
+      m_isRead = 0;
+      break;
+    case wxID_CANCEL: //if cancel pressed
+      m_isRead = -1;
+      break;
+    default:
+      //**************ERROR here!
+      m_isRead = -1;
+      break;
+  }
 }
 
 int cepLsReadP::getIsReadP()
 {
-  //if cancel pressed
-  if(isCancel == -1)
-  {
-    return -1;
-  }
-
-  //if read from file selected 
-  if(rYes->GetValue() == true)
-  {
-    return 1;
-  }
-  else
-  {
-    return 0;
-  }
-}
-void cepLsReadP::dlgReadOnQuit(wxCommandEvent& WXUNUSED(event))
-{
-  //if cancel or quit button selected
-  isCancel = -1;
-  EndModal(1);
-  Destroy();
-}
-
-void cepLsReadP::dlgReadOnOK(wxCommandEvent& WXUNUSED(event))
-{
-  EndModal(0);
-  Destroy(); 
+  return m_isRead;
 }
 
 cepLsShowFile::cepLsShowFile():
@@ -183,14 +146,14 @@ cepLsShowFile::cepLsShowFile():
     switch (ShowModal())
   {
     case wxID_OK:     //if ok pressed
-      filename = GetPath().c_str();
+      m_filename = GetPath().c_str();
       break;
     case wxID_CANCEL: //if cancel pressed
-      filename = "";
+      m_filename = "";
       break;
     default:
       //ERROR HERE!
-      filename = "";
+      m_filename = "";
       break;
   }
 
@@ -198,7 +161,7 @@ cepLsShowFile::cepLsShowFile():
 
 string cepLsShowFile::getFilename()
 {
-  return filename;
+  return m_filename;
 }
 
 cepLsUi::cepLsUi() {}
@@ -207,35 +170,35 @@ void cepLsUi::showIsReweight()
 {
   cepLsIsReweight sir;
 
-  isReweight = sir.getIsReweight();
+  m_isReweight = sir.getIsReweight();
 }
 
 void cepLsUi::showWhichDir()
 {
   cepLsShowDir sd;
 
-  doDirX = sd.getWhichDir('x');
-  doDirY = sd.getWhichDir('y');
-  doDirZ = sd.getWhichDir('z');
+  m_doDirX = sd.getWhichDir('x');
+  m_doDirY = sd.getWhichDir('y');
+  m_doDirZ = sd.getWhichDir('z');
 }
 
 void cepLsUi::showIsReadP(string dir)
 {
   cepLsReadP rp(dir);
 
-  isReadP = rp.getIsReadP();
+  m_isReadP = rp.getIsReadP();
 }
 
 void cepLsUi::showGetfNameP()
 {
   cepLsShowFile sf;
 
-  filename = sf.getFilename();
+  m_filename = sf.getFilename();
 }
 
 int cepLsUi::getIsReweight()
 {
-  return isReweight;
+  return m_isReweight;
 }
 
 bool cepLsUi::getWhichDir(char dir)
@@ -244,11 +207,11 @@ bool cepLsUi::getWhichDir(char dir)
   switch (dir)
   {
     case 'x':
-      return doDirX;
+      return m_doDirX;
     case 'y':
-      return doDirY;
+      return m_doDirY;
     case 'z':
-      return doDirZ;
+      return m_doDirZ;
     default:
       //ERROR here!
       return false;
@@ -257,10 +220,11 @@ bool cepLsUi::getWhichDir(char dir)
 }
 int cepLsUi::getIsReadP()
 {
-  return isReadP;
+  return m_isReadP;
 }
 
 string cepLsUi::getfNameP()
 {
-  return filename;
+  return m_filename;
 }
+
