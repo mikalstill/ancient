@@ -7,8 +7,8 @@
     Within GDMS several different interpolation algorithm's have been implemented.
     These methods include nearest neighbour, linear, natural spline, cubic spline,
     and Newton divided differences interpolation.  These methods were build to
-    eliminate missing points in the dataset without damaging the original integrity
-    of the dataset.
+    remove gaps in the dataset without damaging the original integrity
+    of the data.
   </para>
   </sect3> <!--Introduction-->
 
@@ -17,26 +17,26 @@
       At the start of this project we were given the requirement that the package
       support a number of different interpolation algorithms. Their are hundreds,
       if not thousands of different interpolation algorithms available each with
-      their own advantages and disadvantages. We had to pick a set of algorithms
-      that would work with discrete datasets and provide result with arbitrary
-      data. To narrow our task we chose to implement the interpolation methods
-      available within MatLab. Our argument being that MatLab is a commercial
+      their own strengths and weaknesses. We needed to pick a set of algorithms
+      that would work with discrete datasets and provide results with arbitrary
+      data. In order to narrow the complexity of our task, we chose to implement the interpolation methods
+      available within Matlab. The argument for this, being that Matlab is a commercial package
       designed to work with a much large range of datasets.
     </para>
     <para>
       Nearest neighbour and linear interpolation are the two basic interpolation
-      methods included into the package.  They were included as a fail safe in
-      case the more elaborate method failed on a particular dataset.
+      methods included in the package.  They were included as a fail safe in
+      case the more elaborate methods failed on a particular dataset.
     </para>
     <para>
-      Spline interpolation is very popular world wide as the smooth cure it produces
+      Spline interpolation is very popular world wide as the smooth curve it produces
       is usually aesthetically pleasing. Many different types of spline are available,
       most however can be ruled out. B splines and their derivatives are not a option
       because the resulting dataset might not pass through the initial set of points.
       Cubic splines were chosen because the resulting curve would pass through all
       original datasets.  Because cubic spline are inaccurate near the end points
       two different types of splines have been included.  Natural splines which tend
-      to be too striaght near to the end points and one other cubic spline that trends
+      to be too straight near to the end points and one other cubic spline that trends
       toward curving too much near the end points.  Over the the thousand plus point
       GPS dataset both method should produce similar results.
     </para>
@@ -51,8 +51,8 @@
     <para>
       The interpolation methods for this program were implemented within a class
       called cepInterp and share a common accessor method, doInterp. The required
-      information for doInterp to work is the original datset, the sample rate and
-      the type of interpolation. Do interp then converts to julain days and generates
+      information for doInterp to work is the original dataset, the sample rate and
+      the type of interpolation. Do interp then converts to Julian days and generates
       a new time scale before calling the individual interpolation methods.
     </para>
   <sect4><title>Nearest Neighbour Interpolation</title>
@@ -62,7 +62,7 @@
     <para>
       The algorithm used for nearest neighbour is:
     </para>
-    <programlisting>
+<programlisting>
 Imports:
    Input Dataset: Original set of points
    Output Dataset: New dataset containing only the time locations of points
@@ -70,17 +70,17 @@ Exports:
    Output Dataset: Now full of data
 
 For each point in the new dataset
-   if within the bounds of original timeline
+   if within the bounds of original time line
       if a point exists in the input dataset at same time
          Output dataset point = input dataset point
       else
          set point equal to nearest point
-      end innner if statement
+      end inner if statement
    else
       generate extrapolation error and exit function
    end outer if statement
 end for
-    <programlisting>
+</programlisting>
   </sect4>
   <sect4><title>Linear Interpolation</title>
   <para>
@@ -90,7 +90,7 @@ end for
   <para>
     The algorithm for this is:
   </para>
-  <programlisting>
+<programlisting>
 Imports:
    Input: Original set of points
    Output: New dataset containing only the time locations of points
@@ -98,7 +98,7 @@ Exports:
    Output: Now full of data
 
 For each point in the new dataset(i)
-   if within the bound of original timeline
+   if within the bound of original time line
       if a point exists in the input dataset at same time
          Output dataset point = input dataset point
       else
@@ -109,19 +109,19 @@ For each point in the new dataset(i)
       generate extrapolation error and exit function
    end out if
 end for
-  </programlisting>
+</programlisting>
   </sect4>
   <sect4><title>Natural Spline Interpolation</title>
   <para>
     Determines the value of new points by running a natural spline through
     the dataset.  Adjacent points are joined by cubics and the the first
-    and second derivitives of adjacent cubics are matched to get a smooth
+    and second derivatives of adjacent cubics are matched to get a smooth
     curve.
   </para>
   <para>
     The algorithm for this is:
   </para>
-  <programlisting>
+<programlisting>
 Imports:
    Input: Original set of points (obs, 4)
    Output: New dataset containing only the time
@@ -151,7 +151,7 @@ For i = 1 to n - 1
             (input(i,value)-input(i-1,value))/h(i-1))
 end for
 
-// create matrix for trasisional values
+// create matrix for transitional values
 create a n-1 by n-1 matrix called t
 
 // initialise t
@@ -179,9 +179,9 @@ For i = 0 to n-1
          (2*h(i)*S(i)+h(i)*S(i+1))/6
 end for
 
-// fill ouput dataset
+// fill output dataset
 For each point in output(i)
-   if within the bound of original timeline
+   if within the bound of original time line
       if a point exists in the input dataset at same time
          Output dataset point = input dataset point
       else
@@ -194,19 +194,19 @@ For each point in output(i)
       generate extrapolation error and exit function
    end out if
 end for
-  </programlisting>
+</programlisting>
   <para>
     <command>Optimization note</command>: To increase the speed and
-    efficency of this algorithm the n-1 by n-1 tridiagonal matrix t
+    efficiency of this algorithm the n-1 by n-1 tridiagonal matrix t
     has been represented by a n-1 by 3 matrix in the program. Also
     some command have been grouped differently for similar reasons.
-  <para>
+  </para>
   </sect4>
   <sect4><title>Divided difference Interpolation</title>
   <para>
     Newton divided differences builds a table of divided differences and
     then uses this table to make a polynomial representation of the data.
-    To increase the accuraccy of the results this implementation also
+    To increase the accuracy of the results this implementation also
     tracks the error of the equation and limits the error to get the best
     results. Error limitation is done by limiting the order of the divided
     difference table when the error term starts growing.
@@ -253,7 +253,7 @@ For i = 2 to n
 end for
 
 For each point in output(i)
-   if within the bound of original timeline
+   if within the bound of original time line
       if a point exists in the input dataset at same time
          Output dataset point = input dataset point
       else
@@ -274,13 +274,11 @@ end for
 
   <sect3><title>Future Enhancements</title>
     <para>
-    <para>
       In hindsight implementing the Matlab set of methods probably wasn't an
       optimal choice, as the interpolation method that they used were too
-      susceptable to very high frequency noise.  To overcome this problem we
+      susceptible to very high frequency noise.  To overcome this problem we
       would recommend the implementation of a number of new, noise resistant,
       interpolation methods.
-    </para>
       Noise resistant interpolation will include methods that work on weighted
       averaging of local points, and least squares based methods.  By integrating
       these method you will get results that will more accurate represent the

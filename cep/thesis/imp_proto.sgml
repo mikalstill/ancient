@@ -15,16 +15,16 @@
   <sect2><title>Theory</title>
     <para>
        Prototyping can be an effective technique for identifying requirements in projects. We were able to use prototyping to prove our
-       algrorithms and also determine subtle functionalities that were required. One such example was recognising the needs for a generaic
+       algorithms and also determine subtle functionalities that were required. One such example was recognising the needs for a generic
        data structure to handle various types that would be used in the mathematical functionality. This lead to the design of the Matrix
        class.
 
-       The prototype was originally intended to be a product comparable to TSVIEW, however with addtional functionality,
-       such as intrerpolation, windowing and frequency domain analysis.
-       Once the the essesntial mathematical functionality in the prototype was complete, work began on a user interface.
-       Not long into the UI development, it was decided that it would not be of any benifit and that our attention should
-       be focused on the main implementaton of the application. The <command>m-files</command> from the Matlab prototype have been included
-       on the CD acompanying this thesis.
+       The prototype was originally intended to be a product comparable to TSVIEW, however with additional functionality,
+       such as interpolation, windowing and frequency domain analysis.
+       Once the the essential mathematical functionality in the prototype was complete, work began on a user interface.
+       Not long into the OO development, it was decided that it would not be of any benefit and that our attention should
+       be focused on the main implementation of the application. The <command>m-files</command> from the Matlab prototype have been included
+       on the CD accompanying this thesis.
     </para>
   </sect2> <!--Theory-->
 

@@ -133,11 +133,11 @@ There are two common implementation methodologies for scripting languages. Both 
 
 <para>
 In this example, two tokens are defined, VERSION, and FP. The syntax for these specifications is relatively simple. The first field, which is wrapped in angled brackets, is the name of the state that the specification should be used in. All of the examples shown here are for the default state, known as INITIAL (Levin, Mason &amp; Brown 1990). What follows this is a posix compliant regular expression to be matched. Finally, within the braces lies C code to execute when a match occurs.
-In each of these examples, the C code writes a log entry for the match, sets up the data structure symbolizing the match, and then returns the name of the lexicial token which was matched.
+In each of these examples, the C code writes a log entry for the match, sets up the data structure symbolizing the match, and then returns the name of the lexical token which was matched.
 </para>
 
 <para>
-<command>Yacc</command> and <command>bison</command> define the grammer which uses the tokens defined by <command>lex</command> or <command>flex</command>. In effect, this defines valid orders for the tokens to appear in, and what operations should be performed when a set of tokens is matched. Error handling for undefined token combinations is also supplied by the grammar. This is done through the use of hooks for reporting to the user in a manner which is appropriate to that particular application.
+<command>Yacc</command> and <command>bison</command> define the grammar which uses the tokens defined by <command>lex</command> or <command>flex</command>. In effect, this defines valid orders for the tokens to appear in, and what operations should be performed when a set of tokens is matched. Error handling for undefined token combinations is also supplied by the grammar. This is done through the use of hooks for reporting to the user in a manner which is appropriate to that particular application.
 </para>
 
 <para>
@@ -180,7 +180,7 @@ TODO C++ integration issues
 <para>
 The alternative to using the compiler construction tools is to develop a language parser by hand. Depending on the complexity 
 of the grammar to be implemented, this can be quite a realistic alternative. On the other hand, if the grammar is complex, 
-then it can rapdily escalate into task of much larger scale, comparible to that of the rest of the application.
+then it can rapidly escalate into task of much larger scale, comparable to that of the rest of the application.
 The grammar for the scripting language implemented by the batch version of <command>GDMS</command> is relatively simple,
 in that all commands are parsed based on only one line, and no recursion within productions is required. Therefore, the
 creation of a purpose built parser was seen as a viable option.
@@ -199,7 +199,7 @@ creation of a purpose built parser was seen as a viable option.
 <para>
 A significant portion of the <command>GDMS</command> user interface development was integrating the various classes and 
 features with the graphical user interface.
-  This integration has been facilitaded by a standard process for integrating mathematical functionality. The process is 
+  This integration has been facilitated by a standard process for integrating mathematical functionality. The process is 
   as follows:
 </para>
 
