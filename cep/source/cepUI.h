@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepUI.h,v 1.6 2002-06-03 20:11:21 u964076 Exp $
+// RCS-ID:      $Id: cepUI.h,v 1.7 2002-07-14 12:38:32 u982087 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 #define __DOCVIEWSAMPLEH__
 
 #include "wx/docmdi.h"
-#include "core.h"
+#include "cepCore.h"
 
 class wxDocManager;
 

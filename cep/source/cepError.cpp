@@ -17,7 +17,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
   */
 
-#include "core.h"
+#include "cepCore.h"
 
 #ifdef __WXGTK__
 // For compilers that support precompilation, includes "wx/wx.h".

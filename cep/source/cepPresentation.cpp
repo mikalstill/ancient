@@ -17,7 +17,7 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "core.h"
+#include "cepCore.h"
 
 // This number needs to be positive, and preferably greater than 2...
 // Having big numbers is more efficient, but wastes more RAM

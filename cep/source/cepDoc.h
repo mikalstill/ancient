@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepDoc.h,v 1.3 2002-06-10 19:49:47 u964076 Exp $
+// RCS-ID:      $Id: cepDoc.h,v 1.4 2002-07-14 12:38:32 u982087 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 #define __DOCSAMPLEH__
 
 #include "wx/docview.h"
-#include "core.h"
+#include "cepCore.h"
 #include <wx/progdlg.h>
 
 class cepDoc:public wxDocument

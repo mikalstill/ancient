@@ -18,7 +18,7 @@
 */
 
 #define GLOBALS_HERE
-#include "core.h"
+#include "cepCore.h"
 
 void ds_progressCallback (int plane, long line);
 

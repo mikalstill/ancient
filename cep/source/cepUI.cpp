@@ -32,7 +32,7 @@
 */
 
 #define GLOBALS_HERE
-#include "core.h"
+#include "cepCore.h"
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
