@@ -1,5 +1,45 @@
 <sect1><title>Anti-aliasing</title>
 <para>
+Imagine that you are drawing a triangle across an image (or on the screen for that matter). The triangle is sometimes going to cross pixels in a way which makes them not totally turned on. Have a look at the figure below to see what I mean...
+</para>
 
+<figure><title>Drawing a triangle</title>
+<graphic format="EPS" fileref="antialias-figure1.eps">
+</figure>
+
+<para>
+If we only have a black and white image, then we'll end up with an image like the one in the figure below. I am sure you'll agree that this isn't a very good representation of the side of the triangle.
+</para>
+
+<figure><title>A triangle with only black pixels</title>
+<graphic format="EPS" fileref="antialias-figure2.eps">
+</figure>
+
+<para>
+Anti-aliasing is when we try to correct for this problem by inserting some gray pixels. In the figure below, we have given some of the pixels a gray value which is based on how much of the pixel is <quote>filled</quote> with the triangle.
+</para>
+
+<figure><title>A triangle with gray scale pixels</title>
+<graphic format="EPS" fileref="antialias-figure3.eps">
+</figure>
+
+<para>
+The triangle might be a little clearer without the grid lines.
+</para>
+
+<figure><title>Anti-aliased triangle without grid lines</title>
+<graphic format="EPS" fileref="antialias-figure4.eps">
+</figure>
+
+<para>
+For comparison, there is the triangle we started with...
+</para>
+
+<figure><title>The original triangle</title>
+<graphic format="EPS" fileref="antialias-figure5.eps">
+</figure>
+
+<para>
+So, in summary, anti-aliasing is the process of turning on some extra gray scale pixels to improve the look of shapes we are drawing...
 </para>
 </sect1>
