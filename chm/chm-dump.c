@@ -158,4 +158,9 @@ int main(int argc, char *argv[]){
 
     fileutil_displayshort(file, "  Number of entries in this chunk: ", &filep); printf("\n");
   }
+
+
+  // It's polite to cleanup
+  munmap(file, sb.st_size);
+  close(fd);
 }
