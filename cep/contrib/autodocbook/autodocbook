@@ -58,33 +58,33 @@ while(<CFILE>){
         } 
     }
   elsif((/([A-Z]*)[ \t]*(.*)[ \t]*/) && ($docbook == 1)){
-    if($blockmode == 0){
-      if($2 eq "START"){
-        # We are entering block mode
-        $blockmode = 1;
-        $blockstring = "";
-        $blockkey = $1;
-        }
-      elsif($1 ne ""){
-        # Outside of block mode we ignore blank lines
-	$myhash{ $1 } = $2;
-        }
+      if($blockmode == 0){
+	  if($2 eq "START"){
+	      # We are entering block mode
+	      $blockmode = 1;
+	      $blockstring = "";
+	      $blockkey = $1;
+	  }
+	  elsif($1 ne ""){
+	      # Outside of block mode we ignore blank lines
+	      $myhash{ $1 } = $2;
+	  }
       }
-    else{
-      # We are in block mode
-      if($2 eq "END"){
-        $myhash{ $blockkey } = $blockstring;
-        $blockmode = 0;
-        }
       else{
-        $blockstring = "$blockstring $2\n";
-        }
+	  # We are in block mode
+	  if($2 eq "END"){
+	      $myhash{ $blockkey } = $blockstring;
+	      $blockmode = 0;
+	  }
+	  else{
+	      $blockstring = "$blockstring $1$2\n";
+	  }
       }
-    }
+  }
   elsif($docbook == 1){
-    print $_;
-    }
-
+      print $_;
+  }
+  
   ##################################################################
   # Handle Freetype style markup
   elsif(/\/\*[ \t]*<section>.*/i){
@@ -393,7 +393,7 @@ sub finalise(){
     if($myhash{EXAMPLE} ne ""){
 	print OUTPUTFILE "<refsect1>\n";
 	print OUTPUTFILE "<title>EXAMPLE</title>\n";
-	print OUTPUTFILE "<para>$myhash{EXAMPLE}</para>\n";
+	print OUTPUTFILE "<programlisting>\n$myhash{EXAMPLE}</programlisting>\n";
 	print OUTPUTFILE "</refsect1>\n\n";
     }
 
