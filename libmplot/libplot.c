@@ -54,6 +54,7 @@ EXAMPLE END
 DOCBOOK END
 ******************************************************************************/
 
+// TODO: Should this use the functions which callers would have to use?
 plot_state *
 plot_newplot (unsigned int x, unsigned int y)
 {
@@ -98,6 +99,8 @@ plot_newplot (unsigned int x, unsigned int y)
   state->fontcolor.b = 0;
 
   state->line = (plot_lineseg *) NULL;
+
+  state->pixmode = plot_pixelmode_overwrite;
 
 #if defined HAVE_LIBFREETYPE
   state->face = NULL;
@@ -696,8 +699,40 @@ plot_drawpointactual (plot_state * state, plot_pixel color, int isLine,
     return;
   }
   
-  // Paint the pixel
-  state->raster[ptr] = color;
+  // Paint the pixel, including dealing with the various pixel modes.
+  // This needs to special case an all white pixel, as it will stop the
+  // new data from having any visible effect
+
+  if((state->raster[ptr].r == 255) &&
+     (state->raster[ptr].g == 255) &&
+     (state->raster[ptr].b == 255))
+    {
+      state->raster[ptr].r = 0;
+      state->raster[ptr].g = 0;
+      state->raster[ptr].b = 0;
+    }
+
+  switch(state->pixmode)
+    {
+    case plot_pixelmode_overwrite:
+      state->raster[ptr] = color;
+      break;
+
+    case plot_pixelmode_average:
+      state->raster[ptr].r = (state->raster[ptr].r + color.r) / 2;
+      state->raster[ptr].g = (state->raster[ptr].g + color.g) / 2;
+      state->raster[ptr].b = (state->raster[ptr].b + color.b) / 2;
+      break;
+
+    case plot_pixelmode_accumulate:
+      state->raster[ptr].r += color.r;
+      state->raster[ptr].g += color.g;
+      state->raster[ptr].b += color.b;
+      break;
+
+    default:
+      fprintf(stderr, "Unknown pixel mode\n");
+    } 
 }
 
 /******************************************************************************
@@ -1066,7 +1101,7 @@ plot_rectanglerot (plot_state * state, unsigned int x1, unsigned int y1,
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION plot_setcircle
+FUNCTION plot_circle
 PURPOSE draw a circle
 
 SYNOPSIS START
@@ -1751,4 +1786,16 @@ void plot_boundingbox(plot_state *state, int *x1, int *y1, int *x2, int *y2)
 
       current = current->next;
     }
+}
+
+// TODO: Document
+void plot_setpixelmode(plot_state *state, plot_pixelmode pm)
+{
+  state->pixmode = pm;
+}
+
+// TODO: Document
+void plot_setpixel(plot_state *state, int x, int y)
+{
+  plot_drawpoint (state, state->linecolor, LIBMPLOT_FALSE, x, y);
 }

@@ -29,6 +29,15 @@ extern "C"
 {
 #endif
 
+// Constants
+typedef enum plot_internal_pixelmode
+{
+  plot_pixelmode_overwrite = 0,
+  plot_pixelmode_average,
+  plot_pixelmode_accumulate
+}
+plot_pixelmode;
+
 typedef struct plot_internal_pixel
 {
   unsigned char r, g, b;
@@ -75,6 +84,7 @@ typedef struct plot_internal_state
   unsigned int peny;
 
   float ctm[6];
+  plot_pixelmode pixmode;
 
 #if defined HAVE_LIBFREETYPE
   FT_Library *ft;
@@ -95,6 +105,7 @@ void plot_addcubiccurvesegment (plot_state *, unsigned int, unsigned int, unsign
 void plot_addquadraticcurvesegmentone (plot_state *, unsigned int, unsigned int, unsigned int, unsigned int);
 void plot_addquadraticcurvesegmenttwo (plot_state *, unsigned int, unsigned int, unsigned int, unsigned int);
 void plot_closeline (plot_state *);
+void plot_setpixel (plot_state *, int, int);
 
 // Things to do with a line once built
 void plot_endline (plot_state *);
@@ -108,6 +119,7 @@ void plot_setlinejoin (plot_state *, int);
 void plot_setlinedash (plot_state *, int, char *);
 void plot_setfillcolor (plot_state *, int, int, int);
 void plot_setlinecolor (plot_state *, int, int, int);
+void plot_setpixelmode (plot_state *, plot_pixelmode);
 
 // Font state functions
 int plot_setfont(plot_state * state, char *font, int charsize);
@@ -154,6 +166,7 @@ INTERNAL void plot_drawpoint(plot_state *, plot_pixel,
 			     int isLine, unsigned int, unsigned int);
 INTERNAL void plot_drawpointactual(plot_state *, plot_pixel, 
 				   int isLine, unsigned int, unsigned int);
+INTERNAL void plot_boundingbox(plot_state *, int *x1, int *y1, int *x2, int *y2);
 
 #ifdef __cplusplus
 }
