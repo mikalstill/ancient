@@ -18,7 +18,7 @@ void mangle(int in, unsigned char& out1, unsigned char& out2,
       
       if(in & (int) pow(2, count))
 	{
-	  mangled[byte] += (int) pow(2, bit);
+	  mangled[byte] += (int) pow(2, 7 - bit);
 	}
     }
 
@@ -40,7 +40,7 @@ int demangle(unsigned char in1, unsigned char in2, unsigned char in3)
       int byte = count % 3;
       int bit = count / 3;
       
-      if(mangled[byte] & (int) pow(2, bit))
+      if(mangled[byte] & (int) pow(2, 7 - bit))
 	{
 	  demangled += (int) pow(2, count);
 	}
