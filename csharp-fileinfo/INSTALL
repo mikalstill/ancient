@@ -1,0 +1,14 @@
+To compile this, you execute the mono C# compiler:
+
+mcs fileinfo.cs
+
+Which should give us a file named fileinfo.exe -- it's interesting to note that because this file is in IL, it can be run on Windows as well.
+
+Now you can just run the exe:
+
+csharp-fileinfo# ./fileinfo.exe fileinfo.cs
+Filename:  fileinfo.cs
+Extension: .cs
+Path to:   /home/mikal/opensource/csharp-fileinfo
+Size:      762
+Hash:      1783806388
