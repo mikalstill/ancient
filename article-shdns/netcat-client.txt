@@ -1,0 +1,9 @@
+[mikal@localhost article]# nc -u localhost 1234
+hello
+hello
+out
+out
+there
+there
+ punt!
+[mikal@localhost article]#

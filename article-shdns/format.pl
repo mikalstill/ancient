@@ -63,6 +63,9 @@ $tag{"execute-/cmd"} = "if(\$pre eq \"eqimg\"){
                        elsif(\$pre eq \"code2db\"){
                          print \"[Please insert the code file named \";
                          }
+                       elsif(\$pre eq \"cat\"){
+                         print \"[Please insert the file named \";
+                         }
                        else{
                          print \"UNKNOWN EXECUTE COMMAND (\$pre)\n\"
                          }";

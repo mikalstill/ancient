@@ -128,15 +128,7 @@ A client interaction with the server looks like this:
 </para>
 
 <programlisting>
-[mikal@localhost article]# nc -u localhost 1234
-hello
-hello
-out
-out
-there
-there
- punt!
-[mikal@localhost article]# 
+<execute><cmd>cat</cmd><input>netcat-client.txt</input></execute>
 </programlisting>
 
 <para>
@@ -144,17 +136,7 @@ Note that the <quote>punt!</quote> is me hitting control c on <command>netcat</c
 </para>
 
 <programlisting>
-[root@localhost sockets]# ./disconnected 
-Reading...
-Read: hello
-
-Reading...
-Read: out
-
-Reading...
-Read: there
-
-Reading...
+<execute><cmd>cat</cmd><input>server.txt</input></execute>
 </programlisting>
 
 <para>
@@ -261,8 +243,7 @@ A simple example of how to configure <command>inetd</command> to handle our UDP 
 </para>
 
 <programlisting>
-# An example UDP echo server
-myecho    dgram   udp     nowait    root    /bin/cat cat -
+<execute><cmd>cat</cmd><input>inetd.txt</input></execute>
 </programlisting>
 
 <para>
@@ -272,7 +253,7 @@ This service has the following characteristics:
 <itemizedlist>
 <listitem><para>The service name is <emphasis>myecho</emphasis>. The listing in /etc/services is:</para>
 <programlisting>
-myecho		1234/udp			# Simple echo example for LJ article
+<execute><cmd>cat</cmd><input>services.txt</input></execute>
 </programlisting>
 
 <sidebar><title>Why not echo?</title>

@@ -213,8 +213,7 @@ out
 there
 there
  punt!
-[mikal@localhost article]# 
-</programlisting>
+[mikal@localhost article]#</programlisting>
 
 <para>
 Note that the <quote>punt!</quote> is me hitting control c on <command>netcat</command>. The server output for this session is:
@@ -231,8 +230,7 @@ Read: out
 Reading...
 Read: there
 
-Reading...
-</programlisting>
+Reading...</programlisting>
 
 <para>
 There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, because the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along.
@@ -647,8 +645,7 @@ A simple example of how to configure <command>inetd</command> to handle our UDP 
 
 <programlisting>
 # An example UDP echo server
-myecho    dgram   udp     nowait    root    /bin/cat cat -
-</programlisting>
+myecho    dgram   udp     nowait    root    /bin/cat cat -</programlisting>
 
 <para>
 This service has the following characteristics:
@@ -657,8 +654,7 @@ This service has the following characteristics:
 <itemizedlist>
 <listitem><para>The service name is <emphasis>myecho</emphasis>. The listing in /etc/services is:</para>
 <programlisting>
-myecho		1234/udp			# Simple echo example for LJ article
-</programlisting>
+myecho		1234/udp			# Simple echo example for LJ article</programlisting>
 
 <sidebar><title>Why not echo?</title>
 <para>

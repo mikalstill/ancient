@@ -1,0 +1,2 @@
+# An example UDP echo server
+myecho    dgram   udp     nowait    root    /bin/cat cat -
