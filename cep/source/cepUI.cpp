@@ -65,9 +65,9 @@ MyApp::OnInit (void)
 
   // Create a template relating drawing documents to their views
   (void) new wxDocTemplate ((wxDocManager *) m_docManager, "Dataset", "*.dat1",
-			    "", "dat", "Dataset", "Dataset View",
-			    CLASSINFO (cepDatasetDoc),
-			    CLASSINFO (cepDatasetView));
+			    "", "dat1", "Dataset", "Dataset View",
+			    CLASSINFO (cepDoc),
+			    CLASSINFO (cepView));
 
   // Create the main frame window
   frame =

@@ -2,7 +2,7 @@
 # Generated automatically by configure.
 # Run this file to recreate the current configuration.
 # This directory was configured as follows,
-# on host laptopdev:
+# on host localhost.localdomain:
 #
 # ./configure 
 #
@@ -26,7 +26,7 @@ do
 done
 
 ac_given_srcdir=.
-ac_given_INSTALL="$/usr/bin/install -c"
+ac_given_INSTALL="$$/usr/bin/install -c"
 
 trap 'rm -fr Makefile conftest*; exit 1' 1 2 15
 
@@ -86,13 +86,13 @@ s%@build_cpu@%i686%g
 s%@build_vendor@%pc%g
 s%@build_os@%linux-gnu%g
 s%@LD@%/usr/bin/ld%g
-s%@NM@%$/usr/bin/nm -B%g
-s%@LN_S@%$ln -s%g
+s%@NM@%$$/usr/bin/nm -B%g
+s%@LN_S@%$$ln -s%g
 s%@DLLTOOL@%%g
 s%@AS@%%g
 s%@OBJDUMP@%%g
 s%@LIBTOOL@%$(SHELL) $(top_builddir)/libtool%g
-s%@CPP@%$gcc -E%g
+s%@CPP@%$$gcc -E%g
 
 CEOF
 

@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: doc.h,v 1.5 2002-05-29 05:00:53 u964076 Exp $
+// RCS-ID:      $Id: doc.h,v 1.6 2002-06-02 06:29:13 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -18,12 +18,12 @@
 
 #include "wx/docview.h"
 
-class cepDatasetDoc:public wxDocument
+class cepDoc:public wxDocument
 {
-DECLARE_DYNAMIC_CLASS (cepDatasetDoc) private:
+DECLARE_DYNAMIC_CLASS (cepDoc) private:
 public:
-  cepDatasetDoc (void);
-   ~cepDatasetDoc (void);
+  cepDoc (void);
+   ~cepDoc (void);
 
 #if wxUSE_STD_IOSTREAM
     ostream & SaveObject (ostream & text_stream);

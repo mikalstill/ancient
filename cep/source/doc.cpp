@@ -54,37 +54,37 @@
 #include "doc.h"
 #include "view.h"
 
-IMPLEMENT_DYNAMIC_CLASS (cepDatasetDoc, wxDocument)
+IMPLEMENT_DYNAMIC_CLASS (cepDoc, wxDocument)
 
-cepDatasetDoc::cepDatasetDoc (void)
+cepDoc::cepDoc (void)
 {
 }
 
-cepDatasetDoc::~cepDatasetDoc (void)
+cepDoc::~cepDoc (void)
 {
 }
 
 #if wxUSE_STD_IOSTREAM
-ostream & cepDatasetDoc::SaveObject (ostream & stream)
+ostream & cepDoc::SaveObject (ostream & stream)
 {
   return stream;
 }
 #else
-wxOutputStream & cepDatasetDoc::SaveObject (wxOutputStream & stream)
+wxOutputStream & cepDoc::SaveObject (wxOutputStream & stream)
 {
   return stream;
 }
 #endif
 
 #if wxUSE_STD_IOSTREAM
-istream & cepDatasetDoc::LoadObject (istream & stream)
+istream & cepDoc::LoadObject (istream & stream)
 {
   printf("Wibble");
   wxDocument::LoadObject (stream);
   return stream;
 }
 #else
-wxInputStream & cepDatasetDoc::LoadObject (wxInputStream & stream)
+wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
 {
   printf("Wobble\n");
   wxDocument::LoadObject (stream);

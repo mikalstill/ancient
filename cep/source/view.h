@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: view.h,v 1.4 2002-05-29 04:48:26 u964076 Exp $
+// RCS-ID:      $Id: view.h,v 1.5 2002-06-02 06:29:14 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -40,18 +40,18 @@ public:
 		const wxSize & size, long style);
 };
 
-class cepDatasetView:public wxView
+class cepView:public wxView
 {
 public:
   wxFrame * frame;
   MyCanvas *canvas;
 
-    cepDatasetView ()
+    cepView ()
   {
     canvas = (MyCanvas *) NULL;
     frame = (wxFrame *) NULL;
   }
-   ~cepDatasetView ()
+   ~cepView ()
   {
   }
 
@@ -63,5 +63,5 @@ public:
   void OnCut (wxCommandEvent & event);
 
 private:
-DECLARE_DYNAMIC_CLASS (cepDatasetView) DECLARE_EVENT_TABLE ()};
+DECLARE_DYNAMIC_CLASS (cepView) DECLARE_EVENT_TABLE ()};
 #endif

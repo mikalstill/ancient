@@ -54,16 +54,16 @@
 #include "doc.h"
 #include "view.h"
 
-IMPLEMENT_DYNAMIC_CLASS (cepDatasetView, wxView)
-BEGIN_EVENT_TABLE (cepDatasetView, wxView)
+IMPLEMENT_DYNAMIC_CLASS (cepView, wxView)
+BEGIN_EVENT_TABLE (cepView, wxView)
 END_EVENT_TABLE ()
 // What to do when a view is created. Creates actual
 // windows for displaying the view.
      bool
-     cepDatasetView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
+     cepView::OnCreate (wxDocument * doc, long WXUNUSED (flags))
 {
   frame = wxGetApp ().CreateChildFrame (doc, this, TRUE);
-  frame->SetTitle ("cepDatasetView");
+  frame->SetTitle ("cepView");
 
   canvas = GetMainFrame ()->CreateCanvas (this, frame);
 #ifdef __X__
@@ -81,14 +81,14 @@ END_EVENT_TABLE ()
 // Sneakily gets used for default print/preview
 // as well as drawing on the screen.
 void
-cepDatasetView::OnDraw (wxDC * dc)
+cepView::OnDraw (wxDC * dc)
 {
   dc->SetFont (*wxNORMAL_FONT);
   dc->SetPen (*wxBLACK_PEN);
 }
 
 void
-cepDatasetView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
+cepView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint))
 {
   if (canvas)
     canvas->Refresh ();
@@ -110,7 +110,7 @@ cepDatasetView::OnUpdate (wxView * WXUNUSED (sender), wxObject * WXUNUSED (hint)
 
 // Clean up windows used for displaying the view.
 bool
-cepDatasetView::OnClose (bool deleteWindow)
+cepView::OnClose (bool deleteWindow)
 {
   if (!GetDocument ()->Close ())
     return FALSE;
