@@ -859,6 +859,7 @@ const T cepMatrix<T>::getMaxValue(const int& col)
 	  }
       }
 
+    cepDebugPrint("2D matrix max value (col " + cepToString(col) + "): " + cepToString(maxVal));
     return maxVal;
   }
 
@@ -875,6 +876,7 @@ const T cepMatrix<T>::getMaxValue(const int& col)
       }
     }
     
+    cepDebugPrint("3D matrix max value (col " + cepToString(col) + "): " + cepToString(maxVal));
     return maxVal;
   }
 }
@@ -902,6 +904,7 @@ const T cepMatrix<T>::getMinValue(const int& col)
 	  }
       }
 
+    cepDebugPrint("2D matrix min value (col " + cepToString(col) + "): " + cepToString(minVal));
     return minVal;
   }
 
@@ -918,6 +921,7 @@ const T cepMatrix<T>::getMinValue(const int& col)
       }
     }
     
+    cepDebugPrint("3D matrix min value (col " + cepToString(col) + "): " + cepToString(minVal));
     return minVal;
   }
 }

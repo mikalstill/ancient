@@ -421,6 +421,9 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
       break;
     }
 
+    cepDebugPrint("Plotting table " + cepToString(tno) + " of " +  cepToString(m_ds->getNumTables()));
+    cepDebugPrint("Containing " + cepToString(m_ds->getNumRows()) + " rows");
+
     bool lineStarted = false;
     plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
 		      m_lineColor.blue);
@@ -445,6 +448,8 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
       unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / vertScale + graphInset);
       unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / horizScale + 
 					    graphInset);
+      cepDebugPrint("Point is: " + cepToString(convdate) + ", " + cepToString(convsample) + 
+		    " converted: " + cepToString(xpoint) + ", " + cepToString(ypoint));
 
       if(m_freqDomain){
 	if(!lineStarted){
