@@ -283,6 +283,12 @@ cepError cepDataset::read(const string & filename)
                             m_header[i] += thisLine;
                             m_offset[i] = sa[6];
                             m_offsetFloat[i] = atof(m_offset[i].c_str());
+
+			    if(sa[8] == "LSEqn"){
+			      m_b1[i] = atof(sa[9].c_str());
+			      m_b2[i] = atof(sa[10].c_str());
+			      m_haveLs[i] = true;
+			    }
                         }
                         // Well, then it must be a processing statement
                         // line

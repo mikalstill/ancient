@@ -401,15 +401,16 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
     cepDebugPrint("Last point: " + cepToString(xrange * m_b1));
 
     unsigned int xintercept = (unsigned int) ((yrange - (m_b2 * 10000) + yminval) / horizScale + graphInset);
-    unsigned int lastpoint = (unsigned int) ((yrange - (xrange * (m_b1 + m_b2)) + yminval) / 
+    unsigned int lastpoint = (unsigned int) ((yrange - (xrange * m_b1) + yminval - (m_b2 * 10000)) / 
 					     horizScale + graphInset);
     cepDebugPrint("Line of best fit: " + cepToString(xintercept) + ", " + cepToString(lastpoint) +
 		  " (" + cepToString(xrange) + ")");
+    cepDebugPrint("Args: " + cepToString(m_b1) + " + " + cepToString(m_b2) + " = " + cepToString(m_b1 + m_b2));
 
-    //    plot_setlinestart(graph, graphInset, xintercept);
-    //    plot_addlinesegment(graph, m_width - graphInset, lastpoint);
-    //   plot_strokeline(graph);
-    //   plot_endline(graph);
+    plot_setlinestart(graph, graphInset, xintercept);
+    plot_addlinesegment(graph, m_width - graphInset, lastpoint);
+    plot_strokeline(graph);
+    plot_endline(graph);
   }
 
   cepDebugPrint("Finishing plotting");
