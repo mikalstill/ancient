@@ -60,10 +60,10 @@ void cepDataWindower::init() {
   algType = lookupWindow( id );
   if( err.isReal() ) err.log();
   
-  err = cepConfiguration::getInstance().getValue(CONFIG_NAME_SIZE, 1024, size);
+  err = cepConfiguration::getInstance().getValue(CONFIG_NAME_SIZE, 128, size);
   if( err.isReal() ) err.log();
   
-  err = cepConfiguration::getInstance().getValue(CONFIG_NAME_OVERLAP, 512, overlap);
+  err = cepConfiguration::getInstance().getValue(CONFIG_NAME_OVERLAP, 64, overlap);
   if( err.isReal() ) err.log();
   
   double tbw = 0.0;
