@@ -66,6 +66,7 @@ echo -n "Is this patch ready? (y/n): "
 read ready
 if [ "%$ready%" == "%y%" ]
 then
-  echo "Ready" > /home/httpd/html/linux/$5/$3/$4-state
+#  echo "Ready" > /home/httpd/html/linux/$5/$3/$4-state
+  echo "Ready" > $4-state
   echo "Marked ready"
 fi
