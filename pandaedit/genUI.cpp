@@ -186,6 +186,11 @@ bool genApp::OnInit (void)
   SetTopWindow (frame);
 
   // We can process command line options here if we want
+  if (argc > 1)
+    {
+      m_docManager->CreateDocument (argv[1], wxDOC_SILENT);
+    }
+  
   return TRUE;
 }
 
