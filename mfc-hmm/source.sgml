@@ -29,20 +29,48 @@ The following source files are my commented versions. All of the comments I have
 <sect2><title>User manual for DhmmTrain</title>
 <sect3><title>Purpose</title>
 <para>
-...
+This application is used to train a Hidden Markov Model with a series of observations of utterances. The observations need to be pre-encoded with a given Vector Quantization codebook. The end result of the program is a trained Hidden Markov Model, which can then be used by the <emphasis>test</emphasis> application to perform recognition of unknown utterances.
 </para>
 </sect3>
 
 <sect3><title>Usage</title>
 <para>
-...
+The train application takes a script file and the name of the output Hidden Markov Model file as arguements. The script file contains a list of Vector Quantized observations to train the Hidden markov Model with, with one per line. The output file has the A and B matrices, as well as the pi vector written to it.
 </para>
+
+<para>
+A sample command line is:
+</para>
+
+<programlisting>
+./train script-train d001.hmm
+</programlisting>
 </sect3>
 
 <sect3><title>Input and output file structures</title>
 <para>
-...
+The script file is a list of the observations to use to train this Hidden Markov Model. It has the following format:
 </para>
+
+<programlisting>
+<execute><cmd>linebreak</cmd><args>60 5</args><input>script-test</input></execute>
+</programlisting>
+
+<para>
+Each observation file is a list of the Vector Quantized vectors which matched that observation. It has the following format:
+</para>
+
+<programlisting>
+<execute><cmd>linebreak</cmd><args>60 5</args><input>s031d00x.cod</input></execute>
+</programlisting>
+
+<para>
+The application will produce the following output:
+</para>
+
+<programlisting>
+<execute><cmd>linebreak</cmd><args>60 5</args><input>d001.hmm</input></execute>
+</programlisting>
 </sect3>
 </sect2>
 
