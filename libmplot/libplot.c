@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include <libplot.h>
 
@@ -95,8 +96,8 @@ plot_newplot (unsigned int x, unsigned int y)
 #if defined HAVE_LIBFREETYPE
   state->face = NULL;
 
-  if(((state->ft = (FT_Library *) malloc(sizeof(FT_Library))) == NULL) ||
-     FT_Init_FreeType(state->ft))
+  if (((state->ft = (FT_Library *) malloc (sizeof (FT_Library))) == NULL) ||
+      FT_Init_FreeType (state->ft))
 #endif
     state->ft = NULL;
 
@@ -243,31 +244,51 @@ plot_addlinesegment (plot_state * state, unsigned int x, unsigned int y)
   state->peny = y;
 }
 
-#define FSTEP 0.5
-
+// todo_doco
+// Add a bezier curve to the raster
 void
-plot_addcubiccurvesegment (plot_state * state, 
-			   unsigned int x1, unsigned int y1, 
-			   unsigned int x2, unsigned int y2,
-			   unsigned int x3, unsigned int y3)
+plot_addcubiccurvesegment (plot_state * state,
+			   unsigned int inx1, unsigned int iny1,
+			   unsigned int inx2, unsigned int iny2,
+			   unsigned int inx3, unsigned int iny3)
 {
-  fprintf(stderr, "todo\n");
+  double t;
+  float calcx, calcy, tstep;
+  float finx0 = state->penx, finx1 = inx2, finx2 = inx3, finx3 = inx1;
+  float finy0 = state->peny, finy1 = iny2, finy2 = iny3, finy3 = iny1;
+
+  // todo: maths to make this an efficient choice...
+  tstep = 0.025;
+  for (t = tstep; t <= 1 + tstep; t += tstep)
+    {
+      calcx = (finx0 + t * (-finx0 * 3 + t * (3 * finx0 - finx0 * t))) +
+	(t * (3 * finx1 + t * (-6 * finx1 + finx1 * 3 * t))) +
+	(t * t * (finx2 * 3 - finx2 * 3 * t)) +
+	(finx3 * t * t * t);
+
+      calcy = (finy0 + t * (-finy0 * 3 + t * (3 * finy0 - finy0 * t))) +
+	(t * (3 * finy1 + t * (-6 * finy1 + finy1 * 3 * t))) +
+	(t * t * (finy2 * 3 - finy2 * 3 * t)) +
+	(finy3 * t * t * t);
+
+      plot_addlinesegment(state, (unsigned int) calcx, (unsigned int) calcy);
+    }
 }
 
 void
-plot_addquadraticcurvesegmentone (plot_state * state, 
+plot_addquadraticcurvesegmentone (plot_state * state,
 				  unsigned int x1, unsigned int y1,
 				  unsigned int x2, unsigned int y2)
 {
-  fprintf (stderr, "todo\n");
+  plot_addcubiccurvesegment(state, x1, y1, state->penx, state->peny, x2, y2);
 }
 
 void
-plot_addquadraticcurvesegmenttwo (plot_state * state, 
+plot_addquadraticcurvesegmenttwo (plot_state * state,
 				  unsigned int x1, unsigned int y1,
 				  unsigned int x2, unsigned int y2)
 {
-  fprintf (stderr, "todo\n");
+  plot_addcubiccurvesegment(state, x1, y1, x2, y2, x1, y1);
 }
 
 /******************************************************************************
@@ -418,7 +439,7 @@ plot_strokeline (plot_state * state)
 	  for (c = plot_min (x1, current->x);
 	       c < plot_max (x1, current->x) + 1; c++)
 	    {
-	      plot_drawpoint(state, c, y1);
+	      plot_drawpoint (state, c, y1);
 	    }
 	}
       else if (x1 == current->x)
@@ -426,12 +447,12 @@ plot_strokeline (plot_state * state)
 	  for (c = plot_min (y1, current->y);
 	       c < plot_max (y1, current->y) + 1; c++)
 	    {
-	      plot_drawpoint(state, x1, c);
+	      plot_drawpoint (state, x1, c);
 	    }
 	}
       else
 	{
-	  startx = plot_min(x1, current->x);
+	  startx = plot_min (x1, current->x);
 	  starty = startx == x1 ? y1 : current->y;
 	  rise = starty == y1 ? (current->y - y1) : (y1 - current->y);
 	  run = startx == x1 ? (current->x - x1) : (x1 - current->x);
@@ -441,17 +462,19 @@ plot_strokeline (plot_state * state)
 	      prevy = (int) newy;
 	      newy = ((float) rise / run) * (c - startx) + starty;
 
-	      if(c == plot_min (x1, current->x))
+	      if (c == plot_min (x1, current->x))
 		prevy = (int) newy;
 
-	      if(abs(prevy - (int) newy) > 1){
-		for(d = plot_min(prevy, (int) newy); 
-		    d < plot_max(prevy, (int) newy); d++){
-		  plot_drawpoint(state, c - 1, d);
+	      if (abs (prevy - (int) newy) > 1)
+		{
+		  for (d = plot_min (prevy, (int) newy);
+		       d < plot_max (prevy, (int) newy); d++)
+		    {
+		      plot_drawpoint (state, c - 1, d);
+		    }
 		}
-	      }
-	      
-	      plot_drawpoint(state, c, (int) newy);
+
+	      plot_drawpoint (state, c, (int) newy);
 	    }
 	}
 
@@ -462,11 +485,12 @@ plot_strokeline (plot_state * state)
 }
 
 // Draw a single point on the raster, with the current pen properties
-void plot_drawpoint(plot_state *state, unsigned int x, unsigned int y)
+void
+plot_drawpoint (plot_state * state, unsigned int x, unsigned int y)
 {
   unsigned long ptr = state->x * y + x;
 
-  if(ptr > state->maxptr)
+  if (ptr > state->maxptr)
     return;
   state->raster[ptr] = state->linecolor;
 }
@@ -643,7 +667,7 @@ DOCBOOK END
 ******************************************************************************/
 
 void
-plot_rectangle (plot_state * state, unsigned int x1, unsigned int y1, 
+plot_rectangle (plot_state * state, unsigned int x1, unsigned int y1,
 		unsigned int x2, unsigned int y2)
 {
   plot_setlinestart (state, x1, y1);
@@ -664,23 +688,24 @@ plot_rectanglerot (plot_state * state, unsigned int x1, unsigned int y1,
 #define pi 3.1415
 
 void
-plot_circle (plot_state * state, unsigned int x, unsigned int y, 
+plot_circle (plot_state * state, unsigned int x, unsigned int y,
 	     unsigned int r)
 {
   float angle;
 
   // todo: this could be more efficient
   // todo: this should be proportional to the radius
-  plot_setlinestart(state, x + (int) (r * sin(angle)), 
-		    y + (int) (r * cos(angle)));
+  plot_setlinestart (state, x + (int) (r * sin (angle)),
+		     y + (int) (r * cos (angle)));
 
-  for(angle = 0.01; angle < 2 * pi; angle += 0.01){
-    plot_addlinesegment(state, x + (int) (r * sin(angle)), 
-			y + (int) (r * cos(angle)));
-  }
+  for (angle = 0.01; angle < 2 * pi; angle += 0.01)
+    {
+      plot_addlinesegment (state, x + (int) (r * sin (angle)),
+			   y + (int) (r * cos (angle)));
+    }
 
-  plot_strokeline(state);
-  plot_endline(state);
+  plot_strokeline (state);
+  plot_endline (state);
 }
 
 /******************************************************************************
@@ -713,36 +738,40 @@ EXAMPLE END
 DOCBOOK END
 ******************************************************************************/
 
-void plot_setfont(plot_state * state, char *font, int charsize)
+void
+plot_setfont (plot_state * state, char *font, int charsize)
 {
   int error;
-  
-#if defined HAVE_LIBFREETYPE
-  if(state->ft == NULL){
-    fprintf(stderr, "Initialization of Freetype failed\n");
-    return;
-  }
 
-  // Load the face
-  error = FT_New_Face(*state->ft, font, 0, &state->face );
-  if ( error == FT_Err_Unknown_File_Format )
+#if defined HAVE_LIBFREETYPE
+  if (state->ft == NULL)
     {
-      fprintf(stderr, "The specified font file could be opened and read, but it appears that its font format is unsupported by Freetpye\n");
+      fprintf (stderr, "Initialization of Freetype failed\n");
       return;
     }
-  else if ( error )
+
+  // Load the face
+  error = FT_New_Face (*state->ft, font, 0, &state->face);
+  if (error == FT_Err_Unknown_File_Format)
     {
-      fprintf(stderr, "Could not load font\n");
+      fprintf (stderr,
+	       "The specified font file could be opened and read, but it appears that its font format is unsupported by Freetpye\n");
+      return;
+    }
+  else if (error)
+    {
+      fprintf (stderr, "Could not load font\n");
       return;
     }
 
   // Set the text size
-  if(FT_Set_Char_Size(state->face, 0, charsize * 64, 75, 75)){
-    fprintf(stderr, "Could not set font size\n");
-    return;
-  }
+  if (FT_Set_Char_Size (state->face, 0, charsize * 64, 75, 75))
+    {
+      fprintf (stderr, "Could not set font size\n");
+      return;
+    }
 #else
-    fprintf(stderr, "Freetype not found at compile time\n");
+  fprintf (stderr, "Freetype not found at compile time\n");
 #endif
 }
 
@@ -775,7 +804,8 @@ EXAMPLE END
 DOCBOOK END
 ******************************************************************************/
 
-void plot_settextlocation(plot_state *state, unsigned int x, unsigned int y)
+void
+plot_settextlocation (plot_state * state, unsigned int x, unsigned int y)
 {
   state->textx = x;
   state->texty = y;
@@ -815,7 +845,8 @@ EXAMPLE END
 DOCBOOK END
 ******************************************************************************/
 
-void plot_gettextlocation(plot_state *state, unsigned int *x, unsigned int *y)
+void
+plot_gettextlocation (plot_state * state, unsigned int *x, unsigned int *y)
 {
   *x = state->textx;
   *y = state->texty;
@@ -868,8 +899,10 @@ EXAMPLE END
 DOCBOOK END
 ******************************************************************************/
 
-int plot_writestring(plot_state *state, char *string){
-  return plot_writestringrot(state, string, 0.0);
+int
+plot_writestring (plot_state * state, char *string)
+{
+  return plot_writestringrot (state, string, 0.0);
 }
 
 /******************************************************************************
@@ -925,34 +958,39 @@ EXAMPLE END
 DOCBOOK END
 ******************************************************************************/
 
-int plot_writestringrot(plot_state *state, char *string, float angle){
+int
+plot_writestringrot (plot_state * state, char *string, float angle)
+{
   int count, len, rep;
   float safeangle;
   FT_Matrix matrix;
-  
+
   rep = angle / 360;
   safeangle = angle - (rep * 360.0);
-  
-  if(safeangle == 0.0){
-    FT_Set_Transform(state->face, 0, 0);
-  }
-  else{
-    // Convert the angle to radians
-    safeangle = safeangle * pi / 180;
-    
-    matrix.xx = (FT_Fixed)(cos(safeangle) * 0x10000);
-    matrix.xy = (FT_Fixed)(-sin(safeangle) * 0x10000);
-    matrix.yx = (FT_Fixed)(sin(safeangle) * 0x10000);
-    matrix.yy = (FT_Fixed)(cos(safeangle) * 0x10000);
 
-    FT_Set_Transform(state->face, &matrix, 0);
-  }
+  if (safeangle == 0.0)
+    {
+      FT_Set_Transform (state->face, 0, 0);
+    }
+  else
+    {
+      // Convert the angle to radians
+      safeangle = safeangle * pi / 180;
 
-  len = strlen(string);
-  for(count = 0; count < len; count++){
-    if(plot_paintglyph(state, string[count], LIBPLOT_TRUE) == -1)
-      return -1;
-  }
+      matrix.xx = (FT_Fixed) (cos (safeangle) * 0x10000);
+      matrix.xy = (FT_Fixed) (-sin (safeangle) * 0x10000);
+      matrix.yx = (FT_Fixed) (sin (safeangle) * 0x10000);
+      matrix.yy = (FT_Fixed) (cos (safeangle) * 0x10000);
+
+      FT_Set_Transform (state->face, &matrix, 0);
+    }
+
+  len = strlen (string);
+  for (count = 0; count < len; count++)
+    {
+      if (plot_paintglyph (state, string[count], LIBPLOT_TRUE) == -1)
+	return -1;
+    }
 
   return 0;
 }
@@ -1004,16 +1042,20 @@ EXAMPLE END
 DOCBOOK END
 ******************************************************************************/
 
-unsigned int plot_stringwidth(plot_state *state, char *string){
+unsigned int
+plot_stringwidth (plot_state * state, char *string)
+{
   int count, len, retval;
   unsigned int width = 0;
 
-  len = strlen(string);
-  for(count = 0; count < len; count++){
-    if((retval = plot_paintglyph(state, string[count], LIBPLOT_FALSE)) == -1)
-      return -1;
-    width += retval;
-  }
+  len = strlen (string);
+  for (count = 0; count < len; count++)
+    {
+      if ((retval =
+	   plot_paintglyph (state, string[count], LIBPLOT_FALSE)) == -1)
+	return -1;
+      width += retval;
+    }
 
   return width;
 }
@@ -1054,95 +1096,114 @@ plot_max (unsigned int one, unsigned int two)
 }
 
 int
-plot_loadglyph(plot_state *state, char character)
+plot_loadglyph (plot_state * state, char character)
 {
 #if defined HAVE_LIBFREETYPE
   FT_UInt index;
 
-  if(state->ft == NULL){
-    fprintf(stderr, "Initialization of Freetype failed\n");
-    return -1;
-  }
+  if (state->ft == NULL)
+    {
+      fprintf (stderr, "Initialization of Freetype failed\n");
+      return -1;
+    }
 
-  if(state->face == NULL){
-    fprintf(stderr, "No face loaded\n");
-    return -1;
-  }
+  if (state->face == NULL)
+    {
+      fprintf (stderr, "No face loaded\n");
+      return -1;
+    }
 
   // Find the index of the glyph
-  index = FT_Get_Char_Index(state->face, character);
+  index = FT_Get_Char_Index (state->face, character);
 
   // Load that glyph into the face's slot
-  if(FT_Load_Glyph(state->face, index, FT_LOAD_RENDER)){
-    fprintf(stderr, "Could not load glyph for %c into face slot\n", character);
-    return -1;
-  }
+  if (FT_Load_Glyph (state->face, index, FT_LOAD_RENDER))
+    {
+      fprintf (stderr, "Could not load glyph for %c into face slot\n",
+	       character);
+      return -1;
+    }
 
   return 0;
 
 #else
-    fprintf(stderr, "Freetype not found at compile time\n");
-    return -1;
+  fprintf (stderr, "Freetype not found at compile time\n");
+  return -1;
 #endif
 }
 
 #define sfgb state->face->glyph->bitmap
 
 int
-plot_paintglyph(plot_state *state, char character, int dopaint)
+plot_paintglyph (plot_state * state, char character, int dopaint)
 {
 #if defined HAVE_LIBFREETYPE
   int bmx, bmy;
   unsigned long p;
 
-  if(state->ft == NULL){
-    fprintf(stderr, "Initialization of Freetype failed\n");
-    return -1;
-  }
+  if (state->ft == NULL)
+    {
+      fprintf (stderr, "Initialization of Freetype failed\n");
+      return -1;
+    }
 
-  if(state->face == NULL){
-    fprintf(stderr, "No face loaded\n");
-    return -1;
-  }
+  if (state->face == NULL)
+    {
+      fprintf (stderr, "No face loaded\n");
+      return -1;
+    }
 
   // Setup and paint the character
-  if(plot_loadglyph(state, character) != -1){
-    if(dopaint == LIBPLOT_TRUE){
-      p = state->texty * state->x + state->textx;
-      p += state->face->glyph->bitmap_left;
-      p -= state->face->glyph->bitmap_top * state->x;
-      
-      for(bmy = 0; bmy < sfgb.rows; bmy++){
-	for(bmx = 0; bmx < sfgb.width; bmx++){
-	  if(sfgb.buffer[bmy * sfgb.width + bmx] != 0){
-	    unsigned long ptr = p + bmx;
-	    if(ptr < state->maxptr){
-	      state->raster[ptr].r = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.r / 
-		~sfgb.buffer[bmy * sfgb.width + bmx];
-	      state->raster[ptr].g = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.g / 
-		~sfgb.buffer[bmy * sfgb.width + bmx];
-	      state->raster[ptr].b = ~sfgb.buffer[bmy * sfgb.width + bmx] * state->fontcolor.b / 
-		~sfgb.buffer[bmy * sfgb.width + bmx];
-	    }
-	  }
-	}
-	p += state->x;
-      }
-      
-      // Increment pen position
-      state->textx += state->face->glyph->advance.x >> 6;
-      state->texty += state->face->glyph->advance.y >> 6;
-    }
-    else{
-      return state->face->glyph->advance.x >> 6;
-    }
+  if (plot_loadglyph (state, character) != -1)
+    {
+      if (dopaint == LIBPLOT_TRUE)
+	{
+	  p = state->texty * state->x + state->textx;
+	  p += state->face->glyph->bitmap_left;
+	  p -= state->face->glyph->bitmap_top * state->x;
 
-    return 0;
-  }
+	  for (bmy = 0; bmy < sfgb.rows; bmy++)
+	    {
+	      for (bmx = 0; bmx < sfgb.width; bmx++)
+		{
+		  if (sfgb.buffer[bmy * sfgb.width + bmx] != 0)
+		    {
+		      unsigned long ptr = p + bmx;
+		      if (ptr < state->maxptr)
+			{
+			  state->raster[ptr].r =
+			    ~sfgb.buffer[bmy * sfgb.width +
+					 bmx] * state->fontcolor.r /
+			    ~sfgb.buffer[bmy * sfgb.width + bmx];
+			  state->raster[ptr].g =
+			    ~sfgb.buffer[bmy * sfgb.width +
+					 bmx] * state->fontcolor.g /
+			    ~sfgb.buffer[bmy * sfgb.width + bmx];
+			  state->raster[ptr].b =
+			    ~sfgb.buffer[bmy * sfgb.width +
+					 bmx] * state->fontcolor.b /
+			    ~sfgb.buffer[bmy * sfgb.width + bmx];
+			}
+		    }
+		}
+	      p += state->x;
+	    }
+
+	  // Increment pen position
+	  state->textx += state->face->glyph->advance.x >> 6;
+	  state->texty += state->face->glyph->advance.y >> 6;
+	}
+      else
+	{
+	  return state->face->glyph->advance.x >> 6;
+	}
+
+      return 0;
+    }
 
   return -1;
 #else
-    fprintf(stderr, "Freetype not found at compile time\n");
-    return -1;
+  fprintf (stderr, "Freetype not found at compile time\n");
+  return -1;
 #endif
 }
