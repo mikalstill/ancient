@@ -128,7 +128,7 @@ dict      : NAME STRING dict {
 		    }
 	                                       }
 
-          | NAME DBLLT dict DBLGT dict { 
+          | NAME dictionary dict { 
                     pandalex_callback(pandalex_event_dictitem_dict, $1, $2); }
           | NAME INT dict { 
                     pandalex_callback(pandalex_event_dictitem_int, $1, $2); 
