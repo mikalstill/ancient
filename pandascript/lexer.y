@@ -2,6 +2,9 @@
   #include <panda/functions.h>
   #include <panda/constants.h>
 
+  // Uncomment this line to run dmalloc for memory checking
+  // #include <dmalloc.h>
+
   char *strmcpy(char *);
   char *strmcat(char *, char *);
 
