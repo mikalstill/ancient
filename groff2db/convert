@@ -9,10 +9,12 @@
 # Screen is not entirely appropriate for display mapping
 # Lists within lists
 # Email address are note properly identified
+# Bold is also an emphasis at the moment
+# And R'ing of text
 
 use strict;
 my($INPUT, $OUTPUT);
-my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $italicstate, $displaystate, $emailstate);
+my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $italicstate, $displaystate, $emailstate, $boldstate, $rstate);
 my($length);
 my($chapters, $chapter, $chaptercount);
 
@@ -43,6 +45,8 @@ foreach $chapter (split(/ /, $chapters)){
     $italicstate = 0;
     $displaystate = 0;
     $emailstate = 0;
+    $boldstate = 0;
+    $rstate = 0;
     
     # For each line in the file...
     while(<INPUT>){
@@ -108,6 +112,64 @@ foreach $chapter (split(/ /, $chapters)){
 		s/\\fR[^ \t,.]*/<\/emphasis>/g;
 		if($length != length($_)){
 		    $emailstate--;
+		}
+	    }
+	}
+
+	# Bolded text
+	$length = length $_;
+	s/\\fB/<emphasis>/g;
+	if($length != length($_)){
+	    $boldstate++;
+	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
+	}
+
+   	$length = length $_;
+	s/\\f\(CB/<emphasis>/g;
+	if($length != length($_)){
+	    $boldstate++;
+	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
+	}
+
+	if($boldstate > 0){
+	    $length = length($_);
+	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
+	    if($length != length($_)){
+		$boldstate--;
+	    }
+	    else{
+		s/\\fR[^ \t,.]*/<\/emphasis>/g;
+		if($length != length($_)){
+		    $boldstate--;
+		}
+	    }
+	}
+
+	# R'ed text
+	$length = length $_;
+	s/\\fR/<emphasis>/g;
+	if($length != length($_)){
+	    $rstate++;
+	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
+	}
+
+   	$length = length $_;
+	s/\\f\(CR/<emphasis>/g;
+	if($length != length($_)){
+	    $rstate++;
+	    dblog($OUTPUT, "DBLOG: Turned italic state on ($italicstate)\n");
+	}
+
+	if($rstate > 0){
+	    $length = length($_);
+	    s/\\fP[^ \t,.]*/<\/emphasis>/g;
+	    if($length != length($_)){
+		$rstate--;
+	    }
+	    else{
+		s/\\fR[^ \t,.]*/<\/emphasis>/g;
+		if($length != length($_)){
+		    $rstate--;
 		}
 	    }
 	}
