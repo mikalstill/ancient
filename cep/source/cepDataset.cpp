@@ -663,29 +663,29 @@ cepDataset cepDataset::filter(float low, float high)
 
         if (dates.size() > 0) {
             // Copy the vectors into the matrix
-            data[dir] = new cepMatrix < double >(dates.size(), 3);
+            data[dir] = new cepMatrix < double >(dates.size(), 4);
             for (unsigned int vcount = 0; vcount < dates.size(); vcount++) {
                 data[dir]->setValue(vcount, colDate, dates[vcount]);
-                if (m_data[dir]->getError().isReal()) {
-                    m_data[dir]->getError().display();
+                if (data[dir]->getError().isReal()) {
+                    data[dir]->getError().display();
                     return cepDataset();
                 }
 
                 data[dir]->setValue(vcount, colSample, samples[vcount]);
-                if (m_data[dir]->getError().isReal()) {
-                    m_data[dir]->getError().display();
+                if (data[dir]->getError().isReal()) {
+                    data[dir]->getError().display();
                     return cepDataset();
                 }
 
                 data[dir]->setValue(vcount, colError, errors[vcount]);
-                if (m_data[dir]->getError().isReal()) {
-                    m_data[dir]->getError().display();
+                if (data[dir]->getError().isReal()) {
+                    data[dir]->getError().display();
                     return cepDataset();
                 }
 
                 data[dir]->setValue(vcount, colColourHint, colors[vcount]);
-                if (m_data[dir]->getError().isReal()) {
-                    m_data[dir]->getError().display();
+                if (data[dir]->getError().isReal()) {
+                    data[dir]->getError().display();
                     return cepDataset();
                 }
             }
