@@ -295,7 +295,7 @@ while(<INPUT>){
     }
     
     # Headings
-    elsif(/^\.H([0-7])[ \t]*(.*)/i){
+    elsif(/^\.H([0-5])[ \t]*(.*)/i){
 	print closeallstates();
 	endpara();
 	listend();
@@ -316,7 +316,6 @@ while(<INPUT>){
 	}
 	
 	while($sectionstate < ($1 - 2)){
-	    $sectionstate++;
 	    if($firstsect == 0){
 		print "<sect$sectionstate>";
 	    }
@@ -337,7 +336,7 @@ while(<INPUT>){
     }
     
     # Headings (Unsupported)
-    elsif(/^\.H([8-9])[ \t]*(.*)/i){
+    elsif(/^\.H([6-9])[ \t]*(.*)/i){
 	print closeallstates();
 	endpara();
 	print "<sect1><title>UNSUPPRTED SECTION LEVEL</title>\n";
