@@ -22,6 +22,8 @@
 #include "utility.h"
 #include "verbosity.h"
 
+string STR_EMPTY;
+
 stringArray::stringArray (string input, string delim):
 m_broken (0, string ("")), m_unbroken (input)
 {
@@ -52,13 +54,13 @@ stringArray::size ()
   return m_broken.size ();
 }
 
-string
+string&
 stringArray::operator[] (size_t index)
 {
   if (m_unbroken.length () == 0)
-    return "";
+    return STR_EMPTY;
   if (index < m_broken.size ())
     return m_broken[index];
   else
-    return "";
+    return STR_EMPTY;
 }

@@ -10,8 +10,8 @@ dnl  any later version.
 dnl   
 dnl  This program is distributed in the hope that it will be useful, but WITHOUT 
 dnl  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-dnl  FITNESS FOR A PARTICULAR PURPOSE.dnl    See the GNU General Public License for
-dnl  more details.
+dnl  FITNESS FOR A PARTICULAR PURPOSE.
+dnl  See the GNU General Public License for more details.
 dnl   
 dnl  You should have received a copy of the GNU General Public License along
 dnl  with this program; if not, write to the Free Software Foundation, Inc., 675 
@@ -26,6 +26,7 @@ AM_MAINTAINER_MODE
 dnl Checks for programs.
 AC_PROG_CXX
 AC_PROG_INSTALL
+AC_PROG_LEX
 
 dnl Check for wxWindows
 AM_OPTIONS_WXCONFIG
@@ -42,6 +43,9 @@ dnl and #defined HAVE_LIB<lib>
 
 dnl -lm:
 AC_CHECK_LIB(m, atan)
+
+dnl -lfl:
+AC_CHECK_LIB(fl, yywrap)
 
 dnl -lmplot
 AC_CHECK_LIB(mplot, plot_newplot)

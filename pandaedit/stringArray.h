@@ -31,7 +31,7 @@ class stringArray
 public:
   stringArray (string input, string delim);
   size_t size ();
-  string operator[] (size_t index);
+  string& operator[] (size_t index);
 
 private:
     vector < string > m_broken;

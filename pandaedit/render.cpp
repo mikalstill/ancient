@@ -434,6 +434,7 @@ pdfRender::processLine (string line)
   debug(dlTrace, string("Line token count: ") + toString(tokens.size()));
   string sarg;
   bool sargMode (false);
+
   for (unsigned int i = 0; i < tokens.size (); i++)
     {
       debug(dlTrace, string("Process token: ") + tokens[i]);
@@ -447,13 +448,27 @@ pdfRender::processLine (string line)
 	  sargMode = true;
 	  debug(dlTrace, "String argument started");
 	}
-      else if (tokens[i][tokens[i].length () - 1] == ')')
+      else if ((tokens[i][tokens[i].length () - 1] == ')'))
 	{
 	  sarg += " " + tokens[i].substr (0, tokens[i].length () - 1);
 	  sargMode = false;
 	  debug(dlTrace, string("String arguement finished (") + sarg +
 		string(")"));
 	  pushArguement (sarg);
+	}
+      else if ((tokens[i][tokens[i].length () - 3] == ')'))
+	{
+	  // iText uses ")Tj" instead of ") Tj"
+	  sarg += " " + tokens[i].substr (0, tokens[i].length () - 3);
+	  sargMode = false;
+	  debug(dlTrace, string("String arguement finished in iText manner (") + 
+		sarg + string(")"));
+	  pushArguement (sarg);
+
+	  tokens[i] = tokens[i].substr (tokens[i].length () - 2, 2);
+	  debug(dlTrace, string("Reset the token to: " + tokens[i]));
+	  --i;
+	  continue;
 	}
       else if (sargMode)
 	sarg += " " + tokens[i];
