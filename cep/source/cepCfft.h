@@ -1,5 +1,7 @@
 
-/* cepCfft.h.
+/*************************************************************************
+ DOCBOOK START 
+ *cepCfft.h.
  * Template class to be used with GDMS for computing fast fourier transforms.
  * Originally called cfft.h or cplxfft.h taken from FXT (c) by Joerg Arndt,
  * see http://www.jjj.de/fxt/
@@ -25,18 +27,18 @@
 
 todo: daniel - below might serve as docco..
 
->> I have a C++ template class for doing FFTs using
->> a 'Complex' class. It was actually done for research
->> into rounding effects with an integer FFT. So, you
->> can define a 'frac24complex' for instance (24-bit
->> fractional complex #'s) and apply the fft to that class
->> instead of a 'standard' complex class.
->> 
->> So, it's fairly canonical and general. It uses a
->> technique I have frequently used, where the 'twiddle'
->> factors are stored in a precomputed bit-reversed table.
->> exp[0], exp[pi*i/2], exp[pi*i/4], exp[3*pi*i/4], exp[pi*i/8] ...
->> 
+ I have a C++ template class for doing FFTs using
+ a 'Complex' class. It was actually done for research
+ into rounding effects with an integer FFT. So, you
+ can define a 'frac24complex' for instance (24-bit
+ fractional complex #'s) and apply the fft to that class
+ instead of a 'standard' complex class.
+ 
+ So, it's fairly canonical and general. It uses a
+ technique I have frequently used, where the 'twiddle'
+ factors are stored in a precomputed bit-reversed table.
+ exp[0], exp[pi*i/2], exp[pi*i/4], exp[3*pi*i/4], exp[pi*i/8] ...
+ 
 
 It contains reasonable
 self-documentation and has been tested under VC++4 with
@@ -46,7 +48,8 @@ as defined in cfft.h.
 The first paragraph above could serve as a reasonable
 'link descriptor'.
 
-*/
+DOCBOOK END
+******************************************************************************/
 
 #if !defined( _CFFT_H_INC__ )
 #define _CFFT_H_INC__ 1
@@ -263,7 +266,7 @@ template < class CPLX > void cfft < CPLX >::hermitian (CPLX * buf)
    returns the fft'd data in the matrix whic was originally passed.
  */
 template < class CPLX > cepMatrix<ComplexDble>
-                        cfft < CPLX >::matrixFft(cepMatrix<ComplexDble> & matrix, int dir)
+                        cfft < CPLX >::matrixFft(cepMatrix<double> & matrix, int dir)
 {
   int numRows = matrix.getNumRows();
   int numCols = matrix.getNumCols();
