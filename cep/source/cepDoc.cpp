@@ -92,22 +92,25 @@ istream & cepDoc::LoadObject (istream & stream)
 wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
 #endif
 {
-  wxMessageBox(GetFilename(), "Banana");
   //wxDocument::LoadObject (stream);
-
-  // We need to change the filename which is displayed in the tab
-  SetTitle("Foo");
 
   // Actually create the dataset
   m_progressCount = 0;
   m_progress = new wxProgressDialog("Loading dataset", 
 				    "Please wait while the dataset is loaded");
 
-  m_dataset = new cepDataset("../datasets/mb_ANKR_GPS", ds_progressCallback);
+  wxString filename = GetFilename();
+  string parentFilename = filename.substr(0, filename.length() - 5).c_str();
+  m_dataset = new cepDataset(parentFilename, ds_progressCallback);
   cepError loadErr = m_dataset->munch();
 
+  // todo_mikal: we should handle this error better
   if(loadErr.isReal())
     loadErr.display();
+
+  // We need to change the filename which is displayed in the tab
+  // todo_mikal: for display should be strip off the leading part of the path?
+  SetTitle(parentFilename.c_str());
 
   // TODO_Mikal: Handle error condition better
 
