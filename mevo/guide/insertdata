@@ -5,7 +5,7 @@ my($mode, $eventcount, $temp, $verbose);
 
 my($series, $genre, $title, $episodic, %seri);
 my($program, $actor, $description, $movieyear, $episodeno, $isepisode, $director, $stars, $advisory, %progi);
-my($station, $duration, $date, $rating, $time);
+my($station, $duration, $date, $rating, $time, %viewing);
 
 # Modes:
 #   0: waiting for a block
@@ -58,7 +58,8 @@ while(<STDIN>){
     elsif($mode == 3){
     }
     elsif($mode == 4){
-#      print "Info: $program;$station;$duration;$date;$rating;$time\n";
+      $viewing{"$station-$day-$time"} = "$program~$station~".
+	"$duration~$date~$rating~$time";
       $eventcount++;
     }
     else{
@@ -203,11 +204,17 @@ elsif($ARGV[0] eq "seriestitles"){
     }
   }
 }
+elsif($ARGV[0] eq "nowon"){
+  for $program (keys(%progi)){
+    $temp = $progi{$program};
+    
+  }
+}
 else{
 print "Statistics:\n";
   print "  Number of series: ".length(%seri)."\n";
   print "  Number of programs: ".length(%progi)."\n";
   print "  Number of events: $eventcount\n";
   print "\n";
-  print "Usage: insertdata [progtitles]\n\n";
+  print "Usage: insertdata [progtitles | seriestitles]\n\n";
 }

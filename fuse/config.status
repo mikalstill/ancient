@@ -28,7 +28,7 @@ done
 ac_given_srcdir=.
 ac_given_INSTALL="/usr/bin/install -c"
 
-trap 'rm -fr Makefile kernel/Makefile lib/Makefile util/Makefile example/Makefile contrib/Makefile include/Makefile include/linux/Makefile patch/Makefile include/config.h conftest*; exit 1' 1 2 15
+trap 'rm -fr Makefile kernel/Makefile lib/Makefile util/Makefile example/Makefile include/Makefile include/linux/Makefile patch/Makefile include/config.h conftest*; exit 1' 1 2 15
 
 # Protect against being on the right side of a sed subst in config.status.
 sed 's/%@/@@/; s/@%/@@/; s/%g$/@g/; /@g$/s/[\\&%]/\\&/g;
@@ -62,20 +62,20 @@ s%@INSTALL_PROGRAM@%${INSTALL}%g
 s%@INSTALL_SCRIPT@%${INSTALL_PROGRAM}%g
 s%@INSTALL_DATA@%${INSTALL} -m 644%g
 s%@PACKAGE@%fuse%g
-s%@VERSION@%1.1-pre2%g
-s%@ACLOCAL@%/home/opensource/fuse/missing aclocal-1.4%g
+s%@VERSION@%1.1%g
+s%@ACLOCAL@%aclocal%g
 s%@AUTOCONF@%autoconf%g
-s%@AUTOMAKE@%/home/opensource/fuse/missing automake-1.4%g
+s%@AUTOMAKE@%automake%g
 s%@AUTOHEADER@%autoheader%g
 s%@MAKEINFO@%makeinfo%g
 s%@SET_MAKE@%%g
 s%@CC@%gcc%g
 s%@RANLIB@%ranlib%g
 s%@LD@%ld%g
-s%@kernelsrc@%/usr/src/linux-2.6.4-cset-20040311_0309-build%g
+s%@kernelsrc@%/usr/src/linux-2.6.5-cset-20040413_2232-build%g
 s%@majver@%2.6%g
-s%@kmoduledir@%/lib/modules/2.6.4%g
-s%@subdirs@%include patch kernel lib util example contrib%g
+s%@kmoduledir@%/lib/modules/2.6.5%g
+s%@subdirs@%include patch contrib kernel lib util example%g
 
 CEOF
 
@@ -111,7 +111,7 @@ if test -z "$ac_sed_cmds"; then
   ac_sed_cmds=cat
 fi
 
-CONFIG_FILES=${CONFIG_FILES-"Makefile kernel/Makefile lib/Makefile util/Makefile example/Makefile contrib/Makefile include/Makefile include/linux/Makefile patch/Makefile"}
+CONFIG_FILES=${CONFIG_FILES-"Makefile kernel/Makefile lib/Makefile util/Makefile example/Makefile include/Makefile include/linux/Makefile patch/Makefile"}
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
   # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
   case "$ac_file" in
@@ -208,9 +208,9 @@ for ac_file in .. $CONFIG_HEADERS; do if test "x$ac_file" != x..; then
 ${ac_dA}PACKAGE${ac_dB}PACKAGE${ac_dC}"fuse"${ac_dD}
 ${ac_uA}PACKAGE${ac_uB}PACKAGE${ac_uC}"fuse"${ac_uD}
 ${ac_eA}PACKAGE${ac_eB}PACKAGE${ac_eC}"fuse"${ac_eD}
-${ac_dA}VERSION${ac_dB}VERSION${ac_dC}"1.1-pre2"${ac_dD}
-${ac_uA}VERSION${ac_uB}VERSION${ac_uC}"1.1-pre2"${ac_uD}
-${ac_eA}VERSION${ac_eB}VERSION${ac_eC}"1.1-pre2"${ac_eD}
+${ac_dA}VERSION${ac_dB}VERSION${ac_dC}"1.1"${ac_dD}
+${ac_uA}VERSION${ac_uB}VERSION${ac_uC}"1.1"${ac_uD}
+${ac_eA}VERSION${ac_eB}VERSION${ac_eC}"1.1"${ac_eD}
 s%^[ 	]*#[ 	]*undef[ 	][ 	]*[a-zA-Z_][a-zA-Z_0-9]*%/* & */%
 CEOF
   sed -f conftest.frag conftest.in > conftest.out

@@ -23,7 +23,7 @@ mcachefs.o: mcachefs.c ../include/fuse.h /usr/include/sys/types.h \
   /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
   /usr/include/sys/statfs.h /usr/include/bits/statfs.h \
   /usr/include/sys/mman.h /usr/include/bits/mman.h \
-  /usr/include/sys/file.h config.h list.h
+  /usr/include/sys/file.h /usr/include/tdb.h config.h list.h
 mcachefs.c :
 ../include/fuse.h :
 /usr/include/sys/types.h :
@@ -78,5 +78,6 @@ mcachefs.c :
 /usr/include/sys/mman.h :
 /usr/include/bits/mman.h :
 /usr/include/sys/file.h :
+/usr/include/tdb.h :
 config.h :
 list.h :

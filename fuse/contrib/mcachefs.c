@@ -28,6 +28,8 @@
 #include <sys/mman.h>
 #include <sys/file.h>
 
+#include <tdb.h>
+
 #include "config.h"
 
 #define FUNCTIONCALL 1
@@ -35,6 +37,7 @@
 char *target;
 char *backing;
 int verbose;
+TDB_CONTEXT *db;
 
 /**********************************************************************
  Utility functions
@@ -720,7 +723,7 @@ static struct fuse_operations mcachefs_oper = {
 int main(int argc, char *argv[])
 {
   config_state *cfg;
-  char *key, *val;
+  char *key, *val, *tdbpath;
   int keylen;
 
   printf("mcachefs 0.1 starting up...\n");
@@ -750,16 +753,28 @@ int main(int argc, char *argv[])
       val = config_getstring(cfg, key);
       if(val)
 	verbose = atoi(val);
+      snprintf(key, keylen, "%s/blockdb", argv[1]);
+      tdbpath = config_getstring(cfg, key);
 
       printf("Filesystem now serving requests...\n");
       printf("  target = %s\n", target);
       printf("  backing = %s\n", backing);
       printf("  verbosity = %d\n", verbose);
+      printf("  block database = %s\n", tdbpath);
+
+      /* Now open the TDB */
+      db = tdb_open(tdbpath, 0, 0, O_CREAT | O_RDWR, S_IRWXU);
+      if(!db)
+	{
+	  perror("Couldn't open block database");
+	  exit(2);
+	}
     }
   else
     {
       target = NULL;
       backing = NULL;
+      tdbpath = NULL;
       verbose = 0;
     }
 

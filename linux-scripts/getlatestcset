@@ -6,26 +6,6 @@ csetfilename=`echo $line | cut -f 1 -d " "`
 cset=`echo $csetfilename | sed 's/.gz//'`
 base=`echo $line | cut -f 2 -d " " | sed 's/^v//'`
 
-# End early if we already have one
-if [ -d linux-$base-`echo $cset | sed 's/.txt//'` ]
-then
-  echo "We already have the latest cset"
-  exit 0
-fi
-
-# Get the cset if we need it
-if [ ! -f $cset ]
-then
-  wget http://www.kernel.org/pub/linux/kernel/v2.6/testing/cset/$csetfilename
-  gunzip $csetfilename
-fi
-
-if [ ! -f $cset ]
-then
-  echo "Failed to get cset"
-  exit 1
-fi
-
 # Get the kernel base if we need it
 echo "Checking for linux-$base (stillhq cache)"
 if [ ! -d linux-$base ]
@@ -55,12 +35,51 @@ then
   exit 2
 fi
 
-# Copy to the target directory
-echo "Copying the base to the new cset directory, and applying the patch"
-cp -R linux-$base linux-$base-`echo $cset | sed 's/.txt//'`
-pwd=`pwd`
-cd linux-$base-`echo $cset | sed 's/.txt//'`
-patch -p 1 < $pwd/$cset
-cd $pwd
+# Mainline
+if [ -d linux-$base-`echo $cset | sed 's/.txt//'` ]
+then
+  echo "We already have the latest mainline cset"
+else
+  # Get the cset if we need it
+  if [ ! -f $cset ]
+  then
+    wget http://www.kernel.org/pub/linux/kernel/v2.6/testing/cset/$csetfilename
+    gunzip $csetfilename
+  fi
 
-echo linux-$base-`echo $cset | sed 's/.txt//'` > latest
+  if [ ! -f $cset ] 
+  then
+    echo "Failed to get cset"
+    exit 1
+  fi
+
+  # Copy to the target directory
+  echo "Copying the base to the new cset directory, and applying the patch"
+  cp -R linux-$base linux-$base-`echo $cset | sed 's/.txt//'`
+  pwd=`pwd`
+  cd linux-$base-`echo $cset | sed 's/.txt//'`
+  patch -p 1 < $pwd/$cset
+  cd $pwd
+
+  echo linux-$base-`echo $cset | sed 's/.txt//'` > latest
+fi
+
+# And now the mm cset
+mmpatch=`wget http://ftp.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/$base/ -O - | grep mm | tail -1 | sed -e 's/^.*<a href=".*">//' -e 's/\/<\/a>.*$//'`
+rm $mmpatch
+wget http://ftp.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/$base/$mmpatch/$mmpatch.bz2
+bunzip2 $mmpatch.bz2
+
+if [ -d linux-$mmpatch ]
+then
+  echo "We already have the latest mm cset"
+else
+  echo "Building latest mm cset"
+  cp -R linux-$base linux-$mmpatch
+  pwd=`pwd`
+  cd linux-$mmpatch
+  patch -p 1 < $pwd/$mmpatch
+  cd $pwd
+
+  echo linux-$mmpatch > latestmm
+fi
