@@ -6,22 +6,16 @@ tag=`date "+%Y%m%d-%H%M"`
 for usblog in `ls *.usblog`
 do
   ../usblogdump/usblog-dump -i $usblog > output/$usblog-$tag-full
-  cvs add output/$usblog-$tag-full > /dev/null
-  ../usblogdump/usblog-dump -i $usblog -r > output/$usblog-$tag-norep
-  cvs add output/$usblog-$tag-norep > /dev/null
-
-  if [ -e previous ]
+  if [ `cat output/$usblog-$tag-full | grep "Aborting further decoding" | wc -l | tr -d " "` -gt 0 ]
   then
-    previous=`cat previous`
-    if [ `diff output/$usblog-$previous-full output/$usblog-$tag-full | wc -l | tr -d " "` -gt 0 ]
-    then
-      echo "$usblog: Full pass differs"
-    fi
-    if [ `diff output/$usblog-$previous-norep output/$usblog-$tag-norep | wc -l | tr -d " "` -gt 0 ]
-    then
-      echo "$usblog: Suppressed pass differs"
-    fi
+    echo $usblog FAILED TO DECODE
   fi
+
+  gzip output/$usblog-$tag-full
+  cvs add output/$usblog-$tag-full.gz > /dev/null
+  ../usblogdump/usblog-dump -i $usblog -r > output/$usblog-$tag-norep
+  gzip output/$usblog-$tag-norep
+  cvs add output/$usblog-$tag-norep.gz > /dev/null
 done
 
 echo $tag > previous

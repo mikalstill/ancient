@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for file in `ls output | sed 's/.usblog.*//' | sort | uniq | grep -v CVS`
+do
+  echo ""
+  echo Results for \"$file\"
+  ls -l output/$file*
+  echo ""
+  echo "Hit return..."
+  read dummy
+done
