@@ -19,6 +19,10 @@
 
 #include "core.h"
 
+///////////////////////////////////////////////////////////////////////////////
+// NEVER DO A cepError::display() IN THIS FILE...
+///////////////////////////////////////////////////////////////////////////////
+
 /******************************************************************************
 DOCBOOK START
 
@@ -54,6 +58,7 @@ cepError cepConfiguration::getValue(const string& valkey,
   trivsql_recordset* rs;
 
   char *tmp = strdup(sql.c_str());
+  cepDebugPrint(sql);
   rs = trivsql_execute(m_dbState, tmp);
   free(tmp);
 
@@ -65,19 +70,35 @@ cepError cepConfiguration::getValue(const string& valkey,
 
   switch(rs->errno){
   case TRIVSQL_FALSE:
-  case TRIVSQL_TRUE:
-    // todo_mikal code!
-    return cepError();
-    
-  default:
-    {
-      cepError dbg("Database read had error: " + cepItoa(rs->errno) +
-		   " attempting to recover",
-		   cepError::sevErrorRecoverable);
-      dbg.display();
-    }
-
+    cepDebugPrint("Lookup for this database key produced no results");
     outval = defval;
+    return cepError();
+
+  case TRIVSQL_TRUE:
+    trivsql_rsmovefirst(rs);
+    if(trivsql_rseof(rs) != TRIVSQL_TRUE){
+      tmp = trivsql_rsfield(rs, 0);
+      if(tmp != NULL)
+	outval = string(tmp);
+      else{
+	cepDebugPrint("Recordset field was NULL, defaulting");
+	outval = defval;
+	return setValue(valkey, defval);
+      }
+      free(tmp);
+      return cepError();
+    }
+    free(rs);
+    
+    // The recordset was empty
+    cepDebugPrint("Empty recordset returned");
+    outval = defval;
+    return setValue(valkey, defval);
+
+  default:
+    cepDebugPrint("getValue failed with error: " + cepItoa(rs->errno));\
+    outval = defval;
+    free(rs);
     return setValue(valkey, defval);
   }
   
@@ -91,7 +112,8 @@ cepError cepConfiguration::getValue(const string& valkey,
   string myov;
   cepError ce;
 
-  ce = getValue(valkey, defval ? "true" : "false", myov);
+  cepDebugPrint("Redirecting bool getValue to string");
+  ce = getValue(valkey, string(defval ? "true" : "false"), myov);
   if(ce.isReal())
     {
       return ce;
@@ -108,6 +130,7 @@ cepError cepConfiguration::getValue(const string& valkey,
   string myov;
   cepError ce;
 
+  cepDebugPrint("Redirecting int getValue to string");
   ce = getValue(valkey, cepItoa(defval), myov);
   if(ce.isReal())
     {
@@ -118,6 +141,7 @@ cepError cepConfiguration::getValue(const string& valkey,
   return cepError();
 }
 
+// todo_mikal: this should use an update, not an insert
 cepError cepConfiguration::setValue(const string& valkey,
 				   const string& value)
 {
@@ -126,20 +150,15 @@ cepError cepConfiguration::setValue(const string& valkey,
 
   // todo_mikal: I'm not sure why gcc insists on having this here...
   // I should look into it sometime...
-  string sql("INSERT INTO cepConfig (" + valkey + ") VALUES ('" + 
-	     value + "');");
-  string table("CREATE TABLE cepConfig (" + valkey + ");");
+  string sql("UPDATE cepConfig SET " + valkey + " = '" + 
+	     value + "';");
+  string table("CREATE TABLE cepConfig (" + valkey + "); INSERT INTO cepConfig (" + valkey + ") VALUES ('placeholder');");
   string alter("ALTER cepConfig ADD COLUMN " + valkey + ";");
-  
-  {
-    cepError dbg("Executing " + sql + " against the configuration database at " + m_path,
-		 cepError::sevDebug);
-    dbg.display();
-  }
   
   // TODO mikal fix const problem
   trivsql_recordset *rs;
   tmp = strdup(sql.c_str());
+  cepDebugPrint(sql);
   rs = trivsql_execute(m_dbState, tmp);
   free(tmp);
 
@@ -150,12 +169,8 @@ cepError cepConfiguration::setValue(const string& valkey,
     return cepError();
     
   case TRIVSQL_NOSUCHTABLE:
-    {
-      cepError dbg("Recovering from a no such table error for cepConfig",
-		   cepError::sevDebug);
-      dbg.display();
-    }
-
+    cepDebugPrint("Recovering from no such table error");
+    cepDebugPrint("CREATE TABLE cepConfig (version);");
     rs = trivsql_execute(m_dbState, "CREATE TABLE cepConfig (version);");
     if(rs == NULL){
       return cepError("NULL recordset returned by CREATE TABLE cepConfig",
@@ -165,12 +180,7 @@ cepError cepConfiguration::setValue(const string& valkey,
     switch(rs->errno){
     case TRIVSQL_FALSE:
     case TRIVSQL_TRUE:
-      {
-	cepError dbg("Attempt to set the value again having created the table",
-		     cepError::sevDebug);
-	dbg.display();
-      }
-      
+      cepDebugPrint("Attempt to set the value again having created the table");      
       return setValue(valkey, value);
 
     default:
@@ -181,14 +191,9 @@ cepError cepConfiguration::setValue(const string& valkey,
     break;
 
   case TRIVSQL_NOSUCHCOLUMN:
-    {
-      cepError dbg(string("Recovering from a no such column error for ") +
-		   string("cepConfig for table ") + valkey,
-		   cepError::sevDebug);
-      dbg.display();
-    }
-
+    cepDebugPrint("Recovering from a no such column error");
     tmp = strdup(alter.c_str());
+    cepDebugPrint(alter);
     rs = trivsql_execute(m_dbState, tmp);
     free(tmp);
     if(rs == NULL){
@@ -199,12 +204,7 @@ cepError cepConfiguration::setValue(const string& valkey,
     switch(rs->errno){
     case TRIVSQL_FALSE:
     case TRIVSQL_TRUE:
-      {
-	cepError dbg("Attempt to set the value again having added the column",
-		     cepError::sevDebug);
-	dbg.display();
-      }
-      
+      cepDebugPrint("Attempt to set the value again having added the column");      
       return setValue(valkey, value);
 
     default:

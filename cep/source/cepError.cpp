@@ -78,13 +78,20 @@ cepError::clear ()
 }
 
 void
+cepError::log()
+{
+  gLog << m_msg << " (severity " << m_level << ")" << endl;
+  m_actioned = true;
+}
+
+void
 cepError::display ()
 {
   m_actioned = true;
 
   // Log everything for now
   // todo_mikal improve
-  gLog << "Display attempted: " << m_msg << "Severity " << m_level << endl;
+  log();
 
   bool dodisp = true;
   string keyname(string("cepErrordisplaylevel") + 

@@ -114,10 +114,16 @@ cepApp::OnInit (void)
 			    CLASSINFO (cepView));
 
   // Create the main frame window
+  int windowx, windowy;
+  gConfiguration->getValue("mainwindowsizex", 1000, windowx);
+  gConfiguration->getValue("mainwindowsizey", 700, windowy);
+  cepDebugPrint("Main frame size is " + cepItoa(windowx) + " by " +
+		cepItoa(windowy));
+
   frame =
     new cepFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
 		  (const wxString) "Techtonic Information Transform System", 
-		  wxPoint (0, 0), wxSize (1000, 700),
+		  wxPoint (0, 0), wxSize (windowx, windowy),
 		  wxDEFAULT_FRAME_STYLE);
   
   // Give it an icon (this is ignored in MDI mode: uses resources)

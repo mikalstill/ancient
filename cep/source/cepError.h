@@ -20,6 +20,23 @@
 #ifndef CEP_ERROR_HEADER
 #define CEP_ERROR_HEADER
 
+// This prints out some debugging information which is useful, use it instead
+// of:
+// cepError dbg("Some text", cepError::sevDebug);
+// dbg.display();
+
+///////////////////////////////////////////////////////////////////////////////
+// THIS CANNOT DO A DISPLAY, AS THE CONFIG DB CODE USES THIS TO LOG DB PROBLEMS
+// AND cepError::display() USES THE CONFIG DB...
+///////////////////////////////////////////////////////////////////////////////
+
+#define cepDebugPrint(errmsg) \
+  { \
+    cepError newnamedbg(string(errmsg) + string(" at ") + string(__FILE__) + \
+			string(":") + cepItoa(__LINE__), cepError::sevDebug); \
+    newnamedbg.log(); \
+  }
+
 class cepError
 {
 public:
@@ -42,6 +59,7 @@ public:
 
   bool isReal ();
   void clear();
+  void log();
   void display ();
   string getTitle();
   int getIcon();

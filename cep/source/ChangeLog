@@ -27,3 +27,6 @@
 
 20020604 Michael Still (mikal@stillhq.com)
 	When the main window closes, we now try to remember it's size
+
+20020606 Michael Still (mikal@stillhq.com)
+	Scary debug print macro (cepDebugPrint)
