@@ -71,9 +71,11 @@ CC = @CC@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LD = @LD@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 MAINT = @MAINT@
+NM = @NM@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
@@ -83,13 +85,15 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 lib_LTLIBRARIES = libplot.la
-noinst_PROGRAMS = sample
+noinst_PROGRAMS = sample graph
 
 libplot_la_SOURCES = libplot.c
 include_HEADERS = libplot.h
 
 sample_SOURCES = example.c
 sample_LDADD = -lplot -L.libs
+graph_SOURCES = exgraph.c
+graph_LDADD = -lplot -L.libs
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
@@ -100,9 +104,13 @@ libplot_la_LDFLAGS =
 libplot_la_LIBADD =
 am_libplot_la_OBJECTS = libplot.lo
 libplot_la_OBJECTS = $(am_libplot_la_OBJECTS)
-noinst_PROGRAMS = sample$(EXEEXT)
+noinst_PROGRAMS = sample$(EXEEXT) graph$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
+am_graph_OBJECTS = exgraph.$(OBJEXT)
+graph_OBJECTS = $(am_graph_OBJECTS)
+graph_DEPENDENCIES =
+graph_LDFLAGS =
 am_sample_OBJECTS = example.$(OBJEXT)
 sample_OBJECTS = $(am_sample_OBJECTS)
 sample_DEPENDENCIES =
@@ -115,7 +123,8 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/example.Po ./$(DEPDIR)/libplot.Plo
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/example.Po ./$(DEPDIR)/exgraph.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/libplot.Plo
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
@@ -124,7 +133,7 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
-DIST_SOURCES = $(libplot_la_SOURCES) $(sample_SOURCES)
+DIST_SOURCES = $(libplot_la_SOURCES) $(graph_SOURCES) $(sample_SOURCES)
 HEADERS = $(include_HEADERS)
 
 DIST_COMMON = README $(include_HEADERS) AUTHORS COPYING ChangeLog \
@@ -132,7 +141,7 @@ DIST_COMMON = README $(include_HEADERS) AUTHORS COPYING ChangeLog \
 	config/config.guess config/config.sub config/depcomp \
 	config/install-sh config/ltconfig config/ltmain.sh \
 	config/missing config/mkinstalldirs configure configure.in
-SOURCES = $(libplot_la_SOURCES) $(sample_SOURCES)
+SOURCES = $(libplot_la_SOURCES) $(graph_SOURCES) $(sample_SOURCES)
 
 all: all-am
 
@@ -178,6 +187,9 @@ libplot.la: $(libplot_la_OBJECTS) $(libplot_la_DEPENDENCIES)
 
 clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+graph$(EXEEXT): $(graph_OBJECTS) $(graph_DEPENDENCIES) 
+	@rm -f graph$(EXEEXT)
+	$(LINK) $(graph_LDFLAGS) $(graph_OBJECTS) $(graph_LDADD) $(LIBS)
 sample$(EXEEXT): $(sample_OBJECTS) $(sample_DEPENDENCIES) 
 	@rm -f sample$(EXEEXT)
 	$(LINK) $(sample_LDFLAGS) $(sample_OBJECTS) $(sample_LDADD) $(LIBS)
@@ -189,6 +201,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/example.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exgraph.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libplot.Plo@am__quote@
 
 distclean-depend:
