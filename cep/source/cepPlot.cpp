@@ -25,8 +25,7 @@
 cepPlot::cepPlot (cepDataset * theDataset, cepDataset::direction dir,
 		  string cfname, long x, long y, float &horizScale,
 		  float &vertScale, long &xminval, long &yminval,
-		  long &yrange, bool haveLs, bool freqDomain, float energy,
-		  int windowTarget):
+		  long &yrange, int windowTarget):
 m_plotfailed (false)
 {
   cepConfiguration *config;
@@ -34,10 +33,10 @@ m_plotfailed (false)
 
   cepPresentation pres (x, y, theDataset->getMatrix (dir),
 			theDataset->getOffset (dir));
-  if (haveLs)
+  if (theDataset->getHaveLs(dir))
     pres.setLsParams (theDataset->getB1 (dir), theDataset->getB2 (dir));
-  else if (freqDomain)
-    pres.setFreqParams (energy);
+  else if (theDataset->isFreqDomain())
+    pres.setFreqParams (theDataset->getEnergy(dir));
 
   cepError err;
   int red = 0, green = 0, blue = 0;

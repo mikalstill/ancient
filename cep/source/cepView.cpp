@@ -306,9 +306,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     cepPlot plot(theDataset, dir, cfname, presWidth, presHeight, 
 		 canvas->m_vertScale[(int) dir], canvas->m_horizScale[(int) dir],
 		 canvas->m_xminval[(int) dir], canvas->m_yminval[(int) dir],
-		 canvas->m_yrange[(int) dir], theDataset->getHaveLs(dir),
-		 theDataset->isFreqDomain(), theDataset->getEnergy(dir),
-		 m_currentWindow);
+		 canvas->m_yrange[(int) dir], m_currentWindow);
     m_plotfailed = plot.getFailed();
     canvas->m_isFreq[(int) dir] = theDataset->isFreqDomain();
     
