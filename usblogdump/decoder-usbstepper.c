@@ -67,8 +67,6 @@ int main(int argc, char *argv[])
 	}
       else if(strncmp(dat, "CTRL ", 5) == 0)
 	{
-	  // This is here for completeness, as the USB stepper motor controller doesn't
-	  // use control transfers
 	  printf("No decoding implemented for control transfers\n");
 	}
       else if(strncmp(dat, ".", 1) == 0)

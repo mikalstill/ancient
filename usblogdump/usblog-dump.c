@@ -71,6 +71,7 @@ long urb_buffer_inset = 0;
 int urb_reallocs = 0;
 void urb_printf (char *format, ...);
 char *urb_xsnprintf (char *format, va_list ap);
+void urb_printf_flags (unsigned int number);
 void urb_xfree (void *);
 char *md5hash (char *);
 
@@ -311,7 +312,10 @@ main (int argc, char *argv[])
 		  urbhead[urbCount].endpoint == 0 ? " (default)" : "");
       urb_printf ("Pipe handle: 0x%08x\n",
 		  fileutil_getuinteger (file, &filep));
-      urb_printf ("Flags: %d\n", fileutil_getuinteger (file, &filep));
+
+      urb_printf("Flags: ");
+      urb_printf_flags(fileutil_getuinteger (file, &filep));
+
       urb_printf ("Status: %d\n", fileutil_getinteger (file, &filep));
       urb_printf ("Link: %d\n", fileutil_getuinteger (file, &filep));
       urb_printf ("\n");
@@ -434,6 +438,8 @@ main (int argc, char *argv[])
 	  // ISOCH_TRANSFER
 
 	  temp = fileutil_getnumber (file, &filep);
+
+	  // TODO: Use the new IO method here...
 	  urb_printf ("ISOCH transfer length: %d\n", temp);
 	  urb_printf ("ISOCH transfer: ");
 	  while (temp != 0)
@@ -695,7 +701,9 @@ usb_urb_header (char *file, long long *filep)
   urb_printf ("Status: %d\n", fileutil_getuinteger (file, &count));
   // Skipped device handle pointer
   count += 4;
-  urb_printf ("Flags: %d\n", fileutil_getuinteger (file, &count));
+
+  urb_printf ("Flags: ");
+  urb_printf_flags(fileutil_getuinteger (file, &count));
 
   *filep = count;
 }
@@ -1092,6 +1100,30 @@ urb_xsnprintf (char *format, va_list ap)
     }
 
   return output;
+}
+
+void
+urb_printf_flags(unsigned int number)
+{
+  char *tempbinary;
+  
+  urb_printf("%d [", number);
+
+  tempbinary = to_binary((unsigned char) (number & 0xFF000000) >> 24);
+  urb_printf ("%s ", tempbinary);
+  free(tempbinary);
+
+  tempbinary = to_binary((unsigned char) (number & 0x00FF0000) >> 16);
+  urb_printf ("%s ", tempbinary);
+  free(tempbinary);
+
+  tempbinary = to_binary((unsigned char) (number & 0x0000FF00) >> 8);
+  urb_printf ("%s ", tempbinary);
+  free(tempbinary);
+
+  tempbinary = to_binary((unsigned char) (number & 0x000000FF));
+  urb_printf ("%s]\n", tempbinary);
+  free(tempbinary);
 }
 
 void
