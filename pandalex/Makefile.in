@@ -129,7 +129,7 @@ AM_YFLAGS = -d
 SUBDIRS = . examples
 
 lib_LTLIBRARIES = libpandalex.la
-libpandalex_la_SOURCES = parser.y lexer.l tdb.c spinlock.c
+libpandalex_la_SOURCES = parser.y lexer.l
 
 pandalexincludedir = $(includedir)
 pandalexinclude_HEADERS = pandalex.h
@@ -142,14 +142,13 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 
 libpandalex_la_LDFLAGS =
 libpandalex_la_LIBADD =
-am_libpandalex_la_OBJECTS = parser.lo lexer.lo tdb.lo spinlock.lo
+am_libpandalex_la_OBJECTS = parser.lo lexer.lo
 libpandalex_la_OBJECTS = $(am_libpandalex_la_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I.
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/lexer.Plo ./$(DEPDIR)/parser.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/spinlock.Plo ./$(DEPDIR)/tdb.Plo
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/lexer.Plo ./$(DEPDIR)/parser.Plo
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
@@ -261,8 +260,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lexer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spinlock.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tdb.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
