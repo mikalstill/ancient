@@ -266,6 +266,9 @@ public:
   //returs true if A is diagonal, else returns false  
   bool isDiagonal ();
 
+  const T getMaxValue(int col);
+
+  const T getMinValue(int col);
   //****************Resize fuction **************************
   //Returns the current matrix which is resized by newRows number of rows. This
   //function can only make the number of rows in the matrix larger.
@@ -759,6 +762,83 @@ bool cepMatrix<T>::isDiagonal ()
 
   return true;
 }
+
+template <class T>
+const T cepMatrix<T>::getMaxValue(int col)
+{
+  T maxVal;
+  
+  if (m_matrix == NULL)
+  {
+    #ifdef debug
+      cout << "Error! Can not use the getMax operator on a 3D matrix" << endl;
+      exit(1);
+    #endif
+
+    cepError("Error! Can not use the getMax operator on a 3D Matrix", cepError::sevErrorRecoverable).display();
+  }
+
+  if (col >= m_numCols)
+  {
+    #ifdef debug
+      cout << "Error! Invalid col number" << endl;
+      exit(1);
+    #endif
+
+    cepError("Error Invalid Col Number", cepError::sevErrorRecoverable).display();
+  }
+
+  maxVal = m_matrix[col];
+  
+  for(int i = 0; i < m_numRows; i ++)
+  {
+    if(maxVal < m_matrix[(i * m_numCols) + col])
+    {
+      maxVal = m_matrix[(i * m_numCols) + col];
+    }
+  }
+
+  return maxVal;    
+}
+
+template <class T>
+const T cepMatrix<T>::getMinValue(int col)
+{
+  T minVal;
+
+  if (m_matrix == NULL)
+  {
+    #ifdef debug
+      cout << "Error! Can not use the getMax operator on a 3D matrix" << endl;
+      exit(1);
+    #endif
+
+    cepError("Error! Can not use the getMax operator on a 3D Matrix", cepError::sevErrorRecoverable).display();
+  }
+
+  if (col >= m_numCols)
+  {
+    #ifdef debug
+      cout << "Error! Invalid col number" << endl;
+      exit(1);
+    #endif
+
+    cepError("Error Invalid Col Number", cepError::sevErrorRecoverable).display();
+  }
+
+  minVal = m_matrix[col];
+
+  for(int i = 0; i < m_numRows; i ++)
+  {
+    if(minVal > m_matrix[(i * m_numCols) + col])
+    {
+      minVal = m_matrix[(i * m_numCols) + col];
+    }
+  }
+
+  return minVal;
+}
+
 //****************Resize fuction *************************
 template <class T>
 const cepMatrix<T>& cepMatrix<T>::resize(int newRows)
