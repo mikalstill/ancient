@@ -1,0 +1,23 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<book><bookinfo>
+<title>GDMS: Thesis</title>
+<execute><cmd>builddb</cmd><input>authorgroup.sgml</input></execute>
+</bookinfo>
+
+<execute><cmd>builddb</cmd><input>theory_intro.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>theory_TDA.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>theory_Interp.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>theory_Window.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>theory_FDA.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>theory_UI.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>imp_design.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>imp_proto.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>imp_issues_TDA.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>imp_issues_Interp.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>imp_issues_window.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>imp_issues_FDA.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>imp_issues_UI.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>imp_Testing.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>conclsusion.sgml</input></execute>
+
+</book>
