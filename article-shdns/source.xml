@@ -10,7 +10,7 @@ If known, specify the (skill) level, 1 to 5 -->
 
 <meta name="keywords" content="image, raster, imagemagick, convert, rotate, scale, thumbnail, resize, artistic"/>
 <!-- Fill in or leave blank for production to fill in.  -->
-<meta name="lastupdate" content="20040206mbsTODO"/>
+<meta name="lastupdate" content="20040221mbs"/>
 
 <zone name="linux"/>
 
@@ -30,9 +30,9 @@ If known, specify the (skill) level, 1 to 5 -->
 
 <!-- DATE INFO
 Fill in or leave blank for production to fill in.-->
-<date month="02" day="19" year="2004"/>
+<date month="02" day="21" year="2004"/>
 
-<abstract miniabstract="">TODO</abstract>
+<abstract miniabstract="">This article discusses how to implement UDP servers using scripting languages such as shell as perl. It also contains a brief discussion of the differences between TCP and UDP, as well as connected and disconnected sockets.</abstract>
 
 <column-info col-name="" col-icon=""/>
 <docbody>
@@ -86,8 +86,8 @@ UDP is unreliable, which means it does none of this for you. It is the programme
 So why would you ever use UDP? This reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs:
 </p>
 
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xx. TODO</heading>
-<img src="tcp-handshake.png" width="TODO" height="TODO" alt="TODO"/>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 1. The TCP handshake</heading>
+<img src="tcp-handshake.png" width="191" height="155" alt="The TCP handshake"/>
 </figure>
 
 <p>
@@ -118,7 +118,7 @@ See the further reading section at the end of the this article for recommendatio
 By default when a UDP socket is created, it is disconnected. What's a disconnected socket? The short answer is that it isn't associated with any given remote machine. This means that each time we fetch data from the socket we have to use the <emphasis>recvfrom</emphasis>(2) function call:
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 1. recvfrom parameters</heading>
 <code type="section">
 int recvfrom(int s, void *buf, 
              size_t len, int flags, 
@@ -130,7 +130,7 @@ int recvfrom(int s, void *buf,
 The <i>struct sockaddr</i> argument in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The response needs to be sent with the <i>sendto</i>(2) call:
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 2. sendto parameters</heading>
 <code type="section">
 int sendto(int s, 
            const void *msg, 
@@ -148,7 +148,7 @@ The <i>sendto</i> function call takes another <i>struct sockaddr</i> argument wh
 The code listing below is an example of how to use the <i>recvfrom</i> and <i>sendto</i> functions. This example is a simple UDP echo server. The program waits on a given port, and whenever it receives data, sends it straight back.
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 3. Disconnected sockets</heading>
 <code type="section">
 // Disconnected UDP socket example: this example 
 // simply reads from clients (there can be more 
@@ -238,7 +238,7 @@ Let's have a look at this program running. As we can see from the source code, t
 A client interaction with the server looks like this:
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 4. Testing the UDP echo server</heading>
 <code type="section">
 [mikal@localhost article]# nc -u localhost 1234
 hello
@@ -255,7 +255,7 @@ there
 Note that the "punt!" is me hitting control c on <b>netcat</b>. The server output for this session is:
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 5. UDP echo server output</heading>
 <code type="section">
 [root@localhost sockets]# ./disconnected 
 Reading...
@@ -303,7 +303,7 @@ Please bear in mind that <b>inetd</b> and <b>xinetd</b> are very configurable, a
 This is a particularly useful example, because our shell scripts are eventually going to run from <b>inetd</b>, so having an understanding of how it works is opportune.
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 6. A disconnected inetd</heading>
 <code type="section">
 // Disconnected UDP socket example: this example 
 // simply waits for traffic, and the starts a 
@@ -424,7 +424,7 @@ When the <i>connect</i> function is called, it simply records which machine the 
 Here's a simple example of a connected socket version of the disconnected echo server above. Note that we now use <i>read</i> and <i>write</i> function calls for all the network input output.
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 7. Connected sockets</heading>
 <code type="section">
 // Connected UDP socket example: this example 
 // simply reads from clients (there can be more 
@@ -524,7 +524,7 @@ I won't include an example of what this program looks like when it runs, because
 You'll recall that a couple of examples ago I showed you the code for a simple <b>inetd</b> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 8. A connected inetd</heading>
 <code type="section">
 // Connected UDP socket example: this example this 
 // example simply waits for traffic, and the starts 
@@ -637,7 +637,7 @@ It seems logical to me to include a patch to make <b>inetd</b> behave in the man
 The package which contains <b>inetd</b> as run on Debian is called <i>netkit</i>. The following is a patch to use connected sockets for UDP and TCP servers.
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 9. netkit patch</heading>
 <code type="section">
 diff -ur netkit-base-0.16/inetd/inetd.c netkit-base-0.16-hacked/inetd/inetd.c
 --- netkit-base-0.16/inetd/inetd.c	Wed Nov 24 06:31:53 1999
@@ -681,7 +681,7 @@ diff -ur netkit-base-0.16/inetd/inetd.c netkit-base-0.16-hacked/inetd/inetd.c
 A simple example of how to configure <b>inetd</b> to handle our UDP echo server is shown below &mdash; the configuration file this line is added to is /etc/inetd.conf. It should be noted that <i>myecho</i> is the name of a service I had to add to /etc/services because <b>inetd</b> insists on all services being listed there...
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 10. netkit inetd configuration example</heading>
 <code type="section">
 # An example UDP echo server
 myecho    dgram   udp     nowait    root    /bin/cat cat -
@@ -693,7 +693,7 @@ This service has the following characteristics:
 
 <ul>The service name is <i>myecho</i>. The listing in /etc/services is:
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 11. /etc/services entry</heading>
 <code type="section">
 myecho		1234/udp			# Simple echo example for LCA 2004 paper
 </code>
@@ -723,7 +723,7 @@ Note that we can't use the name <i>echo</i> for our service for a couple of reas
 The same echo service configured with <b>xinetd</b> looks like this:
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 12. xinetd configuration</heading>
 <code type="section">
 service myecho
 {
@@ -769,7 +769,7 @@ This article wouldn't be complete without an example of a UDP shell script to ru
 The code for <b>shdns</b> is broken into two components. The first is a simple script which redirects the input packet to a file, so that <b>shdns</b> can move backwards and forwards within the input packet to grab the bits it needs as required.
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 13. shdns-server</heading>
 <code type="section">
 #!/bin/bash
 
@@ -785,7 +785,7 @@ logger "shdns $$ Stopped listening"
 The other part of the code is the script which actually parses the input DNS UDP packet and responds. Note that this is merely a proof of concept at the moment, it doesn't attempt to implement the entire DNS protocol &mdash; there is only enough here to perform a name lookup.
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 14. shdns</heading>
 <code type="section">
 #!/bin/bash
 
@@ -1166,8 +1166,8 @@ exit
 The <b>shdns</b> implementation strategy is summarized by the following diagram.
 </p>
 
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure xx. TODO</heading>
-<img src="shdns-design.png" width="TODO" height="TODO" alt="TODO"/>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 2. The design of shdns</heading>
+<img src="shdns-design.png" width="298" height="384" alt="The design of shdns"/>
 </figure>
 
 <p>
@@ -1184,7 +1184,7 @@ The only configuration required to run <b>shdns</b>, apart from configuring you 
 Here's a sample lookup file:
 </p>
 
-<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 15. The lookup file</heading>
 <code type="section">
 www.stillhq.com	127.0.0.1
 </code>
@@ -1202,7 +1202,12 @@ TODO
 </relatedlist>
 
 <resourcelist>
-TODO
+<ul>
+<ul>A list of DNS related Internet RFCs -- <a href="http://www.faqs.org/rfcs/dns-rfcs.html">http://www.faqs.org/rfcs/dns-rfcs.html</a>
+<ul>An excellent introduction to DNS, as well as many other protocols -- TCP/IP Illustrated, Volume One: The protocols, by W Richard Stevens, published by Addison-Wesley
+<ul>The Freshmeat page for NetKit -- <a href="http://freshmeat.net/projects/netkit/?topic_id=150">http://freshmeat.net/projects/netkit/?topic_id=150</a>
+<ul>The xinetd home page -- <a href="http://www.xinetd.org/">http://www.xinetd.org</a>
+<ul>The source code for shdns -- <a href="http://www.stillhq.com/extracted/shdns/">http://www.stillhq.com/extracted/shdns/</a>
 </ul>
 </resourcelist>
 </dw-article>
