@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Template created by Chris, and updated by Gretchen and Chris 5/19/03 -->
+<!-- Welcome to the dW article template! Comments show you how to fill in the basic elements:
+  Meta data 
+  Title
+  Author information
+  Abstract
+  Headings and paragraphs
+  Sidebars (optional)
+  Code in sentences (optional)
+  Code listings (optional)
+  Figures (optional)
+  Tables (optional)
+  Related links
+  Resource list
+ -->
+
+<!-- STYLESHEET and SCHEMA LOCATION 
+Edit these lines to point to the stylesheet and schema files on your machine. -->
+<?xml-stylesheet type="text/xsl" href="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-html-2.1.xsl"?>
+<dw-document xmlns:dw="http://www.ibm.com/developerWorks/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-2.1.xsd">
+
+<!-- SKILL LEVEL 
+If known, specify the (skill) level, 1 to 5 -->
+<dw-article toc="auto" ratings="auto" level="1" localsite="worldwide" related_contents="auto">
+<id domino-uid=""/>
+
+<todo>
+<!-- META DATA 
+Enter unique keywords for this article in the content field. -->
+<meta name="keywords" content="Unique keywords for your article go here.  Case doesn't matter; no need to include both upper and lower case for same item.  Separate keywords with commas."/>
+<!-- Fill in or leave blank for production to fill in.  -->
+<meta name="lastupdate" content="2003mmdd your-initials"/>
+
+<!-- ZONE  
+Fill in or leave blank for production to fill in.  -->
+<zone name="linux"/>
+
+<!-- TITLE
+If this article belongs to a column or a series of articles, enter the column name or series title on the seriestitle tag.  Enter the article title on the title tag.  Enter the subtitle on the subtitle tag. -->
+<seriestitle></seriestitle>
+<title>Command line imaging tools</title>
+<subtitle></subtitle>
+<!--  End TITLE -->
+
+<!-- Ignore these lines. -->
+<!-- <forumurl url=""/> -->
+<!-- <zip url=""/> -->
+<!-- <pdf size="" url=""/> -->
+
+<!-- AUTHOR INFO
+Create an author tag for each author. Provide author's company name, e-mail address, job title, name, and brief biography. Bio should convey relevant expertise or qualifications to write this article. -->
+<author company="TOWER Software" email="mikal@stillhq.com" jobtitle="Senior Software Engineer" name="Michael Still">
+<bio>Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code.</bio></author>
+<!--  End AUTHOR -->
+
+<!-- DATE INFO
+Fill in or leave blank for production to fill in.-->
+<date month="5" day="15" year="2003"/>
+
+<todo>
+<!-- ABSTRACT 
+Enter a brief summary of the article. Do not include any line breaks in the content. Do not worry about providing a "miniabstract."  Production will take care of that if it's necessary. -->
+<abstract miniabstract="">Your article summary (3 to 7 sentences) goes here. Highlight the main points of the article or the task the developer will be able to do after reading the article. Put the primary points and key phrases close to the beginning of the abstract, because the abstract may be truncated in search results. Avoid line breaks in the abstract, please.</abstract>
+
+<!-- Ignore these lines. -->
+<column-info col-name="" col-icon=""/>
+<docbody>
+
+<!-- BEGIN THE BODY OF THE ARTICLE -->
+
+<!-- INTRODUCTORY PARAGRAPHS
+Every paragraph needs a <p> and </p>. -->
+<p>In previous articles, we've discussed imaging coding using libtiff. This article has a different focus, it discusses how to perform image manipulation using command line tools. This is something I do personally quite often, especially since I have picked up a couple of digital cameras, and now have to manage a library of several thousand happy snaps.</p>
+
+<p>This article takes the form of discussing specific problems as examples, but the concepts should be applicable to other problem spaces as well.</p>
+
+<p>It should be noted that there are many ways to do the things discussed in this article. I will only discuss the methods I use, and know work for me. That doesn't mean the other tools out there are broken, it just means that I'm happy with what I am using now.</p>
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">Generating thumbnails</heading>
+<p>The first thing I needed to do with my picture collection was to generate thumbnails. I also wanted to reduce the size of the images for the website version, as many people don't really want to see a 1024 by 768 picture of my sons.</p>
+
+<p>The tool I use to do this is called <i>convert</i>, which is part of the imagemagick suite. <i>Convert</i> is really cool. It doesn't just do image resizing. It also antialiases, average a set of images, blur, converts between image formats, crop, despeckel, dither, draw borders, flip, join, resample, resize, and much more. Checkout the man page for more information on it's various command line options.</p>
+
+<p>For example, let's assume I want to make a thumbnail of this rather nice image of a rose:</p>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 1. A picture of a rose</heading>
+<img src="rose.jpg" width="640" height="480" alt="A picture of a rose"/>
+</figure>
+
+<p>To resize the image with convert, just use the -sample command line option. For example, let's say that I want thumbnails to be 80x40 pixels. The command line would be:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 1. Create a thumbnail with a fixed size</heading>
+<code type="section">
+convert -sample 80x40 input.jpg output.jpg
+</code>
+
+<p>This produces a thumbnail which looks like:</p>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 2. A first attempt at a thumbnail</heading>
+<img src="convert-sample-8040.jpg" width="80" height="40" alt="A thumbnail of a rose"/>
+</figure>
+
+<todo>
+<p>It looks a little like 8040 has had it's aspect ratio saved. I need to confirm this.  If you want to maintain the aspect ratio of the image, then you can use percentages, such as:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 2. Create a thumbnail which is a percentage of the old size</heading>
+<code type="section">
+convert -sample 25%x25% input.jpg output.jpg
+</code>
+
+<p>Now we have a thumbnail which looks like:</p>
+
+<figure>	
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 3. A second attempt at a thumbnail</heading>
+<img src="convert-sample-25pct.jpg" width="160" height="120" alt="A thumbnail of a rose"/>
+</figure>
+
+
+
+
+
+
+
+
+
+
+
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">Getting information about an image file</heading>
+
+<p>Another example of something which people commonly need to do is to determine the dimensions of an image file. This might be in order to determine how big to make the thumbnail from the previous example, or any other reason you can think of.</p>
+
+<p>Many imaging libraries come with excellent tools for this sort of purpose. For example, libtiff ships with <i>tiffinfo</i>, which display the following sort of information about TIFF files:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 3. An example usage of tiffinfo</heading>
+<code type="section">
+deathstar:/home/mikal# tiffinfo output.tif
+TIFF Directory at offset 0x146
+  Image Width: 352 Image Length: 288
+  Bits/Sample: 8
+  Compression Scheme: Deflate
+  Photometric Interpretation: RGB color
+  Samples/Pixel: 3
+  Planar Configuration: single image plane
+</code>
+
+<p>This isn't an exhaustive example of how to use <i>tiffinfo</i>, but you can see that it returns useful information such as the size of the image, the pixel depth (a combination of the number of bits per sample, and the number of samples per pizel), and the compression scheme used.</p>
+
+<p>Similarly, there is a <i>pnginfo</i> command which returns similar information for PNG files:</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 4. An example usage of pnginfo</heading>
+<code type="section">
+deathstar:/home/mikal# pnginfo sample.png 
+sample.png...
+  Image Width: 640 Image Length: 480
+  Bitdepth (Bits/Sample): 8
+  Channels (Samples/Pixel): 3
+  Pixel depth (Pixel Depth): 24
+  Colour Type (Photometric Interpretation): RGB 
+  Image filter: Single row per byte filter 
+  Interlacing: No interlacing 
+  Compression Scheme: Deflate method 8, 32k window
+  Resolution: 0, 0 (unit unknown)
+  FillOrder: msb-to-lsb
+  Byte Order: Network (Big Endian)
+  Number of text strings: 0 of 0
+</code>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">pnginfo?</heading>
+<p>I had been a user of libtiff for quite some time when I started using PNG. At the time, there was no <i>tiffinfo</i> equivalent for PNG files, which is why I wrote <i>pnginfo</i>. <i>pnginfo</i> can be downloaded from the URL at the end of this article.</p> 
+</sidebar>
+
+<p>I am not aware of equivalent individual tools for other formats such as BMP, GIF and JPEG. However, here imagemagick comes to the rescue once more, this time with a tool called <i>identify</i>.</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing 5. An example usage of identify</heading>
+<code type="section">
+deathstar:/home/mikal# identify -verbose sample.png 
+Image: sample.png
+  Format: PNG (Portable Network Graphics)
+  Geometry: 640x480
+  Class: DirectClass
+  Type: true color
+  Depth: 8 bits-per-pixel component
+  Colors: 142360
+  Filesize: 555.6k
+  Interlace: None
+  Background Color: grey100
+  Border Color: #DFDFDF
+  Matte Color: grey74
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Zip
+  signature: 361fe70ae623ef6f1fca44e0d29d157c2d701039fcf0f8625862925d881e13a4
+  Tainted: False
+  User Time: 0.190u
+  Elapsed Time: 0:01
+</code>
+
+
+
+
+
+
+
+
+
+<!-- END THE BODY OF THE ARTICLE -->
+
+<!-- Ignore this line. -->
+</docbody>
+
+<!-- RELATED LIST
+The related list includes 2 or 3 selected links to dW content that is especially relevant to the article.  All resources listed here should also be in the resource list. Links to the dW newsletter and Toolbox subscription are automatically filled in; no need to list them here. -->
+<!-- <relatedlist> -->
+<!-- <a href="">Title</a> -->
+<!-- <a href="">Title</a> -->
+<!-- </relatedlist> -->
+
+<!-- RESOURCE LIST
+The resource list includes links to downloadable code for the article, to all resources mentioned in the article, and to other resources related to the topic.  Resources may be from IBM, developerWorks, alphaWorks, the IBM developer domains or product sites, or non-IBM sites. Annotate each link by explaining the value and relevance for the reader. Put article titles in quotes, book titles in italics. 
+Use the format shown for each type of resource. -->
+<resourcelist>
+<ul>
+
+<!-- EXAMPLE FOR CODE DOWNLOADS -->
+<li>Download the <a href="">source code</a> used in this article.</li>
+
+<!-- EXAMPLE FOR ARTICLES -->
+<li>"<a href="">Article title</a>" offers additional insight on the pros and cons of the techniques discussed in this article.</li>
+
+<!-- EXAMPLE FOR dW ARTICLES -->
+<li>"<a href="">Article title</a>" (<i>developerWorks</i>, month year) offers additional insight on the pros and cons of the techniques discussed in this article.</li>
+
+<!-- EXAMPLE FOR WEB SITES -->
+<li>The <a href="http://www.stillhq.com/cgi-bin/getpage?area=pngtools">pnginfo</a> is part of the pngtools suite.</li>
+
+<!-- EXAMPLE FOR BOOKS -->
+<li>The classic work in this field is <a href=""><i>UNIX Power Tools</i></a> by Jerry Peek, Tim O'Reilly, and Mike Loukides (O'Reilly &amp; Associates, 1997).</li>
+</ul>
+</resourcelist>
+
+<!-- END THE ARTICLE -->
+
+<!-- You're done! Ignore these last two lines. -->
+
+</dw-article>
+</dw-document>
