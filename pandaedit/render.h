@@ -23,6 +23,8 @@ private:
   void processLine (string line);
   void pushArguement (string arg);
 
+  // Commands group up drawing operations, and push them onto the drawing
+  // chain
   void command_b ();
   void command_bstar ();
   void command_B ();
@@ -56,6 +58,42 @@ private:
   void command_v ();
   void command_w ();
   void command_y ();
+
+  // The render functions actually mark the page based on the parsed drawing
+  // chain
+  void render_b ();
+  void render_bstar ();
+  void render_B ();
+  void render_Bstar ();
+  void render_BT ();
+  void render_c ();
+  void render_cm ();
+  void render_Do ();
+  void render_ET ();
+  void render_f ();
+  void render_fstar ();
+  void render_F ();
+  void render_g ();
+  void render_G ();
+  void render_h ();
+  void render_l ();
+  void render_m ();
+  void render_q ();
+  void render_Q ();
+  void render_re ();
+  void render_rg ();
+  void render_RG ();
+  void render_S ();
+  void render_Td ();
+  void render_TD ();
+  void render_Tf ();
+  void render_Tj ();
+  void render_TL ();
+  void render_Tm ();
+  void render_Tr ();
+  void render_v ();
+  void render_w ();
+  void render_y ();
 
   enum rmMode
   {

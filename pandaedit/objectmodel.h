@@ -118,8 +118,12 @@ public:
   bool hasDictItem (dictitem::diType type, string dname, string dvalue);
 
   dictionary & getDict ();
+
   int getNumber ();
+  void setNumber(int no);
   int getGeneration ();
+  void setGeneration (int no);
+
   char *getStream (bool & needsStreamClean, unsigned long &length);
   char *getStream (raster & image, bool & needsStreamClean,
 		   unsigned long &length);
@@ -167,7 +171,7 @@ public:
   pdf ();
   pdf (string filename);
   void setSpecVer (float version);
-  void addObject (object theObject);
+  void addObject (object& theObject);
 
   bool findObject (dictitem::diType type, string dname, string dvalue,
 		   object & obj);
@@ -177,17 +181,13 @@ public:
   objectlist getPages ();
   string getFilename();
 
-  void appendLine(wxPoint end);
-  void appendLine(wxPoint start, wxPoint end);
-  void appendMove(wxPoint end);
-
 private:
   string m_filename;
   float m_specVer;
   wxPoint m_previousEnd;
 
   vector < object > m_objects;
-  //  vector < streamCommand > m_commands;
+  int m_highestObject;
 };
 
 #endif

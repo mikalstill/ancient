@@ -87,8 +87,20 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
     {
       debug(dlTrace, "Tool instance ended, tool still selected");
       
+      string commandString;
+      if(m_controlPoints.size() > 0)
+	commandString += toString(m_controlPoints[0].x) + string(" ") +
+	  toString(m_controlPoints[0].y) + string(" m\n");
+      for(unsigned int i = 1; i < m_controlPoints.size(); i++)
+	{
+	  commandString += toString(m_controlPoints[i].x) + string(" ") +
+	    toString(m_controlPoints[i].y) + string(" l\n");
+	}
+      if(m_controlPoints.size() > 0)
+	commandString += string("S");
+
       if(m_view)
-	((pdfView *) m_view)->appendCommand("Mary had a little lamb");
+	((pdfView *) m_view)->appendCommand(commandString);
       m_controlPoints.clear();
     }
   

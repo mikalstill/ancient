@@ -191,6 +191,10 @@ pdfDoc::getPages()
 void
 pdfDoc::appendCommand(int pageNum, string commandString)
 {
+  debug(dlTrace, "Appending the following command to a page of the PDF");
+  debug(dlTrace, "Start command");
+  debug(dlTrace, commandString);
+  debug(dlTrace, "End command");
   while(pageNum >= m_pages.size())
     appendPage();
 
@@ -200,7 +204,17 @@ pdfDoc::appendCommand(int pageNum, string commandString)
 void
 pdfDoc::appendPage()
 {
+  debug(dlTrace, "Appending a page to the PDF");
+
+  // This could be a new PDF file which doesn't even have a m_pdf yet.
+  // If one is needed, then we make it here...
+  if(!m_pdf)
+    {
+      m_pdf = new pdf();
+    }
+
   object newpage(objNumAppended, objNumAppended);
+  m_pdf->addObject(newpage);
   m_pages.push_back(newpage, m_pdf);
 }
 

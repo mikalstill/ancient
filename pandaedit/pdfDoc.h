@@ -63,6 +63,7 @@ DECLARE_DYNAMIC_CLASS (pdfDoc)
   unsigned int getPageCount();
   string getFilename();
   void appendCommand(int page, string command);
+  void appendPage();
 
 private:
   wxProgressDialog * m_progress;

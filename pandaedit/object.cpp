@@ -202,10 +202,22 @@ object::getNumber ()
   return m_number;
 }
 
+void
+object::setNumber(int no)
+{
+  m_number = no;
+}
+
 int
 object::getGeneration ()
 {
   return m_generation;
+}
+
+void
+object::setGeneration(int no)
+{
+  m_generation = no;
 }
 
 char *

@@ -5,7 +5,8 @@
 
 pdf::pdf ():
   m_filename(""),
-  m_previousEnd(objNumNoSuch, objNumNoSuch)
+  m_previousEnd(objNumNoSuch, objNumNoSuch),
+  m_highestObject(0)
 {
 }
 
@@ -21,11 +22,22 @@ pdf::setSpecVer (float version)
 }
 
 void
-pdf::addObject (object theObject)
+pdf::addObject (object& theObject)
 {
+  if(theObject.getNumber() == objNumAppended)
+    {
+      debug(dlTrace, "Issue an object number to the object");
+      theObject.setNumber(m_highestObject + 1);
+      theObject.setGeneration(0);
+    }
+
   debug(dlTrace, string("Adding object ") + toString(theObject.getNumber()) +
 	string(" ") + toString(theObject.getGeneration ()));
   m_objects.push_back (theObject);
+
+  // Keep track of what the highest object number we have seen is
+  if(theObject.getNumber() > m_highestObject)
+    m_highestObject = theObject.getNumber();
 }
 
 bool
@@ -133,30 +145,4 @@ string
 pdf::getFilename()
 {
   return m_filename;
-}
-
-void
-pdf::appendLine(wxPoint start, wxPoint end)
-{
-  if(m_previousEnd != start)
-    {
-      // This line does not start from the previous line
-      appendMove(start);
-    }
-  appendLine(end);
-  m_previousEnd = end;
-}
-
-void
-pdf::appendLine(wxPoint pt)
-{
-  
-
-}
-
-void
-pdf::appendMove(wxPoint pt)
-{
-  //  move cmd(pt.x, pt.y);
-  //  m_commands.push_back(cmd);
 }
