@@ -1,0 +1,541 @@
+Executing: builddb eps introduction.sgml < introduction.sgml
+Executing: img introduction-figure1.jpg eps
+Img args: introduction-figure1.jpg eps
+Image id: 640x480+0+0
+
+Dimensions: 640, 480
+New dimensions: 320, 240
+Converting introduction-figure1.jpg -> gen-introduction-figure1.eps
+Executing convert -sample 320x240 introduction-figure1.jpg gen-introduction-figure1.eps
+Executing: text2db -s 3 eps OPL < OPL
+Executing: text2db -s 3 eps GPL < GPL
+Executing: builddb eps concepts.sgml < concepts.sgml
+Executing: insertall builddb . concept-.*.sgml eps
+Including
+Including
+Including
+Including
+Including
+Including
+Including
+Including
+Including
+Executing: builddb eps  ./concept-antialias.sgml < ./concept-antialias.sgml
+Executing: img antialias-figure1.png eps
+Img args: antialias-figure1.png eps
+Image id: 146x344+0+0
+
+Dimensions: 146, 344
+New dimensions: 146, 344
+Converting antialias-figure1.png -> gen-antialias-figure1.eps
+Executing convert -sample 146x344 antialias-figure1.png gen-antialias-figure1.eps
+Executing: img antialias-figure2.png eps
+Img args: antialias-figure2.png eps
+Image id: 146x344+0+0
+
+Dimensions: 146, 344
+New dimensions: 146, 344
+Converting antialias-figure2.png -> gen-antialias-figure2.eps
+Executing convert -sample 146x344 antialias-figure2.png gen-antialias-figure2.eps
+Executing: img antialias-figure3.png eps
+Img args: antialias-figure3.png eps
+Image id: 146x344+0+0
+
+Dimensions: 146, 344
+New dimensions: 146, 344
+Converting antialias-figure3.png -> gen-antialias-figure3.eps
+Executing convert -sample 146x344 antialias-figure3.png gen-antialias-figure3.eps
+Executing: img antialias-figure4.png eps
+Img args: antialias-figure4.png eps
+Image id: 144x289+0+0
+
+Dimensions: 144, 289
+New dimensions: 144, 289
+Converting antialias-figure4.png -> gen-antialias-figure4.eps
+Executing convert -sample 144x289 antialias-figure4.png gen-antialias-figure4.eps
+Executing: img antialias-figure5.png eps
+Img args: antialias-figure5.png eps
+Image id: 144x289+0+0
+
+Dimensions: 144, 289
+New dimensions: 144, 289
+Converting antialias-figure5.png -> gen-antialias-figure5.eps
+Executing convert -sample 144x289 antialias-figure5.png gen-antialias-figure5.eps
+Executing: builddb eps  ./concept-ctm.sgml < ./concept-ctm.sgml
+Executing: builddb eps  ./concept-encryption.sgml < ./concept-encryption.sgml
+Executing: img desecb-figure1.jpg eps
+Img args: desecb-figure1.jpg eps
+Image id: 264x642+0+0
+
+Dimensions: 264, 642
+New dimensions: 264, 642
+Converting desecb-figure1.jpg -> gen-desecb-figure1.eps
+Executing convert -sample 264x642 desecb-figure1.jpg gen-desecb-figure1.eps
+Executing: img desecb-figure2.jpg eps
+Img args: desecb-figure2.jpg eps
+Image id: 264x642+0+0
+
+Dimensions: 264, 642
+New dimensions: 264, 642
+Converting desecb-figure2.jpg -> gen-desecb-figure2.eps
+Executing convert -sample 264x642 desecb-figure2.jpg gen-desecb-figure2.eps
+Executing: builddb eps  ./concept-grayscaleconvert.sgml < ./concept-grayscaleconvert.sgml
+Executing: img grayscale-figure1.jpg eps
+Img args: grayscale-figure1.jpg eps
+Image id: 640x480+0+0
+
+Dimensions: 640, 480
+New dimensions: 320, 240
+Converting grayscale-figure1.jpg -> gen-grayscale-figure1.eps
+Executing convert -sample 320x240 grayscale-figure1.jpg gen-grayscale-figure1.eps
+Executing: img grayscale-figure2.tif eps
+Img args: grayscale-figure2.tif eps
+Image id: 640x480+0+0
+
+Dimensions: 640, 480
+New dimensions: 320, 240
+Converting grayscale-figure2.tif -> gen-grayscale-figure2.eps
+Executing convert -sample 320x240 grayscale-figure2.tif gen-grayscale-figure2.eps
+Executing: img grayscale-figure3.tif eps
+Img args: grayscale-figure3.tif eps
+Image id: 640x480+0+0
+
+Dimensions: 640, 480
+New dimensions: 320, 240
+Converting grayscale-figure3.tif -> gen-grayscale-figure3.eps
+Executing convert -sample 320x240 grayscale-figure3.tif gen-grayscale-figure3.eps
+Executing: builddb eps  ./concept-pixel-sample.sgml < ./concept-pixel-sample.sgml
+Executing: builddb eps  ./concept-pixel.sgml < ./concept-pixel.sgml
+Executing: builddb eps  ./concept-raster.sgml < ./concept-raster.sgml
+Executing: img raster-figure1.jpg eps
+Img args: raster-figure1.jpg eps
+Image id: 1280x960+0+0
+
+Dimensions: 1280, 960
+New dimensions: 320, 240
+Converting raster-figure1.jpg -> gen-raster-figure1.eps
+Executing convert -sample 320x240 raster-figure1.jpg gen-raster-figure1.eps
+Executing: img raster-figure2.tif eps
+Img args: raster-figure2.tif eps
+Image id: 470x240+0+0
+
+Dimensions: 470, 240
+New dimensions: 235, 120
+Converting raster-figure2.tif -> gen-raster-figure2.eps
+Executing convert -sample 235x120 raster-figure2.tif gen-raster-figure2.eps
+Executing: builddb eps  ./concept-theory.sgml < ./concept-theory.sgml
+Executing: img theory-figure1.png eps
+Img args: theory-figure1.png eps
+Image id: 146x146+0+0
+
+Dimensions: 146, 146
+New dimensions: 146, 146
+Converting theory-figure1.png -> gen-theory-figure1.eps
+Executing convert -sample 146x146 theory-figure1.png gen-theory-figure1.eps
+Executing: img theory-figure2.png eps
+Img args: theory-figure2.png eps
+Image id: 47x47+0+0
+
+Dimensions: 47, 47
+New dimensions: 47, 47
+Converting theory-figure2.png -> gen-theory-figure2.eps
+Executing convert -sample 47x47 theory-figure2.png gen-theory-figure2.eps
+Executing: img theory-figure3.png eps
+Img args: theory-figure3.png eps
+Image id: 182x182+0+0
+
+Dimensions: 182, 182
+New dimensions: 182, 182
+Converting theory-figure3.png -> gen-theory-figure3.eps
+Executing convert -sample 182x182 theory-figure3.png gen-theory-figure3.eps
+Executing: img theory-figure4.png eps
+Img args: theory-figure4.png eps
+Image id: 182x182+0+0
+
+Dimensions: 182, 182
+New dimensions: 182, 182
+Converting theory-figure4.png -> gen-theory-figure4.eps
+Executing convert -sample 182x182 theory-figure4.png gen-theory-figure4.eps
+Executing: img theory-figure5.png eps
+Img args: theory-figure5.png eps
+Image id: 182x182+0+0
+
+Dimensions: 182, 182
+New dimensions: 182, 182
+Converting theory-figure5.png -> gen-theory-figure5.eps
+Executing convert -sample 182x182 theory-figure5.png gen-theory-figure5.eps
+Executing: img theory-figure6.png eps
+Img args: theory-figure6.png eps
+Image id: 182x182+0+0
+
+Dimensions: 182, 182
+New dimensions: 182, 182
+Converting theory-figure6.png -> gen-theory-figure6.eps
+Executing convert -sample 182x182 theory-figure6.png gen-theory-figure6.eps
+Executing: img theory-figure7.png eps
+Img args: theory-figure7.png eps
+Image id: 182x362+0+0
+
+Dimensions: 182, 362
+New dimensions: 182, 362
+Converting theory-figure7.png -> gen-theory-figure7.eps
+Executing convert -sample 182x362 theory-figure7.png gen-theory-figure7.eps
+Executing: builddb eps  ./concept-vector.sgml < ./concept-vector.sgml
+Executing: builddb eps tiff.sgml < tiff.sgml
+Executing: code2db eps ~mikal/opensource/tiff-bw-write/write-infrastructure.c < ~mikal/opensource/tiff-bw-write/write-infrastructure.c
+code2db: eps (/home/mikal/opensource/tiff-bw-write/write-infrastructure.c) 
+Executing: code2db eps ~mikal/opensource/tiff-bw-write/write-nohex.c < ~mikal/opensource/tiff-bw-write/write-nohex.c
+code2db: eps (/home/mikal/opensource/tiff-bw-write/write-nohex.c) 
+Executing: img tiff-figure1.jpg eps
+Img args: tiff-figure1.jpg eps
+Image id: 200x144+0+0
+
+Dimensions: 200, 144
+New dimensions: 200, 144
+Converting tiff-figure1.jpg -> gen-tiff-figure1.eps
+Executing convert -sample 200x144 tiff-figure1.jpg gen-tiff-figure1.eps
+Executing: img tiff-figure2.jpg eps
+Img args: tiff-figure2.jpg eps
+Image id: 200x144+0+0
+
+Dimensions: 200, 144
+New dimensions: 200, 144
+Converting tiff-figure2.jpg -> gen-tiff-figure2.eps
+Executing convert -sample 200x144 tiff-figure2.jpg gen-tiff-figure2.eps
+Executing: img tiff-figure3.jpg eps
+Img args: tiff-figure3.jpg eps
+Image id: 200x144+0+0
+
+Dimensions: 200, 144
+New dimensions: 200, 144
+Converting tiff-figure3.jpg -> gen-tiff-figure3.eps
+Executing convert -sample 200x144 tiff-figure3.jpg gen-tiff-figure3.eps
+Executing: code2db eps ~mikal/opensource/tiff-bw-read/read.c < ~mikal/opensource/tiff-bw-read/read.c
+code2db: eps (/home/mikal/opensource/tiff-bw-read/read.c) 
+Executing: img tiff-figure4.jpg eps
+Img args: tiff-figure4.jpg eps
+Image id: 160x47+0+0
+
+Dimensions: 160, 47
+New dimensions: 160, 47
+Converting tiff-figure4.jpg -> gen-tiff-figure4.eps
+Executing convert -sample 160x47 tiff-figure4.jpg gen-tiff-figure4.eps
+Executing: img tiff-figure5.jpg eps
+Img args: tiff-figure5.jpg eps
+Image id: 292x258+0+0
+
+Dimensions: 292, 258
+New dimensions: 292, 258
+Converting tiff-figure5.jpg -> gen-tiff-figure5.eps
+Executing convert -sample 292x258 tiff-figure5.jpg gen-tiff-figure5.eps
+Executing: img tiff-figure6.jpg eps
+Img args: tiff-figure6.jpg eps
+Image id: 160x47+0+0
+
+Dimensions: 160, 47
+New dimensions: 160, 47
+Converting tiff-figure6.jpg -> gen-tiff-figure6.eps
+Executing convert -sample 160x47 tiff-figure6.jpg gen-tiff-figure6.eps
+Executing: img tiff-figure7.jpg eps
+Img args: tiff-figure7.jpg eps
+Image id: 292x258+0+0
+
+Dimensions: 292, 258
+New dimensions: 292, 258
+Converting tiff-figure7.jpg -> gen-tiff-figure7.eps
+Executing convert -sample 292x258 tiff-figure7.jpg gen-tiff-figure7.eps
+Executing: code2db eps ~mikal/opensource/tiff-color-write/write.c < ~mikal/opensource/tiff-color-write/write.c
+code2db: eps (/home/mikal/opensource/tiff-color-write/write.c) 
+Executing: code2db eps ~mikal/opensource/tiff-color-read/read.c < ~mikal/opensource/tiff-color-read/read.c
+code2db: eps (/home/mikal/opensource/tiff-color-read/read.c) 
+Executing: code2db eps ~mikal/opensource/tiff-client/client.c < ~mikal/opensource/tiff-client/client.c
+code2db: eps (/home/mikal/opensource/tiff-client/client.c) 
+Executing: code2db eps ~mikal/opensource/tiff-directories/create.c < ~mikal/opensource/tiff-directories/create.c
+code2db: eps (/home/mikal/opensource/tiff-directories/create.c) 
+Executing: img tiff-figure8.jpg eps
+Img args: tiff-figure8.jpg eps
+Image id: 290x258+0+0
+
+Dimensions: 290, 258
+New dimensions: 290, 258
+Converting tiff-figure8.jpg -> gen-tiff-figure8.eps
+Executing convert -sample 290x258 tiff-figure8.jpg gen-tiff-figure8.eps
+Executing: code2db eps ~mikal/opensource/tiff-directories/read.c < ~mikal/opensource/tiff-directories/read.c
+code2db: eps (/home/mikal/opensource/tiff-directories/read.c) 
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiff2bw.1 < source/tiff/man/tiff2bw.1
+If "n" found, consider setting...
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiff2ps.1 < source/tiff/man/tiff2ps.1
+If "n" found, consider setting...
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiffcmp.1 < source/tiff/man/tiffcmp.1
+If "n" found, consider setting...
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiffcp.1 < source/tiff/man/tiffcp.1
+If "n" found, consider setting...
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+DEFAULT COMMAND FOUND: RS
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiffdither.1 < source/tiff/man/tiffdither.1
+If "n" found, consider setting...
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: IP
+Executing: img tiff-figure9.tif eps
+Img args: tiff-figure9.tif eps
+Image id: 640x480+0+0
+
+Dimensions: 640, 480
+New dimensions: 320, 240
+Converting tiff-figure9.tif -> gen-tiff-figure9.eps
+Executing convert -sample 320x240 tiff-figure9.tif gen-tiff-figure9.eps
+Executing: img tiff-figure10.tif eps
+Img args: tiff-figure10.tif eps
+Image id: 640x479+0+0
+
+Dimensions: 640, 479
+New dimensions: 320, 239.5
+Converting tiff-figure10.tif -> gen-tiff-figure10.eps
+Executing convert -sample 320x239.5 tiff-figure10.tif gen-tiff-figure10.eps
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiffdump.1 < source/tiff/man/tiffdump.1
+If "n" found, consider setting...
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiffgt.1 < source/tiff/man/tiffgt.1
+If "n" found, consider setting...
+DEFAULT COMMAND FOUND: ta \w'<emphasis>PhotometricInterpretation</emphasis>  'u
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiffinfo.1 < source/tiff/man/tiffinfo.1
+If "n" found, consider setting...
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiffmedian.1 < source/tiff/man/tiffmedian.1
+If "n" found, consider setting...
+DEFAULT COMMAND FOUND: IP
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiffsplit.1 < source/tiff/man/tiffsplit.1
+If "n" found, consider setting...
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tiffsv.1 < source/tiff/man/tiffsv.1
+If "n" found, consider setting...
+DEFAULT COMMAND FOUND: IP
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/tiff/man/tifftopnm.1 < source/tiff/man/tifftopnm.1
+DEFAULT COMMAND FOUND: B--alphaout
+DEFAULT COMMAND FOUND: IX TIFF
+DEFAULT COMMAND FOUND: BI --alphaout= alpha-filename
+Executing: code2db eps ~mikal/opensource/tiff-pixels/pixel.c < ~mikal/opensource/tiff-pixels/pixel.c
+code2db: eps (/home/mikal/opensource/tiff-pixels/pixel.c) 
+Executing: code2db eps ~mikal/opensource/tiff-grayscale/gray-wrong.c < ~mikal/opensource/tiff-grayscale/gray-wrong.c
+code2db: eps (/home/mikal/opensource/tiff-grayscale/gray-wrong.c) 
+Executing: img grayscale-figure2.tif eps
+Img args: grayscale-figure2.tif eps
+Image id: 640x480+0+0
+
+Dimensions: 640, 480
+New dimensions: 320, 240
+Converting grayscale-figure2.tif -> gen-grayscale-figure2.eps
+Executing convert -sample 320x240 grayscale-figure2.tif gen-grayscale-figure2.eps
+Executing: code2db eps ~mikal/opensource/tiff-grayscale/gray-good.c < ~mikal/opensource/tiff-grayscale/gray-good.c
+code2db: eps (/home/mikal/opensource/tiff-grayscale/gray-good.c) 
+Executing: img grayscale-figure3.tif eps
+Img args: grayscale-figure3.tif eps
+Image id: 640x480+0+0
+
+Dimensions: 640, 480
+New dimensions: 320, 240
+Converting grayscale-figure3.tif -> gen-grayscale-figure3.eps
+Executing convert -sample 320x240 grayscale-figure3.tif gen-grayscale-figure3.eps
+Executing: code2db eps ~mikal/opensource/tiff-recompress/recompress.sh < ~mikal/opensource/tiff-recompress/recompress.sh
+code2db: eps (/home/mikal/opensource/tiff-recompress/recompress.sh) 
+Executing: code2db eps ~mikal/opensource/tiff-recompress/recompress.c < ~mikal/opensource/tiff-recompress/recompress.c
+code2db: eps (/home/mikal/opensource/tiff-recompress/recompress.c) 
+Executing: builddb eps gif.sgml < gif.sgml
+Executing: builddb eps png.sgml < png.sgml
+Executing: code2db eps ~mikal/opensource/png-open/read-infrastructure.c < ~mikal/opensource/png-open/read-infrastructure.c
+code2db: eps (/home/mikal/opensource/png-open/read-infrastructure.c) 
+Executing: code2db eps ~mikal/opensource-unstable/pngtools/pnginfo.c < ~mikal/opensource-unstable/pngtools/pnginfo.c
+sh: line 1: /home/mikal/opensource-unstable/pngtools/pnginfo.c: No such file or directory
+Executing: code2db eps ~mikal/opensource/png-open/read.c < ~mikal/opensource/png-open/read.c
+code2db: eps (/home/mikal/opensource/png-open/read.c) 
+Executing: code2db eps ~mikal/opensource/png-write/write.c < ~mikal/opensource/png-write/write.c
+code2db: eps (/home/mikal/opensource/png-write/write.c) 
+Executing: code2db eps ~mikal/opensource/png-client/client.c < ~mikal/opensource/png-client/client.c
+code2db: eps (/home/mikal/opensource/png-client/client.c) 
+Executing: ~mikal/opensource/groff2db/convert -s 3 eps source/png/man/libpng.3 < source/png/man/libpng.3
+DEFAULT COMMAND FOUND: SS Setup
+DEFAULT COMMAND FOUND: SS Setting up callback code
+DEFAULT COMMAND FOUND: SS Unknown-chunk handling
+DEFAULT COMMAND FOUND: SS The high-level read interface
+DEFAULT COMMAND FOUND: SS The low-level read interface
+DEFAULT COMMAND FOUND: SS Querying the info structure
+DEFAULT COMMAND FOUND: SS Input transformations
+DEFAULT COMMAND FOUND: SS Reading image data
+DEFAULT COMMAND FOUND: SS Finishing a sequential read
+DEFAULT COMMAND FOUND: SS Reading PNG files progressively
+DEFAULT COMMAND FOUND: SS Setup
+DEFAULT COMMAND FOUND: SS Write callbacks
+DEFAULT COMMAND FOUND: SS Setting the contents of info for output
+DEFAULT COMMAND FOUND: SS Writing unknown chunks
+DEFAULT COMMAND FOUND: SS The high-level write interface
+DEFAULT COMMAND FOUND: SS The low-level write interface
+DEFAULT COMMAND FOUND: SS Writing the image data
+DEFAULT COMMAND FOUND: SS Finishing a sequential write
+DEFAULT COMMAND FOUND: SS Custom chunks
+DEFAULT COMMAND FOUND: SS Configuring for 16 bit platforms
+DEFAULT COMMAND FOUND: SS Configuring for DOS
+DEFAULT COMMAND FOUND: SS Configuring for Medium Model
+DEFAULT COMMAND FOUND: SS Configuring for gui/windowing platforms:
+DEFAULT COMMAND FOUND: SS Configuring for compiler xxx:
+DEFAULT COMMAND FOUND: SS Configuring zlib:
+DEFAULT COMMAND FOUND: SS Controlling row filtering
+DEFAULT COMMAND FOUND: SS Removing unwanted object code
+DEFAULT COMMAND FOUND: SS Requesting debug printout
+DEFAULT COMMAND FOUND: LP
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: LP
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: LP
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: LP
+Executing: builddb eps pdf.sgml < pdf.sgml
+Executing: insertall builddb . pdf-type-.*.sgml eps
+Including
+Including
+Including
+Including
+Including
+Executing: builddb eps  ./pdf-type-array.sgml < ./pdf-type-array.sgml
+Executing: builddb eps  ./pdf-type-boolean.sgml < ./pdf-type-boolean.sgml
+Executing: builddb eps  ./pdf-type-name.sgml < ./pdf-type-name.sgml
+Executing: builddb eps  ./pdf-type-numbers.sgml < ./pdf-type-numbers.sgml
+Executing: builddb eps  ./pdf-type-string.sgml < ./pdf-type-string.sgml
+Executing: insertall builddb . pdf-filter-.*.sgml eps
+Including
+Including
+Including
+Including
+Including
+Including
+Including
+Executing: builddb eps  ./pdf-filter-ascii85decode.sgml < ./pdf-filter-ascii85decode.sgml
+Executing: code2db eps ~mikal/opensource/ascii85/encode85.c < ~mikal/opensource/ascii85/encode85.c
+code2db: eps (/home/mikal/opensource/ascii85/encode85.c) 
+Executing: code2db eps ~mikal/opensource/ascii85/decode85.c < ~mikal/opensource/ascii85/decode85.c
+code2db: eps (/home/mikal/opensource/ascii85/decode85.c) 
+Executing: builddb eps  ./pdf-filter-asciihexdecode.sgml < ./pdf-filter-asciihexdecode.sgml
+Executing: builddb eps  ./pdf-filter-ccittfaxdecode.sgml < ./pdf-filter-ccittfaxdecode.sgml
+Executing: builddb eps  ./pdf-filter-dctdecode.sgml < ./pdf-filter-dctdecode.sgml
+Executing: builddb eps  ./pdf-filter-flatedecode.sgml < ./pdf-filter-flatedecode.sgml
+Executing: builddb eps  ./pdf-filter-lzwdecode.sgml < ./pdf-filter-lzwdecode.sgml
+Executing: builddb eps  ./pdf-filter-runlengthdecode.sgml < ./pdf-filter-runlengthdecode.sgml
+Executing: img pdf-figure1.png eps
+Img args: pdf-figure1.png eps
+Image id: 542x570+0+0
+
+Dimensions: 542, 570
+New dimensions: 271, 285
+Converting pdf-figure1.png -> gen-pdf-figure1.eps
+Executing convert -sample 271x285 pdf-figure1.png gen-pdf-figure1.eps
+Executing: code2db eps source/pdf/panda/hello/hello.c < source/pdf/panda/hello/hello.c
+code2db: eps (source/pdf/panda/hello/hello.c) 
+Img args: todo.png eps
+Image id: 100x50+0+0
+
+Dimensions: 100, 50
+New dimensions: 100, 50
+Converting todo.png -> gen-todo.eps
+Executing convert -sample 100x50 todo.png gen-todo.eps
+Executing: builddb eps panda_init.sgml < panda_init.sgml
+Executing: builddb eps panda_open.sgml < panda_open.sgml
+Executing: builddb eps panda_newpage.sgml < panda_newpage.sgml
+Executing: builddb eps panda_setobjectproperty.sgml < panda_setobjectproperty.sgml
+Executing: builddb eps panda_close.sgml < panda_close.sgml
+Executing: builddb eps panda_textbox.sgml < panda_textbox.sgml
+Executing: builddb eps panda_textboxrot.sgml < panda_textboxrot.sgml
+Executing: builddb eps panda_textdirection.sgml < panda_textdirection.sgml
+Executing: builddb eps panda_createfont.sgml < panda_createfont.sgml
+Executing: builddb eps panda_setfont.sgml < panda_setfont.sgml
+Executing: builddb eps panda_setcharacterspacing.sgml < panda_setcharacterspacing.sgml
+Executing: builddb eps panda_setfillcolor.sgml < panda_setfillcolor.sgml
+Executing: builddb eps panda_setfontmode.sgml < panda_setfontmode.sgml
+Executing: builddb eps panda_setfontsize.sgml < panda_setfontsize.sgml
+Executing: builddb eps panda_sethorizontalscaling.sgml < panda_sethorizontalscaling.sgml
+Executing: builddb eps panda_setleading.sgml < panda_setleading.sgml
+Executing: builddb eps panda_setwordspacing.sgml < panda_setwordspacing.sgml
+Executing: builddb eps panda_imagebox.sgml < panda_imagebox.sgml
+Executing: builddb eps panda_imageboxrot.sgml < panda_imageboxrot.sgml
+Executing: builddb eps panda_setlinestart.sgml < panda_setlinestart.sgml
+Executing: builddb eps panda_addlinesegment.sgml < panda_addlinesegment.sgml
+Executing: builddb eps panda_closeline.sgml < panda_closeline.sgml
+Executing: builddb eps panda_endline.sgml < panda_endline.sgml
+Executing: builddb eps panda_strokeline.sgml < panda_strokeline.sgml
+Executing: builddb eps panda_addcubiccurvesegment.sgml < panda_addcubiccurvesegment.sgml
+Executing: builddb eps panda_addquadraticcurvesegmentone.sgml < panda_addquadraticcurvesegmentone.sgml
+Executing: builddb eps panda_addquadraticcurvesegmenttwo.sgml < panda_addquadraticcurvesegmenttwo.sgml
+Executing: builddb eps panda_rectangle.sgml < panda_rectangle.sgml
+Executing: builddb eps panda_fillline.sgml < panda_fillline.sgml
+Executing: builddb eps panda_setlinecap.sgml < panda_setlinecap.sgml
+Executing: builddb eps panda_setlinecolor.sgml < panda_setlinecolor.sgml
+Executing: builddb eps panda_setlinejoin.sgml < panda_setlinejoin.sgml
+Executing: builddb eps panda_setlinewidth.sgml < panda_setlinewidth.sgml
+Executing: builddb eps panda_setlinedashing.sgml < panda_setlinedashing.sgml
+Executing: builddb eps panda_setauthor.sgml < panda_setauthor.sgml
+Executing: builddb eps panda_setkeywords.sgml < panda_setkeywords.sgml
+Executing: builddb eps panda_setsubject.sgml < panda_setsubject.sgml
+Executing: builddb eps panda_settitle.sgml < panda_settitle.sgml
+Executing: builddb eps panda_centerwindow.sgml < panda_centerwindow.sgml
+Executing: builddb eps panda_fitwindow.sgml < panda_fitwindow.sgml
+Executing: builddb eps panda_fullscreen.sgml < panda_fullscreen.sgml
+Executing: builddb eps panda_hidemenubar.sgml < panda_hidemenubar.sgml
+Executing: builddb eps panda_hidetoolbar.sgml < panda_hidetoolbar.sgml
+Executing: builddb eps panda_hidewindowui.sgml < panda_hidewindowui.sgml
+Executing: builddb eps panda_nfspagemodde.sgml < panda_nfspagemodde.sgml
+Executing: builddb eps panda_pageduration.sgml < panda_pageduration.sgml
+Executing: builddb eps panda_transduration.sgml < panda_transduration.sgml
+Executing: builddb eps panda_transstyle.sgml < panda_transstyle.sgml
+Executing: builddb eps panda_newtemplate.sgml < panda_newtemplate.sgml
+Executing: builddb eps panda_applytemplate.sgml < panda_applytemplate.sgml
+Executing: code2db eps ~mikal/opensource/panda/examples/main.c < ~mikal/opensource/panda/examples/main.c
+code2db: eps (/home/mikal/opensource/panda/examples/main.c) 
+Img args: todo.png eps
+Image id: 100x50+0+0
+
+Dimensions: 100, 50
+New dimensions: 100, 50
+Converting todo.png -> gen-todo.eps
+Executing convert -sample 100x50 todo.png gen-todo.eps
+Executing: code2db eps ~mikal/opensource/pandalex/lexer.l < ~mikal/opensource/pandalex/lexer.l
+code2db: eps (/home/mikal/opensource/pandalex/lexer.l) 
+Executing: code2db eps ~mikal/opensource/pandalex/pandalex.h < ~mikal/opensource/pandalex/pandalex.h
+code2db: eps (/home/mikal/opensource/pandalex/pandalex.h) 
+Executing: code2db eps ~mikal/opensource/pandalex/parser.y < ~mikal/opensource/pandalex/parser.y
+code2db: eps (/home/mikal/opensource/pandalex/parser.y) 
+Executing: code2db eps ~mikal/opensource/pandalex/examples/samples.c < ~mikal/opensource/pandalex/examples/samples.c
+code2db: eps (/home/mikal/opensource/pandalex/examples/samples.c) 
+Executing: code2db eps ~mikal/opensource/pandalex/examples/samples.h < ~mikal/opensource/pandalex/examples/samples.h
+code2db: eps (/home/mikal/opensource/pandalex/examples/samples.h) 
+Executing: builddb eps imagemagick.sgml < imagemagick.sgml
+Img args: todo.png eps
+Image id: 100x50+0+0
+
+Dimensions: 100, 50
+New dimensions: 100, 50
+Converting todo.png -> gen-todo.eps
+Executing convert -sample 100x50 todo.png gen-todo.eps
+Img args: todo.png eps
+Image id: 100x50+0+0
+
+Dimensions: 100, 50
+New dimensions: 100, 50
+Converting todo.png -> gen-todo.eps
+Executing convert -sample 100x50 todo.png gen-todo.eps
+Img args: todo.png eps
+Image id: 100x50+0+0
+
+Dimensions: 100, 50
+New dimensions: 100, 50
+Converting todo.png -> gen-todo.eps
+Executing convert -sample 100x50 todo.png gen-todo.eps

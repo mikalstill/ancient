@@ -1,0 +1,142 @@
+First title element
+[Old -1, New 0] Title elements: AUUG 2002: Imaging Tutorial
+Turning include mode on
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: This document is the manual associated with my tutorial on imaging programming presented at the <emphasis>Australian Unix User's Group</emphasis> 2002 Winter Conference in Melbourne Australia. It is intended to serve as the basis for discussions during this day long tutorial, as well as being a reference for the attendees once they return to their every day lives.
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: Please note that all the information in this tutorial is copyright, as described elsewhere in this document.
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <slidetext>
+Turning include mode on
+Included text skipped for lack of a slide: <li>This set of slides will cover the material for the tutorial
+Included text skipped for lack of a slide: <li>It is available online at http://www.stillhq.com
+Included text skipped for lack of a slide: <li>I strongly prefer that people interrupt with questions as we go along...
+Included text skipped for lack of a slide: <li>If something isn't clear to you, then it is probably unclear to other people as well
+Included text skipped for lack of a slide: <li>It also eases the boredom associated with having to listen to me all day long
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <sect1><title>About the author</title>
+New section number 1
+Appending a title element
+[Old 0, New 1] Title elements: AUUG 2002: Imaging Tutorial, About the author
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: There are some core terms which are used throughout this tutorial. This section defines these terms -- it's probably therefore worth bookmarking this section for reference throughout the rest of the day. This section presents these things in alphabetical order, for ease of reference.
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: These terms are presented in alphabetical order. Some of them might seem a bit odd, but they're here because they are interesting...
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <slidetext>
+Turning include mode on
+Included text skipped for lack of a slide: <li>There are some core terms which we need to define before we continue
+Included text skipped for lack of a slide: <li>These terms are all in the manual
+Included text skipped for lack of a slide: <li>So you can refer back to that if you get confused later
+Included text skipped for lack of a slide: <li><b>If these are too basic, and I am wasting your time, then please let me know</b>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <sect1><title>Anti-aliasing</title>
+New section number 1
+Appending a title element
+[Old 0, New 1] Title elements: AUUG 2002: Imaging Tutorial, Anti-aliasing
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: <quote>With great power comes great responsibility</quote> -- Spiderman
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: In this chapter we will discuss the Tagged Image File Format, which is one of the most common raster image formats for professional imaging -- especially scanned images and faxes. Unfortunately, it is not supported by web browsers, so isn't used as much as it might otherwise be.
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <sect1><title>Introduction</title>
+New section number 1
+Appending a title element
+[Old 0, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 1
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 2
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 3
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 4
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 5
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 6
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 7
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 8
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 9
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 10
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 11
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 12
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 13
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 14
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 15
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 16
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 17
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 18
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 19
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 20
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 21
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 22
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 23
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 24
+Slide page break
+[Old 1, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 25
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: <quote>
+Included text skipped for lack of a slide: Between 1987 and 1994, GIF (Graphics Interchange Format) peacefully became the most popular file format for archiving and exchanging computer images. At the end of December 1994, CompuServe Inc. and Unisys Corporation announced to the public that developers would have to pay a license fee in order to continue to use technology patented by Unisys in certain categories of software supporting the GIF format. These first statements caused immediate reactions and some confusion. As a longer term consequence, it appears likely that GIF will be replaced and extended by new file formats, but not so before the expiration of the patent which caused so much debate.
+Included text skipped for lack of a slide: </quote> -- http://www.cloanto.com/users/mcb/19950127giflzw.html (The GIF Controversy: A Software Developer's Perspective)
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <slidebreak>
+Slide page break
+[Old 0, New 0] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 26
+Slide page break
+[Old 0, New 0] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 27
+Slide page break
+[Old 0, New 0] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 28
+Slide page break
+[Old 0, New 0] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 29
+Slide page break
+[Old 0, New 0] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 30
+Slide page break
+[Old 0, New 0] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 31
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: <quote>
+Included text skipped for lack of a slide: THE ORIGINS OF THE Portable Document Format and the Adobe Acrobat product family date to early 1990. At that time, the PostScript page description language was rapidly becoming the worldwide standard for the production of the printed page. PDF builds on the PostScript page description language by layering a document structure and interactive navigation features on PostScript's underlying imaging model, providing a convenient, efficient mechanism enabling documents to be reliably viewed and printed anywhere. The PDF specification was first published at the same time the first Acrobat products were introduced in 1993.
+Included text skipped for lack of a slide: </quote>
+Included text skipped for lack of a slide:  -- PDF Specification
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: Portable Document Format (PDF) isn't strictly an image format. However, people are increasingly asking for PDF functionality in applications -- especially those on the Internet.
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <para>
+Included text skipped for lack of a slide: This chapter will focus on PDF 1.3 (second edition), because that is the specification version which I am most familiar with at the moment.
+Included text skipped for lack of a slide: </para>
+Included text skipped for lack of a slide: 
+Included text skipped for lack of a slide: <sect1><title>Introduction</title>
+New section number 1
+Appending a title element
+[Old 0, New 1] Title elements: AUUG 2002: Imaging Tutorial, Introduction, Continued 31

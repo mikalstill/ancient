@@ -1,0 +1,116 @@
+<table frame='all'><title>Proposed book chapters</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry>Chapter name and description of content</entry>
+  <entry>Current length</entry>
+  <entry>Target</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+  <entry>Introduction. Explaination of the motivation for the book, descriptions of the topics covered by the book, definition of assumed knowledge, license for the book content and sample code.</entry>
+  <entry>11</entry>
+  <entry>13</entry>
+</row>
+
+<row>
+  <entry>Concepts. Introduction to fundamental imaging concepts which need to be explained before further discussion of imaging can occur. For example: anti-aliasing, encryption, grayscale conversion, pixels, rasters, palettes, samples per pixel, bits per sample, et cetera.</entry>
+  <entry>20</entry>
+  <entry>40</entry>
+</row>
+
+<row>
+  <entry>TIFF. A discussion of the TIFF file format, including dicussion of the pros and cons of the implementation descisions made by the TIFF standards committee, use of libtiff including examples. This chapter currently includes 70 pages of libtiff man pages, which I now believe should be removed from the manuscript. This chapter is the most complete in the sample book associated with this proposal, although it does still need work.</entry>
+  <entry>110</entry>
+  <entry>80</entry>
+</row>
+
+<row>
+  <entry>GIF. A discussion of the GIF file format, the history of why it was once popular, and is less popular now, and examples of how to use Eric Raymond's libgif and libungif.</entry>
+  <entry>6</entry>
+  <entry>40</entry>
+</row>
+
+<row>
+  <entry>PNG. Comparison the PNG file format with GIF, the advantages of PNG over GIF, and discussion of how PNG is technically superior to GIF. An extensive discussion of how to use the libpng API, which comparisions with the libtiff examples from the TIFF chapter where appropriate. This chapter currently includes libpng documentation, which will be removed and replaced by a better discussion of the API and more examples.</entry>
+  <entry>70</entry>
+  <entry>80</entry>
+</row>
+
+<row>
+  <entry>JPEG. There is currently no JPEG chapter in the sample book. This chapter will discuss the JPEG format, and show examples of how to use the libjpeg API. This will include comaparison of the API with the previously discussed libtiff TIFF API, and the libpng PNG API.</entry>
+  <entry>0</entry>
+  <entry>80</entry>
+</row>
+
+<row>
+  <entry>SVG. Introduction of non raster image formats, and a discussion of how SVG is an increasingly common vector graphics format. Discussion of the SVG specification and comparision with the various raster formats previously discussed. Samples of SVG files.</entry>
+  <entry>0</entry>
+  <entry>80</entry>
+</row>
+
+<row>
+  <entry>PDF. Discussion of the PDF file format and the various versions of the specification (with attention to the different levels of functionality offered by each of these). Discussion of the fact that PDF is a hybrid raster / vector format. Examples of how to use Panda, my open source PDF generation API, and limited comparison with other PDF generation APIs. This chapter will also discuss the lexical parsing requirements of PDF. This chapter currently includes documentation for many of the Panda  function calls, and these will be rationalized and reorganized.</entry>
+  <entry>90</entry>
+  <entry>150</entry>
+</row>
+
+<row>
+  <entry>ImageMagick. A relatively short chapter describing the ImageMagick suite of image conversion and manipulation utilities. This chapter will include example uses of the tools.</entry>
+  <entry>0</entry>
+  <entry>20</entry>
+</row>
+
+<row>
+  <entry>aalib. A short chapter describing aalib, a library which renders raster graphics into ASCII art, including examples.</entry>
+  <entry>0</entry>
+  <entry>10</entry>
+</row>
+
+<row>
+  <entry>SVGAlib. A short chapter disucssing the most important functionality offered by SVGAlib, a library for drawing graphics without using X Windows.</entry>
+  <entry>0</entry>
+  <entry>40</entry>
+</row>
+
+<row>
+  <entry>Freetype. This chapter will discuss the Freetype TrueType rasterization API. It will include a limited discussion of theory, and include examples of how to use Freetype and integrate it with the raster imaging APIs discussed in the book.</entry>
+  <entry>0</entry>
+  <entry>40</entry>
+</row>
+
+<row>
+  <entry>Compression. This chapter will discuss the various compression options offered by the raster formats in the book. This will enabled readers to make informed choices about what image format is appropriate for their needs. This will not be a mathematically comprehensive discussion however.</entry>
+  <entry>0</entry>
+  <entry>20</entry>
+</row>
+
+<row>
+  <entry>Conclusion. A summary of the information presented in the book.</entry>
+  <entry>1</entry>
+  <entry>5</entry>
+</row>
+
+<row>
+  <entry>Appendix: Selecting an appropriate image format. In conjunction with the compression chapter, this appendix will enable readers to be able to select the most appropriate imaging format for their needs. This appendix will be in the form of a checklist, or flowchart.</entry>
+  <entry>0</entry>
+  <entry>10</entry>
+</row>
+
+<row>
+  <entry>Index</entry>
+  <entry>0</entry>
+  <entry>Unknown</entry>
+</row>
+
+<row>
+  <entry><emphasis>Totals</emphasis></entry>
+  <entry>323</entry>
+  <entry>Approx 708</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>

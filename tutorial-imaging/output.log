@@ -1,0 +1,1993 @@
+This is TeX, Version 3.14159 (Web2C 7.4.5) (format=jadetex 2003.11.17)  13 DEC 2003 01:51
+**output.tex
+(/home/opensource/tutorial-imaging/output.tex
+JadeTeX 2003/04/27: 3.13
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 1.
+(/usr/share/texmf/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+Elements will be labelled
+Jade begin document sequence at 20
+(/home/opensource/tutorial-imaging/output.aux)
+\openout1 = `output.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 20.
+LaTeX Font Info:    Try loading font information for T2A+cmr on input line 20.
+
+(/usr/share/texmf/tex/latex/cyrillic/t2acmr.fd
+File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
+)
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 20.
+
+(/usr/share/texmf/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LECO/omseco/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LECX/omsecx/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LECY/omsecy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LEGR/omsegr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LEHA/omseha/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LEIP/omseip/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LELA/omsela/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LETI/omseti/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+Package hyperref Info: Link coloring ON on input line 20.
+
+(/usr/share/texmf/tex/latex/hyperref/nameref.sty
+Package: nameref 2001/01/27 v2.19 Cross-referencing by name of section
+\c@section@level=\count115
+)
+LaTeX Info: Redefining \ref on input line 20.
+LaTeX Info: Redefining \pageref on input line 20.
+
+(/home/opensource/tutorial-imaging/output.out)
+(/home/opensource/tutorial-imaging/output.out)
+\openout3 = `output.out'.
+
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.883> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 100.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <17.28> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 125.
+ [1.0.28]
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 137.
+ [2.0.28]
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 220.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 289.
+
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <20.736> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 310.
+
+LaTeX Warning: Reference `392' on page iii undefined on input line 335.
+
+
+LaTeX Warning: Reference `413' on page iii undefined on input line 360.
+
+
+LaTeX Warning: Reference `432' on page iii undefined on input line 385.
+
+
+LaTeX Warning: Reference `575' on page iii undefined on input line 410.
+
+
+LaTeX Warning: Reference `1667' on page iii undefined on input line 435.
+
+
+LaTeX Warning: Reference `1695' on page iii undefined on input line 460.
+
+
+LaTeX Warning: Reference `1720' on page iii undefined on input line 485.
+
+
+LaTeX Warning: Reference `1751' on page iii undefined on input line 510.
+
+
+LaTeX Warning: Reference `1788' on page iii undefined on input line 535.
+
+
+LaTeX Warning: Reference `1815' on page iii undefined on input line 560.
+
+
+LaTeX Warning: Reference `1847' on page iii undefined on input line 585.
+
+
+LaTeX Warning: Reference `1864' on page iii undefined on input line 610.
+
+
+LaTeX Warning: Reference `1881' on page iii undefined on input line 635.
+
+
+LaTeX Warning: Reference `1951' on page iii undefined on input line 660.
+
+
+LaTeX Warning: Reference `1994' on page iii undefined on input line 685.
+
+
+LaTeX Warning: Reference `2017' on page iii undefined on input line 710.
+
+
+LaTeX Warning: Reference `2044' on page iii undefined on input line 735.
+
+
+LaTeX Warning: Reference `2074' on page iii undefined on input line 760.
+
+
+LaTeX Warning: Reference `2101' on page iii undefined on input line 785.
+
+
+LaTeX Warning: Reference `2124' on page iii undefined on input line 810.
+
+
+LaTeX Warning: Reference `2143' on page iii undefined on input line 835.
+
+
+LaTeX Warning: Reference `2162' on page iii undefined on input line 860.
+
+
+LaTeX Warning: Reference `2184' on page iii undefined on input line 885.
+
+
+LaTeX Warning: Reference `2203' on page iii undefined on input line 910.
+
+
+LaTeX Warning: Reference `2222' on page iii undefined on input line 935.
+
+
+LaTeX Warning: Reference `2241' on page iii undefined on input line 960.
+
+
+LaTeX Warning: Reference `2260' on page iii undefined on input line 985.
+
+
+LaTeX Warning: Reference `2279' on page iii undefined on input line 1010.
+
+
+LaTeX Warning: Reference `2298' on page iii undefined on input line 1035.
+
+
+LaTeX Warning: Reference `2317' on page iii undefined on input line 1060.
+
+
+LaTeX Warning: Reference `2336' on page iii undefined on input line 1085.
+
+
+LaTeX Warning: Reference `2355' on page iii undefined on input line 1110.
+
+
+LaTeX Warning: Reference `2374' on page iii undefined on input line 1135.
+
+
+LaTeX Warning: Reference `2393' on page iii undefined on input line 1160.
+
+
+LaTeX Warning: Reference `2412' on page iii undefined on input line 1185.
+
+
+LaTeX Warning: Reference `2431' on page iii undefined on input line 1210.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 1279.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 1279.
+
+
+LaTeX Warning: Reference `43' on page iii undefined on input line 1325.
+
+
+LaTeX Warning: Reference `206' on page iii undefined on input line 1350.
+
+
+LaTeX Warning: Reference `210' on page iii undefined on input line 1375.
+
+
+LaTeX Warning: Reference `215' on page iii undefined on input line 1400.
+
+
+LaTeX Warning: Reference `219' on page iii undefined on input line 1425.
+
+
+LaTeX Warning: Reference `223' on page iii undefined on input line 1450.
+
+
+LaTeX Warning: Reference `230' on page iii undefined on input line 1475.
+
+
+LaTeX Warning: Reference `233' on page iii undefined on input line 1500.
+
+
+LaTeX Warning: Reference `244' on page iii undefined on input line 1525.
+
+
+LaTeX Warning: Reference `247' on page iii undefined on input line 1550.
+
+
+LaTeX Warning: Reference `250' on page iii undefined on input line 1575.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 1583.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 1583.
+
+[3.0.28
+
+
+]
+
+LaTeX Warning: Reference `273' on page iv undefined on input line 1600.
+
+
+LaTeX Warning: Reference `278' on page iv undefined on input line 1625.
+
+
+LaTeX Warning: Reference `285' on page iv undefined on input line 1650.
+
+
+LaTeX Warning: Reference `289' on page iv undefined on input line 1675.
+
+
+LaTeX Warning: Reference `295' on page iv undefined on input line 1700.
+
+
+LaTeX Warning: Reference `299' on page iv undefined on input line 1725.
+
+
+LaTeX Warning: Reference `305' on page iv undefined on input line 1750.
+
+
+LaTeX Warning: Reference `311' on page iv undefined on input line 1775.
+
+
+LaTeX Warning: Reference `317' on page iv undefined on input line 1800.
+
+
+LaTeX Warning: Reference `541' on page iv undefined on input line 1825.
+
+
+LaTeX Warning: Reference `554' on page iv undefined on input line 1850.
+
+
+LaTeX Warning: Reference `557' on page iv undefined on input line 1875.
+
+
+LaTeX Warning: Reference `605' on page iv undefined on input line 1900.
+
+
+LaTeX Warning: Reference `608' on page iv undefined on input line 1925.
+
+
+LaTeX Warning: Reference `612' on page iv undefined on input line 1950.
+
+
+LaTeX Warning: Reference `615' on page iv undefined on input line 1975.
+
+
+LaTeX Warning: Reference `685' on page iv undefined on input line 2000.
+
+
+LaTeX Warning: Reference `1095' on page iv undefined on input line 2025.
+
+
+LaTeX Warning: Reference `1100' on page iv undefined on input line 2050.
+
+
+LaTeX Warning: Reference `1601' on page iv undefined on input line 2075.
+
+
+LaTeX Warning: Reference `1610' on page iv undefined on input line 2100.
+
+
+LaTeX Warning: Reference `5361' on page iv undefined on input line 2125.
+
+
+LaTeX Warning: Reference `5400' on page iv undefined on input line 2150.
+
+
+LaTeX Warning: Reference `6568' on page iv undefined on input line 2175.
+
+
+LaTeX Warning: Reference `6615' on page iv undefined on input line 2200.
+
+
+LaTeX Warning: Reference `6621' on page iv undefined on input line 2225.
+
+
+LaTeX Warning: Reference `6625' on page iv undefined on input line 2250.
+
+[4.0.28]
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 2339.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 2339.
+
+LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <17.28> not available
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 2381.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 2643.
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 2693.
+
+[1.0.28
+
+
+]
+File: gen-introduction-figure1.eps Graphic file (type eps)
+ <gen-introduction-figure1.eps> [2.0.28]
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 3013
+.
+
+(/usr/share/texmf/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [3.0.28]
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 3396.
+LaTeX Font Info:    Try loading font information for U+msa on input line 3453.
+
+(/usr/share/texmf/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 3453.
+
+(/usr/share/texmf/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Try loading font information for U+wasy on input line 3453.
+
+
+(/usr/share/texmf/tex/latex/wasysym/uwasy.fd
+File: uwasy.fd 1999/05/13 v1.0i Wasy-2 symbol font definitions
+)
+LaTeX Font Info:    Try loading font information for U+stmry on input line 3453
+.
+
+(/usr/share/texmf/tex/latex/misc/ustmry.fd) [4.0.28] [5.0.28] [6.0.28] [7.0.28]
+[8.0.28] [9.0.28] [10.0.28] [11.0.28] [12.0.28]
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 5691.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 5691.
+
+File: gen-antialias-figure1.eps Graphic file (type eps)
+<gen-antialias-figure1.eps>
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 5890.
+
+[13.0.28
+
+]
+File: gen-antialias-figure2.eps Graphic file (type eps)
+ <gen-antialias-figure2.eps>
+File: gen-antialias-figure3.eps Graphic file (type eps)
+ <gen-antialias-figure3.eps> [14.0.28]
+File: gen-antialias-figure4.eps Graphic file (type eps)
+
+<gen-antialias-figure4.eps> [15.0.28]
+File: gen-antialias-figure5.eps Graphic file (type eps)
+ <gen-antialias-figure5.eps> [16.0.28]
+File: gen-desecb-figure1.eps Graphic file (type eps)
+
+<gen-desecb-figure1.eps> [17.0.28]
+Overfull \vbox (2.54845pt too high) has occurred while \output is active []
+
+
+[18.0.28]
+File: gen-desecb-figure2.eps Graphic file (type eps)
+ <gen-desecb-figure2.eps> [19.0.28]
+Overfull \vbox (2.54845pt too high) has occurred while \output is active []
+
+
+[20.0.28]
+File: gen-grayscale-figure1.eps Graphic file (type eps)
+ <gen-grayscale-figure1.eps>
+File: gen-grayscale-figure2.eps Graphic file (type eps)
+ <gen-grayscale-figure2.eps> [21.0.28]
+File: gen-grayscale-figure3.eps Graphic file (type eps)
+
+<gen-grayscale-figure3.eps> [22.0.28]
+File: gen-raster-figure1.eps Graphic file (type eps)
+ <gen-raster-figure1.eps> [23.0.28]
+File: gen-raster-figure2.eps Graphic file (type eps)
+
+<gen-raster-figure2.eps>
+File: gen-theory-figure1.eps Graphic file (type eps)
+ <gen-theory-figure1.eps> [24.0.28]
+File: gen-theory-figure2.eps Graphic file (type eps)
+
+<gen-theory-figure2.eps>
+File: gen-theory-figure3.eps Graphic file (type eps)
+ <gen-theory-figure3.eps>
+File: gen-theory-figure4.eps Graphic file (type eps)
+ <gen-theory-figure4.eps>
+[25.0.28]
+File: gen-theory-figure5.eps Graphic file (type eps)
+ <gen-theory-figure5.eps>
+File: gen-theory-figure6.eps Graphic file (type eps)
+ <gen-theory-figure6.eps> [26.0.28]
+File: gen-theory-figure7.eps Graphic file (type eps)
+
+<gen-theory-figure7.eps> [27.0.28] [28.0.28] [29.0.28]
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 7914.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 7914.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 8396.
+
+[30.0.28
+
+]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 8780--8816
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 8816--8967
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 9057--9093
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 9093--9195
+[] [] 
+ []
+
+[31.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 9285--9321
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 9321--9455
+[] [] 
+ []
+
+[32.0.28]
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 10280
+.
+ (/usr/share/texmf/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+) [33.0.28] [34.0.28]
+Overfull \hbox (8.0pt too wide) in paragraph at lines 10555--10571
+[] 
+ []
+
+
+Overfull \hbox (8.0pt too wide) in paragraph at lines 10744--10755
+[]
+ []
+
+[35.0.28]
+File: gen-tiff-figure1.eps Graphic file (type eps)
+ <gen-tiff-figure1.eps>
+File: gen-tiff-figure2.eps Graphic file (type eps)
+ <gen-tiff-figure2.eps> [36.0.28]
+File: gen-tiff-figure3.eps Graphic file (type eps)
+
+<gen-tiff-figure3.eps> [37.0.28]
+Overfull \hbox (7.72449pt too wide) in paragraph at lines 11179--11179
+[]    \T1/pcr/m/n/9 fprintf(stderr, "Either undefined or unsupported number of 
+samples per pixel\n");[] 
+ []
+
+
+Overfull \hbox (7.72449pt too wide) in paragraph at lines 11190--11190
+[]    \T1/pcr/m/n/9 fprintf(stderr, "Could not allocate enough memory for the u
+ncompressed image\n");[] 
+ []
+
+[38.0.28] [39.0.28]
+Overfull \hbox (1.59999pt too wide) in alignment at lines 11419--11470
+[] [] [] 
+ []
+
+
+Overfull \hbox (1.59999pt too wide) in alignment at lines 11470--11668
+[] [] [] 
+ []
+
+[40.0.28]
+File: gen-tiff-figure4.eps Graphic file (type eps)
+ <gen-tiff-figure4.eps>
+File: gen-tiff-figure5.eps Graphic file (type eps)
+ <gen-tiff-figure5.eps> [41.0.28]
+File: gen-tiff-figure6.eps Graphic file (type eps)
+
+<gen-tiff-figure6.eps>
+File: gen-tiff-figure7.eps Graphic file (type eps)
+ <gen-tiff-figure7.eps> [42.0.28] [43.0.28]
+Overfull \hbox (8.0pt too wide) in paragraph at lines 12182--12198
+[] 
+ []
+
+[44.0.28]
+LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 12446.
+
+ [45.0.28]
+Overfull \hbox (148.12433pt too wide) in paragraph at lines 12580--12580
+[]  \T1/pcr/m/n/9 // Here I fix the reversal of the image (vertically) and show
+ you how to get the color values from each pixel[] 
+ []
+
+[46.0.28]
+Overfull \hbox (8.0pt too wide) in paragraph at lines 12741--12757
+[] 
+ []
+
+[47.0.28] [48.0.28] [49.0.28] [50.0.28]
+File: gen-tiff-figure8.eps Graphic file (type eps)
+ <gen-tiff-figure8.eps> [51.0.28]
+[52.0.28] [53.0.28] [54.0.28] [55.0.28] [56.0.28] [57.0.28] [58.0.28] [59.0.28]
+[60.0.28] [61.0.28]
+File: gen-tiff-figure9.eps Graphic file (type eps)
+ <gen-tiff-figure9.eps> [62.0.28]
+File: gen-tiff-figure10.eps Graphic file (type eps)
+ <gen-tiff-figure10.eps>
+[63.0.28] [64.0.28] [65.0.28] [66.0.28] [67.0.28] [68.0.28] [69.0.28] [70.0.28]
+[71.0.28] [72.0.28] [73.0.28]
+Overfull \hbox (239.92422pt too wide) in paragraph at lines 24326--24326
+[]           \T1/pcr/m/n/9 "You choice of starting x position, or width, result
+s in the enlargement falling off the edge of the input image\n");[] 
+ []
+
+[74.0.28]
+Overfull \hbox (239.92422pt too wide) in paragraph at lines 24333--24333
+[]           \T1/pcr/m/n/9 "You choice of starting y position, or length, resul
+ts in the enlargement falling off the end of the input image\n");[] 
+ []
+
+[75.0.28] [76.0.28] [77.0.28]
+Overfull \hbox (212.85712pt too wide) in paragraph at lines 24518--24518
+[]  \T1/pcr/m/n/9 fprintf (stderr, "Usage: %s -i $\OML/cmm/m/it/9 <$\T1/pcr/m/n
+/9 inputfile$\OML/cmm/m/it/9 >$ \T1/pcr/m/n/9 -o $\OML/cmm/m/it/9 <$\T1/pcr/m/n
+/9 outputfile$\OML/cmm/m/it/9 >$ \T1/pcr/m/n/9 -x $\OML/cmm/m/it/9 <$\T1/pcr/m/
+n/9 start x$\OML/cmm/m/it/9 >$ \T1/pcr/m/n/9 -y $\OML/cmm/m/it/9 <$\T1/pcr/m/n/
+9 start y$\OML/cmm/m/it/9 >$ \T1/pcr/m/n/9 -w $\OML/cmm/m/it/9 <$\T1/pcr/m/n/9 
+width$\OML/cmm/m/it/9 >$ \T1/pcr/m/n/9 -l $\OML/cmm/m/it/9 <$\T1/pcr/m/n/9 leng
+th$\OML/cmm/m/it/9 >$\T1/pcr/m/n/9 \n", cmd);[] 
+ []
+
+[78.0.28] [79.0.28]
+File: gen-grayscale-figure2.eps Graphic file (type eps)
+ <gen-grayscale-figure2.eps> [80.0.28] [81.0.28] [82.0.28]
+File: gen-grayscale-figure3.eps Graphic file (type eps)
+
+<gen-grayscale-figure3.eps> [83.0.28] [84.0.28] [85.0.28] [86.0.28] [87.0.28]
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 25974.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 25974.
+
+
+Overfull \hbox (8.0pt too wide) in paragraph at lines 26179--26192
+[]
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 26323--26359
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 26359--26429
+[] [] 
+ []
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 26429.
+
+[88.0.28
+
+]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 26686--26722
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 26722--26892
+[] [] 
+ []
+
+[89.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 26957--26993
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 26993--27127
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 27346--27382
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 27382--27612
+[] [] 
+ []
+
+[90.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 27794--27830
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 27830--28028
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 28093--28129
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 28129--28306
+[] [] 
+ []
+
+[91.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 28469--28505
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 28505--28575
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 28681--28717
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 28717--28787
+[] [] 
+ []
+
+[92.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 28893--28929
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 28929--28967
+[] [] 
+ []
+
+[93.0.28]
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 29285.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 29285.
+
+
+Overfull \hbox (8.0pt too wide) in paragraph at lines 29573--29573
+[] 
+ []
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 29643.
+
+[94.0.28
+
+]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 30050--30086
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 30086--30380
+[] [] 
+ []
+
+[95.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 30486--30522
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 30522--30656
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 30762--30798
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 30798--30932
+[] [] 
+ []
+
+[96.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 31099--31135
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 31135--31365
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 31430--31466
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 31466--31664
+[] [] 
+ []
+
+[97.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 31729--31731
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 31731--31865
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 32033--32035
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 32035--32169
+[] [] 
+ []
+
+[98.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 32275--32277
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 32277--32411
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 32517--32519
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 32519--32653
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 32816--32818
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 32818--32952
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 33058--33060
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 33060--33194
+[] [] 
+ []
+
+[99.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 33300--33302
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 33302--33436
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 33542--33544
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 33544--33678
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 33784--33786
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 33786--33920
+[] [] 
+ []
+
+[100.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34026--34028
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34028--34162
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34268--34270
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34270--34404
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34510--34512
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34512--34646
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34752--34754
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34754--34888
+[] [] 
+ []
+
+[101.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34994--34996
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 34996--35130
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 35236--35238
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 35238--35372
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 35478--35480
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 35480--35614
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 35720--35722
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 35722--35856
+[] [] 
+ []
+
+[102.0.28]
+Overfull \hbox (1.19897pt too wide) in alignment at lines 35962--35964
+[] [] 
+ []
+
+
+Overfull \hbox (1.19897pt too wide) in alignment at lines 35964--36098
+[] [] 
+ []
+
+[103.0.28] [104.0.28] [105.0.28] [106.0.28] [107.0.28] [108.0.28] [109.0.28]
+[110.0.28] [111.0.28] [112.0.28] [113.0.28] [114.0.28] [115.0.28] [116.0.28]
+[117.0.28] [118.0.28] [119.0.28] [120.0.28] [121.0.28] [122.0.28] [123.0.28]
+[124.0.28] [125.0.28] [126.0.28] [127.0.28] [128.0.28] [129.0.28] [130.0.28]
+[131.0.28] [132.0.28] [133.0.28] [134.0.28] [135.0.28] [136.0.28] [137.0.28]
+[138.0.28] [139.0.28] [140.0.28] [141.0.28] [142.0.28] [143.0.28] [144.0.28]
+[145.0.28] [146.0.28] [147.0.28] [148.0.28] [149.0.28] [150.0.28] [151.0.28]
+[152.0.28] [153.0.28] [154.0.28] [155.0.28] [156.0.28] [157.0.28] [158.0.28]
+[159.0.28] [160.0.28] [161.0.28] [162.0.28] [163.0.28] [164.0.28] [165.0.28]
+[166.0.28] [167.0.28] [168.0.28] [169.0.28] [170.0.28]
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 62374.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 62374.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 62874.
+
+[171.0.28
+
+]
+Overfull \hbox (8.0pt too wide) in paragraph at lines 63189--63189
+[] 
+ []
+
+[172.0.28] [173.0.28] [174.0.28] [175.0.28] [176.0.28] [177.0.28] [178.0.28]
+[179.0.28]
+Overfull \hbox (18.52448pt too wide) in paragraph at lines 65710--65710
+[]                \T1/pcr/m/n/9 fprintf(stderr, "%s: bad character in ascii85 r
+egion: %#o\n", file, c);[] 
+ []
+
+[180.0.28] [181.0.28] [182.0.28]
+File: gen-pdf-figure1.eps Graphic file (type eps)
+ <gen-pdf-figure1.eps> [183.0.28] [184.0.28]
+[185.0.28]
+File: gen-todo.eps Graphic file (type eps)
+ <gen-todo.eps> [186.0.28] [187.0.28] [188.0.28]
+Overfull \hbox (29.32446pt too wide) in paragraph at lines 68696--68696
+[] \T1/pcr/m/n/9 void panda_setobjectproperty (panda_object *target, int scope,
+ int propid, int propval);[] 
+ []
+
+[189.0.28] [190.0.28]
+Overfull \hbox (185.92429pt too wide) in paragraph at lines 69589--69589
+[] \T1/pcr/m/n/9 void panda_textbox (panda_pdf * output, panda_page * thisPage,
+ int top, int left, int bottom, int right, char *text);[] 
+ []
+
+[191.0.28]
+Overfull \hbox (261.5242pt too wide) in paragraph at lines 69964--69964
+[] \T1/pcr/m/n/9 void panda_textbox (panda_pdf * output, panda_page * thisPage,
+ int top, int left, int bottom, int right, double angle, char *text);[] 
+ []
+
+[192.0.28] [193.0.28]
+Overfull \hbox (18.52448pt too wide) in paragraph at lines 70732--70732
+[] \T1/pcr/m/n/9 char * panda_createfont (panda_pdf * output, char *fontname, i
+nt type, char *encoding)[] 
+ []
+
+[194.0.28] [195.0.28] [196.0.28] [197.0.28] [198.0.28] [199.0.28] [200.0.28]
+[201.0.28]
+Overfull \hbox (288.52417pt too wide) in paragraph at lines 74450--74450
+[] \T1/pcr/m/n/9 void panda_panda_imagebox (panda_pdf * output, panda_page * ta
+rget, int top, int left, int bottom, int right, char *filename, int type);[] 
+ []
+
+[202.0.28]
+Overfull \hbox (380.32407pt too wide) in paragraph at lines 74833--74833
+[] \T1/pcr/m/n/9 void panda_panda_imageboxrot (panda_pdf * output, panda_page *
+ target, int top, int left, int bottom, int right, double angle, char *filename
+, int type);[] 
+ []
+
+[203.0.28] [204.0.28] [205.0.28] [206.0.28] [207.0.28] [208.0.28]
+Overfull \hbox (115.72437pt too wide) in paragraph at lines 77263--77263
+[] \T1/pcr/m/n/9 void panda_addcubiccurvesegment (panda_page * target, int x, i
+nt y, int cx1, int cy1, int cx2, int cy2);[] 
+ []
+
+[209.0.28]
+Overfull \hbox (56.32443pt too wide) in paragraph at lines 77640--77640
+[] \T1/pcr/m/n/9 void panda_addquadraticcurvesegmentone (panda_page * target, i
+nt x, int y, int cx1, int cy1);[] 
+ []
+
+[210.0.28]
+Overfull \hbox (56.32443pt too wide) in paragraph at lines 78021--78021
+[] \T1/pcr/m/n/9 void panda_addquadraticcurvesegmenttwo (panda_page * target, i
+nt x, int y, int cx1, int cy1);[] 
+ []
+
+[211.0.28]
+Overfull \hbox (13.12448pt too wide) in paragraph at lines 78402--78402
+[] \T1/pcr/m/n/9 void panda_rectangle (panda_page * target, int top, int left, 
+int bottom, int right);[] 
+ []
+
+[212.0.28] [213.0.28] [214.0.28] [215.0.28] [216.0.28] [217.0.28] [218.0.28]
+[219.0.28] [220.0.28] [221.0.28] [222.0.28] [223.0.28] [224.0.28] [225.0.28]
+[226.0.28] [227.0.28] [228.0.28] [229.0.28] [230.0.28] [231.0.28] [232.0.28]
+[233.0.28] [234.0.28] [235.0.28] [236.0.28] [237.0.28] [238.0.28] [239.0.28]
+File: gen-todo.eps Graphic file (type eps)
+
+<gen-todo.eps> [240.0.28] [241.0.28]
+Overfull \hbox (13.12448pt too wide) in paragraph at lines 87907--87907
+[]                            \T1/pcr/m/n/9 yylval.sval.data = (char *) returnS
+tr(yytext + 1, yyleng);[] 
+ []
+
+
+Overfull \hbox (13.12448pt too wide) in paragraph at lines 87913--87913
+[]                            \T1/pcr/m/n/9 yylval.sval.data = (char *) returnS
+tr(yytext + 1, yyleng);[] 
+ []
+
+
+Overfull \hbox (13.12448pt too wide) in paragraph at lines 87919--87919
+[]                            \T1/pcr/m/n/9 yylval.sval.data = (char *) returnS
+tr(yytext + 1, yyleng);[] 
+ []
+
+
+Overfull \hbox (2.29092pt too wide) in paragraph at lines 87924--87924
+[]$\OML/cmm/m/it/9 <$\T1/pcr/m/n/9 INITIAL$\OML/cmm/m/it/9 >$\T1/pcr/m/n/9 \$\O
+ML/cmm/m/it/9 <$\T1/pcr/m/n/9 \$\OML/cmm/m/it/9 <$\T1/pcr/m/n/9 \/[^\$\OML/cmm/
+m/it/9 <$\T1/pcr/m/n/9 \$\OML/cmm/m/it/9 >$\T1/pcr/m/n/9 \[\] \t\n\r\/\(\)]+ { 
+debuglex(yytext, yyleng, "dbllt-name");[] 
+ []
+
+
+Overfull \hbox (18.4909pt too wide) in paragraph at lines 87929--87929
+[]$\OML/cmm/m/it/9 <$\T1/pcr/m/n/9 INITIAL$\OML/cmm/m/it/9 >$\T1/pcr/m/n/9 \/[\
+$\OML/cmm/m/it/9 <$\T1/pcr/m/n/9 \$\OML/cmm/m/it/9 >$\T1/pcr/m/n/9 \[\] \t\n\r\
+/\(\)]+\$\OML/cmm/m/it/9 >$\T1/pcr/m/n/9 \$\OML/cmm/m/it/9 >$     \T1/pcr/m/n/9
+ { debuglex(yytext, yyleng, "name-dblgt");[] 
+ []
+
+
+Overfull \hbox (13.12448pt too wide) in paragraph at lines 87931--87931
+[]                            \T1/pcr/m/n/9 yylval.sval.data = (char *) returnS
+tr(yytext + 1, yyleng);[] 
+ []
+
+
+Overfull \hbox (41.90207pt too wide) in paragraph at lines 87943--87943
+[]$\OML/cmm/m/it/9 <$\T1/pcr/m/n/9 INITIAL$\OML/cmm/m/it/9 >$\T1/pcr/m/n/9 R\$\
+OML/cmm/m/it/9 >$\T1/pcr/m/n/9 \$\OML/cmm/m/it/9 >$                       \T1/p
+cr/m/n/9 { debuglex(yytext, yyleng, "object-reference-dblgt");[] 
+ []
+
+[242.0.28]
+Overfull \hbox (49.11325pt too wide) in paragraph at lines 87950--87950
+[]$\OML/cmm/m/it/9 <$\T1/pcr/m/n/9 INITIAL$\OML/cmm/m/it/9 >$\T1/pcr/m/n/9 R\/ 
+                      { debuglex(yytext, yyleng, "object-reference-namestart");
+[] 
+ []
+
+[243.0.28]
+Overfull \hbox (7.72449pt too wide) in paragraph at lines 88020--88020
+[]                                  \T1/pcr/m/n/9 debuglex(yytext, yyleng, "str
+ing (at stream end)");[] 
+ []
+
+[244.0.28] [245.0.28] [246.0.28] [247.0.28] [248.0.28]
+Overfull \hbox (164.32431pt too wide) in paragraph at lines 88495--88495
+[]            \T1/pcr/m/n/9 binary { $$.data = pandalex_strmcat($1.data, $1.len
+, $3.data, $3.len); $$.len = $1.len + $3.len + 1; }[] 
+ []
+
+[249.0.28]
+Overfull \hbox (56.32443pt too wide) in paragraph at lines 88515--88515
+[]            \T1/pcr/m/n/9 dictionary { if($5 != -1) pandalex_callback(pandale
+x_event_dictint, $1, $2, $5); }[] 
+ []
+
+
+Overfull \hbox (88.7244pt too wide) in paragraph at lines 88519--88519
+[]\T1/pcr/m/n/9 // todo_mikal: I don't think these array things work, as they a
+re matched by bracketted string rules[] 
+ []
+
+
+Overfull \hbox (115.72437pt too wide) in paragraph at lines 88522--88522
+[]          \T1/pcr/m/n/9 | ARRAY { pandalex_callback(pandalex_event_dictitem_a
+rraystart, "STREAM"); } arrayvals ENDARRAY[] 
+ []
+
+
+Overfull \hbox (34.72446pt too wide) in paragraph at lines 88523--88523
+[]               \T1/pcr/m/n/9 { pandalex_callback(pandalex_event_dictitem_arra
+yend, "STREAM"); $$ = -1; }[] 
+ []
+
+
+Overfull \hbox (94.12439pt too wide) in paragraph at lines 88526--88526
+[]          \T1/pcr/m/n/9 | STRING { pandalex_callback(pandalex_event_dictitem_
+string, "STREAM", $1.data); $$ = -1; }[] 
+ []
+
+
+Overfull \hbox (94.12439pt too wide) in paragraph at lines 88533--88533
+[]\T1/pcr/m/n/9 dict      : NAME STRING { pandalex_callback(pandalex_event_dict
+item_string, $1.data, $2.data); } dict[] 
+ []
+
+
+Overfull \hbox (72.52441pt too wide) in paragraph at lines 88534--88534
+[]          \T1/pcr/m/n/9 | NAME NAME { pandalex_callback(pandalex_event_dictit
+em_name, $1.data, $2.data); } dict[] 
+ []
+
+
+Overfull \hbox (34.72446pt too wide) in paragraph at lines 88535--88535
+[]          \T1/pcr/m/n/9 | NAME ARRAY { pandalex_callback(pandalex_event_dicti
+tem_arraystart, $1.data); }[] 
+ []
+
+
+Overfull \hbox (104.92438pt too wide) in paragraph at lines 88536--88536
+[]              \T1/pcr/m/n/9 arrayvals ENDARRAY { pandalex_callback(pandalex_e
+vent_dictitem_arrayend, $1.data); } dict[] 
+ []
+
+
+Overfull \hbox (94.12439pt too wide) in paragraph at lines 88537--88537
+[]          \T1/pcr/m/n/9 | NAME objref { pandalex_callback(pandalex_event_dict
+item_object, $1.data, $2.data); } dict[] 
+ []
+
+
+Overfull \hbox (72.52441pt too wide) in paragraph at lines 88539--88539
+[]              \T1/pcr/m/n/9 subdictionary { pandalex_callback(pandalex_event_
+dictitem_dictend, $1.data); } dict[] 
+ []
+
+
+Overfull \hbox (34.72446pt too wide) in paragraph at lines 88540--88540
+[]          \T1/pcr/m/n/9 | NAME INT { pandalex_callback(pandalex_event_dictite
+m_int, $1.data, $2); } dict[] 
+ []
+
+
+Overfull \hbox (61.72443pt too wide) in paragraph at lines 88545--88545
+[]\T1/pcr/m/n/9 arrayvals : objref { pandalex_callback(pandalex_event_dictitem_
+arrayitem, $1.data); } arrayvals[] 
+ []
+
+
+Overfull \hbox (50.92444pt too wide) in paragraph at lines 88547--88547
+[]          \T1/pcr/m/n/9 | NAME { pandalex_callback(pandalex_event_dictitem_ar
+rayitem, $1.data); } arrayvals[] 
+ []
+
+
+Overfull \hbox (61.72443pt too wide) in paragraph at lines 88548--88548
+[]          \T1/pcr/m/n/9 | STRING { pandalex_callback(pandalex_event_dictitem_
+arrayitem, $1.data); } arrayvals[] 
+ []
+
+
+Overfull \hbox (56.32443pt too wide) in paragraph at lines 88549--88549
+[]          \T1/pcr/m/n/9 | ARRAY { pandalex_callback(pandalex_event_dictitem_a
+rrayitem, $1.data); } arrayvals[] 
+ []
+
+
+Overfull \hbox (23.92447pt too wide) in paragraph at lines 88550--88550
+[]          \T1/pcr/m/n/9 | DBLLT { pandalex_callback(pandalex_event_dictitem_d
+ict, "array-dictitem"); }[] 
+ []
+
+
+Overfull \hbox (131.92435pt too wide) in paragraph at lines 88551--88551
+[]              \T1/pcr/m/n/9 dict DBLGT { pandalex_callback(pandalex_event_dic
+titem_dictend, "array-dictitem"); } arrayvals[] 
+ []
+
+[250.0.28]
+Overfull \hbox (266.9242pt too wide) in paragraph at lines 88556--88556
+[]\T1/pcr/m/n/9 objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pan
+dalex_intlen($1) + pandalex_intlen($2) + 5) * sizeof(char))) == NULL){[] 
+ []
+
+
+Overfull \hbox (353.3241pt too wide) in paragraph at lines 88581--88581
+[]\T1/pcr/m/n/9 binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.dat
+a, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($1.data); free($2.d
+ata); }[] 
+ []
+
+
+Overfull \hbox (342.52411pt too wide) in paragraph at lines 88582--88582
+[]          \T1/pcr/m/n/9 | STRING binary { $$.data = pandalex_strmcat($1.data,
+ $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($1.data); free($2.dat
+a); }[] 
+ []
+
+
+Overfull \hbox (13.12448pt too wide) in paragraph at lines 88593--88593
+[]\T1/pcr/m/n/9 xrefitems : INT INT STRING { pandalex_callback(pandalex_event_x
+refitem, $1, $2, $3); }[] 
+ []
+
+
+Overfull \hbox (83.3244pt too wide) in paragraph at lines 88601--88601
+[]              \T1/pcr/m/n/9 DBLLT dict DBLGT STRING INT { pandalex_callback(p
+andalex_event_trailerend, $6, $7); }[] 
+ []
+
+[251.0.28] [252.0.28]
+Overfull \hbox (29.32446pt too wide) in paragraph at lines 88685--88685
+[]  \T1/pcr/m/n/9 fprintf(stderr, "\n------------------------------------------
+---------------------\n");[] 
+ []
+
+
+Overfull \hbox (2.3245pt too wide) in paragraph at lines 88687--88687
+[]  \T1/pcr/m/n/9 fprintf(stderr, "  Please send this error text, along with a 
+copy of your PDF\n");[] 
+ []
+
+
+Overfull \hbox (18.52448pt too wide) in paragraph at lines 88688--88688
+[]  \T1/pcr/m/n/9 fprintf(stderr, "  document (if possible) to mikal@stillhq.co
+m, so that this can\n");[] 
+ []
+
+
+Overfull \hbox (2.3245pt too wide) in paragraph at lines 88692--88692
+[]  \T1/pcr/m/n/9 // This only works if the matched token was a SVAL, which is 
+all of the except for[] 
+ []
+
+
+Overfull \hbox (18.52448pt too wide) in paragraph at lines 88693--88693
+[]  \T1/pcr/m/n/9 // INT. If the last token was an INT, then a segmentation fau
+lt occured before I made[] 
+ []
+
+
+Overfull \hbox (36.51886pt too wide) in paragraph at lines 88706--88706
+[]    \T1/pcr/m/n/9 for(i = 0; i $\OML/cmm/m/it/9 <$ \T1/pcr/m/n/9 ((yylval.sva
+l.len == -1) ? strlen(yylval.sval.data) : yylval.sval.len);[] 
+ []
+
+
+Overfull \hbox (18.52448pt too wide) in paragraph at lines 88712--88712
+[]      \T1/pcr/m/n/9 else if(isprint(yylval.sval.data[i])) fprintf(stderr, "%c
+", yylval.sval.data[i]);[] 
+ []
+
+
+Overfull \hbox (29.32446pt too wide) in paragraph at lines 88718--88718
+[]  \T1/pcr/m/n/9 fprintf(stderr, "\n------------------------------------------
+---------------------\n");[] 
+ []
+
+[253.0.28] [254.0.28] [255.0.28] [256.0.28] [257.0.28] [258.0.28]
+Overfull \hbox (158.92432pt too wide) in paragraph at lines 89098--89098
+[]  \T1/pcr/m/n/9 if((objref = (char *) malloc((pandalex_intlen(objnum) + panda
+lex_intlen(objgen) + 5) * sizeof(char))) == NULL){[] 
+ []
+
+[259.0.28]
+Overfull \hbox (29.32446pt too wide) in paragraph at lines 89163--89163
+[]  \T1/pcr/m/n/9 linhintdesc[10] = pandalex_xsnprintf("Numerically greatest sh
+ared object number bits");[] 
+ []
+
+
+Overfull \hbox (23.92447pt too wide) in paragraph at lines 89183--89183
+[]  \T1/pcr/m/n/9 // If the stream starts with a \r or a \n or a \r\n, then the
+se should be stripped off[] 
+ []
+
+[260.0.28]
+Overfull \hbox (34.72446pt too wide) in paragraph at lines 89209--89209
+[]      \T1/pcr/m/n/9 while((result = uncompress(uncompressed, &dstLen, dataPtr
+, srcLen)) == Z_BUF_ERROR){[] 
+ []
+
+
+Overfull \hbox (61.72443pt too wide) in paragraph at lines 89254--89254
+[]    \T1/pcr/m/n/9 printf("----------- UNCOMPRESSED STREAM IS ----------------
+---------------------------\n");[] 
+ []
+
+[261.0.28]
+Overfull \hbox (72.52441pt too wide) in paragraph at lines 89277--89277
+[]    \T1/pcr/m/n/9 printf("\n-------------------------------------------------
+-----------------------------\n");[] 
+ []
+
+
+Overfull \hbox (7.72449pt too wide) in paragraph at lines 89280--89280
+[]    \T1/pcr/m/n/9 printf("LZW compression is encumbered by Patents and theref
+ore not supported\n");[] 
+ []
+
+[262.0.28] [263.0.28]
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 89827.
+
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 89827.
+
+File: gen-todo.eps Graphic file (type eps)
+<gen-todo.eps>
+File: gen-todo.eps Graphic file (type eps)
+ <gen-todo.eps>
+File: gen-todo.eps Graphic file (type eps)
+ <gen-todo.eps>
+
+Package Fancyhdr Warning: fancyhdr's E option without twoside option is useless
+ on input line 90166.
+
+[264.0.28
+
+]
+
+LaTeX Warning: File `gen-rose.eps' not found on input line 90286.
+
+
+! LaTeX Error: File `gen-rose.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.90286 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-rose.eps (no BoundingBox
+).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.90286 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-rose.eps Graphic file (type eps)
+<gen-rose.eps>
+
+LaTeX Warning: File `gen-convert-sample-8040.eps' not found on input line 90359
+.
+
+
+! LaTeX Error: File `gen-convert-sample-8040.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.90359 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-convert-sample-8040.eps 
+(no BoundingBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.90359 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-convert-sample-8040.eps Graphic file (type eps)
+<gen-convert-sample-8040.eps> [265.0.28]
+
+LaTeX Warning: File `gen-convert-sample-25pct.eps' not found on input line 9043
+2.
+
+
+! LaTeX Error: File `gen-convert-sample-25pct.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.90432 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-convert-sample-25pct.eps
+ (no BoundingBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.90432 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-convert-sample-25pct.eps Graphic file (type eps)
+<gen-convert-sample-25pct.eps> [266.0.28]
+Overfull \hbox (8.0pt too wide) in paragraph at lines 90735--90751
+[] 
+ []
+
+[267.0.28]
+
+LaTeX Warning: File `gen-portarthur.eps' not found on input line 90995.
+
+
+! LaTeX Error: File `gen-portarthur.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.90995 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-portarthur.eps (no Bound
+ingBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.90995 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-portarthur.eps Graphic file (type eps)
+<gen-portarthur.eps>
+
+LaTeX Warning: File `gen-portarthur-rot.eps' not found on input line 91072.
+
+
+! LaTeX Error: File `gen-portarthur-rot.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91072 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-portarthur-rot.eps (no B
+oundingBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91072 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-portarthur-rot.eps Graphic file (type eps)
+<gen-portarthur-rot.eps> [268.0.28]
+
+LaTeX Warning: File `gen-floriade.eps' not found on input line 91283.
+
+
+! LaTeX Error: File `gen-floriade.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91283 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-floriade.eps (no Boundin
+gBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91283 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-floriade.eps Graphic file (type eps)
+<gen-floriade.eps>
+
+LaTeX Warning: File `gen-comment.eps' not found on input line 91326.
+
+
+! LaTeX Error: File `gen-comment.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91326 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-comment.eps (no Bounding
+Box).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91326 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-comment.eps Graphic file (type eps)
+<gen-comment.eps> [269.0.28]
+
+LaTeX Warning: File `gen-stillhq.eps' not found on input line 91409.
+
+
+! LaTeX Error: File `gen-stillhq.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91409 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-stillhq.eps (no Bounding
+Box).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91409 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-stillhq.eps Graphic file (type eps)
+<gen-stillhq.eps>
+
+LaTeX Warning: File `gen-uluru.eps' not found on input line 91549.
+
+
+! LaTeX Error: File `gen-uluru.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91549 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-uluru.eps (no BoundingBo
+x).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91549 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-uluru.eps Graphic file (type eps)
+<gen-uluru.eps>
+
+LaTeX Warning: File `gen-charcoal.eps' not found on input line 91663.
+
+
+! LaTeX Error: File `gen-charcoal.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91663 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-charcoal.eps (no Boundin
+gBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91663 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-charcoal.eps Graphic file (type eps)
+<gen-charcoal.eps> [270.0.28]
+
+LaTeX Warning: File `gen-charcoal-medium.eps' not found on input line 91720.
+
+
+! LaTeX Error: File `gen-charcoal-medium.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91720 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-charcoal-medium.eps (no 
+BoundingBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91720 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-charcoal-medium.eps Graphic file (type eps)
+<gen-charcoal-medium.eps>
+
+LaTeX Warning: File `gen-charcoal-intense.eps' not found on input line 91761.
+
+
+! LaTeX Error: File `gen-charcoal-intense.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91761 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-charcoal-intense.eps (no
+ BoundingBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91761 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-charcoal-intense.eps Graphic file (type eps)
+<gen-charcoal-intense.eps>
+Overfull \hbox (8.0pt too wide) in paragraph at lines 91887--91909
+[] 
+ []
+
+
+LaTeX Warning: File `gen-colorize.eps' not found on input line 91928.
+
+
+! LaTeX Error: File `gen-colorize.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91928 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-colorize.eps (no Boundin
+gBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91928 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-colorize.eps Graphic file (type eps)
+<gen-colorize.eps> [271.0.28]
+
+LaTeX Warning: File `gen-implode.eps' not found on input line 92026.
+
+
+! LaTeX Error: File `gen-implode.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92026 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-implode.eps (no Bounding
+Box).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92026 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-implode.eps Graphic file (type eps)
+<gen-implode.eps>
+Overfull \hbox (8.0pt too wide) in paragraph at lines 92132--92154
+[] 
+ []
+
+
+LaTeX Warning: File `gen-solarize.eps' not found on input line 92173.
+
+
+! LaTeX Error: File `gen-solarize.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92173 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-solarize.eps (no Boundin
+gBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92173 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-solarize.eps Graphic file (type eps)
+<gen-solarize.eps> [272.0.28]
+
+LaTeX Warning: File `gen-spread.eps' not found on input line 92271.
+
+
+! LaTeX Error: File `gen-spread.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92271 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\endSe...
+
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-spread.eps (no BoundingB
+ox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92271 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\endSe...
+
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-spread.eps Graphic file (type eps)
+<gen-spread.eps>
+
+LaTeX Warning: File `gen-chained.eps' not found on input line 92386.
+
+
+! LaTeX Error: File `gen-chained.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92386 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-chained.eps (no Bounding
+Box).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92386 {EPS}}
+              \endPar{}\endNode{}\endSeq{}\endDisplayGroup{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-chained.eps Graphic file (type eps)
+<gen-chained.eps> [273.0.28]
+
+LaTeX Warning: File `gen-waterfall.eps' not found on input line 92530.
+
+
+! LaTeX Error: File `gen-waterfall.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92530 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-waterfall.eps (no Boundi
+ngBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92530 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-waterfall.eps Graphic file (type eps)
+<gen-waterfall.eps>
+
+LaTeX Warning: File `gen-blocky.eps' not found on input line 92587.
+
+
+! LaTeX Error: File `gen-blocky.eps' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92587 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Cannot determine size of graphic in gen-blocky.eps (no BoundingB
+ox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.92587 {EPS}}
+              \endPar{}\endNode{}\Node%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: gen-blocky.eps Graphic file (type eps)
+<gen-blocky.eps> [274.0.28] (/home/opensource/tutorial-imaging/output.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 11301 strings out of 44211
+ 71779 string characters out of 343366
+ 251164 words of memory out of 1085001
+ 24186 multiletter control sequences out of 10000+32500
+ 39864 words of font info for 67 fonts, out of 500000 for 1000
+ 14 hyphenation exceptions out of 1000
+ 29i,12n,44p,980b,2518s stack positions out of 1500i,500n,1500p,200000b,5000s
+
+Output written on output.dvi (278 pages, 1771504 bytes).

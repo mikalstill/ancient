@@ -1,0 +1,128 @@
+Img args: tutorial-figure1.jpg jpg
+Converting tutorial-figure1.jpg -> gen-tutorial-figure1.jpg
+Executing convert -sample 320x280 tutorial-figure1.jpg gen-tutorial-figure1.jpg
+Img args: introduction-figure1.jpg jpg
+Converting introduction-figure1.jpg -> gen-introduction-figure1.jpg
+Executing convert -sample 320x280 introduction-figure1.jpg gen-introduction-figure1.jpg
+Img args: antialias-figure1.png jpg
+Converting antialias-figure1.png -> gen-antialias-figure1.jpg
+Executing convert -sample 320x280 antialias-figure1.png gen-antialias-figure1.jpg
+Img args: antialias-figure2.png jpg
+Converting antialias-figure2.png -> gen-antialias-figure2.jpg
+Executing convert -sample 320x280 antialias-figure2.png gen-antialias-figure2.jpg
+Img args: antialias-figure3.png jpg
+Converting antialias-figure3.png -> gen-antialias-figure3.jpg
+Executing convert -sample 320x280 antialias-figure3.png gen-antialias-figure3.jpg
+Img args: antialias-figure4.png jpg
+Converting antialias-figure4.png -> gen-antialias-figure4.jpg
+Executing convert -sample 320x280 antialias-figure4.png gen-antialias-figure4.jpg
+Img args: antialias-figure5.png jpg
+Converting antialias-figure5.png -> gen-antialias-figure5.jpg
+Executing convert -sample 320x280 antialias-figure5.png gen-antialias-figure5.jpg
+Img args: desecb-figure1.jpg jpg
+Converting desecb-figure1.jpg -> gen-desecb-figure1.jpg
+Executing convert -sample 320x280 desecb-figure1.jpg gen-desecb-figure1.jpg
+Img args: desecb-figure2.jpg jpg
+Converting desecb-figure2.jpg -> gen-desecb-figure2.jpg
+Executing convert -sample 320x280 desecb-figure2.jpg gen-desecb-figure2.jpg
+Img args: grayscale-figure1.jpg jpg
+Converting grayscale-figure1.jpg -> gen-grayscale-figure1.jpg
+Executing convert -sample 320x280 grayscale-figure1.jpg gen-grayscale-figure1.jpg
+Img args: grayscale-figure2.tif jpg
+Converting grayscale-figure2.tif -> gen-grayscale-figure2.jpg
+Executing convert -sample 320x280 grayscale-figure2.tif gen-grayscale-figure2.jpg
+Img args: grayscale-figure3.tif jpg
+Converting grayscale-figure3.tif -> gen-grayscale-figure3.jpg
+Executing convert -sample 320x280 grayscale-figure3.tif gen-grayscale-figure3.jpg
+Img args: raster-figure1.jpg jpg
+Converting raster-figure1.jpg -> gen-raster-figure1.jpg
+Executing convert -sample 320x280 raster-figure1.jpg gen-raster-figure1.jpg
+Img args: raster-figure2.tif jpg
+Converting raster-figure2.tif -> gen-raster-figure2.jpg
+Executing convert -sample 320x280 raster-figure2.tif gen-raster-figure2.jpg
+Img args: theory-figure1.png jpg
+Converting theory-figure1.png -> gen-theory-figure1.jpg
+Executing convert -sample 320x280 theory-figure1.png gen-theory-figure1.jpg
+Img args: theory-figure2.png jpg
+Converting theory-figure2.png -> gen-theory-figure2.jpg
+Executing convert -sample 320x280 theory-figure2.png gen-theory-figure2.jpg
+Img args: theory-figure3.png jpg
+Converting theory-figure3.png -> gen-theory-figure3.jpg
+Executing convert -sample 320x280 theory-figure3.png gen-theory-figure3.jpg
+Img args: theory-figure4.png jpg
+Converting theory-figure4.png -> gen-theory-figure4.jpg
+Executing convert -sample 320x280 theory-figure4.png gen-theory-figure4.jpg
+Img args: theory-figure5.png jpg
+Converting theory-figure5.png -> gen-theory-figure5.jpg
+Executing convert -sample 320x280 theory-figure5.png gen-theory-figure5.jpg
+Img args: theory-figure6.png jpg
+Converting theory-figure6.png -> gen-theory-figure6.jpg
+Executing convert -sample 320x280 theory-figure6.png gen-theory-figure6.jpg
+Img args: theory-figure7.png jpg
+Converting theory-figure7.png -> gen-theory-figure7.jpg
+Executing convert -sample 320x280 theory-figure7.png gen-theory-figure7.jpg
+Img args: tiff-figure1.jpg jpg
+Converting tiff-figure1.jpg -> gen-tiff-figure1.jpg
+Executing convert -sample 320x280 tiff-figure1.jpg gen-tiff-figure1.jpg
+Img args: tiff-figure2.jpg jpg
+Converting tiff-figure2.jpg -> gen-tiff-figure2.jpg
+Executing convert -sample 320x280 tiff-figure2.jpg gen-tiff-figure2.jpg
+Img args: tiff-figure3.jpg jpg
+Converting tiff-figure3.jpg -> gen-tiff-figure3.jpg
+Executing convert -sample 320x280 tiff-figure3.jpg gen-tiff-figure3.jpg
+Img args: tiff-figure4.jpg jpg
+Converting tiff-figure4.jpg -> gen-tiff-figure4.jpg
+Executing convert -sample 320x280 tiff-figure4.jpg gen-tiff-figure4.jpg
+Img args: tiff-figure5.jpg jpg
+Converting tiff-figure5.jpg -> gen-tiff-figure5.jpg
+Executing convert -sample 320x280 tiff-figure5.jpg gen-tiff-figure5.jpg
+Img args: tiff-figure6.jpg jpg
+Converting tiff-figure6.jpg -> gen-tiff-figure6.jpg
+Executing convert -sample 320x280 tiff-figure6.jpg gen-tiff-figure6.jpg
+Img args: tiff-figure7.jpg jpg
+Converting tiff-figure7.jpg -> gen-tiff-figure7.jpg
+Executing convert -sample 320x280 tiff-figure7.jpg gen-tiff-figure7.jpg
+Img args: tiff-figure8.jpg jpg
+Converting tiff-figure8.jpg -> gen-tiff-figure8.jpg
+Executing convert -sample 320x280 tiff-figure8.jpg gen-tiff-figure8.jpg
+If "n" found, consider setting...
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+DEFAULT COMMAND FOUND: RS
+DEFAULT COMMAND FOUND: RE
+DEFAULT COMMAND FOUND: RS
+If "n" found, consider setting...
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: IP
+DEFAULT COMMAND FOUND: IP
+Img args: tiff-figure9.tif jpg
+Converting tiff-figure9.tif -> gen-tiff-figure9.jpg
+Executing convert -sample 320x280 tiff-figure9.tif gen-tiff-figure9.jpg
+Img args: tiff-figure10.tif jpg
+Converting tiff-figure10.tif -> gen-tiff-figure10.jpg
+Executing convert -sample 320x280 tiff-figure10.tif gen-tiff-figure10.jpg
+If "n" found, consider setting...
+If "n" found, consider setting...
+Img args: grayscale-figure2.jpg jpg
+Converting grayscale-figure2.jpg -> gen-grayscale-figure2.jpg
+Executing convert -sample 320x280 grayscale-figure2.jpg gen-grayscale-figure2.jpg
+convert: Unable to open file (grayscale-figure2.jpg) [No such file or directory].
+convert: Missing an image file name.
+Img args: grayscale-figure3.jpg jpg
+Converting grayscale-figure3.jpg -> gen-grayscale-figure3.jpg
+Executing convert -sample 320x280 grayscale-figure3.jpg gen-grayscale-figure3.jpg
+convert: Unable to open file (grayscale-figure3.jpg) [No such file or directory].
+convert: Missing an image file name.
+Img args: pdf-figure1.png jpg
+Converting pdf-figure1.png -> gen-pdf-figure1.jpg
+Executing convert -sample 320x280 pdf-figure1.png gen-pdf-figure1.jpg
+convert: Unable to open file (jpg) [No such file or directory].
+convert: Missing an image file name.
+ls: /tmp/1591.eps.*: No such file or directory
