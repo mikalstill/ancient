@@ -22,20 +22,17 @@
 
 #include <vector>
 
+
+
 class cepError;
 
 typedef void (*cepDatasetProgressCB) (int plane, long lineno);
 
-typedef struct cep_internal_datadirection
+typedef struct cep_internal_datarow
 {
   float date;
   float sample;
   float error;
-} cep_datadirection;
-
-typedef struct cep_internal_datarow
-{
-  cep_datadirection x, y, z;
 } cep_datarow;
 
 class cepDataset
@@ -45,18 +42,31 @@ public:
   // I append the .dat1, .dat2 and .dat3 myself...
   cepDataset (string filename);
   cepDataset (string filename, cepDatasetProgressCB callback);
+  cepDataset (vector<cep_datarow> windowVector, int numWindows);
+  cepDataset (double value, double weight);
 
+cepDataset doWindow (cepDataset dir, double winSize, double overlap);
+cepDataset   doHam (double datRow[3], double startWindow, double winSize);
   // Actually process the file
   cepError munch ();
+
+  enum
+  {
+	x=1,
+	y,
+	z
+  } direction;
+
 
 private:
   string m_filename;
   cepDatasetProgressCB m_progress;
-  vector<cep_datarow> m_data;
-  vector<cep_datarow> windowVector; //vector of windowed data
+  vector<cep_datarow> m_datax, m_datay, m_dataz;
+  vector<cep_datarow> m_windowVector; //vector of windowed data
   int m_numWindows; //number of windows in the windowed data
   double m_hamValue; //single haming value
   double m_hamWeight; //hamming weight
+  
 
 };
 

@@ -19,6 +19,7 @@
 
 #include "core.h"
 
+
 cepDataset::cepDataset (string filename):
 m_filename (filename)
 {
@@ -31,17 +32,10 @@ m_filename (filename)
   m_progress = callback;
 }
 
-
-cepDataset::cepDataset (string filename):
-m_filename (filename)
-{
-  m_progress = NULL;
-}
-
 //this may be a little wrong...
 //this constructor will be called at the end of cepDataset::doWindow in order to rerturn
 //the 2 values: the vector of windowed data, and the number of windows in the vector.
-cepDatset::cepDataset(vector<cep_datarow> windowVector, int numWindows):
+cepDataset::cepDataset(vector<cep_datarow> windowVector, int numWindows)
 {
 	m_windowVector = windowVector;
 	m_numWindows = numWindows;
@@ -53,7 +47,7 @@ cepDatset::cepDataset(vector<cep_datarow> windowVector, int numWindows):
 //this may also be a little wrong....
 //this constructor will be called at the end of cepDataset::doHam in order to rerturn
 //the 2 values: the single hamming value, and the weight.
-cepDatset::cepDataset(double value, double weight):
+cepDataset::cepDataset(double value, double weight)
 {
 	m_hamValue = value;
 	m_hamWeight = weight;
@@ -204,7 +198,6 @@ cepDataset::munch ()
 
 }//end munch
 
-
 cepDataset
 cepDataset::doHam (double datRow[3], double startWindow, double winSize)
 {
@@ -221,18 +214,17 @@ cepDataset::doHam (double datRow[3], double startWindow, double winSize)
 
 	double hamWeight=0;
 	double hamValue=0;
-
-	hamWeight = 0.54 - 0.46*cos(2*pi*((datRow[0]-startWindow)/(winSize)); //todo:daniel ask nick why 0.54 and .46...shouldn't be hard coded here.
-	hamValue  = datRow[1] * weight;
-	cepDataset ham =  new cepDataset(hamValue, hamWeight);
-	return ham;
+	double cosMe = 2*M_PI*((datRow[0]-startWindow)/(winSize));
+	hamWeight = 0.54 - 0.46*cos(cosMe); //todo:daniel ask nick why 0.54 and .46...shouldn't be hard coded here.
+	hamValue  = datRow[1] * hamWeight;
+	cepDataset cep_ham(hamValue, hamWeight);
+	return cep_ham;
 	//totdo:daniel- need to ensure a constructor to deal with this returning business above.
 
 }//end doHam
 
-
-cepDatset
-cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector exists..fix this..wont need param data.
+cepDataset
+cepDataset::doWindow (cepDataset dir, double winSize, double overlap) //todo_daniel: once vector exists..fix this..wont need param data.
 {
 	/*
 	Groups data into square windows with a pre-defined width. 
@@ -243,42 +235,61 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
 	Exports:
 	* windowData: Vector of windowed data (numWindows X 3 X largestWindow)
 	* numWindows: The number of seperate windows that were populated with data
-	*/
+		
 
 	int numSamples; 				//number of smaples in the vector
 	int nextFirstRecord; 		//start of next window
 	int currentFirstRecord; //start of current window
-	int numWindows; 				//the total number  of windows required
 	int dataVectorRow;	 		//vector counter
 	int col, row; 					//loop counters
 	double firstDate;				//the first dat in the the data
 	double lastDate;				//the last date in the data
 	double overlapWinSize; 
+	double numWindows; 				//the total number  of windows required
+	double startWindow;
 	vector<cep_datarow> windowData;//this is windowsArray
-	vector<cep_datarow> dataCopy//need a copy of dataCopy
+	//vector<cep_datarow> dataCopy;//need a copy of dataCopy
 
 	//preserving the original data vector
-	dataCopy = m_data;
-	
+	//dataCopy = m_data;
+
+	vector<cep_datarow>&	datPointer;
+	switch(direction) {
+		case x: 
+			datPointer = m_datax;
+			break;
+		
+		case y: 
+			datPointer = m_datay;
+			break;
+		
+		case z: 
+			datPointer = m_dataz;
+			break;
+		}
+
+
   // get timescale of data set 
-  numSamples = dataCopy.size() 
-  firstdate = dataCopy.pop_first(); //data(1,1);//todo_daniel: vector not defined yet..correct notation needed
-  lastdate = dataCopy.pop_back() //[numSamples][0];
-	windowData.resize(numSamples);
+  numSamples = m_data.size(); 
+  firstDate = datPointer[0].date; //data(1,1);//todo_daniel: vector not defined yet..correct notation needed
+  lastDate = datPointer[numSamples].date; //[numSamples][0];
+  windowData.resize(numSamples);
 
   // For optimizing speed slightly 
   overlapWinSize = winSize * (1-overlap);
 
   // Work out number of windows 
-  numWindows = ceil(((lastdate - firstdate)*(1+2*overlap))/winSize); //round up to nearest integer
-	if (overlap != 0){
-    numWindows -=1;//totdo:daniel - may not need this line.
+  numWindows = ceil(((lastDate - firstDate)*(1+2*overlap))/winSize); //round up to nearest integer
+  if (overlap != 0){
+	  numWindows -=1;//totdo:daniel - may not need this line.
 	}
   
   // Divide into windows 
   nextFirstRecord = 0;
-  startWindow = dataCopy[0][0] - winSize; 
-  for (row=0; numWindows; i++){
+
+  startWindow = datPointer[0].sample - winSize; 
+
+  for (row=0; numWindows; row++){
 	// point vector counter to start of window 
     dataVectorRow = nextFirstRecord;
     currentFirstRecord = nextFirstRecord;
@@ -287,28 +298,20 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
     startWindow = startWindow + overlapWinSize;
 
     // populate first half of window
-    while (dataCopy[dataVectorRow][0] < (startWindow+overlapWinSize))
+    while (datPointer[dataVectorRow].date < (startWindow+overlapWinSize))
 	{
-        for (col=0; col<3; col++)
-		{
-				//windowArray(k,i,vecCtr-(currentFirstRecord)) = dataCopy[vecCtr][k];
-				windowData[row][col][vecCtr-currentFirstRecord] = dataCopy[dataVectorRow][col];
-        }
+        windowData[row][dataVectorRow-currentFirstRecord] = datPointer[dataVectorRow];//[col];
         dataVectorRow += 1; // increment vector row counter
-		} //end while
+	} //end while
 
 		// mark start of next window for later use
 		nextFirstRecord = dataVectorRow;
 
 		// populate second half of window
-		while dataCopy[dataVectorRow][0] < (startWindow+winSize))
-		{
-			for (col=0; col<3; col++)
-			{
-				//windowArray(k,i,vecCtr-(currentFirstRecord)) = dataCopy[vecCtr][k];
-				windowData[row][col][dataVectorRow-currentFirstRecord] = dataCopy[dataVectorRow][col];
-			}
-			dataVectorRow += 1; // increment vector counter
+	while (datPointer[dataVectorRow].date < (startWindow+winSize))
+	{
+		windowData[row][dataVectorRow-currentFirstRecord] = datPointer[dataVectorRow];
+		dataVectorRow += 1; // increment vector counter
 	} //end while
   } // end for
 
@@ -319,17 +322,13 @@ cepDataset::doWindow (double winSize, double overlap) //todo_daniel: once vector
   startWindow = startWindow + winSize;
   while (dataVectorRow < numSamples)
   {
-    for (col=0; col<3; col++)
-	{
-		//windowArray(k,numWindows,vecCtr-(currentFirstRecord)) = dataCopy[vecCtr][k];
-		windowData[numWindows][col][dataVectorRow-currentFirstRecord] = dataCopy[dataVectorRow][col];
-    }
-    dataVectorRow += 1;
+    windowData[numWindows][dataVectorRow-currentFirstRecord] = datPointer[dataVectorRow];
+     dataVectorRow += 1;
   } //end while
 
 	//create cep_windowData populated withthe windowData vector and numWindows for return to the calling place
-	cepDatset cep_windowData = new cepDataset(windowData, numWindows);
+	cepDatset cep_windowData(windowData, numWindows);
 	return cep_windowData;
-	
+*/	
 }//end doWindow
 
