@@ -1,7 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(cepError.cpp)
 AC_CONFIG_AUX_DIR(config)
-AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(cep, 0.1)
 AM_MAINTAINER_MODE
 
@@ -12,8 +11,6 @@ dnl AC_LIBTOOL_DLOPEN
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
-#AM_PROG_LEX
-#AC_PROG_YACC
 AC_PROG_INSTALL
 AC_PROG_RANLIB
 dnl AC_PROG_LIBTOOL
@@ -59,6 +56,12 @@ AC_CHECK_LIB(fl, yywrap)
 dnl -ltrivsql
 AC_CHECK_LIB(trivsql, trivsql_rsmovenext)
 
+dnl -lplot
+AC_CHECK_LIB(plot, plot_newplot)
+
+dnl -lpng
+AC_CHECK_LIB(png, png_create_write_struct)
+
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC
@@ -67,12 +70,10 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Stupid defines to keep wx happy
 AC_DEFINE(__WXGTK__)
-dnl additional includes requred for compilation
-INCLUDES="-I/usr/local/lib/wx/include/gtk-2.2"
- 
+
 dnl Stu[id code to ensure that dvelopers do not ignore warnings
 AC_DEFINE(_GNU_SOURCE)
-case "${host}" in
+case "$host" in
   *-*-openbsd*)
     CFLAGS="$CFLAGS -pthread"
     CPPFLAGS="$CPPFLAGS -D_REENTRANT"
@@ -88,10 +89,10 @@ case "${host}" in
     LDFLAGS="$LDFLAGS -mimpure-text"
     echo "Setting Solaris compilation options";;
   *-*-linux*)
-    dnl Assume that this sucker will be multi threaded.
-    dnl Are we going to be generating shared libs? set PIC anyway
-    dnl be nice, don't fail on warnings but inform the developers concerned
-    CPPFLAGS="$CPPFLAGS -D_REENTRANT -fPIC -DPIC -Wall -pedantic"
+    dnl Assume that this sucker will be multi threaded. Are we going to be generating shared libs
+    dnl be nice, don't file on warnings but inform the developers concerned
+    dnl CPPFLAGS="$CPPFLAGS -fPIC -DPIC -D_REENTRANT -Wall -Werror"
+    CPPFLAGS="$CPPFLAGS -D_REENTRANT -Wall"
     echo "Setting Linux compilation options";;
   *-*-aix*)
     CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
@@ -101,10 +102,7 @@ case "${host}" in
     LDFLAGS="$LDFLAGS -L/usr/lib32"
     echo "Setting Irix compilation options";;
   *)
-  echo "Unknown host type $host"
   echo "This project may not compile on this system. Good luck :-)";;
 esac
-
-CPPFLAGS="$CPPFLAGS $INCLUDES"
 
 AC_OUTPUT(Makefile)

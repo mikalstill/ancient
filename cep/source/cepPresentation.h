@@ -1,4 +1,3 @@
-
 /* 
    Imp for the CEP data presentation
 
@@ -30,17 +29,18 @@ class cepError;
 class cepPresentation
 {
 public:
-  cepPresentation (long width = -1, long height = -1);
+  cepPresentation (long width, long height);
 
-  void xAxisTitle (const string & title);
-  void yAxisTitle (const string & title);
+  void xAxisTitle (const string& title);
+  void yAxisTitle (const string& title);
   void xAxisScale (int unitsPerCentiPixel);
   void yAxisScale (int unitsPerCentiPixel);
 
-  void addDataPoint (long x, long y);
+  cepError addDataPoint (long x, long y);
 
-  cepError createPDF (const string & filename);
-  cepError createBitmap (const string & filename);
+  cepError createPDF (const string& filename);
+  cepError createBitmap ();
+  cepError createPNG(const string& filename);
 
 private:
   void interpolate ();
@@ -52,10 +52,16 @@ private:
   string m_yTitle;
 
   int m_xUnit;
-  int m_yUnit;
+  int m_xminval;
+  int m_xmaxval;
 
-    vector < long >m_data;
-    vector < bool > m_dataValid;
+  int m_yUnit;
+  int m_yminval;
+  int m_ymaxval;
+
+  vector < long > m_data;
+
+  char *m_raster;
 };
 
 #endif
