@@ -94,7 +94,7 @@ sub process($){
 	    else{
 		print $OUTPTR "<figure>\n";
 		print $OUTPTR "<title>$input</title>\n";
-		print $OUTPTR "<graphic format=\"EPS\" fileref=\"todo.eps\"></graphic>\n";
+		print $OUTPTR "<graphic format=\"EPS\" fileref=\"todo.eps\">\n";
 		print $OUTPTR "</figure>\n";
 	    }
 	    print $OUTPTR "$3";
