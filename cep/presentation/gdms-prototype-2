@@ -1,8 +1,11 @@
 TITLE: Prototype (Nick)
-
+<table>
+<tr>
+<td>
+<font color="000000" size=4 face="Lucida,Verdana,Helvetica,Arial">
+<li>Pass version of project
 <li>Developed in Matlab
-<li>Meant to identify design issues
-<li>Basic functionality
+<li>Same basic functionality:
   <ul>
   <li>Linear least squares
   <li>Interpolation
@@ -10,3 +13,12 @@ TITLE: Prototype (Nick)
   <li>Fourier transforms
   </ul>
 <li>No user interface
+<li>Meant to identify design issues
+</td>
+<td>
+<div align=right>
+<img src="proto.png">
+</div>
+</td>
+</tr>
+</table>
