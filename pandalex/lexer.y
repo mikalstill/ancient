@@ -11,18 +11,6 @@
 
   // The callbacks
   pandalex_callback_type pandalex_callbacks[pandalex_event_max];
-
-  // This information is needed for the stream callback
-  // streamLength is the length of the stream unless it is stored
-  // in a referred object, at which time streamLength = -2, and
-  // streamLengthObjRef stores the details of the object reference
-  // streamLength = -1 means undefined
-  int    streamLength;
-  char   *streamLengthObjRef;
-  char   *streamFilter;
-
-  // Sample code specific
-  extern pdfinfo_dictint_list *dictint_list;
 %}
 
           /* Define the possible yylval values */
@@ -57,18 +45,21 @@
             It would appear that $$ already includes the vale of $1,
 	    so we only need to append the value of $2, $3, $4 et al
           *********************************************************/
-pdf       : { pandalex_callback(pandalex_event_begindocument, ""); } header { 
-                    pandalex_callback(pandalex_event_entireheader, $2); } 
-            object linear objects xref trailer
+pdf       : { pandalex_callback(pandalex_event_begindocument, ""); } 
+            header { pandalex_callback(pandalex_event_entireheader, $2); } 
+            object linear objects xref trailer endcrap
           ;
 
-header    : VERSION { 
-	            pandalex_callback(pandalex_event_specver, $1); }
-            binary { 
-                    $$ = $3.data; }
+header    : VERSION { pandalex_callback(pandalex_event_specver, $1); }
+            binary { $$ = $3.data; }
           ;
 
 linear    : xref trailer { }
+          |
+          ;
+
+// Clibpdf sometimes puts some binary crap at the end of the file
+endcrap   : { binaryMode = 1; } binary { binaryMode = 0; }
           |
           ;
 
@@ -76,18 +67,15 @@ objects   : object objects
           | 
           ;
 
-object    : INT INT OBJ { 
-                    pandalex_callback(pandalex_event_objstart, $1, $2); 
-#if defined DEBUG
-  fprintf(stdout, "object %d %d\n", $1, $2);
-#endif
-                          } 
-            dictionary { if($5 != -1) pandalex_callback(pandalex_event_dictint, $1, $2, $5); } stream ENDOBJ {}
+object    : INT INT OBJ { pandalex_callback(pandalex_event_objstart, $1, $2); } 
+            dictionary { if($5 != -1) pandalex_callback(pandalex_event_dictint, $1, $2, $5); } 
+            stream ENDOBJ {}
           ;
 
 // DBLLTNAME required for dodgy generators -- davince and typereader
 // todo_mikal: fully implement
 dictionary: DBLLT dict DBLGT { $$ = -1; }
+
           | DBLLTNAME STRING dict DBLGT { $$ = -1; }
           | DBLLTNAME NAME dict DBLGT { $$ = -1; }
           | DBLLTNAME ARRAY dict DBLGT { $$ = -1; }
@@ -95,6 +83,15 @@ dictionary: DBLLT dict DBLGT { $$ = -1; }
           | DBLLTNAME DBLLT dict DBLGT dict DBLGT { $$ = -1; }
           | DBLLTNAME INT dict DBLGT { $$ = -1; }
           | DBLLTNAME FP dict DBLGT { $$ = -1; }
+
+          | DBLLTNAME STRING DBLGT { $$ = -1; }
+          | DBLLTNAME NAME DBLGT { $$ = -1; }
+          | DBLLTNAME ARRAY DBLGT { $$ = -1; }
+          | DBLLTNAME objref DBLGT { $$ = -1; }
+          | DBLLTNAME DBLLT dict DBLGT DBLGT { $$ = -1; }
+          | DBLLTNAME INT DBLGT { $$ = -1; }
+          | DBLLTNAME FP DBLGT { $$ = -1; }
+
           | INT { $$ = $1; }
           | ARRAY arrayvals ENDARRAY { $$ = -1; }
           | objref { $$ = -1; }
@@ -102,46 +99,13 @@ dictionary: DBLLT dict DBLGT { $$ = -1; }
           | { $$ = -1; }
           ;
 
-dict      : NAME STRING dict { 
-                    pandalex_callback(pandalex_event_dictitem_string, $1, $2); }
-          | NAME NAME dict { 
-                    pandalex_callback(pandalex_event_dictitem_name, $1, $2); 
-
-		    // If this is for a stream, then we save the
-		    // filter name for convenience reasons
-		    if(strcmp($1, "Filter") == 0)
-		      streamFilter = strmcpy($2, -1);
-                                               }
-          | NAME ARRAY arrayvals ENDARRAY dict { 
-	    // This one needs work...
-                    pandalex_callback(pandalex_event_dictitem_array, $1, $2); }
-          | NAME objref dict { 
-	    // pandalex_callback(pandalex_event_dictitem_object, 
-	    //		      pandalex_event_type_string, 
-	    //	      $1, $2); 
-
-                    // If this is for a stream, then we need to save
-		    // this info for convenience reasons
-	            if(strcmp($1, "Length") == 0){
-		      streamLength = -2;
-		      streamLengthObjRef = strmcpy($2, -1);
-		    }
-	                                       }
-
-          | NAME dictionary dict { 
-                    pandalex_callback(pandalex_event_dictitem_dict, $1, $2); }
-          | NAME INT dict { 
-                    pandalex_callback(pandalex_event_dictitem_int, $1, $2); 
-
-                    // If this is for a stream, then we need to save
-		    // this info for convenience reasons
-	            if(strcmp($1, "Length") == 0){
-		      streamLength = $2;
-                    }
-                                               }
-          | NAME FP dict {
-	            // Need to add some stuff here
-	                                       }
+dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1, $2); } dict
+          | NAME NAME { pandalex_callback(pandalex_event_dictitem_name, $1, $2); } dict
+          | NAME ARRAY arrayvals ENDARRAY { pandalex_callback(pandalex_event_dictitem_array, $1, $2); } dict
+          | NAME objref { pandalex_callback(pandalex_event_dictitem_object, $1, $2); } dict
+          | NAME dictionary { pandalex_callback(pandalex_event_dictitem_dict, $1, $2); } dict
+          | NAME INT { pandalex_callback(pandalex_event_dictitem_int, $1, $2); } dict
+          | NAME FP dict {} dict
           | 
           ;
 
@@ -163,7 +127,7 @@ objref    : INT INT OBJREF { if(($$ = (char *) malloc((intlen($1) + intlen($2) +
 			                       }
           ;
 
-stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("filter = %s, length = %d, lengthObj = %s\n", streamFilter, streamLength, streamLengthObjRef); pandalex_callback(pandalex_event_stream, streamFilter, streamLength, streamLengthObjRef, $3.data, $3.len); free($3); }
+stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { binaryMode = 0; free($3); }
           |
           ;
 
@@ -191,11 +155,6 @@ void pandalex_init(){
   for(i = 0; i < pandalex_event_max; ++i){
     pandalex_callbacks[i] = NULL;
   }
-
-  // Initialise our few globals
-  streamFilter = NULL;
-  streamLengthObjRef = NULL;
-  streamLength = -1;
 }
 
 void pandalex_setupcallback(int callback, pandalex_callback_type functoid){
@@ -237,9 +196,9 @@ char *strmcat(char *dest, int destLen, char *append, int appendLen){
   int count, len;
 
 #if defined DEBUG
-  printf("strmcat was passed %d, %d:\n", destLen, appendLen);
-  debuglex(dest, destLen, "first arg", 0);
-  debuglex(append, appendLen, "second arg", 0);
+  //  printf("strmcat was passed %d, %d:\n", destLen, appendLen);
+  //  debuglex(dest, destLen, "first arg", 0);
+  //  debuglex(append, appendLen, "second arg", 0);
 #endif
 
   // What length do we need?

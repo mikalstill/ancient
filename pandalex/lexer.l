@@ -408,9 +408,6 @@ void debuglex(char *text, int len, char *desc, int binMode){
 #if defined DEBUG
   int i;
 
-  if(binMode == 1)
-    return;
-
   printf("Binary mode is %s, lexer rule is \"%s\", match is \"",
 	 (binaryMode == 1) ? "on" : "off", desc);  
 
