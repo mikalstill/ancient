@@ -105,7 +105,8 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data)
 
     cout << "mean: " << getB1() << "Y intercept: " << getB2() << endl;
     cout << "residuals:" << endl;
-    for(int i = 0; i < m_residual.getNumRows(); i ++){
+
+/*   for(int i = 0; i < m_residual.getNumRows(); i ++){
       cout << m_residual.getValue(i,0) << " ";
       if(m_residual.getError().isReal() == true)
       {
@@ -114,7 +115,7 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data)
       }
     }
     cout << endl;
-    
+*/  
     lastResid = m_residual;
     if(lastResid.getError().isReal() == true)
     {
@@ -122,7 +123,7 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data)
       return *this;
     }
     
-    matP = reweightVCV();
+    matP = reweightVCV(matP);
 
 /*    cout << "reweight: " << endl;
     for(int i = 0; i < matP.getNumRows(); i ++){
@@ -172,11 +173,6 @@ const cepLs & cepLs::cepDoRW(cepMatrix<double> &data, cepMatrix<double> &matP)
 const cepMatrix<double> &cepLs::getResidual()
 {
   return m_residual;
-}
-
-const cepMatrix<double> &cepLs::getDetrend()
-{
-  return m_detrended;
 }
 
 double cepLs::getB1()
@@ -440,7 +436,7 @@ void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<d
 END: cout <<"";
 }
 
-const cepMatrix<double> cepLs::reweightVCV()
+const cepMatrix<double> cepLs::reweightVCV(cepMatrix<double> &matP)
 {
   cepMatrix<double> tempResidual, newP(m_residual.getNumRows(), m_residual.getNumRows());
   int numSwap = -1, median;
@@ -448,6 +444,17 @@ const cepMatrix<double> cepLs::reweightVCV()
   tempResidual = m_residual;
 
   m_error.init();
+  
+  //calculate tempResidual^T * matP
+  //this removes any previously detected outliers from the calculations
+  for(int i = 0; i < tempResidual.getNumRows(); i++)
+  {
+    if(matP.getValue(i,i) == 0)
+    {
+      tempResidual.setValue(i,0,0);
+    }
+  }
+  
   
   //sort residuals in ascending order
   for(int i = 0; i < tempResidual.getNumRows(); i ++){
@@ -466,12 +473,14 @@ const cepMatrix<double> cepLs::reweightVCV()
           m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
           return newP;
         }
+
         tempResidual.setValue(j,0,tempResidual.getValue(j+1,0));
         if(tempResidual.getError().isReal() == true)
         {
           m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
           return newP;
         }
+
         tempResidual.setValue(j+1, 0, temp);
         if(tempResidual.getError().isReal() == true)
         {

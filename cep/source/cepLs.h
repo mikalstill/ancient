@@ -123,9 +123,6 @@ public:
 
   //do one iteration of the least squares algoritum
   const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP);
-
-  //returns the detrended data
-  const cepMatrix<double> &getDetrend();
   
   //get the value of the residual at pos (x,y)    
   const cepMatrix<double> &getResidual();
@@ -141,9 +138,8 @@ public:
 private:
 
   cepMatrix<double> m_residual,       //holds the value of the residuals 
-                    m_matX,           //holds the value of B1, B2
-                    m_detrended;      //holds the value of the detrended data
-
+                    m_matX;           //holds the value of B1, B2
+  
   cepError m_error;
   //ensure that all values of the matrix A P and L are consistant with the
   //least squares alogrithum.
@@ -171,7 +167,7 @@ private:
   void calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL);
 
   //re-caluclates the P weighting matrix
-  const cepMatrix<double> reweightVCV();
+  const cepMatrix<double> reweightVCV(cepMatrix <double> &matP);
   
   //calculate the matrix inverse
   const cepMatrix<double> inverse(cepMatrix<double> &mat);
