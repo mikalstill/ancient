@@ -2,7 +2,7 @@ TITLE: VFS address space file operations -&gt; FUSE
 
 <div align=center>
 <table border=0 width=90%>
-<tr><td>VFS</td><td>FUSE</td><td>Comments</td></tr>
+<tr><td width=33%>VFS</td><td width=33%>FUSE</td><td width=33%>Comments</td></tr>
 <tr bgcolor="CCCCCC"><td></td><td></td><td></td></tr>
 <tr><td></td><td></td><td></td></tr>
 </table>
