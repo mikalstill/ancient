@@ -59,6 +59,7 @@
 #include "render.h"
 #include "verbosity.h"
 #include "utility.h"
+#include "configuration.h"
 
 #include <sstream>
 #include <iostream>
@@ -72,11 +73,16 @@
 
 IMPLEMENT_DYNAMIC_CLASS (pdfView, wxView)
   BEGIN_EVENT_TABLE (pdfView, wxView)
+  EVT_MENU (GENMENU_NEWPAGE, pdfView::OnNewPage)
+
   EVT_MENU (GENMENU_NEXTPAGE, pdfView::OnNextPage)
   EVT_MENU (GENMENU_PREVPAGE, pdfView::OnPrevPage)
   EVT_MENU (GENMENU_LINETOOL, pdfView::OnLineTool)
+
+  EVT_MENU (GENMENU_LINECOLOR, pdfView::OnLineColor)
+  EVT_MENU (GENMENU_CONTROLCOLOR, pdfView::OnControlColor)
+
   EVT_MENU (GENMENU_DOCINFO, pdfView::OnAboutDocument)
-  EVT_MENU (GENMENU_NEWPAGE, pdfView::OnNewPage)
   END_EVENT_TABLE ()
   
 pdfView::pdfView ()
@@ -175,38 +181,32 @@ pdfView::OnDraw (wxDC * dc)
   string& filename = m_renders[m_page];
   debug(dlTrace, string("Page render cache names \"") + filename + 
 	string("\""));
-  if(theDoc->getPDF() != NULL)
-    { 
-      if(m_dirty || (filename == ""))
-	populatePageFromPDF(theDoc, filename);
-      m_dirty = false;
-      
-      if(filename != "")
-	{
-	  // And now we can assume that there is a PNG somewhere out there we
-	  // can paint...
-	  // todo_mikal: shrinking options
-	  // todo_mikal: center if smaller than window
-	  debug(dlTrace, string("Painting PNG \"") + filename + string("\""));
-	  if(filename != ""){
-	    try
-	      {
-		wxImage theImage (filename.c_str(), wxBITMAP_TYPE_PNG);
-		wxBitmap theBitmap (theImage.ConvertToBitmap ());
-		dc->DrawBitmap (theBitmap, 0, 0);
-	      }
-	    catch (...)
-	      {
-		debug(dlError, "Exception caught in the graph draw routine");
-	      }
+  if(m_dirty || (filename == ""))
+    populatePageFromPDF(theDoc, filename);
+  m_dirty = false;
+  
+  if(filename != "")
+    {
+      // And now we can assume that there is a PNG somewhere out there we
+      // can paint...
+      // todo_mikal: shrinking options
+      // todo_mikal: center if smaller than window
+      debug(dlTrace, string("Painting PNG \"") + filename + string("\""));
+      if(filename != ""){
+	try
+	  {
+	    wxImage theImage (filename.c_str(), wxBITMAP_TYPE_PNG);
+	    wxBitmap theBitmap (theImage.ConvertToBitmap ());
+	    dc->DrawBitmap (theBitmap, 0, 0);
 	  }
-	}
-      else{
-	debug(dlTrace, "Window redraw skipped because there is no PNG");
+	catch (...)
+	  {
+	    debug(dlError, "Exception caught in the graph draw routine");
+	  }
       }
-
-    // TODO mikal: also need to redraw the output of the current tool
     }
+  
+  // TODO mikal: also need to redraw the output of the current tool
 }
 
 bool
@@ -218,7 +218,7 @@ pdfView::populatePageFromPDF(pdfDoc* theDoc, string& filename)
     // Now find all the page objects referenced in the pages object
     string kids;
     if(!pages.getDict().getValue("Kids", kids)){
-      debug(dlError, "Bad PDF: No pages found in PDF");
+      debug(dlTrace, "Bad PDF: No pages found in PDF");
       return false;
     }
     
@@ -372,6 +372,52 @@ pdfView::OnLineTool(wxCommandEvent&)
 }
 
 void
+pdfView::OnLineColor (wxCommandEvent & WXUNUSED (event))
+{
+  showColorDialog("line");
+}
+
+void
+pdfView::OnControlColor (wxCommandEvent & WXUNUSED (event))
+{
+  showColorDialog("control");
+}
+
+void
+pdfView::showColorDialog(string configTag)
+{
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+  unsigned char r, g, b;
+
+  // Get the current value of the colour
+  config->getValue(string(string("color-") + configTag + 
+			  string("-r")).c_str(), 0, r);
+  config->getValue(string(string("color-") + configTag + 
+			  string("-g")).c_str(), 0, g);
+  config->getValue(string(string("color-") + configTag + 
+			  string("-b")).c_str(), 0, b);  
+
+  // Prime the colour selection dialog and show
+  wxColour color(r, g, b);
+  wxColourData data;
+  data.SetColour(color);
+  wxColourDialog picker(NULL, &data);
+  if(picker.ShowModal() == wxID_OK){
+    data = picker.GetColourData();
+    color = data.GetColour();
+
+    // Set config value
+    config->setValue(string(string("color-") + configTag + 
+			      string("-r")).c_str(), color.Red());
+    config->setValue(string(string("color-") + configTag + 
+			      string("-g")).c_str(), color.Green());
+    config->setValue(string(string("color-") + configTag + 
+			      string("-b")).c_str(), color.Blue());
+  }
+}
+
+void
 pdfView::appendCommand(string commandString, string controlString,
 		       string selectString)
 {
@@ -384,7 +430,6 @@ pdfView::appendCommand(string commandString, string controlString,
 
   theDoc->appendCommand(m_page, commandString, controlString, selectString);
 }
-
 
 void
 pdfView::setDirty()

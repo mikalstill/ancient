@@ -58,11 +58,9 @@ pdfRender::render ()
   // and find the drawing commands. This puts them into the page command array
   if(m_doc->getPage(m_pageno).getCommandCount() == 0)
     {
-      if(!parseStream())
-	{
-	  debug(dlError, "Could not extract drawing commands");
-	  return false;
-	}
+      // Stopped checking the error return here, as no drawing commands now
+      // results in just an empty PNG file
+      parseStream();
     }
 
   // Now we need to process each of the elements in the command array
@@ -70,7 +68,8 @@ pdfRender::render ()
   for(int cmdcnt = 0; cmdcnt < m_doc->getPage(m_pageno).getCommandCount();
       cmdcnt++)
     {
-      string cmd = m_doc->getPage(m_pageno).getCommandStream(cmdcnt);
+      // TODO mikal: always shows control points for now
+      string cmd = m_doc->getPage(m_pageno).getCommandStream(cmdcnt, true);
       processCommandString((char *) cmd.c_str(), cmd.length(), false);
     }
   return true;

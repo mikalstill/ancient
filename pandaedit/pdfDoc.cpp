@@ -122,7 +122,7 @@ pdfDoc::OnSaveDocument (const wxString & filename)
 	  pg->contents->layoutstream = 
 	    panda_streamprintf(pg->contents->layoutstream,
 			       (char *) m_pages[count].
-			       getCommandStream(cmdcnt).c_str());
+			       getCommandStream(cmdcnt, false).c_str());
 	}
       debug(dlTrace, "Finished saving page");
     }

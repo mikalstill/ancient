@@ -102,7 +102,7 @@ pdf::getPagesObject()
   object& catalog = getCatalogObject();
   if (!catalog.hasDictItem (dictitem::diTypeObjectReference, "Pages"))
     {
-      debug(dlError, "Bad PDF: No pages object refered to in catalog");
+      debug(dlTrace, "Bad PDF: No pages object refered to in catalog");
       return gNoSuchObject;
     }
   object & pages = gNoSuchObject;
@@ -129,7 +129,7 @@ pdf::getPages ()
     string kids;
     if (!pages.getDict ().getValue ("Kids", kids))
       {
-	debug(dlError, "Bad PDF: No pages found in PDF");
+	debug(dlTrace, "Bad PDF: No pages found in PDF");
 	return objectlist();
       }
     

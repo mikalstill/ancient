@@ -145,7 +145,7 @@ public:
 
   void appendCommand(string visible, string control);
   unsigned int getCommandCount();
-  string getCommandStream(int index);
+  string getCommandStream(int index, bool showControl);
   
 private:
   char *applyFilter(string filter, char *instream, unsigned long inlength, 

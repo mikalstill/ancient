@@ -125,9 +125,7 @@ bool genApp::OnInit (void)
 #endif
 
   // Create the main frame window
-  int
-    windowx,
-    windowy;
+  int windowx, windowy;
   frame =
     new genFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
 		  (const wxString) "PandaEdit",
@@ -142,13 +140,8 @@ bool genApp::OnInit (void)
 #endif
 
   // Make a menubar
-  wxMenu *
-    file_menu =
-    new
-    wxMenu;
-  wxMenu *
-    edit_menu = (wxMenu *)
-    NULL;
+  wxMenu *file_menu = new wxMenu;
+  wxMenu *edit_menu = (wxMenu *) NULL;
 
   // This is magic, the shortcut keys just work from the menu name...
   file_menu->Append (wxID_NEW, "&New");
@@ -159,18 +152,10 @@ bool genApp::OnInit (void)
   // A nice touch: a history of files visited. Use this menu.
   m_docManager->FileHistoryUseMenu (file_menu);
 
-  wxMenu *
-    help_menu =
-    new
-    wxMenu;
-
+  wxMenu *help_menu = new wxMenu;
   help_menu->Append (GENMENU_ABOUT, "&About\tF1");
 
-  wxMenuBar *
-    menu_bar =
-    new
-    wxMenuBar;
-
+  wxMenuBar *menu_bar = new wxMenuBar;
   menu_bar->Append (file_menu, "&File");
   if (edit_menu)
     menu_bar->Append (edit_menu, "&Edit");
@@ -285,6 +270,9 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     nav_menu->Append (GENMENU_NEXTPAGE, "Next page\tF12");
     nav_menu->AppendSeparator();
     nav_menu->Append (GENMENU_LINETOOL, "Line");
+    nav_menu->AppendSeparator();
+    nav_menu->Append (GENMENU_LINECOLOR, "Line colour");
+    nav_menu->Append (GENMENU_CONTROLCOLOR, "Control point colour");
 
     menu_bar->Append (nav_menu, "Document");
   }

@@ -65,6 +65,9 @@ public:
   void OnPrevPage (wxCommandEvent & event);
   void OnLineTool (wxCommandEvent & event);
 
+  void OnLineColor (wxCommandEvent & event);
+  void OnControlColor (wxCommandEvent & event);
+
   void OnAboutDocument (wxCommandEvent & event);
 
   tool getCurrentTool();
@@ -73,15 +76,17 @@ public:
 
 private:
   bool populatePageFromPDF(pdfDoc *theDoc, string& filename);
+  void showColorDialog(string configTag);
 
   pageCache m_renders;
   int m_page;
   bool m_dirty;
   string m_currentToolDesc;
   tool m_currentTool;
+  genErrorHandler *errHandler;
 
   DECLARE_DYNAMIC_CLASS (pdfView)
-  DECLARE_EVENT_TABLE () genErrorHandler *errHandler;
+  DECLARE_EVENT_TABLE ()
 };
 
 

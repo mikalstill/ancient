@@ -188,6 +188,24 @@ configuration::getValue (const string & valkey, const int &defval,
 }
 
 void
+configuration::getValue (const string & valkey, const unsigned char &defval,
+			 unsigned char &outval)
+{
+  map < string, string, less < string > >::const_iterator i =
+    m_map.find (valkey);
+
+  if (i == m_map.end ())
+    {
+      outval = defval;
+      setValue (valkey, defval);
+    }
+  else
+    {
+      outval = atoi (m_map[valkey].c_str ());
+    }
+}
+
+void
 configuration::getValue (const string & valkey, const double &defval,
 			 double &outval)
 {
@@ -209,7 +227,6 @@ bool configuration::setValue (const string & valkey, const string & value)
 {
   m_map[valkey] = value;
   return save ();
-
 }
 
 bool
@@ -220,18 +237,25 @@ configuration::setValue (const string & valkey, const int &value)
   oss << value;
   m_map[valkey] = oss.str ();
   return save ();
-
 }
 
 bool configuration::setValue (const string & valkey, const double &value)
 {
-  ostringstream
-    oss;
+  ostringstream oss;
 
   oss << value;
   m_map[valkey] = oss.str ();
   return save ();
+}
 
+bool configuration::setValue (const string & valkey, 
+			      const unsigned char  &value)
+{
+  ostringstream oss;
+
+  oss << value;
+  m_map[valkey] = oss.str ();
+  return save ();
 }
 
 bool configuration::setValue (const string & valkey, const bool & value)

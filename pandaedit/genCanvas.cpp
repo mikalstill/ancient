@@ -109,7 +109,7 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
       if(m_controlPoints.size() > 0){
 	// Start the line we are drawing
 	// TODO mikal: fixed line colour
-	commandString += "q\n0 255 0 RG\n";
+	commandString += "q\n0.0 1.0 0.0 RG\n";
 	commandString += toString(m_controlPoints[0].x) + string(" ") +
 	  toString(m_height - m_controlPoints[0].y) + string(" m\n");
 
@@ -164,7 +164,7 @@ string
 genCanvas::controlBlob(unsigned int x, unsigned int y)
 {
   // TODO mikal: fixed blob colour
-  string rc("q\n255 0 0 RG\n");
+  string rc("q\n1.0 0.0 0.0 RG\n");
   for(unsigned int yc = y - CONTROLSIZE; yc < y + CONTROLSIZE + 1; yc++)
     rc += toString(x - CONTROLSIZE) + string(" ") + toString(m_height - yc) + 
       string(" m\n") +

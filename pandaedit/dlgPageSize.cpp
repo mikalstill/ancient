@@ -19,6 +19,7 @@
  */
 
 #include "dlgPageSize.h"
+#include "configuration.h"
 
 BEGIN_EVENT_TABLE (dlgPageSize, wxDialog) 
 EVT_BUTTON (wxID_OK, dlgPageSize::OnOK) 
@@ -31,6 +32,11 @@ dlgPageSize::dlgPageSize ():
 	    wxSize (300, 160)),
   m_valid(false)
 {
+  // We store the previous values in the config file so that the user gets
+  // presented with that as a default
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+
   m_panel = new wxPanel (this, -1, wxPoint (100, 100), wxSize (300, 200));
 
   new wxStaticText (m_panel, -1, "Please specify the size of the pages:",
@@ -38,15 +44,21 @@ dlgPageSize::dlgPageSize ():
 
   // TODO mikal: drop down with page sizes
 
+  // Width
+  string width;
+  config->getValue("user-pagesize-widthdefault", "500", width);
   new wxStaticText (m_panel, -1, "Width:", wxPoint (5, 75),
 		    wxSize (60, 20), wxALIGN_RIGHT);
-  m_width =
-    new wxTextCtrl (m_panel, -1, "200", wxPoint (70, 75), wxSize (50, 20));
+  m_width = new wxTextCtrl (m_panel, -1, width.c_str(), wxPoint (70, 75), 
+			    wxSize (50, 20));
 
+  // Height
+  string height;
+  config->getValue("user-pagesize-heightdefault", "500", height);
   new wxStaticText (m_panel, -1, "Height:", wxPoint (145, 75), wxSize (60, 20),
 		    wxALIGN_RIGHT);
-  m_height =
-    new wxTextCtrl (m_panel, -1, "200", wxPoint (210, 75), wxSize (50, 20));
+  m_height = new wxTextCtrl (m_panel, -1, height.c_str(), wxPoint (210, 75), 
+			     wxSize (50, 20));
 
   // TODO mikal: there are also validators and things like that we can use
   // here to make sure the user enters only a number...
@@ -70,9 +82,19 @@ dlgPageSize::OnQuit (wxCommandEvent & WXUNUSED (event))
 void
 dlgPageSize::OnOK (wxCommandEvent & WXUNUSED (event))
 {
+  // We store the previous values in the config file so that the user gets
+  // presented with that as a default
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+
   m_valid = true;
   m_x = atoi(m_width->GetValue().c_str());
   m_y = atoi(m_height->GetValue().c_str());
+
+  config->setValue("user-pagesize-widthdefault", 
+		   (string) m_width->GetValue());
+  config->setValue("user-pagesize-heightdefault", 
+		   (string) m_height->GetValue());
 
   EndModal (0);
   Destroy ();

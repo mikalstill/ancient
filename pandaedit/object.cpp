@@ -377,7 +377,8 @@ object::getCommandCount()
 // TODO mikal: this might not be the most efficient way of doing this. What
 // about pushing each into Panda individually?
 string
-object::getCommandStream(int index)
+object::getCommandStream(int index, bool showControl)
 {
-  return m_commands[index].control + string("\n") + m_commands[index].visible;
+  return (showControl ? (m_commands[index].control + string("\n")) :
+    string("")) + m_commands[index].visible;
 }

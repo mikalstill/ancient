@@ -514,7 +514,16 @@ pdfRender::render_RG ()
       return;
     }
 
+  // TODO mikal: colours should be in the range 0.0 -> 1.0, but we should
+  // be tolerant of values in the range 0 -> 255 as well...
 #if defined HAVE_LIBMPLOT
+  debug(dlTrace, string("Set line colour to: ") + 
+	toString((unsigned int) (255 * r)) + string(" (") + 
+	toString(r) + string("), ") +
+	toString((unsigned int) (255 * g)) + string(" (") + 
+	toString(g) + string("), ") +
+	toString((unsigned int) (255 * b)) + string(" (") + 
+	toString(b) + string(")") );
   plot_setlinecolor (m_plot, (unsigned int) (255 * r),
 		     (unsigned int) (255 * g), (unsigned int) (255 * b));
 #else
