@@ -34,6 +34,8 @@ usage (char *name)
   printf ("\t\t-d <prog>: Binary transfer decoder helper application\n");
   printf ("\t\t-e:        Excessive dumping mode. Show binary, hex and decimal\n");
   printf ("\t\t-I:        Do informational dumping (decode common blocks)\n");
+  printf ("\t\t              This will revert to the any specified dump modes if it\n");
+  printf ("\t\t              doesn't know how to decode the data...\n");
   printf ("\n");
   printf ("\t-i <name>: The name of the input usblog file\n");
   printf ("\t-l:        Output Linux kernel equivalent descriptions\n");
@@ -113,7 +115,7 @@ main (int argc, char *argv[])
   int fd, npackets, otag, urbCount, function, psize, tsrelative, temp, temp2,
     numifaces, seq, length, inset, testinset, corrstep, matchcount, optchar,
     do_suppress = 0, do_showmatch = 0, do_verbose = 0, do_bulk = 0;
-  char *file, *input_filename = NULL, *decoder = NULL;
+  char *file, *input_filename = NULL, *decoder = NULL, *tempbinary;
   long long filep;
   struct stat sb;
   usb_allurbs *urbhead;
@@ -456,15 +458,49 @@ main (int argc, char *argv[])
 			  urb_printf("\t\tNumber of configurations: %d\n", file[filep++]);
 			  break;
 
+			case 2:
+			  // CONFIGURATION DESCRIPTOR
+			  urb_printf("\tConfiguration descriptor:\n");
+
+			  urb_printf("\t\tTotal length: %d\n",
+				     fileutil_getshort(file, &filep));
+			  urb_printf("\t\tNumber of interfaces: %d\n",
+				     file[filep++]);
+			  urb_printf("\t\tConfiguration value: %d\n",
+				     file[filep++]);
+			  urb_printf("\t\tConfiguration description string index: %d\n",
+				     file[filep++]);
+
+			  tempbinary = to_binary(file[filep]);
+			  urb_printf("\t\tPower and wakeup settings: %s\n",
+				     tempbinary);
+			  free(tempbinary);
+			  if(file[filep] & 0x20) urb_printf("\t\t\tDevice is self powered\n");
+			  if(file[filep] & 0x10) urb_printf("\t\t\tRemote wakeup supported\n");
+			  filep++;
+
+			  urb_printf("\t\tBus power required: %d (millamperes / 2)\n",
+				     file[filep++]);
+
+			  // We need to jump to the end, because there might be more here...
+			  if(psize != 9)
+			    {
+			      urb_printf("\n\t\tExtra data:\n");
+			      dump_data(file, &filep, psize - 9, "DUMP");
+			      urb_printf("\n");
+			    }
+			  break;
+
 			default:
-			  urb_printf("\tUnknown control transfer (%d).\n\n", temp);
+			  urb_printf("\tUnknown control transfer (0x%02x).\n\n", 
+				     (unsigned char) temp);
 			  filep = priorfilep;
 			  dump_data(file, &filep, psize, "CTRL");
 			  break;
 			}
 		    }
 		  else
-	    {
+		    {
 		      dump_data(file, &filep, psize, "CTRL");
 		    }
                 }
@@ -774,6 +810,7 @@ usb_urb_header (char *file, long long *filep)
 
   urb_printf ("Flags: ");
   urb_printf_flags(fileutil_getuinteger (file, &count));
+  urb_printf("\n");
 
   *filep = count;
 }
@@ -1284,7 +1321,10 @@ void dump_data(char *file, long long *filep, int psize, char *type)
 
 	  if(do_excessivedumps == 1)
 	    {
-	      urb_printf("decimal(%3d) hex(%02x)\n\t", temp, temp);
+	      urb_printf("decimal(%3d) hex(%02x)", temp, temp);
+	      if(isgraph(temp))
+		urb_printf(" ascii(%c)", temp);
+	      urb_printf("\n\t");
 	    }
 	}
       else if (isgraph (file[count]))
