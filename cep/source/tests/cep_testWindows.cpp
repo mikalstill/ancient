@@ -26,7 +26,7 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 
 namespace {
@@ -99,6 +99,7 @@ protected:
     windower->window( makeData( size ), result );
 
     ofstream f("windows.txt", ios::trunc);
+    f << "Hamming Window Output" << endl;
     for( int i=0; i<result.getNumCols(); ++i ) {
       f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
     }
@@ -119,7 +120,7 @@ protected:
     windower->window( makeData( size ), result );
 
     ofstream f("windows.txt", ios::app);
-    f << endl << endl;
+    f << endl << endl << "Blackman Window Output" << endl;
     for( int i=0; i<result.getNumCols(); ++i ) {
       f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
     }
@@ -142,7 +143,7 @@ protected:
     windower->window( makeData( size ), result );
 
     ofstream f("windows.txt", ios::app);
-    f << endl << endl;
+    f << endl << endl << "Dolph Chebyshev Window Output" << endl;
     for( int i=0; i<result.getNumCols(); ++i ) {
       f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
     }
