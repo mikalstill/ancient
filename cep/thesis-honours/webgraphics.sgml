@@ -1,0 +1,31 @@
+<sect1><title>Selection of an image format for graph display</title>
+<para>
+Much though was expended on which image format to use for the plots displayed in the GDMS Internet interface. There are advantages and disadvantages to all the formats available at the time of writing this document. The following formats were considered for the GDMS Internet interface:
+</para>
+
+<sect2><title>TIFF</title>
+<para>
+TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the 
+TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992).
+</para>
+
+<para>
+The main advantage of the TIFF image format is that it is extemely mature. It has a large selection of options to ease the development of imaging software, for example the developer can use which ever endian representation is convenient for them, as well as such fundamental parameters as photometric interpretation (whether a high value is lighter or darker than a low value for a given colour sample within a pixel) (Adobe 1992). There is also a stable, well supported Open Source application programmers interface available to manage creation and interpretation of images within the TIFF format (Warmerdam &amp; Welles 2002). The interface to this library does not frequently change, which is also an advantage for future portability of the GDMS Internet interface.
+</para>
+
+<para>
+However, some of these very advantages lead to the disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in their being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002).
+</para>
+
+<para>
+TIFF is therefore an inappropriate image format for use for the GDMS Internet interface, as good browser support in as many browsers as possible is vital.
+</para>
+</sect2>
+
+<sect2><title>GIF</title>
+<para>
+The Graphics Interchange Format (GIF) was codeveloped by CompuServe Inc. and Unisys Corporation in the early 1990s. GIF is dependant on LZW compression , which is now having it's patent enforced by Unisys (Anonymous 2002).
+</para>
+</sect2>
+
+</sect1>

@@ -47,27 +47,7 @@ The GDMS Internet interface follows the recommendations of the most recent HTML 
 </para>
 </sect1>
 
-<sect1><title>Selection of an image format for graph display</title>
-<para>
-Much though was expended on which image format to use for the plots displayed in the GDMS Internet interface. There are advantages and disadvantages to all the formats available at the time of writing this document. The following formats were considered for the GDMS Internet interface:
-</para>
-
-<sect2><title>TIFF</title>
-<para>
-TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the 
-TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992).
-</para>
-
-<para>
-The main advantage of the TIFF image format is that it is extemely mature. It has a large selection of options to ease the development of imaging software, for example the developer can use which ever endian representation is convenient for them, as well as such fundamental parameters as photometric interpretation (whether a high value is lighter or darker than a low value for a given colour sample within a pixel) (Adobe 1992). There is also a stable, well supported Open Source application programmers interface available to manage creation and interpretation of images within the TIFF format (Warmerdam &amp; Welles 2002). The interface to this library does not frequently change, which is also an advantage for future portability of the GDMS Internet interface.
-</para>
-
-<para>
-However, some of these very advantages lead to the disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in their being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002)
-</para>
-</sect2>
-
-</sect1>
+<execute><cmd>builddb</cmd><input>webgraphics.sgml</input></execute>
 
 </chapter>
 
@@ -91,30 +71,8 @@ This appendix documents the various tags which are implemented by the GDMS Inter
 
 <chapter><title>Appendix Four: References</title>
 <sect1><title>References</title>
-<para>
-Adobe, 3 June 1992, 
-<emphasis>TIFF Revision 6.0</emphasis>, 
-[Online] http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf
-</para>
-
-<para>
-Raggett, D., Le Hors, A., Jacobs, I., 24 December 1999 [last update], 
-<emphasis>HTML 4.01 Specification</emphasis>, 
-[Online] Available: http://www.w3.org/TR/html4/
-</para>
-
-<para>
-Bither, B., [Last accessed] November 2002,
-<emphasis>Benefits of the PNG Image Format</emphasis>,
-[Online] Available: http://www.atalasoft.com/png.asp
-</para>
-
-<para>
-Warmerdam, F. and Welles, M., 24 January 2002 [last update],
-<emphasis>The libtiff home page</emphasis>,
-[Online] http://www.libtiff.org/
-</para>
-
+<execute><cmd>insertall</cmd><args>builddb . "ref-*"</args></execute>
 </sect1>
 </chapter>
 </book>
+

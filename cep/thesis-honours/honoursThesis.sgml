@@ -63,7 +63,17 @@ The main advantage of the TIFF image format is that it is extemely mature. It ha
 </para>
 
 <para>
-However, some of these very advantages lead to the disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in their being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002)
+However, some of these very advantages lead to the disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in their being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002).
+</para>
+
+<para>
+TIFF is therefore an inappropriate image format for use for the GDMS Internet interface, as good browser support in as many browsers as possible is vital.
+</para>
+</sect2>
+
+<sect2><title>GIF</title>
+<para>
+The Graphics Interchange Format (GIF) was codeveloped by CompuServe Inc. and Unisys Corporation in the early 1990s. GIF is dependant on LZW compression , which is now having it's patent enforced by Unisys (Anonymous 2002).
 </para>
 </sect2>
 
@@ -505,19 +515,21 @@ Adobe, 3 June 1992,
 <emphasis>TIFF Revision 6.0</emphasis>, 
 [Online] http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf
 </para>
-
 <para>
-Raggett, D., Le Hors, A., Jacobs, I., 24 December 1999 [last update], 
-<emphasis>HTML 4.01 Specification</emphasis>, 
-[Online] Available: http://www.w3.org/TR/html4/
+Anonymous, 2 February 2002,
+<emphasis>The GIF Controversy: A Software Developer's Perspective</emphasis>, 
+[Online] http://www.cloanto.com/users/mcb/19950127giflzw.html
 </para>
-
 <para>
 Bither, B., [Last accessed] November 2002,
 <emphasis>Benefits of the PNG Image Format</emphasis>,
 [Online] Available: http://www.atalasoft.com/png.asp
 </para>
-
+<para>
+Raggett, D., Le Hors, A., Jacobs, I., 24 December 1999 [last update], 
+<emphasis>HTML 4.01 Specification</emphasis>, 
+[Online] Available: http://www.w3.org/TR/html4/
+</para>
 <para>
 Warmerdam, F. and Welles, M., 24 January 2002 [last update],
 <emphasis>The libtiff home page</emphasis>,
@@ -527,3 +539,4 @@ Warmerdam, F. and Welles, M., 24 January 2002 [last update],
 </sect1>
 </chapter>
 </book>
+
