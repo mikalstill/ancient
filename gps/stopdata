@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rmmod cypress_m8
+rmmod usbserial
+rmmod uhci_hcd

@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+
+while(<STDIN>){
+  s/^.* at //;
+  s/ gps fix.*\(/ /;
+  s/ kmh\).*//;
+  s/ S//;
+  s/ E//;
+  s/\.//g;
+
+  print $_;
+}
