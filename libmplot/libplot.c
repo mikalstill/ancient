@@ -78,6 +78,7 @@ plot_newplot (unsigned int x, unsigned int y)
   state->linecap = 0;
   state->linejoin = 0;
   state->linedashlen = 0;
+  state->linedash = NULL;
 
   state->fillcolor.r = 0;
   state->fillcolor.g = 0;
@@ -249,8 +250,41 @@ plot_addlinesegment (plot_state * state, unsigned int x, unsigned int y)
   state->peny = y;
 }
 
-// todo_doco
-// Add a bezier curve to the raster
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_addcubiccurvesegment
+PURPOSE add a Bezier with two control points to the polygon we are drawing
+
+SYNOPSIS START
+#include&lt;libmplot.h&gt;
+void plot_addcubiccurvesegment (plot_state * state,
+			   unsigned int inx1, unsigned int iny1,
+			   unsigned int inx2, unsigned int iny2,
+			   unsigned int inx3, unsigned int iny3);
+SYNOPSIS END
+
+DESCRIPTION This function adds a Bezier curve between the current pen location and (inx1, iny1) to the current polygon. This curve will have two control points: (inx2, iny2) and (inx3, iny3).
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libmplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setlinestart(graph, 20, 20);
+plot_addcubiccurvesegment(graph, 20, 120, 40, 40, 100, 0);
+plot_strokeline(graph);
+plot_closeline(graph);
+EXAMPLE END
+
+DOCBOOK END
+******************************************************************************/
+
 void
 plot_addcubiccurvesegment (plot_state * state,
 			   unsigned int inx1, unsigned int iny1,
@@ -279,6 +313,39 @@ plot_addcubiccurvesegment (plot_state * state,
       plot_addlinesegment(state, (unsigned int) calcx, (unsigned int) calcy);
     }
 }
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_addquadraticcurvesegmentone
+PURPOSE add a Bezier with one control point to the polygon we are drawing
+
+SYNOPSIS START
+#include&lt;libmplot.h&gt;
+void plot_addcubiccurvesegmentone (plot_state * state,
+			   unsigned int inx1, unsigned int iny1,
+			   unsigned int inx2, unsigned int iny2);
+SYNOPSIS END
+
+DESCRIPTION This function adds a Bezier curve between the current pen location and (inx1, iny1) to the current polygon. This curve will have two control points: the current pen location and (inx3, iny3).
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libmplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setlinestart(graph, 20, 20);
+plot_addquadraticcurvesegmentone(graph, 20, 120, 40, 40);
+plot_strokeline(graph);
+plot_closeline(graph);
+EXAMPLE END
+
+DOCBOOK END
+******************************************************************************/
 
 void
 plot_addquadraticcurvesegmentone (plot_state * state,
@@ -287,6 +354,40 @@ plot_addquadraticcurvesegmentone (plot_state * state,
 {
   plot_addcubiccurvesegment(state, x1, y1, state->penx, state->peny, x2, y2);
 }
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_addquadraticcurvesegmenttwo
+PURPOSE add a Bezier with one control point to the polygon we are drawing
+
+SYNOPSIS START
+#include&lt;libmplot.h&gt;
+void plot_addquadraticcurvesegmenttwo (plot_state * state,
+			   unsigned int inx1, unsigned int iny1,
+			   unsigned int inx2, unsigned int iny2);
+SYNOPSIS END
+
+DESCRIPTION This function adds a Bezier curve between the current pen location and (inx1, iny1) to the current polygon. This curve will have two control points: (inx2, iny2) and (inx1, iny1).
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libmplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setlinestart(graph, 20, 20);
+plot_addquadraticcurvesegmenttwo(graph, 20, 120, 40, 40);
+plot_strokeline(graph);
+plot_closeline(graph);
+EXAMPLE END
+
+DOCBOOK END
+******************************************************************************/
 
 void
 plot_addquadraticcurvesegmenttwo (plot_state * state,
@@ -537,9 +638,37 @@ plot_drawpointactual (plot_state * state, plot_pixel color, int isLine, unsigned
   state->raster[ptr] = color;
 }
 
-// Fill a polygon with the stated color -- I suspect this routine is outlandishly inefficient, but I
-// am too tired to think of a better way to do it... This only implements the even odd rule at the 
-// moment.
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_fillline
+PURPOSE fill the current polygon with the current fill color
+
+SYNOPSIS START
+#include&lt;libmplot.h&gt;
+void plot_fillline (plot_state * state);
+SYNOPSIS END
+
+DESCRIPTION This function uses the even odd rule (in two directions) to determine if a point is inside the current polygon, and then based on that decision colors all of the points which are inside the polygon with the current fill color.
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libmplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+... draw polygon ...
+plot_fillline(graph);
+plot_endline(graph);
+EXAMPLE END
+
+DOCBOOK END
+******************************************************************************/
+
 // todo_mikal: non-zero winding rule as well
 void
 plot_fillline (plot_state * state)
@@ -558,6 +687,7 @@ plot_fillline (plot_state * state)
     {
       for(col = 0; col < state->x; col++)
 	{
+	  // The first direction is forwards
 	  intersects = 0;
 	  if(tempstate->raster[row * state->x + col].r != 0)
 	    {
@@ -574,7 +704,8 @@ plot_fillline (plot_state * state)
 			intersects++;
 		    }
 		}
-	      
+
+	      // The other direction is backwards
 	      if(intersects % 2 == 1)
 		{
 		  intersects = 0;
@@ -601,7 +732,35 @@ plot_fillline (plot_state * state)
     }
 }
 
-// State modification functions
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_setlinewidth
+PURPOSE sets the current width of the line to be drawn
+
+SYNOPSIS START
+#include&lt;libmplot.h&gt;
+void panda_setlinewidth(plot_state *state, int widthx, int widthy);
+SYNOPSIS END
+
+DESCRIPTION This function sets the size of the line (vertically and horizontally) which the polygon will be stroked with. The line drawn is centered around the actual point which is on the polygon.
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libmplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setlinewidth(graph, 4, 1);
+EXAMPLE END
+
+DOCBOOK END
+******************************************************************************/
+
 void
 plot_setlinewidth (plot_state * state, int w, int h)
 {
@@ -621,11 +780,47 @@ plot_setlinejoin (plot_state * state, int j)
   fprintf (stderr, "todo\n");
 }
 
-// Allow people to apply a dashing to the lines they draw...
-// todo_mikal: fix leak
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_setlinedash
+PURPOSE sets the dashing pattern used to stroke lines
+
+SYNOPSIS START
+#include&lt;libmplot.h&gt;
+void panda_setlinedash(plot_state *state, int length, char *dash);
+SYNOPSIS END
+
+DESCRIPTION START
+This function takes the length of the dashing pattern (in bytes), and the dashing pattern itself. The dashing pattern is expressed in the form of a char * where a given byte is \0 if the point is not to be drawn, or \1 if it is to be drawn. See the example for an example...
+</para>
+
+<para>
+This dashing pattern is applied by cycling through the pattern, one step per pixel drawn. This might not have the expected effect for think lines.
+DESCRIPTION END
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libmplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setlinedash(graph, 4, "\0\0\1\1");
+EXAMPLE END
+
+DOCBOOK END
+******************************************************************************/
+
 void
 plot_setlinedash (plot_state * state, int length, char *dashing)
 {
+  if(state->linedash != NULL)
+    free(state->linedash);
+
   state->linedashlen = length;
   if((state->linedash = malloc(sizeof(char) * length)) == NULL){
     fprintf(stderr, "Could not allocate dash storage\n");
@@ -793,8 +988,37 @@ plot_rectanglerot (plot_state * state, unsigned int x1, unsigned int y1,
   fprintf (stderr, "todo\n");
 }
 
-#define pi 3.1415
+/******************************************************************************
+DOCBOOK START
 
+FUNCTION plot_setcircle
+PURPOSE draw a circle
+
+SYNOPSIS START
+#include&lt;libmplot.h&gt;
+void plot_circle (plot_state * state, unsigned int x, unsigned int y, unsigned int r);
+SYNOPSIS END
+
+DESCRIPTION This function draws a circle centered around (x, y), and with a radius of r.
+
+RETURNS Nothing
+
+EXAMPLE START
+#include&lt;libmplot.h&gt;
+plot_state *graph;
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_circle(graph, 10, 10, 3);
+plot_strokeline(graph);
+EXAMPLE END
+
+DOCBOOK END
+******************************************************************************/
+
+#define pi 3.1415
 void
 plot_circle (plot_state * state, unsigned int x, unsigned int y,
 	     unsigned int r)

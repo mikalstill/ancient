@@ -22,6 +22,6 @@ if((graph = plot_newplot(400, 300)) == NULL){
 }
 
 EXAMPLE END
-SEEALSO plot_newplot plot_getraster plot_setlinestart plot_addlinesegment plot_addcubiccurvesegment plot_addquadraticcurvesegmentone plot_addquadraticcurvesegmenttwo plot_closeline plot_endline plot_strokeline plot_fillline plot_setlinewidth plot_setlinecap plot_setlinejoin plot_setlinedash plot_setfillcolor plot_setlinecolor plot_rectangle plot_rectanglerot
+
 DOCBOOK END
 ******************************************************************************/
