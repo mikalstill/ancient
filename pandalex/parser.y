@@ -115,12 +115,14 @@ object    : INT INT OBJ { pandalex_callback(pandalex_event_objstart, $1, $2); }
             stream ENDOBJ { pandalex_callback(pandalex_event_objend, $1, $2); }
           ;
 
+// todo_mikal: I don't think these array things work, as they are matched by bracketted string rules
 dictionary: DBLLT dict DBLGT { $$ = -1; }
           | INT { $$ = $1; }
-          | ARRAY arrayvals ENDARRAY { $$ = -1; }
+          | ARRAY { pandalex_callback(pandalex_event_dictitem_arraystart, "STREAM"); } arrayvals ENDARRAY 
+               { pandalex_callback(pandalex_event_dictitem_arrayend, "STREAM"); $$ = -1; }
           | objref { $$ = -1; }
           | NAME { $$ = -1; }
-          | STRING { $$ = -1; }
+          | STRING { pandalex_callback(pandalex_event_dictitem_string, "STREAM", $1.data); $$ = -1; }
           | { $$ = -1; }
           ;
 
