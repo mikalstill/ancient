@@ -106,6 +106,7 @@ DOCBOOK END
 #include <iostream>
 #include <math.h>
 #include <stdlib.h>
+#include <vector>
 
 #include  "cepMatrix.h"
 

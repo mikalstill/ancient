@@ -415,130 +415,68 @@ void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<d
 
 void cepLs::reweightVCV(cepMatrix<double> &matP)
 {
-  cepMatrix<double> tempResidual;
+  vector<double> tempResidual;
   int numSwap = -1, median;
   double temp, per25, per75, upperQ, lowerQ;
-
   m_error.init();
 
   //calculate tempResidual^T * matP
   //this removes any previously detected outliers from the calculations
   for(int i = 0; i < m_residual.getNumRows(); i++)
   {
-    if(matP.getValue(i,i) == 0)
+    if(matP.getValue(i,i) != 0)
     {
-      cout << "setting " << i << " to zero " << endl;
-      m_residual.setValue(i,0,0);
+      tempResidual.push_back(m_residual.getValue(i, 0));
     }
   }
 
-  tempResidual = m_residual;
-
   //sort residuals in ascending order
-  for(int i = 0; i < tempResidual.getNumRows(); i ++){
+  for(int i = 0; i < (signed)tempResidual.size(); i ++)
+  {
     if(numSwap == 0)
     {
       break;
     }
 
     numSwap = 0;
-    for(int j = 0; j < tempResidual.getNumRows() - 1 - i; j ++){
-      if(tempResidual.getValue(j,0) > tempResidual.getValue(j+1, 0))
+    for(int j = 0; j < (signed)tempResidual.size() - 1 - i; j ++)
+    {
+      if(tempResidual[j] > tempResidual[j+1])
       {
-        temp = tempResidual.getValue(j,0);
-        if(tempResidual.getError().isReal() == true)
-        {
-          m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-          return;
-        }
-
-        tempResidual.setValue(j,0,tempResidual.getValue(j+1,0));
-        if(tempResidual.getError().isReal() == true)
-        {
-          m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-          return;
-        }
-
-        tempResidual.setValue(j+1, 0, temp);
-        if(tempResidual.getError().isReal() == true)
-        {
-          m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-          return;
-        }
+        temp = tempResidual[j];
+        tempResidual[j] = tempResidual[j+1];
+        tempResidual[j+1] = temp;
         numSwap++;
       }
     }
   }
 
+  median = tempResidual.size()/2;
   //calc lower & upper quartiles
-  if((tempResidual.getNumRows() % 2) == 0)
+  if((tempResidual.size() % 2) == 0)
   {
-    median = tempResidual.getNumRows()/2;
-  
     if(median %2 == 0)
     {
-      lowerQ = (tempResidual.getValue(median/2 - 1,0) + tempResidual.getValue((median/2),0))/2;
-      if(tempResidual.getError().isReal() == true)
-      {
-        m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return;
-      }
-      upperQ = (tempResidual.getValue(median/2 + median - 1,0) + tempResidual.getValue((median/2) + median,0))/2;
-      if(tempResidual.getError().isReal() == true)
-      {
-        m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return;
-      }
+      lowerQ = (tempResidual[median/2 - 1] + tempResidual[median/2])/2;
+      upperQ = (tempResidual[median/2 + median - 1] + tempResidual[median/2 + median])/2;
     }
     else
     {
-      lowerQ = tempResidual.getValue(median/2,0);      
-      if(tempResidual.getError().isReal() == true)
-      {
-        m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return;
-      }
-      upperQ = tempResidual.getValue(median/2 + median,0);
-      if(tempResidual.getError().isReal() == true)
-      {
-        m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return;
-      }
+      lowerQ = tempResidual[median/2];      
+      upperQ = tempResidual[median/2 + median];
     }
   }
   else
   {
-    median = tempResidual.getNumRows()/2;
-
     if(median %2 == 0)
     {
-      lowerQ = tempResidual.getValue(median/2,0);
-      if(tempResidual.getError().isReal() == true)
-      {
-        m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return;
-      }
-      upperQ = tempResidual.getValue((median/2) + median,0);
-      if(tempResidual.getError().isReal() == true)
-      {
-        m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return;
-      }
+      lowerQ = tempResidual[median/2];
+      upperQ = tempResidual[(median/2) + median];
     }
     else
     {
-      lowerQ = (tempResidual.getValue(median/2,0) + tempResidual.getValue(median/2 +1,0))/2;
-      if(tempResidual.getError().isReal() == true)
-      {
-        m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return;
-      }
-      upperQ = (tempResidual.getValue(median/2 + median,0) + tempResidual.getValue(median/2 + 1 + median,0))/2;
-      if(tempResidual.getError().isReal() == true)
-      {
-        m_error.setError(tempResidual.getError().getMessage(), cepError::sevErrorRecoverable);
-        return;
-      }
+      lowerQ = (tempResidual[median/2] + tempResidual[median/2 + 1])/2;
+      upperQ = (tempResidual[median/2 + median] + tempResidual[median/2 + 1 + median])/2;
     }
   }  
 
@@ -548,32 +486,18 @@ void cepLs::reweightVCV(cepMatrix<double> &matP)
   cout << endl << "######################" << endl;
   cout << "per25 " << per25 << endl;
   cout << "per75 " << per75 << endl;
+
   //create new P matrix
   for(int i = 0; i < matP.getNumRows(); i ++)
   {
-    for(int j = 0; j < matP.getNumCols(); j ++)
+    if((m_residual.getValue(i,0) < per25) || (m_residual.getValue(i,0) > per75))
     {
-      if(i != j)
+      cout << "found outlier at: " << i << " value is " << m_residual.getValue(i, 0) <<  endl;
+      matP.setValue(i, i, 0);
+      if(matP.getError().isReal() == true)
       {
-        matP.setValue(i,j,0);
-        if(matP.getError().isReal() == true)
-        {
-          m_error.setError(matP.getError().getMessage(), cepError::sevErrorRecoverable);
-          return;
-        }
-      }
-      else
-      {
-        if((m_residual.getValue(i,0) < per25) || (m_residual.getValue(i,0) > per75))
-        {
-          cout << "found outlier at: " << i << " value is " << m_residual.getValue(i, 0) <<  endl;
-          matP.setValue(i, j, 0);
-          if(matP.getError().isReal() == true)
-          {
-            m_error.setError(matP.getError().getMessage(), cepError::sevErrorRecoverable);
-            return;
-          }
-        }
+        m_error.setError(matP.getError().getMessage(), cepError::sevErrorRecoverable);
+        return;
       }
     }
   }    
@@ -792,14 +716,14 @@ void cepLs::makeDatasets(cepMatrix<double> &data, cepMatrix<double> &matP)
     if(matP.getValue(i,i) == 0)
     {
       newResiduals.setValue(i,1, 0);     
-      newDataset.setValue(i, 3, 2);
-      newResiduals.setValue(i, 3, 2);
+      newDataset.setValue(i, 3, 1);
+      newResiduals.setValue(i, 3, 1);
     }
     else
     {
       newResiduals.setValue(i,1, m_residual.getValue(i, 0));
-      newDataset.setValue(i, 3, 1);
-      newResiduals.setValue(i, 3, 1);
+      newDataset.setValue(i, 3, 0);
+      newResiduals.setValue(i, 3, 0);
     }
   }
   m_residData = newResiduals;
