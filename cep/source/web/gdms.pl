@@ -17,22 +17,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-# This is the broker between the GDMS code and the CGI server. It's role is to
-# parse templates, execute requests, and cache results for speedy processing
-# next time that request is seen...
+# This is the broker between the GDMS code and the CGI server. It's 
+# role is to parse templates, execute requests, and cache results for 
+# speedy processing next time that request is seen...
 use strict;
 use CGI;
 
 my($result, $command, $TEMP);
 
 # Variables set by the config file
-my($templates, $datasets, $commandentry, $discommandentry, $selectstart, $selectentry, $selectend, $plotcache, $tmpdir, $rooturl, $ploturl, $gdms, $temp);
+my($templates, $datasets, $matrices, $commandentry, $discommandentry, 
+   $selectstart, $selectentry, $selectend, $plotcache, $tmpdir, 
+   $rooturl, $ploturl, $gdms, $temp);
 
 # Setup the CGI module
 $result = new CGI();
 
 # Read in the config file
-eval `cat gdms.config` or die "GDMSweb $$: Could not read config file: $@";
+eval `cat gdms.config` or die 
+    "GDMSweb $$: Could not read config file: $@";
 $temp = $gdms;
 $temp =~ s/\/.*$//;
 
@@ -42,23 +45,30 @@ if($command eq ""){
     $command = "main";
 }
 
-# Some pages just do some processing and then immediately redirect to another page.
-# I need to deal with these before I can display the page headers
+# Some pages just do some processing and then immediately redirect to 
+# another page. I need to deal with these before I can display the 
+# page headers
 print STDERR "GDMSweb $$: Processing $command\n";
-print STDERR "GDMSweb $$: Dataset is permanent\n" if($result->param('intype') eq "");
-print STDERR "GDMSweb $$: Dataset is temporary\n" if($result->param('intype') ne "");
+print STDERR "GDMSweb $$: Dataset is permanent\n" 
+    if($result->param('intype') eq "");
+print STDERR "GDMSweb $$: Dataset is temporary\n" 
+    if($result->param('intype') ne "");
  
 if($command eq "lsprocess"){
-    $temp = "$rooturl?dataset=".$result->param('dataset')."-ls".$result->param('reweight');
+    $temp = "$rooturl?dataset=".$result->param('dataset')."-ls".
+	$result->param('reweight');
 
-    # If we are using manual reweighting, then we need to get more information
+    # If we are using manual reweighting, then we need to get more 
+    # information
     if($result->param('reweight') ne "auto"){
-	$temp = $temp."&command=lsreweight";
+	$temp = $temp."&command=lsreweight&dir=north";
     }
     else{
-	$temp = $temp."&command=lsselect&data=".$result->param('dataset')."-ls".
-	$result->param('reweight')."-data&residuals=".$result->param('dataset')."-ls".
-	$result->param('reweight')."-residuals";
+	$temp = $temp."&command=lsselect&data=".
+	    $result->param('dataset')."-ls".
+	    $result->param('reweight')."-data&residuals=".
+	    $result->param('dataset')."-ls".
+	    $result->param('reweight')."-residuals";
 	
 	# Do the processing here
 	performLs("auto");
@@ -70,13 +80,35 @@ if($command eq "lsprocess"){
     $temp = $temp."&intype=temp";
 
     # And now bounce of to the real page
-    print STDERR "GDMSweb $$: Redirecting after LS to: $temp\n";
+    print STDERR "GDMSweb $$: Redirecting after automatic LS to: $temp\n";
+    print $result->redirect($temp);
+    exit;
+}
+elsif($command eq "lsprocesstwo"){
+    $temp = "$rooturl?dataset=".$result->param('dataset')."-ls".
+	$result->param('reweight');
+
+    $temp = $temp."&command=lsselect&data=".$result->param('dataset').
+	"-ls".$result->param('reweight')."-data&residuals=".
+	$result->param('dataset')."-ls".
+	$result->param('reweight')."-residuals";
+    
+    # Do the processing here
+    performLs($result->param('lsargs'));
+
+    if($result->param('desc') ne ""){
+	$temp = $temp."&desc=".$result->param('desc');
+    }
+    $temp = $temp."&intype=temp";
+
+    # And now bounce of to the real page
+    print STDERR "GDMSweb $$: Redirecting after manual LS to: $temp\n";
     print $result->redirect($temp);
     exit;
 }
 elsif($command eq "windowprocess"){
-    $temp = "$rooturl?dataset=".$result->param('dataset')."-win".$result->param('wtype').
-	"&command=plot";
+    $temp = "$rooturl?dataset=".$result->param('dataset')."-win".
+	$result->param('wtype')."&command=plot";
     if($result->param('desc') ne ""){
 	$temp = $temp."&desc=".$result->param('desc');
     }
@@ -91,8 +123,8 @@ elsif($command eq "windowprocess"){
     exit;
 }
 elsif($command eq "interpprocess"){
-    $temp = "$rooturl?dataset=".$result->param('dataset')."-interp".$result->param('itype').
-	"&command=plot";
+    $temp = "$rooturl?dataset=".$result->param('dataset')."-interp".
+	$result->param('itype')."&command=plot";
     if($result->param('desc') ne ""){
 	$temp = $temp."&desc=".$result->param('desc');
     }
@@ -107,7 +139,8 @@ elsif($command eq "interpprocess"){
     exit;
 }
 elsif($command eq "fftprocess"){
-    $temp = "$rooturl?dataset=".$result->param('dataset')."-fft&command=plot";
+    $temp = "$rooturl?dataset=".$result->param('dataset').
+	"-fft&command=plot";
     if($result->param('desc') ne ""){
 	$temp = $temp."&desc=".$result->param('desc');
     }
@@ -129,14 +162,14 @@ exit;
 
 
 
-###############################################################################
+######################################################################
 # Find the template file, and then parse it
 sub processTemplate(@args){
     my($file) = @_;
     my($pre, $post, $cmd, $output, $len, $line);
 
-    # This local usage is used to make the TEMPLATE filehandle local to this
-    # subroutine...
+    # This local usage is used to make the TEMPLATE filehandle local 
+    # to this subroutine...
     local *TEMPLATE;
     print STDERR "GDMSweb $$: Processing template file: $file\n";
 
@@ -146,7 +179,8 @@ sub processTemplate(@args){
 	open TEMPLATE, "< $templates/commandnotfound.html";
     }
     while(<TEMPLATE>){
-	# Repeatedly process a line until there are not more template commands
+	# Repeatedly process a line until there are not more template 
+	# commands
 	$line = $_;
 	$len = -1;
 
@@ -188,7 +222,10 @@ sub processTemplate(@args){
 			$linecount = `cat $datasets/$tempfile.dat1 | wc -l`;
 			$temptotal = $temptotal.
 			    substHTML($selectentry, 
-				      "<a href=\"$rooturl?command=plot&dataset=$tempfile\">$tempfile<\/a> ".
+				      "<a href=\"$rooturl?".
+				      "command=plot&".
+				      "dataset=$tempfile\">".
+				      $tempfile."<\/a> ".
 				      "($linecount lines)");
 		    }
 		    close TEMP;
@@ -197,7 +234,8 @@ sub processTemplate(@args){
 		}
 		elsif($cmd eq "motd"){
 		    # Output a message of the day
-		    $line = $pre.processTemplate("$templates/motd.html").$post;
+		    $line = $pre.processTemplate("$templates/motd.html").
+			$post;
 		}
 		elsif($cmd eq "northplot"){
 		    # A plot in the X;
@@ -212,25 +250,70 @@ sub processTemplate(@args){
 		    $line = $pre.generateAndLink("z").$post;
 		}
 		elsif($cmd eq "lsparams"){
-		    # Output a HTML form for the parameters of a LS regression
-		    $line = $pre.generateForm("lsprocess", $result->param('dataset'), 
-					      "$templates/lsparams.html").$post;
+		    # Output a HTML form for the parameters of a LS 
+		    # regression
+		    $line = $pre.generateForm("lsprocess", 
+					      $result->param('dataset'), 
+					      "$templates/lsparams.html").
+						  $post;
 		}
 		elsif($cmd eq "lsselect"){
-		    $line = $pre."<a href=\"$rooturl?dataset=".$result->param('data').
+		    $line = $pre."<a href=\"$rooturl?dataset=".
+			$result->param('data').
 			"&command=plot&intype=temp\">Data</a><br>".
-			"<a href=\"$rooturl?dataset=".$result->param('residuals').
-			"&command=plot&intype=temp\">Residuals</a>".$post;
+			"<a href=\"$rooturl?dataset=".
+			$result->param('residuals').
+			"&command=plot&intype=temp\">Residuals</a>".
+			$post;
+		}
+		elsif($cmd eq "lsreweightdir"){
+		    $line = $pre.$result->param('dir').$post;
 		}
 		elsif($cmd eq "winparams"){
-		    # Output a HTML form for the parameters of a LS regression
-		    $line = $pre.generateForm("windowprocess", $result->param('dataset'), 
-					      "$templates/winparams.html").$post;
+		    # Output a HTML form for the parameters of a 
+		    # windowing operation
+		    $line = $pre.generateForm("windowprocess", 
+					      $result->param('dataset'), 
+					      "$templates/winparams.html").
+						  $post;
 		}
 		elsif($cmd eq "interpparams"){
-		    # Output a HTML form for the parameters of a LS regression
-		    $line = $pre.generateForm("interpprocess", $result->param('dataset'), 
-					      "$templates/interpparams.html").$post;
+		    # Output a HTML form for the parameters of a
+		    # interpolation operation
+		    $line = $pre.generateForm("interpprocess", 
+					      $result->param('dataset'), 
+					      "$templates/interpparams.html").
+						  $post;
+		}
+		elsif($cmd eq "matrices"){
+		    # List the datasets in the dataset directory
+		    my($temptotal, $next);
+		    $temptotal = "";
+
+		    if($result->param('dir') eq "north"){
+			$next = "command=lsreweight&dir=east";
+		    }
+		    elsif($result->param('dir') eq "east"){
+			$next = "command=lsreweight&dir=up";
+		    }
+		    else{
+			$next = "command=lsprocesstwo&lsreweight=manual";
+		    }
+
+		    open TEMP, "find $matrices -type f -name \"*.mat\" |";
+		    while(<TEMP>){
+			chomp;
+			s/$matrices//;
+
+			$temptotal = $temptotal.
+			    substHTML($selectentry, 
+				      "<a href=\"$rooturl?$next&lsargs=".
+				      $result->param('lsargs').
+				      "$matrices/$_,\">$_<\/a>");
+		    }
+		    close TEMP;
+		    
+		    $line = $pre.$temptotal.$post;
 		}
 	    }
 	}
@@ -250,36 +333,47 @@ sub getCommands(@args){
     # If there is no current dataset
     if($result->param('dataset') eq ""){
 	# Dataset open
-	$output = $output.substHTML($commandentry, "<a href=\"$rooturl?command=open\">Open<\/a>");
+	$output = $output.substHTML($commandentry, 
+				    "<a href=\"$rooturl?command=open\">Open<\/a>");
 	
 	# Maths
-	$output = $output.substHTML($discommandentry, "Least squares");
+	$output = $output.substHTML($discommandentry, 
+				    "Least squares");
 	$output = $output.substHTML($discommandentry, "Windowing");
 	$output = $output.substHTML($discommandentry, "Interpolation");
 	$output = $output.substHTML($discommandentry, "FFT");
     }
     else{
 	# Datset open
-	$output = $output.substHTML($commandentry, "<a href=\"$rooturl?command=open\">Open<\/a>");
+	$output = $output.substHTML($commandentry, 
+				    "<a href=\"$rooturl?command=open\">Open<\/a>");
 
 	# Maths
-	$temp = "<a href=\"$rooturl?command=ls&dataset=".$result->param('dataset');
-	$temp = $temp."&intype=temp" if($result->param('intype') ne "");
+	$temp = "<a href=\"$rooturl?command=ls&dataset=".
+	    $result->param('dataset');
+	$temp = $temp."&intype=temp" 
+	    if($result->param('intype') ne "");
 	$temp = $temp."\">Least squares</a>";
 	$output = $output.substHTML($commandentry, $temp);
 
-	$temp = "<a href=\"$rooturl?command=window&dataset=".$result->param('dataset');
-	$temp = $temp."&intype=temp" if($result->param('intype') ne "");
+	$temp = "<a href=\"$rooturl?command=window&dataset=".
+	    $result->param('dataset');
+	$temp = $temp."&intype=temp" 
+	    if($result->param('intype') ne "");
 	$temp = $temp."\">Windowing</a>";
 	$output = $output.substHTML($commandentry, $temp);
 
-	$temp = "<a href=\"$rooturl?command=interp&dataset=".$result->param('dataset');
-	$temp = $temp."&intype=temp" if($result->param('intype') ne "");
+	$temp = "<a href=\"$rooturl?command=interp&dataset=".
+	    $result->param('dataset');
+	$temp = $temp."&intype=temp" 
+	    if($result->param('intype') ne "");
 	$temp = $temp."\">Interpolation</a>";
 	$output = $output.substHTML($commandentry, $temp);
 
-	$temp = "<a href=\"$rooturl?command=fftprocess&dataset=".$result->param('dataset');
-	$temp = $temp."&intype=temp" if($result->param('intype') ne "");
+	$temp = "<a href=\"$rooturl?command=fftprocess&dataset=".
+	    $result->param('dataset');
+	$temp = $temp."&intype=temp" 
+	    if($result->param('intype') ne "");
 	$temp = $temp."\">FFT</a>";
 	$output = $output.substHTML($commandentry, $temp);
     }
@@ -297,8 +391,8 @@ sub substHTML(@args){
     return $temp;
 }
 
-# This subroutine deals with generating plots as required and then outputs
-# the HTML needed to link to that image
+# This subroutine deals with generating plots as required and then 
+# outputs the HTML needed to link to that image
 sub generateAndLink(@args){
     my($dir) = @_;
     my($file, $unique);
@@ -310,16 +404,19 @@ sub generateAndLink(@args){
 
     if(! -f $file){
 	# We need to generate the image
-	print STDERR "GDMSweb $$: Plot cache miss for ".$result->param('dataset')." ($dir)\n";
+	print STDERR "GDMSweb $$: Plot cache miss for ".
+	    $result->param('dataset')." ($dir)\n";
 	open COMMANDS, "> $tmpdir/gdms-$unique.cmd" or 
 	    die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
 
 	# Open the dataset. It might be in a temporary location
 	if($result->param('intype') ne "temp"){
-	    print COMMANDS "open $datasets/".$result->param('dataset')."\n";
+	    print COMMANDS "open $datasets/".
+		$result->param('dataset')."\n";
 	}
 	else{
-	    print COMMANDS "open $tmpdir/".$result->param('dataset')."\n";
+	    print COMMANDS "open $tmpdir/".
+		$result->param('dataset')."\n";
 	}
 
 	print COMMANDS "plot $dir $file\n";
@@ -331,7 +428,8 @@ sub generateAndLink(@args){
     }
     
     # Now link to that image
-    return "<img src=\"$ploturl/".$result->param('dataset')."-$dir.png\">";
+    return "<img src=\"$ploturl/".$result->param('dataset').
+	"-$dir.png\">";
 }
 
 # Generate a HTML form for the required paramers
@@ -341,24 +439,30 @@ sub generateForm(@args){
 
     # Start the form
     $resultstring = "<form method=\"post\" action=\"$rooturl\" ";
-    $resultstring = $resultstring."enctype=\"application/x-www-form-urlencoded\">";
-    $resultstring = $resultstring."<input type=\"hidden\" name=\"command\" value=\"$command\" />";
-    $resultstring = $resultstring."<input type=\"hidden\" name=\"dataset\" value=\"$dataset\" />";
+    $resultstring = $resultstring.
+	"enctype=\"application/x-www-form-urlencoded\">";
+    $resultstring = $resultstring.
+	"<input type=\"hidden\" name=\"command\" value=\"$command\" />";
+    $resultstring = $resultstring.
+	"<input type=\"hidden\" name=\"dataset\" value=\"$dataset\" />";
     if($result->param('intype') ne ""){
 	print STDERR "Continuing temporary tag\n";
-	$resultstring = $resultstring."<input type=\"hidden\" name=\"intype\" value=\"temp\" />";
+	$resultstring = $resultstring.
+	    "<input type=\"hidden\" name=\"intype\" value=\"temp\" />";
     }
 
     $resultstring = $resultstring.processTemplate("$passedform");
     
     # End the form
     $resultstring = $resultstring."<BR><BR><div align=\"center\">";
-    $resultstring = $resultstring."<input type=\"submit\" name=\"commit\" value=\" OK \" /></div></form>";
+    $resultstring = $resultstring.
+	"<input type=\"submit\" name=\"commit\" value=\" OK \" /></div></form>";
 
     return $resultstring;
 }
 
-# Create a dataset in the temp location which is the output of a LS regression
+# Create a dataset in the temp location which is the output of a LS 
+# regression
 sub performLs(){
     my($lsargs) = @_;
     my($unique);
@@ -378,7 +482,8 @@ sub performLs(){
     }
     
     print COMMANDS "ls $lsargs $tmpdir/".$result->param('dataset')."-ls".
-	$result->param('reweight')."-data $tmpdir/".$result->param('dataset')."-ls".
+	$result->param('reweight')."-data $tmpdir/".
+	$result->param('dataset')."-ls".
 	$result->param('reweight')."-residuals\n";
     close COMMANDS;
     
@@ -387,7 +492,8 @@ sub performLs(){
     print STDERR "GDMSweb $$: GDMS return code is $?\n";
 }
 
-# Create a dataset in the temp location which is the output of a windowing
+# Create a dataset in the temp location which is the output of a 
+# windowing operation
 sub performWindow(){
     my($unique);
     local *COMMANDS;
@@ -406,7 +512,8 @@ sub performWindow(){
     }
     
     print COMMANDS "window ".$result->param('wtype')." ".
-	$result->param('wsize')." ".$result->param('woverlap')." $tmpdir/".
+	$result->param('wsize')." ".$result->param('woverlap').
+	" $tmpdir/".
 	$result->param('dataset')."-win".$result->param('wtype')."\n";
     close COMMANDS;
     
@@ -415,7 +522,8 @@ sub performWindow(){
     print STDERR "GDMSweb $$: GDMS return code is $?\n";
 }
 
-# Create a dataset in the temp location which is the output of interpolation
+# Create a dataset in the temp location which is the output of 
+# interpolation operation
 sub performInterpolation(){
     my($unique);
     local *COMMANDS;

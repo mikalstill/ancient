@@ -749,22 +749,25 @@ An example usage is:
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-# This is the broker between the GDMS code and the CGI server. It's role is to
-# parse templates, execute requests, and cache results for speedy processing
-# next time that request is seen...
+# This is the broker between the GDMS code and the CGI server. It's 
+# role is to parse templates, execute requests, and cache results for 
+# speedy processing next time that request is seen...
 use strict;
 use CGI;
 
 my($result, $command, $TEMP);
 
 # Variables set by the config file
-my($templates, $datasets, $commandentry, $discommandentry, $selectstart, $selectentry, $selectend, $plotcache, $tmpdir, $rooturl, $ploturl, $gdms, $temp);
+my($templates, $datasets, $matrices, $commandentry, $discommandentry, 
+   $selectstart, $selectentry, $selectend, $plotcache, $tmpdir, 
+   $rooturl, $ploturl, $gdms, $temp);
 
 # Setup the CGI module
 $result = new CGI();
 
 # Read in the config file
-eval `cat gdms.config` or die "GDMSweb $$: Could not read config file: $@";
+eval `cat gdms.config` or die 
+    "GDMSweb $$: Could not read config file: $@";
 $temp = $gdms;
 $temp =~ s/\/.*$//;
 
@@ -774,43 +777,72 @@ if($command eq ""){
     $command = "main";
 }
 
-# Some pages just do some processing and then immediately redirect to another page.
-# I need to deal with these before I can display the page headers
+# Some pages just do some processing and then immediately redirect to 
+# another page. I need to deal with these before I can display the 
+# page headers
 print STDERR "GDMSweb $$: Processing $command\n";
-print STDERR "GDMSweb $$: Dataset is permanent\n" if($result-&gt;param('intype') eq "");
-print STDERR "GDMSweb $$: Dataset is temporary\n" if($result-&gt;param('intype') ne "");
+print STDERR "GDMSweb $$: Dataset is permanent\n" 
+    if($result-&gt;param('intype') eq "");
+print STDERR "GDMSweb $$: Dataset is temporary\n" 
+    if($result-&gt;param('intype') ne "");
  
 if($command eq "lsprocess"){
-    $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-ls".$result-&gt;param('reweight');
+    $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-ls".
+    $result-&gt;param('reweight');
 
-    # If we are using manual reweighting, then we need to get more information
+    # If we are using manual reweighting, then we need to get more 
+    # information
     if($result-&gt;param('reweight') ne "auto"){
-	$temp = $temp."&amp;command=lsreweight";
+    $temp = $temp."&amp;command=lsreweight&amp;dir=north";
     }
     else{
-	$temp = $temp."&amp;command=lsselect&amp;data=".$result-&gt;param('dataset')."-ls".
-	$result-&gt;param('reweight')."-data&amp;residuals=".$result-&gt;param('dataset')."-ls".
-	$result-&gt;param('reweight')."-residuals";
-	
-	# Do the processing here
-	performLs("auto");
+    $temp = $temp."&amp;command=lsselect&amp;data=".
+        $result-&gt;param('dataset')."-ls".
+        $result-&gt;param('reweight')."-data&amp;residuals=".
+        $result-&gt;param('dataset')."-ls".
+        $result-&gt;param('reweight')."-residuals";
+    
+    # Do the processing here
+    performLs("auto");
     }
 
     if($result-&gt;param('desc') ne ""){
-	$temp = $temp."&amp;desc=".$result-&gt;param('desc');
+    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
     }
     $temp = $temp."&amp;intype=temp";
 
     # And now bounce of to the real page
-    print STDERR "GDMSweb $$: Redirecting after LS to: $temp\n";
+    print STDERR "GDMSweb $$: Redirecting after automatic LS to: $temp\n";
+    print $result-&gt;redirect($temp);
+    exit;
+}
+elsif($command eq "lsprocesstwo"){
+    $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-ls".
+    $result-&gt;param('reweight');
+
+    $temp = $temp."&amp;command=lsselect&amp;data=".$result-&gt;param('dataset').
+    "-ls".$result-&gt;param('reweight')."-data&amp;residuals=".
+    $result-&gt;param('dataset')."-ls".
+    $result-&gt;param('reweight')."-residuals";
+    
+    # Do the processing here
+    performLs($result-&gt;param('lsargs'));
+
+    if($result-&gt;param('desc') ne ""){
+    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
+    }
+    $temp = $temp."&amp;intype=temp";
+
+    # And now bounce of to the real page
+    print STDERR "GDMSweb $$: Redirecting after manual LS to: $temp\n";
     print $result-&gt;redirect($temp);
     exit;
 }
 elsif($command eq "windowprocess"){
-    $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-win".$result-&gt;param('wtype').
-	"&amp;command=plot";
+    $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-win".
+    $result-&gt;param('wtype')."&amp;command=plot";
     if($result-&gt;param('desc') ne ""){
-	$temp = $temp."&amp;desc=".$result-&gt;param('desc');
+    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
     }
     $temp = $temp."&amp;intype=temp";
 
@@ -823,10 +855,10 @@ elsif($command eq "windowprocess"){
     exit;
 }
 elsif($command eq "interpprocess"){
-    $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-interp".$result-&gt;param('itype').
-	"&amp;command=plot";
+    $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-interp".
+    $result-&gt;param('itype')."&amp;command=plot";
     if($result-&gt;param('desc') ne ""){
-	$temp = $temp."&amp;desc=".$result-&gt;param('desc');
+    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
     }
     $temp = $temp."&amp;intype=temp";
 
@@ -839,9 +871,10 @@ elsif($command eq "interpprocess"){
     exit;
 }
 elsif($command eq "fftprocess"){
-    $temp = "$rooturl?dataset=".$result-&gt;param('dataset')."-fft&amp;command=plot";
+    $temp = "$rooturl?dataset=".$result-&gt;param('dataset').
+    "-fft&amp;command=plot";
     if($result-&gt;param('desc') ne ""){
-	$temp = $temp."&amp;desc=".$result-&gt;param('desc');
+    $temp = $temp."&amp;desc=".$result-&gt;param('desc');
     }
     $temp = $temp."&amp;intype=temp";
 
@@ -861,114 +894,164 @@ exit;
 
 
 
-###############################################################################
+######################################################################
 # Find the template file, and then parse it
 sub processTemplate(@args){
     my($file) = @_;
     my($pre, $post, $cmd, $output, $len, $line);
 
-    # This local usage is used to make the TEMPLATE filehandle local to this
-    # subroutine...
+    # This local usage is used to make the TEMPLATE filehandle local 
+    # to this subroutine...
     local *TEMPLATE;
     print STDERR "GDMSweb $$: Processing template file: $file\n";
 
     $output = "";
     if(!open TEMPLATE, "&lt; $file"){
-	print STDERR "GDMSweb $$: $file not found\n";
-	open TEMPLATE, "&lt; $templates/commandnotfound.html";
+    print STDERR "GDMSweb $$: $file not found\n";
+    open TEMPLATE, "&lt; $templates/commandnotfound.html";
     }
     while(&lt;TEMPLATE&gt;){
-	# Repeatedly process a line until there are not more template commands
-	$line = $_;
-	$len = -1;
+    # Repeatedly process a line until there are not more template 
+    # commands
+    $line = $_;
+    $len = -1;
 
-	while($len != length($line)){
-	    $len = length($_);
+    while($len != length($line)){
+        $len = length($_);
 
-	    # todo: there must be a better way of doing this...
-	    $_ = $line;
-	    if(/(.*)&amp;{([^%]*)};(.*)/){
-		$pre = $1;
-		$cmd = $2;
-		$post = $3;
-		
-		if($cmd eq "commands"){
-		    # List the available commands
-		    $line = $pre.getCommands().$post;
-		}
-		elsif($cmd eq "dataset"){
-		    # The name of the current dataset
-		    if($result-&gt;param('desc') eq ""){
-			$line = $pre.$result-&gt;param('dataset').$post;
-		    }
-		    else{
-			$line = $pre.$result-&gt;param('desc').$post;
-		    }
-		}
-		elsif($cmd eq "datasets"){
-		    # List the datasets in the dataset directory
-		    my($temptotal, $tempfile);
-		    $temptotal = "";
+        # todo: there must be a better way of doing this...
+        $_ = $line;
+        if(/(.*)&amp;{([^%]*)};(.*)/){
+        $pre = $1;
+        $cmd = $2;
+        $post = $3;
+        
+        if($cmd eq "commands"){
+            # List the available commands
+            $line = $pre.getCommands().$post;
+        }
+        elsif($cmd eq "dataset"){
+            # The name of the current dataset
+            if($result-&gt;param('desc') eq ""){
+            $line = $pre.$result-&gt;param('dataset').$post;
+            }
+            else{
+            $line = $pre.$result-&gt;param('desc').$post;
+            }
+        }
+        elsif($cmd eq "datasets"){
+            # List the datasets in the dataset directory
+            my($temptotal, $tempfile);
+            $temptotal = "";
 
-		    open TEMP, "find $datasets -type f -name \"*.dat1\" |";
-		    while(&lt;TEMP&gt;){
-			my($linecount);
-			$tempfile = $_;
-			$tempfile =~ s/$datasets\/*//;
-			$tempfile =~ s/.dat1\n$//;
+            open TEMP, "find $datasets -type f -name \"*.dat1\" |";
+            while(&lt;TEMP&gt;){
+            my($linecount);
+            $tempfile = $_;
+            $tempfile =~ s/$datasets\/*//;
+            $tempfile =~ s/.dat1\n$//;
 
-			$linecount = `cat $datasets/$tempfile.dat1 | wc -l`;
-			$temptotal = $temptotal.
-			    substHTML($selectentry, 
-				      "&lt;a href=\"$rooturl?command=plot&amp;dataset=$tempfile\"&gt;$tempfile&lt;\/a&gt; ".
-				      "($linecount lines)");
-		    }
-		    close TEMP;
-		    
-		    $line = $pre.$temptotal.$post;
-		}
-		elsif($cmd eq "motd"){
-		    # Output a message of the day
-		    $line = $pre.processTemplate("$templates/motd.html").$post;
-		}
-		elsif($cmd eq "northplot"){
-		    # A plot in the X;
-		    $line = $pre.generateAndLink("x").$post;
-		}
-		elsif($cmd eq "eastplot"){
-		    # A plot in the Y direction
-		    $line = $pre.generateAndLink("y").$post;
-		}
-		elsif($cmd eq "upplot"){
-		    # A plot in the Z direction
-		    $line = $pre.generateAndLink("z").$post;
-		}
-		elsif($cmd eq "lsparams"){
-		    # Output a HTML form for the parameters of a LS regression
-		    $line = $pre.generateForm("lsprocess", $result-&gt;param('dataset'), 
-					      "$templates/lsparams.html").$post;
-		}
-		elsif($cmd eq "lsselect"){
-		    $line = $pre."&lt;a href=\"$rooturl?dataset=".$result-&gt;param('data').
-			"&amp;command=plot&amp;intype=temp\"&gt;Data&lt;/a&gt;&lt;br&gt;".
-			"&lt;a href=\"$rooturl?dataset=".$result-&gt;param('residuals').
-			"&amp;command=plot&amp;intype=temp\"&gt;Residuals&lt;/a&gt;".$post;
-		}
-		elsif($cmd eq "winparams"){
-		    # Output a HTML form for the parameters of a LS regression
-		    $line = $pre.generateForm("windowprocess", $result-&gt;param('dataset'), 
-					      "$templates/winparams.html").$post;
-		}
-		elsif($cmd eq "interpparams"){
-		    # Output a HTML form for the parameters of a LS regression
-		    $line = $pre.generateForm("interpprocess", $result-&gt;param('dataset'), 
-					      "$templates/interpparams.html").$post;
-		}
-	    }
-	}
-	
-	# And now we can print out the resultant line
-	$output = $output.$line;
+            $linecount = `cat $datasets/$tempfile.dat1 | wc -l`;
+            $temptotal = $temptotal.
+                substHTML($selectentry, 
+                      "&lt;a href=\"$rooturl?".
+                      "command=plot&amp;".
+                      "dataset=$tempfile\"&gt;".
+                      $tempfile."&lt;\/a&gt; ".
+                      "($linecount lines)");
+            }
+            close TEMP;
+            
+            $line = $pre.$temptotal.$post;
+        }
+        elsif($cmd eq "motd"){
+            # Output a message of the day
+            $line = $pre.processTemplate("$templates/motd.html").
+            $post;
+        }
+        elsif($cmd eq "northplot"){
+            # A plot in the X;
+            $line = $pre.generateAndLink("x").$post;
+        }
+        elsif($cmd eq "eastplot"){
+            # A plot in the Y direction
+            $line = $pre.generateAndLink("y").$post;
+        }
+        elsif($cmd eq "upplot"){
+            # A plot in the Z direction
+            $line = $pre.generateAndLink("z").$post;
+        }
+        elsif($cmd eq "lsparams"){
+            # Output a HTML form for the parameters of a LS 
+            # regression
+            $line = $pre.generateForm("lsprocess", 
+                          $result-&gt;param('dataset'), 
+                          "$templates/lsparams.html").
+                          $post;
+        }
+        elsif($cmd eq "lsselect"){
+            $line = $pre."&lt;a href=\"$rooturl?dataset=".
+            $result-&gt;param('data').
+            "&amp;command=plot&amp;intype=temp\"&gt;Data&lt;/a&gt;&lt;br&gt;".
+            "&lt;a href=\"$rooturl?dataset=".
+            $result-&gt;param('residuals').
+            "&amp;command=plot&amp;intype=temp\"&gt;Residuals&lt;/a&gt;".
+            $post;
+        }
+        elsif($cmd eq "lsreweightdir"){
+            $line = $pre.$result-&gt;param('dir').$post;
+        }
+        elsif($cmd eq "winparams"){
+            # Output a HTML form for the parameters of a 
+            # windowing operation
+            $line = $pre.generateForm("windowprocess", 
+                          $result-&gt;param('dataset'), 
+                          "$templates/winparams.html").
+                          $post;
+        }
+        elsif($cmd eq "interpparams"){
+            # Output a HTML form for the parameters of a
+            # interpolation operation
+            $line = $pre.generateForm("interpprocess", 
+                          $result-&gt;param('dataset'), 
+                          "$templates/interpparams.html").
+                          $post;
+        }
+        elsif($cmd eq "matrices"){
+            # List the datasets in the dataset directory
+            my($temptotal, $next);
+            $temptotal = "";
+
+            if($result-&gt;param('dir') eq "north"){
+            $next = "command=lsreweight&amp;dir=east";
+            }
+            elsif($result-&gt;param('dir') eq "east"){
+            $next = "command=lsreweight&amp;dir=up";
+            }
+            else{
+            $next = "command=lsprocesstwo&amp;lsreweight=manual";
+            }
+
+            open TEMP, "find $matrices -type f -name \"*.mat\" |";
+            while(&lt;TEMP&gt;){
+            chomp;
+            s/$matrices//;
+
+            $temptotal = $temptotal.
+                substHTML($selectentry, 
+                      "&lt;a href=\"$rooturl?$next&amp;lsargs=".
+                      $result-&gt;param('lsargs').
+                      "$matrices/$_,\"&gt;$_&lt;\/a&gt;");
+            }
+            close TEMP;
+            
+            $line = $pre.$temptotal.$post;
+        }
+        }
+    }
+    
+    # And now we can print out the resultant line
+    $output = $output.$line;
     }
 
     return $output;
@@ -981,39 +1064,50 @@ sub getCommands(@args){
     $output = "";
     # If there is no current dataset
     if($result-&gt;param('dataset') eq ""){
-	# Dataset open
-	$output = $output.substHTML($commandentry, "&lt;a href=\"$rooturl?command=open\"&gt;Open&lt;\/a&gt;");
-	
-	# Maths
-	$output = $output.substHTML($discommandentry, "Least squares");
-	$output = $output.substHTML($discommandentry, "Windowing");
-	$output = $output.substHTML($discommandentry, "Interpolation");
-	$output = $output.substHTML($discommandentry, "FFT");
+    # Dataset open
+    $output = $output.substHTML($commandentry, 
+                    "&lt;a href=\"$rooturl?command=open\"&gt;Open&lt;\/a&gt;");
+    
+    # Maths
+    $output = $output.substHTML($discommandentry, 
+                    "Least squares");
+    $output = $output.substHTML($discommandentry, "Windowing");
+    $output = $output.substHTML($discommandentry, "Interpolation");
+    $output = $output.substHTML($discommandentry, "FFT");
     }
     else{
-	# Datset open
-	$output = $output.substHTML($commandentry, "&lt;a href=\"$rooturl?command=open\"&gt;Open&lt;\/a&gt;");
+    # Datset open
+    $output = $output.substHTML($commandentry, 
+                    "&lt;a href=\"$rooturl?command=open\"&gt;Open&lt;\/a&gt;");
 
-	# Maths
-	$temp = "&lt;a href=\"$rooturl?command=ls&amp;dataset=".$result-&gt;param('dataset');
-	$temp = $temp."&amp;intype=temp" if($result-&gt;param('intype') ne "");
-	$temp = $temp."\"&gt;Least squares&lt;/a&gt;";
-	$output = $output.substHTML($commandentry, $temp);
+    # Maths
+    $temp = "&lt;a href=\"$rooturl?command=ls&amp;dataset=".
+        $result-&gt;param('dataset');
+    $temp = $temp."&amp;intype=temp" 
+        if($result-&gt;param('intype') ne "");
+    $temp = $temp."\"&gt;Least squares&lt;/a&gt;";
+    $output = $output.substHTML($commandentry, $temp);
 
-	$temp = "&lt;a href=\"$rooturl?command=window&amp;dataset=".$result-&gt;param('dataset');
-	$temp = $temp."&amp;intype=temp" if($result-&gt;param('intype') ne "");
-	$temp = $temp."\"&gt;Windowing&lt;/a&gt;";
-	$output = $output.substHTML($commandentry, $temp);
+    $temp = "&lt;a href=\"$rooturl?command=window&amp;dataset=".
+        $result-&gt;param('dataset');
+    $temp = $temp."&amp;intype=temp" 
+        if($result-&gt;param('intype') ne "");
+    $temp = $temp."\"&gt;Windowing&lt;/a&gt;";
+    $output = $output.substHTML($commandentry, $temp);
 
-	$temp = "&lt;a href=\"$rooturl?command=interp&amp;dataset=".$result-&gt;param('dataset');
-	$temp = $temp."&amp;intype=temp" if($result-&gt;param('intype') ne "");
-	$temp = $temp."\"&gt;Interpolation&lt;/a&gt;";
-	$output = $output.substHTML($commandentry, $temp);
+    $temp = "&lt;a href=\"$rooturl?command=interp&amp;dataset=".
+        $result-&gt;param('dataset');
+    $temp = $temp."&amp;intype=temp" 
+        if($result-&gt;param('intype') ne "");
+    $temp = $temp."\"&gt;Interpolation&lt;/a&gt;";
+    $output = $output.substHTML($commandentry, $temp);
 
-	$temp = "&lt;a href=\"$rooturl?command=fftprocess&amp;dataset=".$result-&gt;param('dataset');
-	$temp = $temp."&amp;intype=temp" if($result-&gt;param('intype') ne "");
-	$temp = $temp."\"&gt;FFT&lt;/a&gt;";
-	$output = $output.substHTML($commandentry, $temp);
+    $temp = "&lt;a href=\"$rooturl?command=fftprocess&amp;dataset=".
+        $result-&gt;param('dataset');
+    $temp = $temp."&amp;intype=temp" 
+        if($result-&gt;param('intype') ne "");
+    $temp = $temp."\"&gt;FFT&lt;/a&gt;";
+    $output = $output.substHTML($commandentry, $temp);
     }
 
     return $output;
@@ -1029,8 +1123,8 @@ sub substHTML(@args){
     return $temp;
 }
 
-# This subroutine deals with generating plots as required and then outputs
-# the HTML needed to link to that image
+# This subroutine deals with generating plots as required and then 
+# outputs the HTML needed to link to that image
 sub generateAndLink(@args){
     my($dir) = @_;
     my($file, $unique);
@@ -1041,29 +1135,33 @@ sub generateAndLink(@args){
     $file = "$plotcache/".$result-&gt;param('dataset')."-$dir.png";
 
     if(! -f $file){
-	# We need to generate the image
-	print STDERR "GDMSweb $$: Plot cache miss for ".$result-&gt;param('dataset')." ($dir)\n";
-	open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
-	    die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
+    # We need to generate the image
+    print STDERR "GDMSweb $$: Plot cache miss for ".
+        $result-&gt;param('dataset')." ($dir)\n";
+    open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
+        die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
 
-	# Open the dataset. It might be in a temporary location
-	if($result-&gt;param('intype') ne "temp"){
-	    print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
-	}
-	else{
-	    print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
-	}
+    # Open the dataset. It might be in a temporary location
+    if($result-&gt;param('intype') ne "temp"){
+        print COMMANDS "open $datasets/".
+        $result-&gt;param('dataset')."\n";
+    }
+    else{
+        print COMMANDS "open $tmpdir/".
+        $result-&gt;param('dataset')."\n";
+    }
 
-	print COMMANDS "plot $dir $file\n";
-	close COMMANDS;
+    print COMMANDS "plot $dir $file\n";
+    close COMMANDS;
 
-	# Execute the gdms main program with this command script
-	`$gdms -b $tmpdir/gdms-$unique.cmd`;
-	print STDERR "GDMSweb $$: GDMS execute return code is $?\n";
+    # Execute the gdms main program with this command script
+    `$gdms -b $tmpdir/gdms-$unique.cmd`;
+    print STDERR "GDMSweb $$: GDMS execute return code is $?\n";
     }
     
     # Now link to that image
-    return "&lt;img src=\"$ploturl/".$result-&gt;param('dataset')."-$dir.png\"&gt;";
+    return "&lt;img src=\"$ploturl/".$result-&gt;param('dataset').
+    "-$dir.png\"&gt;";
 }
 
 # Generate a HTML form for the required paramers
@@ -1073,24 +1171,30 @@ sub generateForm(@args){
 
     # Start the form
     $resultstring = "&lt;form method=\"post\" action=\"$rooturl\" ";
-    $resultstring = $resultstring."enctype=\"application/x-www-form-urlencoded\"&gt;";
-    $resultstring = $resultstring."&lt;input type=\"hidden\" name=\"command\" value=\"$command\" /&gt;";
-    $resultstring = $resultstring."&lt;input type=\"hidden\" name=\"dataset\" value=\"$dataset\" /&gt;";
+    $resultstring = $resultstring.
+    "enctype=\"application/x-www-form-urlencoded\"&gt;";
+    $resultstring = $resultstring.
+    "&lt;input type=\"hidden\" name=\"command\" value=\"$command\" /&gt;";
+    $resultstring = $resultstring.
+    "&lt;input type=\"hidden\" name=\"dataset\" value=\"$dataset\" /&gt;";
     if($result-&gt;param('intype') ne ""){
-	print STDERR "Continuing temporary tag\n";
-	$resultstring = $resultstring."&lt;input type=\"hidden\" name=\"intype\" value=\"temp\" /&gt;";
+    print STDERR "Continuing temporary tag\n";
+    $resultstring = $resultstring.
+        "&lt;input type=\"hidden\" name=\"intype\" value=\"temp\" /&gt;";
     }
 
     $resultstring = $resultstring.processTemplate("$passedform");
     
     # End the form
     $resultstring = $resultstring."&lt;BR&gt;&lt;BR&gt;&lt;div align=\"center\"&gt;";
-    $resultstring = $resultstring."&lt;input type=\"submit\" name=\"commit\" value=\" OK \" /&gt;&lt;/div&gt;&lt;/form&gt;";
+    $resultstring = $resultstring.
+    "&lt;input type=\"submit\" name=\"commit\" value=\" OK \" /&gt;&lt;/div&gt;&lt;/form&gt;";
 
     return $resultstring;
 }
 
-# Create a dataset in the temp location which is the output of a LS regression
+# Create a dataset in the temp location which is the output of a LS 
+# regression
 sub performLs(){
     my($lsargs) = @_;
     my($unique);
@@ -1099,19 +1203,20 @@ sub performLs(){
     print STDERR "GDMSweb $$: Performing LS regression\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
-	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
+    die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
     
     # Open the dataset. It might be in a temporary location
     if($result-&gt;param('intype') ne "temp"){
-	print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
+    print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
     }
     else{
-	print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
+    print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
     }
     
     print COMMANDS "ls $lsargs $tmpdir/".$result-&gt;param('dataset')."-ls".
-	$result-&gt;param('reweight')."-data $tmpdir/".$result-&gt;param('dataset')."-ls".
-	$result-&gt;param('reweight')."-residuals\n";
+    $result-&gt;param('reweight')."-data $tmpdir/".
+    $result-&gt;param('dataset')."-ls".
+    $result-&gt;param('reweight')."-residuals\n";
     close COMMANDS;
     
     # Execute the gdms main program with this command script
@@ -1119,7 +1224,8 @@ sub performLs(){
     print STDERR "GDMSweb $$: GDMS return code is $?\n";
 }
 
-# Create a dataset in the temp location which is the output of a windowing
+# Create a dataset in the temp location which is the output of a 
+# windowing operation
 sub performWindow(){
     my($unique);
     local *COMMANDS;
@@ -1127,19 +1233,20 @@ sub performWindow(){
     print STDERR "GDMSweb $$: Performing window operation\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
-	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
+    die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
     
     # Open the dataset. It might be in a temporary location
     if($result-&gt;param('intype') ne "temp"){
-	print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
+    print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
     }
     else{
-	print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
+    print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
     }
     
     print COMMANDS "window ".$result-&gt;param('wtype')." ".
-	$result-&gt;param('wsize')." ".$result-&gt;param('woverlap')." $tmpdir/".
-	$result-&gt;param('dataset')."-win".$result-&gt;param('wtype')."\n";
+    $result-&gt;param('wsize')." ".$result-&gt;param('woverlap').
+    " $tmpdir/".
+    $result-&gt;param('dataset')."-win".$result-&gt;param('wtype')."\n";
     close COMMANDS;
     
     # Execute the gdms main program with this command script
@@ -1147,7 +1254,8 @@ sub performWindow(){
     print STDERR "GDMSweb $$: GDMS return code is $?\n";
 }
 
-# Create a dataset in the temp location which is the output of interpolation
+# Create a dataset in the temp location which is the output of 
+# interpolation operation
 sub performInterpolation(){
     my($unique);
     local *COMMANDS;
@@ -1155,19 +1263,19 @@ sub performInterpolation(){
     print STDERR "GDMSweb $$: Performing interpolation\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
-	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
+    die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
     
     # Open the dataset. It might be in a temporary location
     if($result-&gt;param('intype') ne "temp"){
-	print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
+    print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
     }
     else{
-	print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
+    print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
     }
     
     print COMMANDS "interp ".$result-&gt;param('itype')." ".
-	$result-&gt;param('isamplerate')." $tmpdir/".
-	$result-&gt;param('dataset')."-interp".$result-&gt;param('itype')."\n";
+    $result-&gt;param('isamplerate')." $tmpdir/".
+    $result-&gt;param('dataset')."-interp".$result-&gt;param('itype')."\n";
     close COMMANDS;
     
     # Execute the gdms main program with this command script
@@ -1183,18 +1291,18 @@ sub performFFT(){
     print STDERR "GDMSweb $$: Performing FFT\n";
     $unique = "$$-".time()."-".rand();
     open COMMANDS, "&gt; $tmpdir/gdms-$unique.cmd" or 
-	die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
+    die "Could not open temporary file $tmpdir/gdms-$unique.cmd\n";
     
     # Open the dataset. It might be in a temporary location
     if($result-&gt;param('intype') ne "temp"){
-	print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
+    print COMMANDS "open $datasets/".$result-&gt;param('dataset')."\n";
     }
     else{
-	print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
+    print COMMANDS "open $tmpdir/".$result-&gt;param('dataset')."\n";
     }
     
     print COMMANDS "fft $tmpdir/".
-	$result-&gt;param('dataset')."-fft\n";
+    $result-&gt;param('dataset')."-fft\n";
     close COMMANDS;
     
     # Execute the gdms main program with this command script
@@ -1202,7 +1310,7 @@ sub performFFT(){
     print STDERR "GDMSweb $$: GDMS return code is $?\n";
 }
 </programlisting>
-<para><emphasis>Code: eps</emphasis></para>
+<para><emphasis>Code: gdms.pl</emphasis></para>
 </appendix>
 
 <appendix><title>Installation</title>
@@ -1275,7 +1383,7 @@ $rooturl = "/cgi-bin/gdms.pl";
 # This is the full path to the GDMS application
 $gdms = "/home/httpd/gdmsbatch";
 </programlisting>
-<para><emphasis>Code: eps</emphasis></para>
+<para><emphasis>Code: gdms.config</emphasis></para>
 </appendix>
 </book>
 
