@@ -3,7 +3,10 @@ Hints for developers:
 Adding a file to the project:
  - Create the files -- each class tends to get it's on .cpp and .h
  - Add the file to the list of SOURCES in Makefile.am
- - Run automake
- - Run autoconf
+ - alterations to defines can be made in configure.in
+ 
+Build preocedure is as follows
+ - gmake -f Makefile.cvs
  - ./configure
- - make
+ - gmake
+ 
