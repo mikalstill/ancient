@@ -18,3 +18,8 @@ for i=1:length(dateList)-1
         list(found) = i;
     end
 end
+
+if (found == 0)
+    list(1) = 0;
+    list(1) = [];
+end

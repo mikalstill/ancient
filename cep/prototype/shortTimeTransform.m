@@ -1,6 +1,5 @@
 function [fourierData,window] = shortTimeTransform(data,beginDate,endDate,...
                                             windowingType,falloff)
-
 % function [fourierData,window] = shortTimeTransform(data,beginDate,
 %                                           endDate,windowingType,falloff)
 %

@@ -14,7 +14,7 @@ function data2 = interpolate(data1, method, sampleRate, winSize,overlap)
 %   winSize: Optional parameter, will extrapolate the set to make it fill
 %       a set of windows without half empty windows being generated.
 %       winSize is in number of samples.  winSize*sampleRate = winLength in time
-%   overlap: AAlso optional for the same reson (overlap in desired later 
+%   overlap: Also optional for the same reson (overlap in desired later 
 %       windows as a proportion: 0.5 = 50%, 0 = No overlap)
 % Exports:
 %   Data2: output dataset of evenly spaced data points
@@ -29,16 +29,12 @@ end
 
 len1 = length(data1(1,:));
 
+%intermediate variables to simplify equation 
+Q = ((data1(1,len1)-data1(1,1))/sampleRate)-winSize;
+R = winSize*(1-overlap);
+
 % generate new time set
-%B = linspace(data1(1,1),data1(1,len1)+mod(len1,winSize)*sampleRate,...
-%    (data1(1,len1)-data1(1,1))/sampleRate);
-if (len1 > winSize)
-    B = data1(1,1):sampleRate:data1(1,len1)+ ...
-    mod(len1-winSize,winSize*(1-overlap))*sampleRate;
-else
-    B = data1(1,1):sampleRate:data1(1,len1)+ ...
-        (winSize-len1)*sampleRate;
-end
+B = data1(1,1):sampleRate:data1(1,len1)-((mod(Q,R)+1)*sampleRate);
 
 % interpolate data to get data points
 A = interp1(data1(1,:),data1(2,:),B,method);

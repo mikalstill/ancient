@@ -9,7 +9,7 @@ function [fftData,psdData,freqScale] = fftWin(winData)
 % Exports:
 %   fftData: fft of the values in each window
 %   psdData: power spectral density of each window
-%   freqScale: frequency base "time" scale
+%   freqScale: frequency base scale
 
 [a,winSize,numWindows] = size(winData);
 
@@ -23,3 +23,5 @@ for i=1:numWindows
         psdData(j,i) = psdWindow(j);
     end
 end
+
+freqScale = (1/((winData(1,1,1)-winData(1,2,1))*31557600))*(0:(winSize/2))/winSize;

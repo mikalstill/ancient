@@ -5,11 +5,11 @@ function winData = cep_evenWindows(data,winSize,overlap)
 % Windows data so there is an even number of elements in each window
 %
 % Imports:
-%   data: raw data to be windowed (array 2*OBS)
+%   data: raw data to be windowed (2*OBS)
 %   winSize: Size of each window in data elements
 %   overlap: proportion overlap between windows
 % Exports:
-%   winData: set of windowed data (array 3*winSize*numWindows)
+%   winData: set of windowed data (3*winSize*numWindows)
 
 dataSize = length(data(1,:));
 overlapSize = winSize*overlap;
