@@ -1,0 +1,25 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<book><bookinfo>
+<title>LPIC-2 Study Guide</title>
+<authorgroup>
+<author><firstname>Michael</firstname><surname>Still</surname></author>
+</authorgroup>
+</bookinfo>
+
+<chapter><title>Topic 201: Linux Kernel</title>
+<sect1><title>2.201.1 Kernel Components</title>
+<programlisting>
+Modified: 2001-August-24
+Maintainer: Kara Pritchard
+Weight: 1
+
+Description: Candidates should be able to utilize kernel components that are necessary 
+to specific hardware, hardware drivers, system resources and requirements. This 
+objective includes implementing different types of kernel images, identifying stable 
+and development kernels and patches, as well as using kernel modules.
+
+Key files, terms, and utilities include:
+  zImage
+  bzImage
+</programlisting></chapter>
+</book>

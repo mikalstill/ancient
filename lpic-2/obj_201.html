@@ -1,0 +1,498 @@
+<html><head><title>LPI - Certification</title></head>
+<body>
+
+<h2>Exam 201: Detailed Objectives</h2>
+<p>This is a required exam for LPI certification Level 2. It covers 
+advanced system administration skills that are common across all distributions 
+of Linux.</p>
+<p>Each objective is assigned a weighting value. The weights range 
+roughly from 1 to 10, and indicate the relative importance of each 
+objective. Objectives with higher weights will be covered in the 
+exam with more questions.</p>
+
+<h3>Topic 201: Linux Kernel</h3>
+<ul>
+<li><b>2.201.1 Kernel Components</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description:</b> Candidates should 
+be able to utilize kernel components that are necessary to specific 
+hardware, hardware drivers, system resources and requirements. This 
+objective includes implementing different types of kernel images, 
+identifying stable and development kernels and patches, as well 
+as using kernel modules.</p>
+<p><b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br></p>
+<span class="Code">
+zImage <br>
+bzImage
+</span>
+</li>
+<li><b>2.201.2 Compiling a kernel<br>
+</b>Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description:</b> Candidates should 
+be able to properly compile a kernel to include or disable specific 
+features of the Linux kernel as necessary. This objective includes 
+compiling and recompiling the Linux kernel as needed, implementing 
+updates and noting changes in a new kernel, creating a system initrd 
+image, and installing new kernels.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/usr/src/linux/ <br>
+/etc/lilo.conf <br>
+</span>
+<i>make options (config, xconfig, menuconfig, oldconfig, mrproper 
+zImage, bzImage, modules, modules_install)</i><br>
+<b>mkinitrd</b> (both Red Hat and Debian based)<br>
+<b>make</b>
+</li>
+<li><b>2.201.3 Patching a kernel</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 2
+<p><b>Description:</b> Candidates should 
+be able to properly patch a kernel for various purposes including 
+to implement kernel updates, to implement bug fixes, and to add 
+support for new hardware. This objective also includes being able 
+to properly remove kernel patches from existing production kernels.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+Makefile <br>
+</span>
+<b>patch<br>
+gzip <br>
+bzip</b> 
+</li>
+<li><b>2.201.4 Customizing a kernel</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description:</b> Candidates should 
+be able to customize a kernel for specific system requirements by 
+patching, compiling, and editing configuration files as required. 
+This objective includes being able to assess requirements for a 
+kernel compile versus a kernel patch as well as build and configure 
+kernel modules.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/usr/src/linux <br>
+/proc/sys/kernel/<br>
+/etc/conf.modules, /etc/modules.conf <br>
+</span>
+<b>patch <br>
+make <br>
+modprobe <br>
+insmod, lsmod <br>
+kerneld</b><br>
+kmod
+</li>
+</ul>
+<h3>Topic 202: System Startup</h3>
+<ul>
+<li><b>2.202.1 Customizing system startup and 
+boot processes</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 2
+<p><b>Description:</b> Candidates should 
+be able to edit appropriate system startup scripts to customize 
+standard system run levels and boot processes. This objective includes 
+interacting with run levels and creating custom initrd images as 
+needed.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/etc/init.d/ <br>
+/etc/inittab <br>
+/etc/rc.d/ <br>
+</span>
+<b>mkinitrd</b> (both Red Hat and Debian scripts) <br>
+</li>
+<li><b>2.202.2 System recovery</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 3
+<p><b>Description:</b> Candidates should 
+be able to properly manipulate a Linux system during both the boot 
+process and during recovery mode. This objective includes using 
+both the init utility and init= kernel options.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+inittab <br>
+</span>
+<i>LILO</i><br>
+<b>init<br>
+mount <br>
+fsck</b>
+</li>
+</ul>
+<h3>Topic 203: Filesystem</h3>
+<ul>
+<li><b>2.203.1 Operating the Linux filesystem</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 3
+<p><b>Description:</b> Candidates should 
+be able to properly configure and navigate the standard Linux filesystem. 
+This objective includes configuring and mounting various filesystem 
+types. Also included, is manipulating filesystems to adjust for 
+disk space requirements or device additions.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/etc/fstab <br>
+/etc/mtab <br>
+/proc/mounts <br>
+</span>
+<b>mount and umount <br>
+sync <br>
+swapon<br>
+swapoff</b>
+</li>
+<li><b>2.203.2 Maintaining a Linux filesystem</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 4
+<p><b>Description:</b> Candidates should 
+be able to properly maintain a Linux filesystem using system utilities. 
+This objective includes manipulating a standard ext2 filesystem.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+<b>fsck (fsck.ext2) <br>
+badblocks <br>
+mke2fs <br>
+dumpe2fs <br>
+debuge2fs <br>
+tune2fs</b>
+</span>
+</li>
+<li><b>2.203.3 Creating and configuring filesystem 
+options</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 3
+<p><b>Description: </b>Candidates should 
+be able to configure automount filesystems. This objective includes 
+configuring automount for network and device filesystems. Also included 
+is creating non ext2 filesystems for devices such as CD-ROMs.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/etc/auto.master <br>
+/etc/auto.[dir] <br>
+</span>
+<b>mkisofs <br>
+dd <br>
+mke2fs</b>
+</li>
+</ul>
+<h3>Topic 204: Hardware</h3>
+<ul>
+	<li><b>2.204.1 Configuring RAID</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 2
+<p><b>Description:</b> Candidates should 
+be able to configure and implement software RAID. This objective 
+includes using mkraid tools and configuring RAID 0, 1, and 5.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/etc/raidtab <br>
+</span>
+<b>mkraid</b> <br>
+</li>
+<li><b>2.204.2 Adding new hardware</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 3
+<p><b>Description:</b> Candidates should 
+be able to configure internal and external devices for a system 
+including new hard disks, dumb terminal devices, serial UPS devices, 
+multi-port serial cards, and LCD panels.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/proc/bus/usb <br>
+</span>
+<b>XFree86 <br>
+modprobe <br>
+lsmod <br>
+lsdev <br>
+lspci <br>
+setserial <br>
+usbview</b> 
+</li>
+<li><b>2.204.3 Software and kernel configuration</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 2
+<p><b>Description:</b> Candidates should 
+be able to configure kernel options to support various hardware 
+devices including UDMA66 drives and IDE CD burners. This objective 
+includes using LVM (Logical Volume Manager) to manage hard disk 
+drives and particitions as well as software tools to interact with 
+hard disk settings.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/proc/interrupts <br>
+</span>
+<b>hdparm <br>
+tune2fs <br>
+sysctl</b>
+</li>
+<li><b>2.204.4 Configuring PCMCIA devices</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description:</b> Candidates should 
+be able to configure a Linux installation to include PCMCIA support. 
+This objective includes configuring PCMCIA devices, such as ethernet 
+adapters, to autodetect when inserted.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/etc/pcmcia/ <br>
+*.opts <br>
+</span>
+<b>cardctl <br>
+cardmgr</b>
+</li>
+</ul>
+<h3>Topic 209: File and Service Sharing</h3>
+<ul>
+<li><b>2.209.1 Configuring a samba server</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 5
+<p><b>Description:</b> The candidate 
+should be able to set up a Samba server for various clients. This 
+objective includes setting up a login script for Samba clients, 
+and setting up an nmbd WINS server. Also included is to change the 
+workgroup in which a server participates, define a shared directory 
+in smb.conf, define a shared printer in smb.conf, use <b>nmblookup</b> 
+to test WINS server functionality, and use the <b>smbmount</b> command 
+to mount an SMB share on a Linux client.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+smbd, nmbd <br>
+<b>smbstatus, smbtestparm, smbpasswd, nmblookup</b><br>
+smb.conf, lmhosts
+</span>
+</li>
+<li><b>2.209.2 Configuring an NFS server</b><br>
+Modified: 2001-August-24<br>
+Maintainer: K<a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 3
+<p><b>Description:</b> The candidate 
+should be able to create an exports file and specify filesystems 
+to be exported. This objective includes editing exports file entries 
+to restrict access to certain hosts, subnets or netgroups. Also 
+included is to specify mount options in the exports file, configure 
+user ID mapping, mount an NFS filesystem on a client, using mount 
+options to specify soft or hard and background retries, signal handling, 
+locking, and block size. The candidate should also be able to configure 
+tcpwrappers to further secure NFS.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/etc/exports <br>
+</span>
+<b>exportfs <br>
+showmount <br>
+nfsstat</b>
+</li>
+</ul>
+<h3>Topic 211: System Maintenance</h3>
+<ul>
+<li><b>2.211.1 System logging</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description: </b>The candidate 
+should be able to configure syslogd to act as a central network 
+log server. This objective also includes configuring syslogd to 
+send log output to a central log server, logging remote connections, 
+and using grep and other text utils to automate log analysis.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+syslog.conf <br>
+/etc/hosts <br>
+</span>
+sysklogd 
+</li>
+<li><b>2.211.2 Packaging software</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description: </b>The candidate 
+should be able to build a package. This objective includes building 
+(or rebuilding) both RPM and DEB packaged software.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/debian/rules <br>
+</span>
+<i>SPEC file format </i><br>
+<b>rpm</b> 
+</li>
+<li><b>2.211.3 Backup operations</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 2 <br>
+<p><b>Description:</b> The candidate 
+should be able to create an offsite backup storage plan.</p>
+</li>
+</ul>
+<h3>Topic 213: System Customization and Automation</h3>
+<ul>
+<li><b>2.213.1 Automating tasks using scripts</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 3
+<p><b>Description:</b> The candidate 
+should be able to write simple Perl scripts that make use of modules 
+where appropriate, use the Perl taint mode to secure data, and install 
+Perl modules from CPAN. This objective includes using sed and awk 
+in scripts, and using scripts to check for process execution and 
+generate alerts by email or pager if a process dies. Candidates 
+should be able to write and schedule automatic execution of scripts 
+to parse logs for alerts and email them to administrators, synchronize 
+files across machines using rsync, monitor files for changes and 
+generate email alerts, and write a script that notifies administrators 
+when specified users log in or out.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<b>perl -MCPAN -e shell <br>
+bash, awk, sed <br>
+crontab <br>
+at</b>
+</li>
+</ul>
+<h3>Topic 214: Troubleshooting</h3>
+<ul>
+	<li><b>2.214.2 Creating recovery disks</b><br>
+Modified: 2001-August-24<br>
+Maintainer:<a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description:</b> Candidate should 
+be able to: create both a standard bootdisk for system entrance, 
+and a recovery disk for system repair.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/etc/fstab<br>
+/etc/inittab <br>
+</span>
+<i>Any standard editor</i><br>
+<i>Familiarity with the location and contents of the
+<a href="http://www.ibiblio.org/pub/Linux/docs/HOWTO/Bootdisk-HOWTO"> LDP Bootdisk-HOWTO</a></i><br>
+<b>/usr/sbin/rdev <br>
+/bin/cat <br>
+/bin/mount</b> (includes -o loop switch) <br>
+<b>/sbin/lilo <br>
+/bin/dd <br>
+/sbin/mke2fs <br>
+/usr/sbin/chroot </b>
+</li>
+<li><b>2.214.3 Identifying boot stages</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description:</b> Candidate should 
+be able to: determine, from bootup text, the 4 stages of boot sequence 
+and distinguish between each.<br></p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<i>boot loader start and hand off to kernel</i><br>
+<i>kernel loading</i><br>
+<i>hardware initializiation and setup</i><br>
+<i>daemon initialization and setup</i>
+</li>
+<li><b>2.214.4 Troubleshooting LILO</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description:</b> Candidate should 
+be able to: determine specific stage failures and corrective techniques.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/boot/boot.b <br>
+</span>
+<i>Know meaning of L, LI, LIL, LILO, and scrolling 010101 errrors</i><br>
+<i>Know the different LILO install locations, MBR, /dev/fd0, or primary/extended 
+partition.</i><br>
+<i>Know significance of /boot/boot.### files</i>
+</li>
+<li><b>2.214.5 General troubleshooting</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description:</b> A candidate should 
+be able to recognize and identify boot loader and kernel specific 
+stages and utilize kernel boot messages to diagnose kernel errors. 
+This objective includes being able to identify and correct common 
+hardware issues, and be able to determine if the problem is hardware 
+or software.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code"> /proc </span> filesystem <br>
+Various system and daemon log files in <span class="Code"> /var/log/ </span><br>
+<span class="Code"> /, /boot, </span>and<span class="Code"> /lib/modules </span><br>
+<i>screen output during bootup</i><br>
+<i>kernel syslog entries in system logs (if entry is able to be gained)</i><br>
+<i>location of system kernel and attending modules</i><br>
+<b>dmesg <br>
+/sbin/lspci <br>
+/usr/bin/lsdev <br>
+/sbin/lsmod <br>
+/sbin/modprobe <br>
+/sbin/insmod <br>
+/bin/uname <br>
+strace <br>
+strings <br>
+ltrace <br>
+lsof</b>
+</li>
+<li><b>2.214.6 Troubleshooting system resources</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description: </b>A candidate should 
+be able to identify, diagnose and repair local system environment.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/etc/profile &amp;&amp; /etc/profile.d/ <br>
+/etc/init.d/ <br>
+/etc/rc.* <br>
+/etc/sysctl.conf <br>
+/etc/bashrc
+/etc/ld.so.conf <br>
+</span>
+(or other appropriate global shell configuration files)<br>
+<i>Core system variables</i><br>
+<i>Any standard editor</i><br>
+<b>/bin/ln <br>
+/bin/rm <br>
+/sbin/ldconfig <br>
+/sbin/sysctl</b>
+</li>
+<li><b>2.214.8 Troubleshooting environment configurations</b><br>
+Modified: 2001-August-24<br>
+Maintainer: <a href="mailto:kara@lpi.org">Kara Pritchard</a><br>
+Weight: 1
+<p><b>Description:</b> A candidate should 
+be able to identify common local system and user environment configuration 
+issues and common repair techniques.</p>
+<b>Key files, <i>terms</i>, and <span class="Code">utilities</span> include:</b><br>
+<span class="Code">
+/etc/inittab <br>
+/etc/rc.local<br>
+/etc/rc.boot <br>
+/var/spool/cron/crontabs/ <br>
+/etc/`shell_name`.conf <br>
+/etc/login.defs <br>
+/etc/syslog.conf<br>
+</span>
+/etc/passwd <br>
+/etc/shadow <br>
+/etc/group <br>
+/etc/profile <br>
+<b>/sbin/init <br>
+/usr/sbin/cron <br>
+/usr/bin/crontab</b><br>
+</li>
+</ul>
+
+<p><i>Taken from: http://www.lpi.org/en/obj_201.html</i></p>
+</body></html>
