@@ -1,0 +1,41 @@
+// A list of objects constructed from a string
+
+#include "objectmodel.h"
+#include "stringArray.h"
+#include "utility.h"
+#include <stdio.h>
+
+objectlist::objectlist(string input, pdf& thePDF):
+  m_pdf(thePDF)
+{
+  stringArray tokens(input, " ");
+  unsigned int inset = 0;
+  objectreference ref;
+
+  while(1){
+    if(!isPositiveInteger(tokens[inset])) return;
+    if(!isPositiveInteger(tokens[inset + 1])) return;
+    if(tokens[inset + 2] != "R") return;
+    
+    ref.number = atoi(tokens[inset++].c_str());
+    ref.generation = atoi(tokens[inset++].c_str());
+    inset++;
+
+    printf("DEBUG: List referenced object %d %d\n", ref.number, ref.generation);
+    m_objects.push_back(ref);
+  }
+}
+
+object& objectlist::operator[](unsigned int i)
+{
+  // todo_mikal: this is a hack
+  object foo;
+  object& obj = foo;
+  m_pdf.findObject(m_objects[i].number, m_objects[i].generation, obj);
+  return obj;
+}
+
+unsigned int objectlist::size()
+{
+  return m_objects.size();
+}

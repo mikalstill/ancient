@@ -1,11 +1,14 @@
 // This is the implementation of the PDF object model
 
 #include "objectmodel.h"
+#include <stdio.h>
 
 dictitem::dictitem(diType type, string name):
   m_type(type),
   m_name(name)
-{}
+{
+  printf("DEBUG: Created an item with name %s, type %d\n", name.c_str(), (int) type);
+}
 
 dictitem::dictitem()
 {}
@@ -28,6 +31,7 @@ void dictitem::setValue(int integer)
 
 bool dictitem::isNamed(string dname)
 {
+  printf("DEBUG: Test %s against %s\n", dname.c_str(), m_name.c_str());
   return m_name == dname;
 }
 
@@ -39,6 +43,16 @@ dictitem::diType dictitem::getType()
 string dictitem::getName()
 {
   return m_name;
+}
+
+int dictitem::getIntValue()
+{
+  return m_int;
+}
+
+int dictitem::getGeneration()
+{
+  return m_generation;
 }
 
 string dictitem::getStringValue()

@@ -54,12 +54,36 @@ int main(int argc, char *argv[]){
 
   ////////////////////////////////////////////////////////////////////////
   // Now we can attempt to render the first page of the document
+  // todo_mikal: this is a hack
   object foo;
+
+  // Find the catalog -- I could probably miss this step, but it seems like
+  // a good idea for now...
   object& catalog = foo;
-  if(!thePDF->findObject("Type", "Catalog", catalog)){
+  if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
     fprintf(stderr, "Bad PDF: No catalog\n");
     exit(1);
   }
+
+  // Now find the pages object as refered to by the catalog
+  if(!catalog.hasDictItem(dictitem::diTypeObjectReference, "Pages")){
+    fprintf(stderr, "Bad PDF: No pages object refered to in catalog\n");
+    exit(1);
+  }
+  object& pages = foo;
+  if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
+    fprintf(stderr, "Bad PDF: Could not get pages object, but the catalog references it!\n");
+    exit(1);
+  }
+
+  // Now find all the page objects referenced in the pages object
+  string kids;
+  if(!pages.getDict().getValue("Kids", kids)){
+    fprintf(stderr, "Bad PDF: No pages found in PDF\n");
+    exit(1);
+  }
+
+  objectlist pagelist(kids, *thePDF);
 
   return 0;
 }
@@ -96,7 +120,18 @@ void pandaedit_objstart(int event, va_list argptr){
 
 // Now that we have finished the object, push it into the PDF
 void pandaedit_objend(int event, va_list argptr){
-  thePDF->addObject(*currentObject);
+  if(currentObject != NULL){
+    if(!currentDictionary.empty()){
+      printf("DEBUG: Adding dictionary\n");
+      currentObject->addDictionary(currentDictionary.top());
+      currentDictionary.pop();
+    }
+
+    thePDF->addObject(*currentObject);
+  }
+  else{
+    printf("DEBUG: Attempt to finish a NULL object\n");
+  }
 }
 
 void pandaedit_dictitem_string(int event, va_list argptr){
@@ -182,22 +217,22 @@ void pandaedit_dictitem_dictend(int event, va_list argptr){
   name = va_arg(argptr, char *);
 
   if(currentDictionary.empty()){
-    fprintf(stderr, "A non-existant dictionary ended\n");
+    printf("DEBUG: A non-existant dictionary ended\n");
     return;
   }    
 
    if(name == NULL){
      if(currentObject != NULL){
-       printf("Adding dictionary\n");
+       printf("DEBUG: Adding dictionary\n");
        currentObject->addDictionary(currentDictionary.top());
      }
      else{
-       fprintf(stderr, "Attempt to add a dictionary to a null object\n");
+       printf("DEBUG: Attempt to add a dictionary to a null object\n");
      }
      currentDictionary.pop();
    }
    else{
-    fprintf(stderr, "Handle sub dictionaries (%s)\n", name);
+    printf("DEBUG: Handle sub dictionaries (%s)\n", name);
     if(!currentDictionaryName.empty())
       currentDictionaryName.pop();    
   }

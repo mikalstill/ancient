@@ -64,7 +64,7 @@ PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
 bin_PROGRAMS = pandaedit
-pandaedit_SOURCES = pandaedit.cpp stringArray.cpp object.cpp dictionary.cpp dictitem.cpp pdf.cpp
+pandaedit_SOURCES = pandaedit.cpp stringArray.cpp object.cpp dictionary.cpp dictitem.cpp pdf.cpp objectlist.cpp utility.cpp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
@@ -76,7 +76,7 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 pandaedit_OBJECTS =  pandaedit.o stringArray.o object.o dictionary.o \
-dictitem.o pdf.o
+dictitem.o pdf.o objectlist.o utility.o
 pandaedit_LDADD = $(LDADD)
 pandaedit_DEPENDENCIES = 
 pandaedit_LDFLAGS = 
@@ -93,7 +93,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/dictionary.P .deps/dictitem.P .deps/object.P \
-.deps/pandaedit.P .deps/pdf.P .deps/stringArray.P
+.deps/objectlist.P .deps/pandaedit.P .deps/pdf.P .deps/stringArray.P \
+.deps/utility.P
 SOURCES = $(pandaedit_SOURCES)
 OBJECTS = $(pandaedit_OBJECTS)
 

@@ -3,6 +3,9 @@
 #include <vector>
 #include <string>
 
+class object;
+class pdf;
+
 class dictitem{
  public:
   enum diType{
@@ -24,6 +27,9 @@ class dictitem{
   bool isNamed(string dname);
   diType getType();
   string getName();
+
+  int getIntValue();
+  int getGeneration();
   string getStringValue();
 
  private:
@@ -44,6 +50,8 @@ class dictionary{
   dictitem operator[](unsigned int index);
 
   bool findItem(string dname, dictitem& item);
+  bool getValue(string dname, pdf& thePDF, object& obj);
+  bool getValue(string dname, string& value);
 
  private:
   vector<dictitem> m_items;
@@ -57,7 +65,12 @@ class object{
   void addStream(char *stream, unsigned int streamLength);
   void addDictionary(dictionary dict);
 
-  bool hasDictItem(string dname, string dvalue);
+  bool hasDictItem(dictitem::diType type, string dname);
+  bool hasDictItem(dictitem::diType type, string dname, string dvalue);
+
+  dictionary& getDict();
+  int getNumber();
+  int getGeneration();
 
  private:
   int m_number;
@@ -69,6 +82,23 @@ class object{
   dictionary m_dictionary;
 };
 
+typedef struct{
+  int number;
+  int generation;
+} objectreference;
+
+class objectlist
+{
+ public:
+  objectlist(string input, pdf& thePDF);
+  object& operator[](unsigned int i);
+  unsigned int size();
+
+ private:
+  vector<objectreference> m_objects;
+  pdf& m_pdf;
+};
+
 class pdf{
  public:
   pdf(string filename);
@@ -76,7 +106,10 @@ class pdf{
 
   void addObject(object theObject);
 
-  bool findObject(string dname, string dvalue, object& obj);
+  bool findObject(dictitem::diType type, string dname, string dvalue, object& obj);
+  bool findObject(int number, int generation, object& obj);
+
+  vector<object>& getObjects();
 
  private:
   string m_filename;
