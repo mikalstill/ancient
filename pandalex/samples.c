@@ -97,7 +97,11 @@ void pdfdump_objstart(int event, va_list argptr){
 }
 
 void pdfdump_dictitem_string(int event, va_list argptr){
-  printf("Dictionary string\n");
+  char *name, *value;
+  
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, char *);
+  printf("  [String] %s = \"%s\"\n", name, value);
 }
 
 void pdfdump_dictitem_name(int event, va_list argptr){
@@ -113,11 +117,17 @@ void pdfdump_dictitem_object(int event, va_list argptr){
 }
 
 void pdfdump_dictitem_dict(int event, va_list argptr){
-  printf("Subdictionary starts\n");
+  char *name;
+
+  name = va_arg(argptr, char *);
+  printf("Subdictionary \"%s\" starts\n", name);
 }
 
 void pdfdump_dictitem_dictend(int event, va_list argptr){
-  printf("Subdictionary starts\n");
+  char *name;
+
+  name = va_arg(argptr, char *);
+  printf("Subdictionary \"%s\" ends\n", name);
 }
 
 void pdfdump_dictitem_int(int event, va_list argptr){

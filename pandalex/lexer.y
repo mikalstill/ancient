@@ -49,12 +49,12 @@
           *********************************************************/
 // completely implemented
 pdf       : { pandalex_callback(pandalex_event_begindocument, ""); } 
-            header { pandalex_callback(pandalex_event_entireheader, $2); } 
+            header { pandalex_callback(pandalex_event_entireheader, $2.data); } 
             object linear objects xref trailer endcrap
           ;
 
 // completely implemented
-header    : VERSION { pandalex_callback(pandalex_event_specver, $1); }
+header    : VERSION { pandalex_callback(pandalex_event_specver, $1.data); }
             binary { $$.data = pandalex_strmcat($1.data, $1.len, $3.data, $3.len); $$.len = $1.len + $3.len + 1; }
           ;
 
@@ -73,6 +73,7 @@ objects   : object objects
           | 
           ;
 
+// todo_mikal: might need a .data here
 object    : INT INT OBJ { pandalex_callback(pandalex_event_objstart, $1, $2); } 
             dictionary { if($5 != -1) pandalex_callback(pandalex_event_dictint, $1, $2, $5); } 
             stream ENDOBJ {}
@@ -89,12 +90,13 @@ dictionary: DBLLT dict DBLGT { $$ = -1; }
 
 subdictionary: DBLLT dict DBLGT { $$ = -1 };
 
-dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1, $2); } dict
-          | NAME NAME { pandalex_callback(pandalex_event_dictitem_name, $1, $2); } dict
-          | NAME ARRAY arrayvals ENDARRAY { pandalex_callback(pandalex_event_dictitem_array, $1, $2); } dict
-          | NAME objref { pandalex_callback(pandalex_event_dictitem_object, $1, $2); } dict
-          | NAME subdictionary { pandalex_callback(pandalex_event_dictitem_dict, $1, $2); } dict
-          | NAME INT { pandalex_callback(pandalex_event_dictitem_int, $1, $2); } dict
+dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1.data, $2.data); } dict
+          | NAME NAME { pandalex_callback(pandalex_event_dictitem_name, $1.data, $2.data); } dict
+          | NAME ARRAY arrayvals ENDARRAY { pandalex_callback(pandalex_event_dictitem_array, $1.data, $2.data); } dict
+          | NAME objref { pandalex_callback(pandalex_event_dictitem_object, $1.data, $2.data); } dict
+          | NAME { pandalex_callback(pandalex_event_dictitem_dict, $1.data); } 
+              subdictionary { pandalex_callback(pandalex_event_dictitem_dictend, $1.data); } dict
+          | NAME INT { pandalex_callback(pandalex_event_dictitem_int, $1.data, $2); } dict
           | NAME FP {} dict
           | 
           ;
@@ -123,7 +125,7 @@ stream    : STREAM binary ENDSTREAM { free($2); }
           ;
 
 binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
-          | STRING binary { $$.data = pandalex_strmcpy($1.data, -1); $$.len = strlen($1.data); }   /* New, may cause problems */
+          | STRING binary { $$.data = pandalex_strmcpy($1.data, -1); $$.len = strlen($1.data); }
           | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
           ;
 
