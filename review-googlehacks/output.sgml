@@ -1,9 +1,17 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
-<title>Google hacks: 100 Industrial-Strength Tips and Tools by Tara Calishain and Rael Dornfest. O'Reilly 2003 (ISBN 0-596-00447-8)</title>
+<title>Google Hacks: 100 Industrial-Strength Tips and Tools by Tara Calishain and Rael Dornfest. O'Reilly 2003 (ISBN 0-596-00447-8)</title>
 <subtitle>Reviewed by Michael Still &lt;mikal@stillhq.com&gt;</subtitle>
 
 <para>
-...
+Did you know that there is a maximum of ten words in a Google search, or that repeating a word results in different search results? What about the fact that some search types are antisocial, and wont work with other search types? Neither did I, and I use Google nearly every day.
+</para>
+
+<para>
+I should probably start this review by letting you know that <emphasis>Google Hacks</emphasis> is not a book aimed at developers. It lists 100 interesting things you can do with Google, in a quite accessible manner. I would be comfortable with handing this book to a school child who needed to know how to use Google effectively. Especially if they had used the Internet before and know what a browser, and a URL are.
+</para>
+
+<para>
+Then again, this doesn't mean that <emphasis>Google Hacks</emphasis> is simplistic. It still describes how to alter URLs, how to search using the Google special syntaxes, and so forth.
 </para>
 </article>
