@@ -1454,7 +1454,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1581,7 +1581,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1824,7 +1824,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1944,7 +1944,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2228,7 +2228,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2410,7 +2410,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2541,7 +2541,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2886,7 +2886,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3068,7 +3068,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3225,7 +3225,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3321,7 +3321,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.27 2002-07-08 05:34:35 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.28 2002-07-08 06:21:12 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5031,13 +5031,9 @@ This chapter will focus on the libpng library.
 <chapter id="chap-pdf"><title>PDF</title>
 <para>
 <quote>
-"THE ORIGINS OF THE Portable Document Format and the Adobe Acrobat product family date to early 1990. At that time, the PostScript page description language was rapidly becoming the
-worldwide standard for the production of the printed page. PDF builds on the PostScript page description language by layering a document structure and interactive navigation features on
-PostScript's underlying imaging model, providing a convenient, efficient mechanism enabling documents to be reliably viewed and printed anywhere. The PDF specification was first published at
-the same time the first Acrobat products were introduced in 1993. Since then, updated versions of the specification have been and continue to be available from Adobe via the World Wide Web.
-This book is the first version of the specification that is completely self-contained, including the precise documentation of the underlying imaging model from PostScript along with the
-PDF-specific features that are combined in version 1.3 of the PDF standard." -- PDF Specification
+THE ORIGINS OF THE Portable Document Format and the Adobe Acrobat product family date to early 1990. At that time, the PostScript page description language was rapidly becoming the worldwide standard for the production of the printed page. PDF builds on the PostScript page description language by layering a document structure and interactive navigation features on PostScript's underlying imaging model, providing a convenient, efficient mechanism enabling documents to be reliably viewed and printed anywhere. The PDF specification was first published at the same time the first Acrobat products were introduced in 1993.
 </quote>
+ -- PDF Specification
 </para>
 
 <para>
@@ -5179,6 +5175,11 @@ Boolean values are represented with the words <command>true</command> and <comma
 </sect5>
 </sect4>
 
+<sect4><title>A lexer for PDF</title>
+<para>
+Refer to the lexer for PDF documents at the end of this chapter if you are more interested in the format of data types.
+</para>
+</sect4>
 </sect3>
 
 <sect3><title>Minimal dictionaries</title>
@@ -5689,6 +5690,3513 @@ It seems useful to provide a summary of the differences we have learnt about the
 </table>
 </sect1>
 
+<sect1><title>A lexer for PDF</title>
+<para>
+Part of my Panda work has been the development of a lexer for PDF documents known as Panda<emphasis>Lex</emphasis>. Whilst Panda<emphasis>Lex</emphasis> is by no means complete, it might prove to be useful for your understanding of the PDF document structure. I have therefore included it here. The lexer takes the form of several components: a lexer for the grammar, a grammar, and some c code to hold it all together.
+</para>
+
+<sect2><title>lexer.l</title>
+<programlisting>
+%{
+#include "parser.h"
+#include "lexinterface.h"
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+
+void debuglex(char *, int, char *);
+char *returnStr(char *, int);
+void *pandalex_xmalloc(size_t);
+void *pandalex_xrealloc(void *, size_t);
+char *pandalex_xsnprintf(char *, ...);
+void pandalex_error(char *);
+
+void *
+pandalex_xmalloc (size_t size)
+{
+  void *buffer;
+
+  if ((buffer = malloc (size)) == NULL)
+    {
+      pandalex_error ("pandalex_xmalloc failed to allocate memory");
+    }
+
+  return buffer;
+}
+void *
+pandalex_xrealloc (void *memory, size_t size)
+{
+  void *buffer;
+
+  if ((buffer = realloc (memory, size)) == NULL)
+    {
+      pandalex_error ("pandalex_xrealloc failed to allocate memory");
+    }
+
+  return buffer;
+}
+
+char *
+pandalex_xsnprintf (char *format, ...)
+{
+  char *output = NULL;
+  int size, result;
+  va_list ap;
+
+  /* We start with the size of the format string as a guess */
+  size = strlen (format);
+  va_start (ap, format);
+
+  while (1)
+    {
+      output = pandalex_xrealloc (output, size);
+      result = vsnprintf (output, size, format, ap);
+
+      if (result == -1)
+        {
+          /* Up to glibc 2.0.6 and Microsoft's implementation*/
+          size += 100;
+        }
+      else
+        {
+          /* Check if we are done */
+      if (result &lt; size)
+            break;
+
+          /* Glibc from now on */
+          size = result + 1;
+        }
+  }
+
+  va_end (ap);
+  return output;
+}
+
+void
+pandalex_error(char *msg){
+fprintf(stderr, "%s\n", msg);
+exit(42);
+}
+%}
+
+%x BINARY
+%%
+
+&lt;INITIAL&gt;\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version");
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return VERSION;
+                                                                             }
+
+&lt;INITIAL&gt;[ \t\r\n]+              { debuglex(yytext, -1, "whitespace");
+                                                                          }
+
+&lt;INITIAL&gt;xref                    { debuglex(yytext, -1, "xref");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.len = yyleng - 1;
+                            return XREF;
+                                                                             }
+
+&lt;INITIAL&gt;trailer                 { debuglex(yytext, -1, "trailer");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.len = yyleng - 1;
+                            return TRAILER;
+                                                                             }
+
+&lt;INITIAL&gt;\/[#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, -1, "name");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.len = yyleng - 1;
+                            return NAME;
+                                                                             }
+
+&lt;INITIAL&gt;\&lt;\&lt;\/[#a-zA-Z\-_0-9\.\+]+ { debuglex(yytext, -1, "dbllt-name");
+                            yyless(2);
+                            return DBLLT;
+                                                                             }
+
+&lt;INITIAL&gt;\/[#a-zA-Z\-_0-9\.\+]+\&gt;\&gt;     { debuglex(yytext, -1, "name-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.len = yyleng - 1;
+                            return NAME;
+}
+
+                        /* --- stuff required for objects ---               */
+&lt;INITIAL&gt;R                       { debuglex(yytext, -1, "object reference");
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return OBJREF; 
+                                                                             }
+
+&lt;INITIAL&gt;R\&gt;\&gt;                       { debuglex(yytext, -1, "object-reference-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return OBJREF; 
+                                                                             }
+
+&lt;INITIAL&gt;R\/                       { debuglex(yytext, -1, "object-reference-namestart");
+                            yyless(yyleng - 1);
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return OBJREF; 
+                                                                             }
+
+&lt;INITIAL&gt;obj                     { debuglex(yytext, -1, "obj");
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return OBJ; 
+                                                                             }
+
+&lt;INITIAL&gt;endobj                  { debuglex(yytext, -1, "endobj");
+                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.len = yyleng;
+                            return ENDOBJ; 
+                                                                             }
+
+&lt;INITIAL&gt;stream                  { debuglex(yytext, -1, "stream");
+                          BEGIN(BINARY);
+                          return STREAM;                                     }
+
+&lt;INITIAL&gt;[+-]?[0-9]+             { debuglex(yytext, -1, "integer");
+                            yylval.intVal = atoi(yytext);
+                            return INT; 
+                                                                             }
+
+&lt;INITIAL&gt;[+-]?[0-9]+\&gt;\&gt;             { debuglex(yytext, -1, "integer-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.intVal = atoi(yytext);
+                            return INT; 
+                                                                             }
+
+
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return FP; 
+                                                                             }
+
+&lt;INITIAL&gt;[+-]?[0-9]+\.[0-9]+\&gt;\&gt;     { debuglex(yytext, -1, "floating point");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return FP; 
+                                                                             }
+
+&lt;INITIAL&gt;\&lt;\&lt;                    { debuglex(yytext, -1, "&lt;&lt;");
+                            return DBLLT; 
+                                                                             }
+
+&lt;INITIAL&gt;\&gt;\&gt;                    { debuglex(yytext, -1, "&gt;&gt;");
+                            return DBLGT; 
+                                                                             }
+
+&lt;INITIAL&gt;\&gt;\&gt;\&gt;\&gt;                    { debuglex(yytext, -1, "&gt;&gt;&gt;&gt;");
+                            yyless(yyleng - 2);
+                            return DBLGT; 
+                                                                             }
+
+
+&lt;INITIAL,BINARY&gt;([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\]*)+ { 
+                          debuglex(yytext, -1, "string");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+
+                            if(strcmp(yytext, "endstream") == 0){
+                              BEGIN(INITIAL);
+                              return ENDSTREAM;
+                              }
+
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;\[(([^\[\]])|(\\\[)|(\\\]))*\] {
+                          debuglex(yytext, -1, "bracketted string v1");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng); 
+                            yylval.sval.len = yyleng;
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;\((([^\(\)])|(\\\()|(\\\)))*\) {
+                          debuglex(yytext, -1, "bracketted string v2");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;\&lt;(([^\&lt;\&gt;])|(\\\&lt;)|(\\\&gt;))*\&gt; {
+                          debuglex(yytext, -1, "bracketted string v3");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+\&gt;\&gt; { 
+                          debuglex(yytext, -1, "string-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return STRING; 
+                                                                             }
+
+&lt;INITIAL,BINARY&gt;[\[\(][#&lt;&gt;a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]]\&gt;\&gt; {
+                          debuglex(yytext, -1, "bracketted-string-dblgt");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return STRING; 
+                                                                             }
+
+                        /* --- Array handling ---                           */
+
+&lt;INITIAL&gt;\[                      { debuglex(yytext, -1, "[");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return ARRAY; 
+                                                                             }
+
+&lt;INITIAL&gt;\]                      { debuglex(yytext, -1, "]");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return ENDARRAY; 
+                                                                             }
+
+&lt;INITIAL&gt;\]\&gt;\&gt;                      { debuglex(yytext, -1, "]");
+                            yyless(yyleng - 2);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng; 
+                            return ENDARRAY; 
+                                                                             }
+
+                        /* --- Stuff needed for the xref and trailer ---    */
+
+&lt;INITIAL&gt;\%\%EOF                 { debuglex(yytext, -1, "end of file");
+                            return PDFEOF; 
+                                                                             }
+
+                        /* --- Stuff used to match binary streams --- 
+
+                               The following amazing production is
+                               used to deal with the massive
+                               streams that images can create              */
+
+&lt;BINARY&gt;[^end]+           { debuglex(yytext, yyleng, "binary mode");
+                          yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                          yylval.sval.len = yyleng;
+                          return ANYTHING;
+                                                                             }
+
+.                       { debuglex("!", -1, "the catch all");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
+                            yylval.sval.len = yyleng;
+                            return ANYTHING; 
+                                                                             }
+
+%%
+
+void debuglex(char *text, int len, char *desc){
+#if defined DEBUG
+  int i;
+
+  printf("Lexer rule is \"%s\", match is \"", desc);  
+
+  for(i = 0; i &lt; ((len == -1) ? strlen(text) : len); i++){
+    if(text[i] == '\n') printf(" \\n " );
+    else if(text[i] == '\t') printf(" \\t ");
+    else if(text[i] == '\r') printf(" \\r ");
+    else if(text[i] == ' ') printf(" sp ");
+    else if(isprint(text[i])) printf("%c", text[i]);
+    else printf(" \\%d ", (unsigned char) text[i]);
+    }
+
+  printf("\"\n");
+#endif
+}
+
+char *returnStr(char *yytext, int len){
+  char *lval;
+
+  if((lval = malloc(sizeof(char) * 
+    ((len == -1) ? strlen(yytext) : len) + 1)) == NULL)
+    error("Could not make space for lexer return.");
+  memcpy(lval, yytext, ((len == -1) ? strlen(yytext) : len) + 1);
+
+  return lval;
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/lexer.l</emphasis></para>
+</sect2>
+
+<sect2><title>lexinterface.h</title>
+<programlisting>
+// This file defines the callbacks that users can setup to use PandaLex
+
+#include &lt;stdarg.h&gt;
+
+enum{
+  pandalex_event_begindocument = 0,
+    pandalex_event_specver,
+    pandalex_event_entireheader,
+    pandalex_event_objstart,
+    pandalex_event_objend,
+    pandalex_event_dictitem_string,
+    pandalex_event_dictitem_name,
+    pandalex_event_dictitem_arraystart,
+    pandalex_event_dictitem_arrayitem,
+    pandalex_event_dictitem_arrayend,
+    pandalex_event_dictitem_object,
+    pandalex_event_dictitem_dict,
+    pandalex_event_dictitem_dictend,
+    pandalex_event_dictitem_int,
+    pandalex_event_stream,
+    pandalex_event_dictint,
+    pandalex_event_xrefstart,
+    pandalex_event_xrefitem,
+    pandalex_event_xrefend,
+    pandalex_event_trailerstart,
+    pandalex_event_trailerend,
+    pandalex_event_enddocument,
+    pandalex_event_max
+    };
+
+// Callbacks are defined so that they have a type for the arguments they
+// possess associated with them. Where possible the arguments created by the
+// lexer will be converted into the types needed by the callback. If not,
+// an error is returned
+typedef void (*pandalex_callback_type)(int, va_list);
+
+
+void pandalex_setupcallback(int, pandalex_callback_type);
+void pandalex_callback(int, ...);
+
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/lexinterface.h</emphasis></para>
+</sect2>
+
+<sect2><title>pandalex.h</title>
+<programlisting>
+char *pandalex_strmcat(char *, int, char *, int);
+char *pandalex_strmcpy(char *, int);
+int pandalex_intlen(int);
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/pandalex.h</emphasis></para>
+</sect2>
+
+<sect2><title>parser.y</title>
+<programlisting>
+%{
+  #include "lexinterface.h"
+  #include "samples.h"
+  #include "pandalex.h"
+
+  #include &lt;stdarg.h&gt;
+
+  #define YYMAXDEPTH 50000
+  #define YYERROR_VERBOSE 1
+
+  // The callbacks
+  pandalex_callback_type pandalex_callbacks[pandalex_event_max];
+%}
+
+          /* Define the possible yylval values */
+%union {
+  int        intVal;
+
+  struct streamVal{
+    char *data;
+    int len;
+  } sval;
+}
+
+%token &lt;sval&gt; VERSION
+%token &lt;sval&gt; NAME
+%token &lt;sval&gt; STRING
+%token &lt;sval&gt; OBJREF &lt;sval&gt; OBJ &lt;sval&gt; ENDOBJ 
+%token &lt;intVal&gt; INT
+%token &lt;sval&gt; FP
+%token &lt;sval&gt; DBLLT &lt;sval&gt; DBLGT
+%token &lt;sval&gt; STREAM &lt;sval&gt; ENDSTREAM
+%token &lt;sval&gt; ARRAY &lt;sval&gt; ENDARRAY &lt;sval&gt; ENDARRAYDBLGT
+%token &lt;sval&gt; PDFEOF XREF TRAILER
+%token &lt;sval&gt; ANYTHING
+
+%type &lt;sval&gt; binary
+%type &lt;sval&gt; header
+%type &lt;sval&gt; objref
+%type &lt;sval&gt; arrayvals
+
+%type &lt;intVal&gt; dictionary
+%type &lt;intVal&gt; subdictionary
+
+%%
+
+// completely implemented
+pdf       : { pandalex_callback(pandalex_event_begindocument, ""); } 
+            header { pandalex_callback(pandalex_event_entireheader, $2.data); } 
+            object linear objects xref trailer endcrap
+          ;
+
+// completely implemented
+header    : VERSION { pandalex_callback(pandalex_event_specver, $1.data); }
+            binary { $$.data = pandalex_strmcat($1.data, $1.len, $3.data, $3.len); $$.len = $1.len + $3.len + 1; }
+          ;
+
+linear    : xref trailer { }
+          |
+          ;
+
+// Clibpdf sometimes puts some binary crap at the end of the file (pointer
+// problems?)
+// completely implemented
+endcrap   : binary { }
+          |
+          ;
+
+// completely implemented
+objects   : object objects
+          | 
+          ;
+
+// todo_mikal: might need a .data here
+object    : INT INT OBJ { pandalex_callback(pandalex_event_objstart, $1, $2); } 
+            dictionary { if($5 != -1) pandalex_callback(pandalex_event_dictint, $1, $2, $5); } 
+            stream ENDOBJ { pandalex_callback(pandalex_event_objend, $1, $2); }
+          ;
+
+dictionary: DBLLT dict DBLGT { $$ = -1; }
+          | INT { $$ = $1; }
+          | ARRAY arrayvals ENDARRAY { $$ = -1; }
+          | objref { $$ = -1; }
+          | NAME { $$ = -1; }
+          | STRING { $$ = -1 };
+          | { $$ = -1; }
+          ;
+
+subdictionary: DBLLT dict DBLGT { $$ = -1 };
+
+dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1.data, $2.data); } dict
+          | NAME NAME { pandalex_callback(pandalex_event_dictitem_name, $1.data, $2.data); } dict
+          | NAME ARRAY { pandalex_callback(pandalex_event_dictitem_arraystart, $1.data); } 
+              arrayvals ENDARRAY { pandalex_callback(pandalex_event_dictitem_arrayend, $1.data); } dict
+          | NAME objref { pandalex_callback(pandalex_event_dictitem_object, $1.data, $2.data); } dict
+          | NAME { pandalex_callback(pandalex_event_dictitem_dict, $1.data); } 
+              subdictionary { pandalex_callback(pandalex_event_dictitem_dictend, $1.data); } dict
+          | NAME INT { pandalex_callback(pandalex_event_dictitem_int, $1.data, $2); } dict
+          | NAME FP {} dict
+          | 
+          ;
+
+arrayvals : objref { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals 
+          | INT { /*todo*/ } arrayvals
+          | NAME { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals
+          | STRING { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals
+          | ARRAY { pandalex_callback(pandalex_event_dictitem_arrayitem, $1.data); } arrayvals
+          | DBLLT { pandalex_callback(pandalex_event_dictitem_dict, "array-dictitem"); } 
+              dict DBLGT { pandalex_callback(pandalex_event_dictitem_dictend, "array-dictitem"); } arrayvals
+          | {}
+          ;
+
+// completely implemented
+objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) + pandalex_intlen($2) + 5) * sizeof(char))) == NULL){
+			       fprintf(stderr, "Could not allocate enough space for objref\n");
+			       exit(42);
+                               }
+			     
+			     sprintf($$.data, "%d %d R", $1, $2);
+			     $$.len = strlen($$.data) + 1;
+			                       }
+          ;
+
+// completely implemented
+stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); free($2); }
+          |
+          ;
+
+// completely implemented: callbacks are handled in the callers to this
+binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
+          | STRING binary { $$.data = pandalex_strmcpy($1.data, -1); $$.len = strlen($1.data); }
+          | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
+          ;
+
+// completely implemented
+xref      : XREF INT INT { pandalex_callback(pandalex_event_xrefstart); }
+              xrefitems {}
+          ;
+
+// completely implemented
+xrefitems : INT INT STRING { pandalex_callback(pandalex_event_xrefitem, $1, $2, $3); }
+              xrefitems
+          | { pandalex_callback(pandalex_event_xrefend); }
+          ;
+
+// completely implemented
+trailer   : TRAILER { pandalex_callback(pandalex_event_trailerstart); } 
+              DBLLT dict DBLGT STRING INT { pandalex_callback(pandalex_event_trailerend, $6, $7); } 
+              PDFEOF { pandalex_callback(pandalex_event_enddocument); }
+          ;
+
+%%
+
+void pandalex_init(){
+  int i;
+
+  // Make sure that the callbacks default to nothing
+  for(i = 0; i &lt; pandalex_event_max; ++i){
+    pandalex_callbacks[i] = NULL;
+  }
+}
+
+void pandalex_setupcallback(int callback, pandalex_callback_type functoid){
+  pandalex_callbacks[callback] = functoid;
+}
+
+// Here we call the callbacks. This includes converting to the types that the
+// callback function expects.
+void pandalex_callback(int event, ...){
+  va_list argptr;
+
+  // Start accessing the arguements from the end
+  va_start(argptr, event);
+  
+  // If no event handler is setup, then we ignore the event
+  if(pandalex_callbacks[event] != NULL){
+    pandalex_callbacks[event] (event, argptr);
+  }
+  
+  // Stop with the arguements
+  va_end(argptr);
+}
+
+int pandalex_parse(){
+  // We are not looking into a stream at the moment
+  yyparse();
+}
+
+int yyerror(char *s){
+  fprintf(stderr, "\n---------------------------------------------------------------\n");
+  fprintf(stderr, "PandaLex parser error (%s):\n", s);
+  fprintf(stderr, "  Please send this error text, along with a copy of your PDF\n");
+  fprintf(stderr, "  document (if possible) to mikal@stillhq.com, so that this can\n");
+  fprintf(stderr, "  be fixed for the next release...\n\n");
+  fprintf(stderr, "version = 0.4\n");
+  fprintf(stderr, "last token = \"%s\" (%d) or %d\n", yylval.sval.data, yylval.sval.len, yylval.intVal);
+  fprintf(stderr, "\n---------------------------------------------------------------\n");
+
+  exit(42);
+}
+
+// Buffer overrun safe strcat
+char *pandalex_strmcat(char *dest, int destLen, char *append, int appendLen){
+  char *new;
+  int count, len;
+
+  // What length do we need?
+  if((new = (char *) malloc(sizeof(char) * 
+			    (((destLen == -1) ? strlen(dest) : destLen) + 
+			    ((appendLen == -1) ? strlen(append) : appendLen) + 
+			    2))) == NULL){
+    fprintf(stderr, "Could not malloc enough space\n");
+    exit(42);
+  }
+  
+  if((destLen == -1) &amp;&amp; (appendLen == -1))
+    sprintf(new, "%s%s", dest, append);
+  else{
+    // We need to copy characters the hard way -- change this to a memcpy
+    count = 0;
+
+    for(len = 0; len &lt; ((destLen == -1) ? strlen(dest) : destLen); len++){
+      new[count] = dest[len];
+      count++;
+    }
+
+    for(len = 0; len &lt; ((appendLen == -1) ? strlen(append) : appendLen); len++){
+      new[count] = append[len];
+      count++;
+    }
+
+    new[count] = '\0';
+  }
+  return new;
+}
+
+// Buffer overrun safe strcpy
+char *pandalex_strmcpy(char *data, int len){
+  return pandalex_strmcat(data, len, "", 0);
+}
+
+int pandalex_intlen(int number){
+  int length = 0;
+
+  while(number &gt; 0){
+    length ++;
+    number /= 10;
+  }
+
+  return number;
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/parser.y</emphasis></para>
+</sect2>
+
+<sect2><title>samples.c</title>
+<programlisting>
+/* A sample application using pandalex -- this is pdfdump */
+
+#include &lt;stdarg.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;zlib.h&gt;
+#include "samples.h"
+#include "lexinterface.h"
+
+enum{
+  pdfdump_dump = 0,
+    pdfdump_meta
+    };
+int pdfdump_application;
+
+pdfdump_dictint_list *dictint_list;
+
+// Some demo code for how to use PandaLex
+int main(int argc, char *argv[]){
+  pandalex_init();
+
+  // Parse the command line to find out what we are doing today -- this needs more thought
+  if(strcmp(argv[0], "pdfmeta") == 0){
+    pdfdump_application = pdfdump_meta;
+  }
+  else
+    pdfdump_application = pdfdump_dump;
+
+  // Setup the callbacks
+  pandalex_setupcallback(pandalex_event_begindocument, pdfdump_begindocument);
+
+  pandalex_setupcallback(pandalex_event_specver, pdfdump_specversion);
+  pandalex_setupcallback(pandalex_event_entireheader, pdfdump_entireheader);
+  pandalex_setupcallback(pandalex_event_objstart, pdfdump_objstart);
+  pandalex_setupcallback(pandalex_event_objend, pdfdump_objend);
+
+  pandalex_setupcallback(pandalex_event_dictitem_string, pdfdump_dictitem_string);
+  pandalex_setupcallback(pandalex_event_dictitem_name, pdfdump_dictitem_name);
+  pandalex_setupcallback(pandalex_event_dictitem_arraystart, pdfdump_dictitem_arraystart);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayitem, pdfdump_dictitem_arrayitem);
+  pandalex_setupcallback(pandalex_event_dictitem_arrayend, pdfdump_dictitem_arrayend);
+  pandalex_setupcallback(pandalex_event_dictitem_object, pdfdump_dictitem_object);
+  pandalex_setupcallback(pandalex_event_dictitem_dict, pdfdump_dictitem_dict);
+  pandalex_setupcallback(pandalex_event_dictitem_dictend, pdfdump_dictitem_dictend);
+  pandalex_setupcallback(pandalex_event_dictitem_int, pdfdump_dictitem_int);
+
+  pandalex_setupcallback(pandalex_event_stream, pdfdump_stream);
+  pandalex_setupcallback(pandalex_event_dictint, pdfdump_dictint);
+  
+  // Initialise the dictint_list structure;
+  if((dictint_list = (pdfdump_dictint_list *)
+      malloc(sizeof(pdfdump_dictint_list))) == NULL){
+    fprintf(stderr, "Could not initialise the dictint list\n");
+    exit(42);
+  }
+
+  dictint_list-&gt;next = NULL;
+
+  // Start parsing
+  pandalex_parse();
+
+  return 0;
+}
+
+char *pandalex_xsnprintf(char *, ...);
+
+// Arguement is the name of the file as a char *
+void pdfdump_begindocument(int event, va_list argptr){
+  char *filename;
+
+  filename = va_arg(argptr, char *);
+  printf("Information for document: \"%s\"\n\n", filename);
+}
+
+void pdfdump_specversion(int event, va_list argptr){
+  printf("Specification version is: %s\n", (char *) va_arg(argptr, char *));
+}
+
+void pdfdump_entireheader(int event, va_list argptr){
+  int    i;
+  char   *textMatch = (char *) va_arg(argptr, char *);
+
+  printf("Entire document header is: ");
+
+  for(i = 0; i &lt; strlen(textMatch); i++){
+    if(isprint(textMatch[i])) printf("%c ", textMatch[i]);
+    else printf("\\%d ", textMatch[i]);
+  }
+
+  printf("\n");
+}
+
+void pdfdump_objstart(int event, va_list argptr){
+  int generation, number;
+
+  number = va_arg(argptr, int);
+  generation = va_arg(argptr, int);
+
+  printf("Object %d started (generation %d)\n",
+	 number, generation);
+}
+
+void pdfdump_objend(int event, va_list argptr){
+  int generation, number;
+
+  number = va_arg(argptr, int);
+  generation = va_arg(argptr, int);
+
+  printf("Object %d ended (generation %d)\n",
+	 number, generation);
+}
+
+void pdfdump_dictitem_string(int event, va_list argptr){
+  char *name, *value;
+  
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, char *);
+  printf("  [String] %s = \"%s\"\n", name, value);
+}
+
+void pdfdump_dictitem_name(int event, va_list argptr){
+  char *name, *value;
+  
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, char *);
+  printf("  [Name] %s = %s\n", name, value);
+}
+
+void pdfdump_dictitem_arraystart(int event, va_list argptr){
+  char *name;
+  
+  name = va_arg(argptr, char *);
+  printf("  Array %s starts\n", name);
+}
+
+void pdfdump_dictitem_arrayitem(int event, va_list argptr){
+  char *value;
+  
+  value = va_arg(argptr, char *);
+  printf("  [Array] %s\n", value);
+}
+
+void pdfdump_dictitem_arrayend(int event, va_list argptr){
+  char *name;
+  
+  name = va_arg(argptr, char *);
+  printf("  Array %s ends\n", name);
+}
+
+void pdfdump_dictitem_object(int event, va_list argptr){
+  char *name, *value;
+  
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, char *);
+  printf("  [Object reference] %s = %s\n", name, value);
+}
+
+void pdfdump_dictitem_dict(int event, va_list argptr){
+  char *name;
+
+  name = va_arg(argptr, char *);
+  printf("Subdictionary \"%s\" starts\n", name);
+}
+
+void pdfdump_dictitem_dictend(int event, va_list argptr){
+  char *name;
+
+  name = va_arg(argptr, char *);
+  printf("Subdictionary \"%s\" ends\n", name);
+}
+
+void pdfdump_dictitem_int(int event, va_list argptr){
+  int value;
+  char *name;
+
+  name = va_arg(argptr, char *);
+  value = va_arg(argptr, int);
+
+  printf("  [Integer] %s = %d\n", name, value);
+}
+
+void pdfdump_stream(int event, va_list argptr){
+  char *filter;
+  int length;
+  char *lengthObj;
+  char *streamData;
+  int streamDataLen;
+  pdfdump_dictint_list  *now;
+  int found;
+
+  printf("  [Stream]\n");
+
+  filter = va_arg(argptr, char *);
+  length = (int) va_arg(argptr, char *);
+  lengthObj = va_arg(argptr, char *);
+  streamData = va_arg(argptr, char *);
+  streamDataLen = va_arg(argptr, int);
+
+  // Determine if we know the length
+  switch(length){
+  case -2:
+    // We don't - have we seen the obj already?
+    printf("    Length is stored in object\n");
+    break;
+
+  case -1:
+    // It was never defined
+    printf("    Length field not defined\n");
+    break;
+
+  default:
+    printf("    Length is stated to be %d\n", length);
+    pdfdump_procstream(filter, length, streamData, streamDataLen);
+    break;
+  }
+}
+
+void pdfdump_dictint(int event, va_list argptr){
+  int found;
+  int objnum, objgen, value;
+  char *objref;
+  pdfdump_dictint_list *now;
+
+  // Get the passed information
+  objnum = va_arg(argptr, int);
+  objgen = va_arg(argptr, int);
+  value = va_arg(argptr, int);
+
+  printf("Do something with the dictint %d %d R = %d\n", objnum, objgen, value);
+
+  // Information is handed to this event in a slightly different manner to
+  // the stream event handler. Fix this.
+  if((objref = (char *) malloc((pandalex_intlen(objnum) + pandalex_intlen(objgen) + 5) * sizeof(char))) == NULL){
+    fprintf(stderr, "Could not allocate enough space for objref\n");
+    exit(42);
+  }
+  
+  sprintf(objref, "%d %d R", objnum, objgen);
+
+  // Are we already waiting?
+  now = dictint_list;
+  found = 0;
+
+  while((now-&gt;next != NULL) &amp;&amp; (found == 0)){
+    if(strcmp(objref, now-&gt;value) == 0){
+      // Yes -- do something
+      pdfdump_procstream(now-&gt;filter, value, now-&gt;stream, now-&gt;streamlen);
+      found = 1;
+    }
+
+    now = now-&gt;next;
+  }
+
+  // No -- save data and wait
+  if(found == 0){
+    // now is already the end of the list
+    if((now-&gt;next = (pdfdump_dictint_list *)
+	malloc(sizeof(pdfdump_dictint_list))) == NULL){
+      fprintf(stderr, "Could not add to list of waiting streams\n");
+      exit(42);
+    }
+    
+    now-&gt;value = (char *) pandalex_strmcpy(objref, -1);
+    now-&gt;filter = NULL;
+    now-&gt;stream = NULL;
+    now-&gt;waiting = 2;
+    now = now-&gt;next;
+    now-&gt;next = NULL;
+  }
+}
+
+void pdfdump_procstream(char *filter, int length, char *data, int dataLen){
+  char *uncompressed, *dataPtr, *linhintdesc[17];
+  uLong srcLen, dstLen = 512;
+  int result, i, linhintlens[17], number, count;
+
+  linhintlens[0] = 32;
+  linhintdesc[0] = pandalex_xsnprintf("Least number of objects in a page");
+  linhintlens[1] = 32;
+  linhintdesc[1] = pandalex_xsnprintf("Location of the first page object");
+  linhintlens[2] = 16;
+  linhintdesc[2] = pandalex_xsnprintf("Page objects delta bits");
+  linhintlens[3] = 32;
+  linhintdesc[3] = pandalex_xsnprintf("Least page length");
+  linhintlens[4] = 16;
+  linhintdesc[4] = pandalex_xsnprintf("Page length delta bits");
+  linhintlens[5] = 32;
+  linhintdesc[5] = pandalex_xsnprintf("Least content stream offset");
+  linhintlens[6] = 16;
+  linhintdesc[6] = pandalex_xsnprintf("Content stream offset delta bits");
+  linhintlens[7] = 32;
+  linhintdesc[7] = pandalex_xsnprintf("Least content stream length");
+  linhintlens[8] = 16;
+  linhintdesc[8] = pandalex_xsnprintf("Contents stream length delta bits");
+  linhintlens[9] = 16;
+  linhintdesc[9] = pandalex_xsnprintf("Greatest shared object number bits");
+  linhintlens[10] = 16;
+  linhintdesc[10] = pandalex_xsnprintf("Numerically greatest shared object number bits");
+  linhintlens[11] = 16;
+  linhintdesc[11] = pandalex_xsnprintf("Numeration object fraction bits");
+  linhintlens[12] = 16;
+  linhintdesc[12] = pandalex_xsnprintf("Denominator object fraction bits");
+  linhintlens[13] = 16;
+  linhintdesc[13] = pandalex_xsnprintf("?????");
+
+  // Check length
+  if(length &lt; 1){
+    fprintf(stderr, "Stream length is not believable\n");
+    return;
+  }
+
+  // Check there is a filter at all
+  if(filter == NULL){
+    fprintf(stderr, "This stream is not compressed!\n");
+    return;
+  }
+
+  // If the stream starts with a \r or a \n or a \r\n, then these should be stripped off
+  dataPtr = data;
+  while((dataPtr[0] == '\r') || (dataPtr[0] == '\n')) dataPtr++;
+
+  // Do something with the stream
+  if(strcmp(filter, "FlateDecode") == 0){
+    printf("Do something involving Flate\n");
+    
+    //    printf("--------------------------------------------------");
+    //for(i = 0; i &lt; dataLen; i++)
+    //  printf("%c", data[i]);
+    //printf("--------------------------------------------------");
+
+
+    // - 1
+    for(i = -10; i &lt; 1; i++){
+      srcLen = dataLen + i;
+      dstLen = 512;
+      printf("[%d] ", i);
+     
+      if((uncompressed = (char *) malloc(sizeof(char) * dstLen)) == NULL){
+	fprintf(stderr, "Could not make enough space to decompress Flate stream\n");
+	exit(42);
+      }
+      
+      // We grow the output buffer until we no longer get buffer size errors
+      while((result = uncompress(uncompressed, &amp;dstLen, dataPtr, srcLen)) == Z_BUF_ERROR){
+	printf(".");
+	fflush(stdout);
+	
+	dstLen *= 2;
+	if(((uncompressed = (char *) realloc(uncompressed, dstLen)) == NULL) ||
+	   (dstLen &gt; 10000000)){
+	  // We could not grow the buffer, so we exit
+	  printf("!");
+	  fflush(stdout);
+	  free(uncompressed);
+	  break;
+	}
+      }
+
+      if(result == Z_OK) printf(" HIT");
+      printf(" *\n");
+    }
+    
+    if(result != Z_OK){
+      fprintf(stderr, "Flate decompression failed because of ");
+      
+      switch(result){
+      case Z_MEM_ERROR:
+	fprintf(stderr, "not enough memory\n");
+	break;
+	
+      case Z_DATA_ERROR:
+	fprintf(stderr, "corrupt input data\n");
+	break;
+
+      case Z_BUF_ERROR:
+	fprintf(stderr, "buffer error\n");
+	break;
+
+      default:
+	fprintf(stderr, "unknown error (%d)\n", result);
+	break;
+      }
+      
+      debuglex(data, srcLen, "Flate compression failure", 0);
+      exit(46);
+    }
+    
+    printf("\n");
+    printf("----------- UNCOMPRESSED STREAM IS -------------------------------------------\n");
+    // printf("%s\n", uncompressed);
+    printf("Total uncompressed size: %d\n\n", dstLen);
+
+    count = 0;
+
+    for(i = 0; count &lt; 13;){
+      number = 0;
+      if(linhintlens[count] == 16){
+	number = uncompressed[i] &lt;&lt; 8 | uncompressed[i + 1];
+	i += 2;
+      }
+      else{
+	number = uncompressed[i] &lt;&lt; 24 | uncompressed[i + 1] &lt;&lt; 16 |
+	  uncompressed[i + 2] &lt;&lt; 8 | uncompressed[i + 3];
+	i += 4;
+      }
+
+      printf("%s [%d]: %d\n", linhintdesc[count], linhintlens[count], number);
+      count++;
+    }
+
+    printf("\nTotal bytes used: %d\n", i);
+    printf("\n------------------------------------------------------------------------------\n");
+  }
+  else if(strcmp(filter, "LZWDecode") == 0){
+    printf("LZW compression is encumbered by Patents and therefore not supported\n"); 
+  }
+  else if(strcmp(filter, "CCITTFaxDecode") == 0){
+    printf("Do something involving CCITTFax compression (TIFF)\n");
+  }
+  else{
+    printf("Unknown filter \"%s\"\n", filter);
+  }
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/samples.c</emphasis></para>
+</sect2>
+
+<sect2><title>samples.h</title>
+<programlisting>
+void pdfdump_begindocument(int, va_list);
+void pdfdump_specversion(int, va_list);
+void pdfdump_entireheader(int, va_list);
+void pdfdump_objstart(int, va_list);
+void pdfdump_objend(int, va_list);
+
+void pdfdump_dictitem_string(int, va_list);
+void pdfdump_dictitem_name(int, va_list);
+void pdfdump_dictitem_arraystart(int, va_list);
+void pdfdump_dictitem_arrayitem(int, va_list);
+void pdfdump_dictitem_arrayend(int, va_list);
+void pdfdump_dictitem_object(int, va_list);
+void pdfdump_dictitem_dict(int, va_list);
+void pdfdump_dictitem_dictend(int, va_list);
+void pdfdump_dictitem_int(int, va_list);
+
+void pdfdump_stream(int, va_list);
+void pdfdump_dictint(int, va_list);
+void pdfdump_procstream(char *, int, char *, int);
+
+// This data type is needed for pdfdump_stream and 
+// pdfdump_dictint
+typedef struct pdfdump_internal_dictint_list{
+  char *value;
+  int waiting;
+  int number;
+
+  char *stream;
+  int streamlen;
+  char *filter;
+
+  struct pdfdump_internal_dictint_list  *next; 
+} pdfdump_dictint_list;
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/samples.h</emphasis></para>
+</sect2>
+
+<sect2><title>spinlock.c</title>
+<programlisting>
+/* 
+   Unix SMB/Netbios implementation.
+   Version 3.0
+   Samba database functions
+   Copyright (C) Anton Blanchard                   2001
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
+#if HAVE_CONFIG_H
+#include &lt;config.h&gt;
+#endif
+
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;time.h&gt;
+#include "tdb.h"
+#include "spinlock.h"
+
+#define DEBUG
+
+#ifdef USE_SPINLOCKS
+
+/*
+ * ARCH SPECIFIC
+ */
+
+#if defined(SPARC_SPINLOCKS)
+
+static inline int __spin_trylock(spinlock_t *lock)
+{
+	unsigned int result;
+
+	asm volatile("ldstub    [%1], %0"
+		: "=r" (result)
+		: "r" (lock)
+		: "memory");
+
+	return (result == 0) ? 0 : EBUSY;
+}
+
+static inline void __spin_unlock(spinlock_t *lock)
+{
+	asm volatile("":::"memory");
+	*lock = 0;
+}
+
+static inline void __spin_lock_init(spinlock_t *lock)
+{
+	*lock = 0;
+}
+
+static inline int __spin_is_locked(spinlock_t *lock)
+{
+	return (*lock != 0);
+}
+
+#elif defined(POWERPC_SPINLOCKS) 
+
+static inline int __spin_trylock(spinlock_t *lock)
+{
+	unsigned int result;
+
+	__asm__ __volatile__(
+"1:	lwarx		%0,0,%1\n\
+	cmpwi		0,%0,0\n\
+	li		%0,0\n\
+	bne-		2f\n\
+	li		%0,1\n\
+	stwcx.		%0,0,%1\n\
+	bne-		1b\n\
+	isync\n\
+2:"	: "=&amp;r"(result)
+	: "r"(lock)
+	: "cr0", "memory");
+
+	return (result == 1) ? 0 : EBUSY;
+}
+
+static inline void __spin_unlock(spinlock_t *lock)
+{
+	asm volatile("eieio":::"memory");
+	*lock = 0;
+}
+
+static inline void __spin_lock_init(spinlock_t *lock)
+{
+	*lock = 0;
+}
+
+static inline int __spin_is_locked(spinlock_t *lock)
+{
+	return (*lock != 0);
+}
+
+#elif defined(INTEL_SPINLOCKS) 
+
+static inline int __spin_trylock(spinlock_t *lock)
+{
+	int oldval;
+
+	asm volatile("xchgl %0,%1"
+		: "=r" (oldval), "=m" (*lock)
+		: "0" (0)
+		: "memory");
+
+	return oldval &gt; 0 ? 0 : EBUSY;
+}
+
+static inline void __spin_unlock(spinlock_t *lock)
+{
+	asm volatile("":::"memory");
+	*lock = 1;
+}
+
+static inline void __spin_lock_init(spinlock_t *lock)
+{
+	*lock = 1;
+}
+
+static inline int __spin_is_locked(spinlock_t *lock)
+{
+	return (*lock != 1);
+}
+
+#elif defined(MIPS_SPINLOCKS) 
+
+static inline unsigned int load_linked(unsigned long addr)
+{
+	unsigned int res;
+
+	__asm__ __volatile__("ll\t%0,(%1)"
+		: "=r" (res)
+		: "r" (addr));
+
+	return res;
+}
+
+static inline unsigned int store_conditional(unsigned long addr, unsigned int value)
+{
+	unsigned int res;
+
+	__asm__ __volatile__("sc\t%0,(%2)"
+		: "=r" (res)
+		: "0" (value), "r" (addr));
+	return res;
+}
+
+static inline int __spin_trylock(spinlock_t *lock)
+{
+	unsigned int mw;
+
+	do {
+		mw = load_linked(lock);
+		if (mw) 
+			return EBUSY;
+	} while (!store_conditional(lock, 1));
+
+	asm volatile("":::"memory");
+
+	return 0;
+}
+
+static inline void __spin_unlock(spinlock_t *lock)
+{
+	asm volatile("":::"memory");
+	*lock = 0;
+}
+
+static inline void __spin_lock_init(spinlock_t *lock)
+{
+	*lock = 0;
+}
+
+static inline int __spin_is_locked(spinlock_t *lock)
+{
+	return (*lock != 0);
+}
+
+#else
+#error Need to implement spinlock code in spinlock.c
+#endif
+
+/*
+ * OS SPECIFIC
+ */
+
+static void yield_cpu(void)
+{
+	struct timespec tm;
+
+#ifdef USE_SCHED_YIELD
+	sched_yield();
+#else
+	/* Linux will busy loop for delays &lt; 2ms on real time tasks */
+	tm.tv_sec = 0;
+	tm.tv_nsec = 2000000L + 1;
+	nanosleep(&amp;tm, NULL);
+#endif
+}
+
+static int this_is_smp(void)
+{
+	return 0;
+}
+
+/*
+ * GENERIC
+ */
+
+static int smp_machine = 0;
+
+static inline void __spin_lock(spinlock_t *lock)
+{
+	int ntries = 0;
+
+	while(__spin_trylock(lock)) {
+		while(__spin_is_locked(lock)) {
+			if (smp_machine &amp;&amp; ntries++ &lt; MAX_BUSY_LOOPS)
+				continue;
+			yield_cpu();
+		}
+	}
+}
+
+static void __read_lock(tdb_rwlock_t *rwlock)
+{
+	int ntries = 0;
+
+	while(1) {
+		__spin_lock(&amp;rwlock-&gt;lock);
+
+		if (!(rwlock-&gt;count &amp; RWLOCK_BIAS)) {
+			rwlock-&gt;count++;
+			__spin_unlock(&amp;rwlock-&gt;lock);
+			return;
+		}
+	
+		__spin_unlock(&amp;rwlock-&gt;lock);
+
+		while(rwlock-&gt;count &amp; RWLOCK_BIAS) {
+			if (smp_machine &amp;&amp; ntries++ &lt; MAX_BUSY_LOOPS)
+				continue;
+			yield_cpu();
+		}
+	}
+}
+
+static void __write_lock(tdb_rwlock_t *rwlock)
+{
+	int ntries = 0;
+
+	while(1) {
+		__spin_lock(&amp;rwlock-&gt;lock);
+
+		if (rwlock-&gt;count == 0) {
+			rwlock-&gt;count |= RWLOCK_BIAS;
+			__spin_unlock(&amp;rwlock-&gt;lock);
+			return;
+		}
+
+		__spin_unlock(&amp;rwlock-&gt;lock);
+
+		while(rwlock-&gt;count != 0) {
+			if (smp_machine &amp;&amp; ntries++ &lt; MAX_BUSY_LOOPS)
+				continue;
+			yield_cpu();
+		}
+	}
+}
+
+static void __write_unlock(tdb_rwlock_t *rwlock)
+{
+	__spin_lock(&amp;rwlock-&gt;lock);
+
+#ifdef DEBUG
+	if (!(rwlock-&gt;count &amp; RWLOCK_BIAS))
+		fprintf(stderr, "bug: write_unlock\n");
+#endif
+
+	rwlock-&gt;count &amp;= ~RWLOCK_BIAS;
+	__spin_unlock(&amp;rwlock-&gt;lock);
+}
+
+static void __read_unlock(tdb_rwlock_t *rwlock)
+{
+	__spin_lock(&amp;rwlock-&gt;lock);
+
+#ifdef DEBUG
+	if (!rwlock-&gt;count)
+		fprintf(stderr, "bug: read_unlock\n");
+
+	if (rwlock-&gt;count &amp; RWLOCK_BIAS)
+		fprintf(stderr, "bug: read_unlock\n");
+#endif
+
+	rwlock-&gt;count--;
+	__spin_unlock(&amp;rwlock-&gt;lock);
+}
+
+/* TDB SPECIFIC */
+
+/* lock a list in the database. list -1 is the alloc list */
+int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type)
+{
+	tdb_rwlock_t *rwlocks;
+
+	if (!tdb-&gt;map_ptr) return -1;
+	rwlocks = (tdb_rwlock_t *)((char *)tdb-&gt;map_ptr + tdb-&gt;header.rwlocks);
+
+	switch(rw_type) {
+	case F_RDLCK:
+		__read_lock(&amp;rwlocks[list+1]);
+		break;
+
+	case F_WRLCK:
+		__write_lock(&amp;rwlocks[list+1]);
+		break;
+
+	default:
+		return TDB_ERRCODE(TDB_ERR_LOCK, -1);
+	}
+	return 0;
+}
+
+/* unlock the database. */
+int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type)
+{
+	tdb_rwlock_t *rwlocks;
+
+	if (!tdb-&gt;map_ptr) return -1;
+	rwlocks = (tdb_rwlock_t *)((char *)tdb-&gt;map_ptr + tdb-&gt;header.rwlocks);
+
+	switch(rw_type) {
+	case F_RDLCK:
+		__read_unlock(&amp;rwlocks[list+1]);
+		break;
+
+	case F_WRLCK:
+		__write_unlock(&amp;rwlocks[list+1]);
+		break;
+
+	default:
+		return TDB_ERRCODE(TDB_ERR_LOCK, -1);
+	}
+
+	return 0;
+}
+
+int tdb_create_rwlocks(int fd, unsigned int hash_size)
+{
+	unsigned size, i;
+	tdb_rwlock_t *rwlocks;
+
+	size = (hash_size + 1) * sizeof(tdb_rwlock_t);
+	rwlocks = malloc(size);
+	if (!rwlocks)
+		return -1;
+
+	for(i = 0; i &lt; hash_size+1; i++) {
+		__spin_lock_init(&amp;rwlocks[i].lock);
+		rwlocks[i].count = 0;
+	}
+
+	/* Write it out (appending to end) */
+	if (write(fd, rwlocks, size) != size) {
+		free(rwlocks);
+		return -1;
+	}
+	smp_machine = this_is_smp();
+	free(rwlocks);
+	return 0;
+}
+
+int tdb_clear_spinlocks(TDB_CONTEXT *tdb)
+{
+	tdb_rwlock_t *rwlocks;
+	unsigned i;
+
+	if (tdb-&gt;header.rwlocks == 0) return 0;
+	if (!tdb-&gt;map_ptr) return -1;
+
+	/* We're mmapped here */
+	rwlocks = (tdb_rwlock_t *)((char *)tdb-&gt;map_ptr + tdb-&gt;header.rwlocks);
+	for(i = 0; i &lt; tdb-&gt;header.hash_size+1; i++) {
+		__spin_lock_init(&amp;rwlocks[i].lock);
+		rwlocks[i].count = 0;
+	}
+	return 0;
+}
+#else
+int tdb_create_rwlocks(int fd, unsigned int hash_size) { return 0; }
+int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type) { return -1; }
+int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type) { return -1; }
+
+/* Non-spinlock version: remove spinlock pointer */
+int tdb_clear_spinlocks(TDB_CONTEXT *tdb)
+{
+	tdb_off off = (tdb_off)((char *)&amp;tdb-&gt;header.rwlocks
+				- (char *)&amp;tdb-&gt;header);
+
+	tdb-&gt;header.rwlocks = 0;
+	if (lseek(tdb-&gt;fd, off, SEEK_SET) != off
+	    || write(tdb-&gt;fd, (void *)&amp;tdb-&gt;header.rwlocks,
+		     sizeof(tdb-&gt;header.rwlocks)) 
+	    != sizeof(tdb-&gt;header.rwlocks))
+		return -1;
+	return 0;
+}
+#endif
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/spinlock.c</emphasis></para>
+</sect2>
+
+<sect2><title>spinlock.h</title>
+<programlisting>
+#ifndef __SPINLOCK_H__
+#define __SPINLOCK_H__
+
+#if HAVE_CONFIG_H
+#include &lt;config.h&gt;
+#endif
+
+#include "tdb.h"
+
+#ifdef USE_SPINLOCKS
+
+#define RWLOCK_BIAS 0x1000UL
+
+/* OS SPECIFIC */
+#define MAX_BUSY_LOOPS 1000
+#undef USE_SCHED_YIELD
+
+/* ARCH SPECIFIC */
+/* We should make sure these are padded to a cache line */
+#if defined(SPARC_SPINLOCKS)
+typedef volatile char spinlock_t;
+#elif defined(POWERPC_SPINLOCKS)
+typedef volatile unsigned long spinlock_t;
+#elif defined(INTEL_SPINLOCKS)
+typedef volatile int spinlock_t;
+#elif defined(MIPS_SPINLOCKS)
+typedef volatile unsigned long spinlock_t;
+#else
+#error Need to implement spinlock code in spinlock.h
+#endif
+
+typedef struct {
+	spinlock_t lock;
+	volatile int count;
+} tdb_rwlock_t;
+
+int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type);
+int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type);
+int tdb_create_rwlocks(int fd, unsigned int hash_size);
+int tdb_clear_spinlocks(TDB_CONTEXT *tdb);
+
+#else /* !USE_SPINLOCKS */
+#if 0
+#define tdb_create_rwlocks(fd, hash_size) 0
+#define tdb_spinlock(tdb, list, rw_type) (-1)
+#define tdb_spinunlock(tdb, list, rw_type) (-1)
+#else
+int tdb_spinlock(TDB_CONTEXT *tdb, int list, int rw_type);
+int tdb_spinunlock(TDB_CONTEXT *tdb, int list, int rw_type);
+int tdb_create_rwlocks(int fd, unsigned int hash_size);
+#endif
+int tdb_clear_spinlocks(TDB_CONTEXT *tdb);
+#endif
+
+#endif
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/spinlock.h</emphasis></para>
+</sect2>
+
+<sect2><title>tdb.c</title>
+<programlisting>
+ /* 
+   Unix SMB/Netbios implementation.
+   Version 3.0
+   Samba database functions
+   Copyright (C) Andrew Tridgell              1999-2000
+   Copyright (C) Luke Kenneth Casson Leighton      2000
+   Copyright (C) Paul `Rusty' Russell		   2000
+   Copyright (C) Jeremy Allison			   2000
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
+#if HAVE_CONFIG_H
+#include &lt;config.h&gt;
+#endif
+
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;sys/stat.h&gt;
+#include "tdb.h"
+#include "spinlock.h"
+
+#define TDB_MAGIC_FOOD "TDB file\n"
+#define TDB_VERSION (0x26011967 + 6)
+#define TDB_MAGIC (0x26011999U)
+#define TDB_FREE_MAGIC (~TDB_MAGIC)
+#define TDB_DEAD_MAGIC (0xFEE1DEAD)
+#define TDB_ALIGNMENT 4
+#define MIN_REC_SIZE (2*sizeof(struct list_struct) + TDB_ALIGNMENT)
+#define DEFAULT_HASH_SIZE 131
+#define TDB_PAGE_SIZE 0x2000
+#define FREELIST_TOP (sizeof(struct tdb_header))
+#define TDB_ALIGN(x,a) (((x) + (a)-1) &amp; ~((a)-1))
+#define TDB_BYTEREV(x) (((((x)&amp;0xff)&lt;&lt;24)|((x)&amp;0xFF00)&lt;&lt;8)|(((x)&gt;&gt;8)&amp;0xFF00)|((x)&gt;&gt;24))
+#define TDB_DEAD(r) ((r)-&gt;magic == TDB_DEAD_MAGIC)
+#define TDB_BAD_MAGIC(r) ((r)-&gt;magic != TDB_MAGIC &amp;&amp; !TDB_DEAD(r))
+#define TDB_HASH_TOP(hash) (FREELIST_TOP + (BUCKET(hash)+1)*sizeof(tdb_off))
+
+/* NB assumes there is a local variable called "tdb" that is the
+ * current context, also takes doubly-parenthesized print-style
+ * argument. */
+#define TDB_LOG(x) (tdb-&gt;log_fn?((tdb-&gt;log_fn x),0) : 0)
+
+/* lock offsets */
+#define GLOBAL_LOCK 0
+#define ACTIVE_LOCK 4
+
+#ifndef MAP_FILE
+#define MAP_FILE 0
+#endif
+
+#ifndef MAP_FAILED
+#define MAP_FAILED ((void *)-1)
+#endif
+
+/* free memory if the pointer is valid and zero the pointer */
+#ifndef SAFE_FREE
+#define SAFE_FREE(x) do { if ((x) != NULL) {free((x)); (x)=NULL;} } while(0)
+#endif
+
+#define BUCKET(hash) ((hash) % tdb-&gt;header.hash_size)
+TDB_DATA tdb_null;
+
+/* all contexts, to ensure no double-opens (fcntl locks don't nest!) */
+static TDB_CONTEXT *tdbs = NULL;
+
+static void tdb_munmap(TDB_CONTEXT *tdb)
+{
+	if (tdb-&gt;flags &amp; TDB_INTERNAL)
+		return;
+
+#ifdef HAVE_MMAP
+	if (tdb-&gt;map_ptr)
+		munmap(tdb-&gt;map_ptr, tdb-&gt;map_size);
+#endif
+	tdb-&gt;map_ptr = NULL;
+}
+
+static void tdb_mmap(TDB_CONTEXT *tdb)
+{
+	if (tdb-&gt;flags &amp; TDB_INTERNAL)
+		return;
+
+#ifdef HAVE_MMAP
+	if (!(tdb-&gt;flags &amp; TDB_NOMMAP)) {
+		tdb-&gt;map_ptr = mmap(NULL, tdb-&gt;map_size, 
+				    PROT_READ|(tdb-&gt;read_only? 0:PROT_WRITE), 
+				    MAP_SHARED|MAP_FILE, tdb-&gt;fd, 0);
+
+		/*
+		 * NB. When mmap fails it returns MAP_FAILED *NOT* NULL !!!!
+		 */
+
+		if (tdb-&gt;map_ptr == MAP_FAILED) {
+			tdb-&gt;map_ptr = NULL;
+			TDB_LOG((tdb, 2, "tdb_mmap failed for size %d (%s)\n", 
+				 tdb-&gt;map_size, strerror(errno)));
+		}
+	} else {
+		tdb-&gt;map_ptr = NULL;
+	}
+#else
+	tdb-&gt;map_ptr = NULL;
+#endif
+}
+
+/* Endian conversion: we only ever deal with 4 byte quantities */
+static void *convert(void *buf, u32 size)
+{
+	u32 i, *p = buf;
+	for (i = 0; i &lt; size / 4; i++)
+		p[i] = TDB_BYTEREV(p[i]);
+	return buf;
+}
+#define DOCONV() (tdb-&gt;flags &amp; TDB_CONVERT)
+#define CONVERT(x) (DOCONV() ? convert(&amp;x, sizeof(x)) : &amp;x)
+
+/* the body of the database is made of one list_struct for the free space
+   plus a separate data list for each hash value */
+struct list_struct {
+	tdb_off next; /* offset of the next record in the list */
+	tdb_len rec_len; /* total byte length of record */
+	tdb_len key_len; /* byte length of key */
+	tdb_len data_len; /* byte length of data */
+	u32 full_hash; /* the full 32 bit hash of the key */
+	u32 magic;   /* try to catch errors */
+	/* the following union is implied:
+		union {
+			char record[rec_len];
+			struct {
+				char key[key_len];
+				char data[data_len];
+			}
+			u32 totalsize; (tailer)
+		}
+	*/
+};
+
+/* a byte range locking function - return 0 on success
+   this functions locks/unlocks 1 byte at the specified offset.
+
+   On error, errno is also set so that errors are passed back properly
+   through tdb_open(). */
+static int tdb_brlock(TDB_CONTEXT *tdb, tdb_off offset, 
+		      int rw_type, int lck_type, int probe)
+{
+	struct flock fl;
+
+	if (tdb-&gt;flags &amp; TDB_NOLOCK)
+		return 0;
+	if (tdb-&gt;read_only) {
+		errno = EACCES;
+		return -1;
+	}
+
+	fl.l_type = rw_type;
+	fl.l_whence = SEEK_SET;
+	fl.l_start = offset;
+	fl.l_len = 1;
+	fl.l_pid = 0;
+
+	if (fcntl(tdb-&gt;fd,lck_type,&amp;fl) == -1) {
+		if (!probe) {
+			TDB_LOG((tdb, 5,"tdb_brlock failed (fd=%d) at offset %d rw_type=%d lck_type=%d\n", 
+				 tdb-&gt;fd, offset, rw_type, lck_type));
+		}
+		/* errno set by fcntl */
+		return TDB_ERRCODE(TDB_ERR_LOCK, -1);
+	}
+	return 0;
+}
+
+/* lock a list in the database. list -1 is the alloc list */
+static int tdb_lock(TDB_CONTEXT *tdb, int list, int ltype)
+{
+	if (list &lt; -1 || list &gt;= (int)tdb-&gt;header.hash_size) {
+		TDB_LOG((tdb, 0,"tdb_lock: invalid list %d for ltype=%d\n", 
+			   list, ltype));
+		return -1;
+	}
+	if (tdb-&gt;flags &amp; TDB_NOLOCK)
+		return 0;
+
+	/* Since fcntl locks don't nest, we do a lock for the first one,
+	   and simply bump the count for future ones */
+	if (tdb-&gt;locked[list+1].count == 0) {
+		if (!tdb-&gt;read_only &amp;&amp; tdb-&gt;header.rwlocks) {
+			if (tdb_spinlock(tdb, list, ltype)) {
+				TDB_LOG((tdb, 0, "tdb_lock spinlock failed on list ltype=%d\n", 
+					   list, ltype));
+				return -1;
+			}
+		} else if (tdb_brlock(tdb,FREELIST_TOP+4*list,ltype,F_SETLKW, 0)) {
+			TDB_LOG((tdb, 0,"tdb_lock failed on list %d ltype=%d (%s)\n", 
+					   list, ltype, strerror(errno)));
+			return -1;
+		}
+		tdb-&gt;locked[list+1].ltype = ltype;
+	}
+	tdb-&gt;locked[list+1].count++;
+	return 0;
+}
+
+/* unlock the database: returns void because it's too late for errors. */
+static void tdb_unlock(TDB_CONTEXT *tdb, int list, int ltype)
+{
+	if (tdb-&gt;flags &amp; TDB_NOLOCK)
+		return;
+
+	/* Sanity checks */
+	if (list &lt; -1 || list &gt;= (int)tdb-&gt;header.hash_size)
+		return;
+	if (tdb-&gt;locked[list+1].count==0)
+		return;
+
+	if (tdb-&gt;locked[list+1].count == 1) {
+		/* Down to last nested lock: unlock underneath */
+		if (!tdb-&gt;read_only &amp;&amp; tdb-&gt;header.rwlocks)
+			tdb_spinunlock(tdb, list, ltype);
+		else
+			tdb_brlock(tdb, FREELIST_TOP+4*list, F_UNLCK, F_SETLKW, 0);
+	}
+	tdb-&gt;locked[list+1].count--;
+}
+
+/* This is based on the hash agorithm from gdbm */
+static u32 tdb_hash(TDB_DATA *key)
+{
+	u32 value;	/* Used to compute the hash value.  */
+	u32   i;	/* Used to cycle through random values. */
+
+	/* Set the initial value from the key size. */
+	for (value = 0x238F13AF * key-&gt;dsize, i=0; i &lt; key-&gt;dsize; i++)
+		value = (value + (key-&gt;dptr[i] &lt;&lt; (i*5 % 24)));
+
+	return (1103515243 * value + 12345);  
+}
+
+/* check for an out of bounds access - if it is out of bounds then
+   see if the database has been expanded by someone else and expand
+   if necessary 
+   note that "len" is the minimum length needed for the db
+*/
+static int tdb_oob(TDB_CONTEXT *tdb, tdb_off len, int probe)
+{
+	struct stat st;
+	if (len &lt;= tdb-&gt;map_size)
+		return 0;
+	if (tdb-&gt;flags &amp; TDB_INTERNAL) {
+		if (!probe) {
+			TDB_LOG((tdb, 0,"tdb_oob len %d beyond internal malloc size %d\n",
+				 (int)len, (int)tdb-&gt;map_size));
+		}
+		return TDB_ERRCODE(TDB_ERR_IO, -1);
+	}
+
+	if (fstat(tdb-&gt;fd, &amp;st) == -1)
+		return TDB_ERRCODE(TDB_ERR_IO, -1);
+
+	if (st.st_size &lt; (size_t)len) {
+		if (!probe) {
+			TDB_LOG((tdb, 0,"tdb_oob len %d beyond eof at %d\n",
+				 (int)len, (int)st.st_size));
+		}
+		return TDB_ERRCODE(TDB_ERR_IO, -1);
+	}
+
+	/* Unmap, update size, remap */
+	tdb_munmap(tdb);
+	tdb-&gt;map_size = st.st_size;
+	tdb_mmap(tdb);
+	return 0;
+}
+
+/* write a lump of data at a specified offset */
+static int tdb_write(TDB_CONTEXT *tdb, tdb_off off, void *buf, tdb_len len)
+{
+	if (tdb_oob(tdb, off + len, 0) != 0)
+		return -1;
+
+	if (tdb-&gt;map_ptr)
+		memcpy(off + (char *)tdb-&gt;map_ptr, buf, len);
+#ifdef HAVE_PWRITE
+	else if (pwrite(tdb-&gt;fd, buf, len, off) != (ssize_t)len) {
+#else
+	else if (lseek(tdb-&gt;fd, off, SEEK_SET) != off
+		 || write(tdb-&gt;fd, buf, len) != (ssize_t)len) {
+#endif
+		TDB_LOG((tdb, 0,"tdb_write failed at %d len=%d (%s)\n",
+			   off, len, strerror(errno)));
+		return TDB_ERRCODE(TDB_ERR_IO, -1);
+	}
+	return 0;
+}
+
+/* read a lump of data at a specified offset, maybe convert */
+static int tdb_read(TDB_CONTEXT *tdb,tdb_off off,void *buf,tdb_len len,int cv)
+{
+	if (tdb_oob(tdb, off + len, 0) != 0)
+		return -1;
+
+	if (tdb-&gt;map_ptr)
+		memcpy(buf, off + (char *)tdb-&gt;map_ptr, len);
+#ifdef HAVE_PREAD
+	else if (pread(tdb-&gt;fd, buf, len, off) != (ssize_t)len) {
+#else
+	else if (lseek(tdb-&gt;fd, off, SEEK_SET) != off
+		 || read(tdb-&gt;fd, buf, len) != (ssize_t)len) {
+#endif
+		TDB_LOG((tdb, 0,"tdb_read failed at %d len=%d (%s)\n",
+			   off, len, strerror(errno)));
+		return TDB_ERRCODE(TDB_ERR_IO, -1);
+	}
+	if (cv)
+		convert(buf, len);
+	return 0;
+}
+
+/* read a lump of data, allocating the space for it */
+static char *tdb_alloc_read(TDB_CONTEXT *tdb, tdb_off offset, tdb_len len)
+{
+	char *buf;
+
+	if (!(buf = malloc(len))) {
+		TDB_LOG((tdb, 0,"tdb_alloc_read malloc failed len=%d (%s)\n",
+			   len, strerror(errno)));
+		return TDB_ERRCODE(TDB_ERR_OOM, buf);
+	}
+	if (tdb_read(tdb, offset, buf, len, 0) == -1) {
+		SAFE_FREE(buf);
+		return NULL;
+	}
+	return buf;
+}
+
+/* read/write a tdb_off */
+static int ofs_read(TDB_CONTEXT *tdb, tdb_off offset, tdb_off *d)
+{
+	return tdb_read(tdb, offset, (char*)d, sizeof(*d), DOCONV());
+}
+static int ofs_write(TDB_CONTEXT *tdb, tdb_off offset, tdb_off *d)
+{
+	tdb_off off = *d;
+	return tdb_write(tdb, offset, CONVERT(off), sizeof(*d));
+}
+
+/* read/write a record */
+static int rec_read(TDB_CONTEXT *tdb, tdb_off offset, struct list_struct *rec)
+{
+	if (tdb_read(tdb, offset, rec, sizeof(*rec),DOCONV()) == -1)
+		return -1;
+	if (TDB_BAD_MAGIC(rec)) {
+		TDB_LOG((tdb, 0,"rec_read bad magic 0x%x at offset=%d\n", rec-&gt;magic, offset));
+		return TDB_ERRCODE(TDB_ERR_CORRUPT, -1);
+	}
+	return tdb_oob(tdb, rec-&gt;next+sizeof(*rec), 0);
+}
+static int rec_write(TDB_CONTEXT *tdb, tdb_off offset, struct list_struct *rec)
+{
+	struct list_struct r = *rec;
+	return tdb_write(tdb, offset, CONVERT(r), sizeof(r));
+}
+
+/* read a freelist record and check for simple errors */
+static int rec_free_read(TDB_CONTEXT *tdb, tdb_off off, struct list_struct *rec)
+{
+	if (tdb_read(tdb, off, rec, sizeof(*rec),DOCONV()) == -1)
+		return -1;
+	if (rec-&gt;magic != TDB_FREE_MAGIC) {
+		TDB_LOG((tdb, 0,"rec_free_read bad magic 0x%x at offset=%d\n", 
+			   rec-&gt;magic, off));
+		return TDB_ERRCODE(TDB_ERR_CORRUPT, -1);
+	}
+	if (tdb_oob(tdb, rec-&gt;next+sizeof(*rec), 0) != 0)
+		return -1;
+	return 0;
+}
+
+/* update a record tailer (must hold allocation lock) */
+static int update_tailer(TDB_CONTEXT *tdb, tdb_off offset,
+			 const struct list_struct *rec)
+{
+	tdb_off totalsize;
+
+	/* Offset of tailer from record header */
+	totalsize = sizeof(*rec) + rec-&gt;rec_len;
+	return ofs_write(tdb, offset + totalsize - sizeof(tdb_off),
+			 &amp;totalsize);
+}
+
+static tdb_off tdb_dump_record(TDB_CONTEXT *tdb, tdb_off offset)
+{
+	struct list_struct rec;
+	tdb_off tailer_ofs, tailer;
+
+	if (tdb_read(tdb, offset, (char *)&amp;rec, sizeof(rec), DOCONV()) == -1) {
+		printf("ERROR: failed to read record at %u\n", offset);
+		return 0;
+	}
+
+	printf(" rec: offset=%u next=%d rec_len=%d key_len=%d data_len=%d full_hash=0x%x magic=0x%x\n",
+	       offset, rec.next, rec.rec_len, rec.key_len, rec.data_len, rec.full_hash, rec.magic);
+
+	tailer_ofs = offset + sizeof(rec) + rec.rec_len - sizeof(tdb_off);
+	if (ofs_read(tdb, tailer_ofs, &amp;tailer) == -1) {
+		printf("ERROR: failed to read tailer at %u\n", tailer_ofs);
+		return rec.next;
+	}
+
+	if (tailer != rec.rec_len + sizeof(rec)) {
+		printf("ERROR: tailer does not match record! tailer=%u totalsize=%u\n",
+				(unsigned)tailer, (unsigned)(rec.rec_len + sizeof(rec)));
+	}
+	return rec.next;
+}
+
+static void tdb_dump_chain(TDB_CONTEXT *tdb, int i)
+{
+	tdb_off rec_ptr, top;
+
+	top = TDB_HASH_TOP(i);
+
+	tdb_lock(tdb, i, F_WRLCK);
+
+	if (ofs_read(tdb, top, &amp;rec_ptr) == -1) {
+		tdb_unlock(tdb, i, F_WRLCK);
+		return;
+	}
+
+	if (rec_ptr)
+		printf("hash=%d\n", i);
+
+	while (rec_ptr) {
+		rec_ptr = tdb_dump_record(tdb, rec_ptr);
+	}
+	tdb_unlock(tdb, i, F_WRLCK);
+}
+
+void tdb_dump_all(TDB_CONTEXT *tdb)
+{
+	int i;
+	for (i=0;i&lt;tdb-&gt;header.hash_size;i++) {
+		tdb_dump_chain(tdb, i);
+	}
+	printf("freelist:\n");
+	tdb_dump_chain(tdb, -1);
+}
+
+void tdb_printfreelist(TDB_CONTEXT *tdb)
+{
+	long total_free = 0;
+	tdb_off offset, rec_ptr;
+	struct list_struct rec;
+
+	tdb_lock(tdb, -1, F_WRLCK);
+
+	offset = FREELIST_TOP;
+
+	/* read in the freelist top */
+	if (ofs_read(tdb, offset, &amp;rec_ptr) == -1) {
+		return;
+	}
+
+	printf("freelist top=[0x%08x]\n", rec_ptr );
+	while (rec_ptr) {
+		if (tdb_read(tdb, rec_ptr, (char *)&amp;rec, sizeof(rec), DOCONV()) == -1) {
+			return;
+		}
+
+		if (rec.magic != TDB_FREE_MAGIC) {
+			printf("bad magic 0x%08x in free list\n", rec.magic);
+			return;
+		}
+
+		printf("entry offset=[0x%08x], rec.rec_len = [0x%08x (%d)]\n", rec.next, rec.rec_len, rec.rec_len );
+		total_free += rec.rec_len;
+
+		/* move to the next record */
+		rec_ptr = rec.next;
+	}
+	printf("total rec_len = [0x%08x (%d)]\n", (int)total_free, 
+               (int)total_free);
+
+	tdb_unlock(tdb, -1, F_WRLCK);
+}
+
+/* Remove an element from the freelist.  Must have alloc lock. */
+static int remove_from_freelist(TDB_CONTEXT *tdb, tdb_off off, tdb_off next)
+{
+	tdb_off last_ptr, i;
+
+	/* read in the freelist top */
+	last_ptr = FREELIST_TOP;
+	while (ofs_read(tdb, last_ptr, &amp;i) != -1 &amp;&amp; i != 0) {
+		if (i == off) {
+			/* We've found it! */
+			return ofs_write(tdb, last_ptr, &amp;next);
+		}
+		/* Follow chain (next offset is at start of record) */
+		last_ptr = i;
+	}
+	TDB_LOG((tdb, 0,"remove_from_freelist: not on list at off=%d\n", off));
+	return TDB_ERRCODE(TDB_ERR_CORRUPT, -1);
+}
+
+/* Add an element into the freelist. Merge adjacent records if
+   neccessary. */
+static int tdb_free(TDB_CONTEXT *tdb, tdb_off offset, struct list_struct *rec)
+{
+	tdb_off right, left;
+
+	/* Allocation and tailer lock */
+	if (tdb_lock(tdb, -1, F_WRLCK) != 0)
+		return -1;
+
+	/* set an initial tailer, so if we fail we don't leave a bogus record */
+	update_tailer(tdb, offset, rec);
+
+	/* Look right first (I'm an Australian, dammit) */
+	right = offset + sizeof(*rec) + rec-&gt;rec_len;
+	if (right + sizeof(*rec) &lt;= tdb-&gt;map_size) {
+		struct list_struct r;
+
+		if (tdb_read(tdb, right, &amp;r, sizeof(r), DOCONV()) == -1) {
+			TDB_LOG((tdb, 0, "tdb_free: right read failed at %u\n", right));
+			goto left;
+		}
+
+		/* If it's free, expand to include it. */
+		if (r.magic == TDB_FREE_MAGIC) {
+			if (remove_from_freelist(tdb, right, r.next) == -1) {
+				TDB_LOG((tdb, 0, "tdb_free: right free failed at %u\n", right));
+				goto left;
+			}
+			rec-&gt;rec_len += sizeof(r) + r.rec_len;
+		}
+	}
+
+left:
+	/* Look left */
+	left = offset - sizeof(tdb_off);
+	if (left &gt; TDB_HASH_TOP(tdb-&gt;header.hash_size-1)) {
+		struct list_struct l;
+		tdb_off leftsize;
+
+		/* Read in tailer and jump back to header */
+		if (ofs_read(tdb, left, &amp;leftsize) == -1) {
+			TDB_LOG((tdb, 0, "tdb_free: left offset read failed at %u\n", left));
+			goto update;
+		}
+		left = offset - leftsize;
+
+		/* Now read in record */
+		if (tdb_read(tdb, left, &amp;l, sizeof(l), DOCONV()) == -1) {
+			TDB_LOG((tdb, 0, "tdb_free: left read failed at %u (%u)\n", left, leftsize));
+			goto update;
+		}
+
+		/* If it's free, expand to include it. */
+		if (l.magic == TDB_FREE_MAGIC) {
+			if (remove_from_freelist(tdb, left, l.next) == -1) {
+				TDB_LOG((tdb, 0, "tdb_free: left free failed at %u\n", left));
+				goto update;
+			} else {
+				offset = left;
+				rec-&gt;rec_len += leftsize;
+			}
+		}
+	}
+
+update:
+	if (update_tailer(tdb, offset, rec) == -1) {
+		TDB_LOG((tdb, 0, "tdb_free: update_tailer failed at %u\n", offset));
+		goto fail;
+	}
+
+	/* Now, prepend to free list */
+	rec-&gt;magic = TDB_FREE_MAGIC;
+
+	if (ofs_read(tdb, FREELIST_TOP, &amp;rec-&gt;next) == -1 ||
+	    rec_write(tdb, offset, rec) == -1 ||
+	    ofs_write(tdb, FREELIST_TOP, &amp;offset) == -1) {
+		TDB_LOG((tdb, 0, "tdb_free record write failed at offset=%d\n", offset));
+		goto fail;
+	}
+
+	/* And we're done. */
+	tdb_unlock(tdb, -1, F_WRLCK);
+	return 0;
+
+ fail:
+	tdb_unlock(tdb, -1, F_WRLCK);
+	return -1;
+}
+
+
+/* expand a file.  we prefer to use ftruncate, as that is what posix
+  says to use for mmap expansion */
+static int expand_file(TDB_CONTEXT *tdb, tdb_off size, tdb_off addition)
+{
+	char buf[1024];
+#if HAVE_FTRUNCATE_EXTEND
+	if (ftruncate(tdb-&gt;fd, size+addition) != 0) {
+		TDB_LOG((tdb, 0, "expand_file ftruncate to %d failed (%s)\n", 
+			   size+addition, strerror(errno)));
+		return -1;
+	}
+#else
+	char b = 0;
+
+#ifdef HAVE_PWRITE
+	if (pwrite(tdb-&gt;fd,  &amp;b, 1, (size+addition) - 1) != 1) {
+#else
+	if (lseek(tdb-&gt;fd, (size+addition) - 1, SEEK_SET) != (size+addition) - 1 || 
+	    write(tdb-&gt;fd, &amp;b, 1) != 1) {
+#endif
+		TDB_LOG((tdb, 0, "expand_file to %d failed (%s)\n", 
+			   size+addition, strerror(errno)));
+		return -1;
+	}
+#endif
+
+	/* now fill the file with something. This ensures that the file isn't sparse, which would be
+	   very bad if we ran out of disk. This must be done with write, not via mmap */
+	memset(buf, 0x42, sizeof(buf));
+	while (addition) {
+		int n = addition&gt;sizeof(buf)?sizeof(buf):addition;
+#ifdef HAVE_PWRITE
+		int ret = pwrite(tdb-&gt;fd, buf, n, size);
+#else
+		int ret;
+		if (lseek(tdb-&gt;fd, size, SEEK_SET) != size)
+			return -1;
+		ret = write(tdb-&gt;fd, buf, n);
+#endif
+		if (ret != n) {
+			TDB_LOG((tdb, 0, "expand_file write of %d failed (%s)\n", 
+				   n, strerror(errno)));
+			return -1;
+		}
+		addition -= n;
+		size += n;
+	}
+	return 0;
+}
+
+
+/* expand the database at least size bytes by expanding the underlying
+   file and doing the mmap again if necessary */
+static int tdb_expand(TDB_CONTEXT *tdb, tdb_off size)
+{
+	struct list_struct rec;
+	tdb_off offset;
+
+	if (tdb_lock(tdb, -1, F_WRLCK) == -1) {
+		TDB_LOG((tdb, 0, "lock failed in tdb_expand\n"));
+		return -1;
+	}
+
+	/* must know about any previous expansions by another process */
+	tdb_oob(tdb, tdb-&gt;map_size + 1, 1);
+
+	/* always make room for at least 10 more records, and round
+           the database up to a multiple of TDB_PAGE_SIZE */
+	size = TDB_ALIGN(tdb-&gt;map_size + size*10, TDB_PAGE_SIZE) - tdb-&gt;map_size;
+
+	if (!(tdb-&gt;flags &amp; TDB_INTERNAL))
+		tdb_munmap(tdb);
+
+	/*
+	 * We must ensure the file is unmapped before doing this
+	 * to ensure consistency with systems like OpenBSD where
+	 * writes and mmaps are not consistent.
+	 */
+
+	/* expand the file itself */
+	if (!(tdb-&gt;flags &amp; TDB_INTERNAL)) {
+		if (expand_file(tdb, tdb-&gt;map_size, size) != 0)
+			goto fail;
+	}
+
+	tdb-&gt;map_size += size;
+
+	if (tdb-&gt;flags &amp; TDB_INTERNAL)
+		tdb-&gt;map_ptr = realloc(tdb-&gt;map_ptr, tdb-&gt;map_size);
+	else {
+		/*
+		 * We must ensure the file is remapped before adding the space
+		 * to ensure consistency with systems like OpenBSD where
+		 * writes and mmaps are not consistent.
+		 */
+
+		/* We're ok if the mmap fails as we'll fallback to read/write */
+		tdb_mmap(tdb);
+	}
+
+	/* form a new freelist record */
+	memset(&amp;rec,'\0',sizeof(rec));
+	rec.rec_len = size - sizeof(rec);
+
+	/* link it into the free list */
+	offset = tdb-&gt;map_size - size;
+	if (tdb_free(tdb, offset, &amp;rec) == -1)
+		goto fail;
+
+	tdb_unlock(tdb, -1, F_WRLCK);
+	return 0;
+ fail:
+	tdb_unlock(tdb, -1, F_WRLCK);
+	return -1;
+}
+
+/* allocate some space from the free list. The offset returned points
+   to a unconnected list_struct within the database with room for at
+   least length bytes of total data
+
+   0 is returned if the space could not be allocated
+ */
+static tdb_off tdb_allocate(TDB_CONTEXT *tdb, tdb_len length,
+			    struct list_struct *rec)
+{
+	tdb_off rec_ptr, last_ptr, newrec_ptr;
+	struct list_struct newrec;
+
+	if (tdb_lock(tdb, -1, F_WRLCK) == -1)
+		return 0;
+
+	/* Extra bytes required for tailer */
+	length += sizeof(tdb_off);
+
+ again:
+	last_ptr = FREELIST_TOP;
+
+	/* read in the freelist top */
+	if (ofs_read(tdb, FREELIST_TOP, &amp;rec_ptr) == -1)
+		goto fail;
+
+	/* keep looking until we find a freelist record big enough */
+	while (rec_ptr) {
+		if (rec_free_read(tdb, rec_ptr, rec) == -1)
+			goto fail;
+
+		if (rec-&gt;rec_len &gt;= length) {
+			/* found it - now possibly split it up  */
+			if (rec-&gt;rec_len &gt; length + MIN_REC_SIZE) {
+				/* Length of left piece */
+				length = TDB_ALIGN(length, TDB_ALIGNMENT);
+
+				/* Right piece to go on free list */
+				newrec.rec_len = rec-&gt;rec_len
+					- (sizeof(*rec) + length);
+				newrec_ptr = rec_ptr + sizeof(*rec) + length;
+
+				/* And left record is shortened */
+				rec-&gt;rec_len = length;
+			} else
+				newrec_ptr = 0;
+
+			/* Remove allocated record from the free list */
+			if (ofs_write(tdb, last_ptr, &amp;rec-&gt;next) == -1)
+				goto fail;
+
+			/* Update header: do this before we drop alloc
+                           lock, otherwise tdb_free() might try to
+                           merge with us, thinking we're free.
+                           (Thanks Jeremy Allison). */
+			rec-&gt;magic = TDB_MAGIC;
+			if (rec_write(tdb, rec_ptr, rec) == -1)
+				goto fail;
+
+			/* Did we create new block? */
+			if (newrec_ptr) {
+				/* Update allocated record tailer (we
+                                   shortened it). */
+				if (update_tailer(tdb, rec_ptr, rec) == -1)
+					goto fail;
+
+				/* Free new record */
+				if (tdb_free(tdb, newrec_ptr, &amp;newrec) == -1)
+					goto fail;
+			}
+
+			/* all done - return the new record offset */
+			tdb_unlock(tdb, -1, F_WRLCK);
+			return rec_ptr;
+		}
+		/* move to the next record */
+		last_ptr = rec_ptr;
+		rec_ptr = rec-&gt;next;
+	}
+	/* we didn't find enough space. See if we can expand the
+	   database and if we can then try again */
+	if (tdb_expand(tdb, length + sizeof(*rec)) == 0)
+		goto again;
+ fail:
+	tdb_unlock(tdb, -1, F_WRLCK);
+	return 0;
+}
+
+/* initialise a new database with a specified hash size */
+static int tdb_new_database(TDB_CONTEXT *tdb, int hash_size)
+{
+	struct tdb_header *newdb;
+	int size, ret = -1;
+
+	/* We make it up in memory, then write it out if not internal */
+	size = sizeof(struct tdb_header) + (hash_size+1)*sizeof(tdb_off);
+	if (!(newdb = calloc(size, 1)))
+		return TDB_ERRCODE(TDB_ERR_OOM, -1);
+
+	/* Fill in the header */
+	newdb-&gt;version = TDB_VERSION;
+	newdb-&gt;hash_size = hash_size;
+#ifdef USE_SPINLOCKS
+	newdb-&gt;rwlocks = size;
+#endif
+	if (tdb-&gt;flags &amp; TDB_INTERNAL) {
+		tdb-&gt;map_size = size;
+		tdb-&gt;map_ptr = (char *)newdb;
+		memcpy(&amp;tdb-&gt;header, newdb, sizeof(tdb-&gt;header));
+		/* Convert the `ondisk' version if asked. */
+		CONVERT(*newdb);
+		return 0;
+	}
+	if (lseek(tdb-&gt;fd, 0, SEEK_SET) == -1)
+		goto fail;
+
+	if (ftruncate(tdb-&gt;fd, 0) == -1)
+		goto fail;
+
+	/* This creates an endian-converted header, as if read from disk */
+	CONVERT(*newdb);
+	memcpy(&amp;tdb-&gt;header, newdb, sizeof(tdb-&gt;header));
+	/* Don't endian-convert the magic food! */
+	memcpy(newdb-&gt;magic_food, TDB_MAGIC_FOOD, strlen(TDB_MAGIC_FOOD)+1);
+	if (write(tdb-&gt;fd, newdb, size) != size)
+		ret = -1;
+	else
+		ret = tdb_create_rwlocks(tdb-&gt;fd, hash_size);
+
+  fail:
+	SAFE_FREE(newdb);
+	return ret;
+}
+
+/* Returns 0 on fail.  On success, return offset of record, and fills
+   in rec */
+static tdb_off tdb_find(TDB_CONTEXT *tdb, TDB_DATA key, u32 hash,
+			struct list_struct *r)
+{
+	tdb_off rec_ptr;
+	
+	/* read in the hash top */
+	if (ofs_read(tdb, TDB_HASH_TOP(hash), &amp;rec_ptr) == -1)
+		return 0;
+
+	/* keep looking until we find the right record */
+	while (rec_ptr) {
+		if (rec_read(tdb, rec_ptr, r) == -1)
+			return 0;
+
+		if (!TDB_DEAD(r) &amp;&amp; hash==r-&gt;full_hash &amp;&amp; key.dsize==r-&gt;key_len) {
+			char *k;
+			/* a very likely hit - read the key */
+			k = tdb_alloc_read(tdb, rec_ptr + sizeof(*r), 
+					   r-&gt;key_len);
+			if (!k)
+				return 0;
+
+			if (memcmp(key.dptr, k, key.dsize) == 0) {
+				SAFE_FREE(k);
+				return rec_ptr;
+			}
+			SAFE_FREE(k);
+		}
+		rec_ptr = r-&gt;next;
+	}
+	return TDB_ERRCODE(TDB_ERR_NOEXIST, 0);
+}
+
+/* If they do lockkeys, check that this hash is one they locked */
+static int tdb_keylocked(TDB_CONTEXT *tdb, u32 hash)
+{
+	u32 i;
+	if (!tdb-&gt;lockedkeys)
+		return 1;
+	for (i = 0; i &lt; tdb-&gt;lockedkeys[0]; i++)
+		if (tdb-&gt;lockedkeys[i+1] == hash)
+			return 1;
+	return TDB_ERRCODE(TDB_ERR_NOLOCK, 0);
+}
+
+/* As tdb_find, but if you succeed, keep the lock */
+static tdb_off tdb_find_lock(TDB_CONTEXT *tdb, TDB_DATA key, int locktype,
+			     struct list_struct *rec)
+{
+	u32 hash, rec_ptr;
+
+	hash = tdb_hash(&amp;key);
+	if (!tdb_keylocked(tdb, hash))
+		return 0;
+	if (tdb_lock(tdb, BUCKET(hash), locktype) == -1)
+		return 0;
+	if (!(rec_ptr = tdb_find(tdb, key, hash, rec)))
+		tdb_unlock(tdb, BUCKET(hash), locktype);
+	return rec_ptr;
+}
+
+enum TDB_ERROR tdb_error(TDB_CONTEXT *tdb)
+{
+	return tdb-&gt;ecode;
+}
+
+static struct tdb_errname {
+	enum TDB_ERROR ecode; const char *estring;
+} emap[] = { {TDB_SUCCESS, "Success"},
+	     {TDB_ERR_CORRUPT, "Corrupt database"},
+	     {TDB_ERR_IO, "IO Error"},
+	     {TDB_ERR_LOCK, "Locking error"},
+	     {TDB_ERR_OOM, "Out of memory"},
+	     {TDB_ERR_EXISTS, "Record exists"},
+	     {TDB_ERR_NOLOCK, "Lock exists on other keys"},
+	     {TDB_ERR_NOEXIST, "Record does not exist"} };
+
+/* Error string for the last tdb error */
+const char *tdb_errorstr(TDB_CONTEXT *tdb)
+{
+	u32 i;
+	for (i = 0; i &lt; sizeof(emap) / sizeof(struct tdb_errname); i++)
+		if (tdb-&gt;ecode == emap[i].ecode)
+			return emap[i].estring;
+	return "Invalid error code";
+}
+
+/* update an entry in place - this only works if the new data size
+   is &lt;= the old data size and the key exists.
+   on failure return -1
+*/
+static int tdb_update(TDB_CONTEXT *tdb, TDB_DATA key, TDB_DATA dbuf)
+{
+	struct list_struct rec;
+	tdb_off rec_ptr;
+	int ret = -1;
+
+	/* find entry */
+	if (!(rec_ptr = tdb_find_lock(tdb, key, F_WRLCK, &amp;rec)))
+		return -1;
+
+	/* must be long enough key, data and tailer */
+	if (rec.rec_len &lt; key.dsize + dbuf.dsize + sizeof(tdb_off)) {
+		tdb-&gt;ecode = TDB_SUCCESS; /* Not really an error */
+		goto out;
+	}
+
+	if (tdb_write(tdb, rec_ptr + sizeof(rec) + rec.key_len,
+		      dbuf.dptr, dbuf.dsize) == -1)
+		goto out;
+
+	if (dbuf.dsize != rec.data_len) {
+		/* update size */
+		rec.data_len = dbuf.dsize;
+		ret = rec_write(tdb, rec_ptr, &amp;rec);
+	} else
+		ret = 0;
+ out:
+	tdb_unlock(tdb, BUCKET(rec.full_hash), F_WRLCK);
+	return ret;
+}
+
+/* find an entry in the database given a key */
+TDB_DATA tdb_fetch(TDB_CONTEXT *tdb, TDB_DATA key)
+{
+	tdb_off rec_ptr;
+	struct list_struct rec;
+	TDB_DATA ret;
+
+	/* find which hash bucket it is in */
+	if (!(rec_ptr = tdb_find_lock(tdb,key,F_RDLCK,&amp;rec)))
+		return tdb_null;
+
+	ret.dptr = tdb_alloc_read(tdb, rec_ptr + sizeof(rec) + rec.key_len,
+				  rec.data_len);
+	ret.dsize = rec.data_len;
+	tdb_unlock(tdb, BUCKET(rec.full_hash), F_RDLCK);
+	return ret;
+}
+
+/* check if an entry in the database exists 
+
+   note that 1 is returned if the key is found and 0 is returned if not found
+   this doesn't match the conventions in the rest of this module, but is
+   compatible with gdbm
+*/
+int tdb_exists(TDB_CONTEXT *tdb, TDB_DATA key)
+{
+	struct list_struct rec;
+	
+	if (tdb_find_lock(tdb, key, F_RDLCK, &amp;rec) == 0)
+		return 0;
+	tdb_unlock(tdb, BUCKET(rec.full_hash), F_RDLCK);
+	return 1;
+}
+
+/* record lock stops delete underneath */
+static int lock_record(TDB_CONTEXT *tdb, tdb_off off)
+{
+	return off ? tdb_brlock(tdb, off, F_RDLCK, F_SETLKW, 0) : 0;
+}
+/*
+  Write locks override our own fcntl readlocks, so check it here.
+  Note this is meant to be F_SETLK, *not* F_SETLKW, as it's not
+  an error to fail to get the lock here.
+*/
+ 
+static int write_lock_record(TDB_CONTEXT *tdb, tdb_off off)
+{
+	struct tdb_traverse_lock *i;
+	for (i = &amp;tdb-&gt;travlocks; i; i = i-&gt;next)
+		if (i-&gt;off == off)
+			return -1;
+	return tdb_brlock(tdb, off, F_WRLCK, F_SETLK, 1);
+}
+
+/*
+  Note this is meant to be F_SETLK, *not* F_SETLKW, as it's not
+  an error to fail to get the lock here.
+*/
+
+static int write_unlock_record(TDB_CONTEXT *tdb, tdb_off off)
+{
+	return tdb_brlock(tdb, off, F_UNLCK, F_SETLK, 0);
+}
+/* fcntl locks don't stack: avoid unlocking someone else's */
+static int unlock_record(TDB_CONTEXT *tdb, tdb_off off)
+{
+	struct tdb_traverse_lock *i;
+	u32 count = 0;
+
+	if (off == 0)
+		return 0;
+	for (i = &amp;tdb-&gt;travlocks; i; i = i-&gt;next)
+		if (i-&gt;off == off)
+			count++;
+	return (count == 1 ? tdb_brlock(tdb, off, F_UNLCK, F_SETLKW, 0) : 0);
+}
+
+/* actually delete an entry in the database given the offset */
+static int do_delete(TDB_CONTEXT *tdb, tdb_off rec_ptr, struct list_struct*rec)
+{
+	tdb_off last_ptr, i;
+	struct list_struct lastrec;
+
+	if (tdb-&gt;read_only) return -1;
+
+	if (write_lock_record(tdb, rec_ptr) == -1) {
+		/* Someone traversing here: mark it as dead */
+		rec-&gt;magic = TDB_DEAD_MAGIC;
+		return rec_write(tdb, rec_ptr, rec);
+	}
+	write_unlock_record(tdb, rec_ptr);
+
+	/* find previous record in hash chain */
+	if (ofs_read(tdb, TDB_HASH_TOP(rec-&gt;full_hash), &amp;i) == -1)
+		return -1;
+	for (last_ptr = 0; i != rec_ptr; last_ptr = i, i = lastrec.next)
+		if (rec_read(tdb, i, &amp;lastrec) == -1)
+			return -1;
+
+	/* unlink it: next ptr is at start of record. */
+	if (last_ptr == 0)
+		last_ptr = TDB_HASH_TOP(rec-&gt;full_hash);
+	if (ofs_write(tdb, last_ptr, &amp;rec-&gt;next) == -1)
+		return -1;
+
+	/* recover the space */
+	if (tdb_free(tdb, rec_ptr, rec) == -1)
+		return -1;
+	return 0;
+}
+
+/* Uses traverse lock: 0 = finish, -1 = error, other = record offset */
+static int tdb_next_lock(TDB_CONTEXT *tdb, struct tdb_traverse_lock *tlock,
+			 struct list_struct *rec)
+{
+	int want_next = (tlock-&gt;off != 0);
+
+	/* No traversal allows if you've called tdb_lockkeys() */
+	if (tdb-&gt;lockedkeys)
+		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
+
+	/* Lock each chain from the start one. */
+	for (; tlock-&gt;hash &lt; tdb-&gt;header.hash_size; tlock-&gt;hash++) {
+		if (tdb_lock(tdb, tlock-&gt;hash, F_WRLCK) == -1)
+			return -1;
+
+		/* No previous record?  Start at top of chain. */
+		if (!tlock-&gt;off) {
+			if (ofs_read(tdb, TDB_HASH_TOP(tlock-&gt;hash),
+				     &amp;tlock-&gt;off) == -1)
+				goto fail;
+		} else {
+			/* Otherwise unlock the previous record. */
+			unlock_record(tdb, tlock-&gt;off);
+		}
+
+		if (want_next) {
+			/* We have offset of old record: grab next */
+			if (rec_read(tdb, tlock-&gt;off, rec) == -1)
+				goto fail;
+			tlock-&gt;off = rec-&gt;next;
+		}
+
+		/* Iterate through chain */
+		while( tlock-&gt;off) {
+			tdb_off current;
+			if (rec_read(tdb, tlock-&gt;off, rec) == -1)
+				goto fail;
+			if (!TDB_DEAD(rec)) {
+				/* Woohoo: we found one! */
+				lock_record(tdb, tlock-&gt;off);
+				return tlock-&gt;off;
+			}
+			/* Try to clean dead ones from old traverses */
+			current = tlock-&gt;off;
+			tlock-&gt;off = rec-&gt;next;
+			do_delete(tdb, current, rec);
+		}
+		tdb_unlock(tdb, tlock-&gt;hash, F_WRLCK);
+		want_next = 0;
+	}
+	/* We finished iteration without finding anything */
+	return TDB_ERRCODE(TDB_SUCCESS, 0);
+
+ fail:
+	tlock-&gt;off = 0;
+	tdb_unlock(tdb, tlock-&gt;hash, F_WRLCK);
+	return -1;
+}
+
+/* traverse the entire database - calling fn(tdb, key, data) on each element.
+   return -1 on error or the record count traversed
+   if fn is NULL then it is not called
+   a non-zero return value from fn() indicates that the traversal should stop
+  */
+int tdb_traverse(TDB_CONTEXT *tdb, tdb_traverse_func fn, void *state)
+{
+	TDB_DATA key, dbuf;
+	struct list_struct rec;
+	struct tdb_traverse_lock tl = { NULL, 0, 0 };
+	int ret, count = 0;
+
+	/* This was in the initializaton, above, but the IRIX compiler
+	 * did not like it.  crh
+	 */
+	tl.next = tdb-&gt;travlocks.next;
+
+	/* fcntl locks don't stack: beware traverse inside traverse */
+	tdb-&gt;travlocks.next = &amp;tl;
+
+	/* tdb_next_lock places locks on the record returned, and its chain */
+	while ((ret = tdb_next_lock(tdb, &amp;tl, &amp;rec)) &gt; 0) {
+		count++;
+		/* now read the full record */
+		key.dptr = tdb_alloc_read(tdb, tl.off + sizeof(rec), 
+					  rec.key_len + rec.data_len);
+		if (!key.dptr) {
+			tdb_unlock(tdb, tl.hash, F_WRLCK);
+			unlock_record(tdb, tl.off);
+			tdb-&gt;travlocks.next = tl.next;
+			return -1;
+		}
+		key.dsize = rec.key_len;
+		dbuf.dptr = key.dptr + rec.key_len;
+		dbuf.dsize = rec.data_len;
+
+		/* Drop chain lock, call out */
+		tdb_unlock(tdb, tl.hash, F_WRLCK);
+		if (fn &amp;&amp; fn(tdb, key, dbuf, state)) {
+			/* They want us to terminate traversal */
+			unlock_record(tdb, tl.off);
+			tdb-&gt;travlocks.next = tl.next;
+			SAFE_FREE(key.dptr);
+			return count;
+		}
+		SAFE_FREE(key.dptr);
+	}
+	tdb-&gt;travlocks.next = tl.next;
+	if (ret &lt; 0)
+		return -1;
+	else
+		return count;
+}
+
+/* find the first entry in the database and return its key */
+TDB_DATA tdb_firstkey(TDB_CONTEXT *tdb)
+{
+	TDB_DATA key;
+	struct list_struct rec;
+
+	/* release any old lock */
+	unlock_record(tdb, tdb-&gt;travlocks.off);
+	tdb-&gt;travlocks.off = tdb-&gt;travlocks.hash = 0;
+
+	if (tdb_next_lock(tdb, &amp;tdb-&gt;travlocks, &amp;rec) &lt;= 0)
+		return tdb_null;
+	/* now read the key */
+	key.dsize = rec.key_len;
+	key.dptr =tdb_alloc_read(tdb,tdb-&gt;travlocks.off+sizeof(rec),key.dsize);
+	tdb_unlock(tdb, BUCKET(tdb-&gt;travlocks.hash), F_WRLCK);
+	return key;
+}
+
+/* find the next entry in the database, returning its key */
+TDB_DATA tdb_nextkey(TDB_CONTEXT *tdb, TDB_DATA oldkey)
+{
+	u32 oldhash;
+	TDB_DATA key = tdb_null;
+	struct list_struct rec;
+	char *k = NULL;
+
+	/* Is locked key the old key?  If so, traverse will be reliable. */
+	if (tdb-&gt;travlocks.off) {
+		if (tdb_lock(tdb,tdb-&gt;travlocks.hash,F_WRLCK))
+			return tdb_null;
+		if (rec_read(tdb, tdb-&gt;travlocks.off, &amp;rec) == -1
+		    || !(k = tdb_alloc_read(tdb,tdb-&gt;travlocks.off+sizeof(rec),
+					    rec.key_len))
+		    || memcmp(k, oldkey.dptr, oldkey.dsize) != 0) {
+			/* No, it wasn't: unlock it and start from scratch */
+			unlock_record(tdb, tdb-&gt;travlocks.off);
+			tdb_unlock(tdb, tdb-&gt;travlocks.hash, F_WRLCK);
+			tdb-&gt;travlocks.off = 0;
+		}
+
+		SAFE_FREE(k);
+	}
+
+	if (!tdb-&gt;travlocks.off) {
+		/* No previous element: do normal find, and lock record */
+		tdb-&gt;travlocks.off = tdb_find_lock(tdb, oldkey, F_WRLCK, &amp;rec);
+		if (!tdb-&gt;travlocks.off)
+			return tdb_null;
+		tdb-&gt;travlocks.hash = BUCKET(rec.full_hash);
+		lock_record(tdb, tdb-&gt;travlocks.off);
+	}
+	oldhash = tdb-&gt;travlocks.hash;
+
+	/* Grab next record: locks chain and returned record,
+	   unlocks old record */
+	if (tdb_next_lock(tdb, &amp;tdb-&gt;travlocks, &amp;rec) &gt; 0) {
+		key.dsize = rec.key_len;
+		key.dptr = tdb_alloc_read(tdb, tdb-&gt;travlocks.off+sizeof(rec),
+					  key.dsize);
+		/* Unlock the chain of this new record */
+		tdb_unlock(tdb, tdb-&gt;travlocks.hash, F_WRLCK);
+	}
+	/* Unlock the chain of old record */
+	tdb_unlock(tdb, BUCKET(oldhash), F_WRLCK);
+	return key;
+}
+
+/* delete an entry in the database given a key */
+int tdb_delete(TDB_CONTEXT *tdb, TDB_DATA key)
+{
+	tdb_off rec_ptr;
+	struct list_struct rec;
+	int ret;
+
+	if (!(rec_ptr = tdb_find_lock(tdb, key, F_WRLCK, &amp;rec)))
+		return -1;
+	ret = do_delete(tdb, rec_ptr, &amp;rec);
+	tdb_unlock(tdb, BUCKET(rec.full_hash), F_WRLCK);
+	return ret;
+}
+
+/* store an element in the database, replacing any existing element
+   with the same key 
+
+   return 0 on success, -1 on failure
+*/
+int tdb_store(TDB_CONTEXT *tdb, TDB_DATA key, TDB_DATA dbuf, int flag)
+{
+	struct list_struct rec;
+	u32 hash;
+	tdb_off rec_ptr;
+	char *p = NULL;
+	int ret = 0;
+
+	/* find which hash bucket it is in */
+	hash = tdb_hash(&amp;key);
+	if (!tdb_keylocked(tdb, hash))
+		return -1;
+	if (tdb_lock(tdb, BUCKET(hash), F_WRLCK) == -1)
+		return -1;
+
+	/* check for it existing, on insert. */
+	if (flag == TDB_INSERT) {
+		if (tdb_exists(tdb, key)) {
+			tdb-&gt;ecode = TDB_ERR_EXISTS;
+			goto fail;
+		}
+	} else {
+		/* first try in-place update, on modify or replace. */
+		if (tdb_update(tdb, key, dbuf) == 0)
+			goto out;
+		if (flag == TDB_MODIFY &amp;&amp; tdb-&gt;ecode == TDB_ERR_NOEXIST)
+			goto fail;
+	}
+	/* reset the error code potentially set by the tdb_update() */
+	tdb-&gt;ecode = TDB_SUCCESS;
+
+	/* delete any existing record - if it doesn't exist we don't
+           care.  Doing this first reduces fragmentation, and avoids
+           coalescing with `allocated' block before it's updated. */
+	if (flag != TDB_INSERT)
+		tdb_delete(tdb, key);
+
+	/* Copy key+value *before* allocating free space in case malloc
+	   fails and we are left with a dead spot in the tdb. */
+
+	if (!(p = (char *)malloc(key.dsize + dbuf.dsize))) {
+		tdb-&gt;ecode = TDB_ERR_OOM;
+		goto fail;
+	}
+
+	memcpy(p, key.dptr, key.dsize);
+	memcpy(p+key.dsize, dbuf.dptr, dbuf.dsize);
+
+	/* now we're into insert / modify / replace of a record which
+	 * we know could not be optimised by an in-place store (for
+	 * various reasons).  */
+	if (!(rec_ptr = tdb_allocate(tdb, key.dsize + dbuf.dsize, &amp;rec)))
+		goto fail;
+
+	/* Read hash top into next ptr */
+	if (ofs_read(tdb, TDB_HASH_TOP(hash), &amp;rec.next) == -1)
+		goto fail;
+
+	rec.key_len = key.dsize;
+	rec.data_len = dbuf.dsize;
+	rec.full_hash = hash;
+	rec.magic = TDB_MAGIC;
+
+	/* write out and point the top of the hash chain at it */
+	if (rec_write(tdb, rec_ptr, &amp;rec) == -1
+	    || tdb_write(tdb, rec_ptr+sizeof(rec), p, key.dsize+dbuf.dsize)==-1
+	    || ofs_write(tdb, TDB_HASH_TOP(hash), &amp;rec_ptr) == -1) {
+	fail:
+		/* Need to tdb_unallocate() here */
+		ret = -1;
+	}
+ out:
+	SAFE_FREE(p); 
+	tdb_unlock(tdb, BUCKET(hash), F_WRLCK);
+	return ret;
+}
+
+static int tdb_already_open(dev_t device,
+			    ino_t ino)
+{
+	TDB_CONTEXT *i;
+	
+	for (i = tdbs; i; i = i-&gt;next) {
+		if (i-&gt;device == device &amp;&amp; i-&gt;inode == ino) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+/* open the database, creating it if necessary 
+
+   The open_flags and mode are passed straight to the open call on the
+   database file. A flags value of O_WRONLY is invalid. The hash size
+   is advisory, use zero for a default value.
+
+   Return is NULL on error, in which case errno is also set.  Don't 
+   try to call tdb_error or tdb_errname, just do strerror(errno).
+
+   @param name may be NULL for internal databases. */
+TDB_CONTEXT *tdb_open(const char *name, int hash_size, int tdb_flags,
+		      int open_flags, mode_t mode)
+{
+	return tdb_open_ex(name, hash_size, tdb_flags, open_flags, mode, NULL);
+}
+
+
+TDB_CONTEXT *tdb_open_ex(const char *name, int hash_size, int tdb_flags,
+			 int open_flags, mode_t mode,
+			 tdb_log_func log_fn)
+{
+	TDB_CONTEXT *tdb;
+	struct stat st;
+	int rev = 0, locked;
+
+	if (!(tdb = calloc(1, sizeof *tdb))) {
+		/* Can't log this */
+		errno = ENOMEM;
+		goto fail;
+	}
+	tdb-&gt;fd = -1;
+	tdb-&gt;name = NULL;
+	tdb-&gt;map_ptr = NULL;
+	tdb-&gt;lockedkeys = NULL;
+	tdb-&gt;flags = tdb_flags;
+	tdb-&gt;open_flags = open_flags;
+	tdb-&gt;log_fn = log_fn;
+	
+	if ((open_flags &amp; O_ACCMODE) == O_WRONLY) {
+		TDB_LOG((tdb, 0, "tdb_open_ex: can't open tdb %s write-only\n",
+			 name));
+		errno = EINVAL;
+		goto fail;
+	}
+	
+	if (hash_size == 0)
+		hash_size = DEFAULT_HASH_SIZE;
+	if ((open_flags &amp; O_ACCMODE) == O_RDONLY) {
+		tdb-&gt;read_only = 1;
+		/* read only databases don't do locking or clear if first */
+		tdb-&gt;flags |= TDB_NOLOCK;
+		tdb-&gt;flags &amp;= ~TDB_CLEAR_IF_FIRST;
+	}
+
+	/* internal databases don't mmap or lock, and start off cleared */
+	if (tdb-&gt;flags &amp; TDB_INTERNAL) {
+		tdb-&gt;flags |= (TDB_NOLOCK | TDB_NOMMAP);
+		tdb-&gt;flags &amp;= ~TDB_CLEAR_IF_FIRST;
+		tdb_new_database(tdb, hash_size);
+		goto internal;
+	}
+
+	if ((tdb-&gt;fd = open(name, open_flags, mode)) == -1) {
+		TDB_LOG((tdb, 5, "tdb_open_ex: could not open file %s: %s\n",
+			 name, strerror(errno)));
+		goto fail;	/* errno set by open(2) */
+	}
+
+	/* ensure there is only one process initialising at once */
+	if (tdb_brlock(tdb, GLOBAL_LOCK, F_WRLCK, F_SETLKW, 0) == -1) {
+		TDB_LOG((tdb, 0, "tdb_open_ex: failed to get global lock on %s: %s\n",
+			 name, strerror(errno)));
+		goto fail;	/* errno set by tdb_brlock */
+	}
+
+	/* we need to zero database if we are the only one with it open */
+	if ((locked = (tdb_brlock(tdb, ACTIVE_LOCK, F_WRLCK, F_SETLK, 0) == 0))
+	    &amp;&amp; (tdb_flags &amp; TDB_CLEAR_IF_FIRST)) {
+		open_flags |= O_CREAT;
+		if (ftruncate(tdb-&gt;fd, 0) == -1) {
+			TDB_LOG((tdb, 0, "tdb_open_ex: "
+				 "failed to truncate %s: %s\n",
+				 name, strerror(errno)));
+			goto fail; /* errno set by ftruncate */
+		}
+	}
+
+	if (read(tdb-&gt;fd, &amp;tdb-&gt;header, sizeof(tdb-&gt;header)) != sizeof(tdb-&gt;header)
+	    || strcmp(tdb-&gt;header.magic_food, TDB_MAGIC_FOOD) != 0
+	    || (tdb-&gt;header.version != TDB_VERSION
+		&amp;&amp; !(rev = (tdb-&gt;header.version==TDB_BYTEREV(TDB_VERSION))))) {
+		/* its not a valid database - possibly initialise it */
+		if (!(open_flags &amp; O_CREAT) || tdb_new_database(tdb, hash_size) == -1) {
+			errno = EIO; /* ie bad format or something */
+			goto fail;
+		}
+		rev = (tdb-&gt;flags &amp; TDB_CONVERT);
+	}
+	if (!rev)
+		tdb-&gt;flags &amp;= ~TDB_CONVERT;
+	else {
+		tdb-&gt;flags |= TDB_CONVERT;
+		convert(&amp;tdb-&gt;header, sizeof(tdb-&gt;header));
+	}
+	if (fstat(tdb-&gt;fd, &amp;st) == -1)
+		goto fail;
+
+	/* Is it already in the open list?  If so, fail. */
+	if (tdb_already_open(st.st_dev, st.st_ino)) {
+		TDB_LOG((tdb, 2, "tdb_open_ex: "
+			 "%s (%d,%d) is already open in this process\n",
+			 name, st.st_dev, st.st_ino));
+		errno = EBUSY;
+		goto fail;
+	}
+
+	if (!(tdb-&gt;name = (char *)strdup(name))) {
+		errno = ENOMEM;
+		goto fail;
+	}
+
+	tdb-&gt;map_size = st.st_size;
+	tdb-&gt;device = st.st_dev;
+	tdb-&gt;inode = st.st_ino;
+	tdb-&gt;locked = calloc(tdb-&gt;header.hash_size+1, sizeof(tdb-&gt;locked[0]));
+	if (!tdb-&gt;locked) {
+		TDB_LOG((tdb, 2, "tdb_open_ex: "
+			 "failed to allocate lock structure for %s\n",
+			 name));
+		errno = ENOMEM;
+		goto fail;
+	}
+	tdb_mmap(tdb);
+	if (locked) {
+		if (!tdb-&gt;read_only)
+			tdb_clear_spinlocks(tdb);
+		if (tdb_brlock(tdb, ACTIVE_LOCK, F_UNLCK, F_SETLK, 0) == -1) {
+			TDB_LOG((tdb, 0, "tdb_open_ex: "
+				 "failed to take ACTIVE_LOCK on %s: %s\n",
+				 name, strerror(errno)));
+			goto fail;
+		}
+	}
+	/* leave this lock in place to indicate it's in use */
+	if (tdb_brlock(tdb, ACTIVE_LOCK, F_RDLCK, F_SETLKW, 0) == -1)
+		goto fail;
+
+ internal:
+	/* Internal (memory-only) databases skip all the code above to
+	 * do with disk files, and resume here by releasing their
+	 * global lock and hooking into the active list. */
+	if (tdb_brlock(tdb, GLOBAL_LOCK, F_UNLCK, F_SETLKW, 0) == -1)
+		goto fail;
+	tdb-&gt;next = tdbs;
+	tdbs = tdb;
+	return tdb;
+
+ fail:
+	{ int save_errno = errno;
+
+	if (!tdb)
+		return NULL;
+	
+	if (tdb-&gt;map_ptr) {
+		if (tdb-&gt;flags &amp; TDB_INTERNAL)
+			SAFE_FREE(tdb-&gt;map_ptr);
+		else
+			tdb_munmap(tdb);
+	}
+	SAFE_FREE(tdb-&gt;name);
+	if (tdb-&gt;fd != -1)
+		close(tdb-&gt;fd);
+	SAFE_FREE(tdb-&gt;locked);
+	errno = save_errno;
+	return NULL;
+	}
+}
+
+/* close a database */
+int tdb_close(TDB_CONTEXT *tdb)
+{
+	TDB_CONTEXT **i;
+	int ret = 0;
+
+	if (tdb-&gt;map_ptr) {
+		if (tdb-&gt;flags &amp; TDB_INTERNAL)
+			SAFE_FREE(tdb-&gt;map_ptr);
+		else
+			tdb_munmap(tdb);
+	}
+	SAFE_FREE(tdb-&gt;name);
+	if (tdb-&gt;fd != -1)
+		ret = close(tdb-&gt;fd);
+	SAFE_FREE(tdb-&gt;locked);
+	SAFE_FREE(tdb-&gt;lockedkeys);
+
+	/* Remove from contexts list */
+	for (i = &amp;tdbs; *i; i = &amp;(*i)-&gt;next) {
+		if (*i == tdb) {
+			*i = tdb-&gt;next;
+			break;
+		}
+	}
+
+	memset(tdb, 0, sizeof(*tdb));
+	SAFE_FREE(tdb);
+
+	return ret;
+}
+
+/* lock/unlock entire database */
+int tdb_lockall(TDB_CONTEXT *tdb)
+{
+	u32 i;
+
+	/* There are no locks on read-only dbs */
+	if (tdb-&gt;read_only)
+		return TDB_ERRCODE(TDB_ERR_LOCK, -1);
+	if (tdb-&gt;lockedkeys)
+		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
+	for (i = 0; i &lt; tdb-&gt;header.hash_size; i++) 
+		if (tdb_lock(tdb, i, F_WRLCK))
+			break;
+
+	/* If error, release locks we have... */
+	if (i &lt; tdb-&gt;header.hash_size) {
+		u32 j;
+
+		for ( j = 0; j &lt; i; j++)
+			tdb_unlock(tdb, j, F_WRLCK);
+		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
+	}
+
+	return 0;
+}
+void tdb_unlockall(TDB_CONTEXT *tdb)
+{
+	u32 i;
+	for (i=0; i &lt; tdb-&gt;header.hash_size; i++)
+		tdb_unlock(tdb, i, F_WRLCK);
+}
+
+int tdb_lockkeys(TDB_CONTEXT *tdb, u32 number, TDB_DATA keys[])
+{
+	u32 i, j, hash;
+
+	/* Can't lock more keys if already locked */
+	if (tdb-&gt;lockedkeys)
+		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
+	if (!(tdb-&gt;lockedkeys = malloc(sizeof(u32) * (number+1))))
+		return TDB_ERRCODE(TDB_ERR_OOM, -1);
+	/* First number in array is # keys */
+	tdb-&gt;lockedkeys[0] = number;
+
+	/* Insertion sort by bucket */
+	for (i = 0; i &lt; number; i++) {
+		hash = tdb_hash(&amp;keys[i]);
+		for (j = 0; j &lt; i &amp;&amp; BUCKET(tdb-&gt;lockedkeys[j+1]) &lt; BUCKET(hash); j++);
+			memmove(&amp;tdb-&gt;lockedkeys[j+2], &amp;tdb-&gt;lockedkeys[j+1], sizeof(u32) * (i-j));
+		tdb-&gt;lockedkeys[j+1] = hash;
+	}
+	/* Finally, lock in order */
+	for (i = 0; i &lt; number; i++)
+		if (tdb_lock(tdb, i, F_WRLCK))
+			break;
+
+	/* If error, release locks we have... */
+	if (i &lt; number) {
+		for ( j = 0; j &lt; i; j++)
+			tdb_unlock(tdb, j, F_WRLCK);
+		SAFE_FREE(tdb-&gt;lockedkeys);
+		return TDB_ERRCODE(TDB_ERR_NOLOCK, -1);
+	}
+	return 0;
+}
+
+/* Unlock the keys previously locked by tdb_lockkeys() */
+void tdb_unlockkeys(TDB_CONTEXT *tdb)
+{
+	u32 i;
+	for (i = 0; i &lt; tdb-&gt;lockedkeys[0]; i++)
+		tdb_unlock(tdb, tdb-&gt;lockedkeys[i+1], F_WRLCK);
+	SAFE_FREE(tdb-&gt;lockedkeys);
+}
+
+/* lock/unlock one hash chain. This is meant to be used to reduce
+   contention - it cannot guarantee how many records will be locked */
+int tdb_chainlock(TDB_CONTEXT *tdb, TDB_DATA key)
+{
+	return tdb_lock(tdb, BUCKET(tdb_hash(&amp;key)), F_WRLCK);
+}
+void tdb_chainunlock(TDB_CONTEXT *tdb, TDB_DATA key)
+{
+	tdb_unlock(tdb, BUCKET(tdb_hash(&amp;key)), F_WRLCK);
+}
+
+
+/* register a loging function */
+void tdb_logging_function(TDB_CONTEXT *tdb, void (*fn)(TDB_CONTEXT *, int , const char *, ...))
+{
+	tdb-&gt;log_fn = fn;
+}
+
+
+/* reopen a tdb - this is used after a fork to ensure that we have an independent
+   seek pointer from our parent and to re-establish locks */
+int tdb_reopen(TDB_CONTEXT *tdb)
+{
+	struct stat st;
+
+	tdb_munmap(tdb);
+	close(tdb-&gt;fd);
+	tdb-&gt;fd = open(tdb-&gt;name, tdb-&gt;open_flags &amp; ~(O_CREAT|O_TRUNC), 0);
+	if (tdb-&gt;fd == -1) {
+		TDB_LOG((tdb, 0, "tdb_reopen: open failed (%s)\n", strerror(errno)));
+		goto fail;
+	}
+	fstat(tdb-&gt;fd, &amp;st);
+	if (st.st_ino != tdb-&gt;inode || st.st_dev != tdb-&gt;device) {
+		TDB_LOG((tdb, 0, "tdb_reopen: file dev/inode has changed!\n"));
+		goto fail;
+	}
+	tdb_mmap(tdb);
+	if (tdb_brlock(tdb, ACTIVE_LOCK, F_RDLCK, F_SETLKW, 0) == -1) {
+		TDB_LOG((tdb, 0, "tdb_reopen: failed to obtain active lock\n"));
+		goto fail;
+	}
+
+	return 0;
+
+fail:
+	tdb_close(tdb);
+	return -1;
+}
+
+/* reopen all tdb's */
+int tdb_reopen_all(void)
+{
+	TDB_CONTEXT *tdb;
+
+	for (tdb=tdbs; tdb; tdb = tdb-&gt;next) {
+		if (tdb_reopen(tdb) != 0) return -1;
+	}
+
+	return 0;
+}
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/tdb.c</emphasis></para>
+</sect2>
+
+<sect2><title>tdb.h</title>
+<programlisting>
+#ifndef __TDB_H__
+#define __TDB_H__
+
+/* 
+   Unix SMB/Netbios implementation.
+   Version 3.0
+   Samba database functions
+   Copyright (C) Andrew Tridgell 1999
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
+
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/time.h&gt;
+
+/* flags to tdb_store() */
+#define TDB_REPLACE 1
+#define TDB_INSERT 2
+#define TDB_MODIFY 3
+
+/* flags for tdb_open() */
+#define TDB_DEFAULT 0 /* just a readability place holder */
+#define TDB_CLEAR_IF_FIRST 1
+#define TDB_INTERNAL 2 /* don't store on disk */
+#define TDB_NOLOCK   4 /* don't do any locking */
+#define TDB_NOMMAP   8 /* don't use mmap */
+#define TDB_CONVERT 16 /* convert endian (internal use) */
+
+#define TDB_ERRCODE(code, ret) ((tdb-&gt;ecode = (code)), ret)
+
+/* error codes */
+enum TDB_ERROR {TDB_SUCCESS=0, TDB_ERR_CORRUPT, TDB_ERR_IO, TDB_ERR_LOCK, 
+		TDB_ERR_OOM, TDB_ERR_EXISTS, TDB_ERR_NOEXIST, TDB_ERR_NOLOCK };
+
+#ifndef u32
+#define u32 unsigned
+#endif
+
+typedef struct {
+	char *dptr;
+	size_t dsize;
+} TDB_DATA;
+
+typedef u32 tdb_len;
+typedef u32 tdb_off;
+
+/* this is stored at the front of every database */
+struct tdb_header {
+	char magic_food[32]; /* for /etc/magic */
+	u32 version; /* version of the code */
+	u32 hash_size; /* number of hash entries */
+	tdb_off rwlocks;
+	tdb_off reserved[31];
+};
+
+struct tdb_lock_type {
+	u32 count;
+	u32 ltype;
+};
+
+struct tdb_traverse_lock {
+	struct tdb_traverse_lock *next;
+	u32 off;
+	u32 hash;
+};
+
+/* this is the context structure that is returned from a db open */
+typedef struct tdb_context {
+	char *name; /* the name of the database */
+	void *map_ptr; /* where it is currently mapped */
+	int fd; /* open file descriptor for the database */
+	tdb_len map_size; /* how much space has been mapped */
+	int read_only; /* opened read-only */
+	struct tdb_lock_type *locked; /* array of chain locks */
+	enum TDB_ERROR ecode; /* error code for last tdb error */
+	struct tdb_header header; /* a cached copy of the header */
+	u32 flags; /* the flags passed to tdb_open */
+	u32 *lockedkeys; /* array of locked keys: first is #keys */
+	struct tdb_traverse_lock travlocks; /* current traversal locks */
+	struct tdb_context *next; /* all tdbs to avoid multiple opens */
+	dev_t device;	/* uniquely identifies this tdb */
+	ino_t inode;	/* uniquely identifies this tdb */
+	void (*log_fn)(struct tdb_context *tdb, int level, const char *, ...); /* logging function */
+	int open_flags; /* flags used in the open - needed by reopen */
+} TDB_CONTEXT;
+
+typedef int (*tdb_traverse_func)(TDB_CONTEXT *, TDB_DATA, TDB_DATA, void *);
+typedef void (*tdb_log_func)(TDB_CONTEXT *, int , const char *, ...);
+
+TDB_CONTEXT *tdb_open(const char *name, int hash_size, int tdb_flags,
+		      int open_flags, mode_t mode);
+TDB_CONTEXT *tdb_open_ex(const char *name, int hash_size, int tdb_flags,
+			 int open_flags, mode_t mode,
+			 tdb_log_func log_fn);
+
+int tdb_reopen(TDB_CONTEXT *tdb);
+int tdb_reopen_all(void);
+void tdb_logging_function(TDB_CONTEXT *tdb, tdb_log_func);
+enum TDB_ERROR tdb_error(TDB_CONTEXT *tdb);
+const char *tdb_errorstr(TDB_CONTEXT *tdb);
+TDB_DATA tdb_fetch(TDB_CONTEXT *tdb, TDB_DATA key);
+int tdb_delete(TDB_CONTEXT *tdb, TDB_DATA key);
+int tdb_store(TDB_CONTEXT *tdb, TDB_DATA key, TDB_DATA dbuf, int flag);
+int tdb_close(TDB_CONTEXT *tdb);
+TDB_DATA tdb_firstkey(TDB_CONTEXT *tdb);
+TDB_DATA tdb_nextkey(TDB_CONTEXT *tdb, TDB_DATA key);
+int tdb_traverse(TDB_CONTEXT *tdb, tdb_traverse_func fn, void *state);
+int tdb_exists(TDB_CONTEXT *tdb, TDB_DATA key);
+int tdb_lockkeys(TDB_CONTEXT *tdb, u32 number, TDB_DATA keys[]);
+void tdb_unlockkeys(TDB_CONTEXT *tdb);
+int tdb_lockall(TDB_CONTEXT *tdb);
+void tdb_unlockall(TDB_CONTEXT *tdb);
+
+/* Low level locking functions: use with care */
+int tdb_chainlock(TDB_CONTEXT *tdb, TDB_DATA key);
+void tdb_chainunlock(TDB_CONTEXT *tdb, TDB_DATA key);
+
+/* Debug functions. Not used in production. */
+void tdb_dump_all(TDB_CONTEXT *tdb);
+void tdb_printfreelist(TDB_CONTEXT *tdb);
+
+extern TDB_DATA tdb_null;
+
+#ifdef  __cplusplus
+}
+#endif
+
+#endif /* tdb.h */
+</programlisting>
+<para><emphasis>Code: /home/mikal/opensource/pandalex/tdb.h</emphasis></para>
+</sect2>
+
+</sect1>
+
 <sect1><title>Conclusion</title>
 <para>
 <figure>
@@ -5700,11 +9208,16 @@ It seems useful to provide a summary of the differences we have learnt about the
 
 <sect1><title>Further reading</title>
 <para>
-<figure>
-<title>Content</title>
-<graphic format="EPS" fileref="todo.eps">
-</figure>
+The following resources might be of use if you need more information:
 </para>
+
+<itemizedlist>
+<listitem><para>http://developer.adobe.com has many useful resources, including the PDF specification (at the time of writing the latest version is 1.4, although this chapter is based on 1.3, because this is what is supported by the three libraries discussed here).</para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+<listitem><para></para></listitem>
+</itemizedlist>
 </sect1>
 
 </chapter>
