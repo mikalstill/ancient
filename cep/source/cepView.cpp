@@ -567,30 +567,61 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 		}
 	    }
 	}
-  
+        
+      //////////////////////////////////////////////////////////////////////////////////////////
       // Now we can process the results of the LS regression (this includes popping up a new tab)
-      cepDebugPrint("Creating a dataset labelled as containing a line of best fit");
-      cepDataset newds(&residuals[0], &residuals[1], &residuals[2], 
-		       theDataset->getOffset((cepDataset::direction) 0), 
-		       theDataset->getOffset((cepDataset::direction) 1), 
-		       theDataset->getOffset((cepDataset::direction) 2),
-		       theDataset->getProcHistory() + " : Residuals", 
-		       theDataset->getHeader((cepDataset::direction) 0), 
-		       theDataset->getHeader((cepDataset::direction) 1), 
-		       theDataset->getHeader((cepDataset::direction) 2),
-		       b1s[0], b1s[1], b1s[2], b2s[0], b2s[1], b2s[2],
-		       true, true, true);
       
-      char *cfname = strdup("/tmp/cep.XXXXXX");
-      int fd;
-      fd = mkstemp(cfname);
-      close(fd);
+      // Actual data
+      {
+	cepDebugPrint("Creating LS data dataset");
+	cepDataset newds(theDataset->getMatrix((cepDataset::direction) 0),
+			 theDataset->getMatrix((cepDataset::direction) 1),
+			 theDataset->getMatrix((cepDataset::direction) 2),
+			 theDataset->getOffset((cepDataset::direction) 0), 
+			 theDataset->getOffset((cepDataset::direction) 1), 
+			 theDataset->getOffset((cepDataset::direction) 2),
+			 theDataset->getProcHistory() + " : LS VCV", 
+			 theDataset->getHeader((cepDataset::direction) 0), 
+			 theDataset->getHeader((cepDataset::direction) 1), 
+			 theDataset->getHeader((cepDataset::direction) 2),
+			 b1s[0], b1s[1], b1s[2], b2s[0], b2s[1], b2s[2],
+			 true, true, true);
+	
+	char *cfname = strdup("/tmp/cep.XXXXXX");
+	int fd;
+	fd = mkstemp(cfname);
+	close(fd);
+	
+	string newcfname(string(cfname) + "~" + theDataset->getName());
+	newds.write(newcfname.c_str());
+	
+	wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+	free(cfname);
+      }
       
-      string newcfname(string(cfname) + "~" + theDataset->getName());
-      newds.write(newcfname.c_str());
-      
-      wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
-      free(cfname);
+      // Residuals
+      {
+	cepDebugPrint("Creating residuals dataset");
+	cepDataset newds(&residuals[0], &residuals[1], &residuals[2], 
+			 theDataset->getOffset((cepDataset::direction) 0), 
+			 theDataset->getOffset((cepDataset::direction) 1), 
+			 theDataset->getOffset((cepDataset::direction) 2),
+			 theDataset->getProcHistory() + " : LS VCV Residuals", 
+			 theDataset->getHeader((cepDataset::direction) 0), 
+			 theDataset->getHeader((cepDataset::direction) 1), 
+			 theDataset->getHeader((cepDataset::direction) 2));
+	
+	char *cfname = strdup("/tmp/cep.XXXXXX");
+	int fd;
+	fd = mkstemp(cfname);
+	close(fd);
+	
+	string newcfname(string(cfname) + "~" + theDataset->getName());
+	newds.write(newcfname.c_str());
+	
+	wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+	free(cfname);
+      }
       
       // Actually force the graphs to redraw
       m_dirty = true;
@@ -603,7 +634,8 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
     }
 }
 
-void cepView::populateMatP(cepMatrix<double> &matP, const double &toDate, const double &fromDate, const double &val, cepMatrix<double> &data)
+void cepView::populateMatP(cepMatrix<double> &matP, const double &toDate, const double &fromDate, 
+			   const double &val, cepMatrix<double> &data)
 {
   cout << "#######IN POPULATE MATRIX" << endl;
   cout << "fromDate " << setprecision(10)<< fromDate << endl;

@@ -32,7 +32,7 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   cepDebugPrint("New presentation: " + cepToString(x) + " x " + cepToString(y));
   cepDebugPrint("Has a LS line: " + cepToString(haveLs));
   cepPresentation pres (x, y, theDataset->getMatrix(dir), theDataset->getB1(dir), theDataset->getB2(dir),
-			haveLs);
+			haveLs, theDataset->getOffset(dir));
   
   cepError err;
   int red = 0, green = 0, blue = 0;

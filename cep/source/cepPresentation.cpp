@@ -43,7 +43,7 @@ const long CHUNKALLOC = 10;
 const long INVALID = -2000000000;
 
 cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2,
-				  bool haveLs):
+				  bool haveLs, string offset):
   m_width(width + 1),
   m_height(height),
   m_xTitle("Undefined Axis Title"),
@@ -60,7 +60,8 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_haveMaxima(false),
   m_b1(b1),
   m_b2(b2),
-  m_haveLs(haveLs)
+  m_haveLs(haveLs),
+  m_offset(offset)
 {
   m_axesColor.red = 0;
   m_axesColor.green = 0;
@@ -132,6 +133,19 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   plot_state *graph;
   cepError err;
 
+  if ((graph = plot_newplot (m_width, m_height)) == NULL)
+    return cepError("Could not initialise a new plot", 
+		    cepError::sevErrorRecoverable);
+
+  plot_setfontcolor(graph, m_fontColor.red, m_fontColor.green, m_fontColor.blue);
+  string fontfile;
+  err = m_config->getValue("ui-graph-font", "n022003l.pfb", fontfile);
+  if(err.isReal()){
+    err.display();
+    fontfile = "n022003l.pfb";
+  }
+  plot_setfont(graph, (char *) fontfile.c_str(), 10);
+
   if(!m_haveMaxima){
     m_xmaxval = (unsigned int) (m_ds->getMaxValue(cepDataset::colDate) * 10000);
     m_xminval = (unsigned int) (m_ds->getMinValue(cepDataset::colDate) * 10000);
@@ -144,10 +158,6 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
 		  cepToString(m_ymaxval) + "] e = " + cepToString(m_emaxval));
     m_haveMaxima = true;
   }
-
-  if ((graph = plot_newplot (m_width, m_height)) == NULL)
-    return cepError("Could not initialise a new plot", 
-		    cepError::sevErrorRecoverable);
 
   ////////////////////////////////////////////////////////////////////////////////
   // Draw a box around the graph
@@ -199,12 +209,16 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   // The grid is always at the absolute bottom of the painting stack
   if(m_useGrid){
     plot_setlinecolor(graph, m_gridColor.red, m_gridColor.green, m_gridColor.blue);
-    for(int i = graphInset; i < m_height - graphInset; i += (m_height - graphInset * 2) / 10){
-      plot_setlinestart(graph, graphInset, i);
-      plot_addlinesegment(graph, m_width - graphInset, i);
+    for(int i = 0; i < 10; i++){
+      plot_setlinestart(graph, graphInset, graphInset + (m_height - graphInset * 2) * i / 9);
+      plot_addlinesegment(graph, m_width - graphInset, graphInset + (m_height - graphInset * 2) * i / 9);
       plot_strokeline(graph);
       plot_endline(graph);
     }
+
+    string gridSpacing = "Grid spacing is " + cepToString(((float) yrange) / 10 / 10000, true);
+    plot_settextlocation(graph, graphInset * 2, graphInset);
+    plot_writestring(graph, (char *) gridSpacing.c_str());  
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -280,14 +294,6 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   
   ////////////////////////////////////////////////////////////////////////////////
   // The scale also belongs over the errors, but below the graph line
-  plot_setfontcolor(graph, m_fontColor.red, m_fontColor.green, m_fontColor.blue);
-  string fontfile;
-  err = m_config->getValue("ui-graph-font", "n022003l.pfb", fontfile);
-  if(err.isReal()){
-    err.display();
-    fontfile = "n022003l.pfb";
-  }
-  plot_setfont(graph, (char *) fontfile.c_str(), 10);
 
   // Minimum value horizontal
   const int textHeight = 5;
@@ -377,11 +383,33 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   ////////////////////////////////////////////////////////////////////////////////
   // The least squares line (if any) is on top of _everything_ else
   if(m_haveLs){
-    cepDebugPrint("Plotting LS line of best fit: " + cepToString(m_b2));
-    plot_setlinestart(graph, graphInset, (unsigned int) m_b2 * 10000);
-    plot_addlinesegment(graph, m_width, (unsigned int) m_b2 * 10000);
-    plot_strokeline(graph);
-    plot_endline(graph);
+    cepDebugPrint("Plotting LS line of best fit");
+
+    // Write the equation onto the graph
+    string lsEqn = "LS equation: y = " + cepToString(m_b1, true) + "x ";
+    if(m_b2 > 0){
+      lsEqn += "+ " + cepToString(m_b2, true);
+    }
+    else{
+      lsEqn += "- " + cepToString(m_b2, true).substr(1, 30);
+    }
+
+    plot_settextlocation(graph, graphInset * 2, graphInset + graphInset);
+    plot_writestring(graph, (char *) lsEqn.c_str());  
+    
+    // And draw the actual line
+    cepDebugPrint("Last point: " + cepToString(xrange * m_b1));
+
+    unsigned int xintercept = (unsigned int) ((yrange - (m_b2 * 10000) + yminval) / horizScale + graphInset);
+    unsigned int lastpoint = (unsigned int) ((yrange - (xrange * (m_b1 + m_b2)) + yminval) / 
+					     horizScale + graphInset);
+    cepDebugPrint("Line of best fit: " + cepToString(xintercept) + ", " + cepToString(lastpoint) +
+		  " (" + cepToString(xrange) + ")");
+
+    //    plot_setlinestart(graph, graphInset, xintercept);
+    //    plot_addlinesegment(graph, m_width - graphInset, lastpoint);
+    //   plot_strokeline(graph);
+    //   plot_endline(graph);
   }
 
   cepDebugPrint("Finishing plotting");
