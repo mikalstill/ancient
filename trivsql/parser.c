@@ -17,11 +17,11 @@
 
   #include <stdio.h>
   #include <stdarg.h>
-  #include "tsql.h"
+  #include "trivsql.h"
 
   #define YYERROR_VERBOSE 1
 
-  tsql_state *gState;
+  trivsql_state *gState;
 #ifndef YYSTYPE
 #define YYSTYPE int
 #endif
@@ -690,7 +690,7 @@ yyreduce:
 
 case 4:
 #line 21 "parser.y"
-{ tsql_docreate(yyvsp[-4], yyvsp[-2]); ;
+{ trivsql_docreate(yyvsp[-4], yyvsp[-2]); ;
     break;}
 case 5:
 #line 25 "parser.y"
@@ -698,15 +698,15 @@ case 5:
     break;}
 case 6:
 #line 29 "parser.y"
-{ tsql_rs *rs; tsql_doselect(gState, -1, NULL, (char *) yyvsp[-1], -1, NULL, rs); ;
+{ trivsql_rs *rs; trivsql_doselect(gState, -1, NULL, (char *) yyvsp[-1], -1, NULL, rs); ;
     break;}
 case 7:
 #line 33 "parser.y"
-{ yyval = tsql_xsnprintf("%s;%s", yyvsp[-2], yyvsp[0]); ;
+{ yyval = trivsql_xsnprintf("%s;%s", yyvsp[-2], yyvsp[0]); ;
     break;}
 case 8:
 #line 35 "parser.y"
-{ yyval = tsql_xsnprintf("%s", yyvsp[0]); ;
+{ yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
     break;}
 }
    /* the action file gets copied in in place of this dollarsign */
@@ -940,54 +940,82 @@ int yyerror(char *s){
 
 // The main routine for the engine
 int main(int argc, char *argv[]){
-  gState = tsql_init("foo.tdb");
+  gState = trivsql_init("foo.tdb");
   yyparse();
 
   return 0;
 }
 
-tsql_state *tsql_init(char *filename){
-  tsql_state *state;
+trivsql_state *trivsql_init(char *filename){
+  trivsql_state *state;
 
-  state = (tsql_state *) tsql_xmalloc(sizeof(tsql_state));
+  state = (trivsql_state *) trivsql_xmalloc(sizeof(trivsql_state));
   state->db = tdb_open(filename, 0, 0, O_RDWR | O_CREAT, 0600);
 
   return state;
 }
 
-void tsql_docreate(char *tname, char *cols)
+void trivsql_docreate(char *tname, char *cols)
 {
   char *t;
   char *u;
 
   int colCount = 0;
 
-  t = tsql_xsnprintf("tsql_%s_numrows", tname);
-  tsql_dbwrite(gState, t, "0");
-  tsql_xfree(t);
+  t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
+  trivsql_dbwrite(gState, t, "0");
+  trivsql_xfree(t);
 
   u = strtok(cols, ";");
   while(u != NULL){
     printf("[%s]\n", u);
 
-    t = tsql_xsnprintf("tsql_%s_col%d", tname, colCount);
-    tsql_dbwrite(gState, t, u);
-    tsql_xfree(t);
+    t = trivsql_xsnprintf("trivsql_%s_col%d", tname, colCount);
+    trivsql_dbwrite(gState, t, u);
+    trivsql_xfree(t);
 
     colCount++;
     u = strtok(NULL, ";");
   }
 
-  t = tsql_xsnprintf("tsql_%s_numcols", tname);
-  u = tsql_xsnprintf("%d", colCount);
-  tsql_dbwrite(gState, t, u);
-  tsql_xfree(t);
-  tsql_xfree(u);
+  t = trivsql_xsnprintf("trivsql_%s_numcols", tname);
+  u = trivsql_xsnprintf("%d", colCount);
+  trivsql_dbwrite(gState, t, u);
+  trivsql_xfree(t);
+  trivsql_xfree(u);
 } 
 
-int tsql_doselect(tsql_state *state,
+void trivsql_doinsert(char *tname, char *cols, char *vals){
+  char *t;
+  char *u;
+  char *col;
+  int rownum;
+  int colnum;
+  int colCount;
+
+  t = trivsql_xsnprintf("trivsql_%s_numrows", tname);
+  u = trivsql_dbread(gState, t);
+  rownum = atoi(u);
+  trivsql_xfree(t);
+  trivsql_xfree(u);
+
+  col = strtok(cols, ";");
+  while(col != NULL){
+    printf("[%s]\n", col);
+
+    t = trivsql_xsnprintf("trivsql_%s_col%d", tname, colCount);
+    trivsql_dbwrite(gState, t, col);
+    trivsql_xfree(t);
+
+    colCount++;
+    u = strtok(NULL, ";");
+  }
+  
+}
+
+int trivsql_doselect(trivsql_state *state,
 		  int colc, char *cols[], char *table, int condc, 
-		  char *conds[], tsql_rs *rs){
+		  char *conds[], trivsql_rs *rs){
  
   int i, rc;
   char *t, *u;
@@ -999,35 +1027,35 @@ int tsql_doselect(tsql_state *state,
 
   // If we're getting all the columns
   if(colc == -1){
-    t = tsql_xsnprintf("tsql_%s_numcols", table);
-    u = tsql_dbread(state, t);
+    t = trivsql_xsnprintf("trivsql_%s_numcols", table);
+    u = trivsql_dbread(state, t);
 
     if(!u){
-      tsql_xfree(t);
+      trivsql_xfree(t);
       return -1;
     }
 
-    tsql_xfree(t);
+    trivsql_xfree(t);
     colc=atoi(u);
-    tsql_xfree(u);
+    trivsql_xfree(u);
   }
 
   // Build an empty record set
-  rs = (tsql_rs *) tsql_xmalloc(sizeof(tsql_rs));
+  rs = (trivsql_rs *) trivsql_xmalloc(sizeof(trivsql_rs));
   rs->numFields = colc;
 
   // Find all the rows which match this selection
-  t = tsql_xsnprintf("tsql_%s_numrows", table);
-  u = tsql_dbread(state, t);
+  t = trivsql_xsnprintf("trivsql_%s_numrows", table);
+  u = trivsql_dbread(state, t);
 
   if(!u){
-    tsql_xfree(t);
+    trivsql_xfree(t);
     return -2;
   }
 
-  tsql_xfree(t);
+  trivsql_xfree(t);
   rc=atoi(u);
-  tsql_xfree(u);
+  trivsql_xfree(u);
 
   for(i = 0; i < rc; i++){
     printf(".");
@@ -1037,13 +1065,13 @@ int tsql_doselect(tsql_state *state,
 }
 
 void *
-tsql_xmalloc (size_t size)
+trivsql_xmalloc (size_t size)
 {
   void *buffer;
 
   if ((buffer = malloc (size)) == NULL)
     {
-      fprintf(stderr, "tsql memory allocation error");
+      fprintf(stderr, "trivsql memory allocation error");
       exit(42);
     }
 
@@ -1051,7 +1079,7 @@ tsql_xmalloc (size_t size)
 }
 
 void
-tsql_dbwrite (tsql_state *state, char *key, char *value)
+trivsql_dbwrite (trivsql_state *state, char *key, char *value)
 {
   TDB_DATA dbkey, dbdata;
 
@@ -1079,7 +1107,7 @@ tsql_dbwrite (tsql_state *state, char *key, char *value)
 }
 
 char *
-tsql_dbread (tsql_state *state, char *key)
+trivsql_dbread (trivsql_state *state, char *key)
 {
   TDB_DATA dbkey, dbdata;
 
@@ -1098,7 +1126,7 @@ tsql_dbread (tsql_state *state, char *key)
 }
 
 char *
-tsql_xsnprintf (char *format, ...)
+trivsql_xsnprintf (char *format, ...)
 {
   char *output = NULL;
   int size, result;
@@ -1110,7 +1138,7 @@ tsql_xsnprintf (char *format, ...)
 
   while (1)
     {
-      output = (char *) tsql_xrealloc (output, size);
+      output = (char *) trivsql_xrealloc (output, size);
       result = vsnprintf (output, size, format, ap);
 
       if (result == -1)
@@ -1134,14 +1162,14 @@ tsql_xsnprintf (char *format, ...)
 }
 
 void
-tsql_xfree (void *memory)
+trivsql_xfree (void *memory)
 {
   if (memory != NULL)
     free(memory);
 }
 
 void *
-tsql_xrealloc (void *memory, size_t size)
+trivsql_xrealloc (void *memory, size_t size)
 {
   void *buffer;
 
