@@ -1,0 +1,8 @@
+# This file defines metadata about the book under review. It follows sh syntax
+export TITLE="Tuning and Customizing a Linux System"
+export AUTHOR="Daniel L. Morril"
+export PUBLISHER="Apress"
+export ISBN="1-893115-27-5"
+export YEAR="2002"
+export LENGTH="432 pages"
+export USRRP="$44.95"
