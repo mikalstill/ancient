@@ -1,0 +1,11 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<book><bookinfo>
+<title>GDMS: Technical manual</title>
+<execute><cmd>builddb</cmd><input>authorgroup.sgml</input></execute>
+</bookinfo>
+
+<execute><cmd>builddb</cmd><input>design.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>classes.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>testing.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>source.sgml</input></execute>
+</book>

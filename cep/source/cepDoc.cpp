@@ -111,12 +111,6 @@ wxInputStream & cepDoc::LoadObject (wxInputStream & stream)
   if (loadErr.isReal ())
     loadErr.display ();
 
-  // We need to change the filename which is displayed in the tab
-  // todo_mikal: for display should be strip off the leading part of the path?
-  SetTitle (parentFilename.c_str ());
-
-  // TODO_Mikal: Handle error condition better
-
   // Cleanup
   delete m_progress;
   m_progress = NULL;

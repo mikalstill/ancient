@@ -1,0 +1,13 @@
+<chapter><title>Installing GDMS</title>
+<sect1><title>Dependancies</title>
+<para>
+There are several dependancies that the user needs to be aware of whilst installing GDMS from source. Each of these dependancies, and their version at the time that this manual was produced are documented below.
+</para>
+
+<para>
+<emphasis>Please note that for some of the dependancies, having a later version installed might not be sufficient. This depends on how many interface changes have been imposed by that dependancy author. Because the actual source of these dependancies is outside the control of the GDMS team, this might make installation of later versions harder. The versions which have been tested with GDMS are included in the contrib/ directory of the GDMS distribution.</emphasis>
+</para>
+
+<execute><cmd>insertall</cmd><args>../contrib/*.sgml</args></execute>
+</sect1>
+</chapter>
