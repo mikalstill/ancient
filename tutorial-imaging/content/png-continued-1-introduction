@@ -1,0 +1,18 @@
+TITLE: PNG: Continued 1: Introduction
+<li>Why did PNG happen?
+<li>Patent problems with GIF
+  <ul>
+  <li>After many people had become very used to the GIF format
+  </ul>
+<li>To quote the official PNG history<BR>
+
+<BR><BR>
+<i>
+... Unisys in 1993 began aggressively pursuing commercial vendors of software-only LZW implementations. CompuServe seems to have been its primary target at first, culminating in an agreement--quietly announced on 28 December 1994, right in the middle of the Christmas holidays--to begin collecting royalties from authors of GIF-supporting software. The spit hit the fan on the Internet the following week; what was then the comp.graphics newsgroup went nuts, to use a technical term. As is the way of Usenet, much ire was directed at CompuServe for making the announcement, and then at Unisys once the details became a little clearer; but mixed in with the noise was the genesis of an informal Internet working group led by Thomas Boutell [2]. Its purpose was not only to design a replacement for the GIF format, but a successor to it: better, smaller, more extensible, and FREE.
+</i>
+-- http://www.libpng.org/pub/png/pnghist.html
+
+
+<BR><BR>
+<li>See the printed manual for more history
+

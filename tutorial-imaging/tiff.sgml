@@ -696,7 +696,9 @@ It time to show you how to write a color image to disc. Remember that this is a 
 
 <slidebreak>
 
-<para>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or gray scale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</para>
+<para>
+You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or gray scale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.
+</para>
 
 <slidetext>
 <li>There are some things we should pay attention to in this code:
@@ -711,14 +713,44 @@ It time to show you how to write a color image to disc. Remember that this is a 
 <para>
 In this example, we have three samples per pixel. If this was a black and white image, or a gray scale image, then we would have one sample per pixel. There are other valid values for here as well -- for instance, sometimes people will store a transparency value for a given pixel, which is called an alpha channel. This would result in having four samples per pixel. It is possible to have an arbitrary number of samples per pixel, which is good if you need to pack in extra information about a pixel. <emphasis>Note that doing this can break image viewers which make silly assumptions -- I once had to write code for a former employer to strip out alpha channels and the like so that their PDF generator wouldn't crash.</emphasis>
 </para>
+
+<slidetext>
+<li>Now is probably as good a time as any to tell you that you're not limited to three samples per pixel
+<li>You can have an arbitary number
+<li>For instance, this is where alpha channel information is stored in almost all image formats
+<li>Having more than three samples per pixel can break viewers which make ugly assumptions
+</slidetext>
 </sidebar>
 
 <para>The other interesting thing to discuss here is the planar configuration of the image. Here we have specified PLANARCONFIG_CONTIG, which means that the red green and blue information for a given pixel is grouped together in the strips of image data. The other option is PLANARCONFIG_SEPARATE, where the red samples for the image are stored together, then the blue samples, and finally the green samples.</para>
+
+<slidebreak>
+<slidetext>
+<li>The other interesting thing we should talk about now is planar configuration
+<li>You don't have to have your image data grouped like:
+
+<pre>
+RGBRGBRGBRGBRGB
+</pre>
+
+<li>Grouping all the red samples together is equally valid, for instance:
+
+<pre>
+RRRRRGGGGGBBBBB
+</pre>
+
+<li>Have a look at the libtiff documentation on TIFFTAG_PLANARCONFIG for more details
+</slidetext>
 </sect1>
 
 <sect1><title>Writing a paletted color image</title>
 <para>
 So how do we write a paletted version of this image? Well, libtiff makes this really easy -- all we need to do is change the value of TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE. It's not really worth including an example in this chapter, given it's a one word change.</para>
+
+<slidetext>
+<li>Writing a paletted image with libtiff is really easy...
+<li>Just change TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE
+</slidetext>
 </sect1>
 
 
@@ -729,6 +761,12 @@ So how do we write a paletted version of this image? Well, libtiff makes this re
 <para>
 Now all we have to do is work out how to read other people's color and gray scale images reliably, and we're home free. Initially I was very tempted to not tell you about the TIFFReadRGBAStrip() and TIFFReadRGBBSTile() calls, which hide some of the potential ugliness from the caller. These functions have some limitations I'm not astoundingly happy with. To quote the TIFFReadRGBAStrip() man page:</para>
 
+<slidetext>
+<li>Now we just need to work out how to read color images in
+<li>Here's why I'm not telling you about TIFFReadRGBAStrip() and TIFFReadRGBATile()
+</slidetext>
+
+<slideinclude>
 <para><emphasis>
    TIFFReadRGBAStrip reads a single strip of a strip-based image into memory,
    storing  the  result  in  the  user supplied RGBA raster. The raster is assumed to be an array of
@@ -748,6 +786,7 @@ Now all we have to do is work out how to read other people's color and gray scal
    image will begin at the beginning of the buffer.
 </emphasis></para>
 
+<slidebreak>
 <para><emphasis>
    Raster  pixels  are  8-bit packed red, green, blue, alpha samples. The macros TIFFGetR, TIFFGetG,
    TIFFGetB,  and  TIFFGetA  should  be used to access individual samples. Images without Associated
@@ -779,10 +818,28 @@ Now all we have to do is work out how to read other people's color and gray scal
    buffer  capable  of  holding  the  whole  image doesn't need to be allocated, only enough for one
    strip. The TIFFReadRGBATile() function does a similar operation for tiled images.
 </emphasis></para>
+</slideinclude>
 
+<slidebreak>
 <para>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous chapter...</para>
 
+<slidetext>
+<li>So what's wrong with this function?
+  <ul>
+  <li>It defines the origin (0,0) in a different way from <b>all</b> the other libtiff calls
+  <li>Not all valid values for bits per sample are handled
+  </ul>
+
+<BR><BR>
+
+<li>We're going to use it anyway, because it makes the code clearer...
+<li>Remember that you can always use TIFFReadEncodedStrip() like we did for the black and white images -- although you then have to interpret the image data yourself
+</slidetext>
+
+<slidebreak>
+<slideinclude>
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-color-read/read.c</input></execute>
+</slideinclude>
 </sect1>
 
 
@@ -793,21 +850,46 @@ Now all we have to do is work out how to read other people's color and gray scal
 All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and TIFF. For example, you might have customer pictures for id cards, and these would be stored in a database.
 </para>
 
+<slidetext>
+<li>There are times when it isn't appropriate to store your image data in files
+<li>There are lots of examples of when you might want to put the data in a database instead
+<li>Perhaps the image data is going to be embedded into another file format
+</slidetext>
+
 <para>
 The example which I am most familiar with is PDF documents. In PDF files, you can embed images into the document. These images can be in a subset of TIFF if desired, and TIFF is quite clearly the choice for black and white images.
 </para>
 
+<slidetext>
+<BR><BR>
+<li>The example I am most familiar with is the PDF specification
+<li>The PDF format is basically ASCII (as we will see later)
+<li>But has embedded binary "streams" such as TIFF data
+<li>So we would like to be able to create these streams with libtiff
+<li>...instead of having to implement our own TIFF library
+</slidetext>
+
+<noslide>
 <sidebar><title>An expanded example</title>
 <para>If you need more information about hooking the file input and output functions within libtiff than this chapter allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at http://www.stillhq.com
   <footnote><para>http://www.stillhq.com/cgi-bin/getpage?area=panda&lt;page=index.htm to be exact.</para></footnote>
 .
 </para>
 </sidebar>
+</noslide>
 
+<slidebreak>
 <para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
 
+<slidetext>
+<li>Use the TIFFClientOpen() function...
+</slidetext>
+
 <execute><cmd>nextedition</cmd><input>Make this example better</input></execute>
+
+<slideinclude>
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-client/client.c</input></execute>
+</slideinclude>
 </sect1>
 
 
@@ -818,21 +900,46 @@ The example which I am most familiar with is PDF documents. In PDF files, you ca
 A common request is to be able to store more than one image inside a single TIFF file. This is done with multiple directories, which is one of the reasons they're described at the start of this chapter.
 </para>
 
+<slidetext>
+<li>People commonly want to be able to store more than one image in a TIFF file
+<li>TIFF and libtiff support this
+<li>This is called multipage / multidirectory TIFF
+<li>Multidirectory because there is more than one IFD
+<li>There is in fact one per image
+</slidetext>
+
 <para>
 <emphasis>Before embarking on a multiple image per TIFF solution, it is important to remember that the TIFF specification doesn't require TIFF image viewers to implement support for multiple images per TIFF, and many viewers in fact do not
   <footnote><para>Refer to page 16 of the TIFF specification, version 6.</para></footnote>
 .</emphasis>
 </para>
 
+<slidetext>
+<BR><BR>
+<li><i>Before writing heaps of code for multipage TIFFs, remember that the specification doesn't require viewers to support this feature, so you might end up with a whole heap of data that no-one can look at...</i>
+</slidetext>
+
+<slidebreak>
 <para>
 Anyway, now that I've nagged you, putting multiple images into one TIFF file is really easy, just call the <command>TIFFWriteDirectory</command>(), which writes out the current image so you can move onto the next one. The following sample program is an example of this...
 </para>
 
-<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-directories/create.c</input></execute>
+<slidetext>
+<li>Actually doing it is quite easy...
+<li>Just use the TIFFWriteDirectory() call between the images
+</slidetext>
 
+<slideinclude>
+<execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-directories/create.c</input></execute>
+</slideinclude>
+
+<slidebreak>
+<slideinclude>
 <figure><title>Four pictures of my son Andrew</title>
 <execute><cmd>img</cmd><args>tiff-figure8.jpg</args></execute>
 </figure>
+</slideinclude>
+
 <execute><cmd>nextedition</cmd><input>quality_of_picture</input></execute>
 </sect1>
 
@@ -848,7 +955,10 @@ This example below demonstrates how to do this.
 <execute><cmd>nextedition</cmd><input>convert_will_create_multiple_files</input></execute>
 <execute><cmd>nextedition</cmd><input>more!</input></execute>
 
+<slideinclude>
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-directories/read.c</input></execute>
+</slideinclude>
+
 <execute><cmd>nextedition</cmd><input>This doesn't work at the moment</input></execute>
 </sect1>
 
@@ -882,44 +992,58 @@ ImageWidth: 256 520
 </programlisting>
 </sect3>
 </sect2>
-
+</noslide>
 
 <sect2><title>tiffcp</title>
+<slideinclude>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffcp.1</input><args>-s 3</args></execute>
+</slideinclude>
 </sect2>
 
 
 <sect2><title>tiffdither</title>
+<slideinclude>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdither.1</input><args>-s 3</args></execute>
+</slideinclude>
 
+<noslide>
 <sect3><title>Sample output</title>
+</noslide>
 <para>
 <command>tiffdither</command> takes gray scale images and dithers them into black and white images. For instance, the gray scale example from earlier in this tutorial produced the following image:
 </para>
 
+<slidebreak>
+<slideinclude>
 <figure><title>The gray scale input image</title>
 <execute><cmd>img</cmd><args>tiff-figure9.tif</args></execute>
 </figure>
+</slideinclude>
 
 <para>
 This image, after being pushed through <command>tiffdither</command> looks something like:
 </para>
 
+<slidebreak>
+<slideinclude>
 <figure><title>The dithered output image</title>
 <execute><cmd>img</cmd><args>tiff-figure10.tif</args></execute>
+</slideinclude>
 </figure>
 </sect3>
 </sect2>
 
-
 <sect2><title>tiffdump</title>
+<slideinclude>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffdump.1</input><args>-s 3</args></execute>
+</slideinclude>
 
 <sect3><title>Sample output</title>
 <para>
 <command>tiffdump</command> shows you heaps of useful things about a TIFF image, basically anything stored in a tag. Some sample output is:
 </para>
 
+<slideinclude>
 <programlisting>
 [mikal@localhost tutorial-imaging]$ tiffdump tiff-figure10.tif 
 tiff-figure10.tif:
@@ -938,23 +1062,27 @@ StripByteCounts (279) LONG (4) 5&lt;8133 8174 8213 8134 5566&gt;
 PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 [mikal@localhost tutorial-imaging]$ 
 </programlisting>
+</slideinclude>
 </sect3>
 </sect2>
 
-
+<noslide>
 <sect2><title>tiffgt</title>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffgt.1</input><args>-s 3</args></execute>
 </sect2>
-
+</noslide>
 
 <sect2><title>tiffinfo</title>
+<slideinclude>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffinfo.1</input><args>-s 3</args></execute>
+</slideinclude>
 
 <sect3><title>Sample output</title>
 <para>
 <command>tiffinfo</command> is probably the most useful command which comes with libtiff... In normal operation, it shows you nicely formatted information about the TIFF image, like so:
 </para>
 
+<slideinclude>
 <programlisting>
 [mikal@localhost tutorial-imaging]$ tiffinfo tiff-figure9.tif 
 TIFF Directory at offset 0x40f7c
@@ -967,11 +1095,14 @@ TIFF Directory at offset 0x40f7c
   Planar Configuration: single image plane
 [mikal@localhost tutorial-imaging]$ 
 </programlisting>
+</slideinclude>
 
 <para>
 When you ask nicely (with a -d), then you're shown random tiff data, which can be very handy:
 </para>
 
+<slidebreak>
+<slideinclude>
 <programlisting>
 [mikal@localhost tutorial-imaging]$ tiffinfo -d tiff-figure9.tif
 TIFF Directory at offset 0x40f7c
@@ -996,27 +1127,33 @@ Strip 0:
  e4 e6 ea ee f1 f2 f1 ef f3 f3 f3 f2 f2 f2 f1 f1 f2 f1 f0 ef ee ed ec eb
  ... and so on
 </programlisting>
+</slideinclude>
 </sect3>
 </sect2>
 
-
+<noslide>
 <sect2><title>tiffmedian</title>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffmedian.1</input><args>-s 3</args></execute>
 </sect2>
+</noslide>
 
-
+<noslide>
 <sect2><title>tiffsplit</title>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsplit.1</input><args>-s 3</args></execute>
 </sect2>
+</noslide>
 
-
+<noslide>
 <sect2><title>tiffsv</title>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tiffsv.1</input><args>-s 3</args></execute>
 </sect2>
+</noslide>
 
+<noslide>
 <sect2><title>tifftopnm</title>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/tifftopnm.1</input><args>-s 3</args></execute>
 </sect2>
+</noslide>
 </sect1>
 
 
@@ -1029,6 +1166,11 @@ Strip 0:
 It is also useful to have the man pages for the libtiff API man pages to refer to...
 </para>
 
+<slidetext>
+<li>There are also extensive man pages for the API -- check yout manual
+</slidetext>
+
+<noslide>
 <sect2><title>TIFFbuffer</title>
 <execute><cmd>~mikal/opensource/groff2db/convert</cmd><input>source/tiff/man/TIFFbuffer.3t</input><args>-s 3</args></execute>
 </sect2>
@@ -1488,7 +1630,14 @@ It is also useful to have the man pages for the libtiff API man pages to refer t
 In the introduction to this tutorial I promised that I would include the code to draw the demonstration that raster images are made up of pixels. Well, this example is that code.
 </para>
 
+<slidetext>
+<li>In the early stages of this tutorial I showed you a pixel enlargement...
+<li>Here's the code that did that
+</slidetext>
+
+<slideinclude>
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-pixels/pixel.c</input></execute>
+</slideinclude>
 </sect1>
 
 <sect1><title>Example: Converting a color image to gray scale</title>
@@ -1496,8 +1645,14 @@ In the introduction to this tutorial I promised that I would include the code to
 In one of the previous chapters I also promised to provide the source code for the gray scale conversion examples. Here it is, there are two versions -- a broken algorithm (averaging color values), and a non-broken algorithm (using the NTSC recommended color coefficients).
 </para>
 
+<slidetext>
+<li>Earlier on I also promised some grayscale conversion code...
+</slidetext>
+
 <sect2><title>A broken algorithm</title>
+<slideinclude>
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-grayscale/gray-wrong.c</input></execute>
+</slideinclude>
 
 <para>
 Which produces:
@@ -1509,7 +1664,9 @@ Which produces:
 </sect2>
 
 <sect2><title>A sensible algorithm</title>
+<slideinclude>
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-grayscale/gray-good.c</input></execute>
+</slideinclude>
 
 <para>
 Which gives us:
@@ -1525,6 +1682,7 @@ Now, just to justify that the second algorithm is better, have a look at the sha
 </sect2>
 </sect1>
 
+<noslide>
 <sect1><title>Example: Repeated compression</title>
 <para>
 Earlier in this chapter I promised that I would include the code for the repeated compression loss example, so here it is. The example is made up of a simple (and quite ugly) shell script, and a c program to actually compress the images...
@@ -1533,14 +1691,25 @@ Earlier in this chapter I promised that I would include the code for the repeate
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-recompress/recompress.sh</input></execute>
 <execute><cmd>code2db</cmd><input>~mikal/opensource/tiff-recompress/recompress.c</input></execute>
 </sect1>
+</noslide>
 
 <sect1><title>Conclusion</title>
 <para>
-In this chapter we've discussed how to program with libtiff for black and white, gray scale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
+In this chapter we've discussed the TIFF file format, how to program with libtiff for black and white, gray scale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
 </para>
+
+<slidetext>
+<li>So what have we learnt?
+  <ul>
+  <li>Something about the TIFF file format
+  <li>Black and white images with libtiff
+  <li>Color images with libtiff
+  <li>You should now have enough information to at least start to use libtiff...
+  </ul>
+</slidetext>
 </sect1>
 
-
+<noslide>
 <sect1><title>Further reading</title>
 <para>
 <itemizedlist>
@@ -1562,10 +1731,13 @@ In this chapter we've discussed how to program with libtiff for black and white,
 </itemizedlist>
 </para>
 </sect1>
+</noslide>
 
 <sect1><title>Portions first published by IBM DeveloperWorks</title>
+<slideinclude>
 <para>
 The basis of this chapter was two articles, first published by IBM DeveloperWorks at http://www.ibm.com/developerworks/ in April and May 2002. This material has been expanded in these chapters from the original 5,000 words.
 </para>
+</slideinclude>
 </sect1>
 </chapter>

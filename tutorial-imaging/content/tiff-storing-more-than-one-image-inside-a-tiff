@@ -1,2 +1,10 @@
-TITLE: TIFF -- Storing more than one image inside a TIFF
+TITLE: TIFF: Storing more than one image inside a TIFF
+<li>People commonly want to be able to store more than one image in a TIFF file
+<li>TIFF and libtiff support this
+<li>This is called multipage / multidirectory TIFF
+<li>Multidirectory because there is more than one IFD
+<li>There is in fact one per image
+
+<BR><BR>
+<li><i>Before writing heaps of code for multipage TIFFs, remember that the specification doesn't require viewers to support this feature, so you might end up with a whole heap of data that no-one can look at...</i>
 

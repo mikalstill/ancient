@@ -1,0 +1,14 @@
+TITLE: TIFF: Reading more than one image inside a TIFF: tiffinfo: Sample output
+<pre>
+[mikal@localhost tutorial-imaging]$ tiffinfo tiff-figure9.tif 
+TIFF Directory at offset 0x40f7c
+  Image Width: 640 Image Length: 480
+  Bits/Sample: 8
+  Compression Scheme: Deflate
+  Photometric Interpretation: min-is-black
+  Samples/Pixel: 1
+  Rows/Strip: 100000
+  Planar Configuration: single image plane
+[mikal@localhost tutorial-imaging]$ 
+</pre>
+

@@ -1,2 +1,12 @@
-TITLE: TIFF -- Storing TIFF data in places other than files
+TITLE: TIFF: Storing TIFF data in places other than files
+<li>There are times when it isn't appropriate to store your image data in files
+<li>There are lots of examples of when you might want to put the data in a database instead
+<li>Perhaps the image data is going to be embedded into another file format
+
+<BR><BR>
+<li>The example I am most familiar with is the PDF specification
+<li>The PDF format is basically ASCII (as we will see later)
+<li>But has embedded binary "streams" such as TIFF data
+<li>So we would like to be able to create these streams with libtiff
+<li>...instead of having to implement our own TIFF library
 

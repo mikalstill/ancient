@@ -1,0 +1,16 @@
+TITLE: TIFF: Other values for samples per pixel?: Continued 1
+<li>The other interesting thing we should talk about now is planar configuration
+<li>You don't have to have your image data grouped like:
+
+<pre>
+RGBRGBRGBRGBRGB
+</pre>
+
+<li>Grouping all the red samples together is equally valid, for instance:
+
+<pre>
+RRRRRGGGGGBBBBB
+</pre>
+
+<li>Have a look at the libtiff documentation on TIFFTAG_PLANARCONFIG for more details
+

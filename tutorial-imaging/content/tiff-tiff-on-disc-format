@@ -1,0 +1,5 @@
+TITLE: TIFF: The TIFF on disc format
+<li>We should talk about how TIFF images are laid out on disc
+<li>This will help us understand the inner workings of the format better
+<li>There are more details on this in the TIFF specification if you need them
+

@@ -1,8 +1,0 @@
-TITLE: Imaging concepts -- Direct RGB storage
-
-<br><br><div align="center"><b>A RGB zoom in</b>
-<br><img src="/notes/presentations/slide/gen-theory-figure6.jpg">
-</div><BR><BR>
-
-<li>We could store the RGB values within the pixel location
-

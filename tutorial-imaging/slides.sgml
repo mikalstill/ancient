@@ -903,6 +903,19 @@ You can see that the sensible algorithm is better, have a look at the shadows on
 The source code to generate these example images may be found in the TIFF chapter.
 </para>
 </sect1>
+<sect1><title>Pixel samples</title>
+<para>
+Each pixel needs to have a value associated with this. Most practitioners call this a sample. For a black and white image we would only have one sample per pixel, whilst for a RGB color image, we would have three samples per pixel -- the red, green and blue components.
+</para>
+
+
+<slidetext>
+<li>The value associated with a given pixel
+<li>Black and white: one sample per pixel
+<li>Color: normally three samples per pixel (red, green, and blue)
+</slidetext>
+</sect1>
+
 <sect1><title>Pixel</title>
 <para>
      <indexterm><primary>Pixel</primary></indexterm>
@@ -2021,22 +2034,61 @@ int main(int argc, char *argv[]){
 
 <slidebreak>
 
-<para>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or gray scale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</para>
+<para>
+You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or gray scale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.
+</para>
 
-
+<slidetext>
+<li>There are some things we should pay attention to in this code:
+  <ul>
+  <li>The image has three (red, green and blue) samples per pixel
+  <li>Each of these samples is 8 bits
+  <li>This is therefore a 24 bit color image
+  </ul>
+</slidetext>
 
 <sidebar><title>Other values for samples per pixel?</title>
 <para>
 In this example, we have three samples per pixel. If this was a black and white image, or a gray scale image, then we would have one sample per pixel. There are other valid values for here as well -- for instance, sometimes people will store a transparency value for a given pixel, which is called an alpha channel. This would result in having four samples per pixel. It is possible to have an arbitrary number of samples per pixel, which is good if you need to pack in extra information about a pixel. <emphasis>Note that doing this can break image viewers which make silly assumptions -- I once had to write code for a former employer to strip out alpha channels and the like so that their PDF generator wouldn't crash.</emphasis>
 </para>
+
+<slidetext>
+<li>Now is probably as good a time as any to tell you that you're not limited to three samples per pixel
+<li>You can have an arbitary number
+<li>For instance, this is where alpha channel information is stored in almost all image formats
+<li>Having more than three samples per pixel can break viewers which make ugly assumptions
+</slidetext>
 </sidebar>
 
 <para>The other interesting thing to discuss here is the planar configuration of the image. Here we have specified PLANARCONFIG_CONTIG, which means that the red green and blue information for a given pixel is grouped together in the strips of image data. The other option is PLANARCONFIG_SEPARATE, where the red samples for the image are stored together, then the blue samples, and finally the green samples.</para>
+
+<slidebreak>
+<slidetext>
+<li>The other interesting thing we should talk about now is planar configuration
+<li>You don't have to have your image data grouped like:
+
+<pre>
+RGBRGBRGBRGBRGB
+</pre>
+
+<li>Grouping all the red samples together is equally valid, for instance:
+
+<pre>
+RRRRRGGGGGBBBBB
+</pre>
+
+<li>Have a look at the libtiff documentation on TIFFTAG_PLANARCONFIG for more details
+</slidetext>
 </sect1>
 
 <sect1><title>Writing a paletted color image</title>
 <para>
 So how do we write a paletted version of this image? Well, libtiff makes this really easy -- all we need to do is change the value of TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE. It's not really worth including an example in this chapter, given it's a one word change.</para>
+
+<slidetext>
+<li>Writing a paletted image with libtiff is really easy...
+<li>Just change TIFFTAG_PHOTOMETRIC to PHOTOMETRIC_PALETTE
+</slidetext>
 </sect1>
 
 
@@ -2047,6 +2099,12 @@ So how do we write a paletted version of this image? Well, libtiff makes this re
 <para>
 Now all we have to do is work out how to read other people's color and gray scale images reliably, and we're home free. Initially I was very tempted to not tell you about the TIFFReadRGBAStrip() and TIFFReadRGBBSTile() calls, which hide some of the potential ugliness from the caller. These functions have some limitations I'm not astoundingly happy with. To quote the TIFFReadRGBAStrip() man page:</para>
 
+<slidetext>
+<li>Now we just need to work out how to read color images in
+<li>Here's why I'm not telling you about TIFFReadRGBAStrip() and TIFFReadRGBATile()
+</slidetext>
+
+<slideinclude>
 <para><emphasis>
    TIFFReadRGBAStrip reads a single strip of a strip-based image into memory,
    storing  the  result  in  the  user supplied RGBA raster. The raster is assumed to be an array of
@@ -2066,6 +2124,7 @@ Now all we have to do is work out how to read other people's color and gray scal
    image will begin at the beginning of the buffer.
 </emphasis></para>
 
+<slidebreak>
 <para><emphasis>
    Raster  pixels  are  8-bit packed red, green, blue, alpha samples. The macros TIFFGetR, TIFFGetG,
    TIFFGetB,  and  TIFFGetA  should  be used to access individual samples. Images without Associated
@@ -2097,9 +2156,26 @@ Now all we have to do is work out how to read other people's color and gray scal
    buffer  capable  of  holding  the  whole  image doesn't need to be allocated, only enough for one
    strip. The TIFFReadRGBATile() function does a similar operation for tiled images.
 </emphasis></para>
+</slideinclude>
 
+<slidebreak>
 <para>There are a couple of odd things about this function -- it defines (0, 0) to be in a different location from all the other code that we have been writing. In all the previous code we have written, the (0, 0) point has been in the top left of the image. This call defines (0, 0) to be in the bottom left. The other limitation to be aware of is that not all valid values for bits per sample are supported. If you find these quirks unacceptable, then remember that you can still use TIFFReadEncodedStrip() in the same manner that we did for the black and white images in the previous chapter...</para>
 
+<slidetext>
+<li>So what's wrong with this function?
+  <ul>
+  <li>It defines the origin (0,0) in a different way from <b>all</b> the other libtiff calls
+  <li>Not all valid values for bits per sample are handled
+  </ul>
+
+<BR><BR>
+
+<li>We're going to use it anyway, because it makes the code clearer...
+<li>Remember that you can always use TIFFReadEncodedStrip() like we did for the black and white images -- although you then have to interpret the image data yourself
+</slidetext>
+
+<slidebreak>
+<slideinclude>
 <programlisting>
 #include &lt;stdio.h&gt;
 #include &lt;tiffio.h&gt;
@@ -2146,6 +2222,7 @@ int main(int argc, char *argv[]){
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-color-read/read.c</emphasis></para>
+</slideinclude>
 </sect1>
 
 
@@ -2156,19 +2233,43 @@ int main(int argc, char *argv[]){
 All of these examples that I have included to this point have read and written with files. There are many scenarios when you wouldn't want to store your image data in a file, but would still want to use libtiff and TIFF. For example, you might have customer pictures for id cards, and these would be stored in a database.
 </para>
 
+<slidetext>
+<li>There are times when it isn't appropriate to store your image data in files
+<li>There are lots of examples of when you might want to put the data in a database instead
+<li>Perhaps the image data is going to be embedded into another file format
+</slidetext>
+
 <para>
 The example which I am most familiar with is PDF documents. In PDF files, you can embed images into the document. These images can be in a subset of TIFF if desired, and TIFF is quite clearly the choice for black and white images.
 </para>
 
+<slidetext>
+<BR><BR>
+<li>The example I am most familiar with is the PDF specification
+<li>The PDF format is basically ASCII (as we will see later)
+<li>But has embedded binary "streams" such as TIFF data
+<li>So we would like to be able to create these streams with libtiff
+<li>...instead of having to implement our own TIFF library
+</slidetext>
+
+<noslide>
 <sidebar><title>An expanded example</title>
 <para>If you need more information about hooking the file input and output functions within libtiff than this chapter allows, then have a look at the images.c file in Panda, my PDF library. The web pages for Panda can be found at http://www.stillhq.com
   <footnote><para>http://www.stillhq.com/cgi-bin/getpage?area=panda&lt;page=index.htm to be exact.</para></footnote>
 .
 </para>
 </sidebar>
+</noslide>
 
+<slidebreak>
 <para>libtiff allows you to replace the file input and output functions in the library with your own. This is done with the TIFFClientOpen() method. Here's an example (please note this code wont compile, and is just to describe the main concepts:</para>
 
+<slidetext>
+<li>Use the TIFFClientOpen() function...
+</slidetext>
+
+
+<slideinclude>
 <programlisting>
 // Please note that this code wont compile, and is intended to only show you 
 // the sturcture of TIFFClient* calls
@@ -2281,6 +2382,7 @@ libtiffDummyCloseProc (thandle_t fd)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-client/client.c</emphasis></para>
+</slideinclude>
 </sect1>
 
 
@@ -2291,16 +2393,36 @@ libtiffDummyCloseProc (thandle_t fd)
 A common request is to be able to store more than one image inside a single TIFF file. This is done with multiple directories, which is one of the reasons they're described at the start of this chapter.
 </para>
 
+<slidetext>
+<li>People commonly want to be able to store more than one image in a TIFF file
+<li>TIFF and libtiff support this
+<li>This is called multipage / multidirectory TIFF
+<li>Multidirectory because there is more than one IFD
+<li>There is in fact one per image
+</slidetext>
+
 <para>
 <emphasis>Before embarking on a multiple image per TIFF solution, it is important to remember that the TIFF specification doesn't require TIFF image viewers to implement support for multiple images per TIFF, and many viewers in fact do not
   <footnote><para>Refer to page 16 of the TIFF specification, version 6.</para></footnote>
 .</emphasis>
 </para>
 
+<slidetext>
+<BR><BR>
+<li><i>Before writing heaps of code for multipage TIFFs, remember that the specification doesn't require viewers to support this feature, so you might end up with a whole heap of data that no-one can look at...</i>
+</slidetext>
+
+<slidebreak>
 <para>
 Anyway, now that I've nagged you, putting multiple images into one TIFF file is really easy, just call the <command>TIFFWriteDirectory</command>(), which writes out the current image so you can move onto the next one. The following sample program is an example of this...
 </para>
 
+<slidetext>
+<li>Actually doing it is quite easy...
+<li>Just use the TIFFWriteDirectory() call between the images
+</slidetext>
+
+<slideinclude>
 <programlisting>
 #include &lt;stdio.h&gt;
 #include &lt;tiffio.h&gt;
@@ -2431,10 +2553,15 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-directories/create.c</emphasis></para>
+</slideinclude>
 
+<slidebreak>
+<slideinclude>
 <figure><title>Four pictures of my son Andrew</title>
 <graphic format="jpg" fileref="gen-tiff-figure8.jpg">
 </figure>
+</slideinclude>
+
 </sect1>
 
 <sect1><title>Reading more than one image inside a TIFF</title>
@@ -2447,6 +2574,7 @@ This example below demonstrates how to do this.
 </para>
 
 
+<slideinclude>
 <programlisting>
 #include &lt;stdio.h&gt;
 #include &lt;tiffio.h&gt;
@@ -2590,6 +2718,8 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-directories/read.c</emphasis></para>
+</slideinclude>
+
 </sect1>
 
 <noslide>
@@ -2599,7 +2729,7 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2722,7 +2852,7 @@ Specify the percentage of the blue channel to use (default 11).
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2983,7 +3113,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 
 <sect2><title>tiffcmp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3106,10 +3236,11 @@ ImageWidth: 256 520
 </programlisting>
 </sect3>
 </sect2>
-
+</noslide>
 
 <sect2><title>tiffcp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<slideinclude>
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3426,11 +3557,13 @@ tiffcp -c none -,=% -b CCD,X.tif CCD,X%1%.tif result.tif
 <emphasis>libtiff (3)</emphasis>
 </para>
 </sect3>
+</slideinclude>
 </sect2>
 
 
 <sect2><title>tiffdither</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<slideinclude>
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3581,29 +3714,38 @@ program (written by Paul Heckbert).
 <emphasis>libtiff (3)</emphasis>
 </para>
 </sect3>
+</slideinclude>
 
+<noslide>
 <sect3><title>Sample output</title>
+</noslide>
 <para>
 <command>tiffdither</command> takes gray scale images and dithers them into black and white images. For instance, the gray scale example from earlier in this tutorial produced the following image:
 </para>
 
+<slidebreak>
+<slideinclude>
 <figure><title>The gray scale input image</title>
 <graphic format="jpg" fileref="gen-tiff-figure9.jpg">
 </figure>
+</slideinclude>
 
 <para>
 This image, after being pushed through <command>tiffdither</command> looks something like:
 </para>
 
+<slidebreak>
+<slideinclude>
 <figure><title>The dithered output image</title>
 <graphic format="jpg" fileref="gen-tiff-figure10.jpg">
+</slideinclude>
 </figure>
 </sect3>
 </sect2>
 
-
 <sect2><title>tiffdump</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<slideinclude>
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3702,12 +3844,14 @@ i.e. a leading ``0x'' for hexadecimal and a leading ``0'' for octal.
 <emphasis>libtiff (3)</emphasis>
 </para>
 </sect3>
+</slideinclude>
 
 <sect3><title>Sample output</title>
 <para>
 <command>tiffdump</command> shows you heaps of useful things about a TIFF image, basically anything stored in a tag. Some sample output is:
 </para>
 
+<slideinclude>
 <programlisting>
 [mikal@localhost tutorial-imaging]$ tiffdump tiff-figure10.tif 
 tiff-figure10.tif:
@@ -3726,12 +3870,13 @@ StripByteCounts (279) LONG (4) 5&lt;8133 8174 8213 8134 5566&gt;
 PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 [mikal@localhost tutorial-imaging]$ 
 </programlisting>
+</slideinclude>
 </sect3>
 </sect2>
 
-
+<noslide>
 <sect2><title>tiffgt</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4071,10 +4216,11 @@ crashing old versions of the window manager.
 </para>
 </sect3>
 </sect2>
-
+</noslide>
 
 <sect2><title>tiffinfo</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<slideinclude>
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4200,12 +4346,14 @@ directory to
 <emphasis>libtiff (3)</emphasis>
 </para>
 </sect3>
+</slideinclude>
 
 <sect3><title>Sample output</title>
 <para>
 <command>tiffinfo</command> is probably the most useful command which comes with libtiff... In normal operation, it shows you nicely formatted information about the TIFF image, like so:
 </para>
 
+<slideinclude>
 <programlisting>
 [mikal@localhost tutorial-imaging]$ tiffinfo tiff-figure9.tif 
 TIFF Directory at offset 0x40f7c
@@ -4218,11 +4366,14 @@ TIFF Directory at offset 0x40f7c
   Planar Configuration: single image plane
 [mikal@localhost tutorial-imaging]$ 
 </programlisting>
+</slideinclude>
 
 <para>
 When you ask nicely (with a -d), then you're shown random tiff data, which can be very handy:
 </para>
 
+<slidebreak>
+<slideinclude>
 <programlisting>
 [mikal@localhost tutorial-imaging]$ tiffinfo -d tiff-figure9.tif
 TIFF Directory at offset 0x40f7c
@@ -4247,12 +4398,13 @@ Strip 0:
  e4 e6 ea ee f1 f2 f1 ef f3 f3 f3 f2 f2 f2 f1 f1 f2 f1 f0 ef ee ed ec eb
  ... and so on
 </programlisting>
+</slideinclude>
 </sect3>
 </sect2>
 
-
+<noslide>
 <sect2><title>tiffmedian</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4395,10 +4547,11 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 </para>
 </sect3>
 </sect2>
+</noslide>
 
-
+<noslide>
 <sect2><title>tiffsplit</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -4481,10 +4634,11 @@ is used.
 </para>
 </sect3>
 </sect2>
+</noslide>
 
-
+<noslide>
 <sect2><title>tiffsv</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4658,7 +4812,9 @@ library.
 </para>
 </sect3>
 </sect2>
+</noslide>
 
+<noslide>
 <sect2><title>tifftopnm</title>
 <sect3><title>NAME</title>
 
@@ -4811,6 +4967,7 @@ Author: Patrick J. Naughton (naughton@wind.sun.com).
 </para>
 </sect3>
 </sect2>
+</noslide>
 </sect1>
 
 
@@ -4823,8 +4980,13 @@ Author: Patrick J. Naughton (naughton@wind.sun.com).
 It is also useful to have the man pages for the libtiff API man pages to refer to...
 </para>
 
+<slidetext>
+<li>There are also extensive man pages for the API -- check yout manual
+</slidetext>
+
+<noslide>
 <sect2><title>TIFFbuffer</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -4936,7 +5098,7 @@ was unable to dynamically allocate space for a data buffer.
 
 
 <sect2><title>TIFFClose</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5003,7 +5165,7 @@ routine.
 
 
 <sect2><title>TIFFcodec</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5156,7 +5318,7 @@ compression schemes.
 
 
 <sect2><title>TIFFError</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5271,7 +5433,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFFlush</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5371,7 +5533,7 @@ routine.
 
 
 <sect2><title>TIFFGetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5673,7 +5835,7 @@ routine.
 
 
 <sect2><title>TIFFmemory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5800,7 +5962,7 @@ repsectively.
 
 
 <sect2><title>TIFFOpen</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6138,7 +6300,7 @@ This is a limitation of the library.
 
 
 <sect2><title>TIFFPrintDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6226,7 +6388,7 @@ parameter defaults to 0.
 
 
 <sect2><title>TIFFquery</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6408,7 +6570,7 @@ library software.
 
 
 <sect2><title>TIFFReadDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6626,7 +6788,7 @@ the missing value based on the file size.
 
 
 <sect2><title>TIFFReadEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6723,7 +6885,7 @@ routine.
 
 
 <sect2><title>TIFFReadEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6823,7 +6985,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6905,7 +7067,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6989,7 +7151,7 @@ routine.
 
 
 <sect2><title>TIFFReadRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7227,7 +7389,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBAStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7458,7 +7620,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBATile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7693,7 +7855,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7820,7 +7982,7 @@ the strip- and tile-based interfaces to read these formats.
 
 
 <sect2><title>TIFFReadTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7959,7 +8121,7 @@ routine.
 
 
 <sect2><title>TIFFRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8332,7 +8494,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFSetDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8440,7 +8602,7 @@ points to the next directory in a file.
 
 
 <sect2><title>TIFFSetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8693,7 +8855,7 @@ An invalid value was supplied for the named tag.
 
 
 <sect2><title>TIFFsize</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8768,7 +8930,7 @@ if data is stored as separate planes.
 
 
 <sect2><title>TIFFstrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -8895,7 +9057,7 @@ returns the number of strips in the image.
 
 
 <sect2><title>TIFFswab</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9015,7 +9177,7 @@ i.e.
 
 
 <sect2><title>TIFFtile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9232,7 +9394,7 @@ returns the number of tiles in the image.
 
 
 <sect2><title>TIFFWarning</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9324,7 +9486,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFWriteDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9476,7 +9638,7 @@ written.
 
 
 <sect2><title>TIFFWriteEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9615,7 +9777,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9745,7 +9907,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9873,7 +10035,7 @@ currently specified image dimensions.
 
 
 <sect2><title>TIFFWriteRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9987,7 +10149,7 @@ specified image dimensions.
 
 
 <sect2><title>TIFFWriteScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -10191,7 +10353,7 @@ the library does not pack the block-interleaved samples.
 
 
 <sect2><title>TIFFWriteTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.4 2002-08-26 09:25:49 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -10300,6 +10462,12 @@ routine.
 In the introduction to this tutorial I promised that I would include the code to draw the demonstration that raster images are made up of pixels. Well, this example is that code.
 </para>
 
+<slidetext>
+<li>In the early stages of this tutorial I showed you a pixel enlargement...
+<li>Here's the code that did that
+</slidetext>
+
+<slideinclude>
 <programlisting>
 #include &lt;stdio.h&gt;
 #include &lt;tiffio.h&gt;
@@ -10586,6 +10754,7 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-pixels/pixel.c</emphasis></para>
+</slideinclude>
 </sect1>
 
 <sect1><title>Example: Converting a color image to gray scale</title>
@@ -10593,7 +10762,12 @@ usage (char *cmd, int exitamt)
 In one of the previous chapters I also promised to provide the source code for the gray scale conversion examples. Here it is, there are two versions -- a broken algorithm (averaging color values), and a non-broken algorithm (using the NTSC recommended color coefficients).
 </para>
 
+<slidetext>
+<li>Earlier on I also promised some grayscale conversion code...
+</slidetext>
+
 <sect2><title>A broken algorithm</title>
+<slideinclude>
 <programlisting>
 #include &lt;stdio.h&gt;
 #include &lt;tiffio.h&gt;
@@ -10725,6 +10899,7 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-wrong.c</emphasis></para>
+</slideinclude>
 
 <para>
 Which produces:
@@ -10736,6 +10911,7 @@ Which produces:
 </sect2>
 
 <sect2><title>A sensible algorithm</title>
+<slideinclude>
 <programlisting>
 #include &lt;stdio.h&gt;
 #include &lt;tiffio.h&gt;
@@ -10867,6 +11043,7 @@ usage (char *cmd, int exitamt)
 }
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-good.c</emphasis></para>
+</slideinclude>
 
 <para>
 Which gives us:
@@ -10882,6 +11059,7 @@ Now, just to justify that the second algorithm is better, have a look at the sha
 </sect2>
 </sect1>
 
+<noslide>
 <sect1><title>Example: Repeated compression</title>
 <para>
 Earlier in this chapter I promised that I would include the code for the repeated compression loss example, so here it is. The example is made up of a simple (and quite ugly) shell script, and a c program to actually compress the images...
@@ -10976,14 +11154,25 @@ int main(int argc, char *argv[]){
 </programlisting>
 <para><emphasis>Code: /home/mikal/opensource/tiff-recompress/recompress.c</emphasis></para>
 </sect1>
+</noslide>
 
 <sect1><title>Conclusion</title>
 <para>
-In this chapter we've discussed how to program with libtiff for black and white, gray scale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
+In this chapter we've discussed the TIFF file format, how to program with libtiff for black and white, gray scale and color images. We haven't been through an exhaustive discussion of the possible settings, or all the calls available in libtiff, but you should be ready to start exploring further.
 </para>
+
+<slidetext>
+<li>So what have we learnt?
+  <ul>
+  <li>Something about the TIFF file format
+  <li>Black and white images with libtiff
+  <li>Color images with libtiff
+  <li>You should now have enough information to at least start to use libtiff...
+  </ul>
+</slidetext>
 </sect1>
 
-
+<noslide>
 <sect1><title>Further reading</title>
 <para>
 <itemizedlist>
@@ -11005,11 +11194,14 @@ In this chapter we've discussed how to program with libtiff for black and white,
 </itemizedlist>
 </para>
 </sect1>
+</noslide>
 
 <sect1><title>Portions first published by IBM DeveloperWorks</title>
+<slideinclude>
 <para>
 The basis of this chapter was two articles, first published by IBM DeveloperWorks at http://www.ibm.com/developerworks/ in April and May 2002. This material has been expanded in these chapters from the original 5,000 words.
 </para>
+</slideinclude>
 </sect1>
 </chapter>
 <chapter id="chap-gif"><title>GIF</title>

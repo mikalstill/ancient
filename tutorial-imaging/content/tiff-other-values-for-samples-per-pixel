@@ -1,2 +1,6 @@
-TITLE: TIFF -- Other values for samples per pixel?
+TITLE: TIFF: Other values for samples per pixel?
+<li>Now is probably as good a time as any to tell you that you're not limited to three samples per pixel
+<li>You can have an arbitary number
+<li>For instance, this is where alpha channel information is stored in almost all image formats
+<li>Having more than three samples per pixel can break viewers which make ugly assumptions
 

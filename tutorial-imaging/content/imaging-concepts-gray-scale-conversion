@@ -1,5 +1,4 @@
-TITLE: Imaging concepts -- Gray scale conversion
-
+TITLE: Imaging concepts: Gray scale conversion
 <li>How do you convert color images to grayscale?
 <li>Well, most people (including myself) just start off by averaging the red, green and blue color values for each pixel
 <li>This is not optimal...

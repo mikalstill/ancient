@@ -1,0 +1,35 @@
+TITLE: TIFF: The TIFF on disc format: Image File Directory Entries
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+<td>0 - 1</td>
+<td>Tag that identifies the entry. Have a look at tiff.h</td>
+</tr>
+
+<tr>
+<td>2 - 3</td>
+<td>Field type</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+<td>4 - 7</td>
+<td>Count of the number of type size fields used. For instance, if the type is an ASCII string, then this field will store the length of the string, including the NULL terminating byte that C strings have. The count does not include padding (if any).</td>
+</tr>
+
+<tr>
+<td>8 - 11</td>
+<td>The number of bytes inside the file that the value is stored at. Because the value must be stored on a word boundary, it will always be an even number. This file offset may point anywhere in the file, even after the image data.</td>
+</tr>
+
+
+
+</table>
+

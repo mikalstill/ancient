@@ -1,0 +1,319 @@
+TITLE: TIFF: Reading more than one image inside a TIFF: tiffcp
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/content/tiff-reading-more-than-one-image-inside-a-tiff-tiffcp,v 1.1 2002-08-28 00:35:58 mikal Exp $ -->
+<!--  -->
+<!--  Copyright (c) 1988-1997 Sam Leffler -->
+<!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
+<!--  -->
+<!--  Permission to use, copy, modify, distribute, and sell this software and  -->
+<!--  its documentation for any purpose is hereby granted without fee, provided -->
+<!--  that (i) the above copyright notices and this permission notice appear in -->
+<!--  all copies of the software and related documentation, and (ii) the names of -->
+<!--  Sam Leffler and Silicon Graphics may not be used in any advertising or -->
+<!--  publicity relating to the software without the specific, prior written -->
+<!--  permission of Sam Leffler and Silicon Graphics. -->
+<!--   -->
+<!--  THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,  -->
+<!--  EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY  -->
+<!--  WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.   -->
+<!--   -->
+<!--  IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR -->
+<!--  ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, -->
+<!--  OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, -->
+<!--  WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF  -->
+<!--  LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  -->
+<!--  OF THIS SOFTWARE. -->
+<!--  -->
+<BR><BR><b>NAME</b>
+
+<BR><BR>tiffcp - copy (and possibly convert) a
+<i>TIFF</i>
+file
+
+
+<BR><BR><b>SYNOPSIS</b>
+
+<BR><BR><i><b>tiffcp</b></i>
+[
+<i>options</i>
+]
+<i>"src1.tif ... srcN.tif dst.tif"</i>
+
+
+<BR><BR><b>DESCRIPTION</b>
+
+<BR><BR><i>tiffcp</i>
+combines one or more files created according
+to the Tag Image File Format, Revision 6.0
+into a single
+<i>TIFF</i>
+file.
+Because the output file may be compressed using a different
+algorithm than the input files,
+<i>tiffcp</i>
+is most often used to convert between different compression
+schemes.
+
+
+
+<BR><BR>By default,
+<i>tiffcp</i>
+will copy all the understood tags in a
+<i>TIFF</i>
+directory of an input
+file to the associated directory in the output file.
+
+
+
+<BR><BR><i>tiffcp</i>
+can be used to reorganize the storage characteristics of data
+in a file, but it is explicitly intended to not alter or convert
+the image data content in any way.
+
+
+<BR><BR><b>OPTIONS</b>
+
+<BR><BR>
+
+<listitem>
+
+<BR><BR><i><b>-b image</b></i>
+subtract the following monochrome image from all others
+processed.  This can be used to remove a noise bias
+from a set of images.  This bias image is typlically an
+image of noise the camera saw with its shutter closed.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-B</b></i>
+Force output to be written with Big-Endian byte order.
+This option only has an effect when the output file is created or
+overwritten and not when it is appended to.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-C</b></i>
+Suppress the use of ``strip chopping'' when reading images
+that have a single strip/tile of uncompressed data.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-c</b></i>
+Specify the compression to use for data written to the output file:
+<i><b>none </b></i>
+for no compression,
+<i><b>packbits</b></i>
+for PackBits compression,
+<i><b>lzw</b></i>
+for Lempel-Ziv &amp; Welch compression,
+<i><b>jpeg</b></i>
+for baseline JPEG compression,
+<i><b>zip</b></i>
+for Deflate compression,
+<i><b>g3</b></i>
+for CCITT Group 3 (T.4) compression,
+and
+<i><b>g4</b></i>
+for CCITT Group 4 (T.6) compression.
+By default
+<i>tiffcp</i>
+will compress data according to the value of the
+<i>Compression</i>
+tag found in the source file.
+The
+<i>CCITT</i>
+Group 3 and Group 4 compression algorithms can only
+be used with bilevel data.
+Group 3 compression can be specified together with several
+T.4-specific options:
+<i><b>1d</b></i>
+for 1-dimensional encoding,
+<i><b>2d</b></i>
+for 2-dimensional encoding,
+and
+<i><b>fill</b></i>
+to force each encoded scanline to be zero-filled so that the
+terminating EOL code lies on a byte boundary.
+Group 3-specific options are specified by appending a ``:''-separated
+list to the ``g3'' option; e.g.
+<i><b>"-c g3:2d:fill"</b></i>
+to get 2D-encoded data with byte-aligned EOL codes.
+<i>LZW</i>
+compression can be specified together with a
+<i>predictor</i>
+value.
+A predictor value of 2 causes
+each scanline of the output image to undergo horizontal
+differencing before it is encoded; a value
+of 1 forces each scanline to be encoded without differencing.
+LZW-specific options are specified by appending a ``:''-separated
+list to the ``lzw'' option; e.g.
+<i><b>"-c lzw:2"</b></i>
+for
+<i>LZW</i>
+compression with horizontal differencing.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-f</b></i>
+Specify the bit fill order to use in writing output data.
+By default,
+<i>tiffcp</i>
+will create a new file with the same fill order as the original.
+Specifying
+<i><b>"-f lsb2msb"</b></i>
+will force data to be written with the FillOrder tag set to
+<i>LSB2MSB,</i>
+while
+<i><b>"-f msb2lsb"</b></i>
+will force data to be written with the FillOrder tag set to
+<i>MSB2LSB.</i>
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-l</b></i>
+Specify the length of a tile (in pixels).
+<i>tiffcp</i>
+attempts to set the tile dimensions so
+that no more than 8 kilobytes of data appear in a tile.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-L</b></i>
+Force output to be written with Little-Endian byte order.
+This option only has an effect when the output file is created or
+overwritten and not when it is appended to.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-M</b></i>
+Suppress the use of memory-mapped files when reading images.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-p</b></i>
+Specify the planar configuration to use in writing image data
+that has one 8-bit sample per pixel.
+By default,
+<i>tiffcp</i>
+will create a new file with the same planar configuration as
+the original.
+Specifying
+<i><b>"-p contig"</b></i>
+will force data to be written with multi-sample data packed
+together, while
+<i><b>"-p separate"</b></i>
+will force samples to be written in separate planes.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-r</b></i>
+Specify the number of rows (scanlines) in each strip of data
+written to the output file.
+By default,
+<i>tiffcp</i>
+attempts to set the rows/strip
+that no more than 8 kilobytes of data appear in a strip.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-s</b></i>
+Force the output file to be written with data organized in strips
+(rather than tiles).
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-t</b></i>
+Force the output file to be written wtih data organized in tiles
+(rather than strips).
+options can be used to force the resultant image to be written
+as strips or tiles of data, respectively.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-w</b></i>
+Specify the width of a tile (in pixels).
+<i>tiffcp</i>
+attempts to set the tile dimensions so
+that no more than 8 kilobytes of data appear in a tile.
+<i>tiffcp</i>
+attempts to set the tile dimensions so
+that no more than 8 kilobytes of data appear in a tile.
+
+</listitem>
+<listitem>
+
+<BR><BR><i><b>-,={character}</b></i>
+substitute {character} for ',' in parsing image directory indices
+in files.  This is necessary if filenames contain commas.
+Note that ',=' with whitespace immediately following will disable
+the special meaning of the ',' entirely.  See examples.
+
+</listitem>
+
+
+<BR><BR>
+
+<BR><BR><b>EXAMPLES</b>
+
+<BR><BR>The following concatenates two files and writes the result using
+<i>LZW</i>
+encoding:
+tiffcp -c lzw a.tif b.tif result.tif
+
+
+
+<BR><BR>To convert a G3 1d-encoded
+<i>TIFF</i>
+to a single strip of G4-encoded data the following might be used:
+tiffcp -c g4 -r 10000 g3.tif g4.tif
+(1000 is just a number that is larger than the number of rows in
+the source file.)
+
+
+
+<BR><BR>To extract a selected set of images from a multi-image
+TIFF file, the file name may be immediately followed by a ','
+separated list of image directory indices.  The first image
+is always in directory 0.  Thus, to copy the 1st and 3rd
+images of image file "album.tif" to "result.tif":
+tiffcp album.tif,0,2 result.tif
+
+
+
+<BR><BR>Given file "CCD.tif" whose first image is a noise bias
+followed by images which include that bias,
+subtract the noise from all those images following it
+(while decompressing) with the command:
+tiffcp -c none -b CCD.tif CCD.tif,1, result.tif
+
+
+
+<BR><BR>If the file above were named "CCD,X.tif", the "-,=" option would
+be required to correctly parse this filename with image numbers,
+as follows:
+tiffcp -c none -,=% -b CCD,X.tif CCD,X%1%.tif result.tif
+
+
+<BR><BR><b>SEE ALSO</b>
+
+<BR><BR><i>pal2rgb (1),</i>
+<i>tiffinfo (1),</i>
+<i>tiffcmp (1),</i>
+<i>tiffmedian (1),</i>
+<i>tiffsplit (1),</i>
+<i>libtiff (3)</i>
+
+
+

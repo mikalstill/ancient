@@ -1,8 +1,0 @@
-TITLE: Imaging concepts -- Direct gray scale storage
-
-<br><br><div align="center"><b>A gray scale zoom in</b>
-<br><img src="/notes/presentations/slide/gen-theory-figure5.jpg">
-</div><BR><BR>
-
-<li>Similar to black and white, we just store the value at the pixel location
-

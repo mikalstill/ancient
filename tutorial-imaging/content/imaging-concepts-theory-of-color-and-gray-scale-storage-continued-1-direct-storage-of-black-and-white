@@ -1,0 +1,9 @@
+TITLE: Imaging concepts: Theory of color and gray scale storage: Continued 1: Direct storage of black and white
+<br><br><div align="center"><b>A black and white zoom in</b>
+<br><img src="/notes/presentations/content/gen-theory-figure3.jpg">
+</div><BR><BR>
+
+<li>Black and white images only have one storage option
+<li>Store the on / off value at the pixel location within the raster
+<li>We only need one bit per pixel...
+
