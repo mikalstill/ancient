@@ -28,12 +28,14 @@
 
 cepDataWindower::cepDataWindower() {
   windowAlg = NULL;
+  algType = WINDOW_UNDEFINED;
 }
 
 
 
 cepDataWindower::cepDataWindower( const windowType t, const int s, const int ol ){
   windowAlg = NULL;     // initialise in case the user supplies a bogus algorithm
+  algType = WINDOW_UNDEFINED;
   setWindowType( t, s, ol );
 }
 
@@ -43,9 +45,20 @@ cepDataWindower::~cepDataWindower(){
   if( windowAlg != NULL ) delete windowAlg;
 }
 
+const cepError cepDataWindower::setChebAttenuation( double att ) {
+  if( windowAlg == NULL || algType != WINDOW_CHEBYSHEV ) {
+    return cepError("Not using chebyshev algorithm. cannot set parameters", cepError::sevWarning);
+  }
+  ((cepWindowChebyshev *)windowAlg)->setAttenuation( att );
+  
+  return cepError();
+}
+
 
 
 const cepError cepDataWindower::setWindowType( const windowType type, const int size, const int ol ) {
+  
+  algType = type;
   
   switch( type ) {
     
@@ -69,10 +82,12 @@ const cepError cepDataWindower::setWindowType( const windowType type, const int 
     case WINDOW_HANNING:
     case WINDOW_KEISER:
     case WINDOW_TAYLOR:
+      algType = WINDOW_UNDEFINED;
       return cepError("This type is not yet implemented. Set type failed", cepError::sevWarning);
       
     default:
       // leave the current settings alone and return an error
+      algType = WINDOW_UNDEFINED;
       return cepError("unknown windowing algorithm. Set type failed", cepError::sevWarning);
   }
 
@@ -80,18 +95,6 @@ const cepError cepDataWindower::setWindowType( const windowType type, const int 
   return cepError();
   
 }
-
-
-
-const cepError cepDataWindower::setWindowGeom( const int sz, const int ovrlap ) {
-  if( windowAlg == NULL ) {
-    return cepError( "Window algorithm is not defined. Set geometry failed", cepError::sevWarning);
-  }
-  windowAlg->setSize( sz );
-  overlap = ovrlap;
-  return cepError();
-}
-
 
 
 int cepDataWindower::countWindows( int samples, int winSize, int overlap )

@@ -65,20 +65,24 @@ public:
          WINDOW_HANNING,
          WINDOW_KEISER,
          WINDOW_TAYLOR,
-         WINDOW_CHEBYSHEV};
+         WINDOW_CHEBYSHEV,
+         WINDOW_UNDEFINED};
 
   cepDataWindower();
-	cepDataWindower( const windowType type, const int size, const int overlap );
-	~cepDataWindower();
+  cepDataWindower( const windowType type, const int size, const int overlap );
+  ~cepDataWindower();
 
   const cepError setWindowType( const windowType type, const int size, const int overlap );
-  const cepError setWindowGeom( const int size, const int overlap );
+  
+  // G is the gain, dw is the side lobe attenuation
+  const cepError setChebAttenuation( double att );
 
   const cepError window( const cepMatrix<double> & dataIn, cepMatrix<double> & windowedData );
 
 protected:
   cepWindowAlg *windowAlg;
   int overlap;
+  windowType algType;
 
   int countWindows( int samples, int winSize, int overlap );
   
