@@ -195,7 +195,7 @@ private:
   double m_fromDate;  //holds the start date
   double m_toDate;    //holds the end date
   bool m_go;          //hove we finished re-weighting?
-                                               ne
+                                     
   DECLARE_EVENT_TABLE ()
 };
 /******************************************************************************

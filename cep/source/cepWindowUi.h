@@ -1,6 +1,7 @@
 /*
-  * Imp for the Interpolation wxWindows UI implementation
+  * Imp for the Windowing wxWindows UI implementation
   * Copyright (C) Kristy Van Der Vlist             2002
+  * Copyright (C) Blake Swadling                   2002
   *
   * This program is free software; you can redistribute it and/or modify it
   * under the terms of the GNU General Public License as published by the Free
@@ -55,6 +56,7 @@ which displays a custom wxWindows dialog box.
 </para>
 
 <para>
+
 <command>void showBandwidth()</command>
 Show the "Specify Bandwidth dialog box"
 </para>
@@ -125,7 +127,7 @@ Windowing GUI.
 
 
 <para>
-<command>void showBandwidth()</command>
+command>void showBandwidth()</command>
 Show the "Specify Bandwidth" dialog box
 </para>
 

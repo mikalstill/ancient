@@ -62,6 +62,8 @@
 #include "cepWindowUi.h"
 #include "cepwindowchebyshev.h"
 
+#include "cepDate.h"
+#include "cepDateUi.h"
 #include "cepMatrixIO.h"
 
 #include "cepLs.h"
@@ -366,7 +368,15 @@ void cepView::OnToggleZ (wxCommandEvent &pevt)
 void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
   cepMatrix <double> residuals, matP;
+  cepDate toDate(1999.9987), fromDate(1999.0014);
 
+  cepDateUi date;
+  date.showDateRange(toDate, fromDate);
+
+  cout << endl << endl << "#########BACK" << endl;
+  cout << "From date " << date.getFromDate() << endl;
+  cout << "To date " << date.getToDate() << endl;
+  
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed())
@@ -394,12 +404,12 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
           if (lsUi.getIsReweight () == 1)
 		      {
 		        thisLs.cepDoVCV (*theDataset->getMatrix ((cepDataset::direction) i));
-		        if(thisLs.getError().isReal() == true)
+            if(thisLs.getError().isReal() == true)
             {
               thisLs.getError().display();
               goto END;
             }  
-			residuals = thisLs.getResidual ();
+            residuals = thisLs.getResidual ();
 		        cepDebugPrint("Resolved LS regression");
 
 		        cout << "equation of the line is " << endl;
@@ -433,13 +443,12 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 				          cout << endl;
 				        }
 			          thisLs.cepDoVCV (*theDataset->getMatrix (cepDataset::dirX), matP);
-			          	          thisLs.cepDoVCV (*theDataset->getMatrix (cepDataset::dirX), matP);
                 if(thisLs.getError().isReal() == true)
                 {
                   thisLs.getError().display();
                   goto END;
                 }
-				  residuals = thisLs.getResidual ();
+                residuals = thisLs.getResidual ();
 			      
 			          cout << "equation of the line is " << endl;
 			          cout << "y=" << thisLs.getB1 () << "x+" << thisLs.getB2 () << endl;
@@ -456,6 +465,11 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 			        if (lsUi.getIsReadP () == 0)
 			        {
 			          cout << "re-weight graph thingie goes here " << endl;
+                lsUi.showWeight(2002.0014, 2003.4041, 1.0);
+                cout << "fromDate " << lsUi.getFromDate() << endl;
+                cout << "toDate " << lsUi.getToDate() << endl;
+                cout << "vaule " << lsUi.getWeight() << endl;
+                cout << "Reweight?? " << lsUi.getDoVCV() << endl;
 			        }
 			      }
 		      }
@@ -469,7 +483,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
       // Actually force the graphs to redraw
       canvas->Refresh();
   }
-END: cout << ""; 
+END: cout << "";
 }
 
 // Perform a least squares regression on the dataset (in all directions)
