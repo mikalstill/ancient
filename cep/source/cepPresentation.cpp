@@ -185,13 +185,15 @@ cepPresentation::createBitmap ()
   long yrange = ymaxval - yminval;
   float yscale = yrange / (m_height - 20);
 
+  cepDebugPrint("Dimensions of graph bitmap: " + cepToString(m_width) + " x " +
+		cepToString(m_height));
+
   // This little tweak deals with inaccuracies in the float rounding of the
   // above
-  // todo_mikal: Are these too conservative? I'll wait and see if people
-  // complain...
+  // todo_mikal: I am not happy with this, I should ask for suggestions...
   cepDebugPrint("Yscale = " + cepToString(yscale));
   if(yscale > 0){
-    yscale *= 1.30;
+    yscale *= 2.0; // Was 1.3
   }
   else{
     yscale /= 0.66;

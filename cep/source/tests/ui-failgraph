@@ -4,12 +4,12 @@ use strict;
 my($count, %fails, $INPUT, @newcount, @oldcount, @totalfail, $atest, $maxcount, $prevfail);
 
 $count=1;
-while(-f "failed$count"){
+while(-f "ui-failed$count"){
     $newcount[$count] = 0;
     $oldcount[$count] = 0;
     $totalfail[$count] = 0;
 
-    open INPUT, "< failed$count";
+    open INPUT, "< ui-failed$count";
     while(<INPUT>){
 	if(/.*Test (.*) failed.*/){
 	    # Is this a new failure or an old failure?
