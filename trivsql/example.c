@@ -3,11 +3,14 @@
 
 int main(int argc, char *argv[]){
   trivsql_state *ourState;
+  trivsql_recordset *rs;
   char cmd[1000];
 
   ourState = trivsql_opendb("foo.tdb");
 
   while(fgets(cmd, 1000, stdin) != NULL){
-    trivsql_execute(ourState, cmd);
+    rs = trivsql_execute(ourState, cmd);
+    trivsql_displayrs(rs);
+    trivsql_xfree(rs);
   }
 }

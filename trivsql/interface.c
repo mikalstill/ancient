@@ -15,8 +15,11 @@ trivsql_recordset *trivsql_execute(trivsql_state *state, char *sql){
   gTrivData = trivsql_xsnprintf("%s", sql);
   gTrivInset = 0;
 
-  gState = state;  
+  trivsql_xfree(state->rs);
+  state->rs = NULL;
+  gState = state; 
   yyparse();
+  return gState->rs;
 }
 
 int trivsql_gettext(char *buffer, int maxlen){

@@ -11,6 +11,7 @@ typedef struct trivsql_internal_state
   char *selArgOne;
   char *selArgTwo;
   trivsql_selectorfunc selector;
+  trivsql_recordset *rs;
 } trivsql_state;
 
 typedef struct trivsql_internal_col

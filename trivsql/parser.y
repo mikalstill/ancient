@@ -26,7 +26,7 @@ insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')' ';'
          ;
 
 sel      : SELECT cvsaster FROM STRING selector ';'
-{ trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect($4, $2), $4, $2); /*trivsql_xfree(rs);*/ }
+{ gState->rs = trivsql_doselect($4, $2), $4, $2); }
          ;
 
 cvsaster : colvalspec { $$ = trivsql_xsnprintf("%s", $1); }
