@@ -4,6 +4,8 @@
   #include "pandalex.h"
 
   #include <stdarg.h>
+  #include <stdlib.h>
+  #include <stdio.h>
 
   #define YYMAXDEPTH 50000
   #define YYERROR_VERBOSE 1
@@ -86,11 +88,11 @@ dictionary: DBLLT dict DBLGT { $$ = -1; }
           | ARRAY arrayvals ENDARRAY { $$ = -1; }
           | objref { $$ = -1; }
           | NAME { $$ = -1; }
-          | STRING { $$ = -1 };
+          | STRING { $$ = -1; }
           | { $$ = -1; }
           ;
 
-subdictionary: DBLLT dict DBLGT { $$ = -1 };
+subdictionary: DBLLT dict DBLGT { $$ = -1; }
 
 dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1.data, $2.data); } dict
           | NAME NAME { pandalex_callback(pandalex_event_dictitem_name, $1.data, $2.data); } dict
@@ -126,12 +128,12 @@ objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) 
           ;
 
 // completely implemented
-stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); free($2); }
+stream    : STREAM binary ENDSTREAM { pandalex_callback(pandalex_event_stream, $2.data, $2.len); free($2.data); }
           |
           ;
 
 // completely implemented: callbacks are handled in the callers to this
-binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2); }
+binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($2.data); }
           | STRING binary { $$.data = pandalex_strmcpy($1.data, -1); $$.len = strlen($1.data); }
           | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
           ;
