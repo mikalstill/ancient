@@ -17,6 +17,85 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION <!-- class name -->
+cepConfiguration
+
+
+PURPOSE <!-- use cases -->
+provides a persistance mechanism for configuration data
+
+SYNOPSIS START
+<!-- how to instantiate one? -->
+Since it is sensible to have cnfiguration stored centrally,
+this config mechanism is implemented as a singleton. To use it
+you need to to 2 things.
+1) initialise the configuration database for a specific config file (optional)
+2) get a reference to the configuration. If the configuration ahs not been initialised
+then the default configuration file is used (currently ~/.cep)
+
+for example this will initialise the config database to "testcfg" in the current working
+directory and will get a reference to the central config object ...
+
+  cepConfiguration::initialise("testcfg");
+  cepConfiguration cfg = cepConfiguration::getInstance();
+
+SYNOPSIS END
+
+DESCRIPTION START
+<!-- description goes here -->
+<para>A configuration class (using the singleton pattern) which allows
+access to a single configuration store.
+</para>
+
+
+<para> <!-- per function descriptions -->
+<command>static void initialise( const string &path )</command>
+initialises the configuration database usng the specifed file. if the file
+cannot be accessed then an attempt is made to initialise the default path.
+this is static and must be called like so ..
+  cepConfiguration::initialise( mypath );
+</para>
+<para> <!-- per function descriptions -->
+<command>static cepConfiguration::getInstance()</command>
+Gets a reference to the current configuration object.
+this is a static an must be called like so ...
+  cepConfiguration cfg = cepConfiguration::getInstance();
+</para>
+<para> <!-- per function descriptions -->
+<command>void getVal( const string &key, const string &default, const string &value )</command>
+gets a string value by key. if the value does not exist then the default is returned
+</para>
+<para> <!-- per function descriptions -->
+<command>void getVal( const string &key, int default, int value )</command>
+gets an int value by key. if the value does not exist then the default is returned
+</para>
+<para> <!-- per function descriptions -->
+<command>void getVal( const string &key, bool default, bool value )</command>
+gets a boolean value by key. if the value does not exist then the default is returned
+</para>
+
+<para> <!-- per function descriptions -->
+<command>void getVal( const string &key, const string &value )</command>
+places a string value into configuration using the key for id. If the value exists it
+is overwritten
+</para>
+<para> <!-- per function descriptions -->
+<command>void getVal( const string &key, int value )</command>
+places an int value into configuration using the key for id. If the value exists it
+is overwritten
+</para>
+<para> <!-- per function descriptions -->
+<command>void getVal( const string &key, bool value )</command>
+places a boolean value into configuration using the key for id. If the value exists it
+is overwritten
+</para>
+DESCRIPTION END
+
+DOCBOOK END
+******************************************************************************/
 
 #ifndef CEP_CONFIGURATION_H
 #define CEP_CONFIGURATION_H
@@ -34,7 +113,7 @@ using namespace std;
 /**A drop in replacement for the original cepConfiguration.
   *This implements a whiteboard pattern.
   *@author Blake Swadling
-  *@version $Revision: 1.13 $
+  *@version $Revision: 1.14 $
   */
 
 class cepConfiguration
@@ -45,8 +124,7 @@ public:
   static cepConfiguration & getInstance();
 
   // Get the value for a given configuration item, including default
-  cepError getValue (const string & valkey, const string & defval,
-                     string & outval);
+  cepError getValue (const string & valkey, const string & defval, string & outval);
   cepError getValue (const string & valkey, const bool & defval, bool & outval);
   cepError getValue (const string & valkey, const int &defval, int &outval);
 

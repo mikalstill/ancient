@@ -53,6 +53,7 @@ logging is disabled
 </para>
 DESCRIPTION END
 
+SEEALSO cepError cepErrorHandler cepTextErrorhandler cepWxErrorHandler
 DOCBOOK END
 ******************************************************************************/
 

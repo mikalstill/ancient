@@ -55,6 +55,7 @@ Logs a specific error using an global log file
 </para>
 DESCRIPTION END
 
+SEEALSO cepError cepErrorHandler cepTextErrorhandler cepConsoleErrorHandler
 DOCBOOK END
 ******************************************************************************/
 

@@ -27,7 +27,7 @@ cepConfiguration *cepConfiguration::config = 0;
 cepConfiguration::cepConfiguration (const string & filename)
 {
   path.assign (filename);
-  // disard any error here. If we try to display it we get a segfault
+  // discard any error here. If we try to display it we get a segfault
   
   cepError err = load (path);
   if( err.isReal() ) {
