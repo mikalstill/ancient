@@ -52,7 +52,7 @@ totalled 808 kilobytes.
 <sect1><title>Cleanup of temporary files</title>
 <para>
 The <command>GDMS</command> will automatically cleanup temporary files as required. In
-practice, this means that temporary files from previous sessions are deleted when
+practise, this means that temporary files from previous sessions are deleted when
 the<command>GDMS</command> is run. Note that only the GUI implementation cleans the
 <emphasis>/tmp</emphasis> directory. The <command>GDMS web</command> does not perform
 this operation as it does not create it's temporary files in this manner. For further

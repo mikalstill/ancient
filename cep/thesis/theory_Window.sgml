@@ -19,7 +19,7 @@
   This adversely effects the resolution with which we can observe the signal (for a more in depth discussion of this topic see
   the section on Frequency Domain Analysis theory below). We must, therefore, strike a balance between 
   spectral peak width 
-  and the degree of high frequency attenuation. Ideally we would like to have no skirts, but in practice the best we can do is try 
+  and the degree of high frequency attenuation. Ideally we would like to have no skirts, but in practise the best we can do is try 
   to
   control them. The available windowing algorithms vary in their ability to control this while trying to retain a fine spectral peak.
   The attributes of each algorithm can be summarised as follows:

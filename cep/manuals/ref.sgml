@@ -101,9 +101,9 @@
 
   <sect2><title>Time Domain Analysis</title>
 
-    <sect3><title>Least Squeares</title>
+    <sect3><title>Least Squares</title>
       <para>
-        The only time domain modeling currently available is Least Squares regression. This
+        The only time domain modelling currently available is Least Squares regression. This
         can be accessed by selecting <command>Maths</command> - <command>Least Squares</command>.
         The available options in the least squares menu are <command>Variance
         Co-variance</command> and <command>Random Walk</command>.

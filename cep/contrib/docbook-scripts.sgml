@@ -1,7 +1,7 @@
 <sect2><title>Docbook-scripts</title>
 <para>
 <command>Docbook-scripts</command> is a series of simple scripts which make it easier to implement the Docbook 
-documentation for the project. The scripts are written in a variety of shell and perl, and need to be included 
+documentation for the project. The scripts are written in a variety of shell and Perl, and need to be included 
 in your current path to be used.
 </para>
 

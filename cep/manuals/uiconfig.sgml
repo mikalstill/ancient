@@ -27,7 +27,7 @@
 <para>
   The default is to display all three direction of the dataset. The user can however toggle
   directions on and off to give more screen real estate to graphs of interest. This is
-  done through the <command>view</command> menu, by checking or unchecking the appropriate 
+  done through the <command>view</command> menu, by checking or un-checking the appropriate 
   directions.
 </para>
 </sect2>

@@ -1,6 +1,6 @@
 <sect2><title>Autodocbook</title>
 <para>
-<command>Autodocbook</command> is a perl script which parses C and C++ code and header files, and extracts specially 
+<command>Autodocbook</command> is a Perl script which parses C and C++ code and header files, and extracts specially 
 formatted comments. These comments are then used to generate Docbook documentation for those code files. 
 It is possible to easily convert this documentation to many useful formats, including:
 
