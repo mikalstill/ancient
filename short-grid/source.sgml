@@ -1,6 +1,6 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <article>
-<title>An introduction to genstruct</title>
+<title>Grid computing and the open grid services architecture</title>
    <subtitle>A final year project discussion paper (number two)</subtitle>
 
 <sect1>
@@ -22,14 +22,117 @@ words, not including the code snippets.
 
 <sect1><title>The meeting</title>
 <para>
-
+Held at the National Institute of Engineering and Information Sciences, ANU
+8 July 2002, 2pm to 3pm
 </para>
 </sect1>
 
 
+The grid and open grid services architecture
+Ian Foster
+Mathematics and Computer Science Division
+... (see website)
+
+www.globus.org
+
+
+Grids as infrastructure (e.g. electrical power distribution)
+Computing and storage / data don't obey these rules yet
+What about the Internet?
+On demand, ubiqitious access to computing, data and services
+
+The emergence of the grid
+  E science -- the original grid driver (previously theory and experiment)
+  Very large db mining
+  Simulations
+  Remote device access
+  
+"Resource sharing and coordinated problem solving in dynamic, multi-institutional virtual organizations"
+
+Early 90's: gigabit test beds
+Mid 90's: early experiments in networks and software
+2002: large communities have emerged
+
+Example: CERN's Large Hadron Collider
+  1800 physicists
+  150 insitutes
+  32 countries
+
+  100PB data
+  50,000 CPUs
+  (by 2010)
+
+Example: NASA aviation safety
+
+Technical requirements
+  Dynamic dormation and management of virt orgs
+  Online neg of acces to services (inc schedualling)
+  Configur of apps and sys
+  Mnagement of dist infra
+
+Globus toolkit
+  since 1996
+  small stds based set of protocols
+  information centric design
+  open source implementation (large community)
+  Enabler of services and applications
 
 
 
+
+Grids and e business
+
+  Framentation of enterprise infrastructure
+  The rise of eUtility (outsourcing, ecomomies of scale: IBM, HP, SUN, MS et al)
+  b2b
+  Ubiq QOS
+
+  On demand access to computing
+  New applications and services
+  Solution to ent computing problems
+
+  Fight AIDs at home
+  butterfly.net
+
+
+Technology convergence
+
+  Refactor globus protocol suite to enable common base and expose key capabilities
+  Service orientation
+  Embrace key web service technologies: std idl (from wsdl), leverage commercial efforts
+  :. standard interfaces and behaviours which define required elements
+
+  web services address discovery and invocation of persistent services
+  must also handle transient service instances
+
+  web services
+    w3c: ms, ibm, sun, +
+    wsdl
+    soap
+    ws-inspection
+
+  life time of state
+    explicit destroy
+    request that the service keepalive for a little bit longer
+
+
+Virtual data
+  GriPhyN
+  Most data is in fact computationally corrected and perhaps even simulated
+  Need to track transformation and derivation information
+
+  www.griphyn.org/chimera
+
+  Sloan Digital Sky Survey
+
+
+
+www.globus.org
+              /ogsa
+www.gridforum.org
+
+
+"The Grid: blueprint for a new computing infrastructure", editted by Ian Foster and Carl Kesselman
 
 
 
