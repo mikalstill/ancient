@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.15 $ $Date: 2002-10-20 05:25:26 $
+ * @version $Revision: 1.16 $ $Date: 2002-10-22 06:04:56 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.15  2002/10/20 05:25:26  u983118
+ * removed debug output
+ *
  * Revision 1.14  2002/10/20 04:36:48  u983118
  * fixed a few things in tests
  *
@@ -256,7 +259,13 @@ public:
 
    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "test3DCopyConstructor", &Test::test3DCopyConstructor ) );
-     
+   
+   suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testResizeLarger", &Test::testResizeLarger ) );
+
+   suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testResizeSmaller", &Test::testResizeSmaller ) );
+    
     return suiteOfTests;
   }
 
@@ -747,7 +756,56 @@ protected:
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, matDouble.getValue(i,j,2));
       }
     }
-  }          
+  }
+  
+  void testResizeLarger()
+  {
+    int rows = 4, cols = 3, newRows = 6;
+    cepMatrix<double> actual(rows,cols);
+    
+    for(int i = 0; i < actual.getNumRows(); i ++){
+      for(int j = 0; j < actual.getNumCols(); j ++){
+        actual.setValue(i,j,1.0);
+      }
+    }
+    
+    actual.resize(newRows);
+        
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong number of cols", newRows, actual.getNumRows());
+    
+    for(int i = 0; i < actual.getNumRows(); i ++){
+      for(int j = 0; j < actual.getNumCols(); j ++){
+        if( i < rows){
+          CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, actual.getValue(i,j));
+        }
+        else{
+          CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", (double)NULL, actual.getValue(i,j));
+        }
+      }
+    }
+    
+    for(int i = 0; i < actual.getNumRows(); i ++){
+      for(int j = 0; j < actual.getNumCols(); j ++){
+        actual.setValue(i,j,2.0);
+      }
+    }
+    
+    for(int i = 0; i < actual.getNumRows(); i ++){
+      for(int j = 0; j < actual.getNumCols(); j ++){
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, actual.getValue(i,j));
+      }
+    }
+    
+  }
+  
+  void testResizeSmaller()
+  {
+    int rows = 6, cols = 3, newRows = 4;
+    cepMatrix<double> actual(rows,cols);
+    
+    cout << endl << "this test is doing the right thing and bailing out" << endl;    
+    actual.resize(newRows);
+  }                 
 }; // end Test
 
  /**
