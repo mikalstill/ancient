@@ -1,6 +1,9 @@
 # Revision History
 # 
 #  $Log: not supported by cvs2svn $
+#  Revision 1.5  2002/08/05 12:10:55  u982087
+#  converted all line endings to unix
+#
 #  Revision 1.4  2002/07/20 12:06:08  u964076
 #  Mikal: Hacked CVS Makefile to work on my box
 #
@@ -21,10 +24,10 @@ all:
 	   echo "*** creating config directory" ; \
 	   mkdir config; \
 	fi
-	@if test ! -e config/ltmain.sh; then \
-	   echo "*** locating ltmain.sh"; \
-	   ln -s `locate ltmain.sh | grep libtool | head -1` config/ltmain.sh > /dev/null 2>&1; \
-	fi
+#	@if test ! -e config/ltmain.sh; then \
+#	   echo "*** locating ltmain.sh"; \
+#	   ln -s `locate ltmain.sh | grep libtool | head -1` config/ltmain.sh > /dev/null 2>&1; \
+#	fi
 	@echo "*** Retrieving configure tests needed by configure.in"
 	@rm -f aclocal.m4
 	@aclocal
