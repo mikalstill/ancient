@@ -3,7 +3,7 @@
 use strict;
 my($HISTORY, $filename, $date, %dateline, $day, $adate,
    $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
-   $table, %authorcolor, @colors, $newauthnum, %heading, $color, $temp,
+   $table, %authorcolor, @authorseq, @colors, $newauthnum, %heading, $color, $temp,
    $revision, $lines, $state, %authorcommits, %tauthorcommits, $nowmonth, $prevmonth, $prevyear,
    @monthnames, $headerhtml, $loghtml, $nowyear, $comment, $OUTPUT, $INDEX);
 
@@ -108,7 +108,7 @@ $table = "";
 $prevmonth = "";
 $prevyear = "";
 
-open INDEX, "> cvsreport.html";
+open INDEX, "> $ARGV[0].html";
 print INDEX "<html><head></head><body><table>";
 
 # For each date
@@ -135,7 +135,7 @@ foreach $adate (sort keys %dateline){
 	$newcolnum = 0;
 	%cols = ();
 
-	open OUTPUT, "> cvsreport-$nowyear$nowmonth.html";
+	open OUTPUT, "> $ARGV[0]-$nowyear$nowmonth.html";
 	print OUTPUT "<html><head></head><body>\n";
     }
 
@@ -153,16 +153,16 @@ foreach $adate (sort keys %dateline){
 	}
 
 	if($lines eq "I"){
-	    $lines = "<img src=\"/cep/icon-insert.gif\" alt=\"$comment\">\n";
+	    $lines = "<acronym title=\"$comment\"><img src=\"/cep/icon-insert.gif\" alt=\"$comment\"></acronym>\n";
 	}
 	elsif($lines eq "D"){
-	    $lines = "<img src=\"/cep/icon-delete.gif\" alt=\"$comment\">\n";
+	    $lines = "<acronym title=\"$comment\"><img src=\"/cep/icon-delete.gif\" alt=\"$comment\"></acronym>\n";
 	}
 	elsif($lines eq "."){
-	    $lines = "<img src=\"/cep/icon-minor.gif\" alt=\"$comment\">\n";
+	    $lines = "<acronym title=\"$comment\"><img src=\"/cep/icon-minor.gif\" alt=\"$comment\"></acronym>\n";
 	}
 	elsif($lines eq "*"){
-	    $lines = "<img src=\"/cep/icon-major.gif\" alt=\"$comment\">\n";
+	    $lines = "<acronym title=\"$comment\"><img src=\"/cep/icon-major.gif\" alt=\"$comment\"></acronym>\n";
 	}
 	
 	# Do we need a new cell number?
@@ -174,9 +174,21 @@ foreach $adate (sort keys %dateline){
 
 	# Do we need a new author color?
 	if($authorcolor{$user} eq ""){
+	    print STDERR "Detected new author: $user\n";
 	    $authorcolor{$user} = $colors[$newauthnum];
+
+	    # We should check that we allocated a color, otherwise go white
+	    if($authorcolor{$user} eq ""){
+		$authorcolor{$user} = "FFFFFF";
+		print STDERR "Ran out of user colors to allocate ($newauthnum)\n";
+	    }
+
 	    $authorcommits{$user} = 0;
 	    $tauthorcommits{$user} = 0;
+
+	    # This is a hack to make sure the authors appear in the right 
+	    # order in the output summary
+	    $authorseq[$newauthnum] = $user;
 	    $newauthnum++;
 	}
 
@@ -215,20 +227,28 @@ output();
 
 # Finish up the index page
 print INDEX "</tr><td>&nbsp</td>";
-while(($user, $color) = each %authorcolor){
+foreach $user (@authorseq){
+    $color = $authorcolor{$user};
     print INDEX "<td bgcolor=\"$color\"><b>$tauthorcommits{$user}</b></td>";
 }
 print INDEX "</tr>";
 
 print INDEX "<tr><td>&nbsp;</td>";
-while(($user, $color) = each %authorcolor){
+foreach $user (@authorseq){
+    $color = $authorcolor{$user};
     print INDEX "<td bgcolor=\"$color\">";
-    print INDEX `grep $user authors | sed 's/^$user://'`;
+    if(-f authors){
+	print INDEX `grep $user authors | sed 's/^$user://'`;
+    }
+    else{
+	print INDEX "$user";
+    }
     print INDEX "</td>"
 }
 print INDEX "</tr>\n";
 
 print INDEX "</table>";
+print INDEX "<BR><BR>$newauthnum committers in total\n";
 close INDEX;
 close OUTPUT;
 
@@ -259,9 +279,10 @@ sub output(){
 	$table = $table . $headerhtml . $loghtml;
     }
     
-    print INDEX "<tr><td><a href=\"cvsreport-$prevyear$prevmonth.html\">";
+    print INDEX "<tr><td><a href=\"$ARGV[0]-$prevyear$prevmonth.html\">";
     print INDEX "$monthnames[$prevmonth] $prevyear</a></td>";
-    while(($user, $color) = each %authorcolor){
+    foreach $user (@authorseq){
+	$color = $authorcolor{$user};
 	print INDEX "<td bgcolor=\"$color\">$authorcommits{$user}</td>";
     }
     print INDEX "</tr>\n";
@@ -272,10 +293,16 @@ sub output(){
     print OUTPUT "<table><tr>\n";
     
     print STDERR "Author summary\n";
-    while(($user, $color) = each %authorcolor){
+    foreach $user (@authorseq){
+	$color = $authorcolor{$user};
 	print OUTPUT "<td bgcolor=\"$color\">$user: ";
 	print STDERR "User \"$user\"\n";
-	print OUTPUT `grep $user authors | sed 's/^$user://'`;
+	if(-f authors){
+	    print OUTPUT `grep $user authors | sed 's/^$user://'`;
+	}
+	else{
+	    print OUTPUT "$user";
+	}
 	print OUTPUT " ($authorcommits{$user})";
 	$authorcommits{$user} = 0;
 	print OUTPUT "</td>";
