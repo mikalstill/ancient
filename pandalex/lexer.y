@@ -133,12 +133,12 @@ objref    : INT INT OBJREF { if(($$ = (char *) malloc((intlen($1) + intlen($2) +
 			                       }
           ;
 
-stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("Stream: filter = %s, length = %d / %s\n", streamFilter, streamLength, streamLengthObjRef); }
+stream    : STREAM { binaryMode = 1; } binary ENDSTREAM { printf("Stream: filter = %s, length = %d / %s, strlen = %d\n", streamFilter, streamLength, streamLengthObjRef, strlen($3)); }
           |
           ;
 
-binary    : ANYTHING binary {}
-          | {}
+binary    : ANYTHING binary { $$ = strmcat($1, $2); }
+          | { $$ = strmcpy(""); }
           ;
 
 xref      : XREF INT INT xrefitems {}
@@ -204,18 +204,14 @@ int yyerror(char *s){
 char *strmcat(char *dest, char *append){
   char *new;
 
-#if defined DEBUG
-  printf("Length of string is %d (%s)\n", strlen(new), append);
-#endif
-
   // What length do we need?
-  if((new = (char *) realloc(dest, sizeof(char) * 
+  if((new = (char *) malloc(sizeof(char) * 
     (strlen(dest) + strlen(append) + 2))) == NULL){
-    fprintf(stderr, "Could not realloc enough space\n");
+    fprintf(stderr, "Could not malloc enough space\n");
     exit(42);
   }
   
-  strcat(new, append);
+  sprintf(new, "%s%s", dest, append);
   return new;
 }
 
