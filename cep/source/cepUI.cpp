@@ -447,6 +447,10 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       
       maths_menu->Append (CEPMENU_INTERP, "Interpolation", interp_submenu,
 			  "Dataset interpolation");
+
+      ////
+      maths_menu->Append (CEPMENU_FFT, "Fast Fourier Transform",
+			  "Calculate an FFT for this dataset", FALSE);
     }
   
   /////////////////////////////////////////////////////////////////////////////

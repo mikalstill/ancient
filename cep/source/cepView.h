@@ -92,6 +92,9 @@ public:
   void OnInterpCubicSpline (wxCommandEvent& event);
   void OnInterpDivided (wxCommandEvent& event);
 
+  // FFT
+  void OnFFT (wxCommandEvent& event);
+
 private:
   DECLARE_DYNAMIC_CLASS (cepView) 
   DECLARE_EVENT_TABLE ()

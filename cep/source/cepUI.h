@@ -137,6 +137,7 @@ GetMainFrame (void);
 #define CEPBTN_DATE_SUBMIT 39
 #define CEPBTN_DATE_CANCEL 40
 #define CEPMENU_SELECTFONT 41
+#define CEPMENU_FFT 42
 
 extern bool singleWindowMode;     
 

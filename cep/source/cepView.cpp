@@ -100,6 +100,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_INTERP_NATURALSPLINE, cepView::OnInterpNaturalSpline)
   EVT_MENU (CEPMENU_INTERP_CUBICSPLINE, cepView::OnInterpCubicSpline)
   EVT_MENU (CEPMENU_INTERP_DIVIDED, cepView::OnInterpDivided)
+  EVT_MENU (CEPMENU_FFT, cepView::OnFFT)
   EVT_MENU (CEPMENU_SELECTFONT, cepView::OnSelectFont)
 END_EVENT_TABLE ()
 
@@ -741,7 +742,7 @@ cepView::processInterp(const int iType, string desc)
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
     interpUi.showSampleRate(theDataset->getMatrix(cepDataset::dirX)->getValue(1,0) -
 			    theDataset->getMatrix(cepDataset::dirX)->getValue(0,0));
-    cout << "sample Rate returned is " << interpUi.getSampleRate() << endl;
+    cepDebugPrint(string("Interp sample rate: ") + cepToString(interpUi.getSampleRate()));
     if(interpUi.getSampleRate() == -1){
       return;
     }
@@ -779,6 +780,11 @@ cepView::processInterp(const int iType, string desc)
     m_dirty = true;
     canvas->Refresh();
   }
+}
+
+void cepView::OnFFT (wxCommandEvent& event)
+{
+  
 }
 
 void cepView::OnSelectFont (wxCommandEvent& event)
