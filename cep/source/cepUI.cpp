@@ -593,7 +593,7 @@ cepFrame::CreateCanvas (wxView * view, wxFrame * parent)
   // canvas->SetCursor (wxCursor (wxCURSOR_PENCIL));
 
   // Give it scrollbars
-  canvas->SetScrollbars (20, 20, 50, 50);
+  //  canvas->SetScrollbars (20, 20, 50, 50);
 
   return canvas;
 }

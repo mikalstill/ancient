@@ -187,9 +187,15 @@ cepView::OnDraw (wxDC * dc)
 
     // Graph the matrices
     int width, height, gCount = 0;
-    frame->GetSize (&width, &height);
-    bool showX, showY, showZ;
     
+    canvas->GetSize(&width, &height);
+    cepDebugPrint("Canvas size: " + cepToString(width) + ", " + cepToString(height));
+
+    frame->GetSize (&width, &height);
+    cepDebugPrint("Frame size: " + cepToString(width) + ", " + cepToString(height));
+
+    bool showX, showY, showZ;
+
     cepError err;
     err = m_config->getValue("ui-viewmenu-showx", true, showX);
     if(err.isReal()) err.display();
@@ -202,6 +208,7 @@ cepView::OnDraw (wxDC * dc)
     if(showY) gCount++;
     if(showZ) gCount++;
 
+    // todo_mikal: I don't like this...
     if(gCount > 0){
       int presHeight = height / gCount - 10;
       int presDrop = 0;
@@ -210,21 +217,21 @@ cepView::OnDraw (wxDC * dc)
       if(showX){
 	cepDebugPrint("Displaying x direction graph");
 	drawPresentation(theDataset, cepDataset::dirX, presDrop, dc, 
-			 presHeight);
+			 width, presHeight);
 	presDrop += presHeight + 10;
       }
 
       if(showY){
 	cepDebugPrint("Displaying y direction graph");
 	drawPresentation(theDataset, cepDataset::dirY, presDrop, dc, 
-			 presHeight);
+			 width, presHeight);
 	presDrop += presHeight + 10;
       }
       
       if(showZ){
 	cepDebugPrint("Displaying z direction graph");
 	drawPresentation(theDataset, cepDataset::dirZ, presDrop, dc, 
-			 presHeight);
+			 width, presHeight);
 	presDrop += presHeight + 10;
       }
     }
@@ -277,7 +284,8 @@ bool cepView::OnClose (bool deleteWindow)
   return TRUE;
 }
 
-void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir, int top, wxDC *dc, int presHeight)
+void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir, int top, wxDC *dc, 
+			       int presWidth, int presHeight)
 {
   // If plotting has failed before, then it will fail now...
   if(m_plotfailed && !m_dirty)
@@ -300,7 +308,7 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
 		   cepToString (theDataset->getData (dir).size ()) +
 		   " data points to add");
 
-    cepPlot plot(theDataset, dir, cfname, presHeight);
+    cepPlot plot(theDataset, dir, cfname, presWidth, presHeight);
     m_plotfailed = plot.getFailed();
     
     m_pngCache[(int) dir] = string(cfname);

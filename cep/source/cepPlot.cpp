@@ -22,27 +22,22 @@
 #include "cepPresentation.h"
 #include "cepPlot.h"
 
-cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long presHeight):
+cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long x, long y):
   m_plotfailed(false)
 {
   cepConfiguration *config;
   config = (cepConfiguration *) &cepConfiguration::getInstance();
-
-  cepPresentation pres (theDataset->getData (dir).size () + 20,
-			presHeight);
+  cepPresentation pres (x, y);
   
   // Add the datapoints
   for (unsigned int i = 0; i < theDataset->getData (dir).size (); i++)
     {
-      pres.addDataPoint (i,
+      pres.addDataPoint ((long)(theDataset->getData (dir)[1].
+				date * 10000),
 			 (long)(theDataset->getData (dir)[i].
 				sample * 10000),
 			 (long)(theDataset->getData (dir)[i].
 				error * 10000));
-      cepDebugPrint ("Data point: " +
-                     cepToString ((long)
-				  (theDataset->getData (dir)[i].
-				   sample * 10000)));
     }
   
   cepError err;

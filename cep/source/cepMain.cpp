@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 	}
 	else if(sa[0] == "plot"){
 	  cepDebugPrint("Started plotting");
-	  cepPlot plot(&ds, ds.getDirectionFromName(sa[1]), sa[2], 300);
+	  cepPlot plot(&ds, ds.getDirectionFromName(sa[1]), sa[2], 150, 300);
 	  cepDebugPrint("Finished plotting");
 	  if(plot.getFailed()){
 	    cerr << "Plotting failed" << endl;

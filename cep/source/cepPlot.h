@@ -26,7 +26,7 @@
 
 class cepPlot{
  public:
-  cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long presHeight);
+  cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long x, long y);
 
   bool getFailed();
 

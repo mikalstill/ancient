@@ -117,7 +117,7 @@ private:
   DECLARE_EVENT_TABLE ()
 
   void drawPresentation(cepDataset *ds, cepDataset::direction dir, int top,
-			wxDC *dc, int presHeight);
+			wxDC *dc, int presWidth, int presHeight);
 
   string m_pngCache[3]; 
   bool m_dirty;
