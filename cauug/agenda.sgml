@@ -1,118 +1,58 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
-<article><title>CAUUG comittee meeting</title>
-<subtitle>12 December 2002</subtitle>
+<article><title>CAUUG committee meeting</title>
+<subtitle>9 January 2002</subtitle>
 
 <para>
-<emphasis>This agenda is available online at <ulink url="http://www.stillhq.com/cgi-bin/cvsweb/cauug"><citetitle>http://www.stillhq.com/cgi-bin/cvsweb/cauug</citetitle></ulink> and when complete will be published at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>... The items on this agenda are in no particular order.</emphasis>
+<emphasis>This agenda is available on line at <ulink url="http://www.stillhq.com/cgi-bin/cvsweb/cauug"><citetitle>http://www.stillhq.com/cgi-bin/cvsweb/cauug</citetitle></ulink> and when complete will be published at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>... The items on this agenda are in no particular order.</emphasis>
 </para>
-
-<sect1><title>Attendees</title>
-<para>
-The following people were in attendance at this meeting:
-</para>
-
-<itemizedlist>
-<listitem><para>Martin Schwenke (President)</para></listitem>
-<listitem><para>Michael Still (Secretary)</para></listitem>
-<listitem><para>Steve Jenkin</para></listitem>
-</itemizedlist>
-</sect1>
 
 <sect1><title>CAUUG website</title>
-<itemizedlist>
-<listitem><para>Do we have a CAUUG web site?</para></listitem>
-</itemizedlist>
 
 <para>
 The Canberra AUUG website is available at <ulink url="http://www.canb.auug.org.au"><citetitle>http://www.canb.auug.org.au</citetitle></ulink>.
 </para>
 
-<itemizedlist>
-<listitem><para>Can Mikal arrange access to update it?</para></listitem>
-</itemizedlist>
-
 <para>
 Steven Rothwell can arrange access. An email requesting access for Martin and Michael was sent, and Stephen responded that policy documentation needed to be signed by both Martin and Michael. This has now been completed, and access granted. An update to the website can now be undertaken.
 </para>
 
-<sect2><title>Action items</title>
 <itemizedlist>
-<listitem><para>Update website (unassigned)</para></listitem>
+<listitem><para>Does Martin now have access?</para></listitem>
+<listitem><para>Does Michael now have access?</para></listitem>
+<listitem><para>Volunteers to bring it up to date and keep it maintained?</para></listitem>
+<listitem><para>Should all meeting minutes et cetera be on the site?</para></listitem>
 </itemizedlist>
-</sect2>
 </sect1>
 
-<sect1><title>Committee formalities</title>
-
-<sect2><title>Co-opting other committee members</title>
+<sect1><title>Co-opting other committee members</title>
 <itemizedlist>
-<listitem><para>What other skills do we need?</para></listitem>
-<listitem><para>Did we have people in mind? (Steve Jenkin, Anthony David)</para></listitem>
-<listitem><para>Do we need to advertise?</para></listitem>
-<listitem><para>Is there an official AUUG procedure?</para></listitem>
+<listitem><para>Draft email developed. Is everyone happy with it?</para></listitem>
 </itemizedlist>
-
-<para>
-Contacts within government to persue our Open Source advocay agenda. Reliable people willing to help out would be good as well.
-</para>
-
-<para>
-It was agreed that an email should be sent out to the ACT AUUG mailling list asking for expressions of interest. The email read as follows:
-</para>
 
 <programlisting>
 <execute><cmd>cat</cmd><input>email/2002-coopt-invite</input></execute>
 </programlisting>
 
-<para>
-<emphasis>This email is yet to be approved by Martin.</emphasis>
-</para>
-
-<para>
-There is an AUUG chapter handbook and set of proceedures, we need to acquire a copy of these. An email has been sent to try to determine where these proceedures are stored &mdash; the outcome of this request was that AUUG National is currently reviewing the procedures manual, and a copy will be made available when it is ready. David Perdue is the committee member conducting the review. We can co-opt people until the next AGM.
-</para>
-
 <itemizedlist>
-<listitem><para><command>Next meeting</command>: Should CAUUG contact David and offer assistance?</para></listitem>
+<listitem><para>Review of AUUG chapter procedures, do we want to assist David Purdue?</para></listitem>
 </itemizedlist>
+</sect1>
 
-</sect2>
-
-<sect2><title>Finances</title>
+<sect1><title>Finances</title>
 <itemizedlist>
 <listitem><para>How much does CAUUG have in the bank?</para></listitem>
 <listitem><para>How much did we earn from the 30 November 2002 seminar?</para></listitem>
 <listitem><para>Has this money been forwarded to AUUG national?</para></listitem>
 <listitem><para>Has Bob Edwards been reimbursed for expenditure on 30 November 2002?</para></listitem>
 </itemizedlist>
-
-<para>
-Somewhere over $20,000. Chase Bob.
-</para>
-</sect2>
-
-<sect2><title>Next meeting</title>
-<itemizedlist>
-<listitem><para>When is the next meeting? <emphasis>The second Thursday in January 2003 is the 9th</emphasis></para></listitem>
-</itemizedlist>
-
-<para>
-It was agreed that the next committee meeting would be 9 January 2003.
-</para>
-</sect2>
-
 </sect1>
-
 
 <sect1><title>Open Source advocacy</title>
 <itemizedlist>
 <listitem><para>What is Martin's position as an employee of IBM?</para></listitem>
+<listitem><para>Outcome of Steven Jenkin's meeting with the ACT Treasurer?</para></listitem>
 <listitem><para>What is the next step?</para></listitem>
 </itemizedlist>
-
-<para>
-Martin's position is being resolved now. Steven Jenkin is meeting with the ACT treasurer next week. Need to be careful not to oversell the Open Source solution too much, manage expectations. Remind them of EVAS.
-</para>
 </sect1>
 
 <sect1><title>Technical symposium</title>
@@ -125,9 +65,16 @@ Martin's position is being resolved now. Steven Jenkin is meeting with the ACT t
 </itemizedlist>
 
 <para>
-Need to have a specific meeting devoted to this. Do a call for papers next time, which needs to go out really soon. We'll look more at this after Christmas.
+At the last meeting we said: <quote><emphasis>Need to have a specific meeting devoted to this. Do a call for papers next time, which needs to go out really soon. We'll look more at this after Christmas.</emphasis></quote>
 </para>
 </sect1>
+
+<sect1><title>Next meeting</title>
+<itemizedlist>
+<listitem><para>When is the next meeting? <emphasis>The second Thursday in February 2003 is the 13th</emphasis></para></listitem>
+</itemizedlist>
+</sect1>
+
 
 
 <sect1><title>Contact details</title>
@@ -141,7 +88,7 @@ Need to have a specific meeting devoted to this. Do a call for papers next time,
 
 <sect2><title>Bob Edwards (Treasurer)</title>
 <itemizedlist>
-<listitem><para>Email: tresurer@canb.auug.org.au</para></listitem>
+<listitem><para>Email: treasurer@canb.auug.org.au</para></listitem>
 <listitem><para>Phone:</para></listitem>
 </itemizedlist>
 </sect2>

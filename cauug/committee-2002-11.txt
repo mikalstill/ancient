@@ -1,4 +1,4 @@
-                             CAUUG comittee meeting
+                            CAUUG committee meeting
 
     12 December 2002
 
@@ -20,7 +20,7 @@
 
    12 December 2002
 
-   This agenda is available online at
+   This agenda is available on line at
    http://www.stillhq.com/cgi-bin/cvsweb/cauug and when complete will be
    published at http://www.canb.auug.org.au... The items on this agenda are
    in no particular order.
@@ -73,10 +73,10 @@ Committee formalities
 
      * Is there an official AUUG procedure?
 
-   Contacts within government to persue our Open Source advocay agenda.
+   Contacts within government to pursue our Open Source advocacy agenda.
    Reliable people willing to help out would be good as well.
 
-   It was agreed that an email should be sent out to the ACT AUUG mailling
+   It was agreed that an email should be sent out to the ACT AUUG mailing
    list asking for expressions of interest. The email read as follows:
 
         Hello,                                                                    
@@ -112,11 +112,11 @@ Committee formalities
 
    This email is yet to be approved by Martin.
 
-   There is an AUUG chapter handbook and set of proceedures, we need to
+   There is an AUUG chapter handbook and set of procedures, we need to
    acquire a copy of these. An email has been sent to try to determine where
-   these proceedures are stored - the outcome of this request was that AUUG
+   these procedures are stored - the outcome of this request was that AUUG
    National is currently reviewing the procedures manual, and a copy will be
-   made available when it is ready. David Perdue is the committee member
+   made available when it is ready. David Purdue is the committee member
    conducting the review. We can co-opt people until the next AGM.
 
      * Next meeting: Should CAUUG contact David and offer assistance?
