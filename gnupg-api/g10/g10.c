@@ -569,45 +569,10 @@ set_cmd( enum cmd_and_opt_values *ret_cmd, enum cmd_and_opt_values new_cmd )
 }
 
 
+/** This function has been added by Mikal in order to implement the API
+    functionality for GPG */
 
-int
-main( int argc, char **argv )
-{
-    ARGPARSE_ARGS pargs;
-    IOBUF a;
-    int rc=0;
-    int orig_argc;
-    char **orig_argv;
-    const char *fname;
-    char *username;
-    int may_coredump;
-    STRLIST sl, remusr= NULL, locusr=NULL;
-    STRLIST nrings=NULL, sec_nrings=NULL;
-    armor_filter_context_t afx;
-    int detached_sig = 0;
-    FILE *configfp = NULL;
-    char *configname = NULL;
-    unsigned configlineno;
-    int parse_debug = 0;
-    int default_config =1;
-    int default_keyring = 1;
-    int greeting = 0;
-    int nogreeting = 0;
-    int use_random_seed = 1;
-    enum cmd_and_opt_values cmd = 0;
-    const char *trustdb_name = NULL;
-    char *def_cipher_string = NULL;
-    char *def_digest_string = NULL;
-    char *s2k_cipher_string = NULL;
-    char *s2k_digest_string = NULL;
-    int pwfd = -1;
-    int with_fpr = 0; /* make an option out of --fingerprint */
-  #ifdef USE_SHM_COPROCESSING
-    ulong requested_shm_size=0;
-  #endif
-
-    /** This is the main function for the gpg user interface */
-
+int init_api(){
     /** trap_unaligned does some stuff on some Linux Alpha machines */
     trap_unaligned();
 
@@ -647,6 +612,54 @@ main( int argc, char **argv )
 
     /** International support using the GNU gettext library */
     i18n_init();
+
+    return may_coredump;
+}
+
+
+
+
+int
+main( int argc, char **argv )
+{
+  /** This variable is used by the gpg init code that used to be in main(),
+      but is now here */
+    int may_coredump;
+
+    ARGPARSE_ARGS pargs;
+    IOBUF a;
+    int rc=0;
+    int orig_argc;
+    char **orig_argv;
+    const char *fname;
+    char *username;
+    STRLIST nrings=NULL, sec_nrings=NULL;
+    armor_filter_context_t afx;
+    int detached_sig = 0;
+    FILE *configfp = NULL;
+    char *configname = NULL;
+    unsigned configlineno;
+    STRLIST sl, remusr= NULL, locusr=NULL;
+    int parse_debug = 0;
+    int default_config =1;
+    int default_keyring = 1;
+    int greeting = 0;
+    int nogreeting = 0;
+    int use_random_seed = 1;
+    enum cmd_and_opt_values cmd = 0;
+    const char *trustdb_name = NULL;
+    char *def_cipher_string = NULL;
+    char *def_digest_string = NULL;
+    char *s2k_cipher_string = NULL;
+    char *s2k_digest_string = NULL;
+    int pwfd = -1;
+    int with_fpr = 0; /* make an option out of --fingerprint */
+  #ifdef USE_SHM_COPROCESSING
+    ulong requested_shm_size=0;
+  #endif
+
+    /** This is the main function for the gpg user interface */
+    may_coredump = init_api();
 
     /** A whole bunch of option stuff */
     opt.command_fd = -1; /* no command fd */
