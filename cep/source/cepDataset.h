@@ -45,18 +45,22 @@ public:
   cepDataset (vector<cep_datarow> windowVector, int numWindows);
   cepDataset (double value, double weight);
 
-cepDataset doWindow (cepDataset dir, double winSize, double overlap);
-cepDataset   doHam (double datRow[3], double startWindow, double winSize);
+  // Manipulations 
+  cepDataset doWindow (cepDataset dir, double winSize, double overlap);
+  cepDataset doHam (double datRow[3], double startWindow, double winSize);
+  
   // Actually process the file
   cepError munch ();
 
-  enum
+  enum direction
   {
-	x=1,
-	y,
-	z
-  } direction;
+    x = 1,
+    y,
+    z
+  };
 
+  // Accessor methods
+  vector<cep_datarow>& getDataPtr(direction);
 
 private:
   string m_filename;

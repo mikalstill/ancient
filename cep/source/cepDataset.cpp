@@ -266,25 +266,11 @@ cepDataset cepDataset::doWindow (cepDataset dir, double winSize, double overlap)
      //preserving the original data vector
      //dataCopy = m_data;
 
-     // TODO mikal: How do we do this in a sensible manner? Perhaps a pointer?
-     vector<cep_datarow>& datPointer;
-     switch(direction) {
-     case x: 
-     datPointer = m_datax;
-     break;
-
-     case y: 
-     datPointer = m_datay;
-     break;
-
-     case z: 
-     datPointer = m_dataz;
-     break;
-     }
-
+     // TODO mikal: Hard coded direction
+     vector<cep_datarow>& datPointer = getDataPtr(cepDataset::x);
 
      // get timescale of data set 
-     numSamples = m_data.size(); 
+     numSamples = datPointer.size(); 
      firstDate = datPointer[0].date; 
      lastDate = datPointer[numSamples].date; 
      windowData.resize(numSamples);
@@ -292,11 +278,12 @@ cepDataset cepDataset::doWindow (cepDataset dir, double winSize, double overlap)
      // For optimizing speed slightly 
      overlapWinSize = winSize * (1-overlap);
 
-     // Work out number of windows 
+     // Work out number of windows
+     // todo_mikal: clean up this line (compile warnings)
      numWindows = ceil(((lastDate - firstDate)*(1+2*overlap))/winSize); //round up to nearest integer
      if (overlap != 0)
      {
-       numWindows -=1;//totdo:daniel - may not need this line.
+       numWindows -=1;//todo:daniel - may not need this line.
      }
 
      // Divide into windows 
@@ -353,3 +340,19 @@ cepDataset cepDataset::doWindow (cepDataset dir, double winSize, double overlap)
      return cep_windowData;
    
 } //end doWindow
+
+vector<cep_datarow>& cepDataset::getDataPtr(direction dir){
+  switch(dir) {
+  case x: 
+    return m_datax;
+    break;
+    
+  case y: 
+    return m_datay;
+    break;
+    
+  case z: 
+    return m_dataz;
+    break;
+  }
+}
