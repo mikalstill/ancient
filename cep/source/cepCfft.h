@@ -266,8 +266,8 @@ template < class CPLX > cepMatrix<ComplexDble>
     {
       //size of dataset = numRows
       int halfSetSize = (int)(numRows*0.5);
-      double sampleRate = ( real( matrix.getValue(0,0,0) )  
-                          - real (matrix.getValue(0,1,0) ) )*SECSINYEAR;
+      double sampleRate = abs( (real(matrix.getValue(0,0,0))  
+                               -real(matrix.getValue(1,0,0))) )*SECSINYEAR;
       double freq = 1/sampleRate;
     
       //cout << "cepCfft: Setting fft matrix scale values ..." << endl;
@@ -280,14 +280,6 @@ template < class CPLX > cepMatrix<ComplexDble>
     }
   }//end if
 
-  //cout << "cepCfft: key and enter to continue.." <<endl;
-  //cin >> junk;
-  //cout << endl;
-  //if (dir ==1)
-  //  cout << "cepCfft: Populating array to be fft'd .." << endl;
-  //else 
-  // cout << "cepCfft: Populating array to be inverse fft'd .." << endl;
-    
   //populate the array to send to fft module.
   //start at 1st column as we do not want to fft this.
   for (table = 0; table < numTables; table++)
@@ -316,23 +308,20 @@ template < class CPLX > cepMatrix<ComplexDble>
         }//end for row
     }//end for col 
  
-    //cout << "cepCfft: key and enter to continue.." <<endl;
-    //cin >> junk;
-
     /*********************************compute the fft.************************************/
 
     //cout << endl;
 
     if (dir == 1)
     {
-        cout << "cepCfft: Performing forward fft on Matrix ***********************" << endl;
+        //cout << "cepCfft: Performing forward fft on Matrix ***********************" << endl;
         fft(arrayToFft);
 	for (int k =0; k < arraySize; k++)
 	 arrayToFft[k] = conj(arrayToFft[k]);//to reverse the sign on the imag numbers
     }
     else //(dir == 0)
     {
-        cout << "cepCfft: Performing Inverse fft on Matrix: **********************" << endl;
+        //cout << "cepCfft: Performing Inverse fft on Matrix: **********************" << endl;
 	for (int k =0; k < arraySize; k++)
 	  arrayToFft[k] = conj(arrayToFft[k]);//to reverse the sign on the imag numbers
         ifft(arrayToFft);
@@ -347,20 +336,14 @@ template < class CPLX > cepMatrix<ComplexDble>
 
         for (row = 0; row < numRows; row++)
 	{
-	   //if (dir==1)
-	    // arrayToFft[row] = conj(arrayToFft[row]);//to reverse the sign on the imag numbers
-             ffteedMatrix.setValue(row,col,table,arrayToFft[row]);//
-	     
-             //cout << "cepCfft: Value for (r,c,t) - (" << row << "," << col << "," << table
-	     //<< " .. " << ffteedMatrix.getValue(row,col,table)
-	     //<< endl;
-
+           ffteedMatrix.setValue(row,col,table,arrayToFft[row]);//
+           //cout << "cepCfft: Value for (r,c,t) - (" << row << "," << col << "," << table
+           //<< " .. " << ffteedMatrix.getValue(row,col,table)
+	   //<< endl;
          }//
-
 	 //cout << endl;
-
     } //for col
-    
+   
   }//end for table
   
   //cout << "cepCfft:  Returning ffteedMatirx " << endl;

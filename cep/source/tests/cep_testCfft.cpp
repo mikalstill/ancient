@@ -84,6 +84,7 @@ namespace
       int numRows = 256;
       int numCols = 2;
       int cosIndex = 0;
+      double year = 2000;
       string prefftfile = "cosarray";
       string postfftfile = "fftarraycos";
       //char junk;
@@ -92,15 +93,15 @@ namespace
       // populate column 1 myMatrix with indexes
       for (int row = 0; row < numRows; row++)
 	{
-	  myMatrix.setValue (row, 0, 0, cosIndex);
-	  cosIndex++;
+	  myMatrix.setValue (row, 0, 0, year);
+	  year+=0.1;
 	  //cout << myMatrix.getValue(row,0,0) << "  ";
 	}
 
       cosIndex = 0;
 
       //populate myMatrix with cos values
-      cout << endl << "test: Testing COS ************************" << endl;
+      cout << endl << "Test: Testing COS ************************" << endl;
       for (int col = 1; col < numCols; col++)
 	{
 	  for (int row = 0; row < numRows; row++)
@@ -133,7 +134,7 @@ namespace
 	  infile >> fftarraycos[arrayCount];
 	  arrayCount++;
 	}
-      cout << "finished COS read **************************" << endl;
+      //cout << "finished COS read **************************" << endl;
       infile.close ();
       cout << "Forward FFT results for COS..." << endl;
       double realResult = 0;
@@ -152,18 +153,16 @@ namespace
 			 imag (myMatrix.getValue (r, c, t)));
 		  //cout << real( fftarraycos[r] ) << " - " << real( myMatrix.getValue(r,c,t));
 		  //cout << "  realResult = " << realResult << endl;
-		  //cout << imag( fftarraycos[r] ) << " - " << imag( myMatrix.getValue(r,c,t));
+		  ///cout << imag( fftarraycos[r] ) << " - " << imag( myMatrix.getValue(r,c,t));
 		  //cout << "  imagResult = " << imagResult << endl;
-		  cout << "COS test: Row index: " << r << " - Scale value: " 
-		       << real(myMatrix.getValue(r,0,t)) 
-		       << " - Value (" << r << "," << c << "," << t << "): "
-		       << myMatrix.getValue(r,c,t) 
-		       << endl; 
+		  //cout << "COS test: Row index: " << r << " - Scale value: " 
+		      // << real(myMatrix.getValue(r,0,t)) 
+		      //<< " - Value (" << r << "," << c << "," << t << "): "
+		      // << myMatrix.getValue(r,c,t) 
+		      // << endl; 
 		  CPPUNIT_ASSERT (realResult < REALTOL);
 		  CPPUNIT_ASSERT (imagResult < IMAGTOL);
-
 		}		//for r
-
 	      //cout << endl;
 	    }			//for c
 	}			//end for t
@@ -187,10 +186,10 @@ namespace
 	  infile1 >> prefftarray[arrayCount];
 	  arrayCount++;
 	}
-      cout << "finished COS read **************************" << endl;
+      //cout << "finished COS read **************************" << endl;
       infile1.close ();
 
-      cout << "testing inverse cos FFT results..." << endl;
+      //cout << "testing inverse cos FFT results..." << endl;
       for (int t = 0; t < numTables; t++)
 	{
 	  for (int c = 1; c < numCols; c++)
@@ -200,19 +199,13 @@ namespace
 		  realResult =
 		    abs (prefftarray[r] - real (myMatrix.getValue (r, c, t)));
 		  CPPUNIT_ASSERT (realResult < REALTOL);
-
 		  //cout << "test: Value for (r,c,t) - (" << r << "," << c << "," << t
 		  //<< " .. " << myMatrix.getValue(r,c,t)
 		  //<< endl;
 		}		//for r
-
 	      cout << endl;
 	    }			//for c
 	}			//end for t
-
-
-
-
     }				// end 2dfftcos
 
     void test2dFFTsin ()
@@ -223,6 +216,7 @@ namespace
       int numRows = 256;
       int numCols = 2;
       int sinIndex = 0;
+      double year=2000;
       string prefftfile = "sinarray";
       string postfftfile = "fftarraysin";
       //char junk;
@@ -232,15 +226,15 @@ namespace
       cout << endl << "test: Testing SIN ************************" << endl;
       for (int row = 0; row < numRows; row++)
 	{
-	  myMatrix.setValue (row, 0, 0, sinIndex);
-	  sinIndex++;
+	  myMatrix.setValue (row, 0, 0, year);
+	  year+=0.1;
 	  //cout << myMatrix.getValue(row,0,0) << "  ";
 	}
 
       sinIndex = 0;
 
       //populate myMatrix with cos values
-      cout << "test: Populating myMatrix with sin values..." << endl << endl;
+      //cout << "test: Populating myMatrix with sin values..." << endl << endl;
       for (int col = 1; col < numCols; col++)
 	{
 	  for (int row = 0; row < numRows; row++)
@@ -271,7 +265,7 @@ namespace
 	  infile >> fftarraysin[arrayCount];
 	  arrayCount++;
 	}
-      cout << "finished SIN read *******************************" << endl;
+      //cout << "finished SIN read *******************************" << endl;
       infile.close ();
       cout << "Forward FFT results for SIN..." << endl;
       double realResult = 0;
@@ -292,17 +286,17 @@ namespace
 		  //cout << "  realResult = " << realResult << endl;
 		  //cout << imag( fftarraysin[r] ) << " - " << imag( myMatrix.getValue(r,c,t));
 		  //cout << "  imagResult = " << imagResult << endl;
-		  cout << "SIN test: Row index: " << r << " - Scale value: " 
-		       << real(myMatrix.getValue(r,0,t)) 
-		       << " - Value (" << r << "," << c << "," << t << "): "
-		       << myMatrix.getValue(r,c,t) 
-		       << endl; 
+		  if (r < numRows/2)
+		  {
+		    cout << "SIN test: Row index: " << r << " - Scale value: " 
+		         << real(myMatrix.getValue(r,0,t)) 
+		         << " - Value (" << r << "," << c << "," << t << "): "
+		         << myMatrix.getValue(r,c,t) 
+		         << endl; 
+		  }
 		  CPPUNIT_ASSERT (realResult < REALTOL); //test the real components
 		  CPPUNIT_ASSERT (imagResult < IMAGTOL); //test the imaginary components
-
-
 		}		//for r
-
 	      //cout << endl;
 	    }			//for c
 	}			//end for t
@@ -326,10 +320,10 @@ namespace
 	  infile1 >> prefftarray[arrayCount];
 	  arrayCount++;
 	}
-      cout << "finished SIN read ***************************" << endl;
+      //cout << "finished SIN read ***************************" << endl;
       infile1.close ();
 
-      cout << "testing inverse FFT results..." << endl;
+      //cout << "testing inverse FFT results..." << endl;
       for (int t = 0; t < numTables; t++)
 	{
 	  for (int c = 1; c < numCols; c++)
@@ -339,18 +333,13 @@ namespace
 		  realResult =
 		    abs (prefftarray[r] - real (myMatrix.getValue (r, c, t)));
 		  CPPUNIT_ASSERT (realResult < REALTOL);
-		  cout << "SIN test: Value for (r,c,t) - (" << r << "," << c << "," << t
-		  << " .. " << myMatrix.getValue(r,c,t)
-		  << endl;
+		  //cout << "SIN test: Value for (r,c,t) - (" << r << "," << c << "," << t
+		  //<< " .. " << myMatrix.getValue(r,c,t)
+		  //<< endl;
 		}		//for r
-
 	      //cout << endl;
 	    }			//for c
 	}			//end for t
-
-
-
-
     }				// end 2dfftsin
 
 
