@@ -3,6 +3,8 @@
 #include <string>
 #include <stdio.h>
 
+#include "configuration.h"
+
 string
 toString (int number)
 {
@@ -86,6 +88,13 @@ toString (size_t val)
 string
 binaryToString(void *buf, unsigned int length)
 {
+  bool binaryDebugOn;
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+  config->getValue ("pref-binarydebug", true, binaryDebugOn);
+  if(!binaryDebugOn)
+    return "[binary debugging disabled by user preference]";
+
   string retval;
   char *cbuf = (char *) buf;
 

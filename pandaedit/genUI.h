@@ -73,7 +73,7 @@ DECLARE_APP (genApp)
 		 const wxSize & size, long type);
 
        void OnAbout (wxCommandEvent & event);
-       void OnTestErrors (wxCommandEvent & event);
+       void OnToggleBinaryDebug (wxCommandEvent & event);
 
        void OnOpen (wxCommandEvent & event);
 
@@ -89,6 +89,7 @@ DECLARE_APP (genApp)
 #define GENMENU_ABOUT 2
 #define GENMENU_NEXTPAGE 3
 #define GENMENU_PREVPAGE 4
+#define GENMENU_BINARYDEBUG 5
 
      extern bool singleWindowMode;
 

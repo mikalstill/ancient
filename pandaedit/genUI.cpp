@@ -38,6 +38,8 @@
 #include <string>
 #include <unistd.h>
 
+#include "configuration.h"
+
 fstream gLog;
 extern int gVerboseLevel;
 extern int gLogLevel;
@@ -251,8 +253,23 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   wxMenuBar *menu_bar = new wxMenuBar;
   menu_bar->Append (file_menu, "&File");
 
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+
   // Navigation menu
   if(isCanvas){
+    wxMenu *prefs_menu = new wxMenu;
+    
+    prefs_menu->Append (GENMENU_BINARYDEBUG, "Binary debugging",
+			"Should debug output include binary data?",
+			TRUE);
+    bool binaryDebugOn;
+    config->getValue ("pref-binarydebug", true, binaryDebugOn);
+    prefs_menu->Check (GENMENU_BINARYDEBUG, binaryDebugOn);
+
+    menu_bar->Append(prefs_menu, "Preferences");
+
+    ////////
     wxMenu *nav_menu = new wxMenu;
     
     // todo_mikal: Use PAGEUP and PAGEDOWN as well...
@@ -279,6 +296,7 @@ genApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 IMPLEMENT_CLASS (genFrame, wxDocMDIParentFrame)
 BEGIN_EVENT_TABLE (genFrame, wxDocMDIParentFrame)
 EVT_MENU (GENMENU_ABOUT, genFrame::OnAbout)
+EVT_MENU (GENMENU_BINARYDEBUG, genFrame::OnToggleBinaryDebug)
 EVT_CLOSE (genFrame::OnClose)
 END_EVENT_TABLE ()
 
@@ -312,18 +330,11 @@ genFrame::OnAbout (wxCommandEvent & WXUNUSED (event))
 }
 
 void
-genFrame::OnTestErrors (wxCommandEvent & WXUNUSED (event))
+genFrame::OnToggleBinaryDebug (wxCommandEvent &pevt)
 {
-  if (wxMessageBox
-      ("Are you sure you want to do this? It should cause the user interface to exit, loosing all of your work...",
-       "Are you sure?", wxYES_NO) == wxYES)
-    {
-      for (int i = 0; i < genError::sevMax; i++)
-	{
-	  genError e ("Testing 123", (genError::severity) i);
-	  e.display ();
-	}
-    }
+  configuration *config;
+  config = (configuration *) & configuration::getInstance ();
+  config->setValue ("pref-binarydebug", pevt.IsChecked());
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing
