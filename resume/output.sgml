@@ -233,9 +233,14 @@ I have had the following articles and papers published:
 
 <itemizedlist>
 <listitem><para>September 2001: Australian Unix User's Group Annual Conference Proceedings, <emphasis>Open Source PDF handling with Panda and PandaLex</emphasis></para></listitem>
+
 <listitem><para>March 2002: IBM Developer Works, <emphasis>Graphics programming with libtiff: Black and White</emphasis></para></listitem>
+
 <listitem><para>June 2002: IBM Developer Works, <emphasis>Graphics programming with libtiff: gray scale and color images</emphasis></para></listitem>
+
 <listitem><para>May 2002: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Graphics programming with libtiff: Black and White</emphasis> [reprint]</para></listitem>
+
+<listitem><para>March 2003: Australian Unix User's Group Newsletter (AUUGN), <emphasis>Tuning and customizing a linux system (book review)</emphasis></para></listitem>
 </itemizedlist>
 </sect1>
 
@@ -246,6 +251,7 @@ I have held the following academic positions, in addition to my full time career
 
 <itemizedlist>
 <listitem><para>University of Canberra, Tutor, Distributed Systems Technology: 2 sessions (this is an introductory networking unit revolving around TCP/IP networks and their various protocols)</para></listitem>
+
 <listitem><para>Australian National University, COMP 3410: Guest lecturer on Electronic Document Management, August 2002</para></listitem>
 </itemizedlist>
 </sect1>
