@@ -27,13 +27,17 @@ open PREPROC, "> tmp.pp";
     
 # Table start
 $inline[0] = "\.TH[ \t]*(.*)";
-$outline[0] = "\$tablestate = 1; \$temp = \"\";";
+$outline[0] = "\$tablestate = 1; \$temp = \"\"; print STDERR \"Entering table state\n\";";
 
 # Table end
 $inline[1] = "\.TE";
 $outline[1] = "\$tablestate = 0; print PREPROC \"\$temp\n\";";
 
-$linemax = 2;
+# Commands which escape table mode (for the benefit of the man page conversion)
+$inline[2] = "\.SH[ \t]+(.*)";
+$outline[2] = "if(\$tablestate == 1){\$tablestate = 0; print STDERR \"Table state escaped by man page header\n\";}";
+
+$linemax = 3;
 
 while(<STDIN>){
     for($count = 0; $count < $linemax; $count++){
@@ -86,11 +90,12 @@ while(<INPUT>){
     
     # There are some conditional elements used, for instance in xtheory.mm (which is also an
     # article)
-    if((/^\.\.if article/i) || (/^\.\.if XXX/i) || (/^\.\.if appropriate/i) || (/^\.\.if complete/i) ||
-       (/^\.\.if finished/i) || (/^\.\.if fixme/i) || (/^\.\.if isdn/i) || (/^\.\.if itworks/i) || (/^\.\.if long/i) ||
-       (/^\.\.if needed/i) || (/^\.\.if netnews/i) || (/^\.\.if network/i) || (/^\.\.if partofthebook/i) ||
-       (/^\.\.if raid5/i) || (/^\.\.if review/i) || (/^\.\.if short/i) || (/^\.\.if sorted/i) || (/^\.\.if verylong/i) ||
-       (/^\.\.if X/i)){
+    if(/^\.if[ \t]+(.*)[ \t]+\.(.*)/){
+	printf STDERR "If \"$1\" found, consider setting...\n";
+	$_ = <INPUT>;
+    }
+    elsif(/^\.\.if (.*)/){
+	printf STDERR "Compound if \"$1\" found, consider setting...\n";
 	$waitstate = 1;
 	$condlinecount = 0;
 	while(($waitstate == 1) && ($_ = <INPUT>)){
@@ -281,6 +286,7 @@ while(<INPUT>){
     elsif(/^\.H([0-7])[ \t]*(.*)/i){
 	print closeallstates();
 	endpara();
+	listend();
 	
 	# Docbook only goes up to sect5
 	if($1 > 5){
@@ -330,6 +336,7 @@ while(<INPUT>){
     elsif(/^\.SH[ \t]*(.*)/i){
 	print closeallstates();
 	endpara();
+	listend();
 	
 	while($sectionstate > 0){
 	    print "</sect$sectionstate>\n";
@@ -404,30 +411,31 @@ while(<INPUT>){
 	$listitemstate = 1;
     }
     
-    # List end
-    elsif(/^\.LE(.*)/i){
+    # List item from a man page
+    elsif(/^\.TP/i){
 	if($liststate == 0){
+	    liststart();
+	}
+	
+	if($pausedlist == 1){
+	    print "<itemizedlist>\n";
+	    $pausedlist = 0;
 	}
 	
 	endpara();
-	
-	if($listitemstate > 0){
+	if($listitemstate == 1){
 	    print "</listitem>\n";
 	}
 	
-	if($liststate == 1){
-	    print "</itemizedlist>\n";
-	    startpara();
-	}
-	else{
-	    print "</orderedlist>\n";
-	    $pausedlist = 1;
-	}
-	$liststate--;
-	$listitemstate = 0;
-	
-	if($liststate < 0){
-	}
+	print "<listitem>\n";
+	startpara();
+	$listitemstate = 1;
+    }
+    
+    # List end
+    elsif(/^\.LE(.*)/i){
+	endpara();
+	listend();
     }
     
     # No mapping
@@ -603,6 +611,23 @@ sub liststart(){
 
     $liststate++;
     }
+
+sub listend(){
+    if($listitemstate > 0){
+	print "</listitem>\n";
+    }
+    
+    if($liststate == 1){
+	print "</itemizedlist>\n";
+	startpara();
+    }
+    else{
+	print "</orderedlist>\n";
+	$pausedlist = 1;
+    }
+    $liststate--;
+    $listitemstate = 0;
+}
 
 sub endpara(){
     if($parastate > 0){
