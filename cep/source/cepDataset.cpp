@@ -87,7 +87,7 @@ cepError cepDataset::munch ()
       files[i].read (&c, 1);
 
       //if the first non blank char in the line is a char then skip the whole line
-      if((prevc == '\n') && ((c < 48) || (c > 57)) && (cepIsBlank(c) == false))
+      if((prevc == '\n') && ((c < 48) || (c > 57)) && (cepIsBlank(c) == false) && (!files[i].eof()))
       {
         while(c != '\n')
         {
@@ -160,7 +160,18 @@ cepError cepDataset::munch ()
       }
       prevc = c;
     }
-  }    
+    files[i].close();
+  }
+
+  // Are the files over the same period??
+  if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) || ((m_datax.back().date != m_datay.back().date) || (m_datay.back().date != m_dataz.back().date)))
+  {
+    #ifdef debug
+      cout << "dataset not cover same time period";
+    #endif
+    return cepError("The data set values do not represent the same time period",cepError::sevErrorRecoverable);
+  }
+    
   m_ready = true;
   return cepError ();
 }
