@@ -2,6 +2,7 @@
 /*
  *   Imp for the cepDataWindower.cpp
  *   Copyright (C) Blake Swadling                   2002
+ *   Copyright (C) Michael Still                    2002
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,8 +26,7 @@
 #include "cepwindowblackman.h"
 #include "cepwindowchebyshev.h"
 #include "cepConfiguration.h"
-
-
+#include "cepDataset.h"
 
 cepWindow::cepWindow( int id, const char* name ) {
   myID = id;
@@ -177,52 +177,57 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
     return cepError("invalid overlap - negative value supplied");
   }
 
-
   cepMatrix<double> coeffs = windowAlg->getCoeffs();                // scaling factors
-  cepMatrix<double> result( windowAlg->getSize(), 3, numWindows );  // result. numwindows x windowSize x 2
+  cepMatrix<double> result( windowAlg->getSize(), 4, numWindows );  // result. numwindows x windowSize x 4
 
   int color = 0;
   for( int win = 0; win < numWindows; ++win ) {
-    // a number between 1 and 3
-    // not used
-//    color = 1+win%3;
-    for( int element = 0; element < windowAlg->getSize(); ++element ) {
-
+    for( int element = 0; element < windowAlg->getSize(); element++ ) {
       // sanity check
       int ptr = (win*increment)+element;
       if( ptr > numSamples ) {
         return cepError("Exceeded the bounds of the matrix when accessing row"+ptr);
       }
       
-      // copy the date directly & scale the value
-      // 0 is date, 1 is value, 2 is the color hint
-      result.setValue(element, 0, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
-      if( result.getError().isReal() ) {
-          result.getError().display();
-          break;
-      }
-      result.setValue(element, 1, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
-      if( result.getError().isReal() ) {
-          result.getError().display();
-          break;
-      }
-      result.setValue(element, 2, win, color);
-      if( result.getError().isReal() ) {
-          result.getError().display();
-          break;
-      }
-      
-//      cout << "scale=" << const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 )
-//           << "(" << result.getValue(element, 0, win) << ")"
-//           << "   value=" << const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0)
-//           << "(" << result.getValue(element, 1, win) << ")"
-//           << "   color=" << color
-//           << "(" << result.getValue(element, 2, win) << ")"
-//           << endl;
+      // copy the date
+      result.setValue(element, cepDataset::colDate, win, 
+		      const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
+      if(const_cast< cepMatrix<double> & >(dataIn).getError().isReal())
+	return const_cast< cepMatrix<double> & >(dataIn).getError();
+      if(result.getError().isReal())
+	return result.getError();
+      cepDebugPrint(cepToString(element) + ": " + 
+		    cepToString(result.getValue(element, cepDataset::colDate, win)));
+
+      // scale the value
+      result.setValue(element, cepDataset::colSample, win, 
+		      const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 ) *
+		      coeffs.getValue(element,0));
+      if(const_cast< cepMatrix<double> & >(dataIn).getError().isReal())
+	return const_cast< cepMatrix<double> & >(dataIn).getError();
+      if(coeffs.getError().isReal())
+	return coeffs.getError();
+      if(result.getError().isReal())
+	return result.getError();
+
+      // error always zero
+      result.setValue(element, cepDataset::colError, win, 0);
+      if(result.getError().isReal())
+	return result.getError();
+
+      // colour not used here
+      result.setValue(element, cepDataset::colColourHint, win, color);
+      if(result.getError().isReal())
+	return result.getError();
     }
   }
 
   windowedData = result;
+  if(windowedData.getError().isReal())
+    return windowedData.getError();
+  if(result.getError().isReal())
+    return result.getError();  
+
   return cepError();
 }
 

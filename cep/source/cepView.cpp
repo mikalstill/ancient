@@ -85,6 +85,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_GRID, cepView::OnToggleGrid)
   EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
   EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
+  EVT_MENU (CEPMENU_COLORREMOVE, cepView::OnColorRemove)
   EVT_MENU (CEPMENU_COLORERROR, cepView::OnColorError)
   EVT_MENU (CEPMENU_COLORLS, cepView::OnColorLs)
   EVT_MENU (CEPMENU_COLORGRID, cepView::OnColorGrid)
@@ -353,6 +354,22 @@ cepView::OnColorLine (wxCommandEvent & WXUNUSED (event))
     m_config->setValue("ui-graph-color-line-r", color.Red());
     m_config->setValue("ui-graph-color-line-g", color.Green());
     m_config->setValue("ui-graph-color-line-b", color.Blue());
+
+    m_dirty = true;
+    canvas->Refresh();
+  }
+}
+
+void
+cepView::OnColorRemove (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-remove-r", color.Red());
+    m_config->setValue("ui-graph-color-remove-g", color.Green());
+    m_config->setValue("ui-graph-color-remove-b", color.Blue());
 
     m_dirty = true;
     canvas->Refresh();
@@ -804,6 +821,14 @@ cepView::processWindow(const cepWindow wType, string desc)
         werr.display();
 	canvas->Refresh();
         return;
+      }
+      
+      cepDebugPrint("Number of rows: " + cepToString(windowed[i].getNumRows() - 1));
+      if(windowed[i].getValue(windowed[i].getNumRows() - 1, 0, 3) == 0.0){
+	cepError err("Bad value at the end of the window", cepError::sevInformational);
+	err.display();
+	canvas->Refresh();
+	return;
       }
     }
     

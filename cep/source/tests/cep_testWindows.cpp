@@ -27,7 +27,7 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 
 namespace {
@@ -39,7 +39,7 @@ protected:
   
 
   /** Test the rectangular window. This test is intended to
-   * excercise the system withoput the additional concern of
+   * excercise the system without the additional concern of
    * windowing algorithms failing
    */
   void testRectangular ()

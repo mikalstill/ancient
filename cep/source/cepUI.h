@@ -143,6 +143,7 @@ GetMainFrame (void);
 #define CEPMENU_GRID 44
 #define CEPMENU_COLORGRID 45
 #define CEPMENU_COLORLS 46
+#define CEPMENU_COLORREMOVE 47
 
 extern bool singleWindowMode;     
 

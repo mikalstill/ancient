@@ -117,7 +117,6 @@ class cepDataset {
   private:
     string applyOffset(direction i, string value);
     string reverseOffset(direction i, string value);
-    void delimitWindow( fstream &f );
 
     string m_filename;
     string m_header[dirUnknown];

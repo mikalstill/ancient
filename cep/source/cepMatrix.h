@@ -841,7 +841,7 @@ const T cepMatrix<T>::getMaxValue(const int& col)
 {
   if (col >= m_numCols)
   {
-    m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error = cepError("Invalid Col Number: " + cepToString(col), cepError::sevErrorRecoverable);
     m_error.log();
     return (T)0;
   }
@@ -870,6 +870,8 @@ const T cepMatrix<T>::getMaxValue(const int& col)
     
     for(int tno = 0; tno < m_numTables; tno++){
       for(int i = 0; i < m_numRows; i ++){
+	cepDebugPrint("Checking: " + cepToString(m_tables[tno][(i * m_numCols) + col]) + " " +
+		      cepToString(tno) + " " + cepToString(i) + " " + cepToString(col));
 	if(maxVal < m_tables[tno][(i * m_numCols) + col]){
 	  maxVal = m_tables[tno][(i * m_numCols) + col];
 	}
@@ -886,7 +888,7 @@ const T cepMatrix<T>::getMinValue(const int& col)
 {
   if (col >= m_numCols)
   {
-    m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error = cepError("Invalid Col Number: " + cepToString(col), cepError::sevErrorRecoverable);
     m_error.log();
     return (T)0;
   }
@@ -1015,14 +1017,15 @@ const T cepMatrix<T>::getValue (const int & row, const int & col)
 
   if (row >= m_numRows)
   {
-    m_error = cepError("Invalid Row Number", cepError::sevErrorRecoverable);
+    m_error = cepError("Invalid Row Number: " + cepToString(row) + " with col: " + cepToString(col), 
+		       cepError::sevErrorRecoverable);
     m_error.log();
     return (T)0;
   }
 
   if (col >= m_numCols)
   {
-    m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error = cepError("Invalid Col Number: " + cepToString(col), cepError::sevErrorRecoverable);
     m_error.log();
     return (T)0;
   }
@@ -1034,14 +1037,15 @@ void cepMatrix<T>::setValue (const int & row, const int & col, const T & value)
 {
   if (row >= m_numRows)
   {
-    m_error = cepError("Invalid Row Number", cepError::sevErrorRecoverable);
+    m_error = cepError("Invalid Row Number: " + cepToString(row) + " with col: " + cepToString(col), 
+		       cepError::sevErrorRecoverable);
     m_error.log();
     return;
   }
 
   if (col >= m_numCols)
   {
-    m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error = cepError("Invalid Col Number: " + cepToString(col), cepError::sevErrorRecoverable);
     m_error.log();
     return;
   }
@@ -1080,20 +1084,21 @@ const T cepMatrix<T>::getValue (const int & row, const int & col, const int & ta
 
   if (row >= m_numRows)
   {
-    m_error = cepError("Invalid Row Number", cepError::sevErrorRecoverable);
+    m_error = cepError("Invalid Row Number: " + cepToString(row) + " with col: " + cepToString(col), 
+		       cepError::sevErrorRecoverable);
     m_error.log();
     return (T)0;
   }
 
   if (col >= m_numCols)
   {
-    m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+    m_error = cepError("Invalid Col Number: " + cepToString(col), cepError::sevErrorRecoverable);
     m_error.log();
     return (T)0;
   }
   if (tab >= m_numTables)
   {
-    m_error = cepError("Invalid Table Number", cepError::sevErrorRecoverable);
+    m_error = cepError("Invalid Table Number: " + cepToString(tab), cepError::sevErrorRecoverable);
     m_error.log();
     return (T)0;
   }
@@ -1112,20 +1117,21 @@ void cepMatrix<T>::setValue (const int & row, const int & col, const int & tab, 
   {
     if (row >= m_numRows)
     {
-      m_error = cepError("Invalid Row Number", cepError::sevErrorRecoverable);
+      m_error = cepError("Invalid Row Number: " + cepToString(row) + " with col: " + cepToString(col), 
+			 cepError::sevErrorRecoverable);
       m_error.log();
       return;
     }
 
     if (col >= m_numCols)
     {
-      m_error = cepError("Invalid Col Number", cepError::sevErrorRecoverable);
+      m_error = cepError("Invalid Col Number: " + cepToString(col), cepError::sevErrorRecoverable);
       m_error.log();
       return;
     }
     if (tab >= m_numTables)
     {
-      m_error = cepError("Invalid Table Number", cepError::sevErrorRecoverable);
+      m_error = cepError("Invalid Table Number: " + cepToString(tab), cepError::sevErrorRecoverable);
       m_error.log();
       return;
     }

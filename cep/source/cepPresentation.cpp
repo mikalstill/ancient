@@ -425,8 +425,6 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
     cepDebugPrint("Containing " + cepToString(m_ds->getNumRows()) + " rows");
 
     bool lineStarted = false;
-    plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
-		      m_lineColor.blue);
     for(int i = 0; i < m_ds->getNumRows(); i++){
       if(m_ds->getError().isReal()){
 	m_ds->getError().display();
@@ -443,6 +441,24 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
       if(m_ds->getError().isReal()){
 	m_ds->getError().display();
 	break;
+      }
+
+      // Determine which colour to use for this point
+      float colourHint = m_ds->getValue(i, cepDataset::colColourHint, tno);
+      if(m_ds->getError().isReal()){
+	m_ds->getError().display();
+	break;
+      }
+      cepDebugPrint("Colour hint is " + cepToString(colourHint));
+
+      if(colourHint < 0.5){
+	cepDebugPrint("Normal point");
+	plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
+			  m_lineColor.blue);
+      }
+      else{
+	plot_setlinecolor(graph, m_removeColor.red, m_removeColor.green,
+			  m_removeColor.blue);
       }
       
       unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / vertScale + graphInset);
@@ -656,6 +672,13 @@ void cepPresentation::setLineColor(char red, char green, char blue)
   m_lineColor.red = red;
   m_lineColor.green = green;
   m_lineColor.blue = blue;
+}
+
+void cepPresentation::setRemoveColor(char red, char green, char blue)
+{
+  m_removeColor.red = red;
+  m_removeColor.green = green;
+  m_removeColor.blue = blue;
 }
 
 void cepPresentation::setFontColor(char red, char green, char blue)

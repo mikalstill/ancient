@@ -409,6 +409,10 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       view_menu->Append (CEPMENU_COLORLS, "LS line color",
 			 "The color of the LS regression line on the graph", FALSE);
 
+      view_menu->Append (CEPMENU_COLORREMOVE, "Removed points color",
+			 "The color of the points which have been removed by a mathematical operation", 
+			 FALSE);
+
       view_menu->AppendSeparator();
 
       view_menu->Append (CEPMENU_COLORFONT, "Font color",

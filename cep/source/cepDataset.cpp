@@ -176,7 +176,6 @@ cepError cepDataset::read(const string & filename)
             // End of line?                                    colColorHint
             // have we read a full line?
             if ((c == '\n') && (thisLine.size() > 0 )) {
-//                cout << thisLine << endl;
                 cepDebugPrint("Processing line: '" + thisLine + "'");
 
                 // If this is a data bearing line
@@ -193,20 +192,17 @@ cepError cepDataset::read(const string & filename)
                         atof(applyOffset((direction) i, sa[1]).c_str()) -
                         m_offsetFloat[i];
                     rowerror = atof(sa[2].c_str());
-                    // if we have a color colum, read it in
                     rowcolor =
-                        ((sa.size() > 3) ? atof(sa[2].c_str()) : 0.0);
+                        ((sa.size() > 3) ? atof(sa[3].c_str()) : 0.0);
 
                     // if we have a row containing 3 consecutive delimiters then we add a new window
                     if (rowdate == delim || rowsample == delim || rowerror == delim) {
-//                        cout << "("<<rowdate<<","<<rowsample<<","<<rowerror<<","<<rowcolor<<") "
-//                             << "found delimiters on line " << numLines << endl;
                         data.push_back(cepVector4D());
 
-                        lastRowdate = rowdate;
-                        lastRowsample = rowsample;
-                        lastRowerror = rowerror;
-                        lastRowcolor = rowcolor;
+                        lastRowdate = -1;
+                        lastRowsample = -1;
+                        lastRowerror = -1;
+                        lastRowcolor = -1;
                         thisLine="";
                         continue;
                     }
@@ -501,7 +497,7 @@ cepError cepDataset::write(const string & filename)
         for (int wcount = 0; wcount < m_data[i]->getNumTables(); wcount++ ) {
             // iterate through elements of each window
             if( wcount > 0 && wcount < m_data[i]->getNumTables() ) {
-                delimitWindow(files[i]);
+                files[i] << " " << delim << "  " << delim << "  " << delim << "  " << delim << endl;
             }
             for (int vcount = 0; vcount < m_data[i]->getNumRows(); vcount++) {
                 ostringstream line;
@@ -533,16 +529,11 @@ cepError cepDataset::write(const string & filename)
                 files[i] << line.str() << endl;
             }
         }
-//        cout << endl;
 
         files[i].close();
     }
 
     return cepError();
-}
-
-void cepDataset::delimitWindow( fstream &f ) {
-    f << " " << delim << "  " << delim << "  " << delim << "  " << delim << endl;
 }
 
 cepMatrix < double >*cepDataset::getMatrix(direction dir)

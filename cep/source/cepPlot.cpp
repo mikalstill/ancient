@@ -68,6 +68,15 @@ cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfnam
   if(err.isReal()) err.display();
   pres.setLineColor(red, green, blue);
 
+  // Plot color for removed points
+  err = config->getValue("ui-graph-color-remove-r", 0, red);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-remove-g", 255, green);
+  if(err.isReal()) err.display();
+  err = config->getValue("ui-graph-color-remove-b", 0, blue);
+  if(err.isReal()) err.display();
+  pres.setRemoveColor(red, green, blue);
+
   // Error color
   err = config->getValue("ui-graph-color-error-r", 127, red);
   if(err.isReal()) err.display();
