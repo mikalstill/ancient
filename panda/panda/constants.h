@@ -67,14 +67,14 @@ extern char panda_binaryheaderstring[12];
 // The text drawing modes (p 343 v 1.3)
 enum
 {
-  gTextModeNormal = 0,
-  gTextModeOutline,
-  gTextModeFilledOutline,
-  gTextModeInvisible,
-  gTextModeFillClipped,
-  gTextModeStrokeClipped,
-  gTextModeFillStrokeClipped,
-  gTextModeClipped
+  panda_textmode_normal = 0,
+  panda_textmode_outline,
+  panda_textmode_filledoutline,
+  panda_textmode_invisible,
+  panda_textmode_filledclipped,
+  panda_textmode_strokedclipped,
+  panda_textmode_filledstrokedclipped,
+  panda_textmode_clipped
 };
 
 // The image types supported
