@@ -1,215 +1,215 @@
-/* 
-   Imp for the CEP configuration thingie
-   Copyright (C) Michael Still                    2002
-   
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-   
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-   
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
+/***************************************************************************
+                          cepconfiguration.cpp  -  description
+                             -------------------
+    begin                : Sun Aug 4 2002
+    copyright            : (C) 2002 by Blake Swadling
+    email                : blake@swadling.org
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include "cepCore.h"
+#include "cepConfiguration.h"
+#include <stdlib.h>
+#include <sstream>
 
-///////////////////////////////////////////////////////////////////////////////
-// NEVER DO A cepError::display() IN THIS FILE...
-///////////////////////////////////////////////////////////////////////////////
-
-cepConfiguration::cepConfiguration(const string& filename)
+cepConfiguration::cepConfiguration(const string & filename)
 {
-  // todo_mikal: trivsql should be changed to fix this
-  char *tmp = strdup(filename.c_str());
-  m_dbState = trivsql_opendb(tmp);
-  free(tmp);
-
-  m_path = filename;
+  path.assign( filename );
+  cepError error = load( path );
+  // check the status of the load
+  // if it fails terminate with an error message
+  if( error.isReal() ) {
+    error.display();
+  }
 }
 
-cepError cepConfiguration::getValue(const string& valkey, 
-				    const string& defval,
-				    string& outval)
-{
-  // todo_mikal: trivsql should be changed to fix this
-  string sql("SELECT " + valkey + " FROM cepConfig;");
-  trivsql_recordset* rs;
 
-  char *tmp = strdup(sql.c_str());
-  cepDebugPrint(sql);
-  rs = trivsql_execute(m_dbState, tmp);
-  free(tmp);
+cepConfiguration::~cepConfiguration() {
+}
 
-  if(rs == NULL){
-    return cepError(string("NULL recordset returned by SELECT from cepConfig") +
-		    string(" with COLUMN ") + valkey, 
-		    cepError::sevErrorRecoverable);
+
+/**
+ * Loads configuration data from the specified config file.
+ *
+ * @param filename the name of the file holding configuration data
+ * @return the resulting error. check error.isReal() to see if an error was generated
+ */
+cepError cepConfiguration::load( const string & filename ) {
+  cepError err;
+  
+  ifstream cfgFile( (const char *)filename.c_str(), ios::in );
+  if( !cfgFile ) {
+    err = cepError( "failed to open config file"+filename, cepError::sevErrorFatal );
+  } else {
+    err = readConfig( cfgFile );
   }
+  return err;
+}
 
-  switch(rs->errno){
-  case TRIVSQL_FALSE:
-    cepDebugPrint("Lookup for this database key produced no results");
-    outval = defval;
-    return cepError();
 
-  case TRIVSQL_TRUE:
-    trivsql_rsmovefirst(rs);
-    if(trivsql_rseof(rs) != TRIVSQL_TRUE){
-      tmp = trivsql_rsfield(rs, 0);
-      if(tmp != NULL)
-	outval = string(tmp);
-      else{
-	cepDebugPrint("Recordset field was NULL, defaulting");
-	outval = defval;
-	return setValue(valkey, defval);
+/**
+ * Saves configuration data to the specified config file.
+ *
+ * @param filename the name of the file to write the configuration data to
+ * @return the resulting error. check error.isReal() to see if an error was generated
+ */
+cepError cepConfiguration::save( const string & filename ) {
+  cepError err;
+  ofstream out( (const char *)filename.c_str(), ios::trunc );
+  writeConfig( out );
+  return err;
+}
+
+
+/**
+ * reads the configuration data from an input stream.
+ *
+ * @param in the input stream to read the data from
+ * @return the resulting error. check error.isReal() to see if an error was generated
+ */
+cepError cepConfiguration::readConfig( ifstream & in ) {
+  cepError err;
+  pair< string, string > data;
+  pair< map_t::iterator, bool > p;
+
+  char buf[80];
+  in.getline( buf, 80 );
+
+  while( strlen(buf) > 0 ) {
+    err = parseConfigEntry( (const char *)buf, data );
+    if( !err.isReal() ) {
+      p = map.insert( data );
+      if( !p.second ) {
+        printf("duplicate entry %s->%s\n",
+            (*(p.first)).first.c_str(), (*(p.first)).second.c_str());
       }
-      free(tmp);
-      return cepError();
     }
-    free(rs);
-    
-    // The recordset was empty
-    cepDebugPrint("Empty recordset returned");
-    outval = defval;
-    return setValue(valkey, defval);
-
-  default:
-    cepDebugPrint("getValue failed with error: " + cepItoa(rs->errno));\
-    outval = defval;
-    free(rs);
-    return setValue(valkey, defval);
+    in.getline( buf, 80 );    
   }
+  return err;  
+}
+
+
+/**
+ * parses a single configuration entry
+ *
+ * @param entry the string holding the configuration data
+ * @param data a pair which will be populated with the data from the entry
+ * @return the resulting error. check error.isReal() to see if an error was generated.
+ *         If parsing the entry fails then we return a warning only, since we can
+ *         easilty resort to default values
+ */
+cepError cepConfiguration::parseConfigEntry( const string & entry,
+                                              pair< string,string >& data ) {
+  bool success = TRUE;
+  char *tmp = strdup( entry.c_str() );
   
-  return cepError();
-}
-
-cepError cepConfiguration::getValue(const string& valkey, 
-				    const bool& defval,
-				    bool& outval)
-{
-  string myov;
-  cepError ce;
-
-  cepDebugPrint("Redirecting bool getValue to string");
-  ce = getValue(valkey, string(defval ? "true" : "false"), myov);
-  if(ce.isReal())
-    {
-      return ce;
-    }
-
-  outval = (myov == "true");
-  return cepError();
-}
-
-cepError cepConfiguration::getValue(const string& valkey, 
-				    const int& defval,
-				    int& outval)
-{
-  string myov;
-  cepError ce;
-
-  cepDebugPrint("Redirecting int getValue to string");
-  ce = getValue(valkey, cepItoa(defval), myov);
-  if(ce.isReal())
-    {
-      return ce;
-    }
-
-  outval = atoi(myov.c_str());
-  return cepError();
-}
-
-// todo_mikal: this should use an update, not an insert
-cepError cepConfiguration::setValue(const string& valkey,
-				   const string& value)
-{
-  // todo_mikal: fix this
-  char *tmp;
-
-  // todo_mikal: I'm not sure why gcc insists on having this here...
-  // I should look into it sometime...
-  string sql("UPDATE cepConfig SET " + valkey + " = '" + 
-	     value + "';");
-  string table("CREATE TABLE cepConfig (" + valkey + "); INSERT INTO cepConfig (" + valkey + ") VALUES ('placeholder');");
-  string alter("ALTER cepConfig ADD COLUMN " + valkey + ";");
-  
-  // TODO mikal fix const problem
-  trivsql_recordset *rs;
-  tmp = strdup(sql.c_str());
-  cepDebugPrint(sql);
-  rs = trivsql_execute(m_dbState, tmp);
-  free(tmp);
-
-  // Check for errors from the recordset
-  switch(rs->errno){
-  case TRIVSQL_FALSE:
-  case TRIVSQL_TRUE:
-    return cepError();
-    
-  case TRIVSQL_NOSUCHTABLE:
-    cepDebugPrint("Recovering from no such table error");
-    cepDebugPrint(table);
-    tmp = strdup(table.c_str());
-    rs = trivsql_execute(m_dbState, tmp);
-    free(tmp);
-    if(rs == NULL){
-      return cepError("NULL recordset returned by CREATE TABLE cepConfig",
-		      cepError::sevErrorRecoverable);
-    }
-
-    switch(rs->errno){
-    case TRIVSQL_FALSE:
-    case TRIVSQL_TRUE:
-      cepDebugPrint("Attempt to set the value again having created the table");      
-      return setValue(valkey, value);
-
-    default:
-      return cepError("Database write recover had error: " + 
-		      cepItoa(rs->errno),
-		      cepError::sevErrorRecoverable);
-    }
-    break;
-
-  case TRIVSQL_NOSUCHCOLUMN:
-    cepDebugPrint("Recovering from a no such column error");
-    tmp = strdup(alter.c_str());
-    cepDebugPrint(alter);
-    rs = trivsql_execute(m_dbState, tmp);
-    free(tmp);
-    if(rs == NULL){
-      return cepError("NULL recordset returned by ALTER TABLE cepConfig",
-		      cepError::sevErrorRecoverable);
-    }
-
-    switch(rs->errno){
-    case TRIVSQL_FALSE:
-    case TRIVSQL_TRUE:
-      cepDebugPrint("Attempt to set the value again having added the column");      
-      return setValue(valkey, value);
-
-    default:
-      return cepError("Database write recover had error: " + 
-		      cepItoa(rs->errno),
-		      cepError::sevErrorRecoverable);
-    }
-    break;
-
-  default:
-    return cepError("Database write had error: " + cepItoa(rs->errno),
-		    cepError::sevErrorRecoverable);
+  // read the key
+  char *ptr = strtok( tmp, "= " );
+  if( ptr != NULL ) {
+    data.first = string( ptr );
+  } else {
+    success = FALSE;
   }
+
+  // read the value  
+  ptr = strtok( NULL, " " );
+  if( ptr != NULL ) {
+    data.second = string( ptr );
+  } else {
+    success = FALSE;
+  }
+
+  free( tmp );    // plug the leaks
+
+  // check for failure
+  if( !success ) {
+    return cepError("failed to parse config value "+entry, cepError::sevWarning);
+  }
+  return cepError();
 }
 
-cepError cepConfiguration::setValue(const string& valkey, const int& value){
-    return setValue(valkey, cepItoa(value));
+
+cepError cepConfiguration::writeConfig( ofstream & out ) {
+  cepError err;
+  for(map_t::const_iterator i = map.begin(); i!=map.end(); ++i ) {
+    out << i->first << "=" << i->second << endl;
+  }
+    
+  return err;
 }
 
-cepError cepConfiguration::setValue(const string& valkey, const bool& value){
-    return setValue(valkey, value ? "true" : "false");
+cepError cepConfiguration::getValue( const string & valkey, const string & defval, string & outval ) {
+  map_t::const_iterator i = map.find( valkey );
+  bool defaulted = false;
+  if( i == map.end() ) {
+    outval = defval;
+  } else {
+    outval = map[ valkey ];
+  }
+  cout << "<get<string> : requested " << valkey
+       << " and returned " << outval
+       << (defaulted?" (default)":"") << endl;
+  return cepError();
 }
+
+cepError cepConfiguration::getValue( const string & valkey, const bool & defval, bool & outval ) {
+  map_t::const_iterator i = map.find( valkey );
+  bool defaulted = false;
+  if( i == map.end() ) {
+    outval = defval;
+    defaulted = true;
+  } else {
+    outval = (map[ valkey ] == "true");
+  }
+  cout << "<get(bool)> : requested " << valkey
+       << " and returned " << (outval?"true":"false")
+       << (defaulted?" (default)":"") << endl;
+  return cepError();
+}
+
+cepError cepConfiguration::getValue( const string & valkey, const int &defval, int &outval ) {
+  map_t::const_iterator i = map.find( valkey );
+  bool defaulted = false;
+  if( i == map.end() ) {
+    outval = defval;
+    defaulted = true;
+  } else {
+    outval = atoi(map[ valkey ].c_str());
+  }
+  cout << "<get(int)> : requested " << valkey
+       << " and returned " << outval
+       << (defaulted?" (default)":"") << endl;
+  return cepError();
+}
+
+cepError cepConfiguration::setValue( const string & valkey, const string & value ) {
+  map[ valkey ] = value;
+  cout << "<set(string)> : setting " << valkey << " to " << map[ valkey ] << endl;
+  return save( path );
+
+}
+
+cepError cepConfiguration::setValue( const string & valkey, const int &value ) {
+  ostringstream oss;
+  oss << value;
+  map[ valkey ] = oss.str();
+  cout << "<set(int)> : setting " << valkey << " to " << map[ valkey ] << endl;
+  return save( path );
+
+}
+
+cepError cepConfiguration::setValue( const string & valkey, const bool & value ) {
+  map[ valkey ] = (value ? string("true") : string("false"));
+  cout << "<set(bool)> : setting " << valkey << " to " << map[ valkey ] << endl;
+  return save( path );
+}
+
