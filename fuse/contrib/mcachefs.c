@@ -720,7 +720,8 @@ static struct fuse_operations mcachefs_oper = {
 int main(int argc, char *argv[])
 {
   config_state *cfg;
-  char *val;
+  char *key, *val;
+  int keylen;
 
   cfg = config_open("mcachefs");
   if(!cfg)
@@ -728,17 +729,38 @@ int main(int argc, char *argv[])
       printf("Couldn't open config file\n");
       return 2;
     }
-  target = config_getstring(cfg, "target");
-  backing = config_getstring(cfg, "backing");
-  val = config_getstring(cfg, "verbose");
-  if(val)
-    verbose = atoi(val);
 
-  printf("Filesystem now serving requests...\n");
-  printf("  config = 0x%08x\n", cfg);
-  printf("  target = %s\n", target);
-  printf("  backing = %s\n", backing);
-  printf("  verbosity = %d\n", verbose);
+  if(argc > 1)
+    {
+      keylen = strlen(argv[1]) + 100;
+      key = (char *) malloc(keylen);
+      if(!key)
+	{
+	  perror("Couldn't allocate memory for key value");
+	  exit(2);
+	}
+
+      snprintf(key, keylen, "%s/target", argv[1]);
+      target = config_getstring(cfg, key);
+      snprintf(key, keylen, "%s/backing", argv[1]);
+      backing = config_getstring(cfg, key);
+      snprintf(key, keylen, "%s/verbose", argv[1]);
+      val = config_getstring(cfg, key);
+      if(val)
+	verbose = atoi(val);
+
+      printf("Filesystem now serving requests...\n");
+      printf("  target = %s\n", target);
+      printf("  backing = %s\n", backing);
+      printf("  verbosity = %d\n", verbose);
+    }
+  else
+    {
+      target = NULL;
+      backing = NULL;
+      verbose = 0;
+    }
+
   fuse_main(argc, argv, &mcachefs_oper);
   return 0;
 }
