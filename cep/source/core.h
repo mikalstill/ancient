@@ -42,5 +42,6 @@
 #include "cepConfiguration.h"
 
 GLOBAL_THINGIE cepConfiguration *gConfiguration;
+GLOBAL_THINGIE fstream gLog;
 
 #endif

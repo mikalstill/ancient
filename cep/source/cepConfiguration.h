@@ -37,6 +37,7 @@ class cepConfiguration
   
  private:
   trivsql_state *m_dbState;
+  string m_path;
 };
 
 #endif

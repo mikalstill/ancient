@@ -41,6 +41,8 @@ cepConfiguration::cepConfiguration(const string& filename)
   char *tmp = strdup(filename.c_str());
   m_dbState = trivsql_opendb(tmp);
   free(tmp);
+
+  m_path = filename;
 }
 
 cepError cepConfiguration::getValue(const string& valkey, 
@@ -64,11 +66,49 @@ cepError cepConfiguration::getValue(const string& valkey,
 cepError cepConfiguration::setValue(const string& valkey,
 				   const int& value)
 {
-  // Check that the table we need exists
+  char *tmp;
+  string sql = "INSERT INTO cepConfig (" + valkey + ") VALUES ('" + cepItoa(value) + "');";
   
+  {
+    cepError dbg("Executing " + sql + " against the configuration database at " + m_path,
+		 cepError::sevDebug);
+    dbg.display();
+  }
+  
+  // TODO mikal fix const problem
+  trivsql_recordset *rs;
+  tmp = strdup(sql.c_str());
+  rs = trivsql_execute(m_dbState, tmp);
+  free(tmp);
 
-  string sql = "INSERT INTO cepConfig ('" + valkey + "' VALUES ('" + value +
-    "');";
-  
-  
+  // Check for errors from the recordset
+  string table;
+  switch(rs->errno){
+  case TRIVSQL_FALSE:
+  case TRIVSQL_TRUE:
+    return cepError();
+    
+  case TRIVSQL_NOSUCHTABLE:
+    table = "CREATE TABLE cepConfig ('version');";
+    tmp = strdup(table.c_str());
+    free(rs);
+    rs = trivsql_execute(m_dbState, tmp);
+    free(tmp);
+
+    switch(rs->errno){
+    case TRIVSQL_FALSE:
+    case TRIVSQL_TRUE:
+      return setValue(valkey, value);
+
+    default:
+      return cepError("Database write recover had error: " + 
+		      cepItoa(rs->errno),
+		      cepError::sevErrorRecoverable);
+    }
+    break;
+
+  default:
+    return cepError("Database write had error: " + cepItoa(rs->errno),
+		    cepError::sevErrorRecoverable);
+  }
 }

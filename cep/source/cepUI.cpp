@@ -63,6 +63,10 @@ IMPLEMENT_APP (cepApp) cepApp::cepApp (void)
 {
   m_docManager = (wxDocManager *) NULL;
 
+  // Open the logfile
+  // todo_mikal: only if logging is turned on
+  gLog.open ("cep.log", ios::out);
+
   // Open our configuration
   char *homedir = getenv("HOME");
   string config("");
@@ -314,13 +318,15 @@ void cepFrame::OnClose(wxCloseEvent& evt)
   GetSize(&width, &height);
 
   cepError err;
-  err = gConfiguration->setValue("mainwindow-size-x", width);
+  // todo_mikal: better key name?
+  err = gConfiguration->setValue("mainwindowsizex", width);
   if(err.isReal()){
     err.display();
     err.clear();
   }
   else{
-    err = gConfiguration->setValue("mainwindow-size-y", height);
+    // todo_mikal: better key name?
+    err = gConfiguration->setValue("mainwindowsizey", height);
     if(err.isReal()){
       err.display();
       err.clear();

@@ -80,6 +80,10 @@ cepError::display ()
 {
   m_actioned = true;
 
+  // Log everything for now
+  // todo_mikal improve
+  gLog << "Display attempted: " << m_msg << "Severity " << m_level << endl;
+
   bool dodisp = true;
   string keyname(string("cepError-display-level") + 
 		 cepItoa((int) m_level));
