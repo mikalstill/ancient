@@ -5,7 +5,7 @@
 
   <sect2><title>Introduction</title>
     <!-- TODO - reference this properly and fill in the blanks -->
-    <para>From the outset it was decided that a testing regime was require to support debugging of subsystems and validation of
+    <para>From the outset, it was decided that a testing regime was required to support debugging of subsystems and validation of
     mathematical routines. The basic requirements for the testing infrastructure were:
     <itemizedlist>
     <listitem><para><emphasis>Standardised:</emphasis> for all developers</para></listitem>
@@ -26,7 +26,7 @@
     throughout the test.
     </para>
     <para>
-    Additionally, the tests have a couple of special methods which designed to support test independence. The first is setUp(),
+    Additionally, the tests have special methods which are designed to support test independence. The first is setUp(),
     which is executed immediately preceding each test, and the second is tearDown() which is run following
     after each test. These allow the developers to setup dependencies for each test and to deallocate resources that
     the test required.
@@ -35,18 +35,18 @@
     JUnit makes extensive use of the refelection API to locate test methods. Methods are deemed to be tests if their name
     begins with the word &quot;test&quot;, they take no paramteres and if their return type is void. Due to limmitations in the C++
     language, there is no reflection API as such, thus ruling out reflection as an alternative. Consequently CPPUnit
-    requires the user to register tests with the TestCaller via static a static method. The Test class is then registered
+    requires the user to register tests with the TestCaller via a static method. The Test class is then registered
     with the TestRunner and all registered tests are run. CPPUnit provides a number of macros which ease this registration
     process.
     </para>
     <para>Errors and failures in CPPUnit are reported via a number of macros. These macros provide the ability to test
-    for equality and truth and allow the user to supply meaningful error messages easing the debugging process. Failures,
-    with the exception of segmentation violations, do not cause the tests to exit. If a failure occurs the current test
-    reports the error and retuns, allowing the test suite to continue.
+    for equality and truth and allow the user to supply meaningful error messages facilitating the debugging process. Failures,
+    with the exception of segmentation violations, do not cause the tests to exit. If a failure occurs, the current test
+    reports the error and returns, allowing the test suite to continue.
     </para>
     <para>
     Early in the developement of the project, a template was developed to provide a simple means by which developers could
-    start their testing. a sample test, based on this template follows.
+    start their testing. A sample test, based on this template follows.
     <programlisting>
     namespace {
     class Test : public CppUnit::TestFixture {
@@ -113,7 +113,7 @@
   <sect2><title>User Interface Testing</title>
     <para>
     The user interface is exhaustively tested across all datasets. The tests are generated automatically and seek to locate datasets with
-    peculiarities that might cause failure of the plotting library. There are currently 1131 tests dedicated to exercising this body of
+    peculiarities that might cause the failure of the plotting library. There are currently 1131 tests dedicated to exercising this body of
     code.
     </para>
   </sect2> <!--Introduction-->
@@ -121,10 +121,10 @@
 
   <sect2><title>Conclusion</title>
     <para>
-    The testing framework proved invaluable in the process of bug isolation and resolution and resolution. An additional benefit has been
+    The testing framework proved invaluable in the process of bug isolation and resolution. An additional benefit has been
     the early recognition of design problems, such as tight coupling between the subsystems and the user interface at an early stage in the
     project. In summary, without the support of a system such as CPPUnit, the <command>GDMS</command> would not have the level of robustness
-    that it does at this time and mathematical validation would have been quite difficult.
+    that it does at this time and mathematical validation would have been difficult.
     </para>
   </sect2>
 
