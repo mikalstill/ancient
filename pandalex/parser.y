@@ -162,21 +162,22 @@ objref    : INT INT OBJREF { if(($$.data = (char *) malloc((pandalex_intlen($1) 
           ;
 
 // completely implemented
-stream    : STREAM binary ENDSTREAM {   int inset = 0; 
+stream    : STREAM binary ENDSTREAM {   int inset = 0;
                                         while(($2.data[inset] == '\n') || 
                                               ($2.data[inset] == '\r'))
                                           inset ++;
 
                                         pandalex_callback(pandalex_event_stream, 
-                                          $2.data + inset, $2.len - 1 - inset); 
-                                        free($2.data); 
+							  $2.data + inset, 
+							  $2.len - 1 - inset); 
+                                        free($2.data);
                                     }
           |
           ;
 
 // completely implemented: callbacks are handled in the callers to this
 binary    : ANYTHING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($1.data); free($2.data); }
-          | STRING binary { $$.data = pandalex_strmcat($1.data, -1, $2.data, $2.len); $$.len = strlen($1.data) + $2.len; free($1.data); free($2.data); }
+          | STRING binary { $$.data = pandalex_strmcat($1.data, $1.len, $2.data, $2.len); $$.len = $1.len + $2.len; free($1.data); free($2.data); }
           | { $$.data = pandalex_strmcpy("", -1); $$.len = 0; }
           ;
 

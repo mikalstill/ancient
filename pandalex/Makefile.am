@@ -1,4 +1,4 @@
-YFLAGS = -d
+AM_YFLAGS = -d
 
 SUBDIRS = . examples
 

@@ -78,116 +78,116 @@ exit(42);
 %x BINARY
 %%
 
-<INITIAL>\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version");
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+<INITIAL>\%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, yyleng, "version");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return PDFVER;
                                                                              }
 
-<INITIAL>[ \t\r\n]+              { debuglex(yytext, -1, "whitespace");
+<INITIAL>[ \t\r\n]+              { debuglex(yytext, yyleng, "whitespace");
                                                                           }
 
-<INITIAL>xref                    { debuglex(yytext, -1, "xref");
-                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+<INITIAL>xref                    { debuglex(yytext, yyleng, "xref");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return XREF;
                                                                              }
 
-<INITIAL>trailer                 { debuglex(yytext, -1, "trailer");
-                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+<INITIAL>trailer                 { debuglex(yytext, yyleng, "trailer");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return TRAILER;
                                                                              }
 
-<INITIAL>\/[#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, -1, "name");
-                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+<INITIAL>\/[#a-zA-Z\-_0-9\.\+,]+ { debuglex(yytext, yyleng, "name");
+                            yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return NAME;
                                                                              }
 
-<INITIAL>\<\<\/[#a-zA-Z\-_0-9\.\+]+ { debuglex(yytext, -1, "dbllt-name");
+<INITIAL>\<\<\/[#a-zA-Z\-_0-9\.\+]+ { debuglex(yytext, yyleng, "dbllt-name");
                             yyless(2);
                             return DBLLT;
                                                                              }
 
-<INITIAL>\/[#a-zA-Z\-_0-9\.\+]+\>\>     { debuglex(yytext, -1, "name-dblgt");
+<INITIAL>\/[#a-zA-Z\-_0-9\.\+]+\>\>     { debuglex(yytext, yyleng, "name-dblgt");
                             yyless(yyleng - 2);
-                            yylval.sval.data = (char *) returnStr(yytext + 1, -1);
+                            yylval.sval.data = (char *) returnStr(yytext + 1, yyleng);
                             yylval.sval.len = yyleng - 1;
                             return NAME;
 }
 
                         /* --- stuff required for objects ---               */
-<INITIAL>R                       { debuglex(yytext, -1, "object reference");
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+<INITIAL>R                       { debuglex(yytext, yyleng, "object reference");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return OBJREF; 
                                                                              }
 
-<INITIAL>R\>\>                       { debuglex(yytext, -1, "object-reference-dblgt");
+<INITIAL>R\>\>                       { debuglex(yytext, yyleng, "object-reference-dblgt");
                             yyless(yyleng - 2);
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return OBJREF; 
                                                                              }
 
-<INITIAL>R\/                       { debuglex(yytext, -1, "object-reference-namestart");
+<INITIAL>R\/                       { debuglex(yytext, yyleng, "object-reference-namestart");
                             yyless(yyleng - 1);
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return OBJREF; 
                                                                              }
 
-<INITIAL>obj                     { debuglex(yytext, -1, "obj");
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+<INITIAL>obj                     { debuglex(yytext, yyleng, "obj");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return OBJ; 
                                                                              }
 
-<INITIAL>endobj                  { debuglex(yytext, -1, "endobj");
-                            yylval.sval.data = (char *) returnStr(yytext, -1);
+<INITIAL>endobj                  { debuglex(yytext, yyleng, "endobj");
+                            yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return ENDOBJ; 
                                                                              }
 
-<INITIAL>stream                  { debuglex(yytext, -1, "stream");
+<INITIAL>stream                  { debuglex(yytext, yyleng, "stream");
                           BEGIN(BINARY);
                           return STREAM;                                     }
 
-<INITIAL>[+-]?[0-9]+             { debuglex(yytext, -1, "integer");
+<INITIAL>[+-]?[0-9]+             { debuglex(yytext, yyleng, "integer");
                             yylval.intVal = atoi(yytext);
                             return INT; 
                                                                              }
 
-<INITIAL>[+-]?[0-9]+\>\>             { debuglex(yytext, -1, "integer-dblgt");
+<INITIAL>[+-]?[0-9]+\>\>             { debuglex(yytext, yyleng, "integer-dblgt");
                             yyless(yyleng - 2);
                             yylval.intVal = atoi(yytext);
                             return INT; 
                                                                              }
 
 
-<INITIAL>[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, -1, "floating point");
+<INITIAL>[+-]?[0-9]+\.[0-9]+     { debuglex(yytext, yyleng, "floating point");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
                             return FP; 
                                                                              }
 
-<INITIAL>[+-]?[0-9]+\.[0-9]+\>\>     { debuglex(yytext, -1, "floating point");
+<INITIAL>[+-]?[0-9]+\.[0-9]+\>\>     { debuglex(yytext, yyleng, "floating point");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return FP; 
                                                                              }
 
-<INITIAL>\<\<                    { debuglex(yytext, -1, "<<");
+<INITIAL>\<\<                    { debuglex(yytext, yyleng, "<<");
                             return DBLLT; 
                                                                              }
 
-<INITIAL>\>\>                    { debuglex(yytext, -1, ">>");
+<INITIAL>\>\>                    { debuglex(yytext, yyleng, ">>");
                             return DBLGT; 
                                                                              }
 
-<INITIAL>\>\>\>\>                    { debuglex(yytext, -1, ">>>>");
+<INITIAL>\>\>\>\>                    { debuglex(yytext, yyleng, ">>>>");
                             yyless(yyleng - 2);
                             return DBLGT; 
                                                                              }
@@ -198,38 +198,38 @@ exit(42);
                             yylval.sval.len = yyleng;
 
                             if(strcmp(yytext, "endstream") == 0){
-                            debuglex(yytext, -1, "string (at the end of a stream)");
+                            debuglex(yytext, yyleng, "string (at the end of a stream)");
                               BEGIN(INITIAL);
                               return ENDSTREAM;
                               }
-                            else debuglex(yytext, -1, "string");
+                            else debuglex(yytext, yyleng, "string");
 
                             return STRING; 
                                                                              }
 
 <INITIAL,BINARY>\[(([^\[\]])|(\\\[)|(\\\]))*\] {
-                          debuglex(yytext, -1, "bracketted string v1");
+                          debuglex(yytext, yyleng, "bracketted string v1");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng); 
                             yylval.sval.len = yyleng;
                             return STRING; 
                                                                              }
 
 <INITIAL,BINARY>\((([^\(\)])|(\\\()|(\\\)))*\) {
-                          debuglex(yytext, -1, "bracketted string v2");
+                          debuglex(yytext, yyleng, "bracketted string v2");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
                             return STRING; 
                                                                              }
 
 <INITIAL,BINARY>\<(([^\<\>])|(\\\<)|(\\\>))*\> {
-                          debuglex(yytext, -1, "bracketted string v3");
+                          debuglex(yytext, yyleng, "bracketted string v3");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
                             return STRING; 
                                                                              }
 
 <INITIAL,BINARY>([#a-zA-Z0-9\.:'+\-!_]+[a-zA-Z0-9\.:'+\-!_\\\/]*)+\>\> { 
-                          debuglex(yytext, -1, "string-dblgt");
+                          debuglex(yytext, yyleng, "string-dblgt");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
@@ -237,7 +237,7 @@ exit(42);
                                                                              }
 
 <INITIAL,BINARY>[\[\(][#<>a-zA-Z0-9\.\ :'+\-_\\\(\)]+[\)\]]\>\> {
-                          debuglex(yytext, -1, "bracketted-string-dblgt");
+                          debuglex(yytext, yyleng, "bracketted-string-dblgt");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
@@ -246,19 +246,19 @@ exit(42);
 
                         /* --- Array handling ---                           */
 
-<INITIAL>\[                      { debuglex(yytext, -1, "[");
+<INITIAL>\[                      { debuglex(yytext, yyleng, "[");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
                             return ARRAY; 
                                                                              }
 
-<INITIAL>\]                      { debuglex(yytext, -1, "]");
+<INITIAL>\]                      { debuglex(yytext, yyleng, "]");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
                             return ENDARRAY; 
                                                                              }
 
-<INITIAL>\]\>\>                      { debuglex(yytext, -1, "]");
+<INITIAL>\]\>\>                      { debuglex(yytext, yyleng, "]");
                             yyless(yyleng - 2);
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng; 
@@ -267,7 +267,7 @@ exit(42);
 
                         /* --- Stuff needed for the xref and trailer ---    */
 
-<INITIAL>\%\%EOF                 { debuglex(yytext, -1, "end of file");
+<INITIAL>\%\%EOF                 { debuglex(yytext, yyleng, "end of file");
                             return PDFEOF; 
                                                                              }
 
@@ -283,7 +283,7 @@ exit(42);
                           return ANYTHING;
                                                                              }
 
-.                       { debuglex("!", -1, "the catch all");
+.                       { debuglex("!", yyleng, "the catch all");
                             yylval.sval.data = (char *) returnStr(yytext, yyleng);
                             yylval.sval.len = yyleng;
                             return ANYTHING; 
@@ -291,6 +291,7 @@ exit(42);
 
 %%
 
+// TODO mikal: This -1 syntax can go away now
 void debuglex(char *text, int len, char *desc){
 #if defined DEBUG
   int i;
@@ -310,6 +311,7 @@ void debuglex(char *text, int len, char *desc){
 #endif
 }
 
+// TODO mikal: This -1 syntax can go away now
 char *returnStr(char *yytext, int len){
   char *lval;
 

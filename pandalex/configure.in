@@ -6,10 +6,6 @@ AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(pandalex, 0.5)
 AM_MAINTAINER_MODE
 
-dnl Libtool
-AC_LIBTOOL_WIN32_DLL
-AC_LIBTOOL_DLOPEN
-
 dnl Checks for programs.
 AC_PROG_CC
 AM_PROG_LEX
