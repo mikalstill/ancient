@@ -741,8 +741,7 @@ cepView::processInterp(const int iType, string desc)
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
-    interpUi.showSampleRate(theDataset->getMatrix(cepDataset::dirX)->getValue(1,0) -
-			    theDataset->getMatrix(cepDataset::dirX)->getValue(0,0));
+    interpUi.showSampleRate(1);
     cepDebugPrint(string("Interp sample rate: ") + cepToString(interpUi.getSampleRate()));
     if(interpUi.getSampleRate() == -1){
       return;

@@ -87,9 +87,17 @@ public:
  private:
   DECLARE_EVENT_TABLE ()
     
-    wxButton m_button;
+    enum selType{
+      selLeft = 0,
+      selRight,
+      selNone
+    };
+  
+  wxButton m_button;
   cepConfiguration *m_config;
   int m_selectXStart, m_selectXPrevious, m_selectXEnd;
+  selType m_select;
+
   cepDataset::direction m_selDir;
   string m_selDirString;
   wxFrame *m_frame;

@@ -74,6 +74,7 @@ cepCanvas::cepCanvas (wxView * v, wxFrame * frame, const wxPoint & pos,
   wxScrolledWindow (frame, -1, pos, size, style),
   m_view(v),
   m_selectXStart(-1),
+  m_select(selNone),
   m_frame(frame)
 {
   m_config = (cepConfiguration *)&cepConfiguration::getInstance();
@@ -116,11 +117,25 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   }
   
   // Is the mouse down?
-  if(event.LeftIsDown()){
+  if(event.LeftIsDown() || event.RightIsDown()){
     int top, bottom, width;
     int cwidth, cheight;
     m_frame->GetSize (&cwidth, &cheight);
     graphPlacement(selDir, top, bottom, width);
+
+    // Record the type of selection
+    if(event.LeftIsDown() && (m_select != selLeft)){
+      m_selectXStart = -1;
+      m_select = selLeft;
+    }
+    else if(event.RightIsDown() && (m_select != selRight)){
+      m_selectXStart = -1;
+      m_select = selRight;
+    }
+
+    // This should never happen
+    else
+      m_select = selNone;
 
     if(m_selectXStart == -1){
       m_selectXStart = m_selectXPrevious = pt.x;
@@ -167,7 +182,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     // Process the selection, and then move on with our lives...
     int selectXStart = m_selectXStart;
     m_selectXStart = -1;
-
+    
     float startExtracted = ((selectXStart - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
     float endExtracted = ((m_selectXEnd - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
     if(startExtracted > endExtracted){
@@ -202,24 +217,47 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     
     // We can only handle this event if we are ready
     if (theDataset && theDataset->isReady()){
-      cepDataset newds = theDataset->filter(dateUI.getFromDate(), dateUI.getToDate());
-      if(newds.getMatrix((cepDataset::direction) 0) == NULL){
-	cepError err("The selected region did not contain any datapoints",
-		     cepError::sevErrorRecoverable);
-	err.display();
-      }
-      else{
-	char *cfname = strdup("/tmp/cep.XXXXXX");
-	int fd;
-	fd = mkstemp(cfname);
-	close(fd);
+      cepDataset newds;
+      cepDebugPrint("Processing selected region");
+
+      switch(m_select){
+      case selLeft:
+	cepDebugPrint("Zoom on selected region");
+	newds = theDataset->filter(dateUI.getFromDate(), dateUI.getToDate());
+	if(newds.getMatrix((cepDataset::direction) 0) == NULL){
+	  cepError err("The selected region did not contain any datapoints",
+		       cepError::sevErrorRecoverable);
+	  err.display();
+	  Refresh();
+	  return;
+	}
+	break;
 	
-	string newcfname(string(cfname) + "~" + theDataset->getName());
-	newds.write(newcfname.c_str());
-	
-	wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
-	free(cfname);
+      case selRight:
+	cepDebugPrint("Replace on selected region");
+	wxMessageBox("Replace UI goes here", "One day...", wxOK);
+	Refresh();
+	return;
+	break;
+
+      case selNone:
+      default:
+	cepDebugPrint("Unknown select command");
+	Refresh();
+	return;
       }
+
+      cepDebugPrint("Opening select output dataset");
+      char *cfname = strdup("/tmp/cep.XXXXXX");
+      int fd;
+      fd = mkstemp(cfname);
+      close(fd);
+      
+      string newcfname(string(cfname) + "~" + theDataset->getName());
+      newds.write(newcfname.c_str());
+      
+      wxGetApp().m_docManager->CreateDocument(string(newcfname + ".dat1").c_str(), wxDOC_SILENT);
+      free(cfname);
     }
     else{
       cepError notReady("The dataset is not ready for that action to be performed",
@@ -235,7 +273,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     float extracted = ((pt.x - 10) * m_scale[selDir] + m_minval[selDir]) / 10000;
     cepDate hoverDate(extracted);
     string hover = hoverDate.getDay() + " " + hoverDate.getShortMonthName() + " " +
-      hoverDate.getYear();
+      hoverDate.getYear() + " (" + cepToString(extracted, true) + ")";
     ((cepFrame *) wxGetApp().GetTopWindow())->SetStatusText(hover.c_str(), 2);
   }
 }

@@ -269,11 +269,22 @@ cepPresentation::createBitmap (float& scale, long& minval)
 
   // Minimum value horizontal
   const int textHeight = 5;
+  plot_setlinecolor(graph, 26, 22, 249);
+  plot_setlinestart(graph, graphInset, m_height - textHeight - 12);
+  plot_addlinesegment(graph, graphInset, m_height - textHeight - 9);
+  plot_strokeline(graph);
+  plot_endline(graph);
+
   cepDate startDate((float) m_xminval / 10000);
   plot_settextlocation(graph, graphInset, m_height - textHeight);
   plot_writestring(graph, (char *) startDate.getShortDate().c_str());  
   
   // Midpoint value horizontal
+  plot_setlinestart(graph, m_width / 2, m_height - textHeight - 12);
+  plot_addlinesegment(graph, m_width / 2, m_height - textHeight - 9);
+  plot_strokeline(graph);
+  plot_endline(graph);
+
   cepDate midDate((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / 10000);
   plot_settextlocation(graph, 
 		       (m_width / 2) - 
@@ -282,6 +293,11 @@ cepPresentation::createBitmap (float& scale, long& minval)
   plot_writestring(graph, (char *) midDate.getShortDate().c_str());
 
   // Maximum value horizontal
+  plot_setlinestart(graph, m_width - graphInset, m_height - textHeight - 12);
+  plot_addlinesegment(graph, m_width - graphInset, m_height - textHeight - 9);
+  plot_strokeline(graph);
+  plot_endline(graph);
+
   cepDate endDate((float) m_xmaxval / 10000);
   plot_settextlocation(graph, m_width - 
 		       plot_stringwidth(graph, (char *) endDate.getShortDate().c_str()) - graphInset, 
@@ -290,10 +306,20 @@ cepPresentation::createBitmap (float& scale, long& minval)
 
   /////////////////////////
   // Minimum value vertical
+  plot_setlinestart(graph, textHeight + 10, m_height - graphInset);
+  plot_addlinesegment(graph, textHeight + 13, m_height - graphInset);
+  plot_strokeline(graph);
+  plot_endline(graph);
+  
   plot_settextlocation(graph, textHeight + 10, m_height - graphInset);
   plot_writestringrot(graph, (char *) cepToString((float) m_yminval / 10000, true).c_str(), 90);
 
   // Maximum value vertical
+  plot_setlinestart(graph, textHeight + 10, graphInset);
+  plot_addlinesegment(graph, textHeight + 13, graphInset);
+  plot_strokeline(graph);
+  plot_endline(graph);
+
   plot_settextlocation(graph, textHeight + 10,
 		       plot_stringheight(graph, (char *) 
 					 cepToString((float) m_ymaxval / 10000, true).c_str()) + 

@@ -294,7 +294,6 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   // Make a menubar
   wxMenu *file_menu = new wxMenu;
 
-  file_menu->Append (wxID_NEW, "&New...");
   file_menu->Append (wxID_OPEN, "&Open...");
   file_menu->Append (wxID_CLOSE, "&Close");
   file_menu->Append (wxID_SAVE, "&Save");
@@ -348,8 +347,8 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       
       view_menu->AppendSeparator();
       
-      view_menu->Append(CEPMENU_SHOWX, "Show X",
-			"Show the X direction graph", TRUE);
+      view_menu->Append(CEPMENU_SHOWX, "Show North",
+			"Show the north direction graph", TRUE);
       err = m_config->getValue("ui-viewmenu-showx", true, confval);
       if(err.isReal()){
 	view_menu->Check(CEPMENU_SHOWX, true);
@@ -358,8 +357,8 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       else
 	view_menu->Check(CEPMENU_SHOWX, confval);
       
-      view_menu->Append(CEPMENU_SHOWY, "Show Y",
-			"Show the Y direction graph", TRUE);
+      view_menu->Append(CEPMENU_SHOWY, "Show East",
+			"Show the east direction graph", TRUE);
       err = m_config->getValue("ui-viewmenu-showy", true, confval);
       if(err.isReal()){
 	view_menu->Check(CEPMENU_SHOWY, true);
@@ -368,8 +367,8 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
       else
 	view_menu->Check(CEPMENU_SHOWY, confval);
       
-      view_menu->Append(CEPMENU_SHOWZ, "Show Z",
-			"Show the Z direction graph", TRUE);
+      view_menu->Append(CEPMENU_SHOWZ, "Show Up",
+			"Show the up direction graph", TRUE);
       err = m_config->getValue("ui-viewmenu-showz", true, confval);
       if(err.isReal()){
 	view_menu->Check(CEPMENU_SHOWZ, true);
