@@ -2,14 +2,8 @@
 
 <sect1><title>Introduction</title>
 <para>
-<<<<<<< ref.sgml
-  This section aims to provide a reference for the functionality of the <command>GDMS</command>. 
-  The main functionality of this package is provided through the following menus.
-=======
   This section aims to provide a reference for the functionality of the <command>GDMS</command>.
-  The main functionality of this package is provided through the menus. These are of a standard form
-  and also include a tear-off feature for flexibility.
->>>>>>> 1.4
+  The main functionality of this package is provided through the following menus.
 </para>
 </sect1>
 
@@ -17,9 +11,10 @@
 
   <sect2><title>Opening a data set</title>
     <para>
-      When the application is first run, you are presented with a skeleton window with File and Help menus. To open a
-      data set, simply open the <command>File</command> menu and select <command>Open</command>, as shown below.
-      This can also be achieved by using the keyboard shortcut <command>CTRL-O</command>.
+      When the application is first run, you are presented with a blank window with File 
+      and Help menus. To open a data set, open the <command>File</command> menu and select
+      <command>Open</command>. This can also be done by using the keyboard shortcut 
+      <command>CTRL-O</command>.
     </para>
 
     <figure><title>The <command>GDMS</command> when first opened.</title>
@@ -68,17 +63,10 @@
     </para>
   </sect2>
 
-  <sect2><title>Printing</title>
-    <para>
-     This functionality has not been included in this release. Printing support was not required
-     as part of the core functionality.
-    </para>
-  </sect2>
-
   <sect2><title>Exit</title>
   <para>
-   To exit the application, select <command>File</command> - <command>Exit</command> or use the keyboard
-    shortcut, <command>CTRL-Q</command>.
+   To exit the application, select <command>File</command> -> <command>Exit</command> or
+   use the keyboard shortcut, <command>CTRL-Q</command>.
   </para>
   </sect2>
 
@@ -86,25 +74,28 @@
 
 <sect1><title>Edit menu</title>
   <para>
-     This functionality has not been included in this release. The Edit menu exists for future 
-     enhancements such as Undo, Redo and Delete.
+     This functionality has not been included in this release. The Edit menu exists for future
+     enhancements such as Undo, Redo and Delete.  The undo functionality however, is inherit
+     due to the way <command>GDMS</command> creates a new dataset after every mathematical 
+     operation.
   </para>
 </sect1>
 
 <sect1><title>View menu</title>
   <para>
-    The look and feel of the user interface can be configured to suit individual users from the <command>View 
-    Menu</command>. Please refer to the User Interface Configuration chapter for full details on these features.
+    The look and feel of the user interface can be configured to suit individual users using
+    the <command>View Menu</command>. Please refer to the User Interface Configuration chapter
+    for full details on these features.
   </para>
 </sect1>
 
 <sect1><title>Maths</title>
   <para>
-    The data processing functionality provided bt the <command>GDMS</command> is provided in
+    The data processing functionality provided by the <command>GDMS</command> is provided in
     the <command>Maths</command> menu. All mathematical operations on a data set result in at
-    least one additional dataset to be loaded. This enables easy reference to both the original and
-    processed data for comparison. Furthermore, any dataset that can be viewed within the application
-    can be saved for future reference.
+    least one additional dataset being created. This enables easy reference to both the original 
+    and processed data for comparison. Furthermore, any dataset that can be viewed within the 
+    application can be saved for future reference.
   </para>
 
      <figure><title>Maths menu</title>
@@ -116,18 +107,21 @@
 
     <sect3><title>Least Squeares</title>
       <para>
-        Thenonly time domain analisis option currently available is Least Squares regression. This can be accessed by selecting
-        from the <command>Maths</command> - <command>Least Squares</command>. The available options in the least squares menu are
-        <command>Variance Co-variance</command> and <command>Random Walk</command>.
+        The only time domain modelling currently available is Least Squares regression. This 
+        can be accessed by selecting <command>Maths</command> - <command>Least Squares</command>. 
+        The available options in the least squares menu are <command>Variance 
+        Co-variance</command> and <command>Random Walk</command>.
       </para>
       <sect4><title>Variance Co-variance</title>
         <sect5><title>Automatic Re-weighting</title>
           <para>
-            When this option is presented, you are given the option of using the automatic re-weighting feature. Choosing
-            <command>Yes</command> results in two new data sets being loaded; the first shows the dataset with the least
-            squares regression line. The data points that were weighted out by the automatic weighting procedure are shown
-            in a different colour. The second dataset loaded is the residuals. Once again, the weighted out data points are
-            displayed in a different colour and can be seen on the zero line. TODO: Kristy check please.
+            When this option is presented, you are given the option of using the automatic
+            re-weighting feature. If you choose to use automatic reweighting then 
+            our agorithms will weight out any outliers in the dataset, then output a
+            least squares regression. The regression outputs two new data sets; the first shows 
+            the dataset with the least squares regression line with the weighted points
+            rendered in a different colour. The second dataset loaded is the residuals, also with
+            weighted out data points displayed in a different colour.
           </para>
         </sect5>
 
@@ -136,9 +130,9 @@
             If <command>NO</command> is selected when prompted for automatic re-weighting,
             the option is given to load a weighting matrix from file for each direction. If
             <command>NO</command> is selected here, a data range may be specified before
-            continuing with the VCV analysis by pressing Do VCV. Selecting <command>YES</command> 
-            to load a matrix for a file will result in a prompt request on the file's location. 
-            Once a matrix is chosen, the analysis will again provide both the  least squares 
+            continuing with the VCV analysis by pressing Do VCV. Selecting <command>YES</command>
+            to load a matrix for a file will result in a prompt request on the file's location.
+            Once a matrix is chosen, the analysis will again provide both the  least squares
             and residual datasets.
           </para>
         </sect5>
@@ -199,7 +193,7 @@
 
 <sect1><title>Help Menu</title>
   <para>
-    In this release the Help menu contains only an About box. This is an area for future  expansion.
+    In this release the Help menu contains only an About box. This is an area for future expansion.
   </para>
 </sect1>
 
