@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet type="text/xsl" href="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-html-2.1.xsl"?>
+<dw-document xmlns:dw="http://www.ibm.com/developerWorks/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C:\Documents and Settings\Administrator\My Documents\Articles\1 - Templates\dw-document-2.1.xsd">
+
+<!-- SKILL LEVEL 
+If known, specify the (skill) level, 1 to 5 -->
+<dw-article toc="auto" ratings="auto" level="1" localsite="worldwide" related_contents="auto">
+<id domino-uid=""/>
+
+<meta name="keywords" content="image, raster, imagemagick, convert, rotate, scale, thumbnail, resize, artistic"/>
+<!-- Fill in or leave blank for production to fill in.  -->
+<meta name="lastupdate" content="20040206mbsTODO"/>
+
+<zone name="linux"/>
+
+<seriestitle></seriestitle>
+<title>More graphics from the command line</title>
+<subtitle></subtitle>
+<!--  End TITLE -->
+
+<!-- Ignore these lines. -->
+<!-- <forumurl url=""/> -->
+<!-- <zip url=""/> -->
+<!-- <pdf size="" url=""/> -->
+
+<author company="TOWER Software" email="mikal@stillhq.com" jobtitle="Senior Software Engineer" name="Michael Still">
+<bio>Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as a bunch of other Open Source code.</bio></author>
+<!--  End AUTHOR -->
+
+<!-- DATE INFO
+Fill in or leave blank for production to fill in.-->
+<date month="02" day="19" year="2004"/>
+
+<abstract miniabstract="">TODO</abstract>
+
+<column-info col-name="" col-icon=""/>
+<docbody>
+
+<p>
+This article is about two things. The main focus of the article is to discuss how to write useful UDP servers in a common scripting language such as bash. The other, more minor, focus of the article is to give a brief tutorial on the differences between disconnected and connected sockets.
+</p>
+
+<p>
+In this article I assume that you have a working knowledge of both bash scripting and C programming. If you don't then hopefully you'll still get something out of the article, but you might want to trust me about what the code snippets actually do.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">UDP</heading>
+<p>
+It strikes me as logical to start with an extremely brief introduction to UDP. At some points it makes sense to compare this with the alternative, TCP.
+</p>
+
+<p>
+Both UDP and TCP sit on top of the Internet protocol, which handles all the plumbing of actually getting the data out of the back of the client machine to the server. This is where the similarity ends. UDP is the <emphasis>User Datagram Protocol</emphasis>, and is unreliable. On the other hand, TCP is the <emphasis>Transmission Control Protocol</emphasis>, and is reliable.
+</p>
+
+<p>
+What is reliability? Well, TCP will hold your hand and ensure for you that every packet you send is received by the other machine. It will also ensure that the packets arrive in the right order. There are also some games played with the choice of initial sequence number to make it harder for man in the middle attacks to be successful.
+</p>
+
+<p>
+UDP is unreliable, which means it does none of this for you. It is the programmer's responsibility to ensure that all the packets sent arrived, and were in the right order.
+</p>
+
+<p>
+So why would you ever use UDP? This reliability in TCP comes at a price. That price is performance. Before a TCP connection is established, the following protocol sequence occurs:
+</p>
+
+<execute><cmd>eqimg</cmd><args>tcp-handshake.png</args></execute>
+
+<p>
+So before the two machines can even communicate, they've spent a round trip, and processing time, just setting up the connection (the ACK can be sent at the same time as the first packet, as we don't have to wait for an ACK ACK to come back).
+</p>
+
+<p>
+UDP, on the other hand, does none of this. A single packet is sent, and it either arrives or it doesn't. Normally the client application will note that a reply was never received after a given timeout, and retransmit the packet.
+</p>
+
+<p>
+A good example of a common network protocol that uses UDP is the Domain Name System (DNS). UDP is well suited here because the packets are short (they fit in a single datagram) and we therefore don't have to worry about our packets arriving out of order. We also want DNS to be as fast as possible. 
+</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">DNS and UDP</heading>
+<p>
+It should be noted that RFC 1034 <quote>Domain names &mdash; Concepts and Facilities</quote> does specify that TCP can also be used for DNS. In fact, because UDP packets are limited to 512 bytes, TCP has to be used for zone transfers. However, RFC 1035 <quote>Domain Names &mdash; Implementation and Specification</quote>does recommend that normal queries occur via UDP.
+</p>
+</sidebar>
+
+<p>
+See the further reading section at the end of the this article for recommendations of places to read more about UDP, IP, and DNS.
+</p>
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">Disconnected sockets</heading>
+<p>
+By default when a UDP socket is created, it is disconnected. What's a disconnected socket? The short answer is that it isn't associated with any given remote machine. This means that each time we fetch data from the socket we have to use the <emphasis>recvfrom</emphasis>(2) function call:
+</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+int recvfrom(int s, void *buf, 
+             size_t len, int flags, 
+             struct sockaddr *from, 
+             socklen_t *fromlen);
+</code>
+
+<p>
+The <i>struct sockaddr</i> argument in this function call is populated with enough information for the program to be able to determine where to send the reply packet. The response needs to be sent with the <i>sendto</i>(2) call:
+</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+int sendto(int s, 
+           const void *msg, 
+           size_t len, 
+           int flags, 
+           const struct sockaddr *to, 
+           socklen_t tolen);
+</code>
+
+<p>
+The <i>sendto</i> function call takes another <i>struct sockaddr</i> argument which specifies where the packet should be sent.
+</p>
+
+<p>
+The code listing below is an example of how to use the <i>recvfrom</i> and <i>sendto</i> functions. This example is a simple UDP echo server. The program waits on a given port, and whenever it receives data, sends it straight back.
+</p>
+
+<execute><cmd>code2db</cmd><input>/home/opensource/shdns/sockets/disconnected.c</input></execute>
+
+<p>
+Let's have a look at this program running. As we can see from the source code, the program listens on UDP port 1234 (very imaginative). We can use <b>netcat</b> to test the program. First, we need to start the server in a different terminal, this is as simple as running it.
+</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">netcat rocks</heading>
+<p>
+<b>netcat</b> rocks. Its a little application which lets you push data to arbitrary port numbers using both UDP and TCP. It can also be used to create very simple servers, because <b>netcat</b> can do all the listening for you. For more information, and download details, checkout http://www.atstake.com/research/tools/network_utilities/.
+</p>
+</sidebar>
+
+<p>
+A client interaction with the server looks like this:
+</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+<execute><cmd>cat</cmd><input>netcat-client.txt</input></execute>
+</code>
+
+<p>
+Note that the <quote>punt!</quote> is me hitting control c on <b>netcat</b>. The server output for this session is:
+</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+<execute><cmd>cat</cmd><input>server.txt</input></execute>
+</code>
+
+<p>
+There are a couple of things worth noting here. Firstly, the UDP server can handle multiple clients at once in the single process. This is because each packet comes in, and is then responded to &mdash; there is no assumption made that packets come from the same machine. This model works well for the single packet communication paradigm. Secondly, since the server simply waits for a packet, responds, and then starts waiting again, the server survives disconnects from the client, it simply waits until a new packet comes along.
+</p>
+
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">Disconnected sockets and scripting</heading>
+<p>
+This article is really about writing useful UDP servers using scripting languages &mdash; specifically <i>bash</i>. In this instance, the disconnected nature of these default UDP sockets causes great pain. This is because there is no trivial way in bash to call <i>recvfrom</i> and <i>sendto</i>. Shell scripts want to be able to use the standard <i>read</i> and <i>write</i> calls, because these languages are intended for file and pipe input output, as opposed to socket traffic.
+</p>
+
+<p>
+We can demonstrate this by writing a very simple, and probably quite impractical <b>inetd</b> server.
+</p>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">What is inetd?</heading>
+<p>
+<b>inetd</b>, and its fairly common <b>xinetd</b> alternative are super daemons. Their role in the networking food chain is as a way of running programs to process network traffic as demand requires. For example, many <b>rsync</b> servers operate from <b>inetd</b>. What this means is that <b>inetd</b> runs in the background as a daemon waiting for connections from clients to the <b>rsync</b> port. It then starts a new copy of <b>rsync</b> for each of these connections, and <b>rsync</b> processes the traffic (and perhaps responds).
+</p>
+
+<p>
+Many developers write network servers which are intended to be run by <b>inetd</b> because it simplifies development of the application. <b>inetd</b> handles most of the plumbing for the application.
+</p>
+
+<p>
+Please bear in mind that <b>inetd</b> and <b>xinetd</b> are very configurable, and this is only a general description. There is a brief discussion on how to configure <b>inetd</b> and <b>xinetd</b> later in this article. You should refer to the relevant documentation for more information.
+</p>
+</sidebar>
+
+<p>
+This is a particularly useful example, because our shell scripts are eventually going to run from <b>inetd</b>, so having an understanding of how it works is opportune.
+</p>
+
+<execute><cmd>code2db</cmd><input>/home/opensource/shdns/sockets/disconnexec.c</input></execute>
+
+<p>
+All this program does is wait on port 1234 until a connection comes in, forks, and the new child process starts executing the server program (in this case <b>cat</b>). This technique relies on the fact that the child process will share the environment of the parent process, including its file handles. These are duplicated to stdin and stdout before the server program starts executing, so that network input goes into stdin, and server output is sent back over the network.
+</p>
+
+<p>
+This of course doesn't work because the socket is disconnected, so <b>cat</b>'s <i>read</i> call will work, but its <i>write</i> call fails because the socket layer doesn't know where to send the response to.
+</p>
+
+
+
+
+
+
+
+
+
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">Connected sockets</heading>
+<p>
+The answer to our need to use <i>read</i> and <i>write</i> for our shell scripts is a connected socket. A connected socket is simply a socket which has had the <i>connect</i>(2) function called upon it.
+</p>
+
+<p>
+When the <i>connect</i> function is called, it simply records which machine the network packet came from, so that the socket layer knows where to send the reply packet when it is output with the <i>write</i> function call.
+</p>
+
+<p>
+Here's a simple example of a connected socket version of the disconnected echo server above. Note that we now use <i>read</i> and <i>write</i> function calls for all the network input output.
+</p>
+
+<execute><cmd>code2db</cmd><input>/home/opensource/shdns/sockets/connected.c</input></execute>
+
+<p>
+We do cheat a little in this example, there is one <i>recvfrom</i> call. This is used to <quote>peek</quote> at the data which is waiting on the socket to determine the address to which we will connect. The <i>MSG_PEEK</i> means that the data is not actually removed from the queue of data to be processed by this call.
+</p>
+
+<p>
+I won't include an example of what this program looks like when it runs, because it looks exactly the same as the disconnected echo server above.
+</p>
+
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">Back to our simple inetd server</heading>
+<p>
+You'll recall that a couple of examples ago I showed you the code for a simple <b>inetd</b> server. This example below expands on that so it uses a connected socket. This example will behave just like the hard coded echo server in the first and third examples in this article (except that the server debugging output doesn't happen any more).
+</p>
+
+<execute><cmd>code2db</cmd><input>/home/opensource/shdns/sockets/connexec.c</input></execute>
+
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">inetd and xinetd configuration</heading>
+<p>
+The two standard inetd implementations that most people use are called <b>inetd</b> and <b>xinetd</b>. <b>inetd</b> doesn't implement a connected socket for the server before starting it, which means that it is effectively impossible to write a standard shell script which processes UDP network traffic using a stock <b>inetd</b>. <b>xinetd</b> however does connect the socket before calling the script.
+</p>
+
+<p>
+It seems logical to me to include a patch to make <b>inetd</b> behave in the manner that I would like it to. After all, if our goal is as noble as implementing a server in shell script, then surely the operating system should be modified to accommodate us?
+</p>
+
+<sect3><title>inetd patch</heading>
+<p>
+The package which contains <b>inetd</b> as run on Debian is called <i>netkit</i>. The following is a patch to use connected sockets for UDP and TCP servers.
+</p>
+
+<execute><cmd>code2db</cmd><input>/home/opensource/shdns/netkit.patch</input></execute>
+</sect3>
+
+<sect3><title>Configuring inetd</heading>
+<p>
+A simple example of how to configure <b>inetd</b> to handle our UDP echo server is shown below &mdash; the configuration file this line is added to is /etc/inetd.conf. It should be noted that <i>myecho</i> is the name of a service I had to add to /etc/services because <b>inetd</b> insists on all services being listed there...
+</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+<execute><cmd>cat</cmd><input>inetd.txt</input></execute>
+</code>
+
+<p>
+This service has the following characteristics:
+</p>
+
+<itemizedlist>
+<listitem><p>The service name is <i>myecho</i>. The listing in /etc/services is:</p>
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+<execute><cmd>cat</cmd><input>services.txt</input></execute>
+</code>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no" name="" alttoc="">Why not echo?</heading>
+<p>
+Note that we can't use the name <i>echo</i> for our service for a couple of reasons: it is already defined in /etc/services; it is an internal service which <b>inetd</b> already offers using the normal port number; and we wanted to define a different port number for the service, without breaking things which might use the old /etc/services entry.
+</p>
+</sidebar>
+</listitem>
+
+<listitem><p>The socket type is <i>dgram</i>, which is short for datagram, the type of packet that the UDP protocol uses.</p></listitem>
+
+<listitem><p>The protocol is UDP.</p></listitem>
+
+<listitem><p><i>nowait</i> is used to indicate that one server should be started per packet, instead of waiting for the previous server to exit. This argument should always be nowait for TCP servers.</p></listitem>
+
+<listitem><p>The server runs as root.</p></listitem>
+
+<listitem><p>The server is located at /bin/cat</p></listitem>
+
+<listitem><p>The server should be started with these arguments. Note that the name of the executable is always the first argument. Checkout <i>execve</i>(2) for more details.</p></listitem>
+</itemizedlist>
+</sect3>
+
+<sect3><title>Configuring xinetd</heading>
+<p>
+The same echo service configured with <b>xinetd</b> looks like this:
+</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+<execute><cmd>cat</cmd><input>xinetd-config.txt</input></execute>
+</code>
+
+<p>
+Again, the service is a dgram using the UDP protocol. <b>xinetd</b> will wait for previous requests to be processed before moving onto the next request. The echo service also runs as root, using cat. Note the difference in the way the server arguments are configured.
+</p>
+
+<p>
+You should also note that on Red Hat systems, services are often configured within their own configuration files, located in /etc/xinetd.d &mdash; this is done to make it easier to add new services during package installation.
+</p>
+</sect3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<heading refname="" type="major" toc="yes" name="" alttoc="">shdns</heading>
+<p>
+This article wouldn't be complete without an example of a UDP shell script to run from <b>inetd</b> or <b>xinetd</b>. Something non-trivial is required here, so I present for your enjoyment <b>shdns</b>, a DNS server implemented in bash shell script.
+</p>
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">The code</heading>
+<p>
+The code for <b>shdns</b> is broken into two components. The first is a simple script which redirects the input packet to a file, so that <b>shdns</b> can move backwards and forwards within the input packet to grab the bits it needs as required.
+</p>
+
+<execute><cmd>code2db</cmd><input>/home/opensource/shdns/shdns-server</input></execute>
+
+<p>
+The other part of the code is the script which actually parses the input DNS UDP packet and responds. Note that this is merely a proof of concept at the moment, it doesn't attempt to implement the entire DNS protocol &mdash; there is only enough here to perform a name lookup.
+</p>
+
+<execute><cmd>code2db</cmd><input>/home/opensource/shdns/shdns</input></execute>
+
+<p>
+The <b>shdns</b> implementation strategy is summarized by the following diagram.
+</p>
+
+<execute><cmd>eqimg</cmd><args>shdns-design.png</args></execute>
+
+<p>
+You'll note that the reply to the DNS request is constructed in a temporary file and then sent back to the client. This is because <b>inetd</b> will send the output of each <i>write</i> as its own packet. <b>shdns</b> therefore needs to force all of the reply packet to be written at one time.
+</p>
+
+
+<heading refname="" type="minor" toc="yes" name="" alttoc="">Setting up shdns</heading>
+<p>
+The only configuration required to run <b>shdns</b>, apart from configuring you <b>inetd</b> or <b>xinetd</b> daemon, is to put a file named lookup in the path pointed at by the variable <i>execpath</i> in the <b>shdns</b> source file.
+</p>
+
+<p>
+Here's a sample lookup file:
+</p>
+
+<heading refname="" type="code" toc="no" name="" alttoc="">Listing xx. TODO</heading>
+<code type="section">
+<execute><cmd>cat</cmd><input>lookup.txt</input></execute>
+</code>
+
+<p>
+You also need a <b>usleep</b> on your path. I couldn't find a Debian package containing this, so I wrote my own. If you need to install a <b>usleep</b>, then just compile usleep.c with a <i>gcc -o usleep usleep.c</i>, and copy it somewhere on your path.
+</p>
+
+
+
+</docbody>
+
+<relatedlist>
+TODO
+</relatedlist>
+
+<resourcelist>
+TODO
+</ul>
+</resourcelist>
+</dw-article>
+</dw-document>

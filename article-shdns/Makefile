@@ -1,10 +1,10 @@
-all:	short lj
+all:	short lj dw
 
 short: output.sgml output.ps output.pdf
 	striptext -c < output.sgml | wc -w
 
-output.sgml: source.sgml
-	builddb eps < source.sgml > output.sgml
+output.sgml: built.sgml
+	builddb eps < built.sgml > output.sgml
 
 output.ps: output.sgml
 	db2ps output.sgml
@@ -16,6 +16,9 @@ clean:
 	rm output* gen-* *~
 
 lj: output.sgml
-	./format.pl < source.sgml | sed -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&mdash;/--/g' > lj.txt
+	./format.pl < built.sgml | sed -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&mdash;/--/g' > lj.txt
 	./fixup.sh
 	wc -w *.txt sidebar-*
+
+built.sgml: source.xml dw2db
+	./dw2db < source.xml > built.sgml
