@@ -4,7 +4,7 @@
 
   <sect3><title>Introduction</title>
   <para>
-    Within GDMS several different interpolation algorithm's have been implemented.
+    Within GDMS several different interpolation algorithms have been implemented.
     These methods include nearest neighbour, linear, natural spline, cubic spline,
     and Newton divided differences interpolation.  These methods were build to
     remove gaps in the dataset without damaging the original integrity
@@ -15,13 +15,12 @@
   <sect3><title>Research</title>
     <para>
       At the start of this project we were given the requirement that the package
-      support a number of different interpolation algorithms. Their are hundreds,
-      if not thousands of different interpolation algorithms available each with
-      their own strengths and weaknesses. We needed to pick a set of algorithms
-      that would work with discrete datasets and provide results with arbitrary
-      data. In order to narrow the complexity of our task, we chose to implement the interpolation methods
-      available within Matlab. The argument for this, being that Matlab is a commercial package
-      designed to work with a much large range of datasets.
+      support a number of different interpolation algorithms. There are hundreds,
+      if not thousands of different interpolation algorithms available, each with
+      their own strengths and weaknesses. As it was not possible to implement them all we needed to pick a set of algorithms
+      that would work with discrete datasets and provide sufficent results with given dataset. 
+      In order to narrow the complexity of our task, we chose to implement the interpolation methods
+      available within MATLAB as it is a commercial package designed to work with a large range of datasets.
     </para>
     <para>
       Nearest neighbour and linear interpolation are the two basic interpolation
@@ -29,16 +28,20 @@
       case the more elaborate methods failed on a particular dataset.
     </para>
     <para>
-      Spline interpolation is very popular world wide as the smooth curve it produces
+      Spline interpolation is very popular method as the smooth curve it produces
       is usually aesthetically pleasing. Many different types of spline are available,
-      most however can be ruled out. B splines and their derivatives are not a option
-      because the resulting dataset might not pass through the initial set of points.
-      Cubic splines were chosen because the resulting curve would pass through all
-      original datasets.  Because cubic spline are inaccurate near the end points
-      two different types of splines have been included.  Natural splines which tend
-      to be too straight near to the end points and one other cubic spline that trends
-      toward curving too much near the end points.  Over the the thousand plus point
-      GPS dataset both method should produce similar results.
+      althogh most are unsuitable for this type of data analysis. B splines and their derivatives, for example, are undesirable
+      as the resulting dataset may not pass through the initial set of points.
+      Cubic splines were chosen because the resulting curve is always garanteed to pass through each point in the
+      original datasets.  
+    </para>
+    
+    <para>  
+      As cubic spline are knowen to be inaccurate near the end points
+      two different types of splines have been included.  The first is natural splines which tend
+      to be too straight near to the end points. Conversly, the other cubic spline implementation trends
+      too curved near the end points.  On large data sets (i.e. more than 1000 points), however, both method should converge to the
+      same result.
     </para>
     <para>
       Newton divided difference interpolation uses a divided difference table to provide
@@ -50,9 +53,9 @@
   <sect3><title>Implementation</title>
     <para>
       The interpolation methods for this program were implemented within a class
-      called cepInterp and share a common accessor method, doInterp. The required
-      information for doInterp to work is the original dataset, the sample rate and
-      the type of interpolation. Do interp then converts to Julian days and generates
+      called <command>cepInterp</command> and share a common accessor method, <command>doInterp</command>. The required
+      information require to be passed to <command>doInterp</command> is the original dataset, the sample rate and
+      the type of interpolation. <command>DoInterp</command> then converts the given data set to Julian days and generates
       a new time scale before calling the individual interpolation methods.
     </para>
   <sect4><title>Nearest Neighbour Interpolation</title>
@@ -84,7 +87,7 @@ end for
   </sect4>
   <sect4><title>Linear Interpolation</title>
   <para>
-    New points added to the dataset are positioned on straight lines directly between the
+    The new that points added to the dataset in this method are positioned on straight lines directly between the
     nearest two points.
   </para>
   <para>
@@ -113,7 +116,7 @@ end for
   </sect4>
   <sect4><title>Natural Spline Interpolation</title>
   <para>
-    Determines the value of new points by running a natural spline through
+    This method determines the value of new points by running a natural spline through
     the dataset.  Adjacent points are joined by cubics and the the first
     and second derivatives of adjacent cubics are matched to get a smooth
     curve.
@@ -197,18 +200,18 @@ end for
 </programlisting>
   <para>
     <command>Optimization note</command>: To increase the speed and
-    efficiency of this algorithm the n-1 by n-1 tridiagonal matrix t
-    has been represented by a n-1 by 3 matrix in the program. Also
-    some command have been grouped differently for similar reasons.
+    efficiency of this algorithm the <command>n-1</command> by <command>n-1</command> tridiagonal matrix <command>t</command>
+    has been represented by a <command>n-1</command> by 3 dimensional matrix in the program. In additon,
+    some commands have been grouped differently for similar reasons.
   </para>
   </sect4>
   <sect4><title>Divided difference Interpolation</title>
   <para>
     Newton divided differences builds a table of divided differences and
-    then uses this table to make a polynomial representation of the data.
-    To increase the accuracy of the results this implementation also
+    then uses this table to generate a polynomial representation of the data.
+    To increase the accuracy of the results, this implementation also
     tracks the error of the equation and limits the error to get the best
-    results. Error limitation is done by limiting the order of the divided
+    results. Error limitation is calculated by limiting the order of the divided
     difference table when the error term starts growing.
   </para>
   <para>
@@ -274,14 +277,14 @@ end for
 
   <sect3><title>Future Enhancements</title>
     <para>
-      In hindsight implementing the Matlab set of methods probably wasn't an
+      In hindsight implementing the Matlab set of methods was not an
       optimal choice, as the interpolation method that they used were too
       susceptible to very high frequency noise.  To overcome this problem we
       would recommend the implementation of a number of new, noise resistant,
       interpolation methods.
       Noise resistant interpolation will include methods that work on weighted
       averaging of local points, and least squares based methods.  By integrating
-      these method you will get results that will more accurate represent the
+      these method you will get results that will more accurately represent the
       dataset as a whole.
     </para>
   </sect3> <!--Future Enahncements-->
