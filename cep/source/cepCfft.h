@@ -2,10 +2,10 @@
 /*************************************************************************
  *cepCfft.h.
  * Template class to be used with GDMS for computing fast fourier transforms.
- * Originally called cepCfft.h or cplxfft.h taken from FXT (c) by Joerg Arndt,
+ * Originally code cepCfft.h or cplxfft.h taken from FXT (c) by Joerg Arndt,
  * see http://www.jjj.de/fxt/
  *
- * Modifications have been made to this file to be better integrated with the GDMS package.
+ * Modifications have been made to this code for it to be better integrated with the GDMS package.
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -23,6 +23,8 @@
 
  * Original code: Copyright (c) by Joerg Arndt
  * Modifications: Copyright (C) Daniel Fernandez 2002
+ * Note: Modifications include the addition of Matrix capabilities; 
+         the reversal of sign, and results - (essentially conjugate) 
  */
 /******************************************************************************
 DOCBOOK START
@@ -31,38 +33,59 @@ FUNCTION <!-- class name -->
 cepCfft
 
 PURPOSE <!-- use cases -->
-computes forward and inverse fft  
+computes forward and inverse fft on a 2 or 3D Matrix or an array.  
 
 SYNOPSIS START
 <!-- how to instantiate one? -->
 #include <complex.h>
 #include <math.h>
 #include <cepcepCfft.h>
-typedef complex<double> Complex; //Gnu CC
-...
-cepCfft<Complex> FFT256( 256 ); // build an operator object
+typedef complex<double> Complex;
+
+...fill array...
+
+cepCfft<Complex> FFT( FFTsize ); // build an operator object
 // The constructor builds tables and places them
 //in the object.
-Complex Array[256]; 
-cepMatrix <Complex> myMatrix(rows,cols);//for matrix fft
- ...
-FFT256.fft( Array ); // forward transform
-FFT256.ifft( Array ); // reverse transform.
 
-todo: Daniel - update matrix docco here..
+To perform FFT on an array:
+
+Complex Array[FFTsize]; 
+ ...
+FFT.fft( Array ); // forward transform
+FFT.ifft( Array ); // reverse transform.
+
+To perform FFT on a matrix:
+
+Complex cepMatrix <Complex> myMatrix(rows,cols,tables);
+//see cepMatrix for further information on Matrices.
+
+...fill myMatrix...
+
+myMatrix = FFT.matrixFft (myMatrix, 1); //forward transform
+myMatrix = FFT.matrixFft (myMatrix, 0); //inverse transform
 SYNOPSIS END
 
 DESCRIPTION START
 <!-- description goes here -->
-<para>This class can be used in 2 ways..The first is as originally intended. The is: computing an FFT on an array of data. The
+<para>This class can be used in 2 ways..The first is as originally intended. That is, computing an FFT on an array of data. The
 second is spceific to GDMS. The FFT is computed on a matrix of data, with the results returned in a complex matrix. The FFT can be
 in either direction as specified in the function call.</para>
 
 <para> <!-- per function descriptions -->
-<command>FFT.matrixFft (myMatrix, direction);</command>
-Computes the FFT on the matrix.
-<command>myMatrix</command> The matrix containing the data to be fft'd
+<command>FFTobject.matrixFft (myMatrix, direction);</command>
+Computes the FFT on the matrix in the direction specified.
+
+<command>myMatrix</command> The matrix containing the data to be FFT'd
 <command>direction</command>. int direction. 1 for forward 0 for inverse.
+
+<command>FFTobject.fft(complexArray);</command>
+Computes a forward FFT on the array passed. The results are written to the same array.
+<command>complexArray</command> The array of type complex containing the data to be FFT'd.
+
+<command>FFTobject.ifft(complexArray);</command>
+Computes an inverse FFT on the array passed. The results are written to the same array.
+<command>complexArray</command> The array of type complex containing the data to be FFT'd.
 DESCRIPTION END
 
 DOCBOOK END
@@ -74,18 +97,17 @@ DOCBOOK END
 #include <stdio.h>
 #include <complex.h>
 #include "cepMatrix.h"
-//#include "dmalloc.h"
 
 typedef complex <double> ComplexDble;
 
-template < class CPLX > class cepCfft
+template < class T > class cepCfft
 {
   int N, log2N;                 // these define size of FFT buffer
-  CPLX *w;                      // array [N/2] of cos/sin values
+  T *w;                      // array [N/2] of cos/sin values
   int *bitrev;                  // bit-reversing table, in 0..N
   double fscales[2];            // f-transform scalings
   double iscales[2];            // i-transform scales
-  void fft_func (CPLX * buf, int iflag);
+  void fft_func (T * buf, int iflag);
 
 public:
   cepCfft (int size,               // size is power of 2
@@ -95,11 +117,11 @@ public:
     );
 
   ~cepCfft ();
-  inline void fft (CPLX * buf)  // perform forward fft on buffer
+  inline void fft (T * buf)  // perform forward fft on buffer
   {
     fft_func (buf, 1); //note: changed from 0 to 1 to effectively change fft sign - Daniel Fernandez
   }
-  inline void ifft (CPLX * buf) // perform reverse fft on buffer
+  inline void ifft (T * buf) // perform reverse fft on buffer
   {
     fft_func (buf, 0); //note: changed from 1 to 0 to effectively change fft sign - Daniel Fernandez
   }
@@ -113,7 +135,7 @@ public:
   // used to fill in last half of complex spectrum of real signal
   // when the first half is already there.
   // 
-  void hermitian (CPLX * buf);
+  void hermitian (T * buf);
 
 };                              // class cepCfft
 
@@ -125,8 +147,8 @@ public:
  * scalings for the forward transform; scalei1 and scalei2 are
  * the same for the inverse transform.
  */
-template < class CPLX >
-  cepCfft < CPLX >::cepCfft (int size, double scalef1, double scalef2,
+template < class T >
+  cepCfft < T >::cepCfft (int size, double scalef1, double scalef2,
                        double scalei1, double scalei2)
 {
   int i, j, k;
@@ -142,7 +164,8 @@ template < class CPLX >
     if ((1 << k) == size)
       break;
     if (k == 14 || (1 << k) > size)
-      throw "cepCfft: size not power of 2";
+      cepError("Error, FFT size must be a power of 2",cepError::sevErrorRecoverable);
+    //throw "cepCfft: size not power of 2";
   }
   N = 1 << k;
   log2N = k;
@@ -150,12 +173,12 @@ template < class CPLX >
   bitrev = new int[N];
 
   if (k > 0)
-    w = new CPLX[N >> 1];
+    w = new T[N >> 1];
   else
     w = NULL;
   if (bitrev == NULL || ((k > 0) && w == NULL))
-    throw "cepCfft: out of memory";
-
+    cepError("Error, FFT ou tof memory", cepError::sevErrorRecoverable);
+    //throw "cepCfft: out of memory";
   // 
   // do bit-rev table
   // 
@@ -175,14 +198,14 @@ template < class CPLX >
   // 
   if (k > 0)
   {
-    CPLX ww;
+    T ww;
 
     k = (1 << (k - 1));
     for (i = 0; i < k; ++i)
     {
       t = double (bitrev[i << 1]) * M_PI / double (k);
 
-      ww = CPLX (cos (t), sin (t));
+      ww = T (cos (t), sin (t));
       w[i] = conj (ww);         // force limiting of imag part if applic.
       // cout << w[i] << "\n";
     }
@@ -192,7 +215,7 @@ template < class CPLX >
 /*
  * destructor frees the memory
  */
-template < class CPLX > cepCfft < CPLX >::~cepCfft ()
+template < class T > cepCfft < T >::~cepCfft ()
 {
   delete[]bitrev;
   if (w != NULL)
@@ -204,7 +227,7 @@ template < class CPLX > cepCfft < CPLX >::~cepCfft ()
  * up to the center and including the center point. It reflects these
  * conjugate-wise into the last half.
  */
-template < class CPLX > void cepCfft < CPLX >::hermitian (CPLX * buf)
+template < class T > void cepCfft < T >::hermitian (T * buf)
 {
   int i, j;
 
@@ -223,18 +246,18 @@ template < class CPLX > void cepCfft < CPLX >::hermitian (CPLX * buf)
 /*
  *
  */
-//template < class CPLX > int cepCfft < CPLX >::canFft(cepMatrix<ComplexDble> & matrix)
+//template < class T > int cepCfft < T >::canFft(cepMatrix<ComplexDble> & matrix)
 //{
 //}
+
 /*
  * cepCfft::matrixFft
  * imports: matrix: the matrix holding the data to be fft'd
- *        : the column number of the specific column to be fft'd.
-          : direction of the transform - 1 = forward, 0 = inverse.
+ *        : direction of the transform - 1 = forward, 0 = inverse.
    returns the fft'd data in the matrix whic was originally passed.
  */
-template < class CPLX > cepMatrix<ComplexDble>
-                        cepCfft < CPLX >::matrixFft(cepMatrix<ComplexDble> & matrix, int dir)
+template < class T > cepMatrix<ComplexDble>
+                        cepCfft < T >::matrixFft(cepMatrix<ComplexDble> & matrix, int dir)
 {
   int numRows = matrix.getNumRows();
   int numCols = matrix.getNumCols();
@@ -248,8 +271,8 @@ template < class CPLX > cepMatrix<ComplexDble>
   //const int FIRSTROW = 0;
   const int NUMCHECKS = 3;
   const double DAYSINYEAR = 365.25; 
-  const double HOURSINYEAR = 8766; //365.25*24 - days*hours
-  const double SECSINYEAR = 31557600; //365.25*24*3600 - days*hours*minutes(in seconds)
+  //const double HOURSINYEAR = 8766; //365.25*24 - days*hours
+  //const double SECSINYEAR = 31557600; //365.25*24*3600 - days*hours*minutes(in seconds)
   double checks[NUMCHECKS];
 
   ComplexDble arrayToFft[arraySize];
@@ -263,23 +286,22 @@ template < class CPLX > cepMatrix<ComplexDble>
   if (dir == 1)
   {
     cout << "cepcepCfft: Calculating frequency scale......" << endl;
-    cout << "cepcepCfft: Currently using SECSINYEAR......." << endl;
+    cout << "cepcepCfft: Currently using DAYSINYEAR......." << endl;
     for (table=0; table < numTables; table++)
     {
       //size of dataset = numRows
       int halfSetSize = (int)(numRows*0.5);
       double sampleRate = abs( (real(matrix.getValue(0,0,0))  
-                               -real(matrix.getValue(1,0,0))) )*SECSINYEAR;
+                               -real(matrix.getValue(1,0,0))) )*DAYSINYEAR;
       double freq = 1/sampleRate;
     
-
-      //cout << "cepcepCfft: Setting fft matrix scale values ..." << endl;
-      //cout << "cepcepCfft: todo Daniel - something wrong with scaling!!!???" << endl;
+      //the first half of the scale
       for(row=0; row< halfSetSize; row++)
-      {
-    	ffteedMatrix.setValue(row,FIRSTCOLUMN,table, (freq*(halfSetSize-row))/numRows);
-	//cout << ffteedMatrix.getValue(row,FIRSTCOLUMN, table) << endl;
-      }
+    	ffteedMatrix.setValue(row,FIRSTCOLUMN,table, (freq*(row))/numRows);
+           
+      //the second half of the scale
+      for (row = halfSetSize; row < numRows; row++)
+        ffteedMatrix.setValue(row,FIRSTCOLUMN, table, (freq*(numRows-row))/numRows);  
     }
   }//end if
 
@@ -300,7 +322,8 @@ template < class CPLX > cepMatrix<ComplexDble>
 	    if (dir ==1)
 	    {
 	      if ( (checks[0] - checks[1]) != (checks[1] - checks[2]) )
-	        ;//todo daniel: throw an error values not equidistant.
+                 cepError("Error, samples are not equidistant: Cannot proceed with FFT", 
+			  cepError::sevErrorRecoverable);
             }
 	    
 	    //populate the arry to be fft'd            
@@ -316,44 +339,23 @@ template < class CPLX > cepMatrix<ComplexDble>
     //cout << endl;
 
     if (dir == 1)
-    {
-        //cout << "cepcepCfft: Performing forward fft on Matrix ***********************" << endl;
-        fft(arrayToFft);
-	//for (int k =0; k < arraySize; k++)
-	 //arrayToFft[k] = conj(arrayToFft[k]);//to reverse the sign on the imag numbers
-    }
+       fft(arrayToFft);
     else //(dir == 0)
-    {
-        //cout << "cepcepCfft: Performing Inverse fft on Matrix: **********************" << endl;
-	//for (int k =0; k < arraySize; k++)
-	 // arrayToFft[k] = conj(arrayToFft[k]);//to reverse the sign on the imag numbers
-        ifft(arrayToFft);
-    }
-   
+       ifft(arrayToFft);
+    
     //place the processed values into the marix.
-    //cout << "cepcepCfft: Placing processed values into matrix..." << endl;
     for (col =1; col < numCols; col ++)
     {
-
-        //cout << col << endl;
-
-        for (row = 0; row < numRows; row++)
-	{
-           ffteedMatrix.setValue(row,col,table,arrayToFft[row]);//
-           //cout << "cepcepCfft: Value for (r,c,t) - (" << row << "," << col << "," << table
-           //<< " .. " << ffteedMatrix.getValue(row,col,table)
-	   //<< endl;
-         }//
-	 //cout << endl;
+       for (row = 0; row < numRows; row++)
+	  ffteedMatrix.setValue(row,col,table,arrayToFft[row]);//
     } //for col
    
   }//end for table
   
-  //cout << "cepcepCfft:  Returning ffteedMatirx " << endl;
+  //cout << "cepCfft:  Returning ffteedMatirx " << endl;
 
   return ffteedMatrix;
 }//end method
-
 
 
 /*
@@ -362,11 +364,11 @@ template < class CPLX > cepMatrix<ComplexDble>
  * note: reversed iflag - ie reversed sign..we want fft to have negative sign and
  * inverse fft to have positive. Daniel Fernandez
  */
-template < class CPLX > void cepCfft < CPLX >::fft_func (CPLX * buf, int iflag)
+template < class T > void cepCfft < T >::fft_func (T * buf, int iflag)
 {
   int i, j, k;
-  CPLX *buf0, *buf2, *bufe;
-  CPLX z1, z2, zw;
+  T *buf0, *buf2, *bufe;
+  T z1, z2, zw;
   double *sp, s;
 
   sp = iflag ? iscales : fscales;
