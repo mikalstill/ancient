@@ -1,0 +1,80 @@
+<!-- 
+
+     This document is part of the Geodetic Data Manipulation System
+     distribution, and is covered by the GNU GPL, a copy of which is in the
+     file named COPYING inside the distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="cepTmpClean">
+<refmeta>
+<refentrytitle>cepTmpClean</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>cepTmpClean</refname>
+<refpurpose>cleanup temporary files created by <command>GDMS</command></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ #include "cepTmpClean.h"
+ 
+ cepTmpClean::cepTmpClean(string path, string pattern);
+ cepError cepTmpClean::execute(int& deleted, bool doDelete);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para> <command>GDMS</command> creates temporary files for the various graphs that it draws. Normally these temporary files are stored in /tmp. Over only a few graph executions, it is possible to have a fairly large number of temporary files, which might cause the filesystem which /tmp is stored on to run out of disc space.</para>
+ 
+ <para>
+ his class automates the removal of these old files, and is called whenever the interactive version of <command>GDMS</command> starts up.
+ </para>
+ 
+ <para>
+ his class is extremely easy to use. Please refer to the example below for more details.
+</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLE</title>
+<para> #include "cepTmpClean.h";
+ 
+ cepTmpClean cleaner("/tmp", "cep*");
+ int deleted;
+ cleaner.execute(deleted, true);
+</para>
+</refsect1>
+
+
+<refsect1>
+    <title>VERSION</title>
+    <para>
+This documentation was generated for the <command>Geodetic Data Manipulation System</command> 0.1 by <command>autodocbook</command> (http://www.stillhq.com).
+    </para>
+</refsect1>
+
+<refsect1>
+    <title>AUTHOR</title>
+    <para>
+The <command>Geodetic Data Manipulation System</command> is under development by Michael Still (mikal@stillhq.com), Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling, and Nick Wheatstone. All code is Copyright 2002 Michael Still, Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling and Nick Wheatstone,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
+</para>
+</refsect1>
+
+<refsect1>
+    <title>BUGS</title>
+    <para>
+There  are no known bugs in the <command>Geodetic Data Manipulation System</command>. If you find one, please contact mikal@stillhq.com and let me know.
+</para>
+</refsect1>
+</refentry>

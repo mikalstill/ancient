@@ -1,0 +1,151 @@
+<!-- 
+
+     This document is part of the Geodetic Data Manipulation System
+     distribution, and is covered by the GNU GPL, a copy of which is in the
+     file named COPYING inside the distribution.
+
+     This program and it's documentation are distributed in the hope that 
+     they will be useful,but WITHOUT ANY WARRANTY; without even the implied 
+     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+
+<refentry id="cepError">
+<refmeta>
+<refentrytitle>cepError</refentrytitle>
+<manvolnum>3</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>cepError</refname>
+<refpurpose>store user definable configuration information</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<synopsis>
+ enum severity
+ {
+ sevOk = 0,
+ sevDebug,
+ sevInformational,
+ sevWarning,
+ sevErrorRecoverable,
+ sevErrorFatal,
+ sevMax
+ };
+ 
+ cepError ();
+ cepError (const string& msg);
+ cepError (const string& msg, severity level);
+ ~cepError ();
+ 
+ bool isReal ();
+ void clear();
+ void log();
+ void display ();
+ string getTitle();
+ int getIcon();
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para> his class is used to display and log messages from the user interface to the user.
+ </para>
+ 
+ <para>
+ he enumeration <command>severity</command> defines the possible error levels available to <command>cepError</command>. These levels have differing default resposes within the <command>cepError</command> class, depending on their perceived importance:
+ 
+ //todo_mikal: implement error level actions as defined here
+ <orderedlist>
+ <listitem><para><command>sevOk</command>: this error is not really an error, and will not be displayed. This is the default error level.</para></listitem>
+ <listitem><para><command>sevDebug</command>: this is a debugging message, which will normally be logged, but not displayed. There may be a very large number of these during the normal operation of the application.</para></listitem>
+ <listitem><para><command>sevInformational</command>: this is an informational message which will be displayed, and logged.</para></listitem>
+ <listitem><para><command>sevWarning</command>: this is a warning that would normally be of interest to the user. It will be logged and displayed by default.</para></listitem>
+ <listitem><para><command>sevErrorRecoverable</command>: this level reports an error, which the application can recover from. It will be displayed and logged by default.</para></listitem>
+ <listitem><para><command>sevErrorFatal</command>: this is an error. It will be by default displayed, logged, and the application will exit after the user has acknowledged the error. Display of this error type cannot be disabled by the user.</para></listitem>
+ </orderedlist>
+ </para>
+ 
+ <para>
+ <command>cepError ();</command>
+ efault constructor. This will create a <command>cepError</command> with a default severity of <command>sevOk</command>.
+ </para>
+ 
+ <para>
+ <command>cepError (const string&amp; msg);</command>
+ ontruct a <command>cepError</command> with a severity of <command>sevErrorFatal</command>.
+ </para>
+ 
+ <para>
+ <command>cepError (const string& msg, severity level);</command>
+ onstruct a <command>cepError</command> with the specified severity.
+ </para>
+ 
+ <para>
+ <command>~cepError ();</command>
+ //todo_mikal: make sure this is true
+ f the <command>cepError</command> has not been actioned (checked if real, copied, displayed or logged) by the time the destructor is called, then it will be actioned at this point.
+ </para>
+ 
+ <para>
+ <command>bool isReal ();</command>
+ f the <command>cepError</command> has a message string, then return true.
+ </para>
+ 
+ <para>
+ <command>void clear();</command>
+ ero the <command>cepError</command>.
+ </para>
+ 
+ <para>
+ <command>void log();</command>
+ rite the <command>cepError</command> to the log file.
+ </para>
+ 
+ <para>
+ <command>void display ();</command>
+ isplay the <command>cepError</command> if the display configuration allows it.
+ </para>
+ 
+ <para>
+ <command>string getTitle();</command>
+ eturn the title which should be used in the display of this <command>cepError</command>.
+ </para>
+ 
+ <para>
+ <command>int getIcon();</command>
+ eturn the icon identifier which should be used with the <command>cepError</command>.
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>cepDebugPrint cepConfiguration</para>
+</refsect1>
+
+
+<refsect1>
+    <title>VERSION</title>
+    <para>
+This documentation was generated for the <command>Geodetic Data Manipulation System</command> 0.1 by <command>autodocbook</command> (http://www.stillhq.com).
+    </para>
+</refsect1>
+
+<refsect1>
+    <title>AUTHOR</title>
+    <para>
+The <command>Geodetic Data Manipulation System</command> is under development by Michael Still (mikal@stillhq.com), Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling, and Nick Wheatstone. All code is Copyright 2002 Michael Still, Daniel Fernandez, Kristy Van Der Vlist, Blake Swadling and Nick Wheatstone,  and is released under the GNU GPL. Code submissions are welcomed. Contact Michael at the address above if you have something you would like to contribute.
+</para>
+</refsect1>
+
+<refsect1>
+    <title>BUGS</title>
+    <para>
+There  are no known bugs in the <command>Geodetic Data Manipulation System</command>. If you find one, please contact mikal@stillhq.com and let me know.
+</para>
+</refsect1>
+</refentry>

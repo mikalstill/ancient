@@ -37,6 +37,7 @@
 #include "cepPresentation.h"
 #include "cepPlot.h"
 #include "cepStringArray.h"
+#include "cepTmpClean.h"
 #include <unistd.h>
 
 // For compilers that support precompilation, includes "wx/wx.h".
@@ -266,11 +267,16 @@ cepApp::OnInit (void)
     // delete tipProvider; 
   }
 
+  // Cleanup temp
+  cepTmpClean cleaner("/tmp", "cep*");
+  int deleted;
+  cleaner.execute(deleted, false);
+
   // Open the dataset as requested
   if(filename != ""){
     m_docManager->CreateDocument(string(filename + ".dat1").c_str(), 
 				 wxDOC_SILENT);
-  }    
+  }
   return TRUE;
 }
 

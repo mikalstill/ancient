@@ -34,6 +34,40 @@
 
 class cepError;
 
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION cepTmpClean
+PURPOSE cleanup temporary files created by <command>GDMS</command>
+
+SYNOPSIS START
+#include "cepTmpClean.h"
+
+cepTmpClean::cepTmpClean(string path, string pattern);
+cepError cepTmpClean::execute(int& deleted, bool doDelete);
+SYNOPSIS END
+
+DESCRIPTION START
+<command>GDMS</command> creates temporary files for the various graphs that it draws. Normally these temporary files are stored in /tmp. Over only a few graph executions, it is possible to have a fairly large number of temporary files, which might cause the filesystem which /tmp is stored on to run out of disc space.</para>
+
+<para>
+This class automates the removal of these old files, and is called whenever the interactive version of <command>GDMS</command> starts up.
+</para>
+
+<para>
+This class is extremely easy to use. Please refer to the example below for more details.
+DESCRIPTION END
+
+EXAMPLE START
+#include "cepTmpClean.h";
+
+cepTmpClean cleaner("/tmp", "cep*");
+int deleted;
+cleaner.execute(deleted, true);
+EXAMPLE END
+DOCBOOK END
+******************************************************************************/
+
 class cepTmpClean
 {
 public:
