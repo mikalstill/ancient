@@ -2729,7 +2729,7 @@ I have included the man pages to some of the more useful libtiff commands, so th
 </para>
 
 <sect2><title>tiff2bw</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2852,7 +2852,7 @@ Specify the percentage of the blue channel to use (default 11).
 </sect2>
 
 <sect2><title>tiff2ps</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3113,7 +3113,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 
 
 <sect2><title>tiffcmp</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3240,7 +3240,7 @@ ImageWidth: 256 520
 
 <sect2><title>tiffcp</title>
 <slideinclude>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3563,7 +3563,7 @@ tiffcp -c none -,=% -b CCD,X.tif CCD,X%1%.tif result.tif
 
 <sect2><title>tiffdither</title>
 <slideinclude>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3745,7 +3745,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 
 <sect2><title>tiffdump</title>
 <slideinclude>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3876,7 +3876,7 @@ PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 
 <noslide>
 <sect2><title>tiffgt</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4220,7 +4220,7 @@ crashing old versions of the window manager.
 
 <sect2><title>tiffinfo</title>
 <slideinclude>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4404,7 +4404,7 @@ Strip 0:
 
 <noslide>
 <sect2><title>tiffmedian</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4551,7 +4551,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 
 <noslide>
 <sect2><title>tiffsplit</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -4638,7 +4638,7 @@ is used.
 
 <noslide>
 <sect2><title>tiffsv</title>
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4986,7 +4986,7 @@ It is also useful to have the man pages for the libtiff API man pages to refer t
 
 <noslide>
 <sect2><title>TIFFbuffer</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5098,7 +5098,7 @@ was unable to dynamically allocate space for a data buffer.
 
 
 <sect2><title>TIFFClose</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5165,7 +5165,7 @@ routine.
 
 
 <sect2><title>TIFFcodec</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5318,7 +5318,7 @@ compression schemes.
 
 
 <sect2><title>TIFFError</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5433,7 +5433,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFFlush</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5533,7 +5533,7 @@ routine.
 
 
 <sect2><title>TIFFGetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -5835,7 +5835,7 @@ routine.
 
 
 <sect2><title>TIFFmemory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1995 Sam Leffler -->
 <!--  Copyright (c) 1995 Silicon Graphics, Inc. -->
@@ -5962,7 +5962,7 @@ repsectively.
 
 
 <sect2><title>TIFFOpen</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6300,7 +6300,7 @@ This is a limitation of the library.
 
 
 <sect2><title>TIFFPrintDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6388,7 +6388,7 @@ parameter defaults to 0.
 
 
 <sect2><title>TIFFquery</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6570,7 +6570,7 @@ library software.
 
 
 <sect2><title>TIFFReadDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6788,7 +6788,7 @@ the missing value based on the file size.
 
 
 <sect2><title>TIFFReadEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6885,7 +6885,7 @@ routine.
 
 
 <sect2><title>TIFFReadEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -6985,7 +6985,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7067,7 +7067,7 @@ routine.
 
 
 <sect2><title>TIFFReadRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7151,7 +7151,7 @@ routine.
 
 
 <sect2><title>TIFFReadRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7389,7 +7389,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBAStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7620,7 +7620,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadRGBATile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7855,7 +7855,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFReadScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -7982,7 +7982,7 @@ the strip- and tile-based interfaces to read these formats.
 
 
 <sect2><title>TIFFReadTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8121,7 +8121,7 @@ routine.
 
 
 <sect2><title>TIFFRGBAImage</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1991-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8494,7 +8494,7 @@ not handled correctly.
 
 
 <sect2><title>TIFFSetDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8602,7 +8602,7 @@ points to the next directory in a file.
 
 
 <sect2><title>TIFFSetField</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8855,7 +8855,7 @@ An invalid value was supplied for the named tag.
 
 
 <sect2><title>TIFFsize</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -8930,7 +8930,7 @@ if data is stored as separate planes.
 
 
 <sect2><title>TIFFstrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -9057,7 +9057,7 @@ returns the number of strips in the image.
 
 
 <sect2><title>TIFFswab</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9177,7 +9177,7 @@ i.e.
 
 
 <sect2><title>TIFFtile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9394,7 +9394,7 @@ returns the number of tiles in the image.
 
 
 <sect2><title>TIFFWarning</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9486,7 +9486,7 @@ returns a reference to the previous error handling function.
 
 
 <sect2><title>TIFFWriteDirectory</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9638,7 +9638,7 @@ written.
 
 
 <sect2><title>TIFFWriteEncodedStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9777,7 +9777,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteEncodedTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -9907,7 +9907,7 @@ offsets and byte counts.
 
 
 <sect2><title>TIFFWriteRawStrip</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -10035,7 +10035,7 @@ currently specified image dimensions.
 
 
 <sect2><title>TIFFWriteRawTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -10149,7 +10149,7 @@ specified image dimensions.
 
 
 <sect2><title>TIFFWriteScanline</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -10353,7 +10353,7 @@ the library does not pack the block-interleaved samples.
 
 
 <sect2><title>TIFFWriteTile</title>
-<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.5 2002-08-28 00:35:54 mikal Exp $ -->
+<!--  $Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/slides.sgml,v 1.6 2002-08-28 02:41:54 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -11205,12 +11205,16 @@ The basis of this chapter was two articles, first published by IBM DeveloperWork
 </sect1>
 </chapter>
 <chapter id="chap-gif"><title>GIF</title>
+<slideinclude>
 <para>
 <quote>
 Between 1987 and 1994, GIF (Graphics Interchange Format) peacefully became the most popular file format for archiving and exchanging computer images. At the end of December 1994, CompuServe Inc. and Unisys Corporation announced to the public that developers would have to pay a license fee in order to continue to use technology patented by Unisys in certain categories of software supporting the GIF format. These first statements caused immediate reactions and some confusion. As a longer term consequence, it appears likely that GIF will be replaced and extended by new file formats, but not so before the expiration of the patent which caused so much debate.
 </quote> -- http://www.cloanto.com/users/mcb/19950127giflzw.html (The GIF Controversy: A Software Developer's Perspective)
 </para>
+</slideinclude>
 
+<slidebreak>
+<slideinclude>
 <para>
 GIF was once the image format of choice for the Internet, in web browsers at least. This is not nearly as much the case today. The main reason for this is because Unisys has only relatively recently started enforcing the Patent they hold on LZW compression.
 </para>
@@ -11218,7 +11222,7 @@ GIF was once the image format of choice for the Internet, in web browsers at lea
 <para>
 The disappearance of GIF from the scene is not a major loss, especially as the format was not particularly extensible.
 </para>
-
+</slideinclude>
 
 
 
@@ -11231,19 +11235,35 @@ The disappearance of GIF from the scene is not a major loss, especially as the f
 The GIF file format is much simpler than that used for TIFF files. Pay attention to this description though, because it will help explain PNG images when we get to them in a later chapter.
 </para>
 
+<slidetext>
+<li>The GIF format is quite simple -- the entire specification is only a few pages
+<li>We only describe the format
+<li>Mainly because it will help with the explaination of PNG
+</slidetext>
+
+<noslide>
 <sidebar><title>Data streams?</title>
 <para>
 It should be noted that the GIF specification doesn't speak of files as such. Instead it uses the term <quote>Data Stream</quote>, which is a concept which embraces files, as well as in memory buffers, and other interesting forms of data storage. It doesn't really make any difference to the discussion of the format here though.
 </para>
 </sidebar>
+</noslide>
 
 <sect2><title>The data stream</title>
 <para>
 The outer body of a GIF image is called a data stream, for reasons described in the last few paragraphs. This data stream can be thought of as a file for the purposes of this discussion. The data stream is composed of header, a section called the logical screen, the image data, and a trailer. These elements are described individually below.
 </para>
+
+<slidetext>
+<li>We're going to refer to the term data stream a bit in the coming slides...
+<li>The GIF specification doesn't refer to files
+<li>The equivalent concept is a data stream
+<li>A data stream doesn't have to be a file
+</slidetext>
 </sect2>
 
 <sect2><title>The header</title>
+<slideinclude>
 <table frame='all'><title>GIF on disc: the data stream header</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -11267,24 +11287,44 @@ The outer body of a GIF image is called a data stream, for reasons described in 
 </tbody>
 </tgroup>
 </table>
+<slideinclude>
 
 <para>
 There are two main version numbers which are in common use for GIF images. These are:
 </para>
 
+<slidetext>
+<li>Version number options are:
+  <ul>
+</slidetext>
+
+<slideinclude>
 <itemizedlist>
 <listitem><para>87a (released in May 1987)</para></listitem>
 <listitem><para>89a (released in July 1989)</para></listitem>
 </itemizedlist>
+</slideinclude>
 
 <sect3><title>Version numbers</title>
 <para>
 The GIF specification makes it quite clear that the image generator should use the lowest version number which matches the functionality required to correctly decode the image. This makes the generation of images a little more complex, as the generator needs to know the specification version number of each feature, but it ensures the maximum possible level of backwards compatability, without sacraficing accuracy of decoding of the image. To quote the GIF specification:
 </para>
 
+<slidetext>
+<li>The GIF specification states that the image generator should use the lowest version number possible
+<li>Whilst still having the image make sense
+<li>This makes the generation of images a little more complex
+<li>It ensures the maximum backwards compatability
+</slidetext>
+
 <para>
 <quote>The version number in the Header of a Data Stream is intended to identify the minimum set of capabilities required of a decoder in order to fully process the Data Stream. An encoder should use the earliest possible version number that includes all the blocks used in the Data Stream. ... The encoder should make every attempt to use the earliest version number covering all the blocks in the Data Stream; the unnecessary use of later version numbers will hinder processing by some decoders.</quote>
 </para>
+
+<slidetext>
+<BR><BR>
+<li>The version number in the header identifies the minimum set of capabilities required to view that image
+</slidetext>
 </sect3>
 </sect2>
 
@@ -11293,6 +11333,12 @@ The GIF specification makes it quite clear that the image generator should use t
 The logical screen is the area on which the image will be painted. This block defines the characteristics of this virtual screen:
 </para>
 
+<slidetext>
+<li>The logical screen is the area on which the image will be painted
+<BR><BR>
+</slidetext>
+
+<slideinclude>
 <table frame='all'><title>GIF on disc: the logical screen block</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -11330,11 +11376,19 @@ The logical screen is the area on which the image will be painted. This block de
 </tbody>
 </tgroup>
 </table>
+</slideinclude>
 
+<slidebreak>
 <para>
 The packed fields in byte 4 of the logical screen block are as follows:
 </para>
 
+<slidetext>
+<li>The packed fields in byte 4 are:
+<BR><BR>
+</slidetext>
+
+<slideinclude>
 <table frame='all'><title>GIF on disc: fields packed into byte 4 of the logical screen block</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -11368,15 +11422,42 @@ The packed fields in byte 4 of the logical screen block are as follows:
 </tbody>
 </tgroup>
 </table>
+</slideinclude>
 
+<slidebreak>
+<slidetext>
+<li><i>
+</slidetext>
 <para>
+<slideinclude>
 We have now mentioned the global color table, but haven't defined what it actually means. Don't panic, we'll get there in just a second.
+</slideinclude>
 </para>
+
+<slidetext>
+</i>
+</slidetext>
 
 <sect3><title>Formula for global color table size</title>
 <para>
-The determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</emphasis>, or 255 items.
+To determine the size of the of the global color table, simply apply this formula: <emphasis>size of global color table = 2 ^ (size in table + 1)</emphasis>. The maximum size of the global color table is therefore <emphasis>2 ^ (7 + 1)</emphasis>, or 255 items.
 </para>
+
+<slidetext>
+<pre>
+size of global color table = 2 ^ (size in table + 1)
+</pre>
+
+<li>The maximum size is therefore:
+
+<pre>
+2 ^ (7 + 1)
+</pre>
+
+<li>Which is 255 items
+<li>There will actually be three times that number of color bytes in the global color table
+<li>... Because colors are 24 bit per pixel
+</slidetext>
 
 <para>
 There will actually be three times that number of color bytes in the global color table, because each color is 24 bit per pixel.
@@ -11389,10 +11470,22 @@ There will actually be three times that number of color bytes in the global colo
 If the logical screen block of the image specified that a global color table is present in the image, then this is the next part of the GIF data stream. The global color table is a palette -- in other words, it maps the values actually stored in the image data to the 24 bit values which are the colors.
 </para>
 
+<slidetext>
+<li>If the logical screen section specified the presence of a global color table, then that is next
+<li>The global color table is a palette
+<li>The format is very simple
+  <ul>
+  <li>Just the red, green and blue values
+  <li>No header or footer
+  </ul>
+</slidetext>
+
 <para>
 The format of the global color table is very simple, it is simply the red, green and blue values stored without any header or footer.
 </para>
 
+<slidebreak>
+<slideinclude>
 <table frame='all'><title>GIF on disc: the global color table</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -11441,7 +11534,7 @@ The format of the global color table is very simple, it is simply the red, green
 </tbody>
 </tgroup>
 </table>
-
+</slideinclude>
 </sect2>
 
 <sect2><title>Data</title>
@@ -11449,15 +11542,29 @@ The format of the global color table is very simple, it is simply the red, green
 Next comes the images that are stored in the GIF data stream. GIF data streams are valid, even if there are no images stored within the data stream.
 </para>
 
+<slidetext>
+<li>Now we get each of the images stored in the GIF file...
+</slidetext>
+
 <sect3><title>Image descriptors</title>
+<slideinclude>
 <para>
 <quote>Each image in the Data Stream is composed of an Image Descriptor, an optional Local Color Table, and the image data. Each image must fit within the boundaries of the Logical Screen, as defined in the Logical Screen Descriptor.</quote> -- GIF 89a specification
 </para>
+</slideinclude>
 
 <para>
 The image descriptor is stored at the start of each image within the data stream. The image description stores information which is specific to that single image, unlike the logical screen section, which has a global scope over all images in the data stream. The image descriptor has the following layout:
 </para>
 
+<slidetext>
+<BR><BR>
+<li>The image descriptor is stored at the start of each image
+<li>It stores information which is specific to that single image
+</slidetext>
+
+<slidebreak>
+<slideinclude>
 <table frame='all'><title>GIF on disc: the image descriptor</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -11501,11 +11608,19 @@ The image descriptor is stored at the start of each image within the data stream
 </tbody>
 </tgroup>
 </table>
+</slideinclude>
 
+<slidebreak>
 <para>
 The packed field byte stores the following information:
 </para>
 
+<slidetext>
+<li>The packed field byte stores the following information:
+<BR><BR>
+</slidetext>
+
+<slideinclude>
 <table frame='all'><title>GIF on disc: fields packed into byte 9 of the image descriptor</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -11544,12 +11659,17 @@ The packed field byte stores the following information:
 </tbody>
 </tgroup>
 </table>
+</slideinclude>
 </sect3>
 
 <sect3><title>Local color table</title>
 <para>
 The format rules for the local color table are identical to those for the global color table.
 </para>
+
+<slidetext>
+<li>The local color table is the same as the global color table
+</slidetext>
 </sect3>
 
 <sect3><title>Image data</title>
@@ -11557,6 +11677,16 @@ The format rules for the local color table are identical to those for the global
 The raster information for the image is stored in a series of image data blocks, each block having a maximum size of 255 bytes, which works well on machines with very little memory. Each byte is an index into whatever color table entry is active for this image (remembering that the local color table overrides the global color table). Each of these image data blocks is LZW compressed as part of one big buffer. The format of the image data blocks is:
 </para>
 
+<slidetext>
+<li>The raster information is stored in a series of image data blocks
+<li>These have a maximum size of 255 bytes
+<li>...This works well on memory limited machines
+<li>Each byte is an index into the global or local color table
+<li>Each of these data blocks is LZW compressed as part of one big buffer
+<BR><BR>
+</slidetext>
+
+<slideinclude>
 <table frame='all'><title>GIF on disc: the image data block</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -11579,6 +11709,7 @@ The raster information for the image is stored in a series of image data blocks,
 </tbody>
 </tgroup>
 </table>
+</slideinclude>
 
 
 <sect4><title>Image data sub blocks</title>
@@ -11586,6 +11717,12 @@ The raster information for the image is stored in a series of image data blocks,
 The format of these image data subblocks is:
 </para>
 
+<slidetext>
+<li>The format of these image data subblocks is:
+<BR><BR>
+</slidetext>
+
+<slideinclude>
 <table frame='all'><title>GIF on disc: the image data subblocks</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -11609,6 +11746,7 @@ The format of these image data subblocks is:
 </tbody>
 </tgroup>
 </table>
+</slideinclude>
 </sect4>
 
 <sect4><title>Terminating subblock</title>
@@ -11616,6 +11754,12 @@ The format of these image data subblocks is:
 The last block in the chain of image data subblocks will be a terminating subblock. It will have the format:
 </para>
 
+<slidetext>
+<li>The last block in the chain of image data subblocks will be a terminating subblock. It will have the format:
+<BR><BR>
+</slidetext>
+
+<slideinclude>
 <table frame='all'><title>GIF on disc: the terminating image subblock</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <thead>
@@ -11634,31 +11778,40 @@ The last block in the chain of image data subblocks will be a terminating subblo
 </tbody>
 </tgroup>
 </table>
+</slideinclude>
 
 </sect4>
 </sect3>
 </sect2>
 
+<noslide>
 <sect2><title>Special purpose blocks</title>
 <para>
 The other thing which can be stored in the data area of the data stream of a GIF file is special purpose blocks. These are outside the scope of this tutorial, and wont be discussed here.
 </para>
 
 </sect2>
+</noslide>
 
 <sect2><title>Trailer</title>
 <para>
 This portion of the GIF image format specifies the end of the data stream. It is really quite simple and doesn't justify a table. It is simply a byte with the value 0x3B.
 </para>
+
+<slidetext>
+<li>The end of the data stream is signified by the byte 0x3B
+</slidetext>
 </sect2>
 
 
+<noslide>
 <sect2><title>Interlaced images</title>
 <para>
 GIF supports the interlacing of images, which is where are the image is loaded, progressively better representations of the image are displayed. Discussing the inner workings of this within the file format is out of the scope of this tutorial however.
 </para>
 
 </sect2>
+</noslide>
 </sect1>
 
 
@@ -11666,6 +11819,10 @@ GIF supports the interlacing of images, which is where are the image is loaded, 
 <para>
 In this chapter we have learnt how the GIF format is laid out internally. This will be useful when it is time to dicsuss the PNG format...
 </para>
+
+<slidetext>
+<li>In this chapter we have learnt about the internal layout of the GIF format
+</slidetext>
 </sect1>
 </chapter>
 <chapter id="chap-png"><title>PNG</title>

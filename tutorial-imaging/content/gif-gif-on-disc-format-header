@@ -1,0 +1,39 @@
+TITLE: GIF: The GIF on disc format: The header
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+<td>0 - 2</td>
+<td>A magic number identifying that this is a GIF image. This should be the ASCII characters "GIF".</td>
+</tr>
+
+<tr>
+<td>3 - 5</td>
+<td>The version number of the GIF specification this image uses. See below for a list of possible version numbers.</td>
+</tr>
+
+
+
+</table>
+<slideinclude>
+
+<BR><BR>
+There are two main version numbers which are in common use for GIF images. These are:
+
+
+
+<li>Version number options are:
+  <ul>
+
+
+<li>87a (released in May 1987)
+<li>89a (released in July 1989)
+
+

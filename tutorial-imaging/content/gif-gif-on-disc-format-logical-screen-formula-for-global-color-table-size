@@ -1,0 +1,15 @@
+TITLE: GIF: The GIF on disc format: Logical Screen: Formula for global color table size
+<pre>
+size of global color table = 2 ^ (size in table + 1)
+</pre>
+
+<li>The maximum size is therefore:
+
+<pre>
+2 ^ (7 + 1)
+</pre>
+
+<li>Which is 255 items
+<li>There will actually be three times that number of color bytes in the global color table
+<li>... Because colors are 24 bit per pixel
+

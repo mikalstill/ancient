@@ -1,4 +1,4 @@
-TITLE: TIFF: Reading Black and White TIFF files: Continued 1: Infrastructure for reading: Continued 3
+TITLE: TIFF: Reading Black and White TIFF files: Infrastructure for reading: Continued 3
 <pre>
 #include &lt;stdio.h&gt;
 #include &lt;tiffio.h&gt;

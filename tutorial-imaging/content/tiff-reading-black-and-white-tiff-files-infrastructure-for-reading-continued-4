@@ -1,4 +1,4 @@
-TITLE: TIFF: Reading Black and White TIFF files: Continued 1: Infrastructure for reading: Continued 4
+TITLE: TIFF: Reading Black and White TIFF files: Infrastructure for reading: Continued 4
 <li>This code works by opening an image
 <li>Checking that it is one that we support
 <li>Reading in all the strips and appending them together

@@ -1,4 +1,4 @@
-TITLE: TIFF: Reading Black and White TIFF files: Continued 1: Infrastructure for reading
+TITLE: TIFF: Reading Black and White TIFF files: Infrastructure for reading
 <li>We need to remember to be flexible in the input that we accept
 <BR><BR>
 <li>Be flexible about:

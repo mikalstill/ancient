@@ -1,0 +1,43 @@
+TITLE: GIF: The GIF on disc format: Data: Image descriptors: Continued 2
+<li>The packed field byte stores the following information:
+<BR><BR>
+
+<table>
+
+
+<tr bgcolor=BBBBBB>
+  <td>Bits</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr>
+  <td>0</td>
+  <td>Logical color table flag (0 for no, 1 for yes). If present, this local color table with override the global color table. If there is no global color table in this data stream, then a local color table <i>must</i> be present.</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td>1</td>
+  <td>Interlace flag (0 for no, 1 for yes). See the interlaced images sections below for more information.</td>
+</tr>
+
+<tr>
+  <td>2</td>
+  <td>Sort flag (0 for no, 1 for yes). This indicates if the local color table is sorted. <i>Indicates whether the Local Color Table is sorted. If the flag is set, the Local Color Table is sorted, in order of decreasing importance. Typically, the order would be decreasing frequency, with most frequent color first. This assists a decoder, with fewer available colors, in choosing the best subset of colors; the decoder may use an initial segment of the table to render the graphic.</i> -- GIF 89a specification</td>
+</tr>
+
+<tr bgcolor=BBBBBB>
+  <td>3 - 4</td>
+  <td><i>Reserved for future use</i></td>
+</tr>
+
+<tr>
+  <td>5 - 8</td>
+  <td>Size of the local color table. This value obeys the same rules as the size field for the global color table.</td>
+</tr>
+
+
+
+</table>
+

@@ -1,0 +1,28 @@
+TITLE: GIF: The GIF on disc format: Data: Image data: Image data sub blocks
+<li>The format of these image data subblocks is:
+<BR><BR>
+
+<table>
+
+
+<tr>
+  <td>Bytes</td>
+  <td>Description</td>
+</tr>
+
+
+
+<tr bgcolor=BBBBBB>
+  <td>0</td>
+  <td>Block size, in bytes, not including this byte. The maxiumum size if 255 bytes.</td>
+</tr>
+
+<tr>
+  <td>1 - blocksize</td>
+  <td>Image data (indices into the relevant color table)</td>
+</tr>
+
+
+
+</table>
+

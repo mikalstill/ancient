@@ -1,0 +1,9 @@
+TITLE: GIF: The GIF on disc format: Global color table
+<li>If the logical screen section specified the presence of a global color table, then that is next
+<li>The global color table is a palette
+<li>The format is very simple
+  <ul>
+  <li>Just the red, green and blue values
+  <li>No header or footer
+  </ul>
+
