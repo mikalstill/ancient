@@ -72,7 +72,7 @@ OBJS_WINDOWER = ../cepDataWindower.o ../cepWindowAlg.o\
 OBJS_PRESENTATION =
 OBJS_DATASET = ../cepDataset.o
 
-OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER) $(OBJS_PRESENTATION) $(OBJS_LS) $(OBJS_DATASET)
+OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER) $(OBJS_LS) $(OBJS_DATASET)
 
 ###########################################################
 # rule for all cpp files
@@ -82,7 +82,7 @@ OBJS_ALL = $(OBJS) $(OBJS_MATRIX) $(OBJS_CONFIG) $(OBJS_WINDOWER) $(OBJS_PRESENT
   
 ###########################################################
 # makes all tests an links to a binary called "testall"
-all: runner $(MATRIX) $(CONFIG) $(WINDOWER) $(PRESENTATION) $(LS) $(DATASET)
+all: runner $(MATRIX) $(CONFIG) $(WINDOWER) $(LS) $(DATASET)
 	$(LXX) $(LXXFLAGS) -o test$@ $(MATRIX) $(CONFIG) $(WINDOWER) $(PRESENTATION) $(LS) $(RUNNER) $(DATASET) $(OBJS_ALL) $(LXXLIBS)
 
 
