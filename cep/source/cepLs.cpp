@@ -110,26 +110,26 @@ double cepLs::getB2()
 
 const cepMatrix<double> cepLs::makeA(cepMatrix<double> &data)
 {
-    cepMatrix<double> matA(data.getNumCols(), 2);
+    cepMatrix<double> matA(data.getNumRows(), 2);
     double scalar = data.getValue(0,0);   //holds the value that A matrix is to be
                                           //scaled by.
     
     for(int i = 0; i < matA.getNumRows(); i++)
     {
-        matA.setValue(i,0, data.getValue(0,i) - scalar);
+        matA.setValue(i,0, data.getValue(i,0) - scalar);
         matA.setValue(i,1,1);
     }
-
+    
     return matA;
 }
 
 const cepMatrix<double> cepLs::makeL(cepMatrix<double> &data)
 {
-    cepMatrix<double> matL(data.getNumCols(), 1);
+    cepMatrix<double> matL(data.getNumRows(), 1);
    
     for(int i = 0; i < matL.getNumRows(); i++)
     {
-        matL.setValue(i,0, data.getValue(1,i));
+        matL.setValue(i,0, data.getValue(i,1));
     }
 
     return matL;

@@ -17,6 +17,9 @@
   * Mass Ave, Cambridge, MA 02139, USA. 
 */
 
+#ifndef __CEPLS_H
+#define __CEPLS_H
+
 #include <iostream.h>
 #include <math.h>
 #include <stdlib.h>
@@ -76,4 +79,4 @@ private:
   const cepMatrix<double> mulA(cepMatrix<double> &matA, cepMatrix<double> &matA);
 };
 
-
+#endif //end __CEPLS_H
