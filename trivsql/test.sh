@@ -40,3 +40,11 @@ verify "SELECT cola, colb, colc FROM foo;" sel001
 echo ""
 echo " -- This should return all three rows with all three columns"
 verify "SELECT * FROM foo;" sel002
+
+echo ""
+echo " -- This should return three rows with only two columns"
+verify "SELECT cola, colc FROM foo;" sel003
+
+echo ""
+echo " -- This should return two rows, both with cola = duck"
+verify "SELECT cola, colb, colc FROM foo WHERE cola = 'duck';" sel004

@@ -76,7 +76,7 @@ VERSION = 0.5
 YACC = bison -y
 
 noinst_PROGRAMS = sample
-sample_SOURCES = parser.y lexer.l tdb.c spinlock.c selectors.c
+sample_SOURCES = parser.y lexer.l tdb.c spinlock.c selectors.c interface.c
 YFLAGS = -d
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
@@ -88,7 +88,8 @@ DEFS =  -DPACKAGE=\"pandalex\" -DVERSION=\"0.5\" -DYYTEXT_POINTER=1 -DHAVE_LIBM=
 CPPFLAGS = 
 LDFLAGS = 
 LIBS = -lfl -lz -lm 
-sample_OBJECTS =  parser.o lexer.o tdb.o spinlock.o selectors.o
+sample_OBJECTS =  parser.o lexer.o tdb.o spinlock.o selectors.o \
+interface.o
 sample_LDADD = $(LDADD)
 sample_DEPENDENCIES = 
 sample_LDFLAGS = 
@@ -99,15 +100,16 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CF
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-Makefile.in NEWS aclocal.m4 configure configure.in lexer.c parser.c
+Makefile.in NEWS TODO aclocal.m4 configure configure.in lexer.c \
+parser.c
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/lexer.P .deps/parser.P .deps/selectors.P \
-.deps/spinlock.P .deps/tdb.P
+DEP_FILES =  .deps/interface.P .deps/lexer.P .deps/parser.P \
+.deps/selectors.P .deps/spinlock.P .deps/tdb.P
 SOURCES = $(sample_SOURCES)
 OBJECTS = $(sample_OBJECTS)
 

@@ -54,13 +54,6 @@ int yyerror(char *s){
   exit(42);
 }
 
-// The main routine for the engine
-int main(int argc, char *argv[]){
-  gState = trivsql_init("foo.tdb");
-  yyparse();
-
-  return 0;
-}
 trivsql_state *trivsql_init(char *filename){
   trivsql_state *state;
 
@@ -149,8 +142,6 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   int row, rowCount, numCols, addMe, sac1, sac2;
   char *t, *u, *sa1, *sa2, *localCols;
   trivsql_recordset *rrs;
-
-  printf("Cols is %s\n", cols);
 
   // If the columns list is '*', substitute a list of all the columns
   if(strcmp(cols, "*") == 0)

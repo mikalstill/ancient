@@ -53,3 +53,7 @@ void *trivsql_xrealloc(void *, size_t);
 // Selectors
 int trivsql_selequal(char *, char *);
 int trivsql_sellike(char *, char *);
+
+// Interface methods
+trivsql_state *trivsql_opendb(char *);
+trivsql_recordset *trivsql_execute(trivsql_state *, char *);

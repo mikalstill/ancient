@@ -1,3 +1,3 @@
 noinst_PROGRAMS = sample
-sample_SOURCES = parser.y lexer.l tdb.c spinlock.c selectors.c
+sample_SOURCES = parser.y lexer.l tdb.c spinlock.c selectors.c interface.c
 YFLAGS = -d

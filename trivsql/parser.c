@@ -1078,8 +1078,6 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   char *t, *u, *sa1, *sa2, *localCols;
   trivsql_recordset *rrs;
 
-  printf("Cols is %s\n", cols);
-
   // If the columns list is '*', substitute a list of all the columns
   if(strcmp(cols, "*") == 0)
     localCols = trivsql_getallcolumns(tname);
