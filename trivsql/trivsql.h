@@ -1,6 +1,8 @@
 #include "tdb.h"
 #include "spinlock.h"
 
+
+
 #define SELTRUE 1
 #define SELFALSE 0
 typedef int (*trivsql_selectorfunc) (char *arg1, char *arg2);
