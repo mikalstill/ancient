@@ -2,39 +2,40 @@
 
 <sect1><title>Configuring the Interface</title>
 <para>
-  The user interface can be custom configured to suit user preferences. This includes the ability to changes the
-  colours of the axes, graphs, error bars and grid. The type and colour of the font used to display text on the
-  grpahs is also configfurable.
+  The user interface can be customised to suit user preferences. This includes the 
+  ability to changes the colours of the axes, graphs, error bars and grid. As well 
+  as the type and colour of the font used to display text on the graphs.
 </para>
 <sect2><title>Changing UI colours</title>
 <para>
-  The above is all achieved through the <command>view</command> menu. The colours of the various view elements are 
-  changed by simply
-  selecting that element from within the view menu. The resulting window allows the colour selection either from
-  the supplied pallette, or by adjusting the individual RGB combination. Colours can also be added to a group of
-  custom colours, useful for quick selection.
+  The customising the user interface is done through the <command>view</command> menu. 
+  The colours of the various view elements are changed by selecting the property from
+  within the view menu. A popup window the allows the user to select colours either from
+  the supplied pallette, or by mix their own colours. Colours can also be added to a 
+  personalised palette, useful for quick selection.
 </para>
 </sect2>
 
 <sect2><title>Font configuration</title>
 <para>
-  The font type is also changed from the <command>view</command> menu. Any standard true type font can 
-  be used. TODO!!!
-  Along with type, the colour and size of the graph font are also configurable.
+  The font type is also changed from the <command>view</command> menu. Any standard true type font can
+  be used. The colour and size of the graph font is also configurable.
 </para>
 </sect2>
 
 <sect2><title>Show/hide Directions</title>
 <para>
-  The default is to have all three directions of a data set displayed. This however, is also configurable. This is
-  achieved through the <command>view</command> menu, by checking or unchecking the appripriate directions.
+  The default is to display all three direction of the dataset. The user can however toggle
+  directions on and off to give more screen real estate to graphs of interest. This is
+  done through the <command>view</command> menu, by checking or unchecking the appripriate 
+  directions.
 </para>
 </sect2>
 
 <sect2><title>Show/hide error bars </title>
 <para>
-  The default is to have the error bars enabled. To disble the error bars, simply check the Show error bars item in
-  the <command>view</command> menu.
+  <command>GDMS</command> has the ability to show error bars. To turn error bars on or
+  off check the Show error bars item in the <command>view</command> menu.
 </para
 </sect2>
 

@@ -2,35 +2,30 @@
 
 <sect1><title>Running the <command>GDMS</command> with the GUI</title>
 <para>
-  The <command>GDMS</command> can be invoked in a number of ways. The first and most obvious, is to invoke the
-  Graphical User Interface by simply typing:
-</para>
-<programlisting>
-./gdms
-</programlisting>
-
-<para>
-at the command line. The application is loaded and can be used intuitively like most other GUI based applications.
-For further information on specific functionality, see the quick reference quide.
+  The <command>GDMS</command> can be invoked in a number of ways. The first is to invoke the
+  Graphical User Interface by typing ./gdms at the command line. The application is 
+  loaded and can be used intuitively, like most other GUI based applications.
+  For further information on specific functionality, see the quick reference guide.
 </para>
 
 </sect1>
-
 <sect1><title>Running the <command>GDMS</command> with arguments</title>
 <para>
-  The <command>GDMS</command> accepts command line arguments further increasing its flexibility. For example, a file name
-  can be specified as an argument, avoiding having to open the file through the user interface once it has been invoked. 
-  Once again the GUI is invoked and can be used in the normal manner, the difference being that data sets provided as
-  arguments are already loaded.
+  The <command>GDMS</command> increases its flexibility by allowing the use of 
+  command line arguments. For example, a file name can be specified as an argument, 
+  this avoids the necessity to open the file through the user interface upon entering the 
+  application. The GUI is also loaded and can be used in the normal manner,
+  the only difference being that data sets provided as arguments are already loaded.
 </para>
 </sect1>
 
 
 <sect1><title>Batch Processing</title>
 <para>
-As the title suggests, the <command>GDMS</command> allows batch processing. This enables a batch of tasks to be carried
-out, thus avoiding individual processing of data sets. The way this is done is by specifying a batch file name as an
-argument to the <command>GDMS</command> command. The batch file contains the commands that will be run by the <command>GDMS</command>.
+The <command>GDMS</command> also allows batch processing. This enables a batch of tasks to 
+be scripted, thus avoiding individual processing of data sets. This is done is by
+specifying a batch file name as an argument to <command>GDMS</command>. The batch file 
+contains the commands that will be run by the <command>GDMS</command>.
 </para>
 </sect1>
 

@@ -2,7 +2,7 @@
 
 <sect1><title>Introduction</title>
 <para>
-  This section aims to provide a reference for the functionality of the <command>GDMS</command>. 
+  This section aims to provide a reference for the functionality of the <command>GDMS</command>.
   The main functionality of this package is provided through the menus. These are of a standard form
   and also include a tear-off feature for flexibility.
 </para>
@@ -53,11 +53,11 @@
        To save a data set after processing, select <command>File</command> -
        <command>Save</command>. The following window appears.
     </para>
-    
+
     <figure><title>Save As window.</title>
       <execute><cmd>img</cmd><args>gdmsSaveAs.png</args></execute>
     </figure>
-    
+
     <para>
        Choose the desired location and file name and click <command>OK</command>.
     </para>
@@ -158,11 +158,13 @@
 
         <sect5><title>Manual Re-weighting</title>
           <para>
-            If <command>NO</command> is selected when prompted for automatic re-weighting, the option is given to load a
-	    weighting matrix from file for each direction. If <command>NO</command> is selected here, a data range must be specified
-	    before continueing with the VCV analysis. Selecting <command>YES</command> to load a matrix for a file will result
-	    in a prompt requestion the file's location on disk. Once a matrix is chosen, poceding with the analysis
-	    will again provide both the  least squares and reiduals datasets.
+            If <command>NO</command> is selected when prompted for automatic re-weighting,
+            the option is given to load a weighting matrix from file for each direction. If
+            <command>NO</command> is selected here, a data range may be specified before
+            continuing with the VCV analysis by pressing Do VCV. Selecting <command>YES</command> 
+            to load a matrix for a file will result in a prompt request on the file's location. 
+            Once a matrix is chosen, the analysis will again provide both the  least squares 
+            and residual datasets.
           </para>
         </sect5>
       </sect4>
@@ -170,8 +172,8 @@
       <sect4><title>Random Walk</title>
         <para>
           Random walk functionality has not yet been plugged in to the <command>GDMS
-	  </command> engine. This will occur when agreement in the time series analysis community is reached on a
-	  file format.
+	        </command> engine. This will occur when agreement in the time series analysis 
+          community is reached on a file format.
         </para>
       </sect4>
     </sect3> <!-- LS -->
@@ -179,27 +181,31 @@
 
   <sect2><title>Interpolation</title>
     <para>
-       The available options in the Interpolation menu are Nearest neighbour, linear interpolation, natural spline,
-       cubic spline and divided differences. To carry out interpolation, go to the
-       <command>Maths</command> menu followed by the <command>Interpolation</command> menu and from here select
-       the desired method. Enter the desired sample rate when prompted and click <command>OK</command> to proceed or
-       <command>CANCEL</command> to return to the main window.
+       The functionality to interpolate new points into dataset can be found in <command>
+       Maths</command>->Interpolate. The available options in the Interpolation menu are
+       Nearest neighbour, linear interpolation, natural spline, cubic spline and divided
+       differences. To carry out interpolation select the desired interpolation type
+       from the menu. When prompted enter the desired sample rate and click 
+       <command>OK</command>.
     </para>
   </sect2> <!-- interp -->
 
   <sect2><title>Windowing data</title>
     <para>
-      The available options in the Windowing menu are Blackman, Chebychev, Hamming, Hanning and rectangular. To window
-      data, go to the <command>Maths</command> menu followed by the <command>Windowing</command> menu and from here select
-      the desired method. Each method promts for a window size and an overlap. In addition, <command>Chevychev</command>
-      also prompts for the Normalised Transition Bandwidth. Enter the information and click <command>OK</command> to proceed.
+      The available options in the Windowing menu are Blackman, Chebychev, Hamming, Hanning 
+      and rectangular. To window data, go to the <command>Maths</command> menu followed by 
+      the <command>Windowing</command> menu and from there select the desired method. Each
+      method promts for window size and overlap. In addition, <command>Chevychev</command>
+      also prompts for the Normalised Transition Bandwidth. Enter the information and click
+      <command>OK</command> to proceed.
     </para>
 
     <sect3><title>Window selection</title>
       <para>
-        When windowing is carried ut on a dataset, all windows are displayed. For flexibility, the <command>GDMS</command>
-        allows individual windows to be displayed. To do this, open the <command>goto</command> menu and navigate through
-        the windows as desired.
+        When windowing is carried out on a dataset, all windows are displayed on a single
+        timeline. For flexibility, the <command>GDMS</command> allows individual windows 
+        to be displayed seperately. To do this, open the <command>goto</command> menu and 
+        navigate through the windows as desired.
       </para>
     </sect3>
 
@@ -208,9 +214,11 @@
 
   <sect2><title>Frequency Domain Analysis</title>
     <para>
-      Select the Maths menu, select Fast Fourier Transform or PSD plot. Note, before successfully carrying out
-      operations in the frequency domain, the data must be interpolated. The Failure to do so will
-      result in an error message from the <command>GDMS</command>. The error message gives the first three dates
+      To do an FFT select Fast Fourier Transform from the maths menu. Note, before 
+      successfully carrying out operations in the frequency domain, the data must be have a
+      regulary sampling rate. An irregular dataset can be made regular by interpolating. 
+      Providing an irregular dataset will result in an error message from the 
+      <command>GDMS</command>. The error message gives the first three dates
       int the dataset that caused the failure.
     </para>
   </sect2> <!-- FDA -->
