@@ -45,7 +45,7 @@
   X(&ohgr;) = &Sgr;x(n)e<superscript>j&ohgr;</superscript>
 
   <equation>
-    <title>Fourier Transform</title>
+    <title>Fourier Transform (Rabiner and Schafer, 1978)</title>
     <execute><cmd>img</cmd><args>fForward_fourier.gif</args></execute>
   </equation>
 </para>
@@ -54,7 +54,7 @@
   We can also computer the inverse Fourier transform, returning us a function of time:
 
   <equation>
-    <title>Inverse Fourier Transform</title>
+    <title>Inverse Fourier Transform (Rabiner and Schafer, 1978)</title>
     <alt>x(n) = 1/2pi * int( X( e^(jw) ) * e^(jwn) )dw - where w = 2pif</alt>
     <execute><cmd>img</cmd><args>fInverse_fourier.gif</args></execute>
   </equation>
@@ -76,7 +76,7 @@
  The formula for the DFT is:
 
   <equation>
-    <title>Forward Discrete Fourier Transform</title>
+    <title>Forward Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
     <alt>X(k) = X(e^(j2pik/N)) = sum from n=0 ..N-1 ( x(n)*e^(-j2pikn/N) )</alt>
     <execute><cmd>img</cmd><args>fForward_discrete_fourier.gif</args></execute>
   </equation>
@@ -84,7 +84,7 @@
   and the inverse DFT:
 
   <equation>
-    <title>Inverse Discrete Fourier Transform</title>
+    <title>Inverse Discrete Fourier Transform (Rabiner and Schafer, 1978)</title>
     <alt>x(n) = 1/N * sum from n-0..N-1(X(k)e^(j2pikn/N))</alt>
     <execute><cmd>img</cmd><args>fInverse_discrete_fourier.gif</args></execute>
   </equation>
@@ -107,8 +107,8 @@
   exists at a given frequency. Derived from the power spectrum is the power spectral density (PSD) measurment. A PSD plot provides
   information on how much energy exists in a band of frequencies. This technique is particularly useful for measuring the noise content
   in a signal. A PSD plot is created by plotting the magnitude of the real and imaginary components of the FFT results. A good
-  illustration of this concept is that of a sine wave with its corresponding PSD plot. From it we can see some stuff wohoo TODO>
-  
+  illustration of this concept is that of a sine wave with its corresponding PSD plot.
+
   <figure><title>50 kHz sin wave</title>
   <!-- <graphic fileref="figures/pythag"></graphic>-->
       <execute><cmd>img</cmd><args>50HzSin.bmp</args></execute>
@@ -118,19 +118,20 @@
   <!-- <graphic fileref="figures/pythag"></graphic>-->
       <execute><cmd>img</cmd><args>fft50HzSin.bmp</args></execute>
   </figure>
-  
-  So we see in the PSD plot above, that the sin wave has energy at 50Hz
+
+  In the above figures, we see the purse sin wave with a frequency of 50Hz. This is confirmed in the PSD plot, where we see 
+  that sin wave has energy only at 50Hz.
 
 </para>
 
 <para>
   There are some constraints which are implied when carrying frequency analysis.
-  
+
   <itemizedlist>
   <listitem><para>Maximum frequency analysed.</para></listitem>
   <listitem><para>Frequency resolution.</para></listitem>
   </itemizedlist>
-  
+
   The maximum frequency analysed relates to the sampling theorem, also know as the Nyquist theorem. The theorem effectively states:
 </para>
 

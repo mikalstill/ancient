@@ -1,3 +1,5 @@
+<!--TODO: Make sure there are no repeated entries-->
+
 <!--Mikals references -->
 
 <sect1><title>References</title>
@@ -43,11 +45,19 @@ Sun Microsystems 2002, <emphasis>GNOME 2.0 Desktop for the
 <para>
 Trolltech 2002, <emphasis>Trolltech Home Page</emphasis> [Online] Available: http://www.trolltech.com
 </para>
+<!--End of Mikals references -->
 
+
+<!--dans refs-->
 <para>
 Arndt, J. 2002, <emphasis>cplxfft.h, Complex Fast Fourier Transform Template Class (Part of FXT)</emphasis> [Online] Available: http://www.jjj.de/fxt/
 </para>
 
+<para>
+Rabiner L.R, Schafer R.W, 1978, <emphasis>Digital Processing of Speech Signals</emphasis>, Prentice Hall.
+</para>
+<!--end dans refs-->
+
 </sect1>
 
-<!--End of Mikals references -->
+
