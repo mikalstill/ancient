@@ -10,3 +10,6 @@ Then run it by typing
 	./pixel -i <input file> -o <output file> -x <start x> -y <end x> -w <width of enlarged section> -l <length of large section>
 
 Please note that this code is Copyright (C) Michael Still 2002, and is covered by the terms of the GNU GPL version 2.
+
+An example usage:
+	./pixel -i raster-figure1-1.tif -o output.tif -x 200 -y 210 -w 10 -l 10 

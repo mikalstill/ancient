@@ -5,6 +5,8 @@
 
 void usage (char *, int);
 
+#define EOFFSET 150
+
 int
 main (int argc, char *argv[])
 {
@@ -114,7 +116,7 @@ main (int argc, char *argv[])
       exit (42);
     }
 
-  if ((rout = (char *) malloc (sizeof (char) * (width + 200) * height * 3))
+  if ((rout = (char *) malloc (sizeof (char) * (width + EOFFSET) * height * 3))
       == NULL)
     {
       fprintf (stderr,
@@ -123,7 +125,7 @@ main (int argc, char *argv[])
     }
 
   // todo: We need to copy tags from the input image to the output image
-  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width + 200);
+  TIFFSetField (output, TIFFTAG_IMAGEWIDTH, width + EOFFSET);
   TIFFSetField (output, TIFFTAG_IMAGELENGTH, height);
   TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_DEFLATE);
   TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
@@ -174,7 +176,7 @@ main (int argc, char *argv[])
   /////////////////////////////////////////////////////////////////////////////
   // Now we assemble the two parts of the image together into a big output
   // raster
-  memset (rout, 255, sizeof (char) * (width + 200) * height * 3);
+  memset (rout, 255, sizeof (char) * (width + EOFFSET) * height * 3);
 
   // The original image
   offset = 0;
@@ -183,12 +185,12 @@ main (int argc, char *argv[])
     {
       memcpy (rout + offset2, raster + offset, width * 3);
       offset += width * 3;
-      offset2 += (width + 200) * 3;
+      offset2 += (width + EOFFSET) * 3;
     }
 
   // Box the bit that was enlarged in the original image, can't use memset here
   // Top line
-  offset = (((width + 200) * (ys - 1)) + xs - 1) * 3;
+  offset = (((width + EOFFSET) * (ys - 1)) + xs - 1) * 3;
   for (x = 0; x < xe - xs + 2; x++)
     {
       rout[offset++] = 255;
@@ -197,7 +199,7 @@ main (int argc, char *argv[])
     }
 
   // Bottom line
-  offset = (((width + 200) * ye) + xs - 1) * 3;
+  offset = (((width + EOFFSET) * ye) + xs - 1) * 3;
   for (x = 0; x < xe - xs + 2; x++)
     {
       rout[offset++] = 255;
@@ -206,7 +208,7 @@ main (int argc, char *argv[])
     }
 
   // Vertical lines
-  offset = (((width + 200) * ys) + xs - 1) * 3;
+  offset = (((width + EOFFSET) * ys) + xs - 1) * 3;
   for (y = 0; y < ye - ys + 1; y++)
     {
       rout[offset] = 255;
@@ -217,7 +219,7 @@ main (int argc, char *argv[])
       rout[offset + ((ye - ys + 1) * 3) + 1] = 0;
       rout[offset + ((ye - ys + 1) * 3) + 2] = 0;
 
-      offset += (width + 200) * 3;
+      offset += (width + EOFFSET) * 3;
     }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -247,20 +249,19 @@ main (int argc, char *argv[])
   // Copy the enlarged portion across
 
   offset = 0;
-  // todo: I'm too tired to understand the placement of this in maths land
   offset2 = (((((height / 2) - ((ye - ys) * 11 / 2)) *
-	       (width + 200)) + width + 50) * 3);
+	       (width + EOFFSET)) + width + 20) * 3);
   for (y = 0; y < (ye - ys) * 11; y++)
     {
       memcpy (rout + offset2, enlarged + offset, (ye - ys) * 11 * 3);
       offset += (ye - ys) * 11 * 3;
-      offset2 += (width + 200) * 3;
+      offset2 += (width + EOFFSET) * 3;
     }
 
   /////////////////////////////////////////////////////////////////////////////
   // Write the image buffer to the file
   if (TIFFWriteEncodedStrip (output, 0, rout,
-			     (width + 200) * height * 3 * sizeof (char)) == 0)
+			     (width + EOFFSET) * height * 3 * sizeof (char)) == 0)
     {
       fprintf (stderr, "Could not write the output image\n");
       exit (42);
