@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.7 $ $Date: 2002-08-24 01:51:02 $
+ * @version $Revision: 1.8 $ $Date: 2002-08-27 09:07:26 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.7  2002/08/24 01:51:02  u983118
+ * new tests for cepMatrix template, cepLs core implementation
+ *
  * Revision 1.6  2002/08/18 03:12:46  u983118
  * reworked tests for cepMatrix and cepLs
  *
@@ -114,6 +117,12 @@ public:
     
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testTranspose", &Test::testTranspose ) );
+    
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "test3D", &Test::test3D ) );
+
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "test3D", &Test::test3DAssign ) );
           
     return suiteOfTests;
   }
@@ -127,7 +136,7 @@ protected:
   /** Tests assignment operator */
   void testAssign ()
   {
-     int rows = 3, cols = 3;
+    int rows = 3, cols = 3;
     cepMatrix<double> expected( rows, cols );
     cepMatrix<double> actual( rows, cols );
     
@@ -379,6 +388,125 @@ protected:
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4.0, A.getValue(1,1));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 6.0, A.getValue(1,2));
   } 
+  
+  void test3D()
+  {
+     
+    int rows = 2, cols = 2, tables = 3;
+   
+    cepMatrix<double> A(rows, cols, tables);
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,0,1.0);
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,1,2.0);
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,2,3.0);
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, A.getValue(i,j,0));
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, A.getValue(i,j,1));
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, A.getValue(i,j,2));
+      }
+    }
+  }
+
+  void test3DAssign()
+  {
+    int rows = 2, cols = 2, tables = 3;
+   
+    cepMatrix<double> E, A(rows, cols, tables);
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,0,1.0);
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,1,2.0);
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        A.setValue(i,j,2,3.0);
+      }
+    }
+    
+    E = A;
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong rows", A.getNumRows(), E.getNumRows());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong cols", A.getNumCols(), E.getNumCols());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong tabs", A.getNumTables(), E.getNumTables());
+        
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, E.getValue(i,j,0));
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, E.getValue(i,j,1));
+      }
+    }
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, E.getValue(i,j,2));
+      }
+    }
+    
+    cout << "finished test\n";
+  }
 }; // end Test
 
  /**
