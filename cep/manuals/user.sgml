@@ -8,7 +8,7 @@
 <execute><cmd>builddb</cmd><input>install.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>running.sgml</input></execute>
 <execute><cmd>builddb</cmd><input>uiconfig.sgml</input></execute>
-<execute><cmd>builddb</cmd><input>quickref.sgml</input></execute>
+<execute><cmd>builddb</cmd><input>ref.sgml</input></execute>
 
 <execute><cmd>builddb</cmd><input>temporaryfiles.sgml</input></execute>
 

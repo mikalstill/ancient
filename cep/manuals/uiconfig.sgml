@@ -8,37 +8,40 @@
 </para>
 <sect2><title>Changing UI colours</title>
 <para>
-  The above is all achieved through the view menu. The colours of the various view elements are changed by simply
+  The above is all achieved through the <command>view</command> menu. The colours of the various view elements are 
+  changed by simply
   selecting that element from within the view menu. The resulting window allows the colour selection either from
-  the supplied pallette, or by adjusting the individual RGB combination. Colours can be added to a group of
+  the supplied pallette, or by adjusting the individual RGB combination. Colours can also be added to a group of
   custom colours, useful for quick selection.
 </para>
 </sect2>
 
-<sect2><title>Font selection</title>
+<sect2><title>Font configuration</title>
 <para>
-  The font is also changed from the view menu. Any stard TODO: font can be used.
+  The font type is also changed from the <command>view</command> menu. Any standard true type font can 
+  be used. TODO!!!
+  Along with type, the colour and size of the graph font are also configurable.
 </para>
 </sect2>
 
 <sect2><title>Show/hide Directions</title>
 <para>
   The default is to have all three directions of a data set displayed. This however, is also configurable. This is
-  achieved through the view menu, by checking or unchecking the appripriate directions.
+  achieved through the <command>view</command> menu, by checking or unchecking the appripriate directions.
 </para>
 </sect2>
 
 <sect2><title>Show/hide error bars </title>
 <para>
   The default is to have the error bars enabled. To disble the error bars, simply check the Show error bars item in
-  the view menu.
+  the <command>view</command> menu.
 </para
 </sect2>
 
 <sect2><title>Show/hide the grid</title>
 <para>
   The default is to have the grid enabled. To disble the grid, simply check the Show grid item in
-  the view menu.
+  the <command>view</command> menu.
 </para>
 </sect2>
 

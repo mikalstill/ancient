@@ -1,0 +1,209 @@
+<chapter><title>Reference</title>
+
+<sect1><title>Introduction</title>
+<para>
+  This section aims to provide a reference for the functionality of the <command>GDMS</command>. 
+  The main functionality of this package is provided through the menus. These are of a standard form
+  and also include a tear-off feature for flexibility.
+</para>
+</sect1>
+
+<sect1><title>File Menu</title>
+
+  <sect2><title>Opening a data set</title>
+    <para>
+      When the application is first run, you are presented with a skeleton window with File and Help menus. To open a
+      data set, simply open the <command>File</command> menu and select <command>Open</command>, as shown below.
+      This can also be achieved by using the keyboard shortcut <command>CTRL-O</command>.
+    </para>
+
+    <execute><cmd>todo</cmd><input>Show first opened with file open</input></execute>
+    <para>
+      While a data set is being loaded, a progress window appears.
+    </para>
+
+    <execute><cmd>todo</cmd><input>Show progress bar</input></execute>
+
+    <para>
+      Once the data set has been loaded, the application looks like:
+    </para>
+
+    <execute><cmd>todo</cmd><input>Show loaded data set</input></execute>
+
+  </sect2>
+
+  <sect2><title>Closing a dataset</title>
+    <para>
+      To close a dataset, select <command>File</command> - <command>Close</command>. Note that
+      this will not terminate the application. To do do this, see <command>Exit</command> below.
+    </para>
+  </sect2>
+
+  <sect2><title>Saving a data set</title>
+    <para>
+       To save a data set after processing, select <command>File</command> -
+       <command>Save</command>. The following window appears.
+    </para>
+    
+    <execute><cmd>todo</cmd><input>Show save as window</input></execute>
+    
+    <para>
+       Choose the desired location and file name and click <command>OK</command>.
+    </para>
+  </sect2>
+
+  <sect2><title>Printing</title>
+    <para>
+      The <command>GDMS</command> offers standardard printing capabilities, including preview.
+      To Print a data set, select <command>File</command> -
+       <command>Print</command>. The following window appears.
+    </para>
+
+    <execute><cmd>todo</cmd><input>Show print window</input></execute>
+
+    <para>
+      If not printing to file, the printer might need to be setup first. This is discussed in the
+      next section.
+    </para>
+  </sect2>
+  <sect2><title>Print Setup</title>
+    <para>
+      The following figure shows the p[rinter setup window. To access printer setup, select,
+      <command>File</command> - <command>Printer Setup</command>.
+    </para>
+
+    <execute><cmd>todo</cmd><input>Show printer set up window</input></execute>
+  </sect2>
+
+  <sect2><title>Print Preview</title>
+    <para>
+      To preview the print job, select <command>File</command> - <command>Print Preiview</command>.
+    </para>
+  </sect2>
+
+  <sect2><title>Exit</title>
+  <para>
+   To exit the application, select <command>File</command> - <command>Exit</command> or use the keyboard
+    shortcut, <command>CTRL-Q</command>.
+  </para>
+  </sect2>
+
+</sect1> <!--file menu -->
+
+<sect1><title>Edit menu</title>
+  <para>
+     Functionality here has not been included in this release. The Edit menu exists for future 
+     enhancements such as Undo, Redo and Delete.
+  </para>
+</sect1>
+
+<sect1><title>View menu</title>
+  <para>
+    The look and feel of the user interface can be configured to suit individual users from the <command>View 
+    Menu</command>. Please refer to the User Interface Configuration chapter for full details on these features.
+  </para>
+</sect1>
+
+<sect1><title>Maths</title>
+  <para>
+    The data processing functionality provided bt the <command>GDMS</command> is provided in
+    the <command>Maths</command> menu. All mathematical operations on a data set result in at
+    least one additional dataset to be loaded. This enables easy reference to both the original and
+    processed data for comparison. Furthermore, any dataset that can be viewed within the application
+    can be saved and printed.  TODO!!!printed yes??
+  </para>
+
+  <execute><cmd>todo</cmd><input>Show maths window</input></execute>
+
+  <sect2><title>Time Domain Analysis</title>
+    <para>
+      Ba Ba Black sheep have you any wool, yes sir yes sir 3 bags full..
+      But you can't have it because in case you haven't noticed, there's a drought on.
+    </para>
+
+    <sect3><title>Least Squeares</title>
+      <para>
+        The available options in the least squares menu are Variance Co-variance and Random Walk.
+      </para>
+      <sect4><title>Variance Co-variance</title>
+        <sect5><title>Automatic Re-weighting</title>
+          <para>
+            When this option is presented, you must then decide whether or not to use the automatic re-weighting feature.
+	    If the answer is yes, two new data sets are loaded; the first shows the dataset with
+	    the least squares regression line. The data points that were weighted out by the automatic
+	    weighting procedure are shown in a different colour. The second dataset loaded, is that of
+	    the residuals. Once again, the weighted out data points are displayed in a different colour and
+	    can be seen on the zero line. TODO: Kristy check please.
+          </para>
+        </sect5>
+
+        <sect5><title>Manual Re-weighting</title>
+          <para>
+            If <command>NO</command> is selected when prompted for automatic re-weighting, the option is given to load a
+	    weighting matrix from file for each direction. If <command>NO</command> is selected here, a data range must be specified
+	    before continueing with the VCV analysis. Selecting <command>YES</command> to load a matrix for a file will result
+	    in a prompt requestion the file's location on disk. Once a matrix is chosen, poceding with the analysis
+	    will again provide both the  least squares and reiduals datasets.
+          </para>
+        </sect5>
+      </sect4>
+
+      <sect4><title>Random Walk</title>
+        <para>
+          Random walk functionality has not yet been plugged in to the <command>GDMS
+	  </command> engine. This will occur when agreement in the time series analysis community is reached on a
+	  file format.
+        </para>
+      </sect4>
+    </sect3> <!-- LS -->
+  </sect2> <!-- TDA -->
+
+  <sect2><title>Interpolation</title>
+    <para>
+       The available options in the Interpolation menu are Nearest neighbour, linear interpolation, natural spline,
+       cubic spline and divided differences. To carry out interpolation, go to the
+       <command>Maths</command> menu followed by the <command>Interpolation</command> menu and from here select
+       the desired method. Enter the desired sample rate when prompted and click <command>OK</command> to proceed or
+       <command>CANCEL</command> to return to the main window.
+    </para>
+  </sect2> <!-- interp -->
+
+  <sect2><title>Windowing data</title>
+    <para>
+      The available options in the Windowing menu are Blackman, Chebychev, Hamming, Hanning and rectangular. To window
+      data, go to the <command>Maths</command> menu followed by the <command>Windowing</command> menu and from here select
+      the desired method. Each method promts for a window size and an overlap. In addition, <command>Chevychev</command>
+      also prompts for the Normalised Transition Bandwidth. Enter the information and click <command>OK</command> to proceed.
+    </para>
+
+    <sect3><title>Window selection</title>
+      <para>
+        When windowing is carried ut on a dataset, all windows are displayed. For flexibility, the <command>GDMS</command>
+        allows individual windows to be displayed. To do this, open the <command>goto</command> menu and navigate through
+        the windows as desired.
+      </para>
+    </sect3>
+
+  </sect2> <!-- windowing -->
+
+
+  <sect2><title>Frequency Domain Analysis</title>
+    <para>
+      Select the Maths menu, select Fast Fourier Transform or PSD plot. Note, before successfully carrying out
+      operations in the frequency domain, the data must be interpolated. The Failure to do so will
+      result in an error message from the <command>GDMS</command>.
+    </para>
+  </sect2> <!-- FDA -->
+
+</sect1>
+
+<sect1><title>Help Menu</title>
+  <para>
+    In this release the Help menu contains only an About box and is another error in which the <command>GDMS</command> can be expanded
+    in the future.
+  </para>
+</sect1>
+
+</chapter>
+
+
