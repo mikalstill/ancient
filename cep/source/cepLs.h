@@ -20,20 +20,19 @@
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION <!-- class name -->
-cepLs
+FUNCTION cepLs
 
 
-PURPOSE <!-- use cases -->
-Cacluates a Linear Least Squares transformation on a given dataset. It offers three
+PURPOSE Cacluates a Linear Least Squares transformation on a given dataset. It offers three
 types of Least Squares transfomations:-
 
-Variance Co-Variance
-Variance Co-Variance (with automated data re-weighting)
-Random Walk
+<para><itemizedlist>
+  <listitem><para>Variance Co-Variance (VCV)</para></listitem>
+  <listitem><para>Variance Co-Variance (with automated data re-weighting)</para></listitem>
+  <listitem><para>Random Walk</para></listitem>
+</itemizedlist></para>
 
 SYNOPSIS START
-<!-- how to instantiate one? -->
 The follwing is an example of how to create a least squares object.
 
 cepLs ls;
@@ -41,106 +40,54 @@ cepLs ls;
 SYNOPSIS END
 
 DESCRIPTION START
-<!-- description goes here -->
-<para>An implementation of the <command>cepLs</command> class
+An implementation of the <command>cepLs</command> class
 which calculates a Linear Least Squares transformation.
 </para>
 
-<para> <!-- per function descriptions -->
+<para>
 <command>const cepLs & cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP)</command>
-do one iteration of the VCV least squares algoritum
+Calculates one iteration of the VCV least squares algoritum.
+<para><itemizedlist>
+  <listitem><para>data:- The data matrix</para></listitem>
+  <listitem><para>matP:- The given weighting matrix</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para>
 <command>const cepLs & cepDoVCV(cepMatrix<double> &data)</command>
-iterate least squares algoritum until stable
+Caculates the VCV least squares algorithum, automatically re-weighting the
+weighting matrix (P matrix) untill the residuals are stable.
+<para><itemizedlist>
+  <listitem><para>data:- The data matrix</para></listitem>
+</itemizedlist></para>
+
 </para>
 
-<para> <!-- per function descriptions -->
+<para>
 <command>const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP)</command>
-do one iteration of the least squares algoritum
+Calculates one iteration of the Random Walk least squares algorithum
+<para><itemizedlist>
+  <listitem><para>data:- The data matrix</para></listitem>
+  <listitem><para>matP:- The given weighting matrix</para></listitem>
+</itemizedlist></para>
 </para>
 
-<para> <!-- per function descriptions -->
+<para>
 <command>const cepMatrix<double> &getResidual()</command>
-get the value of the residual at pos (x,y)
+Returns a cepMatrix which is the residuals for this caluclation.
 </para>
 
-<para> <!-- per function descriptions -->
+<para>
 <command>double getB1()</command>
-get the value B1 in the least squares solution y=B1*x +B2
+Returns the value B1 in the least squares solution y=B1*x +B2.
 </para>
 
-<para> <!-- per function descriptions -->
+<para>
 <command>double getB2()</command>
-get the value B2 in the solution y=B1*x +B2
-</para>
+Returns the value B2 in the solution y=B1*x +B2
 
-<para> <!-- per function descriptions -->
-<command>void sanityCheck(cepMatrix<double> &matA, cepMatrix<double> &matP)</command>
-ensure that all values of the matrix A P and L are consistant with the
-least squares alogrithum.
-</para>
-
-<para> <!-- per function descriptions -->
-<command>void calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL )</command>
-calculate the residuals of the least squares tranformation
-</para>
-
-<para> <!-- per function descriptions -->
-<command>const cepMatrix<double> initResiduals(cepMatrix<double> &data)</command>
-make the intial P matrix
-</para>
-
-<para> <!-- per function descriptions -->
-<command>const cepMatrix<double> makeP(cepMatrix<double> &data)</command>
-make the intial P matrix
-</para>
-
-<para> <!-- per function descriptions -->
-<command>const cepMatrix<double> makeA(cepMatrix<double> &data)</command>
-make the A matrix
-</para>
-
-<para> <!-- per function descriptions -->
-<command>const cepMatrix<double> makeL(cepMatrix<double> &data)</command>
-make the L matrix
-</para>
-
-<para> <!-- per function descriptions -->
-<command>void calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL)</command>
-calc least square for a VCV matrix
-</para>
-
-<para> <!-- per function descriptions -->
-<command>void calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<double> &matL)</command>
-calc least squares for a RW matrix
-</para>
-
-<para> <!-- per function descriptions -->
-<command>const cepMatrix<double> reweightVCV()</command>
-re-caluclates the P weighting matrix
-</para>
-
-<para> <!-- per function descriptions -->
-<command>const cepMatrix<double> inverse(cepMatrix<double> &mat)</command>
-calculate a 2x2 matrix inverse
-</para>
-
-<para> <!-- per function descriptions -->
-<command>const cepMatrix<double> mulDiag(cepMatrix<double> &matA, cepMatrix<double> &matB)</command>
-calculate A*B where B is a diagonal
-</para>
-
-<para> <!-- per function descriptions -->
-<command>const cepMatrix<double> Amul(cepMatrix<double> &matA, cepMatrix<double> &matB)</command>
-calculates A*B where A is the design matrix in the least squares tranform
-</para>
-
-<para> <!-- per function descriptions -->
-<command>const cepMatrix<double> mulA(cepMatrix<double> &matA, cepMatrix<double> &matA)</command>
-calculates B*A where A is the design matrix in the least squares tranform
-</para>
+SEEALSO cepDataset
+SEEALSO cepMatrix
 
 DESCRIPTION END
 
@@ -172,20 +119,25 @@ public:
   //do one iteration of the least squares algoritum
   const cepLs & cepDoRW(cepMatrix<double> &matA, cepMatrix<double> &matP);
 
+  //returns the detrended data
+  const cepMatrix<double> &getDetrend();
+  
   //get the value of the residual at pos (x,y)    
   const cepMatrix<double> &getResidual();
-  
+
   //get the value B1 in the least squares solution y=B1*x +B2  
   double getB1();
 
   //get the value B2 in the solution y=B1*x +B2  
   double getB2();
+
   
 private:
 
-  cepMatrix<double> residual;       //holds the value of the residuals 
-  cepMatrix<double> matX;           //holds the value of B1, B2
-
+  cepMatrix<double> m_residual,       //holds the value of the residuals 
+                    m_matX,           //holds the value of B1, B2
+                    m_detrended;      //holds the value of the detrended data
+                    
   //ensure that all values of the matrix A P and L are consistant with the
   //least squares alogrithum.
   void sanityCheck(cepMatrix<double> &matA, cepMatrix<double> &matP);

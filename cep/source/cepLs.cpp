@@ -40,7 +40,6 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data, cepMatrix<double> &matP)
   sanityCheck(matA, matP);
   
   calcVCV(matA, matP, matL);
-  
   return *this;
 }
 
@@ -58,13 +57,12 @@ const cepLs & cepLs::cepDoVCV(cepMatrix<double> &data)
 
   calcVCV(matA, matP, matL);
   
-  while(residual != lastResid)
+  while(m_residual != lastResid)
   {
-    lastResid = residual;
+    lastResid = m_residual;
     matP = reweightVCV();
     calcVCV(matA, matP, matL);
   }
-
   return *this;
 }
 
@@ -79,23 +77,27 @@ const cepLs & cepLs::cepDoRW(cepMatrix<double> &data, cepMatrix<double> &matP)
   sanityCheck(matA, matP);
   
   calcRW(matA, matP, matL);
-  
   return *this;
 }
 
 const cepMatrix<double> &cepLs::getResidual()
 {
-  return residual;
+  return m_residual;
+}
+
+const cepMatrix<double> &cepLs::getDetrend()
+{
+  return m_detrended;
 }
 
 double cepLs::getB1()
 {
-  return matX.getValue(0,0);
+  return m_matX.getValue(0,0);
 }
 
 double cepLs::getB2()
 {
-  return matX.getValue(1,0);
+  return m_matX.getValue(1,0);
 }
 const cepMatrix<double> cepLs::initResiduals(cepMatrix<double> &data)
 {
@@ -181,7 +183,7 @@ void cepLs::calcVCV(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<
   AtransP *= matL;
   AtPInv *= AtransP;
 
-  matX = AtPInv;
+  m_matX = AtPInv;
   calcResiduals(matA, matL);
 }
 
@@ -201,16 +203,16 @@ void cepLs::calcRW(cepMatrix<double> &matA, cepMatrix<double> &matP, cepMatrix<d
   AtransP *= matL;
   AtPInv *= AtransP;
 
-  matX = AtPInv;
+  m_matX = AtPInv;
   calcResiduals(matA, matL);
 }
 
 const cepMatrix<double> cepLs::reweightVCV()
 {
-  cepMatrix<double> tempResidual (5,1), newP(residual.getNumRows(), residual.getNumRows());
+  cepMatrix<double> tempResidual (5,1), newP(m_residual.getNumRows(), m_residual.getNumRows());
   int numSwap = -1, median;
   double temp, per25, per75, upperQ, lowerQ;
-  tempResidual = residual;
+  tempResidual = m_residual;
 
   //sort residuals in ascending order
   for(int i = 0; i < tempResidual.getNumRows(); i ++){
@@ -276,7 +278,7 @@ const cepMatrix<double> cepLs::reweightVCV()
       }
       else
       {
-        if((residual.getValue(i,0) < per25) || (residual.getValue(i,0) > per75))
+        if((m_residual.getValue(i,0) < per25) || (m_residual.getValue(i,0) > per75))
         {
           newP.setValue(i, j, 0);
         }
@@ -426,10 +428,7 @@ void cepLs::sanityCheck( cepMatrix<double> &matA, cepMatrix<double> &matP)
 void cepLs::calcResiduals(cepMatrix<double> &matA, cepMatrix<double> &matL)
 {
   //calc rediuals= A*X - L
-  residual = matA;
-  residual *= matX;
-  residual -= matL;
+  m_residual = matA;
+  m_residual *= m_matX;
+  m_residual -= matL;
 }
-
-
-
