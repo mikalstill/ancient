@@ -28,7 +28,15 @@ There are a plethora graphical user interface toolkits available today. As each 
 </para>
 </sect4>
 
-<sect4><title>KDE</title>
+<sect4><title>KDE and QT</title>
+<para>
+KDE development started in October 1996 (KDE 2002), as a replacement for Sun's CDE. KDE is based on Trolltech's qt widget set (Trolltech 2002).
+</para>
+
+<figure><title>The default KDE theme, Konquerer</title>
+<execute><cmd>img</cmd><args>kde300-snapshot2-320x240.jpg</args></execute>
+</figure>
+
 <para>
 ...
 </para>
@@ -38,6 +46,10 @@ There are a plethora graphical user interface toolkits available today. As each 
 <para>
 ...
 </para>
+
+<figure><title>The Solaris version of the GNOME desktop</title>
+<execute><cmd>img</cmd><args>gnome.png</args></execute>
+</figure>
 </sect4>
 
 <sect4><title>GTK</title>
@@ -52,18 +64,22 @@ There are a plethora graphical user interface toolkits available today. As each 
 </para>
 </sect4>
 
-<sect4><title>QT</title>
-<para>
-...
-</para>
-</sect4>
-
 <sect4><title>wxWindows</title>
 <para>
 ...
 </para>
 </sect4>
 
+</sect3>
+
+<sect3><title>Windowing toolkit selection</title>
+<para>
+...
+</para>
+
+<para>
+As previously mentioned, all of these toolkits require developers to write in c++, which was one of the determining factors in the development of the application.
+</para>
 </sect3>
 
 <sect3><title>Batch user interface</title>
@@ -162,9 +178,20 @@ Because the grammar for the scripting language implemented by the batch version 
   </para>      
   </sect3> <!--Implementation-->
   
-  <sect3><title>Integration</title>
-  <para></para>
-  </sect3> <!--Integration-->
+<sect3><title>Integration</title>
+<para>
+A large amount of the user interface development has been integrating the graphical user interface to the various pieces of mathematical functionality in <command>GDMS</command>. This integration has been eased by following a standard process for integrating mathematical functionality. The process is as follows:
+</para>
+
+<itemizedlist>
+<listitem><para><emphasis>All functionality is either accessed from the mouse, or a menu</emphasis>. This leads to a consistent user interface, and minimizes user confusion.</para></listitem>
+<listitem><para><emphasis>The output of all mathematical operations is a new dataset</emphasis>, and hence a new tab in the main application window. This has several advantages, including: easing the implementation of the batch interface to the application; allowing ease of comparison of the dataset before and after the application of the mathematical operation; and TODO SOMETHING ELSE HERE.</para></listitem>
+</itemizedlist>
+
+<para>
+Further documentation of the actual functionality available in the <command>GDMS</command> application is available in the user manual.
+</para>
+</sect3> <!--Integration-->
 
 
   <sect3><title>Future Enahncements</title>
