@@ -12,6 +12,8 @@ string toString (bool val);
 string toString (char val);
 string toString (size_t val);
 
+string binaryToString (void *buf, unsigned int len);
+
 // Evaluation methods
 bool isBlankCharacter (char chr);
 bool isNumericCharacter (char chr, bool negAllowed = true);

@@ -83,6 +83,22 @@ toString (size_t val)
   return string (buffer);
 }
 
+string
+binaryToString(void *buf, unsigned int length)
+{
+  string retval;
+  char *cbuf = (char *) buf;
+
+  for(unsigned int i = 0; i < length; i++){
+    if((cbuf[i] > 31) && (cbuf[i] < 127))
+      retval += cbuf[i];
+    else
+      retval += "\\" + toString((unsigned int) cbuf[i]) + " ";
+  }
+
+  return retval;
+}
+
 bool
 isBlankCharacter (char c)
 {

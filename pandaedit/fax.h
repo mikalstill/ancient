@@ -10,7 +10,7 @@ public:
   char *decompress (char *output, unsigned long length,
 		    unsigned long &newlength);
 
-  // Extras for this format
+  // Special functions needed to build the fake tiff
   void setWidth(long width);
   void setLength(long length);
   void setK(int k);

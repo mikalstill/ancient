@@ -9,6 +9,10 @@
 #include "raster.h"
 #include "verbosity.h"
 
+char *inflateraster(char *input, unsigned long width, unsigned long height, 
+                    int bitdepth, int targetbitdepth, 
+                    int channels, int targetchannels);
+
 pdfRender::pdfRender (pdf & thePDF, object page, int pageno):
 m_page (page),
 m_contents (-1, -1),
@@ -357,6 +361,27 @@ pdfRender::command_Do ()
   raster rast (image);
   stream = image.getStream (rast, needStreamClean, length);
   rast.setData (stream);
+
+  // Exapnd the raster to the bit depth of the output raster
+  char *newstream1, *newstream2;
+  // todo_mikal: remove hard coding
+  // todo_mikal: when single pass limitation is fixed, then this should be nicer...
+  newstream1 = inflateraster(stream, rast.getWidth(), rast.getHeight(), 1, 8, 1, 1);
+  if((int) newstream1 == -1){
+    debug(dlError, "Raster inflation failed");
+    return;
+    }
+
+  newstream2 = inflateraster(newstream1, rast.getWidth(), rast.getHeight(), 8, 8, 1, 3);
+  if((int) newstream2 == -1){
+    free(newstream1);
+    debug(dlError, "Raster inflation failed");
+    return;
+    }
+
+  plot_overlayraster(m_plot, newstream2, 0, 0, m_width, m_height, rast.getWidth(), rast.getHeight());
+  free(newstream1);
+  free(newstream2);
 }
 
 // Exit text mode
