@@ -20,7 +20,9 @@
 
 #include "cepWindowRect.h"
 
-cepWindowRect::cepWindowRect( int size ) : cepWindowAlg( size ) {}  // call the parents constructor
+cepWindowRect::cepWindowRect( int size ) : cepWindowAlg( size ) {
+  init();
+}
 
 cepWindowRect::~cepWindowRect()
 {
@@ -28,6 +30,7 @@ cepWindowRect::~cepWindowRect()
 }
 
 
-double cepWindowRect::getValue( int ofset ) {
+double cepWindowRect::getValue( int offset ) {
+  // always return a scaling factor of 1
   return 1;
 }

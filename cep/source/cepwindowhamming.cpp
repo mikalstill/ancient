@@ -20,7 +20,9 @@
 
 #include "cepwindowhamming.h"
 
-cepWindowHamming::cepWindowHamming( int size ) : cepWindowAlg( size ) {}
+cepWindowHamming::cepWindowHamming( int size ) : cepWindowAlg( size ) {
+  init();
+}
 
 cepWindowHamming::~cepWindowHamming()
 {
