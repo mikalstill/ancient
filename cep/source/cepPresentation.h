@@ -32,8 +32,8 @@ class cepError;
 class cepPresentation
 {
 public:
-  cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2, bool haveLs,
-		   string offset);
+  cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2, 
+		   bool haveLs, bool freqDomain, string offset);
 
   void xAxisTitle (const string & title);
   void yAxisTitle (const string & title);
@@ -90,6 +90,8 @@ private:
   double m_b2;
   bool m_haveLs;
   string m_offset;
+
+  bool m_freqDomain;
 
   cepConfiguration *m_config;
 };

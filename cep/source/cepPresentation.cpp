@@ -42,8 +42,8 @@ const long CHUNKALLOC = 10;
 
 const long INVALID = -2000000000;
 
-cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, double b2,
-				  bool haveLs, string offset):
+cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds, double b1, 
+				  double b2, bool haveLs, bool freqDomain, string offset):
   m_width(width + 1),
   m_height(height),
   m_xTitle("Undefined Axis Title"),
@@ -61,7 +61,8 @@ cepPresentation::cepPresentation (long width, long height, cepMatrix<double> *ds
   m_b1(b1),
   m_b2(b2),
   m_haveLs(haveLs),
-  m_offset(offset)
+  m_offset(offset),
+  m_freqDomain(freqDomain)
 {
   m_axesColor.red = 0;
   m_axesColor.green = 0;
@@ -242,7 +243,8 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
 
   ////////////////////////////////////////////////////////////////////////////////
   // If we are using errors, then we draw these underneath
-  if(m_useErrors){
+  // You can't have error bars in the frequency domain
+  if(m_useErrors && !m_freqDomain){
     cepDebugPrint("Displaying errors");
    
     plot_setlinecolor(graph, m_errorColor.red, m_errorColor.green,
@@ -332,6 +334,7 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   
   ////////////////////////////////////////////////////////////////////////////////
   // The scale also belongs over the errors, but below the graph line
+  string ltext;
 
   // Minimum value horizontal
   const int textHeight = 5;
@@ -341,9 +344,16 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   plot_strokeline(graph);
   plot_endline(graph);
 
-  cepDate startDate((float) m_xminval / 10000);
+  if(m_freqDomain){
+    ltext = cepToString((float) m_xminval / 10000);
+  }
+  else{
+    cepDate startDate((float) m_xminval / 10000);
+    ltext = startDate.getShortDate();
+  }
+
   plot_settextlocation(graph, graphInset, m_height - textHeight);
-  plot_writestring(graph, (char *) startDate.getShortDate().c_str());  
+  plot_writestring(graph, (char *) ltext.c_str());  
   
   // Midpoint value horizontal
   plot_setlinestart(graph, m_width / 2, m_height - textHeight - 12);
@@ -351,12 +361,19 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   plot_strokeline(graph);
   plot_endline(graph);
 
-  cepDate midDate((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / 10000);
+  if(m_freqDomain){
+    ltext = cepToString((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / 10000);
+  }
+  else{
+    cepDate midDate((float) ((m_xmaxval - m_xminval) / 2 + m_xminval) / 10000);
+    ltext = midDate.getShortDate();
+  }
+
   plot_settextlocation(graph, 
 		       (m_width / 2) - 
-		       (plot_stringwidth(graph, (char *) midDate.getShortDate().c_str())/ 2), 
+		       (plot_stringwidth(graph, (char *) ltext.c_str())/ 2), 
 		       m_height - textHeight);
-  plot_writestring(graph, (char *) midDate.getShortDate().c_str());
+  plot_writestring(graph, (char *) ltext.c_str());
 
   // Maximum value horizontal
   plot_setlinestart(graph, m_width - graphInset, m_height - textHeight - 12);
@@ -364,11 +381,18 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
   plot_strokeline(graph);
   plot_endline(graph);
 
-  cepDate endDate((float) m_xmaxval / 10000);
+  if(m_freqDomain){
+    ltext = cepToString((float) m_xmaxval / 10000);
+  }
+  else{
+    cepDate endDate((float) m_xmaxval / 10000);
+    ltext = endDate.getShortDate();
+  }
+  
   plot_settextlocation(graph, m_width - 
-		       plot_stringwidth(graph, (char *) endDate.getShortDate().c_str()) - graphInset, 
+		       plot_stringwidth(graph, (char *) ltext.c_str()) - graphInset, 
 		       m_height - textHeight);
-  plot_writestring(graph, (char *) endDate.getShortDate().c_str());
+  plot_writestring(graph, (char *) ltext.c_str());
 
   /////////////////////////
   // Minimum value vertical
@@ -401,6 +425,7 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
       break;
     }
 
+    bool lineStarted = false;
     plot_setlinecolor(graph, m_lineColor.red, m_lineColor.green,
 		      m_lineColor.blue);
     for(int i = 0; i < m_ds->getNumRows(); i++){
@@ -422,13 +447,29 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
       }
       
       unsigned int xpoint = (unsigned int) ((convdate - m_xminval) / vertScale + graphInset);
-      unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / horizScale + graphInset);
-      
-      plot_setlinestart(graph, xpoint - 1, ypoint);
-      plot_addlinesegment(graph, xpoint, ypoint - 1);
-      plot_addlinesegment(graph, xpoint + 1, ypoint);
-      plot_addlinesegment(graph, xpoint, ypoint + 1);
-      plot_closeline(graph);
+      unsigned int ypoint = (unsigned int) ((yrange - convsample + yminval) / horizScale + 
+					    graphInset);
+
+      if(m_freqDomain){
+	if(!lineStarted){
+	  plot_setlinestart(graph, xpoint, ypoint);
+	  lineStarted = true;
+	}
+	else
+	  plot_addlinesegment(graph, xpoint, ypoint);
+      }
+      else{
+	plot_setlinestart(graph, xpoint - 1, ypoint);
+	plot_addlinesegment(graph, xpoint, ypoint - 1);
+	plot_addlinesegment(graph, xpoint + 1, ypoint);
+	plot_addlinesegment(graph, xpoint, ypoint + 1);
+	plot_closeline(graph);
+	plot_strokeline(graph);
+	plot_endline(graph);
+      }
+    }
+
+    if(m_freqDomain && lineStarted){
       plot_strokeline(graph);
       plot_endline(graph);
     }
@@ -436,7 +477,8 @@ cepPresentation::createBitmap (float& horizScale, float& vertScale, long& xminva
 
   ////////////////////////////////////////////////////////////////////////////////
   // The least squares line (if any) is on top of _everything_ else
-  if(m_haveLs){
+  // you also can't have one of these in the frequency domain...
+  if(m_haveLs && !m_freqDomain){
     cepDebugPrint("Plotting LS line of best fit");
 
     // Write the equation onto the graph

@@ -24,7 +24,7 @@
 #include "cepStringArray.h"
 
 cepDataset::cepDataset():
-m_filename(""), m_procHistory(""), m_ready(false), m_wellformed(false)
+  m_filename(""), m_procHistory(""), m_ready(false), m_wellformed(false), m_frequencyData(false)
 {
     for (int i = 0; i < dirUnknown; i++) {
         m_data[i] = NULL;
@@ -39,7 +39,7 @@ m_filename(""), m_procHistory(""), m_ready(false), m_wellformed(false)
 }
 
 cepDataset::cepDataset(cepDatasetProgressCB callback):
-m_filename(""), m_procHistory(""), m_ready(false), m_wellformed(false)
+m_filename(""), m_procHistory(""), m_ready(false), m_wellformed(false), m_frequencyData(false)
 {
     for (int i = 0; i < dirUnknown; i++) {
         m_data[i] = NULL;
@@ -61,7 +61,7 @@ cepDataset::cepDataset(cepMatrix < double >*data0,
                        double b1_0, double b1_1, double b1_2, double b2_0,
                        double b2_1, double b2_2, bool haveLs0,
                        bool haveLs1, bool haveLs2):m_filename(""),
-m_procHistory(procHistory), m_ready(true), m_wellformed(true)
+m_procHistory(procHistory), m_ready(true), m_wellformed(true), m_frequencyData(false)
 {
     m_data[0] = data0;
     m_data[1] = data1;
@@ -96,7 +96,7 @@ m_procHistory(procHistory), m_ready(true), m_wellformed(true)
 cepError cepDataset::read(const string & filename)
 {
     m_filename = filename;
-    frequencyData = false;
+    m_frequencyData = false;
 
     // Step One: ensure that all of the files we need are actually there,
     // it would be bad to read two of the three files, and _then_ report
@@ -273,9 +273,7 @@ cepError cepDataset::read(const string & filename)
                 } else {
                     // This is a header / textual line -- perhaps it's
                     // even an offset line
-                    // BS - todo. check if the tag for fourier domain is here !!!
-                    // See Mikal's comment below...
-                    if (numLines == 1) {
+                     if (numLines == 1) {
                         cepStringArray sa(thisLine, " ");
 
                         // Is this an offset line?
@@ -293,7 +291,11 @@ cepError cepDataset::read(const string & filename)
                         // Well, then it must be a processing statement
                         // line
                         else if (i == 0) {
-			  // Blake, the FD tag will be here...
+			  if(thisLine.substr(0, 2) == "FD"){
+			    m_frequencyData = true;
+			    cepDebugPrint("Dataset is in the freqency domain");
+			  }
+
 			  m_procHistory = thisLine;
                         }
                     }
@@ -470,27 +472,22 @@ cepError cepDataset::write(const string & filename)
     cepDebugPrint("All dataset files exist");
 
     for (int i = 0; i < 3; i++) {
+        if(m_frequencyData && (m_procHistory.substr(0, 2) != "FD"))
+	  files[i] << "FD ";
+	
         files[i] << m_procHistory << endl;
         files[i] << m_header[i];
-
+      
 	if(m_haveLs[i]){
 	  cepDebugPrint("Saving the LS line of best fit");
 	  files[i] << " LSEqn " << m_b1[i] << " " << m_b2[i];
 	}
 	files[i] << endl << endl;
 
-//        cepDebugPrint("Writing dataset with offset of " + m_offset[i] +
-//                      " in direction " + cepToString(i));
-//        cout << "writing dataset to " << filename << endl;
-//        cout << "elements=" << m_data[i]->getNumRows() << endl;
-//        cout << "columns=" << m_data[i]->getNumCols() << endl;
-//        cout << "windows=" << m_data[i]->getNumTables() << endl;
+        cepDebugPrint("Writing dataset with offset of " + m_offset[i] +
+                      " in direction " + cepToString(i));
 
-        // if we have multiple windows.
-        // the 2D matrix cannot handle being called with 3 params, even if the third on is always 1
-        // BUGGER
-        bool mult = (m_data[i]->getNumTables() > 1);
-        // iterate through windows
+        // Iterate through windows
         for (int wcount = 0; wcount < m_data[i]->getNumTables(); wcount++ ) {
             // iterate through elements of each window
             if( wcount > 0 && wcount < m_data[i]->getNumTables() ) {
@@ -498,39 +495,26 @@ cepError cepDataset::write(const string & filename)
             }
             for (int vcount = 0; vcount < m_data[i]->getNumRows(); vcount++) {
                 ostringstream line;
-                if( mult ) {
-                    line << " " << cepToString(m_data[i]->getValue(vcount, colDate, wcount));
-                } else {
-                    line << " " << cepToString(m_data[i]->getValue(vcount, colDate));
-                }
+		line << " " << cepToString(m_data[i]->getValue(vcount, colDate, wcount));
                 if (m_data[i]->getError().isReal())
                     return m_data[i]->getError();
 
-                if( mult ) {
-                    line << " " << reverseOffset((direction) i,cepToString(m_data[i]->getValue(vcount,colSample, wcount)+m_offsetFloat[i]));
-                } else {
-                    line << " " << reverseOffset((direction) i,cepToString(m_data[i]->getValue(vcount,colSample)+m_offsetFloat[i]));
-                }
+		line << " " << reverseOffset((direction) i,
+					     cepToString(m_data[i]->getValue(vcount,colSample, 
+									     wcount)+
+							 m_offsetFloat[i]));
                 if (m_data[i]->getError().isReal())
                     return m_data[i]->getError();
 
-                if( mult ) {
-                    line << " " << cepToString(m_data[i]->getValue(vcount, colError, wcount));
-                } else {
-                    line << " " << cepToString(m_data[i]->getValue(vcount, colError));
-                }
+		line << " " << cepToString(m_data[i]->getValue(vcount, colError, wcount));
                 if (m_data[i]->getError().isReal())
                     return m_data[i]->getError();
 
                 // if we have more than 3 fields, write real data, otherwise write 0
                 if( m_data[i]->getNumCols() > 3 ) {
-                    if( mult ) {
-                        line << " " << cepToString(m_data[i]->getValue(vcount, colColourHint, wcount));
-                    } else {
-                        line << " " << cepToString(m_data[i]->getValue(vcount, colColourHint));
-                    }
+		  line << " " << cepToString(m_data[i]->getValue(vcount, colColourHint, wcount));
                 } else {
-                     line << " " << 0.0;
+		  line << " " << 0.0;
                 }
                 
                 if (m_data[i]->getError().isReal())
@@ -839,7 +823,20 @@ bool cepDataset::getHaveLs(direction i)
     return m_haveLs[i];
 }
 
+// Is this data in the frequency domain?
+bool cepDataset::isFreqDomain()
+{
+  return m_frequencyData;
+}
+
+// Set this data as being in the frequency domain
+void cepDataset::setFreqDomain(bool isFreq){
+  m_frequencyData = isFreq;
+}
+
 const double cepDataset::delim = -255.0;
+
+
 
 
 cepVector4D::cepVector4D():

@@ -24,15 +24,15 @@
 
 cepPlot::cepPlot(cepDataset *theDataset, cepDataset::direction dir, string cfname, long x, long y,
 		 float& horizScale, float& vertScale, long& xminval, long& yminval, long& yrange,
-		 bool haveLs):
+		 bool haveLs, bool freqDomain):
   m_plotfailed(false)
 {
   cepConfiguration *config;
   config = (cepConfiguration *) &cepConfiguration::getInstance();
   cepDebugPrint("New presentation: " + cepToString(x) + " x " + cepToString(y));
   cepDebugPrint("Has a LS line: " + cepToString(haveLs));
-  cepPresentation pres (x, y, theDataset->getMatrix(dir), theDataset->getB1(dir), theDataset->getB2(dir),
-			haveLs, theDataset->getOffset(dir));
+  cepPresentation pres (x, y, theDataset->getMatrix(dir), theDataset->getB1(dir), 
+			theDataset->getB2(dir), haveLs, freqDomain, theDataset->getOffset(dir));
   
   cepError err;
   int red = 0, green = 0, blue = 0;

@@ -106,7 +106,7 @@ DOCBOOK END
   { \
     if (matrix.getError().isReal()) \
     { \
-      m_error =(char*) matrix.getError().getMessage().c_str(); \
+      m_error = getError(); \
       return matrix; \
     } \
   }
@@ -155,7 +155,7 @@ public:
   void hermitian (T * buf);
 
 private:
-   char * m_error;
+   cepError m_error;
 
 };				// class cepCfft
 
@@ -180,15 +180,20 @@ template < class T >
   iscales[0] = scalei1;
   iscales[1] = scalei2;
 
+  bitrev = NULL;
+  w = NULL;
+
   for (k = 0;; ++k)
     {
       if ((1 << k) == size)
 	break;
-      if (k == 14 || (1 << k) > size)
-	cepError ("Error, FFT size must be a power of 2",
-		  cepError::sevErrorRecoverable);
-      //throw "cepCfft: size not power of 2";
+      if (k == 14 || (1 << k) > size){
+	m_error = cepError ("Error, FFT size must be a power of 2",
+			    cepError::sevErrorRecoverable);
+	return;
+      }
     }
+
   N = 1 << k;
   log2N = k;
 
@@ -198,9 +203,11 @@ template < class T >
     w = new T[N >> 1];
   else
     w = NULL;
-  if (bitrev == NULL || ((k > 0) && w == NULL))
-    cepError ("Error, FFT out of memory", cepError::sevErrorRecoverable);
-  //throw "cepCfft: out of memory";
+  if (bitrev == NULL || ((k > 0) && w == NULL)){
+    m_error = cepError ("Error, FFT out of memory", cepError::sevErrorRecoverable);
+    return;
+  }
+
   // 
   // do bit-rev table
   // 
@@ -239,9 +246,11 @@ template < class T >
  */
 template < class T > cepCfft < T >::~cepCfft ()
 {
-  delete[]bitrev;
+  if(bitrev != NULL)
+    delete[] bitrev;
+
   if (w != NULL)
-    delete[]w;
+    delete[] w;
 }
 
 /*
@@ -275,11 +284,7 @@ template < class T > void cepCfft < T >::hermitian (T * buf)
 template <class T>
 cepError cepCfft<T>::getError()
 {
-  if(m_error == NULL)
-  {
-    return cepError("", cepError::sevErrorRecoverable);
-  }
-  return cepError(m_error, cepError::sevErrorRecoverable);
+  return m_error;
 }
     	
 
@@ -307,8 +312,7 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
   double checks[NUMCHECKS];
 
   ComplexDble arrayToFft[arraySize];
-  m_error = NULL;
-  cepMatrix < ComplexDble > ffteedMatrix (numRows, numCols, numTables);	//matrix contain to store processed values
+  cepMatrix < ComplexDble > ffteedMatrix (numRows / 2, numCols, numTables);	//matrix to store processed values
   checkMatrixError(ffteedMatrix);
 
   if (dir == 1)			//Forward,  calculate scale
@@ -332,11 +336,11 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
     
 
 	  //the second half of the scale
-	  for (row = halfSetSize; row < numRows; row++)
-	  {
-	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,(freq * (numRows - row)) / numRows);
-	    checkMatrixError(ffteedMatrix);	   
-	  }
+	  //	  for (row = halfSetSize; row < numRows; row++)
+	  //	  {
+	  //	    ffteedMatrix.setValue (row, FIRSTCOLUMN, table,(freq * (numRows - row)) / numRows);
+	  //	    checkMatrixError(ffteedMatrix);	   
+	  //	  }
 	}			//for table
     }				//end if
 
@@ -379,12 +383,12 @@ template < class T > cepMatrix < ComplexDble > cepCfft <
       else			//(dir == 0)
 	ifft (arrayToFft);
 
-      //place the processed values into the marix.
+      //place the processed values into the matrix.
       ComplexDble tempValue = 0.0;
       //double tempValue = 0.0;
       for (col = 1; col < numCols; col++)
 	{
-	  for (row = 0; row < numRows; row++)
+	  for (row = 0; row < numRows / 2; row++)
 	    {
 	      //populate ffteedMatrix with magnitude
 	      if (col == 1)	//if we are looking at a data value

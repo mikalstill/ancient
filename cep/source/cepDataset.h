@@ -74,8 +74,6 @@ class cepDataset {
      cepDataset();
      cepDataset(const cepDatasetProgressCB callback);
 
-    // 19 parameters. might this be overkill?
-    // requires a rethink
      cepDataset(cepMatrix < double >*data0, cepMatrix < double >*data1,
                 cepMatrix < double >*data2, string offset0,
                 string offset1, string offset2, string procHistory,
@@ -100,6 +98,9 @@ class cepDataset {
 
     // Return a dataset with some values replaced
     cepDataset replace(float low, float high, float sample);
+
+    // Put methods
+    void setFreqDomain(bool isFreq);
 
     // Utility methods
     direction getDirectionFromName(string name);
@@ -126,7 +127,7 @@ class cepDataset {
      cepMatrix < double >*m_data[dirUnknown];
     bool m_ready;
     bool m_wellformed;
-    bool frequencyData;
+    bool m_frequencyData;
 
     double m_b1[dirUnknown];
     double m_b2[dirUnknown];

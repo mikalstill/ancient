@@ -291,7 +291,8 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     cepPlot plot(theDataset, dir, cfname, presWidth, presHeight, 
 		 canvas->m_vertScale[(int) dir], canvas->m_horizScale[(int) dir],
 		 canvas->m_xminval[(int) dir], canvas->m_yminval[(int) dir],
-		 canvas->m_yrange[(int) dir], theDataset->getHaveLs(dir));
+		 canvas->m_yrange[(int) dir], theDataset->getHaveLs(dir),
+		 theDataset->isFreqDomain());
     m_plotfailed = plot.getFailed();
     
     m_pngCache[(int) dir] = string(cfname);
@@ -891,19 +892,113 @@ cepView::processInterp(const int iType, string desc)
 void cepView::OnFFT (wxCommandEvent& event)
 {
   cepMatrix<double> ffted[cepDataset::dirUnknown];
-
+    
   cepDoc *theDoc = (cepDoc *) GetDocument ();
   cepDataset *theDataset = theDoc->getDataset ();
   if (theDataset && theDataset->isReady() && theDataset->isWellFormed()){
     for(int i = 0; i < cepDataset::dirUnknown; i++)
       {
+	cepDebugPrint("Performing FFT in " + cepToString(i) + " direction");
+
 	// We need to copy add the data across into complex land...
-	cepMatrix<ComplexDble> input;
+	cepMatrix<ComplexDble> input(theDataset->getMatrix((cepDataset::direction) i)->getNumRows(),
+				     theDataset->getMatrix((cepDataset::direction) i)->getNumCols());
 	
+	// I assume that an FFT is only on a 2d matrix
+	for(int row = 0; 
+	    row < theDataset->getMatrix((cepDataset::direction) i)->getNumRows(); row++){
+	  for(int col = 0; 
+	      col < theDataset->getMatrix((cepDataset::direction) i)->getNumCols(); col++){
+	    input.setValue(row, col, theDataset->getMatrix((cepDataset::direction) i)->
+	      getValue(row, col));
 
+	    if(theDataset->getMatrix((cepDataset::direction) i)->getError().isReal()){
+	      cepDebugPrint("FFT data conversion, extract from dataset");
+	      theDataset->getMatrix((cepDataset::direction) i)->getError().display();
+	      canvas->Refresh();
+	      return;
+	    }
 
-	//	cepCfft<double> myFFT(theDataset->getMatrix((cepDataset::direction) i)->getNumRows());
-	//	ffted[i] = myFFT.matrixFft(*theDataset->getMatrix((cepDataset::direction) i), 1);
+	    if(input.getError().isReal()){
+	      cepDebugPrint("FFT data conversion, push to input");
+	      input.getError().display();
+	      canvas->Refresh();
+	      return;
+	    }
+	  }
+	}
+	
+	// Determine how many items we are going to perform an FFT on
+	// It has to be a power of two
+	cepDebugPrint("Dataset contains " + 
+		      cepToString(theDataset->getMatrix((cepDataset::direction) i)->getNumRows()) +
+		      " elements");
+	int fftScale = theDataset->getMatrix((cepDataset::direction) i)->getNumRows();
+	for (int k = 0;; ++k)
+	  {
+	    // The size is already a power of two
+	    if ((1 << k) == fftScale)
+	      break;
+
+	    // It is not a power of two
+	    if (k == 14 || (1 << k) > fftScale){
+	      // Always go low for now...
+	      fftScale = 1 << (k - 1);
+	      break;
+	    }
+	  }
+	cepDebugPrint("FFT applied to " + cepToString(fftScale) + " elements");
+
+	cepCfft<ComplexDble> myFFT(fftScale);
+	if(myFFT.getError().isReal()){
+	  cepDebugPrint("Error from FFT initialization function");
+	  myFFT.getError().display();
+	  canvas->Refresh();
+	  return;
+	}
+
+	cepMatrix<ComplexDble> output = myFFT.matrixFft(input, 1);
+	if(myFFT.getError().isReal()){
+	  cepDebugPrint("Error from FFT calculation function");
+	  myFFT.getError().display();
+	  canvas->Refresh();
+	  return;
+	}
+
+	// Make a new matrix to put this into
+	ffted[i] = cepMatrix<double> (output.getNumRows(), output.getNumCols());
+	if(output.getError().isReal()){
+	  cepDebugPrint("Error determining size of FFT output");
+	  output.getError().display();
+	  canvas->Refresh();
+	  return;
+	}
+
+	// Now we need to get the data back to what we want
+	cepDebugPrint("The output matrix is " + cepToString(output.getNumRows()) + " x " +
+		      cepToString(output.getNumCols()));
+	for(int row = 0; row < output.getNumRows(); row++){
+	  for(int col = 0; col < output.getNumCols(); col++){
+	    cepDebugPrint("Getting output: row = " + cepToString(row) + " col = " +
+			  cepToString(col));
+
+	    // Again, I have assumed that there is only one table
+	    ffted[i].setValue(row, col, real(output.getValue(row, col, 0)));
+	    if(output.getError().isReal()){
+	      cepDebugPrint("FFT data conversion, get output");
+	      output.getError().display();
+	      canvas->Refresh();
+	      return;
+	    }
+
+	    if(ffted[i].getError().isReal()){
+	      cepDebugPrint("FFT data conversion, push to new dataset");
+	      ffted[i].getError().display();
+	      canvas->Refresh();
+	      return;
+	    }
+	  }
+	}
       }
     
     // Now we can process the results
@@ -915,6 +1010,7 @@ void cepView::OnFFT (wxCommandEvent& event)
 		     theDataset->getHeader((cepDataset::direction) 0), 
 		     theDataset->getHeader((cepDataset::direction) 1), 
 		     theDataset->getHeader((cepDataset::direction) 2));
+    newds.setFreqDomain(true);
     
     char *cfname = strdup("/tmp/cep.XXXXXX");
     int fd;
