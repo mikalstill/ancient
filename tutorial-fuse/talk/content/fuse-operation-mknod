@@ -1,0 +1,15 @@
+TITLE: mknod
+
+<ul>
+<pre>
+static int mcachefs_mknod(const char *path, mode_t mode, dev_t rdev)
+{
+<b>...</b>
+}
+</pre>
+
+<li>mcachefs just passes the arguements straight through to the mknod system call
+</ul>
+
+%% How are accesses to the device special file done in the kernel? Do they get
+%% read calls?

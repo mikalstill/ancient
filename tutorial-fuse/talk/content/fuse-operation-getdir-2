@@ -1,0 +1,33 @@
+TITLE: getdir
+
+<ul>
+<li>The man page for readdir() doesn't specify the values for type
+<li>The glibc manual says:
+
+<pre>
+unsigned char d_type
+    This is the type of the file, possibly unknown. The following constants are defined for its value:
+
+    DT_UNKNOWN
+        The type is unknown. On some systems this is the only value returned.
+
+    DT_REG
+        A regular file.
+
+    DT_DIR
+        A directory.
+
+    DT_FIFO
+        A named pipe, or FIFO. See section 15.3 FIFO Special Files.
+
+    DT_SOCK
+        A local-domain socket.
+
+    DT_CHR
+        A character device.
+
+    DT_BLK
+        A block device. 
+
+    This member is a BSD extension. The symbol _DIRENT_HAVE_D_TYPE is defined if this member is available. On systems where it is used, it corresponds to the file type bits in the st_mode member of struct statbuf. If the value cannot be determine the member value is DT_UNKNOWN.
+</pre></ul>

@@ -1,1 +1,11 @@
-TITLE: What operation gets called when?
+TITLE: What do we need to do for each operation?
+
+<ul>
+<li>Another way to look at it is to ask what we need to do to implement each operation
+<li>That would form a step by step guide to writing a FUSE filesystem
+<li>Which sounds kinda like a tutorial...
+
+<BR><BR>
+
+<li>Let's do that!
+</ul>

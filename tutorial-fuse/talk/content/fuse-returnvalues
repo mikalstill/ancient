@@ -1,0 +1,6 @@
+TITLE: Return values from your operations
+
+<ul>
+<li>Error codes are negative
+<li>Generally the only thing returned is an error code, or zero
+</ul>

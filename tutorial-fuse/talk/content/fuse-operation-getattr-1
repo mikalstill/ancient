@@ -1,0 +1,29 @@
+TITLE: getattr
+
+<ul>
+<li>This is the kernel equivalent of stat
+<li>Here's the mcachefs version:
+
+<pre>
+static int mcachefs_getattr(const char *path, struct stat *stbuf)
+{
+    int res;
+    char *realpath;
+
+    realpath = mcachefs_makerealpath(path);
+    if(realpath == NULL)
+      {
+	return -ENOMEM;
+      }
+    
+    res = lstat(realpath, stbuf);
+
+    free(realpath);
+    if(res == -1)
+      return -errno;
+    return 0;
+}
+</pre>
+
+<li>There is some extra stuff here to deal with mcachefs' backing store
+</ul>

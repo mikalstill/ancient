@@ -1,0 +1,27 @@
+TITLE: getattr
+
+<ul>
+<li>The statbuf which lstat returns is kinda big...
+
+<pre>
+struct stat {
+    dev_t         st_dev;      /* device */
+    ino_t         st_ino;      /* inode */
+    <b>mode_t        st_mode;     /* protection */</b>
+    <b>nlink_t       st_nlink;    /* number of hard links */</b>
+    <b>uid_t         st_uid;      /* user ID of owner */</b>
+    <b>gid_t         st_gid;      /* group ID of owner */</b>
+    <b>dev_t         st_rdev;     /* device type (if inode device) */</b>
+    <b>off_t         st_size;     /* total size, in bytes */</b>
+    blksize_t     st_blksize;  /* blocksize for filesystem I/O */
+    <b>blkcnt_t      st_blocks;   /* number of blocks allocated */</b>
+    <b>time_t        st_atime;    /* time of last access */</b>
+    <b>time_t        st_mtime;    /* time of last modification */</b>
+    <b>time_t        st_ctime;    /* time of last status change */</b>
+};
+</pre>
+
+<li>The lines in bold are actually <i>used</i> by FUSE
+<li>So they're the ones you'd have to hand fill if you don't have a backing file to refer to
+<li>What if you don't know the file size? Read the "Dynamic files with FUSE" thread from the mailing list...
+</ul>

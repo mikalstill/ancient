@@ -1,0 +1,36 @@
+TITLE: getdir
+
+<ul>
+<li>getdir is the opendir(), readdir(), and closedir() system calls rolled into one
+<li>You call the filldir parameter (which is a function pointer) once for each directory item
+
+<pre>
+static int mcachefs_getdir(const char *path, fuse_dirh_t h, fuse_dirfil_t filler)
+{
+    DIR *dp;
+    struct dirent *de;
+    int res = 0;
+    char *realpath;
+
+    realpath = mcachefs_makerealpath(path);
+    if(realpath == NULL)
+      {
+	return -ENOMEM;
+      }
+
+    dp = opendir(realpath);
+    
+    free(realpath);
+    if(dp == NULL)
+      return -errno;
+
+    while((de = readdir(dp)) != NULL) {
+        res = filler(h, de-&gt;d_name, de-&gt;d_type);
+        if(res != 0)
+            break;
+    }
+
+    closedir(dp);
+    return res;
+}
+</pre>
