@@ -1,0 +1,14 @@
+TITLE: Why userspace?
+
+<ul>
+<li>Ok, so I want a custom filesystem
+<li>Why should I do it in userspace?
+
+<BR><BR>
+
+<li>Broken kernel code makes many people sad
+<li>Kernel programming is harder than userspace programming
+<li>There are lots of nice userspace libraries
+<li>There are a <i>lot</i> of trained userspace coders out there
+<li>Some things just don't make sense in kernel space
+</ul>

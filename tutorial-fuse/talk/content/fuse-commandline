@@ -1,0 +1,29 @@
+TITLE: Fuse command line options
+
+<ul>
+<ul><pre>
+Options:
+    -d      enable debug output
+    -s      disable multithreaded operation
+    -h      print help
+
+Fusermount options:
+            see 'fusermount -h'
+</pre></ul>
+
+<BR><BR>
+
+<ul><pre>
+fusermount: [options] mountpoint [program [args ...]]
+Options:
+ -h       print help
+ -u       unmount
+ -p       check default permissions on files
+ -c       cache in kernel space if possible
+ -x       allow other users to access the files (only for root)
+ -n name  add 'name' as the filesystem name to mtab
+ -l       issue large reads
+ -q       quiet: don't complain if unmount fails
+</pre></ul>
+
+</ul>
