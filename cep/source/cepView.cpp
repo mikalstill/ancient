@@ -2,6 +2,7 @@
 /* 
  *   UI for the CEP program
  *   Copyright (C) Michael Still                    2002
+ *   Copyright (C) Kristy Van Der Vlist             2002
  *
  *   Based on a demo which originally had this notice:
  *  
@@ -56,6 +57,7 @@
 #include "cepView.h"
 #include "cepPresentation.h"
 #include "cepPlot.h"
+#include "cepLsUi.h"
 
 #include "cepLs.h"
 
@@ -522,7 +524,50 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
 // Perform a least squares regression on the dataset (in all directions)
 void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
 {
-  m_dirty = true;
+
+  cepLsUi lsUi;
+
+  lsUi.showIsReweight();
+  lsUi.showWhichDir();
+  lsUi.showIsReadP("direction x (North)");
+  lsUi.showGetfNameP();
+
+/*  int isReweight = isRw.showIsReweight();
+  string filename;
+  
+  if(isReweight != -1)
+  {
+    cepLsShowDir dir;
+//    cout << "dir x: " << dir.getWhichDir('x') << endl;
+//    cout << "dir y " << dir.getWhichDir('y') << endl;
+//    cout << "dir z " << dir.getWhichDir('z') << endl;
+
+    bool dirX = dir.getWhichDir('x');
+
+    if(dirX == true)
+    {
+      cepLsReadP file("x (North)");
+      filename = file.getFileName();
+      cout << "filename dir x: " << filename << endl;
+    }
+
+//    if(dir.getWhichDir('y') == true)
+    {
+      cepLsReadP file("y (East)");
+      filename = file.getFileName();
+      cout << "filename dir y: " << filename << endl;
+    }
+
+//    if(dir.getWhichDir('z') == true)
+    {
+      cepLsReadP file("z (Up)");
+      filename = file.getFileName();
+      cout << "filename dir z: " << filename << endl;
+    }  
+  }
+
+*/  
+/*m_dirty = true;
 
   LeastSquaresVCV(m_x, "x");
   LeastSquaresVCV(m_y, "y");
@@ -534,7 +579,7 @@ void cepView::OnLeastSquaresVCV (wxCommandEvent &pevt)
   if(err.isReal()){
     err.display();
   }
-
+*/
   canvas->Refresh();
 }
 
