@@ -36,6 +36,10 @@ int main(int argc, char *argv[]){
   }
 
   while(fgets(cmd, 1000, stdin) != NULL){
+    if(strlen(cmd) > 995){
+      printf("Command too long\n");
+      exit(1);
+    }
     rs = trivsql_execute(ourState, cmd);
     if(rs != NULL) trivsql_displayrs(rs);
     else printf("NULL recordset\n");

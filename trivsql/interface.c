@@ -19,6 +19,7 @@
 #include "trivsql.h"
 
 char *gTrivData = NULL;
+char *gTrivParseLog = NULL;
 int gTrivInset;
 
 extern trivsql_state *gState;
@@ -31,6 +32,7 @@ trivsql_state *trivsql_opendb(char *path){
 trivsql_recordset *trivsql_execute(trivsql_state *state, char *sql){
   trivsql_xfree(gTrivData);
   gTrivData = trivsql_xsnprintf("%s", sql);
+  gTrivParseLog = trivsql_xsnprintf("");
   gTrivInset = 0;
 
   trivsql_xfree(state->rs);
@@ -38,6 +40,14 @@ trivsql_recordset *trivsql_execute(trivsql_state *state, char *sql){
   gState = state; 
   yyparse();
   return gState->rs;
+}
+
+void trivsql_debugtoken(char *name, char *value){
+  char *oldlog;
+
+  oldlog = gTrivParseLog;
+  gTrivParseLog = trivsql_xsnprintf("%s%s(%s) ", gTrivParseLog, name, value);
+  trivsql_xfree(oldlog);
 }
 
 int trivsql_gettext(char *buffer, int maxlen){

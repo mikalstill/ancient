@@ -1,4 +1,4 @@
 INSERT INTO banana (cola) VALUES ('chicken');
 
 There was an error processing this statement (2).
-trivsql engine reported: Could not determine the row count for the table "banana" because the table does not exist
+trivsql engine reported: Existance check for the table "banana" determined that the table does not exist.

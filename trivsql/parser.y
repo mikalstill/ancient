@@ -21,8 +21,10 @@
   #include "trivsql.h"
 
   #define YYERROR_VERBOSE 1
-
+  
   trivsql_state *gState;
+  extern char* gTrivData;
+  extern char* gTrivParseLog;
 %}
 
 %token CREATE TABLE 
@@ -89,6 +91,9 @@ str      : STRING { $$ = $1; }
 %%
 
 int yyerror(char *s){
-  printf("\nsql parsing error: %s\n", s);
+  if(gTrivData[strlen(gTrivData) - 1] == '\n')
+    gTrivData[strlen(gTrivData) - 1] = '\0';
+
+  printf("\nsql parsing error: %s\n[%d] %s\n%s\n\n", s, gTrivData, strlen(gTrivData), gTrivParseLog);
   exit(42);
 }

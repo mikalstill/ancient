@@ -1,10 +1,7 @@
 UPDATE upd SET one = 'c';
 
 
-================
-| one          |
-================
-| a            |
-----------------
+sql parsing error: parse error, unexpected STRING, expecting '='
+UPDATE upd SET one = 'c';
+UPDATE(UPDATE) WHITESPACE( ) SMALLSTRING(upd) WHITESPACE( ) SET(SET) WHITESPACE( ) SMALLSTRING(one) WHITESPACE( ) SMALLSTRING(=) 
 
-Select returned 1 rows of 1 columns

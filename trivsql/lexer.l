@@ -23,27 +23,34 @@
 #define YY_INPUT(b, r, ms) (r = trivsql_gettext(b, ms))
 %} 
 
+%x STRINGRULES
 %%
 
-[Ss][Ee][Ll][Ee][Cc][Tt]                   { return SELECT; }
-[Cc][Rr][Ee][Aa][Tt][Ee]                   { return CREATE; }
-[Ii][Nn][Ss][Ee][Rr][Tt]                   { return INSERT; }
-[Vv][Aa][Ll][Uu][Ee][Ss]                   { return VALUES; }
-[Ii][Nn][Tt][Oo]                           { return INTO; }
-[Tt][Aa][Bb][Ll][Ee]                       { return TABLE; }
-[Ff][Rr][Oo][Mm]                           { return FROM; }
-[Ww][Hh][Ee][Rr][Ee]                       { return WHERE; }
-[Ll][Ii][Kk][Ee]                           { return LIKE; }
-[Aa][Ll][Tt][Ee][Rr]                       { return ALTER; }
-[Aa][Dd][Dd]                               { return ADD; }
-[Cc][Oo][Ll][Uu][Mm][Nn]                   { return COLUMN; }
-[Uu][Pp][Dd][Aa][Tt][Ee]                   { return UPDATE; }
-[Ss][Ee][Tt]                               { return SET; }
-[Aa][Nn][Dd]                               { return AND; }
-[Oo][Rr]                                   { return OR; }
+<INITIAL>[Ss][Ee][Ll][Ee][Cc][Tt]                   { trivsql_debugtoken("SELECT", yytext); return SELECT; }
+<INITIAL>[Cc][Rr][Ee][Aa][Tt][Ee]                   { trivsql_debugtoken("CREATE", yytext); return CREATE; }
+<INITIAL>[Ii][Nn][Ss][Ee][Rr][Tt]                   { trivsql_debugtoken("INSERT", yytext); return INSERT; }
+<INITIAL>[Vv][Aa][Ll][Uu][Ee][Ss]                   { trivsql_debugtoken("VALUES", yytext); return VALUES; }
+<INITIAL>[Ii][Nn][Tt][Oo]                           { trivsql_debugtoken("INTO", yytext); return INTO; }
+<INITIAL>[Tt][Aa][Bb][Ll][Ee]                       { trivsql_debugtoken("TABLE", yytext); return TABLE; }
+<INITIAL>[Ff][Rr][Oo][Mm]                           { trivsql_debugtoken("FROM", yytext); return FROM; }
+<INITIAL>[Ww][Hh][Ee][Rr][Ee]                       { trivsql_debugtoken("WHERE", yytext); return WHERE; }
+<INITIAL>[Ll][Ii][Kk][Ee]                           { trivsql_debugtoken("LIKE", yytext); return LIKE; }
+<INITIAL>[Aa][Ll][Tt][Ee][Rr]                       { trivsql_debugtoken("ALTER", yytext); return ALTER; }
+<INITIAL>[Aa][Dd][Dd]                               { trivsql_debugtoken("ADD", yytext); return ADD; }
+<INITIAL>[Cc][Oo][Ll][Uu][Mm][Nn]                   { trivsql_debugtoken("COLUMN", yytext); return COLUMN; }
+<INITIAL>[Uu][Pp][Dd][Aa][Tt][Ee]                   { trivsql_debugtoken("UPDATE", yytext); return UPDATE; }
+<INITIAL>[Ss][Ee][Tt]                               { trivsql_debugtoken("SET", yytext); return SET; }
+<INITIAL>[Aa][Nn][Dd]                               { trivsql_debugtoken("AND", yytext); return AND; }
+<INITIAL>[Oo][Rr]                                   { trivsql_debugtoken("OR", yytext); return OR; }
 
-[a-zA-Z0-9%\-]+                            { yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
-[ \t\r\n]                                  { }
-.                                          { return yytext[0]; }
+<INITIAL>[ \t\r\n]                                  { trivsql_debugtoken("WHITESPACE", yytext); }
+<INITIAL>[^ \t\r\n,\(\)\';\*]+                      { trivsql_debugtoken("SMALLSTRING", yytext); 
+                                                      yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
+<INITIAL>'                                          { trivsql_debugtoken("BEGINSTRING", yytext); BEGIN(STRINGRULES); }
+<INITIAL>.                                          { trivsql_debugtoken("CHAR", yytext); return yytext[0]; }
+
+<STRINGRULES>[^']+                                  { trivsql_debugtoken("STRING", yytext); 
+                                                      yylval = trivsql_xsnprintf("%s", yytext); return STRING; }
+<STRINGRULES>'                                      { trivsql_debugtoken("ENDSTRING", yytext); BEGIN(INITIAL); }
 
 %%

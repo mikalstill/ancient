@@ -1,10 +1,7 @@
 UPDATE upd SET two = 'g' WHERE two = 'f';
 
 
-================
-| two          |
-================
-| f            |
-----------------
+sql parsing error: parse error, unexpected STRING, expecting '='
+UPDATE upd SET two = 'g' WHERE two = 'f';
+UPDATE(UPDATE) WHITESPACE( ) SMALLSTRING(upd) WHITESPACE( ) SET(SET) WHITESPACE( ) SMALLSTRING(two) WHITESPACE( ) SMALLSTRING(=) 
 
-Select returned 1 rows of 1 columns

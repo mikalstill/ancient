@@ -1,12 +1,7 @@
 SELECT cola, colb, colc FROM foo WHERE cola = 'duck';
 
 
-==============================================
-| cola         | colb         | colc         |
-==============================================
-| duck         | chicken      | frog         |
-----------------------------------------------
-| duck         | hamster      | (null)       |
-----------------------------------------------
+sql parsing error: parse error, unexpected STRING, expecting LIKE or '='
+SELECT cola, colb, colc FROM foo WHERE cola = 'duck';
+SELECT(SELECT) WHITESPACE( ) SMALLSTRING(cola) CHAR(,) WHITESPACE( ) SMALLSTRING(colb) CHAR(,) WHITESPACE( ) SMALLSTRING(colc) WHITESPACE( ) FROM(FROM) WHITESPACE( ) SMALLSTRING(foo) WHITESPACE( ) WHERE(WHERE) WHITESPACE( ) SMALLSTRING(cola) WHITESPACE( ) SMALLSTRING(=) 
 
-Select returned 2 rows of 3 columns

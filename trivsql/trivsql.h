@@ -130,6 +130,7 @@ int trivsql_seland(int, int);
 // Interface methods
 trivsql_state *trivsql_opendb(char *);
 trivsql_recordset *trivsql_execute(trivsql_state *, char *);
+void trivsql_debugtoken(char *, char *);
 int trivsql_gettext(char *, int);
 void trivsql_displayrs(trivsql_recordset *);
 void trivsql_rsmovefirst(trivsql_recordset *);
