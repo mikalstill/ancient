@@ -1,0 +1,121 @@
+#!/bin/bash
+
+# dnsquery: build a packet that would be worthy of sending to a DNS server...
+
+##############################################################################
+# Utility functions: this is not a complete set. See shdns for the full set...
+##############################################################################
+
+# The state of a given bit in the byte
+dumpbit(){
+  local temp
+  temp=$1
+
+  if [ $1 -gt $(( $2 - 1 )) ]
+  then
+    echo -n "1"
+    temp=$(( $1 - $2 ))
+  else
+    echo -n "0"
+  fi
+
+  return $temp
+}
+
+# Is a given bit on?
+testbit(){
+  return `dumpbit $1 $2`
+}
+
+# Turn on a given bit in the byte
+twiddlebit(){
+  local temp
+  temp=$1
+
+  testbit $1 $2
+  if [ $? = 1 ]
+  then
+    if [ $3 = 0 ]
+    then
+      temp=$(( $temp - $2 ))
+    fi
+  else 
+    if [ $3 = 1 ]
+    then
+      temp=$(( $temp + $2 ))
+    fi
+  fi
+
+  return $temp
+}
+
+###############################################################################
+
+######################
+# DNS header
+######################
+
+# Identification: 2 bytes, uniqueish
+temp=`echo $$ | wc -c | tr -d " "`
+b1=$(( $temp - 2 ))
+b2=$(( $temp - 1 ))
+echo -n `echo $$ | cut -b "$b1,$b2"`
+
+# Flags: 2 bytes
+twiddlebit 0 1 1; temp=$?   # Turn on recursion
+echo -en "\\$temp"
+echo -en "\\000"
+
+# Number of questions
+echo -en "\\000\\001"
+
+# Number of answer RRs
+echo -en "\\000\\000"
+
+# Number of authority RRs
+echo -en "\\000\\000"
+
+# Number of additional RRs
+echo -en "\\000\\000"
+
+######################
+# Question
+######################
+
+# Query name
+for name in `echo $1 | tr "." " "`
+do
+  len=`echo $name | wc -c | tr -d " "`
+  len=`printf "%03d" $(( $len - 1 ))`
+  echo -en "\\$len$name"
+done
+
+# Query type
+case $2 in
+A )
+  echo -en "\\000\\001";;
+
+NS )
+  echo -en "\\000\\002";;
+
+CNAME )
+  echo -en "\\000\\005";;
+
+PTR )
+  echo -en "\\000\\014";;
+
+HINFO )
+  echo -en "\\000\\015";;
+
+MX )
+  echo -en "\\000\\017";;
+
+* )
+  echo "Unknown query";;
+esac
+
+# Query class
+echo -en "\\001"
+
+exit
+
