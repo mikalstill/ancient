@@ -1,4 +1,4 @@
-<sect1><title>Frequency Domain Analysis</title> 
+<sect1><title>Frequency Domain Analysis</title>
 
 <sect2><title>Introduction</title>
 
@@ -8,7 +8,7 @@ the data at particular frequencies. This provides for opportunities such as the 
 and noise reduction. Once the desired actions have been carried out in the frequency domain, an inverse transform can be applied to
 return the data to the time domain.
 
-Another use of Fourier Transforms are to produce Power Spectral Density (PSD) plots. 
+Another use of Fourier Transforms are to produce Power Spectral Density (PSD) plots.
 
 </sect2> <!--Introduction-->
 
@@ -20,13 +20,17 @@ Another use of Fourier Transforms are to produce Power Spectral Density (PSD) pl
 The concepts of frequency domain analysis should commence with the Fourier transform. Any waveform can be constructed purely from sine
 and cosine waves. An example of this is a pure square wave. It is constructed from the following:
 
-x(n) = sin(f) + 1/3sin(3f) + 1/5(sin5f) ...for all odd harmonics...
+<equation><title>Square wave</title>
+  <alt>x(n) = sin(f) + 1/3sin(3f) + 1/5(sin5f)</alt>
+</equation>
+
+ ...for all odd harmonics...
 
 where f is the fundamental frequency.
 
 It therefore stand to reason that any waveform can be broken down into to these sine and cosine components. The
 Fourier transform is such a tool to carry out this analysis. The Fourier transform effectively analysis a given input signal, by
-decomposing it into those sinusoids of different frequencies, that sum the original signal. 
+decomposing it into those sinusoids of different frequencies, that sum the original signal.
 </para>
 
 <para>
