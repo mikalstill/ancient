@@ -170,7 +170,9 @@ void cepLsWeight::dlgWeightOnOK(wxCommandEvent& WXUNUSED(event))
   m_toDay = m_cbToDay->GetValue();
   m_toMonth = m_cbToMonth->GetValue();
   m_toYear = m_tbToYear->GetValue().c_str();
-  
+
+  cout << "on ok " << m_fromDay << " " << m_fromMonth << " " << m_fromYear << endl
+       << m_toDay << " " << m_toMonth << " " << m_toYear << endl;
   EndModal(0);
   Destroy();
 }
@@ -317,6 +319,7 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
 
     if(weight->getToDay() == "-1")
     {
+      cout << "in cancel " << endl;
       //if cancel was selected
       m_fromDay = "-1.0";
       m_toDay = "-1.0";
@@ -375,7 +378,9 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
     }
   }
 
-  
+  cout << "go values " << m_fromDay << " " << m_fromMonth << " " << m_fromYear << endl
+       << m_toDay << " " << m_toMonth << " " << m_toYear << endl;
+   
 }
 
 const int & cepLsUi::getIsReweight()
@@ -411,7 +416,7 @@ const string & cepLsUi::getfNameP()
 
 const double cepLsUi::getWeight()
 {
-  if(m_val = "-1")
+  if(m_val == "-1.0")
   {
     return -1.0;
   }
@@ -421,7 +426,7 @@ const double cepLsUi::getWeight()
 
 const double cepLsUi::getFromDate()
 {
-  if(m_fromDay = "-1")
+  if(m_fromDay == "-1.0")
   {
     return -1.0;
   }            
@@ -431,7 +436,7 @@ const double cepLsUi::getFromDate()
 
 const double cepLsUi::getToDate()
 {
-  if(m_toDay = "-1")
+  if(m_toDay == "-1.0")
   {
     return -1.0;
   }

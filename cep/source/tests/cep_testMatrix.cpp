@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.21 $ $Date: 2002-11-18 23:47:16 $
+ * @version $Revision: 1.22 $ $Date: 2002-11-21 03:56:52 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.21  2002/11/18 23:47:16  u964076
+ * Mikal: Working on window integration
+ *
  * Revision 1.20  2002/11/13 06:19:02  u983118
  * added tests for new fuctions
  * cepMatrix is3D and the new methods with get and set of 3d matricies
@@ -701,8 +704,81 @@ protected:
     data.setValue(4,0,2,1998.1708);
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     
+    data.setValue(0,1,0,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,1,0,2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,1,0,3);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,1,0,4);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,1,0,5);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    data.setValue(0,1,1,6);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,1,1,7);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,1,1,10);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,1,1,100);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,1,1,34);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    data.setValue(0,1,2,-1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,1,2,2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,1,2,13);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,1,2,65);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,1,2,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    data.setValue(0,2,0,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,2,0,2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,2,0,3);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,2,0,4);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,2,0,5);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    data.setValue(0,2,1,6);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,2,1,101.2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,2,1,10);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,2,1,100);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,2,1,34);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    data.setValue(0,2,2,-1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,2,2,2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,2,2,13);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,2,2,65);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,2,2,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2000.1708, data.getMaxValue(0));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 100.0, data.getMaxValue(1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 101.2, data.getMaxValue(2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
   }
   
   void testMin()
@@ -789,9 +865,82 @@ protected:
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     data.setValue(4,0,2,1998.1708);
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    data.setValue(0,1,0,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,1,0,2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,1,0,3);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,1,0,4);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,1,0,5);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    data.setValue(0,1,1,6);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,1,1,7);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,1,1,10);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,1,1,100);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,1,1,34);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    data.setValue(0,1,2,-1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,1,2,2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,1,2,13);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,1,2,65);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,1,2,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    data.setValue(0,2,0,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,2,0,2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,2,0,3);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,2,0,4);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,2,0,5);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    
+    data.setValue(0,2,1,6);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,2,1,101.2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,2,1,10);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,2,1,-2.34);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,2,1,34);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    data.setValue(0,2,2,-1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(1,2,2,2);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(2,2,2,13);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(3,2,2,65);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+    data.setValue(4,2,2,1);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
     
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1998.1589, data.getMinValue(0));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -1.0, data.getMinValue(1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", -2.34, data.getMinValue(2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "found error", false, data.getError().isReal());
+
   }
 
   void test3D()
