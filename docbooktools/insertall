@@ -4,20 +4,55 @@
 # $ARGV[1] is the directory to look in
 # $ARGV[2] is the regular expression to search by
 # $ARGV[3] is the arguements to the command
+# $ARGV[4] is the letter division start text (with a %s for letter substitution) -- optional (untested)
+# $ARGV[5] is the letter dividion end text -- optional (untested)
 
 use strict;
-my($LIST, $commands);
+
+my($LIST, $commands, $code, $letter);
 
 $commands = "";
+$letter = "";
+
+sub include(@args){
+    my($file) = @_;
+
+    print STDERR "insertall: Including\n";
+    
+    # Change of letter
+    if(($ARGV[4] ne "") && (substring($_, 0, 1) ne $letter)){
+	print STDERR "Change of letter\n";
+	if($letter ne ""){
+	    $commands=$commands."$ARGV[5]";
+	}
+	
+	$commands=$commands.sprintf $ARGV[4], substring($_, 0, 1);
+	$letter = substring($_, 0, 1);
+    }
+    
+    $commands = $commands."<execute><cmd>$ARGV[0]</cmd><args>$ARGV[3]</args><input>$ARGV[1]/$_</input></execute>\n";
+    
+    print STDERR "insertall: Finished including\n";
+}
+
+$code = "if(/$ARGV[2]/){print STDERR \"Including\\n\"; include(\$_);}";
+
 print STDERR "insertall: Searching $ARGV[1] for $ARGV[2]\n";
 open (LIST, "ls $ARGV[1] |");
 while(<LIST>){
     chomp;
+
     print STDERR "insertall: Found $_\n";
-    if(/$ARGV[2]/){
-	    $commands = $commands."<execute><cmd>$ARGV[0]</cmd><args>$ARGV[3]</args><input>$ARGV[1]/$_</input></execute>\n";
-	    print STDERR "insertall: Including\n";
-	}
+    if(/gloss-.*.sgml/){
+	print STDERR "Foo: $code\n";
+    }
+    eval $code;
 }
+
+if($ARGV[5] ne ""){
+    $commands=$commands."$ARGV[5]";
+}
+
+print STDERR "insertall: commands are: $commands\n";
 
 print `echo "$commands" | builddb`; 

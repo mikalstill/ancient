@@ -1,24 +1,24 @@
 #!/usr/bin/perl
 
-# Arguements (all optional):
-#   - The section number to wrap the code in
-#   - The name of the source file
+# Arguements:
+# $0: image format (passed by builddb)
+# $1: filename (passed by builddb)
+# $2: the section number to use (optional)
 
 use strict;
 my($suppress, $filename);
 
+print STDERR "code2db: $ARGV[0] ($ARGV[1]) $ARGV[2]\n";
+
 $suppress = 0;
 $filename = $ARGV[1];
-$filename =~ s/^.*\///;
-
-print STDERR "code2db: $ARGV[0] $ARGV[1] $ARGV[2]\n";
-
-# Make C code safe for display in docbook
 if($ARGV[2] ne ""){
     print "<sect$ARGV[0]><title>Code: $filename</title>\n";
 }
-print "<programlisting>\n";
+$filename =~ s/^.*\///;
 
+# Make C code safe for display in docbook
+print "<programlisting>\n";
 while(<STDIN>){
     chomp;
     if(/^[ \t]*\/\*\*\*\*\*\*\*\*\*/){
@@ -30,6 +30,7 @@ while(<STDIN>){
 	s/&/&amp;/g;
 	s/</&lt;/g;
 	s/>/&gt;/g;
+	s/\t/    /g;
 	
 	print "$_\r\n";
     }
@@ -45,5 +46,5 @@ if($ARGV[2] ne ""){
     print "</sect$ARGV[0]>\n";
 }
 else{
-    print "<para><emphasis>Code: $ARGV[0]</emphasis></para>\n";
+    print "<para><emphasis>Code: $filename</emphasis></para>\n";
 }
