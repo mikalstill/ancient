@@ -45,7 +45,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
   ... error ...
 }
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -130,7 +130,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 raster = plot_getraster(graph);
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -165,7 +165,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_setlinestart(graph, 200, 200);
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -209,7 +209,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 plot_setlinestart(graph, 10, 10);
 plot_addlinesegment(graph, 20, 20);
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -284,7 +284,7 @@ plot_setlinestart(graph, 10, 10);
 ... drawing commands ...
 plot_closeline(graph);
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -322,7 +322,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_endline(graph);
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -377,7 +377,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 }
 
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -504,7 +504,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_setfillcolor(state, 255, 0, 0); // red
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -541,7 +541,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_setlinecolor(state, 255, 0, 0); // red
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -578,7 +578,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_setfontcolor(state, 255, 0, 0); // red
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -614,7 +614,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 }
 plot_rectangle(graph, 10, 10, 20, 30);
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -685,7 +685,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 plot_setfont(graph, "windings.ttf", 30);
 
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -747,7 +747,7 @@ if((graph = plot_newplot(400, 300)) == NULL){
 
 plot_settextlocation(graph, 30, 30);
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -787,7 +787,7 @@ plot_settextlocation(graph, 30, 30);
 
 plot_gettextlocation(graph, &amp;x, &amp;y);
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
@@ -840,12 +840,89 @@ while(words[count] != NULL){
   count++;
 }
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 
 int plot_writestring(plot_state *state, char *string){
-  int count, len;
+  return plot_writestringrot(state, string, 0.0);
+}
+
+/******************************************************************************
+DOCBOOK START
+
+FUNCTION plot_writestringrot
+PURPOSE write a string onto the bitmap, with the text being rotated by the given angle
+
+SYNOPSIS START
+#include&lt;libplot.h&gt;
+int plot_writestringrot(plot_state *state, char *string, float angle);
+SYNOPSIS END
+
+DESCRIPTION START
+This function writes a string onto the specified bitmap. Note that the function does not implement any form of word wrap. This is the responsibility of the caller of the function. Have a look at the example below for a suggested technique for implementing word wrap.
+</para>
+
+<para>
+Note that the angle is in degrees.
+DESCRIPTION END
+
+RETURNS 0 on success, -1 otherwise
+
+EXAMPLE START
+#include&lt;libplot.h&gt;
+plot_state *graph;
+char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
+		 "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
+
+if((graph = plot_newplot(400, 300)) == NULL){
+  ... error ...
+}
+
+plot_setfontcolor(graph, 26, 22, 249);
+plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
+plot_settextlocation(graph, 20, 70);
+count = 0;
+while(words[count] != NULL){
+  plot_gettextlocation(graph, &amp;textx, &amp;texty);
+  if((textx + plot_stringwidth(graph, words[count])) > 380){
+    if(texty + 70 > 150)
+      break;
+
+    plot_settextlocation(graph, 20, texty + 20);
+  }
+
+  plot_writestringrot(graph, words[count], 45);
+  plot_writestringrot(graph, " ", 45);
+  count++;
+}
+EXAMPLE END
+
+DOCBOOK END
+******************************************************************************/
+
+int plot_writestringrot(plot_state *state, char *string, float angle){
+  int count, len, rep;
+  float safeangle;
+  FT_Matrix matrix;
+  
+  rep = angle / 360;
+  safeangle = angle - (rep * 360.0);
+  
+  if(safeangle == 0.0){
+    FT_Set_Transform(state->face, 0, 0);
+  }
+  else{
+    // Convert the angle to radians
+    safeangle = safeangle * pi / 180;
+    
+    matrix.xx = (FT_Fixed)(cos(safeangle) * 0x10000);
+    matrix.xy = (FT_Fixed)(-sin(safeangle) * 0x10000);
+    matrix.yx = (FT_Fixed)(sin(safeangle) * 0x10000);
+    matrix.yy = (FT_Fixed)(cos(safeangle) * 0x10000);
+
+    FT_Set_Transform(state->face, &matrix, 0);
+  }
 
   len = strlen(string);
   for(count = 0; count < len; count++){
@@ -899,7 +976,7 @@ while(words[count] != NULL){
   count++;
 }
 EXAMPLE END
-SEEALSO plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
 DOCBOOK END
 ******************************************************************************/
 

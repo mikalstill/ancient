@@ -43,7 +43,8 @@
 
 <refsect1>
 <title>EXAMPLE</title>
-<para> #include&lt;libplot.h&gt;
+<programlisting>
+ #include&lt;libplot.h&gt;
  plot_state *graph;
  char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
  "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
@@ -69,12 +70,7 @@
  plot_writestring(graph, " ");
  count++;
  }
-</para>
-</refsect1>
-
-<refsect1>
-<title>SEE ALSO</title>
-<para>plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml</para>
+</programlisting>
 </refsect1>
 
 

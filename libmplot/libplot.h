@@ -90,6 +90,7 @@ void plot_gettextlocation (plot_state *, unsigned int *, unsigned int *);
 
 // Text opeations
 int plot_writestring(plot_state *state, char *string);
+int plot_writestringrot(plot_state *state, char *string, float angle);
 unsigned int plot_stringwidth(plot_state *state, char *string);
 
 // Operations based on primitive operations

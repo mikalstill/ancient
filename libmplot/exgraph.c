@@ -78,13 +78,13 @@ main (int argc, char *argv[])
 
   // Write out some text
   plot_setfontcolor(graph, 26, 22, 249);
-  plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
+  plot_setfont(graph, "n019004l.pfb", 18);
   plot_settextlocation(graph, 20, 70);
   count = 0;
   while(words[count] != NULL){
     plot_gettextlocation(graph, &textx, &texty);
     if((textx + plot_stringwidth(graph, words[count])) > 380){
-      if(texty + 70 > 150)
+      if(texty + 70 > 180)
 	break;
 
       plot_settextlocation(graph, 20, texty + 20);
@@ -94,6 +94,15 @@ main (int argc, char *argv[])
     plot_writestring(graph, " ");
     count++;
   }
+
+  plot_settextlocation(graph, 200, 100);
+  plot_writestringrot(graph, "0 0 0", 0);
+  plot_settextlocation(graph, 200, 100);
+  plot_writestringrot(graph, "90 90 90", 90);
+  plot_settextlocation(graph, 200, 100);
+  plot_writestringrot(graph, "180 180 180", 180);
+  plot_settextlocation(graph, 200, 100);
+  plot_writestringrot(graph, "270 270 270", 270);
 
   // Write out the PNG file
   raster = plot_getraster(graph);

@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_WRITESTRING" "3" "08 October 2002" "" ""
+.TH "PLOT_WRITESTRING" "3" "13 October 2002" "" ""
 .SH NAME
 plot_writestring \- write a string onto the bitmap
 .SH SYNOPSIS
@@ -19,32 +19,35 @@ This function writes a string onto the specified bitmap. Note that the function 
 .PP
 0 on success, -1 otherwise
 .SH "EXAMPLE"
-.PP
-#include<libplot.h>
-plot_state *graph;
-char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
-"It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
-if((graph = plot_newplot(400, 300)) == NULL){
-\&... error ...
-}
-plot_setfontcolor(graph, 26, 22, 249);
-plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
-plot_settextlocation(graph, 20, 70);
-count = 0;
-while(words[count] != NULL){
-plot_gettextlocation(graph, &textx, &texty);
-if((textx + plot_stringwidth(graph, words[count])) > 380){
-if(texty + 70 > 150)
-break;
-plot_settextlocation(graph, 20, texty + 20);
-}
-plot_writestring(graph, words[count]);
-plot_writestring(graph, " ");
-count++;
-}
-.SH "SEE ALSO"
-.PP
-plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
+.nf
+ #include<libplot.h>
+ plot_state *graph;
+ char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
+ "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
+ 
+ if((graph = plot_newplot(400, 300)) == NULL){
+ ... error ...
+ }
+ 
+ plot_setfontcolor(graph, 26, 22, 249);
+ plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
+ plot_settextlocation(graph, 20, 70);
+ count = 0;
+ while(words[count] != NULL){
+ plot_gettextlocation(graph, &textx, &texty);
+ if((textx + plot_stringwidth(graph, words[count])) > 380){
+ if(texty + 70 > 150)
+ break;
+ 
+ plot_settextlocation(graph, 20, texty + 20);
+ }
+ 
+ plot_writestring(graph, words[count]);
+ plot_writestring(graph, " ");
+ count++;
+ }
+.fi
 .SH "VERSION"
 .PP
 This documentation was generated for \fBlibplot\fR 0.3 by \fBautodocbook\fR (http://www.stillhq.com).

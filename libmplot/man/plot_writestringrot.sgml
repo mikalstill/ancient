@@ -12,33 +12,38 @@
 
 <!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
 
-<refentry id="plot_endline">
+<refentry id="plot_writestringrot">
 <refmeta>
-<refentrytitle>plot_endline</refentrytitle>
+<refentrytitle>plot_writestringrot</refentrytitle>
 <manvolnum>3</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname>plot_endline</refname>
-<refpurpose>free the resources consumed by the polygon just drawn</refpurpose>
+<refname>plot_writestringrot</refname>
+<refpurpose>write a string onto the bitmap, with the text being rotated by the given angle</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <synopsis>
  #include&lt;libplot.h&gt;
- void plot_endline (plot_state *state);
+ int plot_writestringrot(plot_state *state, char *string, float angle);
 
 </synopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>DESCRIPTION</title>
-<para>It is very important that you use this function to free resources before drawing another polygon. If you do not, then subsequent polygons might have incorrect appearances, and your application will leak memory.</para>
+<para> This function writes a string onto the specified bitmap. Note that the function does not implement any form of word wrap. This is the responsibility of the caller of the function. Have a look at the example below for a suggested technique for implementing word wrap.
+ </para>
+ 
+ <para>
+ Note that the angle is in degrees.
+</para>
 </refsect1>
 
 <refsect1>
 <title>RETURNS</title>
-<para>Nothing</para>
+<para>0 on success, -1 otherwise</para>
 </refsect1>
 
 <refsect1>
@@ -46,14 +51,30 @@
 <programlisting>
  #include&lt;libplot.h&gt;
  plot_state *graph;
+ char *words[] = {"This", "is", "a", "string", "which", "is", "quite", "long.",
+ "It", "demonstrates", "how", "to", "do", "word", "wrap", NULL};
  
  if((graph = plot_newplot(400, 300)) == NULL){
  ... error ...
  }
  
- ... line drawing commands ...
+ plot_setfontcolor(graph, 26, 22, 249);
+ plot_setfont(graph, "/usr/share/fonts/default/Type1/n021004l.pfb", 12);
+ plot_settextlocation(graph, 20, 70);
+ count = 0;
+ while(words[count] != NULL){
+ plot_gettextlocation(graph, &amp;textx, &amp;texty);
+ if((textx + plot_stringwidth(graph, words[count])) > 380){
+ if(texty + 70 > 150)
+ break;
  
- plot_endline(graph);
+ plot_settextlocation(graph, 20, texty + 20);
+ }
+ 
+ plot_writestringrot(graph, words[count], 45);
+ plot_writestringrot(graph, " ", 45);
+ count++;
+ }
 </programlisting>
 </refsect1>
 

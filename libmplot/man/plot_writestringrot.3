@@ -3,18 +3,20 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_STRINGWIDTH" "3" "13 October 2002" "" ""
+.TH "PLOT_WRITESTRINGROT" "3" "13 October 2002" "" ""
 .SH NAME
-plot_stringwidth \- determine how many pixels a string will take
+plot_writestringrot \- write a string onto the bitmap, with the text being rotated by the given angle
 .SH SYNOPSIS
 
 .nf
  #include<libplot.h>
- unsigned int plot_stringwidth(plot_state *state, char *string);
+ int plot_writestringrot(plot_state *state, char *string, float angle);
 .fi
 .SH "DESCRIPTION"
 .PP
-This function determines how many pixels a string will consume in the current font and size.
+This function writes a string onto the specified bitmap. Note that the function does not implement any form of word wrap. This is the responsibility of the caller of the function. Have a look at the example below for a suggested technique for implementing word wrap.
+.PP
+Note that the angle is in degrees.
 .SH "RETURNS"
 .PP
 0 on success, -1 otherwise
@@ -43,8 +45,8 @@ This function determines how many pixels a string will consume in the current fo
  plot_settextlocation(graph, 20, texty + 20);
  }
  
- plot_writestring(graph, words[count]);
- plot_writestring(graph, " ");
+ plot_writestringrot(graph, words[count], 45);
+ plot_writestringrot(graph, " ", 45);
  count++;
  }
 .fi

@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "PLOT_NEWPLOT" "3" "08 October 2002" "" ""
+.TH "PLOT_NEWPLOT" "3" "13 October 2002" "" ""
 .SH NAME
 plot_newplot \- creates a blank plot ready for drawing
 .SH SYNOPSIS
@@ -19,15 +19,15 @@ This function is the first call which should be called for a plot. It creates a 
 .PP
 A plot state pointer, which is used by most of the other \fBlibplot\fR functions.
 .SH "EXAMPLE"
-.PP
-#include<libplot.h>
-plot_state *graph;
-if((graph = plot_newplot(400, 300)) == NULL){
-\&... error ...
-}
-.SH "SEE ALSO"
-.PP
-plot_addlinesegment.sgml plot_closeline.sgml plot_endline.sgml plot_getraster.sgml plot_newplot.sgml plot_rectangle.sgml plot_setfillcolor.sgml plot_setfontcolor.sgml plot_setfont.sgml plot_setlinecolor.sgml plot_setlinestart.sgml plot_settextlocation.sgml plot_stringwidth.sgml plot_strokeline.sgml plot_writestring.sgml
+
+.nf
+ #include<libplot.h>
+ plot_state *graph;
+ 
+ if((graph = plot_newplot(400, 300)) == NULL){
+ ... error ...
+ }
+.fi
 .SH "VERSION"
 .PP
 This documentation was generated for \fBlibplot\fR 0.3 by \fBautodocbook\fR (http://www.stillhq.com).
