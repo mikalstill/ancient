@@ -132,6 +132,9 @@ GetMainFrame (void);
 #define CEPBTN_ATT_CANCEL 35
 #define CEPBTN_WEIGHT_SUBMIT 36
 #define CEPBTN_WEIGHT_CANCEL 37
+#define CEPBTN_WEIGHT_GO 38
+#define CEPBTN_DATE_SUBMIT 39
+#define CEPBTN_DATE_CANCEL 40
 
 extern bool singleWindowMode;     
 
