@@ -20,10 +20,7 @@
    </relatedlist>			
 		
    <abstract>TIFF is an extremely common, but quite complex raster image format.
- Libtiff is a standard implementation of the TIFF specification, which is free a
-nd works on many operating systems. This article discusses some of the pitfalls 
-of TIFF, and guides the reader through use of the libtiff library. This article 
-provides examples on how to use libtiff for your grayscale and color imaging needs.
+ Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. This article discusses some of the pitfalls of TIFF, and guides the reader through use of the libtiff library. This article provides examples on how to use libtiff for your grayscale and color imaging needs.
 </abstract>
 
 <sidebar>
@@ -31,13 +28,55 @@ provides examples on how to use libtiff for your grayscale and color imaging nee
 <p>This article is a follow up to my previous article on black and white graphics programming with libtiff. This article covers grayscale and color imaging, but it assumes that you have read and understood the code from the black and white article. It might be helpful to refer to that article before going too far here.</p>
 </sidebar>
 
-<p>
+<p>With this article, I will discuss some of the theory required to understand how the image data is stored for color and grayscale. This theory applies to all imaging formats. We'll then discuss some of the specifics of using libtiff.</p>
 
-<!--MAJOR HEADING: CODE HEADING TAG WITH TYPE="MAJOR".  ENTER A REFERENCE NAME TO BE USED AS AN INLINE LINK IN THE TOC.  USE ALT= ATTRIBUTE IF YOU WANT THE TOC TEXT TO BE DIFFERENT FROM THE HEADING.   PRECEDE ALL MAJOR HEADINGS WITH A PARAGRAPH TAG-->
-<p><heading refname="h1" type="major" toc="yes">[Major heading 1]</heading>	
-[Insert paragraph text here and end the paragraph with an end paragraph tag.]</p>
+
+<p><heading refname="h1" type="major" toc="yes">Theory of color and grayscale storage</heading>	
+The first thing that we need to understand to be able to support color and grayscale images is the format of the image data within memory.</p>
 	
 <p>[Next paragraph goes here]</p>
+
+<p><heading refname="h1" type="major" toc="yes">Compression algorithms in libtiff</heading>	
+There are several compression algorithms available within libtiff. How do you select which one is right for your imaging needs?</p>
+
+<b>Libtiff compression algorithms</b>
+<htmlinsert><![CDATA[
+
+<table width="100%" cellspacing="0" cellpadding="3" border="1">
+<tr valign="top">
+<td><b>Compression algorithm</b></td>
+<td><b>Well suited to</b></td>
+</tr>
+<tr valign="top">
+<td>CCITT Group 4 Fax and Group 3 Fax</td>
+<td>This entry is here for completeness. If your coding for black and white images, then you're probably using the CCITT fax compression methods. These compression algorithms don't support color.</td>
+</tr>
+<tr valign="top">
+<td>JPEG</td>
+<td>JPEG compression is great for large images such as photos. However, the compression is normally lossy (in that image data is thrown away as part of the compression process). This makes JPEG very poor for compressing text which needs to remain readable. The other thing to bear in mind is that the loss is accumulative.</td>
+</tr>
+<tr valign="top">
+<td>Content A3</td>
+<td>Content B3</td>
+<td>Content C3</td>
+</tr>
+</table>
+
+]]></htmlinsert>
+
+<sidebar>
+<heading refname="" type="sidebar" toc="no">Accumulating loss?</heading>
+<p>Why does the loss in lossy compression algorithms such as JPEG accumulate? Imagine that you compress an image using JPEG. You then need to add say a barcode to the image, so you uncompress the image, add the barcode, and recompress it. When the recompression occurs, then a new set of loss is introduced. You can imagine that if you do this enough, then you'll end up with an image which is a big blob.</p>
+</sidebar>
+
+
+
+
+
+
+
+
+
 
 <!--MINOR HEADING: CODE HEADING TAG WITH TYPE="MINOR".  ENTER A REFERENCE NAME TO BE USED AS AN INLINE LINK IN THE TOC.  USE ALT= ATTRIBUTE IF YOU WANT THE TOC TEXT TO BE DIFFERENT FROM THE HEADING.  TO REMOVE THIS HEADING FROM THE TOC, CODE TOC="NO".   PRECEDE ALL MINOR HEADINGS WITH A PARAGRAPH TAG-->
 <p><heading refname="h2" type="minor" toc="yes">[Minor heading 1]</heading>
@@ -70,35 +109,6 @@ Use the space key to indent lines.]
 <p><heading refname="h3" type="major" toc="yes">[Major heading 2]</heading>
 [Insert paragraph text here and end with an end paragraph tag.]</p>
 
-<p>[Temporarily, to code a table you must code the table and pass it through the XML processor using CDATA tags.  Use the sample table below.]</p>
-
-<b>[Sample table title]</b>
-<htmlinsert><![CDATA[
-
-<table width="100%" cellspacing="0" cellpadding="3" border="1">
-<tr valign="top">
-<td><b>Heading A</b></td>
-<td><b>Heading B</b></td>
-<td><b>Heading C</b></td>
-</tr>
-<tr valign="top">
-<td>Content A1</td>
-<td>Content B1</td>
-<td>Content C1</td>
-</tr>
-<tr valign="top">
-<td>Content A2</td>
-<td>Content B2</td>
-<td>Content C2</td>
-</tr>
-<tr valign="top">
-<td>Content A3</td>
-<td>Content B3</td>
-<td>Content C3</td>
-</tr>
-</table>
-
-]]></htmlinsert>
 
 <!-- FIGURE WITH HEADING:  PLACE HEADING INSIDE FIGURE TAG WITH TYPE="FIGURE".  DO NOT SURROUND FIGURE WITH PARAGRAPH TAGS.  THE TOC ATTRIBUTE DETERMINES IF THIS HEADING IS INCLUDED IN THE TOC.   DEFAULT IS TOC="NO".   ALWAYS CODE THE ALT= ATTRIBUTE FOR A FIGURE.  ALWAYS CODE CORRECT HEIGHT AND WIDTH FOR FIGURE-->
 <figure>
