@@ -84,7 +84,9 @@ The following page greets users when they start the GDMS Internet interface.
 
 <chapter><title>Conclusion</title>
 <para>
-...
+Based on the discussion in previous chapters, Perl CGI with PNG images were selected for the implementation of the GDMS Internet interface.
+
+TODO MORE
 </para>
 </chapter>
 

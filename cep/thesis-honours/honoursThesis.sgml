@@ -114,7 +114,7 @@ A Uniform Resource Locator is the <quote>address</quote> of a web page.
 <chapter id="ch01"><title>Introduction</title>
 <sect1><title>Motivation</title>
 <para>
-At the time that the <command>Geodetic Data Modeling System</command> (GDMS) implementation project was initiated, several of the potential users expressed a desire for the application to be available over the Internet. There are a variety of reasons that this type of functionality is enticing -- the main ones for GDMS are that it allows casual users to ability to analyse data, whilst not having to maintain their own copies of the datasets, and it allows users who would normally use the X windows interface to the application to access data whilst <quote>in the field</quote>, or otherwise physically separated from their normal research location.
+At the time that the <command>Geodetic Data Modeling System</command> (GDMS) implementation project was initiated, several of the potential users expressed a desire for the application to be available over the Internet. There are a variety of reasons that this type of functionality is enticing. The primary reason for GDMS is that it allows casual users to ability to analyse data, whilst not having to maintain their own copies of the datasets. A secondary reason is that it allows users who would normally use the X windows interface to the application to access data whilst <quote>in the field</quote>, or otherwise physically separated from their normal research location.
 </para>
 
 <para>
@@ -124,7 +124,7 @@ Initially, it was though that a Internet interface to GDMS was outside the achie
 
 <sect1><title>Outcome</title>
 <para>
-This document describes the design process and implementation of the GDMS Internet interface, and perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers. This application allows the online use of almost all of the functionality available under the X windows GDMS system.
+This document describes the design process and implementation of the GDMS Internet interface, and perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the online use of almost all of the functionality available under the X windows GDMS system.
 </para>
 </sect1>
 </chapter>
@@ -135,9 +135,9 @@ This document describes the design process and implementation of the GDMS Intern
 A variety of implementation techniques were considered for the GDMS Internet interface before a final selection was made. This section documents the various alternatives that were considered, and then justifies the decision that was made.
 </para>
 
-<sect2><title>PHP</title>
+<sect2><title>PHP: Hypertext Preprocessor</title>
 <para>
-PHP stands for <emphasis>PHP: Hypertext Preprocessor</emphasis>, although there is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now developed by a online team of developers (AIMS Group, 2002).
+There is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now maintained and extended by a online team of developers lead by Rasmus Lerdorf (AIMS Group, 2002).
 </para>
 
 <para>
@@ -156,7 +156,7 @@ Because PHP is an in-page scripting language, the actual code to generate the HT
 </programlisting>
 
 <para>
-In this example, the tag starting with ?php is the script element. This example was sourced from PHP Documentation Group, 2002. The output of this script will be a simple HTML page saying <quote>Hello World</quote>.
+In this example, the tag starting with ?php is the script element. The output of this script is a simple HTML page saying <quote>Hello World</quote>.
 </para>
 
 <para>
@@ -164,23 +164,23 @@ The main advantage of in-page scripting is that the source code of the applicati
 </para>
 
 <para>
-The disadvantage of such as system is that it then requires that the users would are editting the HTML appearance of an application must also understand the scripting language which the application is implemented in. This means that graphics designers and layout consultants require further training -- the application is no longer a <quote>black box</quote> which the HTML designer can simply be a user of. The other main disadvantage is that the inclusion of the scripting within the HTML pages is that it clutters the HTML representation of the user interface, making it much harder to read. This problem is compounded by poor in-page scripting support in many HTML editors, including Mozilla. These editors discard tags they don't comprehend at the time of editting the page, and this unfortunately includes tags such as PHP.
+The main disadvantage of such as system is that it requires that the users who are editting the HTML appearance of an application must also understand the scripting language in which the application is implemented. This means that graphics designers and layout consultants require further training. The application is no longer a <emphasis>black box</emphasis> in which the HTML designer can simply be a user. A second drawback is that the inclusion of the scripting within the HTML pages is that it clutters the HTML representation of the user interface, making it much harder to read. This problem is compounded by poor in-page scripting support in many HTML editors, including Mozilla. These editors discard tags they don't comprehend at the time of editting the page, and this unfortunately includes tags such as PHP.
 </para>
 
 <para>
-Finally, developing the GDMS Internet interface in PHP would nessesitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
-</para>
-</sect2>
-
-<sect2><title>ASP</title>
-<para>
-Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is delibverately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptible constraint for the main target user of the application -- the University of Canberra Survey Laboratory.
+Developing the GDMS Internet interface in PHP would nessesitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
 </para>
 </sect2>
 
-<sect2><title>C or C++ CGI</title>
+<sect2><title>Active Server Pages</title>
 <para>
-Another implementation alternative considered was to implement the system in either C or C++ using the Common Gateway Interface (CGI) subsystem offered by most web servers. This implementation technique has the advantage of the code for the GDMS Internet interface being in the same language as the GDMS application itself. It however has the disadvantage that parsing the incoming request URLs is less trivial, as there is limited language support without the inclusion of non-standard application libraries (Kahan 2002).
+Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is delibverately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptible constraint for the main target user of the application -- the University of Canberra Survey Laboratory, who are not heavy users of Microsoft products.
+</para>
+</sect2>
+
+<sect2><title>C or C++ Common Gateway Interface</title>
+<para>
+Another implementation alternative considered was to implement the system in either C or C++ using the Common Gateway Interface (CGI) subsystem offered by most web servers. This implementation technique has the advantage of the code for the GDMS Internet interface being in the same language as the GDMS application itself. However it has the disadvantage that parsing the incoming URLs is less trivial, as there is limited language support without the inclusion of non-standard application libraries (Kahan 2002).
 </para>
 
 <para>
@@ -190,7 +190,11 @@ C and C++ are also not idiomatic methods of implementing CGI applications, and t
 
 <sect2><title>Perl CGI</title>
 <para>
-Perl was originally developed by Larry Wall in 1987 (Perl Mongers, 1999) and is now developed by a team of Open Source developers. Perl has well integrated CGI support built into the language itself, and is optimized for the parsing of complex strings (such as the requests which are returned by a web browser to the GDMS Internet interface via the CGI apparatus).
+Perl was originally developed by Larry Wall in 1987 (Perl Mongers, 1999) and is now developed by a team of Open Source developers. Perl is a shell script like scripting language, although it's syntax is much more powerful than that of shell script. Perl also has world class regular expression support as a standard, well integrated, feature. Perl has well integrated CGI support built into the language itself, and is optimized for the parsing of complex strings (such as the requests which are returned by a web browser to the GDMS Internet interface via the CGI apparatus).
+</para>
+
+<para>
+TODO
 </para>
 
 <para>
@@ -207,11 +211,11 @@ After consideration of all of the factors outlined above, Perl CGI was identifie
 
 <sect1><title>Presentation of the user interface</title>
 <para>
-In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags the those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
+In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags above those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
 <para>
-The GDMS Internet interface follows the recommendations of the most recent HTML specification at the time of development for the insertion of scripting tags into HTML source files (Raggett, Le Hors, &amp; Jacobs 1999). Further documentation on the GDMS Internet interface tags available can be found in Appendix One of this document.
+The GDMS Internet interface follows the recommendations of the most recent HTML specification at the time of development for the insertion of scripting tags into HTML source files (Raggett, Le Hors, &amp; Jacobs 1999). Further documentation on the GDMS Internet interface tags available can be found in Appendix A of this document.
 </para>
 </sect1>
 
@@ -220,17 +224,17 @@ The GDMS Internet interface follows the recommendations of the most recent HTML 
 Much thought was expended on which image format to use for the plots displayed in the GDMS Internet interface. There are advantages and disadvantages to all the formats available at the time of writing this document. The following formats were considered for the GDMS Internet interface:
 </para>
 
-<sect2><title>TIFF</title>
+<sect2><title>Tagged Image File Format</title>
 <para>
-TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992).
+TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992). It should be noted that no significant development of the TIFF standard has occured since that date.
 </para>
 
 <para>
-The main advantage of the TIFF image format is that it is extemely mature. It has a large selection of options to ease the development of imaging software, for example the developer can use which ever endian representation is convenient for them, as well as such fundamental parameters as photometric interpretation (whether a high value is lighter or darker than a low value for a given colour sample within a pixel) (Adobe 1992). There is also a stable, well supported Open Source application programmers interface available to manage creation and interpretation of images within the TIFF format (Warmerdam &amp; Welles 2002). The interface to this library does not frequently change, which is also an advantage for future portability of the GDMS Internet interface.
+The main advantage of the TIFF image format is that it is extemely mature. It has a large selection of options to ease the development of imaging software, for example the developer can use which ever endian representation is convenient for them, as well as such fundamental parameters as photometric interpretation, whether a high value is lighter or darker than a low value for a given colour sample within a pixel (Adobe 1992). There is also a stable, well supported Open Source application programmers interface available to manage creation and interpretation of images within the TIFF format (Warmerdam &amp; Welles 2002). The interface to this library does not frequently change, which is also an advantage for future portability of the GDMS Internet interface.
 </para>
 
 <para>
-However, some of these very advantages lead to the disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in there being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002).
+However, some of these advantages lead to the principal disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in there being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002).
 </para>
 
 <para>
@@ -238,7 +242,7 @@ TIFF is therefore an inappropriate image format for use for the GDMS Internet in
 </para>
 </sect2>
 
-<sect2><title>GIF</title>
+<sect2><title>Graphics Interchange Format</title>
 <para>
 The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in order words 255 distinct colours are available in each image.
 </para>
@@ -248,22 +252,22 @@ Vendors are also dropping support for the GIF format because of the expense of l
 </para>
 
 <para>
-Despite all of these largely political issues, the GIF format is still well supported in all web browser versions, which would make it an ideal candidate for the GDMS Internet interface if it wasn't for the unavailability of a stable and reliable compression library.
+Despite all of these largely political issues, the GIF format is still well supported in all web browser versions, which would make it an ideal candidate for the GDMS Internet interface if it wasn't for the lack of a stable and reliable compression library.
 </para>
 </sect2>
 
-<sect2><title>JPEG</title>
+<sect2><title>Joint Picture Experts Group File Interchange Format</title>
 <para>
 JPEG is an interesting image format because whilst the JPEG compression codec has been standardized by ISO, the actual on disc format commonly called JPEG is not part of the ISO standard. The file format commonly called JPEG is actually JPEG JFIF -- created by the Independant JPEG Group (Lilly 1996).
 </para>
 
 <para>
-The JPEG support in web browsers is now excellent, with support becoming much more common after 1996 (Lilly 1996). The biggest factor stopping the use of JPEG within the GDMS Internet interface is that the compression codec is lossy.
+JPEG support in web browsers is excellent, with support rapidly improving after 1996 (Lilly 1996). The biggest factor stopping the use of JPEG within the GDMS Internet interface is that the compression codec is lossy.
 </para>
 
 <sect3><title>Loss</title>
 <para>
-The JPEG compression algorithm is lossy -- in other words, the act of compressing the image results in image data being thrown away. This has the effect of noticably reducing the clarity of the images -- a characteristic which is especially noticable with images which contain text at smaller point sizes. Use of such text is a feature of the GDMS graphing subsystem.
+The JPEG compression algorithm is lossy -- in other words, the act of compressing the image results in image data being discarded. This has the effect of noticably reducing the clarity of the images -- a characteristic which is especially noticable with images which contain text at smaller point sizes. The use of such text is a feature of the GDMS graphing subsystem.
 </para>
 
 <para>
@@ -293,19 +297,19 @@ The effects are much worse with an image which contains text at small point size
 </sect3>
 </sect2>
 
-<sect2><title>PNG</title>
+<sect2><title>Portable Network Graphics</title>
 <para>
 Portable Network Graphics (PNG) was initially developed because of the patent problems with the GIF format described earlier in this section. The PNG format has since grown well past the feature set provided by GIF, and now rivals TIFF for completeness (Randers-Pehrson 1999).
 </para>
 
 <para>
-The PNG support in most browsers is not perfect. However, browsers above version three for both Netscape and Microsoft Internet Explorer support PNG. There is an actively maintained and well supported Open Source programmers interface to the PNG format, in fact it is the reference implementation of the specification (Roelofs 2002).
+The PNG support in many browsers is not perfect. However, browsers above version three for both Netscape and Microsoft Internet Explorer, and all versions of Mozilla have excellent support of PNG. There is an actively maintained and well supported Open Source programmers interface to the PNG format, in fact it is the reference implementation of the specification (Roelofs 2002), which reinforces it's stability.
 </para>
 </sect2>
 
 <sect2><title>Conclusion</title>
 <para>
-Based on the factors outlined above, the PNG image format was selected for the GDMS Internet interface. This is because of it's excellent browser support, as well as it's mature and stable Open Source application programmers interface.
+Based on the factors outlined above, the PNG image format was selected for the GDMS Internet interface. This is because of it's excellent browser support in modern browsers, as well as it's mature and stable Open Source application programmers interface.
 </para>
 </sect2>
 </sect1>
@@ -334,7 +338,9 @@ The following page greets users when they start the GDMS Internet interface.
 
 <chapter><title>Conclusion</title>
 <para>
-...
+Based on the discussion in previous chapters, Perl CGI with PNG images were selected for the implementation of the GDMS Internet interface.
+
+TODO MORE
 </para>
 </chapter>
 

@@ -76,19 +76,19 @@ The effects are much worse with an image which contains text at small point size
 </sect3>
 </sect2>
 
-<sect2><title>PNG</title>
+<sect2><title>Portable Network Graphics</title>
 <para>
 Portable Network Graphics (PNG) was initially developed because of the patent problems with the GIF format described earlier in this section. The PNG format has since grown well past the feature set provided by GIF, and now rivals TIFF for completeness (Randers-Pehrson 1999).
 </para>
 
 <para>
-The PNG support in most browsers is not perfect. However, browsers above version three for both Netscape and Microsoft Internet Explorer support PNG. There is an actively maintained and well supported Open Source programmers interface to the PNG format, in fact it is the reference implementation of the specification (Roelofs 2002).
+The PNG support in many browsers is not perfect. However, browsers above version three for both Netscape and Microsoft Internet Explorer, and all versions of Mozilla have excellent support of PNG. There is an actively maintained and well supported Open Source programmers interface to the PNG format, in fact it is the reference implementation of the specification (Roelofs 2002), which reinforces it's stability.
 </para>
 </sect2>
 
 <sect2><title>Conclusion</title>
 <para>
-Based on the factors outlined above, the PNG image format was selected for the GDMS Internet interface. This is because of it's excellent browser support, as well as it's mature and stable Open Source application programmers interface.
+Based on the factors outlined above, the PNG image format was selected for the GDMS Internet interface. This is because of it's excellent browser support in modern browsers, as well as it's mature and stable Open Source application programmers interface.
 </para>
 </sect2>
 </sect1>
