@@ -25,12 +25,12 @@ rm foo.tdb
 
 echo "Creating db"
 echo " -- Create table"
-echo "CREATE TABLE foo (cola, colb, colc);" | ./sample
+verify "CREATE TABLE foo (cola, colb, colc);" create001
 
 echo " -- Insert into table"
-echo "INSERT INTO foo (cola, colb, colc) VALUES ('duck', 'chicken', 'frog');" | ./sample
-echo "INSERT INTO foo (cola, colb) VALUES ('duck', 'hamster');" | ./sample
-echo "INSERT INTO foo (cola, colc) VALUES ('banana', 'frog');" | ./sample
+verify "INSERT INTO foo (cola, colb, colc) VALUES ('duck', 'chicken', 'frog');" insert001
+verify "INSERT INTO foo (cola, colb) VALUES ('duck', 'hamster');" insert002
+verify "INSERT INTO foo (cola, colc) VALUES ('banana', 'frog');" insert003
 
 echo ""
 echo "Select tests"

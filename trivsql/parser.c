@@ -18,7 +18,6 @@
 #line 1 "parser.y"
 
   #include <stdio.h>
-  #include <stdarg.h>
   #include "trivsql.h"
 
   #define YYERROR_VERBOSE 1
@@ -93,8 +92,8 @@ static const short yyrhs[] = {    21,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    17,    17,    17,    18,    21,    25,    29,    33,    34,    37,
-    38,    41,    42,    43,    46,    47
+    16,    16,    16,    17,    20,    24,    28,    32,    33,    36,
+    37,    40,    41,    42,    45,    46
 };
 #endif
 
@@ -705,51 +704,51 @@ yyreduce:
   switch (yyn) {
 
 case 5:
-#line 22 "parser.y"
+#line 21 "parser.y"
 { trivsql_docreate(yyvsp[-4], yyvsp[-2]); ;
     break;}
 case 6:
-#line 26 "parser.y"
+#line 25 "parser.y"
 { trivsql_doinsert(yyvsp[-8], yyvsp[-6], yyvsp[-2]); ;
     break;}
 case 7:
-#line 30 "parser.y"
+#line 29 "parser.y"
 { trivsql_recordset *rs; trivsql_displayrs(rs = trivsql_doselect(yyvsp[-2], yyvsp[-4]), yyvsp[-2], yyvsp[-4]); /*trivsql_xfree(rs);*/ ;
     break;}
 case 8:
-#line 33 "parser.y"
+#line 32 "parser.y"
 { yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
     break;}
 case 9:
-#line 34 "parser.y"
+#line 33 "parser.y"
 { yyval = trivsql_xsnprintf("*"); ;
     break;}
 case 10:
-#line 37 "parser.y"
+#line 36 "parser.y"
 { yyval = trivsql_xsnprintf("%s;%s", yyvsp[-2], yyvsp[0]); ;
     break;}
 case 11:
-#line 38 "parser.y"
+#line 37 "parser.y"
 { yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
     break;}
 case 12:
-#line 41 "parser.y"
+#line 40 "parser.y"
 { gState->selector = trivsql_selequal; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
     break;}
 case 13:
-#line 42 "parser.y"
+#line 41 "parser.y"
 { gState->selector = trivsql_sellike; gState->selArgOne = yyvsp[-2]; gState->selArgTwo = yyvsp[0] ;
     break;}
 case 14:
-#line 43 "parser.y"
+#line 42 "parser.y"
 { gState->selector = NULL ;
     break;}
 case 15:
-#line 46 "parser.y"
+#line 45 "parser.y"
 { yyval = yyvsp[0] ;
     break;}
 case 16:
-#line 47 "parser.y"
+#line 46 "parser.y"
 { yyval = yyvsp[-1] ;
     break;}
 }
@@ -974,7 +973,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 50 "parser.y"
+#line 49 "parser.y"
 
 
 int yyerror(char *s){

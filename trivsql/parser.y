@@ -1,6 +1,5 @@
 %{
   #include <stdio.h>
-  #include <stdarg.h>
   #include "trivsql.h"
 
   #define YYERROR_VERBOSE 1
