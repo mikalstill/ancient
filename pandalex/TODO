@@ -2,3 +2,4 @@
   * Memory leaks
   * Very large PDFs can cause core dumps
   * Reimplement the callbacks
+  * Autotools

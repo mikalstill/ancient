@@ -67,7 +67,7 @@ VERSION = @VERSION@
 YACC = @YACC@
 
 noinst_PROGRAMS = lexer
-lexer_SOURCES = lexer.y lexer.l
+lexer_SOURCES = lexer.y lexer.l samples.c
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
@@ -78,7 +78,7 @@ DEFS = @DEFS@ -I. -I$(srcdir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-lexer_OBJECTS =  lexer.o lexer.o
+lexer_OBJECTS =  lexer.o lexer.o samples.o
 lexer_LDADD = $(LDADD)
 lexer_DEPENDENCIES = 
 lexer_LDFLAGS = 
@@ -96,7 +96,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/lexer.P
+DEP_FILES =  .deps/lexer.P .deps/samples.P
 SOURCES = $(lexer_SOURCES)
 OBJECTS = $(lexer_OBJECTS)
 
@@ -345,7 +345,8 @@ mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-lexer.y: lexer.l
+y.tab.h y.tab.c: lexer.y
+	$(YACC) -d lexer.y
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

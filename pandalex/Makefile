@@ -63,22 +63,22 @@ MAINT = #
 MAKEINFO = makeinfo
 PACKAGE = pandalex
 RANLIB = ranlib
-VERSION = 0.1
+VERSION = 0.5
 YACC = bison -y
 
 noinst_PROGRAMS = lexer
-lexer_SOURCES = lexer.y lexer.l
+lexer_SOURCES = lexer.y lexer.l samples.c
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS =  -DPACKAGE=\"pandalex\" -DVERSION=\"0.1\" -DYYTEXT_POINTER=1 -DHAVE_LIBM=1 -DSTDC_HEADERS=1  -I. -I$(srcdir) 
+DEFS =  -DPACKAGE=\"pandalex\" -DVERSION=\"0.5\" -DYYTEXT_POINTER=1 -DHAVE_LIBM=1 -DHAVE_LIBZ=1 -DHAVE_LIBFL=1 -DSTDC_HEADERS=1  -I. -I$(srcdir) 
 CPPFLAGS = 
 LDFLAGS = 
-LIBS = -lm 
-lexer_OBJECTS =  lexer.o lexer.o
+LIBS = -lfl -lz -lm 
+lexer_OBJECTS =  lexer.o lexer.o samples.o
 lexer_LDADD = $(LDADD)
 lexer_DEPENDENCIES = 
 lexer_LDFLAGS = 
@@ -96,7 +96,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/lexer.P
+DEP_FILES =  .deps/lexer.P .deps/samples.P
 SOURCES = $(lexer_SOURCES)
 OBJECTS = $(lexer_OBJECTS)
 
@@ -345,7 +345,8 @@ mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-lexer.y: lexer.l
+y.tab.h y.tab.c: lexer.y
+	$(YACC) -d lexer.y
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

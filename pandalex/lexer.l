@@ -1,5 +1,5 @@
 %{
-#include "lexer.tab.h"
+#include "y.tab.h"
 #include "lexinterface.h"
 #include <unistd.h>
 #include <stdlib.h>
