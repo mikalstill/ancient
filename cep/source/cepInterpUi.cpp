@@ -1,5 +1,5 @@
 /*
-  * Imp for the least squares wxWindows UI implementation
+  * Imp for the Interpolation wxWindows UI implementation
   * Copyright (C) Kristy Van Der Vlist             2002
   *
   * This program is free software; you can redistribute it and/or modify it
@@ -19,177 +19,111 @@
 
 #include "cepInterpUi.h"
   
-BEGIN_EVENT_TABLE (cepInterpShowDir, wxDialog)
-  EVT_BUTTON(CEPBTN_DIR_SUBMIT, cepInterpShowDir::dlgDirOnOK)
-  EVT_BUTTON(CEPBTN_DIR_CANCEL, cepInterpShowDir::dlgDirOnQuit)
-  EVT_CLOSE( cepInterpShowDir::dlgDirOnQuit)
+BEGIN_EVENT_TABLE (cepInterpShowRate, wxDialog)
+  EVT_BUTTON(CEPBTN_RATE_SUBMIT, cepInterpShowRate::dlgRateOnOK)
+  EVT_BUTTON(CEPBTN_RATE_CANCEL, cepInterpShowRate::dlgRateOnQuit)
+  EVT_CLOSE( cepInterpShowRate::dlgRateOnQuit)
 END_EVENT_TABLE ()
                           
-cepInterpShowDir::cepInterpShowDir():
-  wxDialog((wxDialog *) NULL, -1, "Choose Direction", wxPoint(120,120), wxSize(200, 200))
+cepInterpShowRate::cepInterpShowRate():
+  wxDialog((wxDialog *) NULL, -1, "Specify Sample Rate", wxPoint(120,120), wxSize(200, 200))
 {
   m_panel = new wxPanel(this, -1, wxPoint(120,120), wxSize(200,200));
 
-  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 50), wxSize(170, 100));
+  m_statBox = new wxStaticBox(m_panel, -1, "", wxPoint(15, 30), wxSize(170, 120));
 
-  m_statText1 = new wxStaticText(m_panel, -1, "Please select the direction(s)", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
-  m_statText2 = new wxStaticText(m_panel, -1, "you wish to preform the", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
-  m_statText3 = new wxStaticText(m_panel, -1, " Least Squares transformation on:", wxPoint(5,33), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText1 = new wxStaticText(m_panel, -1, "Please specify the sample rate", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
+  m_statText2 = new wxStaticText(m_panel, -1, "for the interpolated data:", wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
 
+  m_statText3 = new wxStaticText(m_panel, -1, "Sample Rate:", wxPoint(25,40), wxSize(100, 20), wxALIGN_LEFT);
 
-  m_cbDirX = new wxCheckBox(m_panel, -1, "Direction: x (North)", wxPoint(25, 65));
-  m_cbDirY = new wxCheckBox(m_panel, -1, "Direction: y (East)", wxPoint(25, 90));
-  m_cbDirZ = new wxCheckBox(m_panel, -1, "Direction: z (Up)", wxPoint(25, 115));
+  m_tbSample = new wxTextCtrl(m_panel, -1, "0.0", wxPoint(110, 40), wxSize(60, 20));
 
-  m_bSubmit = new wxButton(m_panel, CEPBTN_DIR_SUBMIT, "Ok", wxPoint(10,160));
-  m_bCancel = new wxButton(m_panel, CEPBTN_DIR_CANCEL, "Cancel", wxPoint(110,160));
+  m_rbYear = new wxRadioButton(m_panel, -1, "Years", wxPoint(25, 65), wxSize(120, 20), wxRB_GROUP);
+  m_rbDays = new wxRadioButton(m_panel, -1, "Month", wxPoint(25, 90));
+  m_rbHours = new wxRadioButton(m_panel, -1, "Days", wxPoint(25, 115));
+
+  m_bSubmit = new wxButton(m_panel, CEPBTN_RATE_SUBMIT, "Ok", wxPoint(10,160));
+  m_bCancel = new wxButton(m_panel, CEPBTN_RATE_CANCEL, "Cancel", wxPoint(110,160));
 
   Center();
   ShowModal();
 }
-      
-void cepInterpShowDir::dlgDirOnQuit(wxCommandEvent& WXUNUSED(event))
+
+double cepInterpShowRate::getSample()
 {
-  //if cancel or quit button pressed set all values to false
-  m_cbDirX->SetValue(false);
-  m_cbDirY->SetValue(false);
-  m_cbDirZ->SetValue(false);
+  for(size_t i = 0; i < m_sampleRate.Length(); i ++)
+  {
+    if(cepIsNumeric(m_sampleRate.GetChar(i)) == false)
+    {
+      return -2.0;
+    }
+  }
+
+  return (atof(m_sampleRate.c_str()));
+}
+
+cepInterpShowRate::units cepInterpShowRate::getUnits()
+{
+  return m_sampleUnits;
+}
+        
+void cepInterpShowRate::dlgRateOnQuit(wxCommandEvent& WXUNUSED(event))
+{
+  //if cancel or quit button pressed 
+  m_sampleRate = "-1";
+  
   EndModal(1);
   Destroy();
 }
 
-void cepInterpShowDir::dlgDirOnOK(wxCommandEvent& WXUNUSED(event))
+void cepInterpShowRate::dlgRateOnOK(wxCommandEvent& WXUNUSED(event))
 {
+  if(m_rbYear->GetValue() == true)
+  {
+    m_sampleUnits = years;
+  }
+  else
+  {
+    if(m_rbDays->GetValue() == true)
+    {
+      m_sampleUnits = days;
+    }
+    else
+    {
+      if(m_rbHours->GetValue() == true)
+      {
+        m_sampleUnits = hours;
+      }
+      else
+      {
+        m_sampleUnits = unknowen;
+      }
+    }
+  }
+
+  m_sampleRate = m_tbSample->GetValue();
+  
   EndModal(0);
   Destroy();  
 }
 
-bool cepInterpShowDir::getWhichDir(char dir)
-{
-  //retuned the selected directions
-  switch (dir)
-  {
-    case 'x':
-      return m_cbDirX->GetValue();
-    case 'y':
-      return m_cbDirY->GetValue();
-    case 'z':
-      return m_cbDirZ->GetValue();
-    default:
-      //ERROR here!
-      return false;
-  }
-}
-
-cepInterpReadP::cepInterpReadP(string dir):
-  wxMessageDialog(NULL, wxString( "Do you wish to load the weighting matrix for direction ") + wxString(dir.c_str()) + wxString(" from a file?:" ), "Specify a Weighting Matrix", wxYES_NO|wxCANCEL)
-{
-  Centre();
-
-  switch (ShowModal())
-  {
-    case wxID_YES:    //if yes pressed
-      m_isRead = 1;
-      break;
-    case wxID_NO:     //if no pressed
-      m_isRead = 0;
-      break;
-    case wxID_CANCEL: //if cancel pressed
-      m_isRead = -1;
-      break;
-    default:
-      //**************ERROR here!
-      m_isRead = -1;
-      break;
-  }
-}
-
-int cepInterpReadP::getIsReadP()
-{
-  return m_isRead;
-}
-
-cepInterpShowFile::cepInterpShowFile():
-  wxFileDialog(NULL, "Choose Weighted Matrix File", "", "", "*.dat", wxOPEN, wxPoint(-1, -1))
-{
-
-  Center();
-
-    switch (ShowModal())
-  {
-    case wxID_OK:     //if ok pressed
-      m_filename = GetPath().c_str();
-      break;
-    case wxID_CANCEL: //if cancel pressed
-      m_filename = "";
-      break;
-    default:
-      //ERROR HERE!
-      m_filename = "";
-      break;
-  }
-
-}
-
-string cepInterpShowFile::getFilename()
-{
-  return m_filename;
-}
-
 cepInterpUi::cepInterpUi() {}
 
-void cepInterpUi::showWhichDir()
+void cepInterpUi::showSampleRate()
 {
-  cepInterpShowDir sd;
+  cepInterpShowRate sr;
 
-  m_doDirX = sd.getWhichDir('x');
-  m_doDirY = sd.getWhichDir('y');
-  m_doDirZ = sd.getWhichDir('z');
+  m_sampleUnits = sr.getUnits();
+  m_sampleRate = sr.getSample();
 }
 
-void cepInterpUi::showIsReadP(string dir)
+double cepInterpUi::getSampleRate()
 {
-  cepInterpReadP rp(dir);
-
-  m_isReadP = rp.getIsReadP();
+  return m_sampleRate;
 }
 
-void cepInterpUi::showGetfNameP()
+cepInterpShowRate::units cepInterpUi::getUnits()
 {
-  cepInterpShowFile sf;
-
-  m_filename = sf.getFilename();
+  return m_sampleUnits;
 }
-
-int cepInterpUi::getIsReweight()
-{
-  return m_isReweight;
-}
-
-bool cepInterpUi::getWhichDir(char dir)
-{
-  //return selected directions
-  switch (dir)
-  {
-    case 'x':
-      return m_doDirX;
-    case 'y':
-      return m_doDirY;
-    case 'z':
-      return m_doDirZ;
-    default:
-      //ERROR here!
-      return false;
-  }
-
-}
-int cepInterpUi::getIsReadP()
-{
-  return m_isReadP;
-}
-
-string cepInterpUi::getfNameP()
-{
-  return m_filename;
-}
-

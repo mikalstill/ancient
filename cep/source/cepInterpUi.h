@@ -1,5 +1,5 @@
 /*
-  * Imp for the least squares wxWindows UI implementation
+  * Imp for the Interpolation wxWindows UI implementation
   * Copyright (C) Kristy Van Der Vlist             2002
   *
   * This program is free software; you can redistribute it and/or modify it
@@ -17,183 +17,100 @@
   * Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEPLSUI_H
-#define __CEPLSUI_H
+#ifndef __CEPINTERPUI_H
+#define __CEPINTERPUI_H
 
 #include <iostream.h>
-#include <string>
 
 #include <wx/dialog.h>
 #include <wx/button.h>
 #include <wx/radiobut.h>
-#include <wx/msgdlg.h>
-#include <wx/checkbox.h>
 #include <wx/statbox.h>
 #include <wx/stattext.h>
+#include <wx/textctrl.h>
+#include <wx/string.h>
 
 #include "cepUI.h"
+#include "cepUtility.h"
 
 /******************************************************************************
 DOCBOOK START
 
-FUNCTION cepInterpShowDir
+FUNCTION cepInterpShowRate
 
 
-PURPOSE Displays the "Select Direction" dialog box for the Least Squares user interface
+PURPOSE Displays the "Show Sample Rate" dialog box for the Interpolation user interface
 
 SYNOPSIS START
 The follwing is an example of how to create this object.
 
-cepInterpShowDir sd;
+cepInterpShowRate sr;
 
 SYNOPSIS END
 
 DESCRIPTION START
 
-An implementation of the <command>cepInterpShowDir</command> class
+An implementation of the <command>cepInterpShowRate</command> class
 which displays a custom wxWindows dialog box.
 </para>
 
 <para>
-<command>cepInterpShowDir()</command>
-Displays the choose direction dialog box
+<command>double getSample()</command>
+Returns the specified sample rate
 </para>
 
-<para>
-<command>bool getWhichDir(char dir)</command>
-Returns true if the given direction is selected, otherwise false is returned.
+<para>units getUnits()</command>
+Returns the units selected as an enumated type. Units can be one of:-
 <para><itemizedlist>
-  <listitem><para>dir:-The data direction. Must be one of x, y or z</para></listitem>
+  <listitem><para>Years</para></listitem>
+  <listitem><para>Days</para></listitem>
+  <listitem><para>Hours</para></listitem>
+  <listitem><para>Unknowen</para></listitem>
 </itemizedlist></para>
 
 DESCRIPTION END
 
 DOCBOOK END
 ******************************************************************************/
-
-class cepInterpShowDir: public wxDialog
+class cepInterpShowRate: public wxDialog
 {
 public:
 
-  //show the choose direction dialog box
-  cepInterpShowDir();
+  //the type of units for sample rate
+  enum units
+  {
+    years = 1,
+    days,
+    hours,
+    unknowen
+  };
+  
+  //show the "select sample rate" dialog box
+  cepInterpShowRate();
 
-  //get the values returned from the dialog box                
-  bool getWhichDir(char dir);
-
+  //returns the sample rate specified
+  double getSample();
+  //returns the units specified
+  units getUnits();
+  
   //the on Quit event
-  void dlgDirOnQuit(wxCommandEvent& event);
+  void dlgRateOnQuit(wxCommandEvent& event);
   //the on Ok event
-  void dlgDirOnOK(wxCommandEvent& event);
+  void dlgRateOnOK(wxCommandEvent& event);
 
 private:
+  //declerations for the elements of the dialog box
   wxPanel *m_panel;
   wxStaticBox *m_statBox;
   wxStaticText *m_statText1, *m_statText2, *m_statText3;
-  wxCheckBox *m_cbDirX, *m_cbDirY, *m_cbDirZ;
+  wxRadioButton *m_rbYear, *m_rbDays, *m_rbHours;
+  wxTextCtrl *m_tbSample;
   wxButton *m_bSubmit, *m_bCancel;
 
+  wxString m_sampleRate;
+  units m_sampleUnits;
+  
   DECLARE_EVENT_TABLE ()
-};
-
-/******************************************************************************
-DOCBOOK START
-
-FUNCTION cepInterpReadP
-
-
-PURPOSE Displays the read from file dialog box for the Least Squares user interface
-
-SYNOPSIS START
-The follwing is an example of how to create this object.
-
-cepInterpReadP rp;
-
-SYNOPSIS END
-
-DESCRIPTION START
-
-An implementation of the <command>cepInterpReadP</command> class
-which displays a wxWindows mesage dialog box.
-</para>
-
-<para>
-<command>cepInterpReadP(string dir)</command>
-Display the read from file dialog box for the specified direction.
-<para><itemizedlist>
-  <listitem><para>dir:-The data direction. Must be one of x, y or z</para></listitem>
-</itemizedlist></para>
-</para>
-
-<para>
-<command>int getIsReadP()</command>
-Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
-for cancel.
-
-DESCRIPTION END
-
-DOCBOOK END
-******************************************************************************/
-
-class cepInterpReadP: public wxMessageDialog
-{
-public:
-
-  //display the read from file dialog box
-  cepInterpReadP(string dir);
-
-  int getIsReadP();
-private:
-  int m_isRead;
-};
-
-/******************************************************************************
-DOCBOOK START
-
-FUNCTION cepInterpShowFile
-
-
-PURPOSE Displays the open a file dialog box for the Least Squares user interface
-
-SYNOPSIS START
-The follwing is an example of how to create this object.
-
-cepInterpShowFile sf;
-
-SYNOPSIS END
-
-DESCRIPTION START
-
-An implementation of the <command>cepInterpShowFile</command> class
-which displays a wxWindows mesage dialog box.
-</para>
-
-<para>
-<command>cepInterpShowFile</command>
-Display the open file dialog box for the specified direction.
-</para>
-
-<para>
-<command>string getFilename()</command>
-Returns the full path of the file selected for opening. If getFilename() returns
-"" the user has canceled this operation.
-
-DESCRIPTION END
-
-DOCBOOK END
-******************************************************************************/
-
-class cepInterpShowFile: public wxFileDialog
-{
-public:
-  //show the choose file dialog box
-  cepInterpShowFile();
-
-  //gets the name of the file choosen
-  string getFilename();
-
-private:
-  string m_filename;
 };
 
 /******************************************************************************
@@ -202,100 +119,64 @@ DOCBOOK START
 FUNCTION cepInterpUi
 
 
-PURPOSE Displays the open a file dialog box for the Least Squares user interface
+PURPOSE Displays Interpolationh user interface
 
 SYNOPSIS START
 The follwing is an example of how to create this object.
 
-cepInterpUi lsui;
+cepInterpUi interpUi;
 
 SYNOPSIS END
 
 DESCRIPTION START
 
 An implementation of the <command>cepInterpUi</command> class
-which displays all dialog boxes associated with the Least Squares GUI.
+which displays the interpolation GUI.
 </para>
 
 <para>
-<command>void showIsReweight()</command>
-Shows the re-weighting dialog box.
+<command>void showSampleRate()</command>
+Shows the interpolation GUI.
 </para>
 
 <para>
-<command>void showWhichDir()</command>
-Shows the choose direction dialog box.
+<command> double getSampleRate()</command>
+Gets the sample rate selected by the user.
 </para>
 
 <para>
-<command>void showIsReadP(string dir)</command>
-Shows the read from file dialog box.
-</para>
-
-<para>
-<command>void showGetfNameP()</command>
-Shows the choose file dialog box.
-</para>
-
-<para>
-<command>int getIsReweight()</command>
-Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
-for cancel.
-</para>
-
-<para>
-<command>bool getWhichDir(char dir)</command>
-Returns true if the given direction is selected, otherwise false is returned.
+<command> cepInterpShowRate::units getUnits()</command>
+Returns the units selected by the user. This fuction will return an enumerated type
+which is one of:-
 <para><itemizedlist>
-  <listitem><para>dir:-The data direction. Must be one of x, y or z</para></listitem>
+  <listitem><para>Years</para></listitem>
+  <listitem><para>Days</para></listitem>
+  <listitem><para>Hours</para></listitem>
+  <listitem><para>Unknowen</para></listitem>
 </itemizedlist></para>
-</para>
-
-<para>
-<command>int getIsReadP()</command>
-Get the value returned from the dialog box. Returns 1 for yes, 0 for no or -1
-for cancel.
-</para>
-
-<para>
-<command>string getfNameP()</command>
-Returns the full path of the file selected for opening. If getFilename() returns
-"" the user has canceled this operation.
 
 DESCRIPTION END
 
 DOCBOOK END
 ******************************************************************************/
-
 class cepInterpUi
 {
 public:
   cepInterpUi();
 
-  //show the choose direction dialog box
-  void showWhichDir();
-  //show the read from file dialog box
-  void showIsReadP(string dir);
-  //show the choose file dialog box
-  void showGetfNameP();
+  //shows the "get sample rate" dialog box
+  void showSampleRate();
 
-  //get values from the re-weight dialog box
-  int getIsReweight();
-  //get the value for a given direction returned from
-  //the choose diretion dialog box
-  bool getWhichDir(char dir);
-  //get the value from the read from file dialog box
-  int getIsReadP();
-  //get the name of the selected file
-  string getfNameP();
+  //returns the specified sample rate
+  double getSampleRate();
+  //returns the selected units
+  cepInterpShowRate::units getUnits();
 
 private:
-  int m_isReweight;
-  bool m_doDirX, m_doDirY, m_doDirZ;
-  int m_isReadP;
-  string m_filename;
+  double m_sampleRate;                    //stores the specified sample rate
+  cepInterpShowRate::units m_sampleUnits; //stores the selected units 
 };
 
   
   
-#endif //end __CEPLSUI_H
+#endif //end __CEPINTERP_H
