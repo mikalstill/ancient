@@ -55,7 +55,7 @@ You can get the latest libpng code from http://www.libpng.org.
 
 <sect2><title>Unix</title>
 <para>
-libpng doesn't have a a configure script. You'll need to follow the steps below to get it to compile:
+libpng doesn't have a configure script. You'll need to follow the steps below to get it to compile:
 </para>
 
 <itemizedlist>
