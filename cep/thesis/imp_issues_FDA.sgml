@@ -14,8 +14,12 @@
   <sect3><title>Research</title>
     <para>
        The first library found in our research was the Fastest Fourier Transform in the West (FFTW) library from MIT. This library is
-       widely referenced and documented, and further more, is reputed to be the most efficient FFT library in existence. 
-       - FFTW etc..
+       widely referenced and documented, and further more, is reputed to be the most efficient FFT library in existence. The FFTW library
+       is written in C, so more time was spend research other available libraries in an attempt to maintain c++ consistency through the
+       project. Another candidate thats discovered after testing had already commenced with teh FFTW library. This was a complex template
+       class to compute FFTs. 
+
+
        - Which algorithms?
        - Assess alternative algorithms
     </para>
