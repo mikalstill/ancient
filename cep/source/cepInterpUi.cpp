@@ -35,11 +35,11 @@ cepInterpShowRate::cepInterpShowRate(wxString val, wxString dir, double units):
   m_statText1 = new wxStaticText(m_panel, -1, "Please specify the sample rate for the", wxPoint(5,5), wxSize(190, 20), wxALIGN_CENTRE);
   m_statText2 = new wxStaticText(m_panel, -1, wxString("interpolated data in dir ") + dir + wxString(":"), wxPoint(5,19), wxSize(190, 20), wxALIGN_CENTRE);
 
-  m_statText3 = new wxStaticText(m_panel, -1, "Sample Rate:", wxPoint(25,40), wxSize(100, 20), wxALIGN_LEFT);
+  m_statText3 = new wxStaticText(m_panel, -1, "Sample Rate:", wxPoint(25,60), wxSize(100, 20), wxALIGN_LEFT);
 
-  m_tbSample = new wxTextCtrl(m_panel, -1, val, wxPoint(110, 40), wxSize(60, 20));
+  m_tbSample = new wxTextCtrl(m_panel, -1, val, wxPoint(110, 60), wxSize(60, 20));
 
-  m_rbYear = new wxRadioButton(m_panel, -1, "Years", wxPoint(25, 65), wxSize(120, 20), wxRB_GROUP);
+  m_rbYear = new wxRadioButton(m_panel, -1, "Years", wxPoint(25, 75), wxSize(120, 20), wxRB_GROUP);
   m_rbDays = new wxRadioButton(m_panel, -1, "Month", wxPoint(25, 90));
   m_rbHours = new wxRadioButton(m_panel, -1, "Days", wxPoint(25, 115));
 
@@ -135,6 +135,11 @@ void cepInterpUi::showSampleRate(double val, string dir)
     isValid = true;
     for(size_t i = 0; i < m_sampleRate.Length(); i ++)
     {
+      if((m_sampleRate == "-1") && (m_sampleUnits == -1.0))
+      {
+        return;
+      }
+
       if((cepIsNumeric(m_sampleRate.GetChar(i)) == false) ||
           (atof(m_sampleRate.c_str()) <= 0))
       {
