@@ -1,0 +1,21 @@
+Introduction
+
+    The Geodetic Data Modelling System (GDMS) is a computer software package to aid in the analysis of Global Positioning System (GPS), Very Long Baseline Interferometry (VLBI) and Satellite Laser Ranging (SLR) data sets. This system is capable of modelling the data itself and  carrying out mathematical transformations in both the time and frequency domains. In addition, the GDMS also provides the functionality to model anomalies such as random walk. The system itself is designed for use with large data sets ranging over a period of years, performing the desired operations with speed and precision. It also offers an easy to use graphical user interface in which the user can easily manipulate data sets, graph the output and store the results for later use.
+
+Time Domain Analysis
+
+    Time domain analysis involves linear regression modelling in order to ascertain any anomalies in the given data set. This is important for a number of reasons; for example, some data sets are more 
+susceptible to certain types of error, such as white noise, than others. By allowing accurate modelling of these errors, the suitability of each individual data set for a given type of analysis can be more readily assessed. 
+
+    Linear regression modelling also allows the effects of known anomalies such as white noise and random walk to be seen. This functionality is important to those involved with geodesy because, although the effects of white noise can be seen from a time series of reasonable length (about 3-5 years), to accurately see the effects of random walk, at least 6 years of continuous time series data is required. Such data sets have not been available until recently and consequently, the ability to perform this type of analysis has become more imperative as it is critical in determining the effects of random walk.
+
+    The GDMS offers three types of linear regression modelling in the time domain:-
+    
+    
+   	With Random Walk:- In this case a non-diagonal weighted matrix is used, thereby allowing the effects of  random walk on the data set to be modeled.
+    
+    	With Flicker Noise:- This type of linear regression modelling allow the user to model any noise, such as white noise within the data set.
+
+	Diagonal Variance Co-Variance (VCV):- This type of modelling involves the use of a diagonal weighted matrix in order to ascertain the degree of error that exists in the data set.
+    
+    	
