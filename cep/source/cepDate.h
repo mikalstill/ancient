@@ -92,8 +92,6 @@ const string SHORTMONTH_NAMES[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 				      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
-const double DAY_VAL = 0.0027;
-
 class cepError;
 
 class cepDate
@@ -126,6 +124,7 @@ private:
   int m_month,  
     m_day,
     m_year;
+  double m_dayVal;
 };
 
 #endif

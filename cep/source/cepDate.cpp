@@ -20,13 +20,14 @@
 */
 
 #include "cepDate.h"
-
+#include <iomanip>
 cepDate::cepDate (double date)
 {
-  int monthNums[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  int monthNums[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
   int i = 0;
+  int daysInYear = 365;
   
-  m_year = m_day = m_month = 0;;
+  m_year = m_day = m_month = 0;
   
   m_year = (int)date;
 
@@ -35,17 +36,25 @@ cepDate::cepDate (double date)
     ((m_year % 100 != 0) && (m_year % 4 == 0)))
   {
     monthNums[1] ++;
+    daysInYear ++;
   }
 
-  // Get the day of Year number (0-365 or 366)
-  m_day = (int)((float)((date - m_year)/DAY_VAL));
+  m_dayVal = (float)1/daysInYear;
 
+ 
+  // Get the day of Year number (0-365 or 366)
+  m_day = (int)((date - m_year)/m_dayVal);
+
+  //to accont for the fact that 1 Jan is day 0
+  m_day ++;
+    
   // Get the day of month
   while ((i < 11) && (m_day - monthNums[i] > 0))
   {
     m_day -= monthNums[i];
     i++;
   }
+
   m_month = i;
 }
 
