@@ -4,14 +4,30 @@
 <subtitle>Reviewed by Michael Still &lt;mikal@stillhq.com&gt;</subtitle>
 
 <para>
-Did you know that there is a maximum of ten words in a Google search, or that repeating a word results in different search results? What about the fact that some search types are antisocial, and wont work with other search types? Neither did I, and I use Google nearly every day.
+<emphasis>Did you know that there is a maximum of ten words in a Google search, or that repeating a word results in different search results? What about the fact that some search types are antisocial, and wont work with other search types? How about the fact that the order of your keywords affects the results that are returned? Neither did I, and I use Google nearly every day.</emphasis>
 </para>
 
 <para>
-I should probably start this review by letting you know that <emphasis>Google Hacks</emphasis> is not a book aimed at developers. It lists 100 interesting things you can do with Google, in a quite accessible manner. I would be comfortable with handing this book to a school child who needed to know how to use Google effectively. Especially if they had used the Internet before and know what a browser, and a URL are.
+I should probably start this review by letting you know that <emphasis>Google Hacks</emphasis> is not a book aimed at developers. It lists 100 interesting things you can do with Google, in a quite accessible manner. That's not to say there is no code in <emphasis>Google Hacks</emphasis> &mdash; on the contrary, there are regular examples of how to parse saved Google output, and use the Google API &mdash; it is more that these examples are presented as utilities to use as is, and are not the topic of discussion in their own right. I would be comfortable with handing this book to a school child who needed to know how to use Google effectively. Especially if they had used the Internet before and know what a browser, and a URL are.
 </para>
 
 <para>
-Then again, this doesn't mean that <emphasis>Google Hacks</emphasis> is simplistic. It still describes how to alter URLs, how to search using the Google special syntaxes, and so forth.
+Then again, this doesn't mean that <emphasis>Google Hacks</emphasis> is simplistic. It still describes how to alter URLs, how to search using the Google special syntaxes, and so forth. <emphasis>Google Hacks</emphasis> even describes topics such as how to search date ranges (you can specify any Julian date range to Google, although it must be an integer).
+</para>
+
+<para>
+...
+</para>
+
+<para>
+<emphasis>Google Hacks</emphasis> also has a fun side. There is a section describing Google poetry, and Google art. The basic process of Google art is to post a message to a Usenet group (preferably one of the test groups) which contains keywords contrived in such a manner that a picture is displayed when a specific search is executed in Google Groups. The colour of each pixel results from the automatic keyword hilighting which occurs in Google Groups search results. Your picture is somewhat limited however, in that Google searches only support ten keywords, and therefore you can only have ten colours in your picture. The resolution supported by the text interface is also somewhat limited.
+</para>
+
+<para>
+Some of the hacks described in <emphasis>Google Hacks</emphasis> are also quite non-hackish. For example, there is a whole section on how to build a useful website that Googlebot will find attractive to index. There is also discussion on possible formulations for the PageRank algorithm, as well as how to maximise Google's PageRank for your site.
+</para>
+
+<para>
+Because each hack is meant to stand on it's own in this <quote>reference mode</quote> of use, there is a lot of repeated information. For example, many of the hacks describe how there is no access to a particular piece of functionality from the Google API, and that screen scraping in an automated manner is a breach of the Google terms of service. Similarly, the same prelude to setup the Google API is repeated in many of the examples of the API's use. Having read <emphasis>Google Hacks</emphasis> from cover to cover, this repetition was really starting to get on my nerves by the end of the book.
 </para>
 </article>
