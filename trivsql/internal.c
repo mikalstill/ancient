@@ -1,5 +1,7 @@
 #include "trivsql.h"
 
+extern trivsql_state *gState;
+
 trivsql_state *trivsql_init(char *filename){
   trivsql_state *state;
 
