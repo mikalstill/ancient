@@ -24,14 +24,14 @@
 <para>
   Throughout the course of the project some requirements were deemed unnecessary, however, overall, the
   requirements of the system grew compared to what we expected, in terms of fundamental requirements of the system.
-  In many case, this were functionality deemed essential inorder to provide a system that was considered <emphaisis>useful</emphasis>.
+  In many case, this were functionality deemed essential inorder to provide a system that was considered <emphasis>useful</emphasis>.
   In some case, these features were the finer detail of the broader requirements which we did not conconsider.
   As the dealine drew near, we needed to assess in orderof priority, which fucntionality was essentail and which wasn't.
   This was largely a role that Associciate Professor Peter Morgan played, he being the key stakeholder in GDMS.
 </para>
 
 <para>
-  Having finally implemented a working system, with functionality such that the system was considered <emphaisis>useful</emphasis>,
+  Having finally implemented a working system, with functionality such that the system was considered <emphasis>useful</emphasis>,
   we succeeded. A critical point here, is that this system from the very begining, was alsways to be an evolving
   one. Future project teams are expected to further enhance the functionality we have provided. Therefore, in terms of
   enahncing features of already available packages, we believe again, that we have succeeded. We have set up a
@@ -44,14 +44,33 @@
 </para>
 </sect2>
 
-<sect2><title>Did we succeed? - heading left for proofing only</title>
+<sect2><title>Good or bad result? - heading left for proofing only </title>
+<para>
+Kind of covered above
+</para>
 
+</sect2>
 
-  <listitem><para>Good or bad result?</para></listitem>
-  <listitem><para>What did we learn?</para></listitem>
-  <listitem><para>Summarise lessons</para></listitem>
+<sect2><title>What did we learn? - heading left for proofing only </title>
+<para>
+  A number of valuable lessons have been learnt from the GDMS development process, not all of which relate directly
+  to application development. That which we consider to be the most critical lesson here, is planning. As previously mentioned,
+   the orininal requirements were broad and did not cover many of the finer details required. It was during our initial requirements
+   definition process, that we should have sought to discover as much as possible about exactly what was involved
+   with various features in the braod specification. Our mathematical body of knowledge before the project began, was
+   considered at leats enough to proceed, yet perhaps not quite enough to foresee these finer specification details.
+
+</para>
+
+</sect2>
+
+<sect2><title>Still TODO:</title>
+<para>
+<itemizedlist>
+   <listitem><para>Summarise lessons</para></listitem>
   <listitem><para>Summarise future enhancements</para></listitem>
 </itemizedlist>
 </para>
+</sect2>
 </sect1> <!--Conclusion-->
 
