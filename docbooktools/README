@@ -1,0 +1,3 @@
+Welcome to docbooktools, as series of simple scripts I use to make it easier to write large documents using docbook. Generally these tools are used to extend the number of commands available in docbook, and they all produce output suitable to be embedded into a generated docbook document.
+
+To install, just add this directory to your path...
