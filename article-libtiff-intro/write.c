@@ -37,13 +37,19 @@ int main(int argc, char *argv[]){
   TIFFSetField(image, TIFFTAG_IMAGELENGTH, 9);
   TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 1);
   TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
-  TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_CCITTFAX4);
-  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
-  TIFFSetField(image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
   TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, 9);
+
+  TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_CCITTFAX4);
+  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField(image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
+  TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+
+  TIFFSetField(image, TIFFTAG_XRESOLUTION, 300.0);
+  TIFFSetField(image, TIFFTAG_YRESOLUTION, 300.0);
+  TIFFSetField(image, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
   
   // Write the information to the file
-  TIFFWriteRawStrip(image, 0, buffer, 32 * 9);
+  TIFFWriteEncodedStrip(image, 0, buffer, 4 * 9);
 
   // Close the file
   TIFFClose(image);

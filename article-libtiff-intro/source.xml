@@ -47,7 +47,7 @@ Most file format specifications define some basic rules for the representation o
 <p><heading refname="hard" type="major" toc="yes">Writing TIFF files</heading>
 The first thing I want to do is show you how to write a TIFF file out. We'll then get onto how to read a TIFF file back into your program.</p>
 	
-<p><heading refname="infrastructure-write" type="minor" toc="yes">Infrastructure for reading</heading>
+<p><heading refname="infrastructure-write" type="minor" toc="yes">Infrastructure for writing</heading>
 It is traditional for bitmaps to be represented inside your code with an array of chars. This is because on most operating systems, a char maps well to one byte. In the block of code below, we will setup libtiff, and create a simple buffer which contains an image which we can then write out to disc.</p>
 
 <code type="section">
@@ -67,7 +67,49 @@ main (int argc, char *argv[])
 <p><heading refname="write" type="minor" toc="yes">Writing the image</heading>
 To make up for how boring that example was, I am now pleased to present you with possibly the worst picture of the Sydney Harbour Bridge ever drawn. In the example below, the image is already in the image buffer, and all we have to do is save it to the file on disc. The example first opens a tiff image in write mode, and then places the image into that file.</p>
 
+<code type="section">
+<heading refname="write-code" type="code" toc="no">The writing code</heading>
+#include <stdio.h>
+#include <tiffio.h>
 
+int main(int argc, char *argv[]){
+  // Define an image -- this is 32 pixels by 9 pixels
+  char buffer[32 * 9] = {0x00, 0x00, 0x00, 0x00,
+			 0x60, 0x1F, 0xF8, 0x06,
+			 0x60, 0xE0, 0x07, 0x06,
+			 0x67, 0x00, 0x00, 0xE6,
+			 0x78, 0x00, 0x00, 0x1E,
+			 0x60, 0x00, 0x00, 0x06,
+			 0x7F, 0xFF, 0xFF, 0xFE,
+			 0x60, 0x00, 0x00, 0x06,
+			 0x00, 0x00, 0x00, 0x00};
+  TIFF *image;
+
+  // Open the TIFF file
+  if((image = TIFFOpen("output.tif", "w")) == NULL){
+    printf("Could not open output.tif for writing\n");
+    exit(42);
+  }
+
+  // We need to set some values for basic tags before we can add any data
+  TIFFSetField(image, TIFFTAG_IMAGEWIDTH, 32);
+  TIFFSetField(image, TIFFTAG_IMAGELENGTH, 9);
+  TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, 1);
+  TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(image, TIFFTAG_COMPRESSION, COMPRESSION_CCITTFAX4);
+  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
+  TIFFSetField(image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
+  TIFFSetField(image, TIFFTAG_ROWSPERSTRIP, 9);
+  TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  
+  // Write the information to the file
+  TIFFWriteRawStrip(image, 0, buffer, 32 * 9);
+
+  // Close the file
+  TIFFClose(image);
+}
+
+</code>
 
 
 
