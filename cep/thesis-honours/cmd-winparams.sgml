@@ -1,6 +1,6 @@
 <sect2><title>winparams</title>
 <para>
-This tag will output the HTML form required for the entry of windowing processing parameters. The user will then select "OK" on this web form, and the windowing operation will occur.
+This tag will output the HTML form required for the entry of windowing processing parameters. The user will then select <quote>OK</quote> on this web form, and the windowing operation will occur.
 </para>
 
 <para>

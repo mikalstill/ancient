@@ -2,7 +2,7 @@
 <acronym>MOTD</acronym>
 <glossdef>
 <para>
-A MOTD is the Message Of The Day, a greeting message presented to users as they login to the GDMS Internet interface.
+A MOTD is the Message Of The Day, a greeting message presented to users as they login to the <command>GDMS Internet interface</command>.
 </para>
 </glossdef>
 </glossentry>

@@ -1,6 +1,6 @@
 <sect1><title>Selection of the implementation technique</title>
 <para>
-A variety of implementation techniques were considered for the GDMS Internet interface before a final selection was made. This section documents the various alternatives that were considered, and then justifies the decision that was made.
+A variety of implementation techniques were considered for the <command>GDMS Internet interface</command> before a final selection was made. This section documents the various alternatives that were considered, and then justifies the decision that was made.
 </para>
 
 <sect2><title>PHP: Hypertext Preprocessor</title>
@@ -36,7 +36,7 @@ The main disadvantage of such as system is that it requires that the users who a
 </para>
 
 <para>
-Developing the GDMS Internet interface in PHP would necessitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
+Developing the <command>GDMS Internet interface</command> in PHP would necessitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
 </para>
 </sect2>
 
@@ -48,7 +48,7 @@ Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this a
 
 <sect2><title>C or C++ Common Gateway Interface</title>
 <para>
-Another implementation alternative considered was to implement the system in either C or C++ using the Common Gateway Interface (CGI) subsystem offered by most web servers. This implementation technique has the advantage of the code for the GDMS Internet interface being in the same language as the GDMS application itself. However it has the disadvantage that parsing the incoming URLs is less trivial, as there is limited language support without the inclusion of non-standard application libraries (Kahan 2002).
+Another implementation alternative considered was to implement the system in either C or C++ using the Common Gateway Interface (CGI) subsystem offered by most web servers. This implementation technique has the advantage of the code for the <command>GDMS Internet interface</command> being in the same language as the <command>GDMS</command> application itself. However it has the disadvantage that parsing the incoming URLs is less trivial, as there is limited language support without the inclusion of non-standard application libraries (Kahan 2002).
 </para>
 
 <para>
@@ -58,7 +58,7 @@ C and C++ are also not idiomatic methods of implementing CGI applications, and t
 
 <sect2><title>Perl CGI</title>
 <para>
-Perl was originally developed by Larry Wall in 1987 (Perl Mongers, 1999) and is now developed by a team of Open Source developers. Perl is a shell script like scripting language, although it's syntax is much more powerful than that of shell script. Perl also has world class regular expression support as a standard, well integrated, feature. Perl has well integrated CGI support built into the language itself, and is optimized for the parsing of complex strings (such as the requests which are returned by a web browser to the GDMS Internet interface via the CGI apparatus).
+Perl was originally developed by Larry Wall in 1987 (Perl Mongers, 1999) and is now developed by a team of Open Source developers. Perl is a shell script like scripting language, although it's syntax is much more powerful than that of shell script. Perl also has world class regular expression support as a standard, well integrated, feature. Perl has well integrated CGI support built into the language itself, and is optimized for the parsing of complex strings (such as the requests which are returned by a web browser to the <command>GDMS Internet interface</command> via the CGI apparatus).
 </para>
 
 <para>
@@ -72,7 +72,7 @@ Perl is also extremely stable, well documented, and is already installed at most
 
 <sect2><title>Conclusion</title>
 <para>
-After consideration of all of the factors outlined above, Perl CGI was identified as the most suitable implementation language for the GDMS Internet interface.
+After consideration of all of the factors outlined above, Perl CGI was identified as the most suitable implementation language for the <command>GDMS Internet interface</command>.
 </para>
 </sect2>
 </sect1>

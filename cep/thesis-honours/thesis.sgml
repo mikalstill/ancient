@@ -12,7 +12,7 @@
 
 <abstract><title>Abstract</title>
 <para>
-This document discusses the GDMS Internet interface. This interface allows remote access to the vast majority of the functionality available in the X Windows version of GDMS. The interface was developed in Perl, and uses the Common Gateway Interface (CGI) offered by most modern web servers to interact with the web browser.
+This document discusses the <command>GDMS Internet interface</command>. This interface allows remote access to the vast majority of the functionality available in the X Windows version of <command>GDMS</command>. The interface was developed in Perl, and uses the Common Gateway Interface (CGI) offered by most modern web servers to interact with the web browser.
 </para>
 </abstract>
 </bookinfo>
@@ -29,17 +29,17 @@ The following acronyms are used throughout this document.
 <chapter id="ch01"><title>Introduction</title>
 <sect1><title>Motivation</title>
 <para>
-At the time that the <command>Geodetic Data Modeling System</command> (GDMS) implementation project was initiated, several of the potential users expressed a desire for the application to be available over the Internet. There are a variety of reasons that this type of functionality is enticing. The primary reason for GDMS is that it allows casual users to ability to analyze data, whilst not having to maintain their own copies of the datasets. A secondary reason is that it allows users who would normally use the X windows interface to the application to access data whilst <quote>in the field</quote>, or otherwise physically separated from their normal research location.
+At the time that the <command>Geodetic Data Modeling System</command> (GDMS) implementation project was initiated, several of the potential users expressed a desire for the application to be available over the Internet. There are a variety of reasons that this type of functionality is enticing. The primary reason for <command>GDMS</command> is that it allows casual users to ability to analyze data, whilst not having to maintain their own copies of the datasets. A secondary reason is that it allows users who would normally use the X windows interface to the application to access data whilst <quote>in the field</quote>, or otherwise physically separated from their normal research location.
 </para>
 
 <para>
-Initially, it was though that a Internet interface to GDMS was outside the achievable scope of the project for 2002. However, as the year progressed, it became clear to me that implementing a Internet interface was indeed achievable, and would add genuinely useful functionality to the application. Hence this honors extension was undertaken.
+Initially, it was though that a Internet interface to <command>GDMS</command> was outside the achievable scope of the project for 2002. However, as the year progressed, it became clear to me that implementing a Internet interface was indeed achievable, and would add genuinely useful functionality to the application. Hence this honors extension was undertaken.
 </para>
 </sect1>
 
 <sect1><title>Outcome</title>
 <para>
-This document describes the design process and implementation of the GDMS Internet interface, and Perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the on line use of almost all of the functionality available under the X windows GDMS system.
+This document describes the design process and implementation of the <command>GDMS Internet interface</command>, and Perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the on line use of almost all of the functionality available under the X windows <command>GDMS</command> system.
 </para>
 </sect1>
 </chapter>
@@ -49,11 +49,11 @@ This document describes the design process and implementation of the GDMS Intern
 
 <sect1><title>Presentation of the user interface</title>
 <para>
-In accordance with Internet user interface design best practice, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags above those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
+In accordance with Internet user interface design best practice, the <command>GDMS Internet interface</command> presents a fully configurable user interface. This is implemented by providing extension tags above those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
 <para>
-The GDMS Internet interface follows the recommendations of the most recent HTML specification at the time of development for the insertion of scripting tags into HTML source files (Raggett, Le Hors, &amp; Jacobs 1999). Further documentation on the GDMS Internet interface tags available can be found in Appendix A of this document.
+The <command>GDMS Internet interface</command> follows the recommendations of the most recent HTML specification at the time of development for the insertion of scripting tags into HTML source files (Raggett, Le Hors, &amp; Jacobs 1999). Further documentation on the <command>GDMS Internet interface</command> tags available can be found in Appendix A of this document.
 </para>
 </sect1>
 
@@ -68,7 +68,7 @@ This chapter discusses the actual application which was produced. The applicatio
 </para>
 
 <para>
-When the application starts, the command is not defined, as the user is unlikely to have specified one as part of the URL. This results in the GDMS Internet interface using the <emphasis>main</emphasis> command. The user is then presented with a welcome screen, which displays the message of the day. The message of the day in intended to be used to warn the users of the GDMS Internet interface of schedualled unavailability of the system, or new datasets having been added. There are no limits on the text that can be included in the message of the day however, so it could inform users of an impending Christmas party, or other equally unrelated events.
+When the application starts, the command is not defined, as the user is unlikely to have specified one as part of the URL. This results in the <command>GDMS Internet interface</command> using the <emphasis>main</emphasis> command. The user is then presented with a welcome screen, which displays the message of the day. The message of the day in intended to be used to warn the users of the <command>GDMS Internet interface</command> of schedualled unavailability of the system, or new datasets having been added. There are no limits on the text that can be included in the message of the day however, so it could inform users of an impending Christmas party, or other equally unrelated events.
 </para>
 
 <figure><title>GDMS Internet interface welcome screen</title>
@@ -96,15 +96,15 @@ The next operation that the user will perform is selecting a dataset to start pr
 </figure>
 
 <para>
-It should be noted that at this time there is no way to configure the various graphing options offered by GDMS within the GDMS Internet interface. The recommended method for selecting the graphing style preferred by the users of the system is to run the GDMS X Windows application as the user id the web server runs as, and then copy the file ~/.cep to the same directory as the GDMS Internet interface executable. It should also be noted that at this time it is not possible to have individual graphing preferences for different users.
+It should be noted that at this time there is no way to configure the various graphing options offered by <command>GDMS</command> within the <command>GDMS Internet interface</command>. The recommended method for selecting the graphing style preferred by the users of the system is to run the <command>GDMS</command> X Windows application as the user id the web server runs as, and then copy the file ~/.cep to the same directory as the <command>GDMS Internet interface</command> executable. It should also be noted that at this time it is not possible to have individual graphing preferences for different users.
 </para>
 
 <para>
-Now that the user has selected a dataset, the mathematical commands are now available. These may be selected from the same menu as the graphing commands, and include Least Squares regressions, windowing, interpolation, and Fast Fourier Transformations. All of the functionality available within the GDMS X Windows application is available for these mathematical operations.
+Now that the user has selected a dataset, the mathematical commands are now available. These may be selected from the same menu as the graphing commands, and include Least Squares regressions, windowing, interpolation, and Fast Fourier Transformations. All of the functionality available within the <command>GDMS</command> X Windows application is available for these mathematical operations.
 </para> 
 
 <para>
-The GDMS Internet interface graphing subsystem also handles graphs in the frequency domain, in the same manner as the GDMS X Windows interface.
+The <command>GDMS Internet interface</command> graphing subsystem also handles graphs in the frequency domain, in the same manner as the <command>GDMS</command> X Windows interface.
 </para>
 
 </chapter>
@@ -113,19 +113,19 @@ The GDMS Internet interface graphing subsystem also handles graphs in the freque
 
 <chapter><title>Conclusion</title>
 <para>
-Based on the discussion in previous chapters, Perl CGI with PNG images were selected for the implementation of the GDMS Internet interface. This has resulted in a easy to understand code base, which will aid in future expansion of the application. The GDMS Internet interface should also correctly function with all modern web servers, including the Apache web server which is used by the University of Canberra Survey Laboratory.
+Based on the discussion in previous chapters, Perl CGI with PNG images were selected for the implementation of the <command>GDMS Internet interface</command>. This has resulted in a easy to understand code base, which will aid in future expansion of the application. The <command>GDMS Internet interface</command> should also correctly function with all modern web servers, including the Apache web server which is used by the University of Canberra Survey Laboratory.
 </para>
 
 <para>
-There is some scope for future improvement of the GDMS Internet interface. This includes:
+There is some scope for future improvement of the <command>GDMS Internet interface</command>. This includes:
 </para>
 
 <itemizedlist>
 <listitem><para>A web aware method of configuring graphing preferences.</para></listitem>
 <listitem><para>Per user graphing preferences.</para></listitem>
-<listitem><para>Allowing zooming on the dataset graphs in the same manner that the GDMS X Windows application allows.</para></listitem>
+<listitem><para>Allowing zooming on the dataset graphs in the same manner that the <command>GDMS</command> X Windows application allows.</para></listitem>
 <listitem><para>Caching of processed datasets where it makes sense. Graphs are already cached.</para></listitem>
-<listitem><para>Implementation of features as they are added to the GDMS X Windows application.</para></listitem>
+<listitem><para>Implementation of features as they are added to the <command>GDMS</command> X Windows application.</para></listitem>
 </itemizedlist>
 
 </chapter>
@@ -146,7 +146,7 @@ There is some scope for future improvement of the GDMS Internet interface. This 
 <appendix><title>GDMS Internet interface scripting elements</title>
 <sect1><title>Introduction</title>
 <para>
-This appendix documents the various tags which are implemented by the GDMS Internet interface in addition to the standard HTML tags normally available. All of these tags are within the scripting name space provided by HTML 4.01 (Raggett, Le Hors, &amp; Jacobs 1999).
+This appendix documents the various tags which are implemented by the <command>GDMS Internet interface</command> in addition to the standard HTML tags normally available. All of these tags are within the scripting name space provided by HTML 4.01 (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
 <execute><cmd>insertall</cmd><args>builddb . "cmd-.*"</args></execute>
@@ -165,11 +165,11 @@ This appendix documents the various tags which are implemented by the GDMS Inter
 
 <appendix><title>A sample configuration file</title>
 <para>
-This appendix details a sample configuration file for the GDMS Internet interface. This file should be stored in the same directory as the GDMS CGI script. It should also be noted that the <quote>.cep</quote> configuration file that would normally reside in a user's home directory should also be in the same directory as the GDMS CGI script.
+This appendix details a sample configuration file for the <command>GDMS Internet interface</command>. This file should be stored in the same directory as the <command>GDMS</command> CGI script. It should also be noted that the <quote>.cep</quote> configuration file that would normally reside in a user's home directory should also be in the same directory as the <command>GDMS</command> CGI script.
 </para>
 
 <para>
-The easiest way to create a suitable <quote>.cep</quote> configuration file is to run GDMS as any user, configure it so that you are happy with the graph output, and then copy that .cep file to the right location. Don't forget to update the permissions so that the user the web server is running as has read and write permissions on the file.
+The easiest way to create a suitable <quote>.cep</quote> configuration file is to run <command>GDMS</command> as any user, configure it so that you are happy with the graph output, and then copy that .cep file to the right location. Don't forget to update the permissions so that the user the web server is running as has read and write permissions on the file.
 </para>
 
 <para>

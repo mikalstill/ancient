@@ -21,7 +21,7 @@ The display of the command menu is altered by the following configuration file e
 </itemizedlist>
 
 <para>
-For example, these configuration entries ship by default with the GDMS Internet interface:
+For example, these configuration entries ship by default with the <command>GDMS Internet interface</command>:
 </para>
 
 <programlisting>

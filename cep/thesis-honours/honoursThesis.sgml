@@ -1,6 +1,6 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book><bookinfo>
-<title>Geodetic Data Modelling System Internet Interface: Honours Thesis</title>
+<title>Geodetic Data Modeling System Internet Interface: Honors Thesis</title>
 <authorgroup>
 
 <author>
@@ -12,7 +12,7 @@
 
 <abstract><title>Abstract</title>
 <para>
-This document discusses the GDMS Internet interface. This interface allows remote access to the vast majoirty of the functionality available in the X Windows version of GDMS. The interface was developed in Perl, and uses the Common Gateway Interface (CGI) offered by most modern web servers to interact with the web browser.
+This document discusses the <command>GDMS Internet interface</command>. This interface allows remote access to the vast majority of the functionality available in the X Windows version of <command>GDMS</command>. The interface was developed in Perl, and uses the Common Gateway Interface (CGI) offered by most modern web servers to interact with the web browser.
 </para>
 </abstract>
 </bookinfo>
@@ -33,21 +33,21 @@ ASP stands for Active Server Pages. ASP is Microsoft's server side scripting lan
 <acronym>CGI</acronym>
 <glossdef>
 <para>
-CGI, or Common Gateway Interface, is a standard which defines methods by which web servers and server side executables may communicate. The main method of communication is the passing of the URL rpovided to the script as an environment variable (National Center for Supercomputing Applications 1996).
+CGI, or Common Gateway Interface, is a standard which defines methods by which web servers and server side executables may communicate. The main method of communication is the passing of the URL provided to the script as an environment variable (National Center for Supercomputing Applications 1996).
 </para>
 </glossdef>
 </glossentry><glossentry id="gdms"><glossterm>GDMS</glossterm>
 <acronym>GDMS</acronym>
 <glossdef>
 <para>
-GDMS, the Geodetic Data Modelling System, is the name given the the undergraduate portion of my final year project. This is an X Windows based modelling package for geodetic data, and includes least squares, interpolation, windowing and fast fourier transformation functionality.
+<command>GDMS</command>, the Geodetic Data Modeling System, is the name given the the undergraduate portion of my final year project. This is an X Windows based modeling package for geodetic data, and includes least squares, interpolation, windowing and fast Fourier transformation functionality.
 </para>
 </glossdef>
 </glossentry><glossentry id="gif"><glossterm>GIF</glossterm>
 <acronym>GIF</acronym>
 <glossdef>
 <para>
-The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in order words 255 distinct colours are available in each image.
+The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependent on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in order words 255 distinct colours are available in each image.
 </para>
 </glossdef>
 </glossentry><glossentry id="html"><glossterm>HTML</glossterm>
@@ -61,7 +61,7 @@ HyperText Markup Language is the <emphasis>lingua franca</emphasis> of the web. 
 <acronym>JFIF</acronym>
 <glossdef>
 <para>
-The file format commonly called JPEG is actually JPEG JFIF (JPEG File Interchange Format) -- created by the Independant JPEG Group (Lilly 1996).
+The file format commonly called JPEG is actually JPEG JFIF (JPEG File Interchange Format) -- created by the Independent JPEG Group (Lilly 1996).
 </para>
 </glossdef>
 </glossentry><glossentry id="jpeg"><glossterm>JPEG</glossterm>
@@ -75,14 +75,14 @@ JPEG stands for Joint Picture Expert Group, which is a group of the Internationa
 <acronym>LZW</acronym>
 <glossdef>
 <para>
-GIF is dependant upon LZW compression (CompuServe 1990), a compression aglorithm which is named after it's developers Lempel, Ziv, and Welch (Nelson 1998).
+GIF is dependent upon LZW compression (CompuServe 1990), a compression algorithm which is named after it's developers Lempel, Ziv, and Welch (Nelson 1998).
 </para>
 </glossdef>
 </glossentry><glossentry id="motd"><glossterm>MOTD</glossterm>
 <acronym>MOTD</acronym>
 <glossdef>
 <para>
-A MOTD is the Message Of The Day, a greeting message presented to users as they logon to the GDMS Internet interface.
+A MOTD is the Message Of The Day, a greeting message presented to users as they login to the <command>GDMS Internet interface</command>.
 </para>
 </glossdef>
 </glossentry><glossentry id="php"><glossterm>PHP</glossterm>
@@ -120,17 +120,17 @@ A Uniform Resource Locator is the <quote>address</quote> of a web page.
 <chapter id="ch01"><title>Introduction</title>
 <sect1><title>Motivation</title>
 <para>
-At the time that the <command>Geodetic Data Modeling System</command> (GDMS) implementation project was initiated, several of the potential users expressed a desire for the application to be available over the Internet. There are a variety of reasons that this type of functionality is enticing. The primary reason for GDMS is that it allows casual users to ability to analyse data, whilst not having to maintain their own copies of the datasets. A secondary reason is that it allows users who would normally use the X windows interface to the application to access data whilst <quote>in the field</quote>, or otherwise physically separated from their normal research location.
+At the time that the <command>Geodetic Data Modeling System</command> (GDMS) implementation project was initiated, several of the potential users expressed a desire for the application to be available over the Internet. There are a variety of reasons that this type of functionality is enticing. The primary reason for <command>GDMS</command> is that it allows casual users to ability to analyze data, whilst not having to maintain their own copies of the datasets. A secondary reason is that it allows users who would normally use the X windows interface to the application to access data whilst <quote>in the field</quote>, or otherwise physically separated from their normal research location.
 </para>
 
 <para>
-Initially, it was though that a Internet interface to GDMS was outside the achievable scope of the project for 2002. However, as the year progressed, it became clear to me that implementing a Internet interface was indeed achievable, and would add genuinely useful functionality to the application. Hence this honours extension was undertaken.
+Initially, it was though that a Internet interface to <command>GDMS</command> was outside the achievable scope of the project for 2002. However, as the year progressed, it became clear to me that implementing a Internet interface was indeed achievable, and would add genuinely useful functionality to the application. Hence this honors extension was undertaken.
 </para>
 </sect1>
 
 <sect1><title>Outcome</title>
 <para>
-This document describes the design process and implementation of the GDMS Internet interface, and perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the online use of almost all of the functionality available under the X windows GDMS system.
+This document describes the design process and implementation of the <command>GDMS Internet interface</command>, and Perl application intended to operate under the Common Gateway Interface (CGI) offered by most modern web servers, including Apache, which is the web server in use within the University of Canberra Survey Laboratory. This application allows the on line use of almost all of the functionality available under the X windows <command>GDMS</command> system.
 </para>
 </sect1>
 </chapter>
@@ -138,12 +138,12 @@ This document describes the design process and implementation of the GDMS Intern
 <chapter><title>Implementation rationale</title>
 <sect1><title>Selection of the implementation technique</title>
 <para>
-A variety of implementation techniques were considered for the GDMS Internet interface before a final selection was made. This section documents the various alternatives that were considered, and then justifies the decision that was made.
+A variety of implementation techniques were considered for the <command>GDMS Internet interface</command> before a final selection was made. This section documents the various alternatives that were considered, and then justifies the decision that was made.
 </para>
 
 <sect2><title>PHP: Hypertext Preprocessor</title>
 <para>
-There is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now maintained and extended by a online team of developers lead by Rasmus Lerdorf (AIMS Group, 2002).
+There is some evidence that the name originally stood for <emphasis>Personal Home Page tools</emphasis> (Lerdorf 1995). PHP is an in page scripting language which was originally developed by Rasmus Lerdorf (Lerdorf 1995). It is now maintained and extended by a on line team of developers lead by Rasmus Lerdorf (AIMS Group, 2002).
 </para>
 
 <para>
@@ -166,27 +166,27 @@ In this example, the tag starting with ?php is the script element. The output of
 </para>
 
 <para>
-The main advantage of in-page scripting is that the source code of the application is very tightly tied to the HTML presentation of the application's user interface. This means that when a user is editting a page, it is apparent what the given code does at the time that the page is created.
+The main advantage of in-page scripting is that the source code of the application is very tightly tied to the HTML presentation of the application's user interface. This means that when a user is editing a page, it is apparent what the given code does at the time that the page is created.
 </para>
 
 <para>
-The main disadvantage of such as system is that it requires that the users who are editting the HTML appearance of an application must also understand the scripting language in which the application is implemented. This means that graphics designers and layout consultants require further training. The application is no longer a <emphasis>black box</emphasis> in which the HTML designer can simply be a user. A second drawback is that the inclusion of the scripting within the HTML pages is that it clutters the HTML representation of the user interface, making it much harder to read. This problem is compounded by poor in-page scripting support in many HTML editors, including Mozilla. These editors discard tags they don't comprehend at the time of editting the page, and this unfortunately includes tags such as PHP.
+The main disadvantage of such as system is that it requires that the users who are editing the HTML appearance of an application must also understand the scripting language in which the application is implemented. This means that graphics designers and layout consultants require further training. The application is no longer a <emphasis>black box</emphasis> in which the HTML designer can simply be a user. A second drawback is that the inclusion of the scripting within the HTML pages is that it clutters the HTML representation of the user interface, making it much harder to read. This problem is compounded by poor in-page scripting support in many HTML editors, including Mozilla. These editors discard tags they don't comprehend at the time of editing the page, and this unfortunately includes tags such as PHP.
 </para>
 
 <para>
-Developing the GDMS Internet interface in PHP would nessesitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
+Developing the <command>GDMS Internet interface</command> in PHP would necessitate the users of the application running web servers with PHP modules installed (PHP Documentation Group, 2002). This is a extra level of configuration for systems administrators for little additional benefit.
 </para>
 </sect2>
 
 <sect2><title>Active Server Pages</title>
 <para>
-Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is delibverately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptible constraint for the main target user of the application -- the University of Canberra Survey Laboratory, who are not heavy users of Microsoft products.
+Active Server Pages (ASP) is Microsoft's equivalent of PHP. Discussion of this alternative is deliberately brief, because ASP effectively has all the advantages and disadvantages of PHP, with the additional constraint that it only operates of Microsoft web server products running on Microsoft Operating Systems. This is not an acceptable constraint for the main target user of the application -- the University of Canberra Survey Laboratory, who are not heavy users of Microsoft products.
 </para>
 </sect2>
 
 <sect2><title>C or C++ Common Gateway Interface</title>
 <para>
-Another implementation alternative considered was to implement the system in either C or C++ using the Common Gateway Interface (CGI) subsystem offered by most web servers. This implementation technique has the advantage of the code for the GDMS Internet interface being in the same language as the GDMS application itself. However it has the disadvantage that parsing the incoming URLs is less trivial, as there is limited language support without the inclusion of non-standard application libraries (Kahan 2002).
+Another implementation alternative considered was to implement the system in either C or C++ using the Common Gateway Interface (CGI) subsystem offered by most web servers. This implementation technique has the advantage of the code for the <command>GDMS Internet interface</command> being in the same language as the <command>GDMS</command> application itself. However it has the disadvantage that parsing the incoming URLs is less trivial, as there is limited language support without the inclusion of non-standard application libraries (Kahan 2002).
 </para>
 
 <para>
@@ -196,7 +196,7 @@ C and C++ are also not idiomatic methods of implementing CGI applications, and t
 
 <sect2><title>Perl CGI</title>
 <para>
-Perl was originally developed by Larry Wall in 1987 (Perl Mongers, 1999) and is now developed by a team of Open Source developers. Perl is a shell script like scripting language, although it's syntax is much more powerful than that of shell script. Perl also has world class regular expression support as a standard, well integrated, feature. Perl has well integrated CGI support built into the language itself, and is optimized for the parsing of complex strings (such as the requests which are returned by a web browser to the GDMS Internet interface via the CGI apparatus).
+Perl was originally developed by Larry Wall in 1987 (Perl Mongers, 1999) and is now developed by a team of Open Source developers. Perl is a shell script like scripting language, although it's syntax is much more powerful than that of shell script. Perl also has world class regular expression support as a standard, well integrated, feature. Perl has well integrated CGI support built into the language itself, and is optimized for the parsing of complex strings (such as the requests which are returned by a web browser to the <command>GDMS Internet interface</command> via the CGI apparatus).
 </para>
 
 <para>
@@ -210,33 +210,33 @@ Perl is also extremely stable, well documented, and is already installed at most
 
 <sect2><title>Conclusion</title>
 <para>
-After consideration of all of the factors outlined above, Perl CGI was identified as the most suitable implementation language for the GDMS Internet interface.
+After consideration of all of the factors outlined above, Perl CGI was identified as the most suitable implementation language for the <command>GDMS Internet interface</command>.
 </para>
 </sect2>
 </sect1>
 
 <sect1><title>Presentation of the user interface</title>
 <para>
-In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags above those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
+In accordance with Internet user interface design best practice, the <command>GDMS Internet interface</command> presents a fully configurable user interface. This is implemented by providing extension tags above those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
 <para>
-The GDMS Internet interface follows the recommendations of the most recent HTML specification at the time of development for the insertion of scripting tags into HTML source files (Raggett, Le Hors, &amp; Jacobs 1999). Further documentation on the GDMS Internet interface tags available can be found in Appendix A of this document.
+The <command>GDMS Internet interface</command> follows the recommendations of the most recent HTML specification at the time of development for the insertion of scripting tags into HTML source files (Raggett, Le Hors, &amp; Jacobs 1999). Further documentation on the <command>GDMS Internet interface</command> tags available can be found in Appendix A of this document.
 </para>
 </sect1>
 
 <sect1><title>Selection of an image format for graph display</title>
 <para>
-Much thought was expended on which image format to use for the plots displayed in the GDMS Internet interface. There are advantages and disadvantages to all the formats available at the time of writing this document. The following formats were considered for the GDMS Internet interface:
+Much thought was expended on which image format to use for the plots displayed in the <command>GDMS Internet interface</command>. There are advantages and disadvantages to all the formats available at the time of writing this document. The following formats were considered for the <command>GDMS Internet interface</command>:
 </para>
 
 <sect2><title>Tagged Image File Format</title>
 <para>
-TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992). It should be noted that no significant development of the TIFF standard has occured since that date.
+TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992). It should be noted that no significant development of the TIFF standard has occurred since that date.
 </para>
 
 <para>
-The main advantage of the TIFF image format is that it is extemely mature. It has a large selection of options to ease the development of imaging software, for example the developer can use which ever endian representation is convenient for them, as well as such fundamental parameters as photometric interpretation, whether a high value is lighter or darker than a low value for a given colour sample within a pixel (Adobe 1992). There is also a stable, well supported Open Source application programmers interface available to manage creation and interpretation of images within the TIFF format (Warmerdam &amp; Welles 2002). The interface to this library does not frequently change, which is also an advantage for future portability of the GDMS Internet interface.
+The main advantage of the TIFF image format is that it is extremely mature. It has a large selection of options to ease the development of imaging software, for example the developer can use which ever endian representation is convenient for them, as well as such fundamental parameters as photometric interpretation, whether a high value is lighter or darker than a low value for a given colour sample within a pixel (Adobe 1992). There is also a stable, well supported Open Source application programmers interface available to manage creation and interpretation of images within the TIFF format (Warmerdam &amp; Welles 2002). The interface to this library does not frequently change, which is also an advantage for future portability of the <command>GDMS Internet interface</command>.
 </para>
 
 <para>
@@ -244,7 +244,7 @@ However, some of these advantages lead to the principal disadvantages that the T
 </para>
 
 <para>
-TIFF is therefore an inappropriate image format for use for the GDMS Internet interface, as good browser support in as many browsers as possible is vital.
+TIFF is therefore an inappropriate image format for use for the <command>GDMS Internet interface</command>, as good browser support in as many browsers as possible is vital.
 </para>
 </sect2>
 
@@ -258,22 +258,22 @@ Vendors are also dropping support for the GIF format because of the expense of l
 </para>
 
 <para>
-Despite all of these largely political issues, the GIF format is still well supported in all web browser versions, which would make it an ideal candidate for the GDMS Internet interface if it wasn't for the lack of a stable and reliable compression library.
+Despite all of these largely political issues, the GIF format is still well supported in all web browser versions, which would make it an ideal candidate for the <command>GDMS Internet interface</command> if it wasn't for the lack of a stable and reliable compression library.
 </para>
 </sect2>
 
 <sect2><title>Joint Picture Experts Group File Interchange Format</title>
 <para>
-JPEG is an interesting image format because whilst the JPEG compression codec has been standardized by ISO, the actual on disc format commonly called JPEG is not part of the ISO standard. The file format commonly called JPEG is actually JPEG JFIF -- created by the Independant JPEG Group (Lilly 1996).
+JPEG is an interesting image format because whilst the JPEG compression codec has been standardized by ISO, the actual on disc format commonly called JPEG is not part of the ISO standard. The file format commonly called JPEG is actually JPEG JFIF -- created by the Independent JPEG Group (Lilly 1996).
 </para>
 
 <para>
-JPEG support in web browsers is excellent, with support rapidly improving after 1996 (Lilly 1996). The biggest factor stopping the use of JPEG within the GDMS Internet interface is that the compression codec is lossy.
+JPEG support in web browsers is excellent, with support rapidly improving after 1996 (Lilly 1996). The biggest factor stopping the use of JPEG within the <command>GDMS Internet interface</command> is that the compression codec is lossy.
 </para>
 
 <sect3><title>Loss</title>
 <para>
-The JPEG compression algorithm is lossy -- in other words, the act of compressing the image results in image data being discarded. This has the effect of noticably reducing the clarity of the images -- a characteristic which is especially noticable with images which contain text at smaller point sizes. The use of such text is a feature of the GDMS graphing subsystem.
+The JPEG compression algorithm is lossy -- in other words, the act of compressing the image results in image data being discarded. This has the effect of noticeably reducing the clarity of the images -- a characteristic which is especially noticeable with images which contain text at smaller point sizes. The use of such text is a feature of the <command>GDMS</command> graphing subsystem.
 </para>
 
 <para>
@@ -315,7 +315,7 @@ The PNG support in many browsers is not perfect. However, browsers above version
 
 <sect2><title>Conclusion</title>
 <para>
-Based on the factors outlined above, the PNG image format was selected for the GDMS Internet interface. This is because of it's excellent browser support in modern browsers, as well as it's mature and stable Open Source application programmers interface.
+Based on the factors outlined above, the PNG image format was selected for the <command>GDMS Internet interface</command>. This is because of it's excellent browser support in modern browsers, as well as it's mature and stable Open Source application programmers interface.
 </para>
 </sect2>
 </sect1>
@@ -329,7 +329,7 @@ This chapter discusses the actual application which was produced. The applicatio
 </para>
 
 <para>
-When the application starts, the command is not defined, as the user is unlikely to have specified one as part of the URL. This results in the GDMS Internet interface using the <emphasis>main</emphasis> command. The user is then presented with a welcome screen, which displays the message of the day. The message of the day in intended to be used to warn the users of the GDMS Internet interface of schedualled unavailability of the system, or new datasets having been added. There are no limits on the text that can be included in the message of the day however, so it could inform users of an impending Christmas party, or other equally unrelated events.
+When the application starts, the command is not defined, as the user is unlikely to have specified one as part of the URL. This results in the <command>GDMS Internet interface</command> using the <emphasis>main</emphasis> command. The user is then presented with a welcome screen, which displays the message of the day. The message of the day in intended to be used to warn the users of the <command>GDMS Internet interface</command> of schedualled unavailability of the system, or new datasets having been added. There are no limits on the text that can be included in the message of the day however, so it could inform users of an impending Christmas party, or other equally unrelated events.
 </para>
 
 <figure><title>GDMS Internet interface welcome screen</title>
@@ -357,15 +357,15 @@ The next operation that the user will perform is selecting a dataset to start pr
 </figure>
 
 <para>
-It should be noted that at this time there is no way to configure the various graphing options offered by GDMS within the GDMS Internet interface. The recommended method for selecting the graphing style prefered by the users of the system is to run the GDMS X Windows application as the userid the web server runs as, and then copy the file ~/.cep to the same directory as the GDMS Internet interface executable. It should also be noted that at this time it is not possible to have individual graphing preferences for different users.
+It should be noted that at this time there is no way to configure the various graphing options offered by <command>GDMS</command> within the <command>GDMS Internet interface</command>. The recommended method for selecting the graphing style preferred by the users of the system is to run the <command>GDMS</command> X Windows application as the user id the web server runs as, and then copy the file ~/.cep to the same directory as the <command>GDMS Internet interface</command> executable. It should also be noted that at this time it is not possible to have individual graphing preferences for different users.
 </para>
 
 <para>
-Now that the user has selected a dataset, the mathematical commands are now available. These may be selected from the same menu as the graphing commands, and include Least Squares regressions, windowing, interpolation, and Fast Fourier Transformations. All of the functionality available within the GDMS X Windows application is available for these mathematical operations.
+Now that the user has selected a dataset, the mathematical commands are now available. These may be selected from the same menu as the graphing commands, and include Least Squares regressions, windowing, interpolation, and Fast Fourier Transformations. All of the functionality available within the <command>GDMS</command> X Windows application is available for these mathematical operations.
 </para> 
 
 <para>
-The GDMS Internet interface graphing subsystem also handles graphs in the frequency domain, in the same manner as the GDMS X Windows interface.
+The <command>GDMS Internet interface</command> graphing subsystem also handles graphs in the frequency domain, in the same manner as the <command>GDMS</command> X Windows interface.
 </para>
 
 </chapter>
@@ -374,19 +374,19 @@ The GDMS Internet interface graphing subsystem also handles graphs in the freque
 
 <chapter><title>Conclusion</title>
 <para>
-Based on the discussion in previous chapters, Perl CGI with PNG images were selected for the implementation of the GDMS Internet interface. This has resulted in a easy to understand code base, which will aid in future expansion of the application. The GDMS Internet interface should also correctly function with all modern web servers, including the Apache web server which is used by the University of Canberra Survey Laboratory.
+Based on the discussion in previous chapters, Perl CGI with PNG images were selected for the implementation of the <command>GDMS Internet interface</command>. This has resulted in a easy to understand code base, which will aid in future expansion of the application. The <command>GDMS Internet interface</command> should also correctly function with all modern web servers, including the Apache web server which is used by the University of Canberra Survey Laboratory.
 </para>
 
 <para>
-There is some scope for future improvement of the GDMS Internet interface. This includes:
+There is some scope for future improvement of the <command>GDMS Internet interface</command>. This includes:
 </para>
 
 <itemizedlist>
 <listitem><para>A web aware method of configuring graphing preferences.</para></listitem>
 <listitem><para>Per user graphing preferences.</para></listitem>
-<listitem><para>Allowing zooming on the dataset graphs in the same manner that the GDMS X Windows application allows.</para></listitem>
+<listitem><para>Allowing zooming on the dataset graphs in the same manner that the <command>GDMS</command> X Windows application allows.</para></listitem>
 <listitem><para>Caching of processed datasets where it makes sense. Graphs are already cached.</para></listitem>
-<listitem><para>Implementation of features as they are added to the GDMS X Windows application.</para></listitem>
+<listitem><para>Implementation of features as they are added to the <command>GDMS</command> X Windows application.</para></listitem>
 </itemizedlist>
 
 </chapter>
@@ -495,7 +495,7 @@ Warmerdam, F. and Welles, M., 24 January 2002 [last update],
 <appendix><title>GDMS Internet interface scripting elements</title>
 <sect1><title>Introduction</title>
 <para>
-This appendix documents the various tags which are implemented by the GDMS Internet interface in addition to the standard HTML tags normally available. All of these tags are within the scripting namespace provided by HTML 4.01 (Raggett, Le Hors, &amp; Jacobs 1999).
+This appendix documents the various tags which are implemented by the <command>GDMS Internet interface</command> in addition to the standard HTML tags normally available. All of these tags are within the scripting name space provided by HTML 4.01 (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
 <sect2><title>commands</title>
@@ -521,7 +521,7 @@ The display of the command menu is altered by the following configuration file e
 </itemizedlist>
 
 <para>
-For example, these configuration entries ship by default with the GDMS Internet interface:
+For example, these configuration entries ship by default with the <command>GDMS Internet interface</command>:
 </para>
 
 <programlisting>
@@ -536,7 +536,7 @@ $discommandentry = "&lt;tr&gt;&lt;td bgcolor=\"EEEEEE\"&gt;
 </sect2>
 <sect2><title>dataset</title>
 <para>
-This tag will display the name of the currently open dataset, if one is open. This might possibly be a descriptive string is processing has occured on the dataset.
+This tag will display the name of the currently open dataset, if one is open. This might possibly be a descriptive string is processing has occurred on the dataset.
 </para>
 
 <para>
@@ -569,7 +569,7 @@ The dataset directory is configured with the following configuration file entry:
 </para>
 
 <programlisting>
-# This line defines where the datsets are stored
+# This line defines where the datasets are stored
 $datasets = "/home/httpd/gdms-datasets/";
 </programlisting>
 
@@ -578,7 +578,7 @@ There are also several configuration options which alter the appearance of the l
 </para>
 
 <itemizedlist>
-<listitem><para><emphasis>selectstart</emphasis>: this is used for any output which should appear at the begining of the list. This could include HTML tags for the creation of the required list markup (for example tables).</para></listitem>
+<listitem><para><emphasis>selectstart</emphasis>: this is used for any output which should appear at the beginning of the list. This could include HTML tags for the creation of the required list markup (for example tables).</para></listitem>
 <listitem><para><emphasis>selectentry</emphasis>: this configuration item is used for each entry in the list. The special text <command>%s</command> is replaced by the HTML for the entry itself.</para></listitem>
 <listitem><para><emphasis>selectend</emphasis>: this is used for any HTML required to finalize the list.</para></listitem>
 </itemizedlist>
@@ -605,7 +605,7 @@ An example usage is:
 </sect2>
 <sect2><title>interpparams</title>
 <para>
-This tag will output the HTML form required for the entry of interpolation processing parameters. The user will then select "Ok" on this web form, and the interpolation operation will occur.
+This tag will output the HTML form required for the entry of interpolation processing parameters. The user will then select <quote>OK</quote> on this web form, and the interpolation operation will occur.
 </para>
 
 <para>
@@ -618,7 +618,7 @@ An example usage is:
 </sect2>
 <sect2><title>lsparams</title>
 <para>
-This tag will output the HTML form required for the entry of Least Squares processing parameters. The user will then select "Ok" on this web form, and the Least Squares regression will occur.
+This tag will output the HTML form required for the entry of Least Squares processing parameters. The user will then select <quote>OK</quote> on this web form, and the Least Squares regression will occur.
 </para>
 
 <para>
@@ -631,7 +631,7 @@ An example usage is:
 </sect2>
 <sect2><title>lsreweightdir</title>
 <para>
-This tag converts to the direction in which the user is being prompted for a Least Squares reweighting matrix.
+This tag converts to the direction in which the user is being prompted for a Least Squares re weighting matrix.
 </para>
 
 <para>
@@ -644,7 +644,7 @@ An example usage is:
 </sect2>
 <sect2><title>lsselect</title>
 <para>
-This tag will output the HTML form required for the selection of the Least Squares output. This is because each Least Squares operation produces two datasets, the data (with a Least Squares line and indication of the effect of reweighting), and the residuals dataset.
+This tag will output the HTML form required for the selection of the Least Squares output. This is because each Least Squares operation produces two datasets, the data (with a Least Squares line and indication of the effect of re weighting), and the residuals dataset.
 </para>
 
 <para>
@@ -661,7 +661,7 @@ An example usage is:
 </sect2>
 <sect2><title>matrices</title>
 <para>
-This tag will output the HTML that represents the list of reweighting matrices which are available. Note that matrices must end in the extension .mat to be listed.
+This tag will output the HTML that represents the list of re weighting matrices which are available. Note that matrices must end in the extension .mat to be listed.
 </para>
 
 <para>
@@ -713,7 +713,7 @@ An example usage is:
 </sect2>
 <sect2><title>winparams</title>
 <para>
-This tag will output the HTML form required for the entry of windowing processing parameters. The user will then select "Ok" on this web form, and the windowing operation will occur.
+This tag will output the HTML form required for the entry of windowing processing parameters. The user will then select <quote>OK</quote> on this web form, and the windowing operation will occur.
 </para>
 
 <para>
@@ -1321,11 +1321,11 @@ sub performFFT(){
 
 <appendix><title>A sample configuration file</title>
 <para>
-This appendix details a sample configuration file for the GDMS Internet interface. This file should be stored in the same directory as the GDMS CGI script. It should also be noted that the <quote>.cep</quote> configuration file that would normally reside in a user's home directory should also be in the same directory as the GDMS CGI script.
+This appendix details a sample configuration file for the <command>GDMS Internet interface</command>. This file should be stored in the same directory as the <command>GDMS</command> CGI script. It should also be noted that the <quote>.cep</quote> configuration file that would normally reside in a user's home directory should also be in the same directory as the <command>GDMS</command> CGI script.
 </para>
 
 <para>
-The easiest way to create a suitable <quote>.cep</quote> configuration file is to run GDMS as any user, configure it so that you are happy with the graph output, and then copy that .cep file to the right location. Don't forget to update the permissions so that the user the web server is running as has read and write permissions on the file.
+The easiest way to create a suitable <quote>.cep</quote> configuration file is to run <command>GDMS</command> as any user, configure it so that you are happy with the graph output, and then copy that .cep file to the right location. Don't forget to update the permissions so that the user the web server is running as has read and write permissions on the file.
 </para>
 
 <para>
