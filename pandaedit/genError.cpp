@@ -21,6 +21,8 @@
 */
 
 #include "genError.h"
+#include "verbosity.h"
+#include "utility.h"
 
 genError::genError ()
 {
@@ -53,7 +55,7 @@ genErrorHandler *
 genError::~genError ()
 {
   if (!m_actioned)
-    genDebugPrint ("genError was not actioned: " + m_message);
+    debug(dlInformational, string("Error was not actioned: ") + m_message);
 }
 
 void
@@ -71,7 +73,7 @@ genError::init ()
 {
   if ((m_message != "") && (m_actioned == false))
     {
-      genDebugPrint ("genError was not actioned: " + m_message);
+      debug(dlInformational, string("Error was not actioned: ") + m_message);
     }
 
   m_actioned = false;

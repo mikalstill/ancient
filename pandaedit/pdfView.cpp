@@ -57,6 +57,8 @@
 #include "pdfDoc.h"
 #include "pdfView.h"
 #include "render.h"
+#include "verbosity.h"
+#include "utility.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -210,7 +212,7 @@ pdfView::OnClose (bool deleteWindow)
 
   // Clear the canvas in case we're in single-window mode,
   // and the canvas stays.
-  genDebugPrint ("Clean up the canvas");
+  debug(dlTrace, "Clean up the canvas");
 
   // todo: The following line was causing a segv
   // canvas->Clear ();
@@ -225,7 +227,7 @@ pdfView::OnClose (bool deleteWindow)
 
   if (deleteWindow)
     {
-      genDebugPrint ("Close the window");
+      debug(dlTrace, "Close the window");
       delete frame;
       return TRUE;
     }
