@@ -18,18 +18,19 @@ $ENV{PATH} = $ENV{PATH} . ":.";
 
 # This should be fixed...
 
-open TMP, "> builddb.tmp";
+open TMP, "> builddb-$$.tmp";
 process("execute", "", \*STDIN, \*TMP);
 close TMP;
-open TMP, "< builddb.tmp";
-process("postexecute", "builddb.tmp", \*TMP, \*STDOUT);
+open TMP, "< builddb-$$.tmp";
+process("postexecute", "builddb-$$.tmp", \*TMP, \*STDOUT);
 close TMP;
-unlink "builddb.tmp";
+unlink "builddb-$$.tmp";
 
 exit;
 
 sub process($){
     my($exblock, $exfilename, $INPTR, $OUTPTR) = @_;
+    print STDERR "builddb.pl is processing $exblock blocks...\n";
 
     while(<$INPTR>){
 	if(/(.*)<$exblock>(.*)<\/$exblock>(.*)/){
@@ -87,6 +88,7 @@ sub process($){
 		    $cmdstr = "$cmdstr > $output";
 		}
 		
+		print STDERR "Executing command: $cmd\n";
 		print $OUTPTR `$cmdstr`;
 	    }
 	    else{
