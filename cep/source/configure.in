@@ -51,21 +51,64 @@ AC_CHECK_LIB(Xi, XAllowDeviceEvents)
 dnl -lXext
 AC_CHECK_LIB(Xext, XGetVisualInfo)
 
-nl -lX11
+dnl -lX11
 AC_CHECK_LIB(X11, XFreeFontInfo)
 
-dnl -lwx  --> THIS IS BAD AND MIGHT BREAK
-AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent)
+dnl -lwx 
+dnl This must seek a global. mangled names will no do at all
+dnl AC_CHECK_LIB(wx_gtk-2.2, OnIdle__12wxHtmlWindowR11wxIdleEvent, [], [
+AC_CHECK_LIB(wx_gtk-2.2, wxTheApp, [], [
+  echo
+  echo "    *****************************************"
+  echo "    *                                       *"
+  echo "    *   libwx_gtk-2.2 not found, aborting   *"
+  echo "    *    (this is suplied in contrib dir)   *"
+  echo "    *                                       *"
+  echo "    *****************************************"
+  echo
+  exit 1
+  ])
 
 dnl -lmplot
-AC_CHECK_LIB(mplot, plot_newplot)
+AC_CHECK_LIB(mplot, plot_newplot ,[], [
+  echo
+  echo "    *****************************************"
+  echo "    *                                       *"
+  echo "    *     libmplot not found, aborting      *"
+  echo "    *   (this is suplied in contrib dir)    *"
+  echo "    *                                       *"
+  echo "    *****************************************"
+  echo
+  exit 1
+  ])
 
 dnl -lpng
-AC_CHECK_LIB(png, png_create_write_struct)
+AC_CHECK_LIB(png, png_create_write_struct, [], [
+  echo
+  echo "    *****************************************"
+  echo "    *                                       *"
+  echo "    *      libpng not found, aborting       *"
+  echo "    *   (this is suplied in contrib dir)    *"
+  echo "    *                                       *"
+  echo "    *****************************************"
+  echo
+  exit 1
+  ])
+
 
 dnl -lpcre
-AC_CHECK_LIB(pcre, pcre_exec)
-
+AC_CHECK_LIB(pcre, pcre_exec, [], [
+  echo
+  echo "    *****************************************"
+  echo "    *                                       *"
+  echo "    *     libpcre not found, aborting       *"
+  echo "    *   (this is suplied in contrib dir)    *"
+  echo "    *                                       *"
+  echo "    *****************************************"
+  echo
+  exit 1
+  ])
+      
 dnl Checks for header files.
 dnl STDC checks for stdlib.h stdarg.h string.h and float.h
 AC_HEADER_STDC
