@@ -37,7 +37,6 @@ If you have installed <command>wxWindows</command> on an architecture / operatin
 dynamic libraries, then you will need to run the <command>ldconfig</command> command or equivalent.
 </para>
 
-<execute><cmd>todo</cmd><input>Evil ld.so.conf stuff somewhere?</input></execute>
 </sect3>
 
 </sect2>
