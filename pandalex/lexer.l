@@ -4,12 +4,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void debuglex(char *, int, char *);
-char *returnStr(char *, int);
-void *pandalex_xmalloc(size_t);
-void *pandalex_xrealloc(void *, size_t);
-char *pandalex_xsnprintf(char *, ...);
-void pandalex_error(char *);
+#undef YY_INPUT
+#define YY_INPUT(b, r, ms) (r = pandalex_gettext(b, ms))
 
 void *
 pandalex_xmalloc (size_t size)

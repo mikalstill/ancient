@@ -56,7 +56,7 @@ int main(int argc, char *argv[]){
   dictint_list->next = NULL;
 
   // Start parsing
-  pandalex_parse();
+  pandalex_parse(argv[1]);
 
   return 0;
 }
@@ -380,7 +380,7 @@ void pdfdump_procstream(char *filter, int length, char *data, int dataLen){
 	break;
       }
       
-      debuglex(data, srcLen, "Flate compression failure", 0);
+      debuglex(data, srcLen, "Flate compression failure");
       exit(46);
     }
     

@@ -41,3 +41,18 @@ typedef void (*pandalex_callback_type)(int, va_list);
 void pandalex_setupcallback(int, pandalex_callback_type);
 void pandalex_callback(int, ...);
 
+/******************************************************************************
+  These functions manage parsing
+******************************************************************************/
+
+int pandalex_parse(char *filename);
+int pandalex_endparse();
+
+// Other stuff
+void debuglex(char *, int, char *);
+char *returnStr(char *, int);
+void *pandalex_xmalloc(size_t);
+void *pandalex_xrealloc(void *, size_t);
+char *pandalex_xsnprintf(char *, ...);
+void pandalex_error(char *);
+

@@ -1,20 +1,55 @@
 %{
-  #include "lexinterface.h"
-  #include "samples.h"
-  #include "pandalex.h"
-
-  #include <stdarg.h>
-  #include <stdlib.h>
-  #include <stdio.h>
-
-  #define YYMAXDEPTH 50000
-  #define YYERROR_VERBOSE 1
-
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <fcntl.h>
+  
+#include "lexinterface.h"
+#include "samples.h"
+#include "pandalex.h"
+  
+#include <stdarg.h>
+#include <stdlib.h>
+#include <stdio.h>
+  
+#define YYMAXDEPTH 50000
+#define YYERROR_VERBOSE 1
+  
   // The callbacks
   pandalex_callback_type pandalex_callbacks[pandalex_event_max];
+
+  // Globals, these should go away
+  int fd;
+  char *file;
+  struct stat sb;
+  unsigned int gInset;
+
+  int pandalex_gettext(char *buffer, int maxlen){
+    int size;
+    
+    // Determine the maximum size to return
+    size = pandalex_min(maxlen, strlen(file) - gInset);
+    
+    if(size > 0){
+      memcpy(buffer, file + gInset, size);
+      gInset += size;
+    }
+    
+    return size;
+  }
+  
+  int pandalex_min(int a, int b){
+    if(a < b)
+      return a;
+    return b;
+  }
 %}
 
-          /* Define the possible yylval values */
+/* Define the possible yylval values */
 %union {
   int        intVal;
 
@@ -51,8 +86,7 @@
 	    so we only need to append the value of $2, $3, $4 et al
           *********************************************************/
 // completely implemented
-pdf       : { pandalex_callback(pandalex_event_begindocument, ""); } 
-            header { pandalex_callback(pandalex_event_entireheader, $2.data); } 
+pdf       : header { pandalex_callback(pandalex_event_entireheader, $1.data); } 
             object linear objects xref trailer endcrap
           ;
 
@@ -93,6 +127,7 @@ dictionary: DBLLT dict DBLGT { $$ = -1; }
           ;
 
 subdictionary: DBLLT dict DBLGT { $$ = -1; }
+          ;
 
 dict      : NAME STRING { pandalex_callback(pandalex_event_dictitem_string, $1.data, $2.data); } dict
           | NAME NAME { pandalex_callback(pandalex_event_dictitem_name, $1.data, $2.data); } dict
@@ -187,9 +222,38 @@ void pandalex_callback(int event, ...){
   va_end(argptr);
 }
 
-int pandalex_parse(){
+int pandalex_parse(char *filename){
+  // Map the input file into memory
+  if ((fd = open (filename, O_RDONLY)) < 0)
+    {
+      perror("Could not open file");
+      return(-1);
+    }
+
+  if(fstat(fd, &sb) < 0){
+    perror("Could not stat file");
+    return(-1);
+  }
+
+  if ((file =
+       (char *) mmap (NULL, sb.st_size, PROT_READ, MAP_SHARED, fd, 0)) == -1)
+    {
+      perror("Could not mmap file");
+      return(-1);
+    }
+
   // We are not looking into a stream at the moment
+  pandalex_callback(pandalex_event_begindocument, filename);
   yyparse();
+}
+
+int pandalex_endparse(){
+  if(munmap(file, sb.st_size) < 0){
+    perror("Could not unmap memory");
+    return(-1);
+  }
+  
+  close(fd);
 }
 
 int yyerror(char *s){
