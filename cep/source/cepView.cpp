@@ -527,18 +527,32 @@ void cepView::LeastSquaresRW(cepMatrix<double> *mat, string direction)
 }
 
 void cepView::OnWindowBlackman (wxCommandEvent& event)
-{}
+{
+  cepWindowUi windowUi;
+  bool ok = false;
+
+  do
+  {
+    windowUi.show();
+    if( windowUi.getSize()==-1 ) cepError("Error. size must be a positive integer", cepError::sevWarning).display();
+    else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
+    else ok = true;
+  } while( !ok  );
+}
 
 void cepView::OnWindowChebyshev (wxCommandEvent& event)
 {
   cepWindowUi windowUi;
-  windowUi.showBandwidth();
+  bool ok = false;
 
-  while( isnan( windowUi.getBandwidth()))
+  do
   {
-    cepError("Error. Attenuation must be a number", cepError::sevWarning).display();
-    windowUi.showBandwidth();
-  }
+    windowUi.show();
+    if( isnan( windowUi.getBandwidth()) ) cepError("Error. transition bandwidth must be a number", cepError::sevWarning).display();
+    else if( windowUi.getSize()==-1 ) cepError("Error. size must be a positive integer", cepError::sevWarning).display();
+    else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
+    else ok = true;
+  } while( !ok  );
 
   double bw = windowUi.getBandwidth();
   if( bw != cepWindowBandwidth::UNINITIALISED ){
@@ -553,10 +567,34 @@ void cepView::OnWindowChebyshev (wxCommandEvent& event)
 }
 
 void cepView::OnWindowHamming (wxCommandEvent& event)
-{}
+{
+  cepWindowUi windowUi;
+  bool ok = false;
+
+  do
+  {
+    windowUi.show();
+    if( windowUi.getSize()==-1 ) cepError("Error. size must be a positive integer", cepError::sevWarning).display();
+    else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
+    else ok = true;
+  } while( !ok  );
+
+}
 
 void cepView::OnWindowRect (wxCommandEvent& event)
-{}
+{
+  cepWindowUi windowUi;
+  bool ok = false;
+
+  do
+  {
+    windowUi.show();
+    if( windowUi.getSize()==-1 ) cepError("Error. size must be a positive integer", cepError::sevWarning).display();
+    else if( windowUi.getOverlap()==-1 ) cepError("Error. overlap must be a positive integer", cepError::sevWarning).display();
+    else ok = true;
+  } while( !ok  );
+
+}
 
 void cepView::OnInterpNearest (wxCommandEvent& event)
 {

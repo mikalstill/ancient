@@ -81,9 +81,13 @@ public:
   // and the tird dimension is 2 (date and value)
   const cepError window( const cepMatrix<double> & dataIn, cepMatrix<double> & windowedData );
 
+  static const int getSize();
+  static const int getOverlap();
+
 protected:
   cepWindowAlg *windowAlg;
-  int overlap;
+  static int size;
+  static int overlap;
   windowType algType;
 
   int countWindows( int samples, int winSize, int overlap );

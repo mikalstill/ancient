@@ -56,9 +56,11 @@ const cepError cepDataWindower::setChebBandwidth( double dw ) {
 
 
 
-const cepError cepDataWindower::setWindowType( const windowType type, const int size, const int ol ) {
+const cepError cepDataWindower::setWindowType( const windowType type, const int sz, const int ol ) {
   
   algType = type;
+  size = sz;
+  overlap=ol;
   
   switch( type ) {
     
@@ -88,11 +90,19 @@ const cepError cepDataWindower::setWindowType( const windowType type, const int 
       return cepError("unknown windowing algorithm. Set type failed", cepError::sevWarning);
   }
 
-  overlap=ol;
   return cepError();
   
 }
 
+
+const int cepDataWindower::getSize()
+{
+  return size;
+}
+const int cepDataWindower::getOverlap()
+{
+  return overlap;
+}
 
 int cepDataWindower::countWindows( int samples, int winSize, int overlap )
 {
@@ -150,3 +160,6 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
 
   return cepError();
 }
+
+int cepDataWindower::size = 0;
+int cepDataWindower::overlap = 0;

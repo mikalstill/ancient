@@ -20,6 +20,7 @@
 
 #include "cepWindowUi.h"
 #include "cepwindowchebyshev.h"
+#include "cepDataWindower.h"
 #include <bits/nan.h>
 #include <sstream>
   
@@ -32,12 +33,17 @@ END_EVENT_TABLE ()
 cepWindowBandwidth::cepWindowBandwidth( bool getBandwidth ):
   wxDialog((wxDialog *) NULL, -1, "Specify Transition Bandwidth", wxPoint(120,120), wxSize(250, 120))
 {
+  ostringstream currentSize;
+  currentSize << cepDataWindower::getSize();
+  ostringstream currentOverlap;
+  currentOverlap << cepDataWindower::getOverlap();
   ostringstream currentBW;
   currentBW << cepWindowChebyshev::getTransitionBandwidth();
 
-  int step = 22;
+  int step = 0;
   int inputY = 47;
   if( getBandwidth ) {
+    step = 22;
     SetSize(250, 120+(2*step));
   }
   
@@ -50,10 +56,10 @@ cepWindowBandwidth::cepWindowBandwidth( bool getBandwidth ):
   m_statText2 = new wxStaticText(m_panel, -1, "Bandwidth for Dolph-Chebyshev", wxPoint(5,19), wxSize(240, 20), wxALIGN_CENTRE);
 
   m_statText3 = new wxStaticText(m_panel, -1, "Size:", wxPoint(35,48), wxSize(70, 20), wxALIGN_LEFT);
-  m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentBW.str().c_str(), wxPoint(100, inputY), wxSize(115, 20));
+  m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentSize.str().c_str(), wxPoint(100, inputY), wxSize(115, 20));
 
   m_statText3 = new wxStaticText(m_panel, -1, "Overlap:", wxPoint(35,68), wxSize(70, 20), wxALIGN_LEFT);
-  m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentBW.str().c_str(), wxPoint(100, inputY+step), wxSize(115, 20));
+  m_tbBandwidth = new wxTextCtrl(m_panel, -1, currentOverlap.str().c_str(), wxPoint(100, inputY+step), wxSize(115, 20));
 
   if( getBandwidth ) {
      m_statText3 = new wxStaticText(m_panel, -1, "NTB:", wxPoint(35,88), wxSize(70, 20), wxALIGN_LEFT);
@@ -141,7 +147,8 @@ void cepWindowUi::show()
 {
   cepWindowBandwidth wa( false );
 
-  m_bandwidth = wa.getBandwidth();
+  m_size = wa.getSize();
+  m_overlap = wa.getOverlap();
 }
   
 int cepWindowUi::getSize()
