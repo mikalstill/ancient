@@ -40,6 +40,7 @@ void usb_urb_listentry (char *file, long long *filep);
 void usb_interface_info (char *file, long long *filep);
 void usb_pipe_info (char *file, long long *filep);
 void usb_ucd (char *file, long long *filep);
+void usb_setup_packet (char *file, long long *filep);
 
 // URB output
 char *urb_buffer = NULL;
@@ -163,6 +164,7 @@ main (int argc, char *argv[])
 	       "Memory allocation problem whilst setting up URB list head\n");
       exit (1);
     }
+  memset(urbhead, 0, sizeof (usb_allurbs) * npackets);
 
   // Details of the URB
   seq = -1;
@@ -367,11 +369,11 @@ main (int argc, char *argv[])
       if (urb_buffer != NULL)
 	{
 	  urbhead[urbCount].md5 = md5hash (urb_buffer);
-	  urbhead[urbCount].reallocs = urb_reallocs;
 	}
       urbhead[urbCount].deleted = 0;
       urbhead[urbCount].rptlen = 0;
       urbhead[urbCount].rpttimes = 0;
+      urbhead[urbCount].reallocs = urb_reallocs;
 
       // Finish up if we aborted this URB
       if (urbhead[urbCount].abend == 1)
@@ -384,7 +386,9 @@ main (int argc, char *argv[])
       urb_buffer = NULL;
       urb_buffer_inset = 0;
       urb_buffer_size = 0;
+      printf("Resetting reallocs from %d\n", urb_reallocs);
       urb_reallocs = 0;
+      printf("Reset to %d\n", urb_reallocs);
     }
 
   // Correlate
@@ -536,8 +540,6 @@ void
 usb_urb_controltransfer (char *file, long long *filep)
 {
   long long count = *filep;
-  int type, req, val, idx, len;
-  int stdreq = 0, endval = 0, ifaceval = 0;
 
   urb_printf ("URB control transfer:\n");
   // Skipped pipe handle pointer
@@ -555,6 +557,92 @@ usb_urb_controltransfer (char *file, long long *filep)
 
   // usb_urb_hcd(file, &count);
   count += USB_URB_HCD_LENGTH;
+
+  // And now we have a setup packet
+  usb_setup_packet(file, &count);
+  *filep = count;
+}
+
+void
+usb_urb_listentry (char *file, long long *filep)
+{
+  long long count = *filep;
+
+  // Skipped forward pointer
+  count += 4;
+  // Skipped backward pointer
+  count += 4;
+  urb_printf ("\n");
+
+  *filep = count;
+}
+
+void
+usb_interface_info (char *file, long long *filep)
+{
+  long long count = *filep;
+
+  urb_printf ("Length: %d\n", fileutil_getushort (file, &count));
+  urb_printf ("Interface number: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Alternate setting: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Class: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Subclass: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Protocol: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Reserved: 0x%02x\n", (unsigned char) file[count++]);
+
+  // Skipping usb interface handler pointer
+  count += 4;
+
+  urb_printf ("Number of pipes: %d\n", fileutil_getuinteger (file, &count));
+  urb_printf ("\n");
+
+  // POssibly a second, depending on if the box was OSR2 compatible
+  usb_pipe_info (file, &count);
+  *filep = count;
+}
+
+void
+usb_pipe_info (char *file, long long *filep)
+{
+  long long count = *filep;
+
+  urb_printf ("Maximum packet size: %d\n", fileutil_getushort (file, &count));
+  urb_printf ("End point address: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Interval: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("USB pipe type: %d\n", fileutil_getinteger (file, &count));
+  // Skipped pipe handle\n");
+  count += 4;
+  urb_printf ("Maximum transfer size: %d\n",
+	      fileutil_getuinteger (file, &count));
+  urb_printf ("Pipe flags: %d\n", fileutil_getuinteger (file, &count));
+
+  *filep = count;
+}
+
+void
+usb_ucd (char *file, long long *filep)
+{
+  long long count = *filep;
+
+  urb_printf ("Length: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Descriptor type: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Total length: %d\n", fileutil_getushort (file, &count));
+  urb_printf ("Number of interfaces: 0x%02x\n",
+	      (unsigned char) file[count++]);
+  urb_printf ("Configuration value: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Configuration: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Attributes: 0x%02x\n", (unsigned char) file[count++]);
+  urb_printf ("Max power: 0x%02x\n", (unsigned char) file[count++]);
+
+  *filep = count;
+}
+
+void
+usb_setup_packet(char *file, long long *filep)
+{
+  long long count = *filep;
+  int type, req, val, idx, len;
+  int stdreq = 0, endval = 0, ifaceval = 0;
 
   // Decode a setup packet
   // TODO: I have just written this, and need to desk check that it is correct
@@ -645,109 +733,20 @@ usb_urb_controltransfer (char *file, long long *filep)
   *filep = count;
 }
 
-void
-usb_urb_hcd (char *file, long long *filep)
-{
-  long long count = *filep;
-
-  urb_printf ("URB hcd:\n");
-  // Skipped HCD endpoint pointer
-  count += 4;
-  // Skipped HCD IRP pointer
-  count += 4;
-  urb_printf ("\n");
-
-  urb_printf ("HCD list entry 1:\n");
-  usb_urb_listentry (file, &count);
-  urb_printf ("HCD list entry 2:\n");
-  usb_urb_listentry (file, &count);
-
-  // Skipped HCD current IO flush pointer
-  count += 4;
-  // Skipped HCD extension pointer
-  count += 4;
-  urb_printf ("\n");
-
-  *filep = count;
-}
-
-void
-usb_urb_listentry (char *file, long long *filep)
-{
-  long long count = *filep;
-
-  // Skipped forward pointer
-  count += 4;
-  // Skipped backward pointer
-  count += 4;
-  urb_printf ("\n");
-
-  *filep = count;
-}
-
-void
-usb_interface_info (char *file, long long *filep)
-{
-  long long count = *filep;
-
-  urb_printf ("Length: %d\n", fileutil_getushort (file, &count));
-  urb_printf ("Interface number: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Alternate setting: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Class: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Subclass: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Protocol: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Reserved: 0x%02x\n", (unsigned char) file[count++]);
-
-  // Skipping usb interface handler pointer
-  count += 4;
-
-  urb_printf ("Number of pipes: %d\n", fileutil_getuinteger (file, &count));
-  urb_printf ("\n");
-
-  // POssibly a second, depending on if the box was OSR2 compatible
-  usb_pipe_info (file, &count);
-  *filep = count;
-}
-
-void
-usb_pipe_info (char *file, long long *filep)
-{
-  long long count = *filep;
-
-  urb_printf ("Maximum packet size: %d\n", fileutil_getushort (file, &count));
-  urb_printf ("End point address: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Interval: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("USB pipe type: %d\n", fileutil_getinteger (file, &count));
-  // Skipped pipe handle\n");
-  count += 4;
-  urb_printf ("Maximum transfer size: %d\n",
-	      fileutil_getuinteger (file, &count));
-  urb_printf ("Pipe flags: %d\n", fileutil_getuinteger (file, &count));
-
-  *filep = count;
-}
-
-void
-usb_ucd (char *file, long long *filep)
-{
-  long long count = *filep;
-
-  urb_printf ("Length: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Descriptor type: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Total length: %d\n", fileutil_getushort (file, &count));
-  urb_printf ("Number of interfaces: 0x%02x\n",
-	      (unsigned char) file[count++]);
-  urb_printf ("Configuration value: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Configuration: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Attributes: 0x%02x\n", (unsigned char) file[count++]);
-  urb_printf ("Max power: 0x%02x\n", (unsigned char) file[count++]);
-
-  *filep = count;
-}
 
 
 
 
+
+
+
+
+
+
+
+// ----------------------------------------------------------------------
+// Utility functions
+// ----------------------------------------------------------------------
 // This function is used to cache urb descriptions for duplicate checking
 void
 urb_printf (char *format, ...)
