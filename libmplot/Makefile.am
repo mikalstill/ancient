@@ -3,7 +3,7 @@ noinst_PROGRAMS = sample graph
 
 libplot_la_SOURCES = libplot.c
 libplot_la_CFLAGS = $(FREETYPE_CFLAGS)
-libplot_la_LDADD = $(FREETYPE_LIBS)
+libplot_la_LIBADD = $(FREETYPE_LIBS)
 
 include_HEADERS = libplot.h
 

@@ -455,7 +455,7 @@ plot_fillline (plot_state * state)
 
 // State modification functions
 void
-plot_setlinewidth (plot_state * state, int w)
+plot_setlinewidth (plot_state * state, int w, int h)
 {
   fprintf (stderr, "todo\n");
 }
@@ -846,6 +846,8 @@ DOCBOOK END
 int plot_writestring(plot_state *state, char *string){
   int count, len;
 
+  printf("WRITE STRING\n");
+
   len = strlen(string);
   for(count = 0; count < len; count++){
     if(plot_paintglyph(state, string[count], LIBPLOT_TRUE) == -1)
@@ -906,6 +908,8 @@ unsigned int plot_stringwidth(plot_state *state, char *string){
   int count, len, retval;
   unsigned int width = 0;
 
+  printf("STRING WIDTH\n");
+
   len = strlen(string);
   for(count = 0; count < len; count++){
     if((retval = plot_paintglyph(state, string[count], LIBPLOT_FALSE)) == -1)
@@ -957,6 +961,8 @@ plot_loadglyph(plot_state *state, char character)
 #if defined HAVE_LIBFREETYPE
   FT_UInt index;
 
+  printf("Load glyph %c\n", character);
+
   if(state->ft == NULL){
     fprintf(stderr, "Initialization of Freetype failed\n");
     return -1;
@@ -990,6 +996,8 @@ plot_paintglyph(plot_state *state, char character, int dopaint)
 #if defined HAVE_LIBFREETYPE
   int bmx, bmy;
   unsigned long p;
+
+  printf("Paint glyph %c at %d, %d\n", character, state->textx, state->texty);
 
   if(state->ft == NULL){
     fprintf(stderr, "Initialization of Freetype failed\n");

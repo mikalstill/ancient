@@ -40,7 +40,7 @@ typedef struct plot_internal_state
   // Line attributes
   plot_lineseg *line;
 
-  int linewidth;
+  int linewidthx, linewidthy;
   int linecap;
   int linejoin;
   int linedash;
@@ -75,7 +75,7 @@ void plot_strokeline (plot_state *);
 void plot_fillline (plot_state *);
 
 // State modification functions
-void plot_setlinewidth (plot_state *, int);
+void plot_setlinewidth (plot_state *, int, int);
 void plot_setlinecap (plot_state *, int);
 void plot_setlinejoin (plot_state *, int);
 void plot_setlinedash (plot_state *, int, int, int);
