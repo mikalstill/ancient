@@ -331,6 +331,8 @@ public:
   //gets the number of tables in the matrix
   const int getNumTables();
 
+  //DOCUMENT
+  bool is3D();
   //*******************Error method**************************
   //returns any error that may have occored
   cepError getError();
@@ -1050,9 +1052,14 @@ const T cepMatrix<T>::getValue (int row, int col, int tab)
 {
   m_error = NULL;
 
+  if ((m_tables == NULL) && (tab == 0))
+  {
+    return getValue(row, col);
+  }
+  
   if (m_tables == NULL)
   {
-    m_error = (char *)" The matrix contains no values";
+    m_error = (char *)"The matrix contains no values";
     return (T)NULL;
   }
 
@@ -1081,25 +1088,31 @@ void cepMatrix<T>::setValue (const int row, const int col, const int tab, const 
 {
   m_error = NULL;
 
-  if (row >= m_numRows)
+  if ((m_tables == NULL) && (tab == 0))
   {
-    m_error = (char *)"Invalid Row Number";
-    return;
+    setValue(row, col, value);
   }
-
-  if (col >= m_numCols)
+  else
   {
-    m_error = (char *)"Invalid Col Number";
-    return;
-  }
-  if (tab >= m_numTables)
-  {
-    m_error = (char *)"Invalid Table Number";
-    return;
-  }
+    if (row >= m_numRows)
+    {
+      m_error = (char *)"Invalid Row Number";
+      return;
+    }
 
-  m_tables[tab][(row * m_numCols) + col] = value;
+    if (col >= m_numCols)
+    {
+      m_error = (char *)"Invalid Col Number";
+      return;
+    }
+    if (tab >= m_numTables)
+    {
+      m_error = (char *)"Invalid Table Number";
+      return;
+    }
 
+    m_tables[tab][(row * m_numCols) + col] = value;
+  }
 }
 
 template <class T>
@@ -1111,6 +1124,12 @@ const int cepMatrix<T>::getNumTables ()
 }
 
 template <class T>
+bool cepMatrix<T>::is3D()
+{
+  return (m_tables != NULL);
+}
+
+template <class T>
 cepError cepMatrix<T>::getError()
 {
   if(m_error == NULL)
@@ -1119,5 +1138,6 @@ cepError cepMatrix<T>::getError()
   }
   return cepError(m_error, cepError::sevErrorRecoverable);
 }
+
 
 #endif //end __cepMatrix_H
