@@ -10,10 +10,8 @@ In this chapter we will discuss the Tagged Image File Format, which is one of th
 <sect1>
 <title>Introduction</title>
 <para>
-TIFF (Tagged Image File Format) is a raster image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing of this chapter, the current version of the TIFF specification is TIFF version 6.0. The TIFF specification can be downloaded from http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf. The TIFF technical notes at  
+TIFF (Tagged Image File Format) is a raster image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing of this chapter, the current version of the TIFF specification is TIFF version 6.0. The TIFF specification can be downloaded from http://partners.adobe.com/asn/developer/pdfs/tn/TIFF6.pdf. The TIFF technical notes at http://partners.adobe.com/asn/developer/technotes/main.html
 </para>
-
-%todo:tiff_tech_notes_location%
 
 <para>Libtiff is a standard implementation of the TIFF specification, which is free and works on many operating systems. All of the examples in this chapter refer to libtiff.
 </para>
@@ -148,7 +146,7 @@ It is useful for use to know something about how TIFF images are laid out on dis
 
 <row>
 <entry>0 - 1</entry>
-<entry>Tag that identifies the entry. Have a look at %todo:tags%</entry>
+<entry>Tag that identifies the entry. Have a look at tiff.h</entry>
 </row>
 
 <row>
@@ -205,9 +203,7 @@ Sign is implemented using two's complement notation. New field types may be adde
 
 <sect2><title>Possible field entries</title>
 <para>
-Discussing the many different possible field entries is out of the scope of this document. 
-%todo:tiff.h% 
-%todo:refer_to_spec%
+Discussing the many different possible field entries is out of the scope of this document. Refer to tiff.h and the TIFF specification for more information.
 </para>
 
 <sect2><title>So where's the image data?</title>
@@ -580,7 +576,6 @@ Anyway, now that I've nagged you, putting mutliple images into one TIFF file is 
 </para>
 
 %code2db.pl:~mikal/opensource/tiff-directories/create.c%
-%todo:README%
 
 <figure>
 <title>Four pictures of my son Andrew</title>
@@ -601,7 +596,6 @@ We should also probably know how to get to these images once we have more than o
 %todo:more!%
 
 %code2db.pl:~mikal/opensource/tiff-directories/read.c%
-%todo:README%
 </sect1>
 
 

@@ -993,7 +993,7 @@ main (int argc, char *argv[])
   char buffer[32 * 9];
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/bw-write/write-infrastructure.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-bw-write/write-infrastructure.c</emphasis></para>
 
 <para>
 The code above is pretty simple. All you need to use libtiff is to include the tiffio.h header file. The char buffer that we have defined here is going to be our black and white image, so we should define one of those next...
@@ -1049,7 +1049,7 @@ int main(int argc, char *argv[]){
   TIFFClose(image);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/bw-write/write-nohex.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-bw-write/write-nohex.c</emphasis></para>
 
 <para>
 There are some interesting things to note in this example. The most interesting of these is that the output image will not display using the xview command on my linux machine. In fact, I couldn't find an example of a group 4 fax compressed black and white image which would display using that program. See the sidebar for more detail.
@@ -1244,7 +1244,7 @@ int main(int argc, char *argv[]){
   TIFFClose(image);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/bw-read/read.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-bw-read/read.c</emphasis></para>
 
 <para>
 This code works by first opening the image and checking that it is one that we can handle. It then reads in all the strip for the image, and appends them together in one large memory block. If required, it also flips bits until the photometric interpretation the one we handle, and deals with having to swap bits if the fillorder is wrong. Finally, our sample outputs the image as a series of lines composed of hex values. Remember that each of the values represents 8 pixels in the actual image.
@@ -1386,7 +1386,7 @@ int main(int argc, char *argv[]){
   TIFFClose(output);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/color-write/write.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-color-write/write.c</emphasis></para>
 
 <para>You can see from this code some of the things that we have discussed in theory. The image has three samples per pixel, each of eight bits. This means that the image is a 24 bit RGB image. If this was a black and white or grayscale image, then this value would be one. The tag PHOTOMETRIC_RGB says that the image data is stored within the strips themselves (as opposed to being paletted) -- more about this in a second.</para>
 
@@ -1510,7 +1510,7 @@ int main(int argc, char *argv[]){
   TIFFClose(image);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/color-read/read.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-color-read/read.c</emphasis></para>
 </sect1>
 
 
@@ -1648,7 +1648,7 @@ libtiffDummyCloseProc (thandle_t fd)
   return 0;
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/client/client.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-client/client.c</emphasis></para>
 </sect1>
 
 
@@ -1798,7 +1798,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/directories/create.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-directories/create.c</emphasis></para>
 <figure>
 <title>README</title>
 <graphic format="EPS" fileref="todo.eps"></graphic>
@@ -1973,7 +1973,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/directories/read.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-directories/read.c</emphasis></para>
 <figure>
 <title>README</title>
 <graphic format="EPS" fileref="todo.eps"></graphic>
@@ -2271,7 +2271,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/pixels/pixel.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-pixels/pixel.c</emphasis></para>
 </sect1>
 
 <sect1><title>Example: Converting a color image to grayscale</title>
@@ -2410,7 +2410,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/grayscale/gray-wrong.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-wrong.c</emphasis></para>
 </sect2>
 
 <para>
@@ -2553,7 +2553,7 @@ usage (char *cmd, int exitamt)
   exit (exitamt);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/grayscale/gray-good.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-grayscale/gray-good.c</emphasis></para>
 </sect2>
 
 <para>
@@ -2586,7 +2586,7 @@ do
   count=$(( $count + 1 ))
 done
 </programlisting>
-<para><emphasis>Code: source/tiff/recompress/recompress.sh</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-recompress/recompress.sh</emphasis></para>
 <programlisting>
 #include &lt;stdio.h&gt;
 #include &lt;tiffio.h&gt;
@@ -2661,7 +2661,7 @@ int main(int argc, char *argv[]){
   TIFFClose(image);
 }
 </programlisting>
-<para><emphasis>Code: source/tiff/recompress/recompress.c</emphasis></para>
+<para><emphasis>Code: /home/mikal/opensource/tiff-recompress/recompress.c</emphasis></para>
 </sect1>
 
 <sect1><title>Conclusion</title>
