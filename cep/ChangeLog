@@ -20,3 +20,7 @@
 	Fixed some todos in cepWindows.cpp and began implementation of 
 	vector for using data and arrow of windows.
 
+2002-05-04 Blake Swadling blake@swadling.org
+	Added the source files and ps files for the initial propject proposal.
+	Added matlab files for preliminary prototype
+
