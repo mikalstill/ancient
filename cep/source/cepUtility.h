@@ -30,6 +30,7 @@ string cepToString (char val);
 string cepToString (size_t val);
 
 bool cepIsBlank (char chr);
+bool cepIsNumeric(char chr);
 
 int cepMax (int a, int b);
 int cepMin (int a, int b);

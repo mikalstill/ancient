@@ -107,6 +107,29 @@ cepIsBlank (char c)
   return false;
 }
 
+bool cepIsNumeric(char c)
+{
+  // This line of code:
+  //
+  // if(((c < 48) || (c > 57)) && (cepIsBlank(c) == false) && (c != '.') 
+  //    && (c != '-'))
+  //
+  // Became:
+
+  if(((c < '0') || (c > '9')))
+    {
+    return true;
+  }
+  if(c == '.'){
+    return true;
+  }
+  if(c == '-'){
+    return true;
+  }
+
+  return !cepIsBlank(c);
+}
+
 int
 cepMax (int a, int b)
 {

@@ -20,8 +20,6 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-//#include "cepCore.h"
-
 #include "cepDataset.h"
 
 cepDataset::cepDataset ():
@@ -76,7 +74,8 @@ cepError cepDataset::read (const string& filename)
   if (errString != "")
   {
     m_ready = true;
-    return cepError("File IO error for this dataset. Could not open the file(s):" + errString + ".");
+    return cepError("File IO error for this dataset. Could not open the file(s):" + 
+		    errString + ".");
   }
 
   // Read the file
@@ -97,8 +96,9 @@ cepError cepDataset::read (const string& filename)
     while (!files[i].eof ())
     {   
       files[i].read (&c, 1);
-      //if the line contains non-numbers then ignore the whole line
-      if(((c < 48) || (c > 57)) && (cepIsBlank(c) == false) && (c != '.') && (c != '-'))
+
+      // If the line contains non-numbers then ignore the whole line
+      if(!cepIsNumeric(c))
       {
         while((c != '\n') && (!files[i].eof()))
         {
@@ -109,6 +109,7 @@ cepError cepDataset::read (const string& filename)
       }
       else
       {
+	// Squelch repeated whitespace
         if(cepIsBlank(c) == true)
         {
           if(cepIsBlank(prevc) != true)
@@ -121,6 +122,8 @@ cepError cepDataset::read (const string& filename)
           thisLine += c;
         }
       }
+
+      // End of line?
       if ((c == '\n') && (thisLine != ""))
       {
         numLines ++;
@@ -140,14 +143,18 @@ cepError cepDataset::read (const string& filename)
           if(row.date < lastRow.date)
           {
 	    m_ready = true;
-            return cepError("dataset: " + m_filename + ".dat" + cepToString(i + 1) + " is not in date order! At line " + cepToString(numLines), cepError::sevErrorRecoverable);
+            return cepError("dataset: " + m_filename + ".dat" + 
+			    cepToString(i + 1) + " is not in date order! At line " + 
+			    cepToString(numLines), cepError::sevErrorRecoverable);
           }
           else
           {
             if(row.date == lastRow.date)
             {
 	      m_ready = true;
-              return cepError("dataset: " + m_filename + ".dat" + cepToString(i + 1) + " contains repeated values at line " + cepToString(numLines),cepError::sevErrorRecoverable);
+              return cepError("dataset: " + m_filename + ".dat" + 
+			      cepToString(i + 1) + " contains repeated values at line " + 
+			      cepToString(numLines),cepError::sevErrorRecoverable);
             }
             else
             {
@@ -161,13 +168,16 @@ cepError cepDataset::read (const string& filename)
       prevc = c;
     }
     files[i].close();
-  
   }
+
   // Are the files over the same period??
-  if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) || ((m_datax.back().date != m_datay.back().date) || (m_datay.back().date != m_dataz.back().date)))
+  if (((m_datax.front().date != m_datay.front().date) || (m_datay.front().date != m_dataz.front().date)) 
+      || ((m_datax.back().date != m_datay.back().date) || (m_datay.back().date != m_dataz.back().date)))
   {
     m_ready = true;
-    return cepError("The data set " + m_filename + " values do not represent the same time period",cepError::sevErrorRecoverable);
+    return cepError("The data set " + m_filename + 
+		    " values do not represent the same time period",
+		    cepError::sevErrorRecoverable);
   }
     
   m_ready = true;

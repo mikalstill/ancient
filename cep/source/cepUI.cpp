@@ -115,77 +115,6 @@ cepApp::OnInit (void)
   wxImage::AddHandler (new wxPNMHandler);
 #endif
 
-  // Create the main frame window
-  int windowx, windowy;
-  m_config->getValue ("ui-mainwindow-size-x", 1000, windowx);
-  m_config->getValue ("ui-mainwindow-size-y", 700, windowy);
-  cepDebugPrint ("Main frame size is " + cepToString (windowx) + " by " +
-                 cepToString (windowy));
-
-  frame =
-    new cepFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
-                  (const wxString)"Geodetic Data Modelling System",
-                  wxPoint (0, 0), wxSize (windowx, windowy),
-                  wxDEFAULT_FRAME_STYLE);
-
-  // Give it an icon (this is ignored in MDI mode: uses resources)
-  // todo_mikal: We should have our own icon
-#ifdef __WXMSW__
-  frame->SetIcon (wxIcon ("doc"));
-#endif
-#ifdef __X__
-  frame->SetIcon (wxIcon ("doc.xbm"));
-#endif
-
-  // Make a menubar
-  wxMenu *file_menu = new wxMenu;
-  wxMenu *edit_menu = (wxMenu *) NULL;
-
-  // This is magic, the shortcut keys just work from the menu name...
-  file_menu->Append (wxID_OPEN, "&Open...\tCtrl-O");
-  file_menu->AppendSeparator ();
-  file_menu->Append (wxID_EXIT, "E&xit\tCtrl-Q");
-
-  // A nice touch: a history of files visited. Use this menu.
-  m_docManager->FileHistoryUseMenu (file_menu);
-
-  wxMenu *help_menu = new wxMenu;
-
-  help_menu->Append (CEPMENU_ABOUT, "&About\tF1");
-
-  wxMenuBar *menu_bar = new wxMenuBar;
-
-  menu_bar->Append (file_menu, "&File");
-  if (edit_menu)
-    menu_bar->Append (edit_menu, "&Edit");
-  menu_bar->Append (help_menu, "&Help");
-
-  // Associate the menu bar with the frame
-  frame->SetMenuBar (menu_bar);
-
-  frame->Centre (wxBOTH);
-  frame->Show (TRUE);
-
-  SetTopWindow (frame);
-
-  // Are there old errors?
-  if (m_error.isReal ())
-  {
-    m_error.display ();
-    m_error.clear ();
-  }
-
-  // Display tips on startup
-  // todo_mikal: make tips work
-  // todo_mikal: turn off startup tips sometimes
-  // todo_mikal: should the tips be stored in a tdb?
-  if (1)
-  {
-    // wxTipProvider *tipProvider = wxCreateFileTipProvider("tips.txt", 0); 
-    // wxShowTip(windowParent, tipProvider); 
-    // delete tipProvider; 
-  }
-
   // We can process command line options here if we want
   // todo_mikal: make this sexier
   cepDebugPrint("Starting to parse command line options");
@@ -271,12 +200,6 @@ cepApp::OnInit (void)
         }
       }
 
-  // Open the dataset as requested
-  if(filename != ""){
-    m_docManager->CreateDocument(string(filename + ".dat1").c_str(), 
-				 wxDOC_SILENT);
-  }
-  
   // This might also be a batch execution (no UI displays)
   if(batchMode){
     if(batchfile != ""){
@@ -310,7 +233,82 @@ cepApp::OnInit (void)
     }
   }
     
-    
+  // Create the main frame window
+  int windowx, windowy;
+  m_config->getValue ("ui-mainwindow-size-x", 1000, windowx);
+  m_config->getValue ("ui-mainwindow-size-y", 700, windowy);
+  cepDebugPrint ("Main frame size is " + cepToString (windowx) + " by " +
+                 cepToString (windowy));
+
+  frame =
+    new cepFrame ((wxDocManager *) m_docManager, (wxFrame *) NULL,
+                  (const wxString)"Geodetic Data Modelling System",
+                  wxPoint (0, 0), wxSize (windowx, windowy),
+                  wxDEFAULT_FRAME_STYLE);
+
+  // Give it an icon (this is ignored in MDI mode: uses resources)
+  // todo_mikal: We should have our own icon
+#ifdef __WXMSW__
+  frame->SetIcon (wxIcon ("doc"));
+#endif
+#ifdef __X__
+  frame->SetIcon (wxIcon ("doc.xbm"));
+#endif
+
+  // Make a menubar
+  wxMenu *file_menu = new wxMenu;
+  wxMenu *edit_menu = (wxMenu *) NULL;
+
+  // This is magic, the shortcut keys just work from the menu name...
+  file_menu->Append (wxID_OPEN, "&Open...\tCtrl-O");
+  file_menu->AppendSeparator ();
+  file_menu->Append (wxID_EXIT, "E&xit\tCtrl-Q");
+
+  // A nice touch: a history of files visited. Use this menu.
+  m_docManager->FileHistoryUseMenu (file_menu);
+
+  wxMenu *help_menu = new wxMenu;
+
+  help_menu->Append (CEPMENU_ABOUT, "&About\tF1");
+
+  wxMenuBar *menu_bar = new wxMenuBar;
+
+  menu_bar->Append (file_menu, "&File");
+  if (edit_menu)
+    menu_bar->Append (edit_menu, "&Edit");
+  menu_bar->Append (help_menu, "&Help");
+
+  // Associate the menu bar with the frame
+  frame->SetMenuBar (menu_bar);
+
+  frame->Centre (wxBOTH);
+  frame->Show (TRUE);
+
+  SetTopWindow (frame);
+
+  // Are there old errors?
+  if (m_error.isReal ())
+  {
+    m_error.display ();
+    m_error.clear ();
+  }
+
+  // Display tips on startup
+  // todo_mikal: make tips work
+  // todo_mikal: turn off startup tips sometimes
+  // todo_mikal: should the tips be stored in a tdb?
+  if (1)
+  {
+    // wxTipProvider *tipProvider = wxCreateFileTipProvider("tips.txt", 0); 
+    // wxShowTip(windowParent, tipProvider); 
+    // delete tipProvider; 
+  }
+
+  // Open the dataset as requested
+  if(filename != ""){
+    m_docManager->CreateDocument(string(filename + ".dat1").c_str(), 
+				 wxDOC_SILENT);
+  }    
   return TRUE;
 }
 
