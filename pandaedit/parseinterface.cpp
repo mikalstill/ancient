@@ -86,7 +86,7 @@ pandaedit_dictitem_string (int event, va_list argptr)
     }
 
   dictitem temp (name, thePDF);
-  temp.setValue (string (value));
+  temp.setValue (string (value), false);
   currentDictionary.top ().add (temp);
 }
 
@@ -105,7 +105,7 @@ pandaedit_dictitem_name (int event, va_list argptr)
     }
 
   dictitem temp (name, thePDF);
-  temp.setValue (string (value));
+  temp.setValue (string (value), true);
   currentDictionary.top ().add (temp);
 }
 

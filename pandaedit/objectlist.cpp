@@ -5,6 +5,8 @@
 #include "utility.h"
 #include "verbosity.h"
 
+extern object gNoSuchObject;
+
 objectlist::objectlist ():
   m_pdf(NULL)
 {
@@ -15,15 +17,14 @@ objectlist::objectlist (string input, pdf* thePDF)
   push_back(input, thePDF);
 }
 
-object
+object&
 objectlist::operator[] (unsigned int i)
 {
   debug(dlTrace, string("Objectlist item ") + toString(i) + 
 	string(" lookup from a ") + 
 	toString(m_objects.size()) + 
 	string(" item list"));
-  object foo (objNumNoSuch, objNumNoSuch);
-  object & obj = foo;
+  object & obj = gNoSuchObject;
   
   if((i >= size()) || (i < 0)){
     debug(dlTrace, "Request for non existant object");

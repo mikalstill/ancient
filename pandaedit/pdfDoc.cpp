@@ -60,6 +60,7 @@
 #include "objectmodel.h"
 #include "utility.h"
 #include "verbosity.h"
+#include "stringArray.h"
 
 IMPLEMENT_DYNAMIC_CLASS (pdfDoc, wxDocument)
 
@@ -99,17 +100,18 @@ pdfDoc::OnSaveDocument (const wxString & filename)
     }
 
   // TODO mikal: compression left off for debugging...
-  // TODO mikal: pages are assumed to be a4
   debug(dlTrace, string("Saving ") + toString(m_pages.size()) +
 	string(" pages"));
   for(unsigned int count = 0; count < m_pages.size(); count++)
     {
       debug(dlTrace, string("Saving page ") + toString(count));
-      pg = panda_newpage(output, panda_pagesize_a4);
+      string mediaBox;
+      getPageSize(count, mediaBox);
+      pg = panda_newpage(output, (char *) mediaBox.c_str());
 
       // Push the drawing commands into the pages stream (skip the Panda
       // creator functions, but use Panda to keep track of bytes etc)
-      pg->obj->layoutstream = panda_streamprintf(pg->obj->layoutstream,
+      pg->contents->layoutstream = panda_streamprintf(pg->contents->layoutstream,
 					   (char *) m_pages[count].
 						 getCommandStream().c_str());
     }
@@ -253,18 +255,18 @@ pdfDoc::appendPage()
   // We might also not have a catalog
   object foo(objNumNoSuch, objNumNoSuch);
   object & catalog = foo;
-  if (!m_pdf->findObject (dictitem::diTypeString, "Type", "Catalog", catalog))
+  if (!m_pdf->findObject (dictitem::diTypeName, "Type", "Catalog", catalog))
     {
       debug(dlTrace, "Adding a new catalog and pages object to the PDF");
       object newpages(objNumAppended, objNumAppended);
       {
 	dictitem di("Type", m_pdf);
-	di.setValue("Pages");
+	di.setValue("Pages", true);
 	newpages.getDict().add(di);
       }
       {
 	dictitem di("Kids", m_pdf);
-	di.setValue("[ ]");
+	di.setValue("[ ]", false);
 	newpages.getDict().add(di);
       }
       m_pdf->addObject(newpages);
@@ -277,28 +279,42 @@ pdfDoc::appendPage()
       }
       {
 	dictitem di("Type", m_pdf);
-	di.setValue("Catalog");
+	di.setValue("Catalog", true);
 	newcatalog.getDict().add(di);
       }
       m_pdf->addObject(newcatalog);      
     }
 
+  // Create the new page
   debug(dlTrace, "Creating the new page");
+  object newcontents(objNumAppended, objNumAppended);
+  {
+    dictitem di("Type", m_pdf);
+    di.setValue("Contents", true);
+    newcontents.getDict().add(di);
+  }
+
   object newpage(objNumAppended, objNumAppended);
   {
     dictitem di("Type", m_pdf);
-    di.setValue("Page");
+    di.setValue("Page", true);
     newpage.getDict().add(di);
   }
   {
-    object & pages = foo;
-    if (!m_pdf->findObject (dictitem::diTypeString, "Type", "Pages", pages))
-      {
-	debug(dlError, 
-	      "No pages object, even after we made sure there was one");
-      }
+    dictitem di("Contents", m_pdf);
+    di.setValue(newcontents);
+    newpage.getDict().add(di);
+  }
+  {
+    object & pages = getPagesObject();
     dictitem di("Parent", m_pdf);
     di.setValue(pages);
+    newpage.getDict().add(di);
+  }
+  {
+    dictitem di("MediaBox", m_pdf);
+    // TODO mikal: this is hardcoded to a4
+    di.setValue("[ 0 0 595 842 ]", false);
     newpage.getDict().add(di);
   }
 
@@ -314,4 +330,50 @@ void
 ds_progressCallback ()
 {
   gProgressDoc->incrementProgress ();
+}
+
+object&
+pdfDoc::getPage(int pageno)
+{
+  return m_pages[pageno];
+}
+
+bool
+pdfDoc::getPageSize(int pageno, string& mediaBox)
+{
+  getPage(pageno).getDict ().getValue ("MediaBox", mediaBox);
+  if(mediaBox == ""){
+    debug(dlTrace, "No page size specified in page object, trying pages object...");
+    getPagesObject().getDict ().getValue ("MediaBox", mediaBox);
+  }
+  if(mediaBox == ""){
+    debug(dlError, "The document does not specify a page size");
+    return false;
+  }
+  return true;
+}
+
+bool
+pdfDoc::getPageSize(int pageno, unsigned int& x, unsigned int& y)
+{
+  string mediaBox;
+  getPageSize(pageno, mediaBox);
+
+  stringArray boxArgs (mediaBox.substr (1, mediaBox.length () - 2), " ");
+  x = atoi (boxArgs[2].c_str ());
+  y = atoi (boxArgs[3].c_str ());
+  debug(dlTrace, string("Page size is ") + toString(x) + string(" by ") +
+	toString(y));
+  if((x == 0) || (y == 0)){
+    debug(dlError, "Invalid page size");
+    return false;
+  }
+
+  return true;
+}
+
+object&
+pdfDoc::getPagesObject()
+{
+  return m_pdf->getPagesObject();
 }

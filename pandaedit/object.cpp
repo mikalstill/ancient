@@ -134,6 +134,10 @@ object::hasDictItem (dictitem::diType type, string dname)
 	{
 	  return true;
 	}
+      else
+	{
+	  debug(dlWarning, "hasDictItem hit had wrong type");
+	}
     }
   return false;
 }
@@ -347,7 +351,9 @@ object::getStreamLength ()
 void
 object::appendCommand(string commandString)
 {
-  debug(dlTrace, "Appending a new drawing command");
+  debug(dlTrace, "Appending the following command to an object:");
+  debug(dlTrace, commandString);
+  debug(dlTrace, "End command");
   m_commands.push_back(commandString);
   m_changed = true;
 }

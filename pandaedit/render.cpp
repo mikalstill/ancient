@@ -10,96 +10,53 @@
 #include "raster.h"
 #include "verbosity.h"
 
-pdfRender::pdfRender (pdf & thePDF, object page, object pages, int pageno):
-m_page (page),
-m_pages (pages),
+pdfRender::pdfRender (pdfDoc *theDoc, int pageno):
+m_doc(theDoc),
 m_mode (rmGraphics),
-m_invalid (true),
 m_plot (NULL),
-m_pdf (thePDF),
 m_hasLine (false),
 m_pageno (pageno)
-{
-  if (!m_page.hasDictItem (dictitem::diTypeObjectReference, "Contents"))
-    {
-      debug(dlTrace, "Contents is not an object reference");
-    }
-  if (!m_page.getDict ().getValue ("Contents", m_pdf, m_contents))
-    {
-      debug(dlError,
-	    "Bad PDF: Could not get contents object, but the page references it!");
-    }
-
-  m_invalid = false;
-}
-
-// Not yet implemented (private)
-pdfRender::pdfRender (const pdfRender & other):
-m_page (objNumNoSuch, objNumNoSuch),
-m_pages (other.m_pages),
-m_pdf (""),
-m_hasLine (false),
-m_pageno (-1)
 {
 }
 
 bool
 pdfRender::render ()
 {
-  if((m_page.getCommandCount() == 0) && !parseStream())
+  if(m_plot == NULL)
+    {
+      // Find the size of the page and setup a plot
+      debug(dlTrace, "Commence render");
+      if(!m_doc->getPageSize(m_pageno, m_width, m_height))
+	return false;
+
+#if defined HAVE_LIBMPLOT
+      if ((m_plot = plot_newplot (m_width, m_height)) == NULL)
+	{
+	  debug(dlError, "Failed to initialize new page plot");
+	  return false;
+	}
+#else
+      debug(dlError, "Libmplot not found at configure time. Graphics "
+	    "functionality is therefore not available");
+#endif
+    }
+
+  if((m_doc->getPage(m_pageno).getCommandCount() == 0) && !parseStream())
     {
       return false;
     }
 
-  processCommandString(m_pages.getCommandStream(), false);
+  processCommandString(m_doc->getPage(m_pageno).getCommandStream(), false);
+  return true;
 }
 
 bool
 pdfRender::parseStream ()
 {
-  // Find the size of the page and setup a plot
-  // todo_mikal: fix this
-  debug(dlTrace, "Commence render");
-
-  if (m_plot != NULL)
-    debug(dlTrace, "Memory leak as render called more than once");
-
-  string mediaBox;
-  m_page.getDict ().getValue ("MediaBox", mediaBox);
-  if(mediaBox == ""){
-    debug(dlTrace, "No page size specified in page object, trying pages object...");
-    m_pages.getDict ().getValue ("MediaBox", mediaBox);
-  }
-  if(mediaBox == ""){
-    debug(dlError, "The document does not specify a page size");
-    return false;
-  }
-
-  stringArray boxArgs (mediaBox.substr (1, mediaBox.length () - 2), " ");
-  m_width = atoi (boxArgs[2].c_str ());
-  m_height = atoi (boxArgs[3].c_str ());
-  debug(dlTrace, string("Page size is ") + toString(m_width) + string(" by ") +
-	toString(m_height));
-  if((m_width == 0) || (m_height == 0)){
-    debug(dlError, "Invalid page size");
-    return false;
-  }
-
-#if defined HAVE_LIBMPLOT
-  if ((m_plot = plot_newplot (m_width, m_height)) == NULL)
-    {
-      debug(dlError, "Failed to initialize new page plot");
-      return false;
-    }
-
   for(unsigned int i = 0; i < m_contents.size(); i++){
     if(!processContentsObject(m_contents[i]))
       return false;
   }
-#else
-  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
-	" is therefore not available");
-#endif
 }
 
 bool
@@ -143,7 +100,9 @@ pdfRender::processCommandString(string commandString, bool parsing)
       else
 	{
 	  // Process the line
-	  debug(dlTrace, string("Process line \"") + line + string("\""));
+	  debug(dlTrace, string("Process line \"") + line + 
+		string("\" when ") + (parsing ? string("") : string("not ")) +
+		string("parsing"));
 	  processLine (line, parsing);
 	  line = "";
 	}
@@ -158,6 +117,12 @@ pdfRender::processLine (string line, bool parsing)
   if (line.length () < 1)
     {
       debug(dlTrace, "Empty line");
+      return;
+    }
+
+  if(m_plot == NULL)
+    {
+      debug(dlError, "Not plot for this page defined");
       return;
     }
 
@@ -303,12 +268,6 @@ pdfRender::pushArguement (string arg)
 string
 pdfRender::getPNGfile ()
 {
-  if (m_invalid)
-    {
-      debug(dlTrace, "Page render is invalid");
-      return "";
-    }
-
   FILE *image;
   unsigned int i;
   png_uint_32 rowbytes;
@@ -402,5 +361,5 @@ pdfRender::getPNGfile ()
 void
 pdfRender::appendCommand(string commandString)
 {
-  m_page.appendCommand(commandString);
+  m_doc->getPage(m_pageno).appendCommand(commandString);
 }

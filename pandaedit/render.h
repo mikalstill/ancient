@@ -4,6 +4,7 @@
 
 #include "objectmodel.h"
 #include "matrix.h"
+#include "pdfDoc.h"
 
 #ifndef RENDER_H
 #define RENDER_H
@@ -11,14 +12,12 @@
 class pdfRender
 {
 public:
-  pdfRender (pdf & thePDF, object page, object pages, int pageno);
+  pdfRender (pdfDoc *theDoc, int pageno);
   bool render ();
   bool parseStream ();
   string getPNGfile ();
 
 private:
-  pdfRender (const pdfRender & other);
-  
   bool processContentsObject(const object &obj);
   void processCommandString(string commandString, bool parsing);
 
@@ -106,13 +105,11 @@ private:
     rmGraphics
   };
 
-  object m_page, m_pages;
+  pdfDoc *m_doc;
   objectlist m_contents;
   rmMode m_mode;
   matrix m_textMatrix, m_textLineMatrix, m_graphicsMatrix;
     stack < string > m_arguements;
-  bool m_invalid;
-  pdf m_pdf;
   bool m_hasLine;
   int m_pageno;
 

@@ -53,7 +53,7 @@ public:
   dictitem ();
   dictitem (string name, pdf *thePDF);
 
-  void setValue (string value);
+  void setValue (string value, bool isName);
   void setValue (int num, int gen);
   void setValue (int integer);
   void setValue (dictionary dict);
@@ -162,7 +162,7 @@ class objectlist
 public:
   objectlist ();
   objectlist (string input, pdf* thePDF);
-  object operator[] (unsigned int i);
+  object& operator[] (unsigned int i);
   unsigned int size ();
   void push_back(const objectreference &ref, pdf* thePDF);
   void push_back(const object &obj, pdf* thePDF);
@@ -188,8 +188,11 @@ public:
   bool findObject (int number, int generation, object & obj);
 
   vector < object > &getObjects ();
-  objectlist getPages ();
   string getFilename();
+
+  objectlist getPages ();
+  object& getCatalogObject();
+  object& getPagesObject();
 
 private:
   string m_filename;

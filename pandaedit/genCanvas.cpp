@@ -97,7 +97,7 @@ genCanvas::OnMouseEvent (wxMouseEvent & event)
 	    toString(m_controlPoints[i].y) + string(" l\n");
 	}
       if(m_controlPoints.size() > 0)
-	commandString += string("S");
+	commandString += string("S\n");
 
       if(m_view)
 	{

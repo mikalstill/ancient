@@ -15,10 +15,10 @@ dictitem::dictitem ():
 }
 
 void
-dictitem::setValue (string value)
+dictitem::setValue (string value, bool isName)
 {
   m_string = value;
-  m_type = diTypeString;
+  m_type = isName ? diTypeName : diTypeString;
 }
 
 void

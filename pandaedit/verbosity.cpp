@@ -24,6 +24,9 @@ void debug(debugLevel dl, string message){
       gStartSecs  = timeInfo.time;
     
     gLog << (timeInfo.time - gStartSecs) <<"." << timeInfo.millitm << ": ";
+    if(dl == dlTrace)
+      gLog << "\t\t";
+
     gLog << message << endl;
   }
 }

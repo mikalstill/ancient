@@ -155,7 +155,7 @@ pdfRender::render_Do ()
   m_arguements.pop ();
 
   dictionary resdict;
-  if (!m_page.getDict ().getValue ("Resources", resdict))
+  if (!m_doc->getPage(m_pageno).getDict ().getValue ("Resources", resdict))
     {
       debug(dlTrace, "Resource dictionary not found");
       return;
@@ -169,7 +169,8 @@ pdfRender::render_Do ()
     }
 
   object image (objNumNoSuch, objNumNoSuch);
-  if (!xobj.getValue (arg.substr (1, arg.length () - 1), m_pdf, image))
+  if (!xobj.getValue (arg.substr (1, arg.length () - 1), *(m_doc->getPDF()), 
+		      image))
     {
       debug(dlTrace, "Named resource does not exist");
       return;
@@ -380,6 +381,7 @@ pdfRender::render_l ()
     }
 
 #if defined HAVE_LIBMPLOT
+  debug(dlTrace, "Adding line segment");
   plot_addlinesegment (m_plot, x, y);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
@@ -409,6 +411,7 @@ pdfRender::render_m ()
 #if defined HAVE_LIBMPLOT
   if (m_hasLine)
     plot_endline (m_plot);
+  debug(dlTrace, "Setting line start");
   plot_setlinestart (m_plot, x, y);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
@@ -526,6 +529,7 @@ void
 pdfRender::render_S ()
 {
 #if defined HAVE_LIBMPLOT
+  debug(dlTrace, "Stroking line");
   plot_strokeline (m_plot);
 #else
   debug(dlError, "Libmplot not found at configure time. Graphics functionality"
@@ -583,7 +587,7 @@ pdfRender::render_Tf ()
   string fontResource, fontFile ("px10.ttf");
   bool fontFound (false);
 
-  if (!m_page.getDict ().getValue ("Resources", resources))
+  if (!m_doc->getPage(m_pageno).getDict ().getValue ("Resources", resources))
     {
       debug(dlTrace, "Font not found (no resources)");
     }
@@ -592,7 +596,8 @@ pdfRender::render_Tf ()
       debug(dlTrace, "Font not found (no font entry in resources)");
     }
   else if (!fonts.
-	   getValue (fontName.substr (1, fontName.length ()), m_pdf, font))
+	   getValue (fontName.substr (1, fontName.length ()), 
+		     *(m_doc->getPDF()), font))
     {
       debug(dlTrace, "Font not found (named font not listed in resources)");
     }

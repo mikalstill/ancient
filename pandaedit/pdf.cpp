@@ -3,6 +3,8 @@
 #include "verbosity.h"
 #include "utility.h"
 
+object gNoSuchObject(objNumNoSuch, objNumNoSuch);
+
 pdf::pdf ():
   m_filename(""),
   m_previousEnd(objNumNoSuch, objNumNoSuch),
@@ -43,8 +45,6 @@ pdf::addObject (object& theObject)
 bool
 pdf::findObject (int number, int generation, object & obj)
 {
-  debug(dlTrace, string("Finding object ") + toString(number) +
-	string(" ") + toString(generation));
   for (unsigned int i = 0; i < m_objects.size (); i++)
     {
       if ((m_objects[i].getNumber () == number) &&
@@ -64,7 +64,6 @@ bool
 pdf::findObject (dictitem::diType type, string dname, string dvalue,
 		 object & obj)
 {
-  debug(dlTrace, string("Finding object ") + dname);
   for (unsigned int i = 0; i < m_objects.size (); i++)
     {
       if (m_objects[i].hasDictItem (type, dname, dvalue))
@@ -84,38 +83,47 @@ vector < object > &pdf::getObjects ()
   return m_objects;
 }
 
+object&
+pdf::getCatalogObject()
+{
+  debug(dlTrace, "Extracting the catalog");
+  object & catalog = gNoSuchObject;
+  if (!findObject (dictitem::diTypeName, "Type", "Catalog", catalog))
+    {
+      debug(dlError, "Bad PDF: No catalog");
+    }
+
+  return catalog;
+}
+
+object&
+pdf::getPagesObject()
+{
+  object& catalog = getCatalogObject();
+  if (!catalog.hasDictItem (dictitem::diTypeObjectReference, "Pages"))
+    {
+      debug(dlError, "Bad PDF: No pages object refered to in catalog");
+      return gNoSuchObject;
+    }
+  object & pages = gNoSuchObject;
+  if (!catalog.getDict ().getValue ("Pages", *this, pages))
+    {
+      debug(dlTrace, "Bad PDF: Could not get pages object, but the catalog "
+	    "references it!");
+      return gNoSuchObject;
+    }
+  
+  return pages;
+}
+
 objectlist
 pdf::getPages ()
 {
   try
   {
-    object foo (objNumNoSuch, objNumNoSuch);
-
-    // Find the catalog -- I could probably miss this step, but it seems like
-    // a good idea for now...
-    debug(dlTrace, "Extracting the catalog");
-    object & catalog = foo;
-    if (!findObject (dictitem::diTypeName, "Type", "Catalog", catalog))
-      {
- 	debug(dlError, "Bad PDF: No catalog");
-	return objectlist();
-      }
-    
-    // Now find the pages object as refered to by the catalog
-    debug(dlTrace, string("Catalog object is ") + 
-	  toString(catalog.getNumber()) + string(" ") +
-	  toString(catalog.getGeneration()));
-    if (!catalog.hasDictItem (dictitem::diTypeObjectReference, "Pages"))
-      {
-	debug(dlError, "Bad PDF: No pages object refered to in catalog");
-	return objectlist();
-      }
-    object & pages = foo;
-    if (!catalog.getDict ().getValue ("Pages", *this, pages))
-      {
-	debug(dlTrace, "Bad PDF: Could not get pages object, but the catalog references it!");
-	return objectlist();
-      }
+    object& pages = getPagesObject();
+    if(pages.getNumber() == objNumNoSuch)
+      return objectlist();
     
     // Now find all the page objects referenced in the pages object
     string kids;
@@ -152,14 +160,7 @@ void
 pdf::appendPage(object& thePage)
 {
   debug(dlTrace, "PDF appending page");
-
-  object foo(objNumNoSuch, objNumNoSuch);
-  object & pages = foo;
-  if (!findObject (dictitem::diTypeName, "Type", "Pages", pages))
-    {
-      debug(dlError, "Bad PDF for page append: No pages");
-      return;
-    }
+  object & pages = getPagesObject();
   
   debug(dlTrace, "Finding the kids list within the pages object");
   objectlist footoo;
@@ -174,7 +175,7 @@ pdf::appendPage(object& thePage)
   // not the actual storage. We thus need to push this back into the
   // dictionary...
   kids.push_back(thePage, this);
-   if(!pages.getDict().setValue("Kids", kids))
+  if(!pages.getDict().setValue("Kids", kids))
     {
       debug(dlError, "Could not update kids list");
       return;

@@ -72,7 +72,7 @@ public:
   
 
 private:
-  bool populatePageFromPDF(pdf *thePDF, string& filename);
+  bool populatePageFromPDF(pdfDoc *theDoc, string& filename);
 
   pageCache m_renders;
   int m_page;

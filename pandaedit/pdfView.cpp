@@ -158,7 +158,7 @@ pdfView::OnDraw (wxDC * dc)
   if(theDoc->getPDF() != NULL)
     { 
       if(((filename == "") || (m_dirty == true)) && 
-	 populatePageFromPDF(theDoc->getPDF(), filename))
+	 populatePageFromPDF(theDoc, filename))
 	{
 	  // And now we can assume that there is a PNG somewhere out there we
 	  // can paint...
@@ -185,32 +185,10 @@ pdfView::OnDraw (wxDC * dc)
 }
 
 bool
-pdfView::populatePageFromPDF(pdf *thePDF, string& filename)
+pdfView::populatePageFromPDF(pdfDoc* theDoc, string& filename)
 {
   try{
-    object foo(objNumNoSuch, objNumNoSuch);
-    
-    // Find the catalog -- I could probably miss this step, but it seems like
-    // a good idea for now...
-    debug(dlTrace, "Extracting the catalog");
-    object& catalog = foo;
-    if(!thePDF->findObject(dictitem::diTypeName, "Type", "Catalog", catalog)){
-      debug(dlError, "Bad PDF document: No catalog");
-      return false;
-    }
-    
-    // Now find the pages object as refered to by the catalog
-    if(!catalog.hasDictItem(dictitem::diTypeObjectReference, "Pages")){
-      debug(dlError, "Bad PDF: No pages object refered to in catalog");
-      return false;
-    }
-    
-    object& pages = foo;
-    if(!catalog.getDict().getValue("Pages", *thePDF, pages)){
-      debug(dlError, 
-	    "Bad PDF: Could not get pages object, but the catalog references it!");
-      return false;
-      }
+    object& pages = theDoc->getPagesObject();
     
     // Now find all the page objects referenced in the pages object
     string kids;
@@ -220,13 +198,13 @@ pdfView::populatePageFromPDF(pdf *thePDF, string& filename)
     }
     
     // Find the pages, and then display the relevant page
-    objectlist pagelist(kids, thePDF);
+    objectlist pagelist(kids, theDoc->getPDF());
     if(kids.size() < m_page){
       debug(dlError, "Request for a page which doesn't exist");
       return false;
     }
 
-    pdfRender renPage(*thePDF, pagelist[m_page], pages, m_page);
+    pdfRender renPage(theDoc, m_page);
     if(!renPage.render()){
       debug(dlError, "Page render failed");
       return false;
