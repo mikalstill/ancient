@@ -98,3 +98,5 @@
 2002-09-09 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
         further changes in structure of fft calling
 
+2002-09-20 Daniel Fernandez daniel.fernandez@ise.canberra.edu.au
+        added frequecny scaling
