@@ -1,7 +1,7 @@
-mcachefs is a simple caching filesystem using FUSE. It works by copying the file that
-you asked for when the file is opened, and then using that copy for all subsequent
-requests for the file. This is really a fairly naive approach to caching, and will be
-improved in the future. It's good enough for now though.
+mcachefs is a simple caching filesystem for Linux using FUSE. It works by copying the 
+file that you asked for when the file is opened, and then using that copy for all 
+subsequent requests for the file. This is really a fairly naive approach to caching, 
+and will be improved in the future. It's good enough for now though.
 
 mcachefs needs two filesystems to operate. The target filesystem is the slow filesystem
 you want to cache accesses to, and the backing filesystem is where mcachefs can stash
