@@ -1,0 +1,19 @@
+TITLE: Development Environment (Blake)
+
+<li>C++
+  <ul>
+  <li>Object Oriented
+  <li>Modular design
+  <li>Language features
+  </ul>
+<li>Automake
+  <ul>
+  <li>Simplifies the build enviroment
+  <li>Facilitates cross-platform development
+  </ul>
+<li>CVS
+  <ul>
+  <li>Provides audit trail
+  <li>Promotes distributed development
+  <li>Centralised and Backed-up
+  </ul>
