@@ -1060,8 +1060,10 @@ This example shows you how to read in the raster data that is embedded into the 
 
 <sect1><title>Writing a PNG image</title>
 <para>
-...
+Wrinting a PNG file is <emphasis>very</emphasis> to reading the PNG file. The example below extends the code from above to open a PNG file, and then copy it to a new PNG file.
 </para>
+
+<execute><cmd>code2db.pl</cmd><input>~mikal/opensource/png-write/write.c</input></execute>
 </sect1>
 
 <sect1><title>Writing a paletted image</title>
