@@ -1,0 +1,41 @@
+Vector demonstration
+
+Constructing 1
+Copying 1
+Destructor for 1
+
+Constructing 2
+Copying 1
+Copying 2
+Destructor for 1
+Destructor for 2
+
+Constructing 3
+Copying 1
+Copying 2
+Copying 3
+Destructor for 1
+Destructor for 2
+Destructor for 3
+
+Constructing 4
+Copying 4
+Destructor for 4
+
+Constructing 5
+Copying 1
+Copying 2
+Copying 3
+Copying 4
+Copying 5
+Destructor for 1
+Destructor for 2
+Destructor for 3
+Destructor for 4
+Destructor for 5
+
+Destructor for 1
+Destructor for 2
+Destructor for 3
+Destructor for 4
+Destructor for 5
