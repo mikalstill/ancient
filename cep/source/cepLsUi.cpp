@@ -220,7 +220,7 @@ cepLsUi::cepLsUi() {}
 
 void cepLsUi::showIsReweight()
 {
-  wxMessageDialog dlg(NULL, "Do you wish to use the Automatic Re-weighting Fuction?", "Least Squares Regression", wxYES_NO|wxCANCEL);
+  wxMessageDialog dlg(NULL, "Do you wish to use the Automatic Re-weighting Function?", "Least Squares Regression", wxYES_NO|wxCANCEL);
 
   dlg.Center();
   
@@ -327,6 +327,7 @@ void cepLsUi::showWeight(double startDate, double endDate, double val)
       m_fromDay = "-1.0";
       m_toDay = "-1.0";
       m_val = "-1.0";
+      return;
     }                          
     else
     {
