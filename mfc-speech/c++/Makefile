@@ -1,4 +1,4 @@
-all: codebook encode
+all: codebook encode hmminit
 
 codebook: gencode.o mfc.o lbg.o
 	c++ gencode.o mfc.o lbg.o -o codebook
@@ -17,6 +17,9 @@ mfc.o: mfc.cpp mfc.h world.h
 
 lbg.o: lbg.cpp lbg.h world.h
 	c++ -c -Wall -ggdb lbg.cpp -o lbg.o
+
+hmminit: hmminit.cpp
+	c++ hmminit.cpp -o hmminit
 
 clean:
 	rm -f *.o codebook encode

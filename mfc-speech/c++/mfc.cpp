@@ -57,18 +57,17 @@ mfcFrame::operator- (mfcFrame other)
 }
 
 // Returns a non empty string if there was an error
-string
-mfc::add (mfcFrame & frame)
+string mfc::add (mfcFrame & frame)
 {
   m_frames.push_back (frame);
   return string ("");
 }
 
 // Returns a non empty string if there was an error
-string
-mfc::add (string & filename)
+string mfc::add (string & filename)
 {
-  fstream file;
+  fstream
+    file;
 
   // Open the file
   file.open (filename.c_str (), ios::in);
@@ -78,10 +77,19 @@ mfc::add (string & filename)
     }
 
   // Read until end of file
-  int stage (0), col (0), numframes, timescale, bytes, type;
-  char c;
-  string line ("");
-  mfcFrame f;
+  int
+  stage (0),
+  col (0),
+    numframes,
+    timescale,
+    bytes,
+    type;
+  char
+    c;
+  string
+  line ("");
+  mfcFrame
+    f;
 
   while (!file.eof ())
     {
@@ -137,18 +145,19 @@ mfcFrame & mfc::getFrame (size_t index)
   return m_frames[index];
 }
 
-size_t
-mfc::size ()
+size_t mfc::size ()
 {
   return m_frames.size ();
 }
 
-mfcFrame
-mfc::centroid ()
+mfcFrame mfc::centroid ()
 {
-  mfcFrame cent;
-  size_t i;
-  int j;
+  mfcFrame
+    cent;
+  size_t
+    i;
+  int
+    j;
 
   for (i = 0; i < 10; i++)
     cent.setC (i, 0.0);

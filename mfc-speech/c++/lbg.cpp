@@ -19,8 +19,7 @@ m_recenters (0), m_donations (0)
     }
 }
 
-size_t
-codebook::size ()
+size_t codebook::size ()
 {
   return m_table.size ();
 }
@@ -230,6 +229,7 @@ codebook::save (string filename)
     }
 }
 
+// Encode the vectors
 vector < int >
 codebook::encode (mfc & target)
 {
@@ -258,6 +258,7 @@ codebook::encode (mfc & target)
   return output;
 }
 
+// Used for display
 ostream & operator << (ostream & stream, codebook cb)
 {
   size_t i;

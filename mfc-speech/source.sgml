@@ -47,7 +47,7 @@ The fundamental frequency is calculated by the autocorrelation function in the c
 
 <sect3><title>Plot all three of the above contours with a common time axis and on that plot mark the phoneme boundaries and label the phonemes</title>
 <para>
-Please refer the to next page for this graph, with annotation.
+Please refer the to next page for this graph, with annotation. The phonemes were selected based on reference to the Cambridge online dictionary (http://dictionary.cambridge.org), and the various notes distributed in class.
 </para>
 </sect3>
 
@@ -204,6 +204,14 @@ These are the encoded files:
 <para>
 The LBG VQ algorithm used in this part was verified by the use of selected dummy MFC files which a much smaller number of samples. This allowed me to manually calculate the correct cloud centroids et cetera, and then verify this against the program.
 </para>
+</sect2>
+
+<sect2><title>HMM initialization</title>
+<para>
+The following code was used for HMM initialization:
+</para>
+
+<execute><cmd>code2db</cmd><args>3</args><input>c++/hmminit.cpp</input></execute>
 </sect2>
 </sect1>
 </article>

@@ -112,7 +112,7 @@ The fundamental frequency is calculated by the autocorrelation function in the c
 
 <sect3><title>Plot all three of the above contours with a common time axis and on that plot mark the phoneme boundaries and label the phonemes</title>
 <para>
-Please refer the to next page for this graph, with annotation.
+Please refer the to next page for this graph, with annotation. The phonemes were selected based on reference to the Cambridge online dictionary (http://dictionary.cambridge.org), and the various notes distributed in class.
 </para>
 </sect3>
 
@@ -490,8 +490,7 @@ m_recenters (0), m_donations (0)
     }
 }
 
-size_t
-codebook::size ()
+size_t codebook::size ()
 {
   return m_table.size ();
 }
@@ -701,6 +700,7 @@ codebook::save (string filename)
     }
 }
 
+// Encode the vectors
 vector &lt; int &gt;
 codebook::encode (mfc &amp; target)
 {
@@ -729,6 +729,7 @@ codebook::encode (mfc &amp; target)
   return output;
 }
 
+// Used for display
 ostream &amp; operator &lt;&lt; (ostream &amp; stream, codebook cb)
 {
   size_t i;
@@ -846,18 +847,17 @@ mfcFrame::operator- (mfcFrame other)
 }
 
 // Returns a non empty string if there was an error
-string
-mfc::add (mfcFrame &amp; frame)
+string mfc::add (mfcFrame &amp; frame)
 {
   m_frames.push_back (frame);
   return string ("");
 }
 
 // Returns a non empty string if there was an error
-string
-mfc::add (string &amp; filename)
+string mfc::add (string &amp; filename)
 {
-  fstream file;
+  fstream
+    file;
 
   // Open the file
   file.open (filename.c_str (), ios::in);
@@ -867,10 +867,19 @@ mfc::add (string &amp; filename)
     }
 
   // Read until end of file
-  int stage (0), col (0), numframes, timescale, bytes, type;
-  char c;
-  string line ("");
-  mfcFrame f;
+  int
+  stage (0),
+  col (0),
+    numframes,
+    timescale,
+    bytes,
+    type;
+  char
+    c;
+  string
+  line ("");
+  mfcFrame
+    f;
 
   while (!file.eof ())
     {
@@ -926,18 +935,19 @@ mfcFrame &amp; mfc::getFrame (size_t index)
   return m_frames[index];
 }
 
-size_t
-mfc::size ()
+size_t mfc::size ()
 {
   return m_frames.size ();
 }
 
-mfcFrame
-mfc::centroid ()
+mfcFrame mfc::centroid ()
 {
-  mfcFrame cent;
-  size_t i;
-  int j;
+  mfcFrame
+    cent;
+  size_t
+    i;
+  int
+    j;
 
   for (i = 0; i &lt; 10; i++)
     cent.setC (i, 0.0);
@@ -1052,7 +1062,7 @@ void load (mfc &amp; data, string filename);
 
 <sect3><title>Code: c++/Makefile</title>
 <programlisting>
-all: codebook encode
+all: codebook encode hmminit
 
 codebook: gencode.o mfc.o lbg.o
 	c++ gencode.o mfc.o lbg.o -o codebook
@@ -1071,6 +1081,9 @@ mfc.o: mfc.cpp mfc.h world.h
 
 lbg.o: lbg.cpp lbg.h world.h
 	c++ -c -Wall -ggdb lbg.cpp -o lbg.o
+
+hmminit: hmminit.cpp
+	c++ hmminit.cpp -o hmminit
 
 clean:
 	rm -f *.o codebook encode
@@ -1222,6 +1235,201 @@ These are the encoded files:
 <para>
 The LBG VQ algorithm used in this part was verified by the use of selected dummy MFC files which a much smaller number of samples. This allowed me to manually calculate the correct cloud centroids et cetera, and then verify this against the program.
 </para>
+</sect2>
+
+<sect2><title>HMM initialization</title>
+<para>
+The following code was used for HMM initialization:
+</para>
+
+<sect3><title>Code: c++/hmminit.cpp</title>
+<programlisting>
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+
+typedef vector &lt; float &gt;matrixcol;
+
+matrixcol readFile (string filename);
+void readInFile (string filename, vector &lt; matrixcol &gt; &amp;mat, int &amp;size);
+
+int
+main (int argc, char *argv[])
+{
+  vector &lt; matrixcol &gt; obs, a, b;
+  matrixcol p, file;
+  int nobs (0);
+  float rprob;
+
+  // Read in the encoded files (not that these columns are not padded, this
+  // is implicitly done later)
+  readInFile (argv[1], obs, nobs);
+  readInFile (argv[2], obs, nobs);
+  readInFile (argv[3], obs, nobs);
+
+  // What was the maximum length of a vector read in
+  cout &lt;&lt; "Maximum length: " &lt;&lt; nobs &lt;&lt; endl;
+
+  // Generate p (aka pi)
+  for (int i = 0; i &lt; nobs - 1; i++)
+    {
+      p.push_back (0.0);
+    }
+  p.push_back (1.0);
+
+  // Generate A
+  a.resize (nobs);
+  for (int i = 0; i &lt; nobs; i++)
+    {
+      a[i].resize (nobs);
+
+      for (int j = 0; j &lt; nobs; j++)
+	{
+	  if (i == j)
+	    a[i][j] = 0.5;
+	  else if (i - 1 == j)
+	    a[i][j] = 0.5;
+	  else
+	    a[i][j] = 0.0;
+	}
+    }
+  cout &lt;&lt; nobs * nobs &lt;&lt; " values inserted into A matrix" &lt;&lt; endl;
+
+  // Initialise B
+  b.resize (nobs);
+  for (int i = 0; i &lt; nobs; i++)
+    {
+      b[i].resize (nobs);
+
+      for (int j = 0; j &lt; nobs; j++)
+	{
+	  b[i][j] = 1 / 320;
+	}
+    }
+  cout &lt;&lt; nobs * nobs &lt;&lt; " values inserted into B matrix" &lt;&lt; endl;
+
+  // Calculate remaining probability
+  rprob = 1.0 - (32.0 / 320.0);
+  cout &lt;&lt; "Remaining probability is: " &lt;&lt; rprob &lt;&lt; endl;
+
+  // Regenerate B
+  vector &lt; matrixcol &gt; count;
+  count.resize (nobs);
+  vector &lt; int &gt;totalcount;
+  totalcount.resize (nobs);
+
+  for (int v = 0; v &lt; nobs; v++)
+    {
+      count[v].resize (nobs);
+
+      for (int o = 0; o &lt; nobs; o++)
+	{
+	  int i = o / nobs * obs.size ();
+	  count[i][v]++;
+	  totalcount[i]++;
+	}
+    }
+
+  // Put the new values into B
+  for (int i = 0; i &lt; nobs; i++)
+    {
+      for (int j = 0; j &lt; nobs; j++)
+	{
+	  b[i][j] += count[i][j] * rprob / totalcount[j];
+	}
+    }
+
+  // Write this out to a file
+  fstream files;
+
+  files.open (argv[4], ios::out);
+  if (!files)
+    {
+      cerr &lt;&lt; "Could not open output file: " &lt;&lt; argv[4] &lt;&lt; endl;
+      exit (3);
+    }
+
+  // PI
+  files &lt;&lt; "pi = ";
+  for (int i = 0; i &lt; nobs; i++)
+    {
+      files &lt;&lt; p[i] &lt;&lt; " ";
+    }
+  files &lt;&lt; endl &lt;&lt; endl;
+
+  // A
+  files &lt;&lt; "A = " &lt;&lt; endl;
+  for (int i = 0; i &lt; nobs; i++)
+    {
+      for (int j = 0; j &lt; nobs; j++)
+	{
+	  files &lt;&lt; a[i][j] &lt;&lt; " ";
+	}
+      files &lt;&lt; endl;
+    }
+  files &lt;&lt; endl &lt;&lt; endl;
+
+  // B
+  files &lt;&lt; "B = " &lt;&lt; endl;
+  for (int i = 0; i &lt; nobs; i++)
+    {
+      for (int j = 0; j &lt; nobs; j++)
+	{
+	  files &lt;&lt; b[i][j] &lt;&lt; " ";
+	}
+      files &lt;&lt; endl;
+    }
+  files &lt;&lt; endl &lt;&lt; endl;
+}
+
+// Read in a file into the matrix
+void
+readInFile (string filename, vector &lt; matrixcol &gt; &amp;mat, int &amp;size)
+{
+  matrixcol temp;
+
+  temp = readFile (filename);
+  mat.push_back (temp);
+
+  cout &lt;&lt; "Read a vector of length: " &lt;&lt; temp.size () &lt;&lt; endl;
+  if (temp.size () &gt; size)
+    {
+      size = temp.size ();
+    }
+}
+
+// Read in the given file into a vector
+matrixcol
+readFile (string filename)
+{
+  fstream file;
+  matrixcol retval;
+
+  // Open the file
+  file.open (filename.c_str (), ios::in);
+  if (!file)
+    {
+      cerr &lt;&lt; "Could not open file " &lt;&lt; file &lt;&lt; " for reading" &lt;&lt; endl;
+      exit (2);
+    }
+
+  // Read all of the values from the file
+  while (!file.eof ())
+    {
+      float temp;
+      file &gt;&gt; temp;
+
+      retval.resize (retval.size () + 1);
+      retval[retval.size ()] = temp;
+    }
+
+  // Cleanup and return
+  file.close ();
+  return retval;
+}
+</programlisting>
+</sect3>
 </sect2>
 </sect1>
 </article>
