@@ -27,7 +27,7 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 
 namespace {
@@ -54,7 +54,7 @@ protected:
    */
   void testRectangular ()
   {
-    cout << "testing rectangular ... " << endl;
+//    cout << "testing rectangular ... " << endl;
     
     windower->setWindowType( cepDataWindower::WINDOW_RECTANGULAR, 10, 0 );
 
@@ -93,15 +93,14 @@ protected:
    */
   void testHamming ()
   {
-    cout << "testing hamming ... " << endl;
+//    cout << "testing hamming ... " << endl;
     int size = 100;
     windower->setWindowType( cepDataWindower::WINDOW_HAMMING, size, 0 );
     
     cepMatrix<double> result;
     windower->window( makeData( size ), result );
 
-    ofstream f("windows.txt", ios::trunc);
-    f << "Hamming Window Output" << endl;
+    ofstream f("hamming.txt", ios::trunc);
     for( int i=0; i<result.getNumCols(); ++i ) {
       f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
     }
@@ -115,15 +114,14 @@ protected:
    */
   void testBlackman ()
   {
-    cout << "testing blackman ... " << endl;
+//    cout << "testing blackman ... " << endl;
     int size = 100;
     windower->setWindowType( cepDataWindower::WINDOW_BLACKMAN, size, 0 );
 
     cepMatrix<double> result;
     windower->window( makeData( size ), result );
 
-    ofstream f("windows.txt", ios::app);
-    f << endl << endl << "Blackman Window Output" << endl;
+    ofstream f("blackman.txt", ios::trunc);
     for( int i=0; i<result.getNumCols(); ++i ) {
       f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
     }
@@ -139,10 +137,9 @@ protected:
    */
   void testChebyshev ()
   {
-    cout << "testing chebyshev ... " << endl;
+//     cout << "testing chebyshev ... " << endl;
     int size = 99;
     windower->setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
-
     cepMatrix<double> result;
     cepMatrix<double> input = makeData( size );
     cepError err = windower->window( input , result );
@@ -151,8 +148,7 @@ protected:
     }
       
 
-    ofstream f("windows.txt", ios::app);
-    f << endl << endl << "Dolph Chebyshev Window Output" << endl;
+    ofstream f("chebyshev.txt", ios::trunc);
     for( int i=0; i<result.getNumCols(); ++i ) {
       f << result.getValue(0, i, 0) << ' ' << result.getValue(0, i, 1) << endl;
     }
