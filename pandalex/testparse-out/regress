@@ -1,0 +1,43 @@
+#!/usr/local/bin/perl
+
+use strict;
+my($FAILLIST, $OKLIST, $INPUTFILE);
+my(%tested);
+my($key, $value);
+
+open FAILLIST, "ls *.fail|";
+open OKLIST, "ls *.ok|";
+
+while(<FAILLIST>){
+  open INPUTFILE, "$_" or die "Couldn't open $_\n";
+
+  while(<INPUTFILE>){
+    if(/[0-9A-Z]: (.*)/){
+      $tested{$1} = "fail";	
+    }
+    else{
+      print "Fail $_ didn't match!\n";
+    }
+  }
+
+  close INPUTFILE;
+}
+
+while(<OKLIST>){
+  open INPUTFILE, "$_" or die "Couldn't open $_\n";
+
+  while(<INPUTFILE>){
+    if(/[0-9A-Z]: (.*)/){
+      $tested{$1} = $tested{$1} . "ok";	
+    }
+    else{
+      print "Ok $_ didn't match!\n";
+    }
+  }
+
+  close INPUTFILE;
+}
+
+while(($key, $value) = each %tested){
+  print "$key - $value\n";
+}

@@ -82,6 +82,8 @@ exit(42);
 }
 %}
 
+// Initial is the default starting state
+%x BINARY
 %%
 
 \%PDF-[0-9]+\.[0-9]+    { debuglex(yytext, -1, "version", binaryMode);
@@ -244,6 +246,7 @@ endobj                  { debuglex(yytext, -1, "endobj", binaryMode);
                                                                              }
 
 stream                  { debuglex(yytext, -1, "stream", binaryMode);
+                          BEGIN(BINARY)
                           return STREAM;                                     }
 
 endstream               { debuglex(yytext, -1, "endstream", 0);
