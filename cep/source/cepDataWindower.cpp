@@ -197,8 +197,20 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
       // copy the date directly & scale the value
       // 0 is date, 1 is value, 2 is the color hint
       result.setValue(element, 0, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 ));
+      if( result.getError().isReal() ) {
+          result.getError().display();
+          break;
+      }
       result.setValue(element, 1, win, const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 1 )*coeffs.getValue(element,0));
+      if( result.getError().isReal() ) {
+          result.getError().display();
+          break;
+      }
       result.setValue(element, 2, win, color);
+      if( result.getError().isReal() ) {
+          result.getError().display();
+          break;
+      }
       
 //      cout << "scale=" << const_cast< cepMatrix<double>& >(dataIn).getValue( ptr, 0 )
 //           << "(" << result.getValue(element, 0, win) << ")"
@@ -211,7 +223,6 @@ const cepError cepDataWindower::window( const cepMatrix<double> & dataIn,
   }
 
   windowedData = result;
-
   return cepError();
 }
 
