@@ -355,12 +355,12 @@ retry:
 
       case 0:
         sleep(2);
-        system("killall -9 ui");
+        system("killall -9 gdms");
         exit(0);
         break;
 
       default:
-        int result = system(string("../ui -d ../../datasets/" + cmdline).c_str());
+        int result = system(string("../gdms -d ../../datasets/" + cmdline).c_str());
         kill(childPid, 9);
 	waitpid(childPid, NULL, 0);
         //printf("Result is %d signalled %s (%d)\n", WEXITSTATUS(result),
