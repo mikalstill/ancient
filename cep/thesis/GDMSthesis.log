@@ -1,1 +1,37 @@
-/bin/sh: builddb: command not found
+Executing: builddb eps authorgroup.sgml < authorgroup.sgml
+Executing: builddb eps glossary.sgml < glossary.sgml
+Executing: builddb eps theory_intro.sgml < theory_intro.sgml
+Executing: builddb eps theory_TDA.sgml < theory_TDA.sgml
+Executing: builddb eps theory_Interp.sgml < theory_Interp.sgml
+Executing: builddb eps theory_Window.sgml < theory_Window.sgml
+Executing: builddb eps theory_FDA.sgml < theory_FDA.sgml
+Executing: img forward_fourier.gif eps
+Img args: forward_fourier.gif eps
+Converting forward_fourier.gif -> gen-forward_fourier.eps
+Executing convert -sample 320x280 forward_fourier.gif gen-forward_fourier.eps
+Executing: img forward_fourier.gif eps
+Img args: forward_fourier.gif eps
+Converting forward_fourier.gif -> gen-forward_fourier.eps
+Executing convert -sample 320x280 forward_fourier.gif gen-forward_fourier.eps
+Executing: img inverse_fourier.gif eps
+Img args: inverse_fourier.gif eps
+Converting inverse_fourier.gif -> gen-inverse_fourier.eps
+Executing convert -sample 320x280 inverse_fourier.gif gen-inverse_fourier.eps
+Executing: img forward_discrete_fourier.gif eps
+Img args: forward_discrete_fourier.gif eps
+Converting forward_discrete_fourier.gif -> gen-forward_discrete_fourier.eps
+Executing convert -sample 320x280 forward_discrete_fourier.gif gen-forward_discrete_fourier.eps
+Executing: img inverse_discrete_fourier.gif eps
+Img args: inverse_discrete_fourier.gif eps
+Converting inverse_discrete_fourier.gif -> gen-inverse_discrete_fourier.eps
+Executing convert -sample 320x280 inverse_discrete_fourier.gif gen-inverse_discrete_fourier.eps
+Executing: builddb eps theory_UI.sgml < theory_UI.sgml
+Executing: builddb eps imp_design.sgml < imp_design.sgml
+Executing: builddb eps imp_proto.sgml < imp_proto.sgml
+Executing: builddb eps imp_issues_TDA.sgml < imp_issues_TDA.sgml
+Executing: builddb eps imp_issues_Interp.sgml < imp_issues_Interp.sgml
+Executing: builddb eps imp_issues_window.sgml < imp_issues_window.sgml
+Executing: builddb eps imp_issues_FDA.sgml < imp_issues_FDA.sgml
+Executing: builddb eps imp_issues_UI.sgml < imp_issues_UI.sgml
+Executing: builddb eps imp_Testing.sgml < imp_Testing.sgml
+Executing: builddb eps conclusion.sgml < conclusion.sgml

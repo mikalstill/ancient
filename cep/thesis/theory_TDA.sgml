@@ -19,15 +19,15 @@
     
     EQUATION 1
     
-    where <command>m</command> is the median and <command>c<command> is the y-intercept. This is usually due to the fact that there 
+    where <command>m</command> is the median and <command>c</command> is the y-intercept. This is usually due to the fact that there 
     are more data points in the system than those required to solve this equation. Linear least squares regression modeling is a 
-    method use to calculate <command>m</command> and <command>c<command> such that it is the closest aproximation
+    method use to calculate <command>m</command> and <command>c</command> such that it is the closest aproximation
     <command>y</command> for the given set of observations in the system, also known as a line of best fit. In the analyis of
     geodetic data the line of best fit is given as the solution to the matrix equation
     
     EQUATION 2
     
-    where <command>X<command> is the corrections to the apriori estimates
+    where <command>X</command> is the corrections to the apriori estimates
     
     
     EQUATION 3
@@ -37,7 +37,7 @@
     
     EQUATION 4
     
-    <command>P<command> is the <command>n</command> x <command>n</command> weighting matrix and <command>L</command> is the apriori 
+    <command>P</command> is the <command>n</command> x <command>n</command> weighting matrix and <command>L</command> is the apriori 
     matrix 
     
     EQUATION 5 
@@ -170,7 +170,7 @@
     
     EQUATION 19
     
-    operations to compute Equation 1.18. Converserly, if <command>P<command> was a non-diagonal matrix then it would take 
+    operations to compute Equation 1.18. Converserly, if <command>P</command> was a non-diagonal matrix then it would take 
     
     EQUATION 20
     
