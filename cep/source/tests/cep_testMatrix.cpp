@@ -1,8 +1,7 @@
 /***************************************************************************
- * A Sample test case to demonstrate CppUnit framework
- * This is lifted from the CppUnit cookbook document.
+ * Testing Framework for cepMatrix
  *
- * (c) Blake Swadling, 2002 ..
+ * (c) Kristy Van Der Vlist, Blake Swadling 2002 ..
  *   ( or whoever simply removes this comment and steals it for themselves )
  ***************************************************************************/
 
@@ -38,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.2 $ $Date: 2002-08-07 08:57:45 $
+ * @version $Revision: 1.3 $ $Date: 2002-08-11 07:07:43 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.2  2002/08/07 08:57:45  u983118
+ * added more tests to cep_testMatrix. More to come
+ *
  * Revision 1.1  2002/08/04 04:04:16  u982087
  * Initial revison
  *
@@ -89,7 +91,21 @@ public:
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testMulScalar", &Test::testMulScalar ) );
 
-
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testEqu1", &Test::testEqu1 ) );
+    
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testEqu2", &Test::testEqu2 ) );
+    
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testDiag1", &Test::testDiag1 ) );
+      
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testDiag2", &Test::testDiag2 ) );
+    
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testTranspose", &Test::testTranspose ) );
+          
     return suiteOfTests;
   }
 
@@ -184,19 +200,19 @@ protected:
   {
     int aRows = 3, aCols = 3;
     int bRows = 3, bCols = 2;
-    double expected = 97.2;
+    double expected = 84.42;
     
     cepMatrix A( aRows, aCols ), B( bRows, bCols );
     
     for( int i=0; i<aRows; i++ ) {
       for( int j=0; j<aCols; j++ ) {
-        A.setValue( i, j, 3.24 );
+        A.setValue( i, j, 1.4 );
       }
     }
     
     for( int i=0; i<bRows; i++ ) {
       for( int j=0; j<bCols; j++ ) {
-        B.setValue( i, j, 10 );
+        B.setValue( i, j, 20.1 );
       }
     }
     
@@ -235,7 +251,125 @@ protected:
       }
     }
   }
+  
+  /** Tests == operator  returns true*/
+  void testEqu1 ()
+  {
+    int rows = 3, cols = 3;
+    cepMatrix A( rows, cols );
+    cepMatrix B( rows, cols );
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        A.setValue( i, j, 1 );
+      }
+    }
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        B.setValue( i, j, 1 );
+      }
+    }
+    
+    CPPUNIT_ASSERT_MESSAGE( "A should be equal to B",A==B );
 
+  }
+ 
+  /** Tests == operator  returns false*/ 
+  void testEqu2 ()
+  {
+    int rows = 3, cols = 3;
+    cepMatrix A( rows, cols );
+    cepMatrix B( rows, cols );
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        A.setValue( i, j, 1 );
+      }
+    }
+    
+    for( int i=0; i<rows; i++ ) {
+      for( int j=0; j<cols; j++ ) {
+        B.setValue( i, j, 2 );
+      }
+    }
+    
+    CPPUNIT_ASSERT_MESSAGE( "A should not be equal to B", !(A==B));
+
+  }
+  
+   /** Tests isDiagonal() function  returns true*/
+  void testDiag1 ()
+  {
+    int rows = 3, cols = 3;
+    cepMatrix A( rows, cols );
+    
+    A.setValue(0,0,1);
+    A.setValue(0,1,0);
+    A.setValue(0,2,0);
+    
+    A.setValue(1,0,0);
+    A.setValue(1,1,1);
+    A.setValue(1,2,0);
+    
+    A.setValue(2,0,0);
+    A.setValue(2,1,0);
+    A.setValue(2,2,1);
+    
+    CPPUNIT_ASSERT_MESSAGE( "A should be Diagonal", A.isDiagonal());
+
+  }
+
+/** Tests isDiagonal() function  returns false*/  
+  void testDiag2 ()
+  {
+    int rows = 3, cols = 3;
+    cepMatrix A( rows, cols );
+    
+    A.setValue(0,0,1);
+    A.setValue(0,1,0);
+    A.setValue(0,2,0);
+    
+    A.setValue(1,0,0);
+    A.setValue(1,1,1);
+    A.setValue(1,2,1);
+    
+    A.setValue(2,0,0);
+    A.setValue(2,1,0);
+    A.setValue(2,2,1);
+    
+    CPPUNIT_ASSERT_MESSAGE( "A should not be diagonal", !(A.isDiagonal()));
+
+  } 
+  
+  /** Tests transpose() function */
+  void testTranspose ()
+  {
+    int rows = 3, cols = 2;
+    cepMatrix A( rows, cols );
+    
+    A.setValue(0,0,1);
+    A.setValue(0,1,2);
+    
+    A.setValue(1,0,3);
+    A.setValue(1,1,4);
+    
+    A.setValue(2,0,5);
+    A.setValue(2,1,6);
+    
+    A.transpose();
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong row size", cols, A.getNumRows());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong col size", rows, A.getNumCols());
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 1.0, A.getValue(0,0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, A.getValue(0,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 5.0, A.getValue(0,2));
+    
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 2.0, A.getValue(1,0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4.0, A.getValue(1,1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 6.0, A.getValue(1,2));
+  } 
 }; // end Test
 
  /**
