@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.9 $ $Date: 2002-08-28 11:52:53 $
+ * @version $Revision: 1.10 $ $Date: 2002-09-09 13:22:52 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.9  2002/08/28 11:52:53  u982087
+ * removed std output
+ *
  * Revision 1.8  2002/08/27 09:07:26  u983118
  * added tests for 3D matrix
  *
@@ -126,7 +129,10 @@ public:
 
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "test3D", &Test::test3DAssign ) );
-          
+    
+    suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testDestrct", &Test::testDestruct ) );
+    
     return suiteOfTests;
   }
 
@@ -142,10 +148,11 @@ protected:
     int rows = 3, cols = 3;
     cepMatrix<double> expected( rows, cols );
     cepMatrix<double> actual( rows, cols );
+    const double blah = 12.8;
     
     for( int i=0; i<rows; i++ ) {
       for( int j=0; j<cols; j++ ) {
-        actual.setValue( i, j, 12.8 );
+        actual.setValue( i, j, blah );
       }
     }
     
@@ -391,7 +398,6 @@ protected:
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 4.0, A.getValue(1,1));
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 6.0, A.getValue(1,2));
   } 
-  
   void test3D()
   {
      
@@ -507,9 +513,46 @@ protected:
         CPPUNIT_ASSERT_EQUAL_MESSAGE( "wrong value", 3.0, E.getValue(i,j,2));
       }
     }
-    
-    // cout << "finished test\n";
   }
+  
+  void testDestruct()
+  {
+    int rows = 3, cols = 3, frames = 2;
+    cepMatrix<double> *A = new cepMatrix<double>( rows, cols );
+    cepMatrix<double> *B = new cepMatrix<double>;
+    cepMatrix<double> *C = new cepMatrix<double>( rows, cols, frames );
+    cepMatrix<double> *D = new cepMatrix<double>;
+    
+    
+    A->setValue(0,0,1);
+    A->setValue(0,1,0);
+    A->setValue(0,2,0);
+    
+    A->setValue(1,0,0);
+    A->setValue(1,1,1);
+    A->setValue(1,2,1);
+    
+    A->setValue(2,0,0);
+    A->setValue(2,1,0);
+    A->setValue(2,2,1);
+    
+    for(int i = 0; i < rows; i ++)
+    {
+      for(int j = 0; j < cols; j ++)
+      {
+        for(int k = 0; k < frames; k ++)
+        {
+          C->setValue(i,j,k,1.0);
+        }
+      }
+    }
+    
+    delete A;
+    delete B;
+    delete C;
+    delete D;
+    
+  }   
 }; // end Test
 
  /**
