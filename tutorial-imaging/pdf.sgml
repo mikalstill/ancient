@@ -117,7 +117,7 @@ This dictionary specifies that the key <quote>Type</quote> has the value <quote>
 What data types are valid in dictionaries? Well, version 1.3 of the PDF specification names the following data types:
 </para>
 
-<execute><cmd>insertall</cmd><args>pdf-type-.*.sgml</args></execute>
+<execute><cmd>insertall</cmd><args>builddb . pdf-type-.*.sgml</args></execute>
 
 <sect4><title>A lexer for PDF</title>
 <para>
@@ -204,7 +204,7 @@ So what are the possible filters? Well, as of PDF 1.3
 , they are:
 </para>
 
-<execute><cmd>insertall</cmd><args>pdf-filter-.*.sgml</args></execute>
+<execute><cmd>insertall</cmd><args>builddb . pdf-filter-.*.sgml</args></execute>
 
 </sect3>
 </sect2>

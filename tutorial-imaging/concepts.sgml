@@ -14,6 +14,6 @@ These terms are presented in alphabetical order. Some of them might seem a bit o
 <li><b>If these are too basic, and I am wasting your time, then please let me know</b>
 </slidetext>
 
-<execute><cmd>insertall</cmd><args>concept-.*.sgml</args></execute>
+<execute><cmd>insertall</cmd><args>builddb . concept-.*.sgml</args></execute>
 <execute><cmd>nextedition</cmd><input>References</input></execute>
 </chapter>
