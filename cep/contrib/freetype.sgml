@@ -1,6 +1,8 @@
 <sect2><title>FreeType</title>
 <para>
-<command>FreeType</command> is an Open Source TrueType rendering library, which is used to place the annotation text on the various graphs in the user interface and web client. It may be obtained from http://www.freetype.org. <command>GDMS</command> has been tested with <command>FreeType</command> 2.0.9.
+<command>FreeType</command> is an Open Source TrueType rendering library, which is used to place the annotation 
+text on the various graphs in the user interface and web client. It may be obtained from http://www.freetype.org. 
+<command>GDMS</command> has been tested with <command>FreeType</command> 2.0.9.
 </para>
 
 <sect3><title>Authors</title>

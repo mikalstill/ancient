@@ -6,8 +6,8 @@ code which using drawing primitives such as lines, circles, and so forth, and ha
 
 <sect3><title>Authors</title>
 <para>
-<command>libmplot</command> is developed by Michael Still, and can be downloaded from http://www.stillhq.com. It was 
-specifically developed for the GDMS project, but is of general use, so is available in the separate library form.
+<command>libmplot</command> was developed by Michael Still, and can be downloaded from http://www.stillhq.com. It was
+developed specifically for the GDMS project, however, is available in a separate library form.
 </para>
 </sect3>
 
@@ -16,10 +16,8 @@ specifically developed for the GDMS project, but is of general use, so is availa
 Follow these steps to install <command>libmplot</command>
 </para>
 
-<execute><cmd>todo</cmd><input>Is this version number up to date?</input></execute>
-
 <programlisting>
-tar xvzf libmplot_0_5_4.tgz
+tar -xvzf libmplot_0_5_4.tgz
 cd libmplot-0.5.4
 ./configure
 make

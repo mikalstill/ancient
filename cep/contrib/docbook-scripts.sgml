@@ -1,17 +1,26 @@
 <sect2><title>Docbook-scripts</title>
 <para>
-<command>Docbook-scripts</command> is a series of simple scripts which make it easier to implement the Docbook documentation for the project. The scripts are written in a variety of shell and perl, and need to be included in your current path to be used.
+<command>Docbook-scripts</command> is a series of simple scripts which make it easier to implement the Docbook 
+documentation for the project. The scripts are written in a variety of shell and perl, and need to be included 
+in your current path to be used.
 </para>
 
 <sect3><title>Authors</title>
 <para>
-The scripts were developed by Michael Still (mikal@stillhq.com) for a separate project earlier this year. They are available for download from http://www.stillhq.com
+The scripts were developed by Michael Still (mikal@stillhq.com) in early 2002.
+They are available from http://www.stillhq.com
 </para>
 </sect3>
 
+
 <sect3><title>Installation</title>
+<programlisting>
+tar -xvzf docbook-scripts.tgz
+</programlisting>
+
 <para>
-Simply extract the tarball, and add the resultant directory to your path.
+The resultant directory is docbooktools/. Once this directory is added to your path, the scripts will run from any
+location.
 </para>
 </sect3>
 </sect2>

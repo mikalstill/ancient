@@ -1,4 +1,4 @@
-<sect2><title>autodocbook</title>
+<sect2><title>Autodocbook</title>
 <para>
 <command>Autodocbook</command> is a perl script which parses C and C++ code and header files, and extracts specially 
 formatted comments. These comments are then used to generate Docbook documentation for those code files. 
