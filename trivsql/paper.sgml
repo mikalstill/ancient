@@ -385,6 +385,9 @@ tdb> quit
 <sect3><title>Returning information from a table</title>
 <para>
 The first step to returning information from a table is having a datastructure to stored the returned data in. I have chosen to implement a recordset structure which is modelled on the ADO record set data structure which many developers will already be familiar with.
+</para>
+
+<para>
 
 
 </sect3>

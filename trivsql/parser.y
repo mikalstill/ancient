@@ -157,10 +157,12 @@ trivsql_recordset *trivsql_doselect(char *tname, char *cols){
   }
 
   // Prepare the selector arguements
-  sa1 = gState->selArgOne;
-  sa2 = gState->selArgTwo;
-  sac1 = trivsql_findcol(tname, cols, sa1);
-  sac2 = trivsql_findcol(tname, cols, sa2);
+  if(gState->selector != NULL){
+    sa1 = gState->selArgOne;
+    sa2 = gState->selArgTwo;
+    sac1 = trivsql_findcol(tname, cols, sa1);
+    sac2 = trivsql_findcol(tname, cols, sa2);
+  }
 
   // Build the recordset
   rrs = trivsql_xmalloc(sizeof(trivsql_recordset));
