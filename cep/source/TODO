@@ -1,3 +1,4 @@
 * Work out how to do include dependancies in automake
 * cepData current returns incorrect display dates (they're off by a couple of days)
 * operator= to convert string to wxString?
+* define a with wx macro for the ui target only, the current way is broken...

@@ -12,3 +12,6 @@
 
 20020529 Michael Still (mikal@stillhq.com)
 	Started implementing the UI
+
+20020602 Michael Still (mikal@stillhq.com)
+	Started on the open dialog. Got cepError working with wxWindows
