@@ -3,17 +3,17 @@
 Much thought was expended on which image format to use for the plots displayed in the GDMS Internet interface. There are advantages and disadvantages to all the formats available at the time of writing this document. The following formats were considered for the GDMS Internet interface:
 </para>
 
-<sect2><title>TIFF</title>
+<sect2><title>Tagged Image File Format</title>
 <para>
-TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992).
+TIFF (Tagged Image File Format) is a raster (bitmap) image format which was originally produced by Aldus and Microsoft. Aldus was later acquired by Adobe, who manage the TIFF specification to this day. At the time of writing, the current version of the TIFF specification is TIFF version 6.0 (Adobe 1992). It should be noted that no significant development of the TIFF standard has occured since that date.
 </para>
 
 <para>
-The main advantage of the TIFF image format is that it is extemely mature. It has a large selection of options to ease the development of imaging software, for example the developer can use which ever endian representation is convenient for them, as well as such fundamental parameters as photometric interpretation (whether a high value is lighter or darker than a low value for a given colour sample within a pixel) (Adobe 1992). There is also a stable, well supported Open Source application programmers interface available to manage creation and interpretation of images within the TIFF format (Warmerdam &amp; Welles 2002). The interface to this library does not frequently change, which is also an advantage for future portability of the GDMS Internet interface.
+The main advantage of the TIFF image format is that it is extemely mature. It has a large selection of options to ease the development of imaging software, for example the developer can use which ever endian representation is convenient for them, as well as such fundamental parameters as photometric interpretation, whether a high value is lighter or darker than a low value for a given colour sample within a pixel (Adobe 1992). There is also a stable, well supported Open Source application programmers interface available to manage creation and interpretation of images within the TIFF format (Warmerdam &amp; Welles 2002). The interface to this library does not frequently change, which is also an advantage for future portability of the GDMS Internet interface.
 </para>
 
 <para>
-However, some of these very advantages lead to the disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in there being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002).
+However, some of these advantages lead to the principal disadvantages that the TIFF format suffers from. Because the content of the file is so loosely specified, it is quite hard to write an application which can correctly decode all possible TIFF format images. This has resulted in there being only a few high quality TIFF viewing applications being available. The relative difficultly of implementing a TIFF decoder has also resulted in the web browser support for TIFF images being very poor (Bither 2002).
 </para>
 
 <para>
@@ -21,7 +21,7 @@ TIFF is therefore an inappropriate image format for use for the GDMS Internet in
 </para>
 </sect2>
 
-<sect2><title>GIF</title>
+<sect2><title>Graphics Interchange Format</title>
 <para>
 The Graphics Interchange Format (GIF) was co-developed by CompuServe Inc. and Unisys Corporation in the late 1980s and early 1990s. GIF is dependant on LZW compression (CompuServe 1990), which is now having it's patent enforced by Unisys (Anonymous 2002). The GIF format itself is quite limited, with a maximum palette size of 255 entries -- in order words 255 distinct colours are available in each image.
 </para>
@@ -31,22 +31,22 @@ Vendors are also dropping support for the GIF format because of the expense of l
 </para>
 
 <para>
-Despite all of these largely political issues, the GIF format is still well supported in all web browser versions, which would make it an ideal candidate for the GDMS Internet interface if it wasn't for the unavailability of a stable and reliable compression library.
+Despite all of these largely political issues, the GIF format is still well supported in all web browser versions, which would make it an ideal candidate for the GDMS Internet interface if it wasn't for the lack of a stable and reliable compression library.
 </para>
 </sect2>
 
-<sect2><title>JPEG</title>
+<sect2><title>Joint Picture Experts Group File Interchange Format</title>
 <para>
 JPEG is an interesting image format because whilst the JPEG compression codec has been standardized by ISO, the actual on disc format commonly called JPEG is not part of the ISO standard. The file format commonly called JPEG is actually JPEG JFIF -- created by the Independant JPEG Group (Lilly 1996).
 </para>
 
 <para>
-The JPEG support in web browsers is now excellent, with support becoming much more common after 1996 (Lilly 1996). The biggest factor stopping the use of JPEG within the GDMS Internet interface is that the compression codec is lossy.
+JPEG support in web browsers is excellent, with support rapidly improving after 1996 (Lilly 1996). The biggest factor stopping the use of JPEG within the GDMS Internet interface is that the compression codec is lossy.
 </para>
 
 <sect3><title>Loss</title>
 <para>
-The JPEG compression algorithm is lossy -- in other words, the act of compressing the image results in image data being thrown away. This has the effect of noticably reducing the clarity of the images -- a characteristic which is especially noticable with images which contain text at smaller point sizes. Use of such text is a feature of the GDMS graphing subsystem.
+The JPEG compression algorithm is lossy -- in other words, the act of compressing the image results in image data being discarded. This has the effect of noticably reducing the clarity of the images -- a characteristic which is especially noticable with images which contain text at smaller point sizes. The use of such text is a feature of the GDMS graphing subsystem.
 </para>
 
 <para>

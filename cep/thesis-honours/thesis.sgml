@@ -50,11 +50,11 @@ This document describes the design process and implementation of the GDMS Intern
 
 <sect1><title>Presentation of the user interface</title>
 <para>
-In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags the those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
+In accordance with Internet user interface design best practise, the GDMS Internet interface presents a fully configurable user interface. This is implemented by providing extension tags above those which are available in the standard HTML specification (Raggett, Le Hors, &amp; Jacobs 1999).
 </para>
 
 <para>
-The GDMS Internet interface follows the recommendations of the most recent HTML specification at the time of development for the insertion of scripting tags into HTML source files (Raggett, Le Hors, &amp; Jacobs 1999). Further documentation on the GDMS Internet interface tags available can be found in Appendix One of this document.
+The GDMS Internet interface follows the recommendations of the most recent HTML specification at the time of development for the insertion of scripting tags into HTML source files (Raggett, Le Hors, &amp; Jacobs 1999). Further documentation on the GDMS Internet interface tags available can be found in Appendix A of this document.
 </para>
 </sect1>
 
