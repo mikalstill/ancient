@@ -1,0 +1,5 @@
+Follow these simple steps
+
+./configure
+make
+make install (as root)
