@@ -93,16 +93,6 @@ pdfRender::render_Bstar ()
 void
 pdfRender::render_BT ()
 {
-  debug(dlTrace, "BT");
-  if (m_mode == rmText)
-    {
-      debug(dlTrace, "Error -- already in text mode");
-      return;
-    }
-
-  m_mode = rmText;
-  m_textMatrix.setIdentity ();
-  m_textLineMatrix = m_textMatrix;
 }
 
 void
@@ -399,20 +389,6 @@ pdfRender::render_re ()
 void
 pdfRender::render_Td ()
 {
-  matrix newvals;
-  float x, y;
-
-  y = atof (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-  x = atof (m_arguements.top ().c_str ());
-  m_arguements.pop ();
-
-  newvals.setIdentity();
-  newvals.setVertical(y);
-  newvals.setHorizontal(x);
-
-  m_textMatrix = newvals * m_textLineMatrix;
-  m_textLineMatrix = m_textMatrix;
 }
 
 // Move text position and set leading
@@ -429,80 +405,12 @@ pdfRender::render_TD ()
 void
 pdfRender::render_Tf ()
 {
-  string fontName, fontSize;
-
-  // Pop our arguements (reverse order)
-  fontSize = m_arguements.top ();
-  m_arguements.pop ();
-  fontName = m_arguements.top ();
-  m_arguements.pop ();
-
-  // Find the named font
-  dictionary resources;
-  dictionary fonts;
-  object font (objNumNoSuch, objNumNoSuch);
-  string fontResource, fontFile ("px10.ttf");
-  bool fontFound (false);
-
-  if (!m_doc->getPage(m_pageno).getDict ().getValue ("Resources", resources))
-    {
-      debug(dlTrace, "Font not found (no resources)");
-    }
-  else if (!resources.getValue ("Font", fonts))
-    {
-      debug(dlTrace, "Font not found (no font entry in resources)");
-    }
-  else if (!fonts.
-	   getValue (fontName.substr (1, fontName.length ()), 
-		     *(m_doc->getPDF()), font))
-    {
-      debug(dlTrace, "Font not found (named font not listed in resources)");
-    }
-  else if (font.getDict ().getValue ("BaseFont", fontResource))
-    {
-      fontFound = true;
-    }
-
-  // Now map this name to a TrueType file somewhere on the system
-  if (fontFound)
-    {
-      debug(dlTrace, string("Lookup font ") + fontResource);
-      configuration *config;
-      config = (configuration *) & configuration::getInstance ();
-      config->getValue (string ("basefont-") + fontResource + "-map",
-			"px10.ttf", fontFile);
-    }
-
-  debug(dlTrace, string("Using font filename ") + fontFile);
-#if defined HAVE_LIBMPLOT
-  if(plot_setfont (m_plot, (char *) fontFile.c_str (), 
-		   atoi (fontSize.c_str ())) < 0){
-    debug(dlError, "Could not change to the specified font");
-  }
-#else
-  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
-	" is therefore not available");
-#endif
 }
 
 // Show the text
 void
 pdfRender::render_Tj ()
 {
-  debug(dlTrace, string("Tj ") + m_arguements.top ());
-#if defined HAVE_LIBMPLOT
-  plot_settextlocation (m_plot, (unsigned int) m_textMatrix.getHorizontal (),
-			(unsigned int) (m_height -
-					m_textMatrix.getVertical ()));
-  plot_writestring (m_plot, (char *) m_arguements.top ().c_str ());
-
-  // TODO mikal string select
-  // plot_fillrectangle(m_select, ...);
-#else
-  debug(dlError, "Libmplot not found at configure time. Graphics functionality"
-	" is therefore not available");
-#endif
-  m_arguements.pop ();
 }
 
 // Set the text leading
@@ -527,7 +435,6 @@ pdfRender::render_Tm ()
     }
 
   m_textMatrix.setValues (vals);
-  m_textLineMatrix = m_textMatrix;
 }
 
 void

@@ -133,7 +133,8 @@ pdfDoc::OnSaveDocument (const wxString & filename)
 	  for(int cmdcnt = 0; cmdcnt < page.getCommandCount(); cmdcnt++)
 	    {
 	      debug(dlTrace, "Executing page command");
-	      page.executeCommand(cmdcnt, pg);
+	      debug(dlError, "ATTEMPT TO RUN COMMENTED OUT CODE (execute)");
+	      //	      page.executeCommand(cmdcnt, pg);
 	    }
 	}
       else
@@ -282,22 +283,22 @@ pdfDoc::appendCommand(int pageNum, command cmd)
   m_pdf->appendCommand(objref, cmd);
 }
 
-void
-pdfDoc::rewriteCommand(int pageNum, int index, object::commandType type, 
-		      vector<cmdControlPoint> points)
-{
-  while(pageNum >= m_pages.size())
-    {
-      debug(dlError, "Rewriting a command on a non existant page?");
-      appendPage();
-    }
+//void
+//pdfDoc::rewriteCommand(int pageNum, int index, object::commandType type, 
+//		      vector<cmdControlPoint> points)
+// {
+//   while(pageNum >= m_pages.size())
+//     {
+//       debug(dlError, "Rewriting a command on a non existant page?");
+//       appendPage();
+//     }
 
-  objectreference objref;
-  if(!m_pages.item(pageNum, objref))
-    return;
+//   objectreference objref;
+//   if(!m_pages.item(pageNum, objref))
+//     return;
 
-  m_pdf->rewriteCommand(objref, index, type, points);
-}
+//   m_pdf->rewriteCommand(objref, index, type, points);
+// }
 
 void
 pdfDoc::clearCommands(int pageNum)
@@ -315,26 +316,26 @@ pdfDoc::clearCommands(int pageNum)
   m_pdf->clearCommands(objref);
 }
 
-vector<cmdControlPoint>
-pdfDoc::getCommand(int pageNum, int index, object::commandType & type)
-{
-  while(pageNum >= m_pages.size())
-    {
-      debug(dlError, "Getting a command from a non existant page?");
-      appendPage();
-    }
+// vector<cmdControlPoint>
+// pdfDoc::getCommand(int pageNum, int index, object::commandType & type)
+// {
+//   while(pageNum >= m_pages.size())
+//     {
+//       debug(dlError, "Getting a command from a non existant page?");
+//       appendPage();
+//     }
 
-  object pobj(objNumNoSuch, objNumNoSuch);
-  object& page = pobj;
-  if(m_pages.item(pageNum, page))
-    return page.getCommandPoints(index, type);
-  else
-    {
-      debug(dlError, "Could not get a command from a non-existant page");
-      vector<cmdControlPoint> empty;
-      return empty;
-    }
-}
+//   object pobj(objNumNoSuch, objNumNoSuch);
+//   object& page = pobj;
+//   if(m_pages.item(pageNum, page))
+//     return page.getCommandPoints(index, type);
+//   else
+//     {
+//       debug(dlError, "Could not get a command from a non-existant page");
+//       vector<cmdControlPoint> empty;
+//       return empty;
+//     }
+// }
 
 void
 pdfDoc::setHeight(int pageNum, int height)

@@ -66,7 +66,7 @@ private:
   void command_w ();
   void command_y ();
 
-  void appendCommand(object::commandType type);
+  //  void appendCommand(object::commandType type);
   wxPoint translateGraphicsPoint(wxPoint in);
 
   enum rmMode
@@ -79,7 +79,7 @@ private:
   pdfDoc *m_doc;
   objectlist m_contents;
   rmMode m_mode;
-  matrix m_textMatrix, m_textLineMatrix, m_graphicsMatrix;
+  matrix m_textMatrix, m_graphicsMatrix;
   stack < string > m_arguements;
   stack < string > m_graphicsStates;
   bool m_hasLine;
@@ -106,7 +106,7 @@ private:
   color m_lineColor;
   color m_fillColor;
 
-  vector<cmdControlPoint> m_controlPoints;
+  //  vector<cmdControlPoint> m_controlPoints;
   stack<wxPoint> m_subpath;
   unsigned char *m_raster;
   float m_xscale, m_yscale;

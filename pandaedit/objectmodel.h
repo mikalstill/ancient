@@ -17,6 +17,10 @@ using namespace std;
 #include  <panda/constants.h>
 #endif
 
+#if defined HAVE_LIBMPLOT
+#include <libmplot.h>
+#endif
+
 #include <wx/gdicmn.h>
 
 #ifndef OBJECTMODEL_H
@@ -34,32 +38,48 @@ enum
     objNumAppended = -2
   };
 
-typedef struct
-{
-  wxPoint pt;
-  vector<wxPoint> cpt;
-  int modifier;
-} 
-cmdControlPoint;
-
-typedef struct
-{
-  int unique;
-  vector<cmdControlPoint> controlPoints;
-  int liner, lineg, lineb;
-  int fillr, fillg, fillb;
-  unsigned char *rast;
-  matrix ctm;
-
-  string text;
-  string font;
-  int size;
-
+//typedef struct
+//{
+//  wxPoint pt;
+//  vector<wxPoint> cpt;
+//  int modifier;
+//} 
+//cmdControlPoint;
+//
+//typedef struct
+//{
+//  int unique;
+//  vector<cmdControlPoint> controlPoints;
+//  int liner, lineg, lineb;
+//  int fillr, fillg, fillb;
+//  unsigned char *rast;
+//  matrix ctm;
+//
+//  string text;
+//  string font;
+//  int size;
+//  matrix textMatrix;
+//
   // I don't seem to be able to use object::commandType here, as it gets all
   // circular in it's confusion
-  int type;
-}
-command;
+//  int type;
+//}
+//command;
+
+class command
+{
+ public:
+  void executeRaster(plot_state *);
+  void executePDF(panda_pdf *);
+};
+
+class commandLine: public command
+{
+  public:
+
+  void executeRaster(plot_state *);
+  void executePDF(panda_pdf *);
+};
 
 typedef struct
 {
@@ -147,14 +167,14 @@ public:
     object (const object & obj);
    ~object ();
 
-   enum commandType{
-     cLine = 0,
-     cImage,
-     cSaveState,
-     cRestoreState,
-     cText,
-     cFont
-   };
+   //   enum commandType{
+   //     cLine = 0,
+   //     cImage,
+   //     cSaveState,
+   //     cRestoreState,
+   //     cText,
+   //     cFont
+   //   };
 
   object operator= (const object & other);
 
@@ -176,24 +196,24 @@ public:
   unsigned long getStreamLength ();
 
   void appendCommand(command cmd);
-  void rewriteCommand(int index, commandType type, 
-		      vector<cmdControlPoint> controlPoints);
   void clearCommands();
+  unsigned int getCommandCount();
+  command getCommand(unsigned int idx);
 
   // TODO: There should be one of these to push things into the raster as well
-  void executeCommand(int index, panda_page *pg);
+  //  void executeCommand(int index, panda_page *pg);
+  //  void rewriteCommand(int index, commandType type, 
+  //  vector<cmdControlPoint> controlPoints);
+  //  void getCommandLineColor(int index, int& r, int& g, int &b);
+  //  void getCommandFillColor(int index, int& r, int& g, int &b);
+  //  void getCommandCTM(int index, matrix &ctm);
+  //  void getCommandText(int index, string &text, matrix &textMatrix);
+  //  void getCommandFontAndSize(int index, string &text, int &size);
 
-  unsigned int getCommandCount();
-  void getCommandLineColor(int index, int& r, int& g, int &b);
-  void getCommandFillColor(int index, int& r, int& g, int &b);
-  void getCommandCTM(int index, matrix &ctm);
-  void getCommandText(int index, string &text);
-  void getCommandFontAndSize(int index, string &text, int &size);
-
-  vector<cmdControlPoint> getCommandPoints(int index, commandType & type);
-  int getCommandId(int index);
-  unsigned char *getCommandRaster(int index);
-  bool getLastCommand(command& cmd);
+  //  vector<cmdControlPoint> getCommandPoints(int index, commandType & type);
+  //  int getCommandId(int index);
+  //  unsigned char *getCommandRaster(int index);
+  //  bool getLastCommand(command& cmd);
 
   void setHeight(int height);
   void setReadOnly();
@@ -250,9 +270,9 @@ public:
   void appendPage (object& thePage);
 
   void appendCommand (objectreference page, command cmd);
-  void rewriteCommand(objectreference page, int index, 
-		      object::commandType type, 
-		      vector<cmdControlPoint> controlPoints);
+  //  void rewriteCommand(objectreference page, int index, 
+  //		      object::commandType type, 
+  //		      vector<cmdControlPoint> controlPoints);
   void clearCommands(objectreference page);
 
   bool findObject (int number, int generation, int &inset);

@@ -52,7 +52,10 @@ void
 pdfRender::command_BT ()
 {
   m_textMatrix.setIdentity();
-  m_textLineMatrix.setIdentity();
+
+  debug(dlTrace, "Set text matrix to identity");
+  m_textMatrix.getVertical();
+  m_textMatrix.getHorizontal();
 }
 
 // tweaked
@@ -81,18 +84,18 @@ pdfRender::command_c ()
       return;
     }
 
-  cmdControlPoint curved;
-  curved.pt = translateGraphicsPoint(wxPoint(x1, m_height - y1));
-  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, m_height - y2)));
-  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x3, m_height - y3)));
-  curved.modifier = ltmBezier;
-  m_controlPoints.push_back(curved);
-  debug(dlTrace, string("Added bezier curve point: ") +
-	toString(curved.pt.x) + string(", ") + toString(curved.pt.y) +
-	string(" CP1 ") + 
-	toString(curved.cpt[0].x) + string(", ") + toString(curved.cpt[0].y) +
-	string(" CP2 ") + 
-	toString(curved.cpt[1].x) + string(", ") + toString(curved.cpt[1].y));
+//   cmdControlPoint curved;
+//   curved.pt = translateGraphicsPoint(wxPoint(x1, m_height - y1));
+//   curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, m_height - y2)));
+//   curved.cpt.push_back(translateGraphicsPoint(wxPoint(x3, m_height - y3)));
+//   curved.modifier = ltmBezier;
+//   m_controlPoints.push_back(curved);
+//   debug(dlTrace, string("Added bezier curve point: ") +
+// 	toString(curved.pt.x) + string(", ") + toString(curved.pt.y) +
+// 	string(" CP1 ") + 
+// 	toString(curved.cpt[0].x) + string(", ") + toString(curved.cpt[0].y) +
+// 	string(" CP2 ") + 
+// 	toString(curved.cpt[1].x) + string(", ") + toString(curved.cpt[1].y));
 }
 
 // tweaked
@@ -273,23 +276,23 @@ pdfRender::command_Do ()
     }
 
   // And now append the command to the command chain for this page
-  if(m_controlPoints.size() != 0)
-    {
-      debug(dlError, "Losing control points upon insertion of image");
-      m_controlPoints.clear();
-    }
+  //  if(m_controlPoints.size() != 0)
+  //    {
+  //    debug(dlError, "Losing control points upon insertion of image");
+  //    m_controlPoints.clear();
+  //  }
   
   // TODO mikal: this will not place the image in the right spot
-  cmdControlPoint foo;
+//   cmdControlPoint foo;
 
-  foo.pt = wxPoint(0, 0);
-  m_controlPoints.push_back(foo);
+//   foo.pt = wxPoint(0, 0);
+//   m_controlPoints.push_back(foo);
 
-  foo.pt = wxPoint(rast.getWidth(), rast.getHeight());
-  m_controlPoints.push_back(foo);
+//   foo.pt = wxPoint(rast.getWidth(), rast.getHeight());
+//   m_controlPoints.push_back(foo);
 
-  appendCommand(object::cImage);
-  m_raster = NULL;
+//   appendCommand(object::cImage);
+//   m_raster = NULL;
 }
 
 // tweaked
@@ -349,12 +352,12 @@ pdfRender::command_G ()
 void
 pdfRender::command_h ()
 {
-  cmdControlPoint h;
-  h.pt = m_subpath.top();
-  m_subpath.pop();
-  h.modifier = ltmNone;
+//   cmdControlPoint h;
+//   h.pt = m_subpath.top();
+//   m_subpath.pop();
+//   h.modifier = ltmNone;
 
-  m_controlPoints.push_back(h);
+//   m_controlPoints.push_back(h);
 }
 
 // tweaked
@@ -370,10 +373,10 @@ pdfRender::command_l ()
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  cmdControlPoint straight;
-  straight.pt = translateGraphicsPoint(wxPoint(x, m_height - y));
-  straight.modifier = ltmNone;
-  m_controlPoints.push_back(straight);
+//   cmdControlPoint straight;
+//   straight.pt = translateGraphicsPoint(wxPoint(x, m_height - y));
+//   straight.modifier = ltmNone;
+//   m_controlPoints.push_back(straight);
 }
 
 // Move graphics cursor to a given location -- this can happen in the middle of
@@ -390,29 +393,29 @@ pdfRender::command_m ()
   x = atoi (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  cmdControlPoint mv;
-  mv.pt = translateGraphicsPoint(wxPoint(x, m_height - y));
-  if(m_controlPoints.size() == 0)
-    mv.modifier = 0;
-  else
-    mv.modifier = ltmJump;
-  m_controlPoints.push_back(mv);
+//   cmdControlPoint mv;
+//   mv.pt = translateGraphicsPoint(wxPoint(x, m_height - y));
+//   if(m_controlPoints.size() == 0)
+//     mv.modifier = 0;
+//   else
+//     mv.modifier = ltmJump;
+//   m_controlPoints.push_back(mv);
 
-  m_subpath.push(mv.pt);
+//   m_subpath.push(mv.pt);
 }
 
 // Save graphics state
 void
 pdfRender::command_q ()
 {
-  appendCommand(object::cSaveState);
+  //  appendCommand(object::cSaveState);
 }
 
 // Restore graphics state
 void
 pdfRender::command_Q ()
 {
-  appendCommand(object::cRestoreState);
+  //  appendCommand(object::cRestoreState);
 }
 
 // tweaked
@@ -499,7 +502,7 @@ void
 pdfRender::command_S ()
 {
   // This ends the current instance of the line tool
-  appendCommand(object::cLine);
+  //  appendCommand(object::cLine);
   while(m_subpath.size() > 0)
     m_subpath.pop();
 }
@@ -572,8 +575,8 @@ pdfRender::command_sc ()
 void
 pdfRender::command_Td ()
 {
-  debug(dlError, "Need to implement Td");
-
+  // TODO: Confirm this is what the specification expects
+  matrix newvals;
   float x, y;
 
   y = atof (m_arguements.top ().c_str ());
@@ -581,8 +584,15 @@ pdfRender::command_Td ()
   x = atof (m_arguements.top ().c_str ());
   m_arguements.pop ();
 
-  m_commandString += toString(x) + string(" ") +
-    toString(y) + string(" Td\n");
+  newvals.setIdentity();
+  newvals.setVertical(y);
+  newvals.setHorizontal(x);
+
+  m_textMatrix = newvals;
+
+  debug(dlTrace, "Text matrix set by Td");
+  m_textMatrix.getVertical();
+  m_textMatrix.getHorizontal();
 }
 
 // Move text position and set leading
@@ -590,8 +600,6 @@ void
 pdfRender::command_TD ()
 {
   debug(dlError, "Need to implement TD");
-
-  m_commandString += "TD\n";
 }
 
 void
@@ -615,10 +623,8 @@ pdfRender::command_Tj ()
   m_arguements.pop ();
 
   debug(dlTrace, string("Appending a Tj command with the text: \"" + m_text + "\""));
-  if(markingLength(m_text) == 0)
-    debug(dlError, "No text for text drawing command");
-  else
-    appendCommand(object::cText);
+  //  if(markingLength(m_text) != 0)
+    //    appendCommand(object::cText);
 }
 
 // Set the text leading
@@ -676,15 +682,15 @@ pdfRender::command_v ()
       return;
     }
 
-  cmdControlPoint curved;
-  curved.pt = translateGraphicsPoint(wxPoint(x1, m_height - y1));
-  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, m_height - y2)));
-  curved.modifier = ltmHalfBezierOne;
-  m_controlPoints.push_back(curved);
-  debug(dlTrace, string("Added half bezier one curve point: ") +
-	toString(curved.pt.x) + string(", ") + toString(curved.pt.y) +
-	string(" CP ") + 
-	toString(curved.cpt[0].x) + string(", ") + toString(curved.cpt[0].y));
+//   cmdControlPoint curved;
+//   curved.pt = translateGraphicsPoint(wxPoint(x1, m_height - y1));
+//   curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, m_height - y2)));
+//   curved.modifier = ltmHalfBezierOne;
+//   m_controlPoints.push_back(curved);
+//   debug(dlTrace, string("Added half bezier one curve point: ") +
+// 	toString(curved.pt.x) + string(", ") + toString(curved.pt.y) +
+// 	string(" CP ") + 
+// 	toString(curved.cpt[0].x) + string(", ") + toString(curved.cpt[0].y));
 }
 
 void
@@ -723,13 +729,13 @@ pdfRender::command_y ()
       return;
     }
 
-  cmdControlPoint curved;
-  curved.pt = translateGraphicsPoint(wxPoint(x1, m_height - y1));
-  curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, m_height - y2)));
-  curved.modifier = ltmHalfBezierTwo;
-  m_controlPoints.push_back(curved);
-  debug(dlTrace, string("Added half bezier two curve point: ") +
-	toString(curved.pt.x) + string(", ") + toString(curved.pt.y) +
-	string(" CP ") + 
-	toString(curved.cpt[0].x) + string(", ") + toString(curved.cpt[0].y));
+//   cmdControlPoint curved;
+//   curved.pt = translateGraphicsPoint(wxPoint(x1, m_height - y1));
+//   curved.cpt.push_back(translateGraphicsPoint(wxPoint(x2, m_height - y2)));
+//   curved.modifier = ltmHalfBezierTwo;
+//   m_controlPoints.push_back(curved);
+//   debug(dlTrace, string("Added half bezier two curve point: ") +
+// 	toString(curved.pt.x) + string(", ") + toString(curved.pt.y) +
+// 	string(" CP ") + 
+// 	toString(curved.cpt[0].x) + string(", ") + toString(curved.cpt[0].y));
 }

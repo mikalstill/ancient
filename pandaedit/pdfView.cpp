@@ -456,33 +456,33 @@ pdfView::appendCommand(command cmd)
   theDoc->appendCommand(m_page, cmd);
 }
 
-void
-pdfView::rewriteCommand(int index, object::commandType type, 
-			vector<cmdControlPoint> points)
-{
-  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
-  if(!theDoc->isReady()){
-    debug(dlTrace, 
-	  "Drawing command modification ignored because PDF document not ready");
-    return;
-  }
+// void
+// pdfView::rewriteCommand(int index, object::commandType type, 
+// 			vector<cmdControlPoint> points)
+// {
+//   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+//   if(!theDoc->isReady()){
+//     debug(dlTrace, 
+// 	  "Drawing command modification ignored because PDF document not ready");
+//     return;
+//   }
 
-  theDoc->rewriteCommand(m_page, index, type, points);
-}
+//   theDoc->rewriteCommand(m_page, index, type, points);
+// }
 
-vector<cmdControlPoint>
-pdfView::getCommand(int index, object::commandType & type)
-{
-  pdfDoc *theDoc = (pdfDoc *) GetDocument ();
-  if(!theDoc->isReady()){
-    vector<cmdControlPoint> none;
-    debug(dlTrace, 
-	  "Drawing command lookup ignored because PDF document not ready");
-    return none;
-  }
+//vector<cmdControlPoint>
+// pdfView::getCommand(int index, object::commandType & type)
+// {
+//   pdfDoc *theDoc = (pdfDoc *) GetDocument ();
+//   if(!theDoc->isReady()){
+//     vector<cmdControlPoint> none;
+//     debug(dlTrace, 
+// 	  "Drawing command lookup ignored because PDF document not ready");
+//     return none;
+//   }
 
-  return theDoc->getCommand(m_page, index, type);
-}
+//   return theDoc->getCommand(m_page, index, type);
+// }
 
 void
 pdfView::setHeight(int height)
