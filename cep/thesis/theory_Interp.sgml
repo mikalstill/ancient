@@ -65,6 +65,7 @@
     outliers then very inaccurate point may be generated
   </para>
   </sect3>
+
   <sect3><title>Linear Interpolation</title>
   <para>
     Nearest neighbour interpolation is widely used because it is still simple yet
@@ -88,6 +89,7 @@
     the overall trend of the data then loss of accuracy occurs.
   </para>
   </sect3>
+
   <sect3><title>Natural Spline Interpolation</title>
   <para>
     Natural splines are a type of cubic spline.  The idea of cubic splines comes
@@ -109,7 +111,30 @@
     where the end segments are a bit too straight.
   </para>
   <para>
-
+    To produce a spine for a dataset of n+1 points you have to produce n seperate
+    cubics.  Each of these cubic should have each end match up exactly with the
+    points to either side.  And on the same point the two adjacent cubic should
+    have shared first and second derivitives.
+  </para>
+  <para>
+    Each of these cubics can be described by the equation: (TODO: Spline equation 1)
+  </para>
+  <para>
+    Because each of these cubics begins at a point we can say: (TODO: Spline equation 2)
+  </para>
+  <para>
+    Let h<subscript>i</subscript>=(x<subscript>i+1<subscript> - x<subscript>i</subscript>),
+    be the width of the ith interval.
+  </para>
+  <para>
+    Also if we make s the set of second derivitives; then through algebraic simplification
+    we can get: (TODO: Spline eqations 3,4,5)
+  </para>
+  <para>
+    With natural splines solving for S is done by solving:
+  </para>
+  <para>
+    A full mathematical derivation can be found in Gerald &amp; Wheatley 1999, page 238.
   </para>
   </sect3>
   <sect3><title>Foobar</title>
