@@ -617,7 +617,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tiff2rgba%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tiff2rgba.1%
 </sect2>
 
 
@@ -626,7 +626,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tiffcp%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tiffcp.1%
 </sect2>
 
 
@@ -635,7 +635,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tiffdump%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tiffdump.1%
 </sect2>
 
 
@@ -644,7 +644,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tiffmedian%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tiffmedian.1%
 </sect2>
 
 
@@ -653,7 +653,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tifftopnm%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tifftopnm.1%
 </sect2>
 
 
@@ -662,7 +662,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tiff2ps%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tiff2ps.1%
 </sect2>
 
 
@@ -671,7 +671,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tiffcmp%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tiffcmp.1%
 </sect2>
 
 
@@ -680,7 +680,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tiffdither%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tiffdither.1%
 </sect2>
 
 
@@ -689,7 +689,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tiffinfo%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tiffinfo.1%
 </sect2>
 
 
@@ -698,7 +698,7 @@ We should also probably know how to get to these images once we have more than o
 ...
 </para>
 
-%~mikal/opensource/groff2db/convert:source/tiff/man/tiffsplit%
+%~mikal/opensource/groff2db/convert:source/tiff/man/tiffsplit.1%
 </sect2>
 </sect1>
 
