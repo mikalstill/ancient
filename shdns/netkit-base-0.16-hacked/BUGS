@@ -1,0 +1,14 @@
+inetd:
+	- will shut down services respawning too fast. Should bring them 
+	  up again after a few minutes. (It should. If it actually doesn't,
+	  please advise.
+        - should warn if daemons exit with fatal signals. (Does now.)
+	- If you switch a service to vhosting, you have to kill -1 twice.
+	  This is because it adds the new services in (and thus tries to
+	  bind the sockets) before it flushes the old ones, so the binds
+	  fail the first time.
+	- setproctitle() will produce a "might be used uninitialized"
+	  warning
+
+ping:
+	- lets any user view arbitrary incoming icmp traffic. 

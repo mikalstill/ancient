@@ -1,8 +1,7 @@
 #!/bin/bash
 
 logger "shdns $$ Started listening"
-echo "FOO" >> /dev/fd/0
-#/home/mikal/opensource/shdns/shdns /tmp/shdns-$$ &
+/home/mikal/opensource-unstable/shdns/shdns /tmp/shdns-$$ &
 cat - > /tmp/shdns-$$
 logger "shdns $$ Waiting for processor to end"
 wait

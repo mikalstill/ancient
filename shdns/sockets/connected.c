@@ -1,5 +1,6 @@
-// Connected UDP socket example: this example simply reads from clients (there can be more 
-// than one), and returns what they said straight back to them. You'll note that we can now use 
+// Connected UDP socket example: this example simply reads from 
+// clients (there can be more than one), and returns what they 
+// said straight back to them. You'll note that we can now use 
 // read and write to get to the traffic...
 
 #include <stdio.h>
@@ -30,18 +31,21 @@ int main(int argc, char *argv[]){
   servaddr.sin_port = htons(1234);
 
   // Bind to the address
-  if(bind(lfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
+  if(bind(lfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
+     < 0){
     perror("Couldn't bind");
     exit(42);
   }
   
   // Do stuff
   while(1){
-    // We need to peek at the first part of the packet to determine who to connect to
+    // We need to peek at the first part of the packet to 
+    // determine who to connect to
     len = 1;
     printf("Reading...\n");
     clen = sizeof(clientaddr);
-    if((len = recvfrom(lfd, buf, len, MSG_PEEK, (struct sockaddr *) &clientaddr, 
+    if((len = recvfrom(lfd, buf, len, MSG_PEEK, 
+		       (struct sockaddr *) &clientaddr, 
 		       &clen)) < 0){
       perror("Socket peek error");
       exit(42);

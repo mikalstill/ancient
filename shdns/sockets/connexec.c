@@ -1,7 +1,8 @@
-// Connected UDP socket example: this example this example simply waits fro traffic, and the 
-// starts a process to deal with the results. One process per packet, one packet per process. 
-// You'll note that we can now use read and write to get to the traffic, and that this all
-// works...
+// Connected UDP socket example: this example this example simply 
+//waits for traffic, and the starts a process to deal with the 
+// results. One process per packet, one packet per process. You'll 
+// note that we can now use read and write to get to the traffic, 
+// and that this all works...
 
 #include <stdio.h>
 #include <errno.h>
@@ -31,18 +32,21 @@ int main(int argc, char *argv[]){
   servaddr.sin_port = htons(1234);
 
   // Bind to the address
-  if(bind(lfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
+  if(bind(lfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
+     < 0){
     perror("Couldn't bind");
     exit(42);
   }
   
   // Do stuff
   while(1){
-    // We need to peek at the first part of the packet to determine who to connect to
+    // We need to peek at the first part of the packet to 
+    // determine who to connect to
     len = 1;
     printf("Reading...\n");
     clen = sizeof(clientaddr);
-    if((len = recvfrom(lfd, buf, len, MSG_PEEK, (struct sockaddr *) &clientaddr, 
+    if((len = recvfrom(lfd, buf, len, MSG_PEEK, 
+		       (struct sockaddr *) &clientaddr, 
 		       &clen)) < 0){
       perror("Socket peek error");
       exit(42);
@@ -64,7 +68,8 @@ int main(int argc, char *argv[]){
       exit(42);
       
     case 0:
-      // Child process -- setup the file descriptors, and the run the helper application
+      // Child process -- setup the file descriptors, and the run 
+      // the helper application
       dup2(lfd, 0);
       dup2(lfd, 1);
 

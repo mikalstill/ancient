@@ -1,6 +1,8 @@
-// Disconnected UDP socket example: this example simply reads from clients (there can be more 
-// than one), and returns what they said straight back to them. You'll note that we can't use 
-// read and write to get to the traffic, as this is not available for disconnected UDP sockets.
+// Disconnected UDP socket example: this example simply reads from
+// clients (there can be more than one), and returns what they 
+// said straight back to them. You'll note that we can't use read 
+// and write to get to the traffic, as this is not available for 
+// disconnected UDP sockets.
 
 #include <stdio.h>
 #include <errno.h>
@@ -30,7 +32,8 @@ int main(int argc, char *argv[]){
   servaddr.sin_port = htons(1234);
 
   // Bind to the address
-  if(bind(lfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
+  if(bind(lfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
+     < 0){
     perror("Couldn't bind");
     exit(42);
   }
@@ -40,7 +43,8 @@ int main(int argc, char *argv[]){
     len = 1024;
     printf("Reading...\n");
     clen = sizeof(clientaddr);
-    if((len = recvfrom(lfd, buf, len, 0, (struct sockaddr *) &clientaddr, 
+    if((len = recvfrom(lfd, buf, len, 0, 
+		       (struct sockaddr *) &clientaddr, 
 		       &clen)) < 0){
       perror("Socket read error");
       exit(42);

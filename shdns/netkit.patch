@@ -1,0 +1,35 @@
+Only in netkit-base-0.16-hacked: MCONFIG
+diff -ur netkit-base-0.16/inetd/inetd.c netkit-base-0.16-hacked/inetd/inetd.c
+--- netkit-base-0.16/inetd/inetd.c	Wed Nov 24 06:31:53 1999
++++ netkit-base-0.16-hacked/inetd/inetd.c	Thu Jan 23 13:42:59 2003
+@@ -470,7 +470,30 @@
+ 			return;
+ 		}
+ 		if (pid==0) {
++		        char buf[2];
++			size_t len = 1;
++			struct sockaddr clientaddr;
++			socklen_t clen;
++			
+ 			/* child */
++			len = sizeof(clientaddr);
++			if ((len = recvfrom(ctrl, buf, len, MSG_PEEK, 
++					   (struct sockaddr *) &clientaddr, 
++					   &clen)) < 0) {
++			        syslog(LOG_WARNING, "failed to peek for (for %s): %m",
++				       sep->se_service);
++			}
++			if (len==0) {
++			        syslog(LOG_WARNING, "no data (for %s): %m",
++				       sep->se_service);
++			}
++
++			// Connect
++			if (connect(ctrl, &clientaddr, clen) < 0) {
++			        syslog(LOG_WARNING, "connect failed (for %s): %m",
++				       sep->se_service);
++			}
++
+ 			dup2(ctrl, 0);
+ 			close(ctrl);
+ 			dup2(0, 1);
