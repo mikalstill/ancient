@@ -139,6 +139,10 @@ pdfRender::processLine (string line)
       return;
     }
 
+  char *state = plot_persiststate(m_plot);
+  debug(dlTrace, string("Plot state: ") + string(state));
+  free(state);
+
   stringArray tokens (line, " ");
   string sarg;
   bool sargMode (false);
@@ -826,6 +830,7 @@ pdfRender::command_Tm ()
   debug(dlTrace, "Tm");
   for (int i = 0; i < 6; i++)
     {
+      debug(dlTrace, string("Get arguement ") + toString(i));
       vals[5 - i] = atof (m_arguements.top ().c_str ());
       m_arguements.pop ();
     }
