@@ -14,7 +14,7 @@ typedef struct trivsql_internal_rs
 
 trivsql_state *trivsql_init(char *);
 void trivsql_docreate(char *, char *);
-void trivsql_doinser(char *, char *, char *);
+void trivsql_doinsert(char *, char *, char *);
 int trivsql_doselect(trivsql_state *,
 		  int , char *cols[], char *, int,
 		  char *conds[], trivsql_rs *);

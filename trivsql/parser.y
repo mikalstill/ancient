@@ -21,8 +21,8 @@ create   : CREATE TABLE STRING '(' colvalspec ')' ';'
 { trivsql_docreate($3, $5); } 
          ;
 
-insert   : INSERT '(' colvalspec ')' INTO STRING VALUES '(' colvalspec ')'
-{ trivsql_doinsert($6, $3, $9); }
+insert   : INSERT INTO STRING '(' colvalspec ')' VALUES '(' colvalspec ')'
+{ trivsql_doinsert($3, $5, $8); }
          ;
 
 sel      : SELECT '*' FROM STRING ';' 
@@ -31,8 +31,12 @@ sel      : SELECT '*' FROM STRING ';'
 
 colvalspec : STRING ',' colvalspec 
 { $$ = trivsql_xsnprintf("%s;%s", $1, $3); } 
+         | '\'' STRING '\'' ',' colvalspec 
+{ $$ = trivsql_xsnprintf("%s;%s", $2, $5); } 
          | STRING 
 { $$ = trivsql_xsnprintf("%s", $1); }
+         | '\'' STRING '\''
+{ $$ = trivsql_xsnprintf("%s", $2); }
          ;
 
 %%

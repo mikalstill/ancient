@@ -239,6 +239,15 @@ When the user requests that a row be inserted into a table, there are a number o
 
 As you can see, there really isn't much to it.
 </para>
+
+<para>
+So how does the database look after an insert has occured? The following is a dump of a clean database which has had a table created, and then a single row inserted...
+</para>
+
+<programlisting>
+
+
+</programlisting>
 </sect3>
 
 </sect2>

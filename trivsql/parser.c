@@ -35,17 +35,17 @@
 
 
 
-#define	YYFINAL		31
+#define	YYFINAL		36
 #define	YYFLAG		-32768
-#define	YYNTBASE	16
+#define	YYNTBASE	17
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 264 ? yytranslate[x] : 21)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 264 ? yytranslate[x] : 22)
 
 static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,     2,    11,
+     2,     2,     2,     2,     2,     2,     2,     2,    16,    11,
     12,    14,     2,    15,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,    13,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -73,21 +73,22 @@ static const char yytranslate[] = {     0,
 
 #if YYDEBUG != 0
 static const short yyprhs[] = {     0,
-     0,     2,     4,     6,    14,    25,    31,    35
+     0,     2,     4,     6,    14,    25,    31,    35,    41,    43
 };
 
-static const short yyrhs[] = {    17,
-     0,    18,     0,    19,     0,     3,     4,    10,    11,    20,
-    12,    13,     0,     5,    11,    20,    12,     7,    10,     6,
-    11,    20,    12,     0,     8,    14,     9,    10,    13,     0,
-    10,    15,    20,     0,    10,     0
+static const short yyrhs[] = {    18,
+     0,    19,     0,    20,     0,     3,     4,    10,    11,    21,
+    12,    13,     0,     5,     7,    10,    11,    21,    12,     6,
+    11,    21,    12,     0,     8,    14,     9,    10,    13,     0,
+    10,    15,    21,     0,    16,    10,    16,    15,    21,     0,
+    10,     0,    16,    10,    16,     0
 };
 
 #endif
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    17,    17,    17,    20,    24,    28,    32,    34
+    17,    17,    17,    20,    24,    28,    32,    34,    36,    38
 };
 #endif
 
@@ -96,34 +97,34 @@ static const short yyrline[] = { 0,
 
 static const char * const yytname[] = {   "$","error","$undefined.","CREATE",
 "TABLE","INSERT","VALUES","INTO","SELECT","FROM","STRING","'('","')'","';'",
-"'*'","','","sql","create","insert","sel","colvalspec", NULL
+"'*'","','","'\\''","sql","create","insert","sel","colvalspec", NULL
 };
 #endif
 
 static const short yyr1[] = {     0,
-    16,    16,    16,    17,    18,    19,    20,    20
+    17,    17,    17,    18,    19,    20,    21,    21,    21,    21
 };
 
 static const short yyr2[] = {     0,
-     1,     1,     1,     7,    10,     5,     3,     1
+     1,     1,     1,     7,    10,     5,     3,     5,     1,     3
 };
 
 static const short yydefact[] = {     0,
      0,     0,     0,     1,     2,     3,     0,     0,     0,     0,
-     8,     0,     0,     0,     0,     0,     0,     0,     7,     0,
-     6,     0,     0,     4,     0,     0,     0,     5,     0,     0,
-     0
+     0,     0,     0,     0,     0,     9,     0,     0,     0,     6,
+     0,     0,     0,     0,     7,    10,     4,     0,     0,     0,
+     8,     0,     5,     0,     0,     0
 };
 
-static const short yydefgoto[] = {    29,
-     4,     5,     6,    12
+static const short yydefgoto[] = {    34,
+     4,     5,     6,    18
 };
 
-static const short yypact[] = {    -1,
-     1,    -8,    -6,-32768,-32768,-32768,    -4,     0,     2,    -2,
-     3,     4,     5,     0,     0,     6,     7,     9,-32768,    12,
--32768,    10,     8,-32768,    13,     0,    14,-32768,    17,    19,
--32768
+static const short yypact[] = {    -2,
+     0,     2,    -9,-32768,-32768,-32768,     1,     3,     5,    -1,
+     6,     8,    -8,    -8,     7,    -3,     9,    10,    11,-32768,
+    -8,    12,    13,    15,-32768,    14,-32768,    16,    -8,    -8,
+-32768,    18,-32768,    24,    25,-32768
 };
 
 static const short yypgoto[] = {-32768,
@@ -131,19 +132,19 @@ static const short yypgoto[] = {-32768,
 };
 
 
-#define	YYLAST		26
+#define	YYLAST		30
 
 
-static const short yytable[] = {    18,
-    19,     1,     8,     2,     7,    10,     3,     9,    14,    11,
-    13,    27,    20,    25,    17,    16,    30,    15,    31,    21,
-    22,    23,    24,    26,     0,    28
+static const short yytable[] = {    19,
+     1,    16,     2,     7,     9,     3,    25,    17,     8,    13,
+    10,    21,    11,    12,    31,    32,    14,    15,    22,    20,
+    28,    23,    24,    35,    36,    27,    30,    26,    29,    33
 };
 
 static const short yycheck[] = {    14,
-    15,     3,    11,     5,     4,    10,     8,    14,    11,    10,
-     9,    26,     7,     6,    10,    12,     0,    15,     0,    13,
-    12,    10,    13,    11,    -1,    12
+     3,    10,     5,     4,    14,     8,    21,    16,     7,    11,
+    10,    15,    10,     9,    29,    30,    11,    10,    10,    13,
+     6,    12,    12,     0,     0,    13,    11,    16,    15,    12
 };
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line 3 "/usr/lib/bison.simple"
@@ -694,7 +695,7 @@ case 4:
     break;}
 case 5:
 #line 25 "parser.y"
-{ trivsql_doinsert(yyvsp[-4], yyvsp[-7], yyvsp[-1]); ;
+{ trivsql_doinsert(yyvsp[-7], yyvsp[-5], yyvsp[-2]); ;
     break;}
 case 6:
 #line 29 "parser.y"
@@ -706,7 +707,15 @@ case 7:
     break;}
 case 8:
 #line 35 "parser.y"
+{ yyval = trivsql_xsnprintf("%s;%s", yyvsp[-3], yyvsp[0]); ;
+    break;}
+case 9:
+#line 37 "parser.y"
 { yyval = trivsql_xsnprintf("%s", yyvsp[0]); ;
+    break;}
+case 10:
+#line 39 "parser.y"
+{ yyval = trivsql_xsnprintf("%s", yyvsp[-1]); ;
     break;}
 }
    /* the action file gets copied in in place of this dollarsign */
@@ -930,7 +939,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 38 "parser.y"
+#line 42 "parser.y"
 
 
 int yyerror(char *s){
