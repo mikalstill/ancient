@@ -82,6 +82,12 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_WINDOW_CHEBYSHEV, cepView::OnWindowChebyshev)
   EVT_MENU (CEPMENU_WINDOW_HAMMING, cepView::OnWindowHamming)
   EVT_MENU (CEPMENU_WINDOW_RECT, cepView::OnWindowRect)
+  EVT_MENU (CEPMENU_INTERP_NEAREST, cepView::OnInterpNearest)
+  EVT_MENU (CEPMENU_INTERP_LINEAR, cepView::OnInterpLinear)
+  EVT_MENU (CEPMENU_INTERP_NATURALSPLINE, cepView::OnInterpNaturalSpline)
+  EVT_MENU (CEPMENU_INTERP_CUBICSPLINE, cepView::OnInterpCubicSpline)
+  EVT_MENU (CEPMENU_INTERP_DIVIDED, cepView::OnInterpDivided)
+  
 END_EVENT_TABLE ()
   
 cepView::cepView ():
@@ -667,4 +673,19 @@ void cepView::OnWindowHamming (wxCommandEvent& event)
 {}
 
 void cepView::OnWindowRect (wxCommandEvent& event)
+{}
+
+void cepView::OnInterpNearest (wxCommandEvent& event)
+{}
+
+void cepView::OnInterpLinear (wxCommandEvent& event)
+{}
+
+void cepView::OnInterpNaturalSpline (wxCommandEvent& event)
+{}
+
+void cepView::OnInterpCubicSpline (wxCommandEvent& event)
+{}
+
+void cepView::OnInterpDivided (wxCommandEvent& event)
 {}

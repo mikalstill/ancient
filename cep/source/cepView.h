@@ -104,6 +104,13 @@ public:
   void OnWindowHamming (wxCommandEvent& event);
   void OnWindowRect (wxCommandEvent& event);
 
+  // Interpolation
+  void OnInterpNearest (wxCommandEvent& event);
+  void OnInterpLinear (wxCommandEvent& event);
+  void OnInterpNaturalSpline (wxCommandEvent& event);
+  void OnInterpCubicSpline (wxCommandEvent& event);
+  void OnInterpDivided (wxCommandEvent& event);
+
 private:
   DECLARE_DYNAMIC_CLASS (cepView) 
   DECLARE_EVENT_TABLE ()

@@ -324,6 +324,7 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
   wxMenu *maths_menu = (wxMenu *) NULL;
   wxMenu *ls_submenu = (wxMenu *) NULL;
   wxMenu *window_submenu = (wxMenu *) NULL;
+  wxMenu *interp_submenu = (wxMenu *) NULL;
   wxMenu *dev_menu = (wxMenu *) NULL;
   
   if (isCanvas)
@@ -476,6 +477,26 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
 
       maths_menu->Append (CEPMENU_WINDOW, "Windowing", window_submenu,
 			  "Dataset windowing");
+
+      ////
+      interp_submenu = new wxMenu(wxMENU_TEAROFF);
+      interp_submenu->Append (CEPMENU_INTERP_NEAREST, "Nearest",
+			      "Nearest neighbour interpolation", FALSE);
+
+      interp_submenu->Append (CEPMENU_INTERP_LINEAR, "Linear",
+			      "Linear interpolation", FALSE);
+      
+      interp_submenu->Append (CEPMENU_INTERP_NATURALSPLINE, "Natural Spline",
+			      "Natural spline interpolation", FALSE);
+      
+      interp_submenu->Append (CEPMENU_INTERP_CUBICSPLINE, "Cubic Spline",
+			      "Cubic spline interpolation", FALSE);
+      
+      interp_submenu->Append (CEPMENU_INTERP_DIVIDED, "Divided",
+			      "Divided interpolation", FALSE);
+      
+      maths_menu->Append (CEPMENU_INTERP, "Interpolation", interp_submenu,
+			  "Dataset interpolation");
     }
   
   /////////////////////////////////////////////////////////////////////////////
