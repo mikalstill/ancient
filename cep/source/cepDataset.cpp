@@ -197,17 +197,22 @@ cepDataset cepDataset::doHam (double datRow[3], double startWindow,
 			      double winSize)
 {
 
-  /* Imports: * datRow: a data row from the standard array of data
-   * [date,value,error] * startWindow: the date of the start of the hamming
-   * window * winSize: the size (in decimal years) of the window Exports: *
-   * hamValue: the hamming value * hamWeight: the weight of the value within
-   * the set */
+  /* Imports:
+   *   datRow:      a data row from the standard array of data [date,value,error]
+   *   startWindow: the date of the start of the hamming window
+   *   winSize:     the size (in decimal years) of the window
+   *
+   * Exports:
+   *   hamValue: the hamming value
+   *   hamWeight: the weight of the value within the set
+   */
 
   float hamWeight = 0;
   float hamValue = 0;
   float cosMe = 2 * M_PI * ((datRow[0] - startWindow) / (winSize));
 
-  hamWeight = 0.54 - 0.46 * cos (cosMe);        // todo:daniel ask nick why
+  hamWeight = 0.54 - 0.46 * cos (cosMe);
+  // todo:daniel ask nick why
   // 0.54 and .46...shouldn't be
   // hard coded here.
   hamValue = datRow[1] * hamWeight;
@@ -217,7 +222,7 @@ cepDataset cepDataset::doHam (double datRow[3], double startWindow,
   // totdo:daniel- need to ensure a constructor to deal with this returning
   // business above.
 
-}                               // end doHam
+} // end doHam
 
 //todo_daniel: once vector exists..fix this..wont need param data.
 cepDataset
