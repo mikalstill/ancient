@@ -3,6 +3,7 @@ TITLE: More addfs code...
 <ul><pre>
 static int addfs_getattr(const char *path, struct stat *stbuf)
 {
+  printf("getattr: %s\n", path);
   memset(stbuf, 0, sizeof(struct stat));
   if(strcmp(path, "/") == 0)
   {
@@ -13,7 +14,7 @@ static int addfs_getattr(const char *path, struct stat *stbuf)
   {
     stbuf-&gt;st_mode = S_IFREG | 0444;
     stbuf-&gt;st_nlink = 1;
-    stbuf-&gt;st_size = 8;
+    stbuf-&gt;st_size = 9;
   }
     
   return 0;
