@@ -1,6 +1,9 @@
 # Revision History
 # 
 #  $Log: not supported by cvs2svn $
+#  Revision 1.2  2002/07/14 11:38:26  u982087
+#  Fixed a bug in the code which copied ltmain.sh
+#
 #
 
 all:
@@ -12,9 +15,9 @@ all:
 	   echo "*** creating config directory" ; \
 	   mkdir config; \
 	fi
-	@if test ! -f config\ltmain.sh; then \
+	@if test ! -e config/ltmain.sh; then \
 	   echo "*** locating ltmain.sh"; \
-	   ln -s `locate ltmain.sh | grep libtool` config/ltmain.sh; \
+	   ln -s `locate ltmain.sh | grep libtool` config/ltmain.sh > /dev/null 2>&1; \
 	fi
 	@echo "*** Retrieving configure tests needed by configure.in"
 	@aclocal
