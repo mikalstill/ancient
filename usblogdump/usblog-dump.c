@@ -28,6 +28,7 @@ usage (char *name)
   printf (VERSION "\n\n");
   printf ("Try: %s [-i input] [-r] [-v]\n\n", name);
   printf ("\t-b <num>:  Suppress bulk data beyond length <num>\n");
+  printf ("\t-B:        Dump data as binary instead of hex\n");
   printf ("\t-i <name>: The name of the input usblog file\n");
   printf ("\t-l:        Output Linux kernel equivalent descriptions\n");
   printf ("\t-m:        Show MD5 hashes of URB descriptions\n");
@@ -53,7 +54,9 @@ void usb_pipe_info (char *file, long long *filep);
 void usb_ucd (char *file, long long *filep);
 void usb_setup_packet (char *file, long long *filep);
 
+// Output
 void dump_data(char *file, long long *filep, int psize);
+char *to_binary(unsigned char number);
 
 // URB output
 char *urb_buffer = NULL;
@@ -90,7 +93,7 @@ usb_allurbs;
 // Used for correlation
 int hashcmp (usb_allurbs * head, int inset, int testinset, int length);
 
-int do_linux = 0, do_showhash = 0;
+int do_linux = 0, do_showhash = 0, do_binarydumps = 0;
 
 int
 main (int argc, char *argv[])
@@ -105,7 +108,7 @@ main (int argc, char *argv[])
   int transfer_direction;
   int max_bulk = 0;
 
-  while ((optchar = getopt (argc, argv, "i:lmrRvb:")) != -1)
+  while ((optchar = getopt (argc, argv, "i:lmrRvb:B")) != -1)
     {
       switch (optchar)
 	{
@@ -129,7 +132,11 @@ main (int argc, char *argv[])
 
 	case 'b':
 	  do_bulk = 1;
-	  sscanf (optarg, "%d", &max_bulk);
+	  max_bulk = atoi(optarg);
+	  break;
+
+	case 'B':
+	  do_binarydumps = 1;
 	  break;
 
 	case 'i':
@@ -1071,7 +1078,13 @@ void dump_data(char *file, long long *filep, int psize)
   urb_printf("\t");
   for (i = 0; i < psize; i++)
     {
-      if (isgraph (file[count]))
+      if (do_binarydumps == 1)
+	{
+	  char *conv = to_binary((unsigned char) file[count]);
+	  urb_printf("%s ", conv);
+	  free(conv);
+	}
+      else if (isgraph (file[count]))
 	{
 	  urb_printf (" %c ", (unsigned char) file[count]);
 	}
@@ -1095,4 +1108,29 @@ void dump_data(char *file, long long *filep, int psize)
     }
 
   *filep = count;
+}
+
+char *to_binary(unsigned char number)
+{
+  char *retval;
+
+  if((retval = malloc(sizeof(char) * 9)) == NULL)
+    {
+      fprintf(stderr, "Could not allocate memory\n");
+      exit(42);
+    }
+
+  memset(retval, '0', 8);
+  retval[8] = 0;
+
+  if(number & 0x80) retval[0] = '1';
+  if(number & 0x40) retval[1] = '1';
+  if(number & 0x20) retval[2] = '1';
+  if(number & 0x10) retval[3] = '1';
+  if(number & 0x08) retval[4] = '1';
+  if(number & 0x04) retval[5] = '1';
+  if(number & 0x02) retval[6] = '1';
+  if(number & 0x01) retval[7] = '1';
+ 
+  return retval;
 }
