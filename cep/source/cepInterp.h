@@ -89,7 +89,7 @@ DOCBOOK START
 	  return value: Interpolated cepMatrix.
 DOCBOOK END
 */
-  cepMatrix<double> & doInterp(cepMatrix<double> const & input, double sampleRate,
+  cepMatrix<double> doInterp(cepMatrix<double> & input, double sampleRate,
 									int interpType, int winSize = 1, double winOverlap = 0.0);
 
 /****
@@ -117,7 +117,7 @@ DOCBOOK START
 				the second column is the interpolated data points to fit that timescale
 DOCBOOK END
 */
-	cepMatrix<double> & doInterp(cepMatrix<double> const & input, cepMatrix<double> & timeScale,
+	cepMatrix<double> doInterp(cepMatrix<double> & input, cepMatrix<double> & timeScale,
 												int interpType);
 
 
@@ -141,31 +141,31 @@ Exports:
 
 // Nearest neighbour interpolation
 // Estimates points to be equal to nearest point
-	cepMatrix<double> & nearestInterp(const cepMatrix<double> & input,
+	cepMatrix<double> nearestInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale);
 // Linear interpolation
 // Estimates new points as a linear interp of the 2 nearest points
-	cepMatrix<double> & linearInterp(const cepMatrix<double> & input,
+	cepMatrix<double> linearInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale);
 // Natural spline interpolation
 // Estimates new points using a natural spline
 // (Natural spline: second derivatives of end points = 0)
-	cepMatrix<double> & naturalSplineInterp(const cepMatrix<double> & input,
+	cepMatrix<double> naturalSplineInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale);
 // Cubic spline interpolation
 // Estimates new points using a P spline
 // (P spline: second derivative of end points = second to end points)
-	cepMatrix<double> & cubicSplineInterp(const cepMatrix<double> & input,
+	cepMatrix<double> cubicSplineInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale);
 // Divided difference interpolation
 // Estimates new points using newton divided differences
 // (order of divided differences optimized for minimum error)
-	cepMatrix<double> & dividedInterp(const cepMatrix<double> & input,
+	cepMatrix<double> dividedInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale);
 
 // Used for keeping fill command within bounds while interpolation
 // (also icrements counter)
-	bool inBounds(const cepMatrix<double> & input, cepMatrix<double> & timeScale,
+	bool inBounds(cepMatrix<double> & input, cepMatrix<double> & timeScale,
 									 int & position, int & i, int newSize, int oldSize);
 
 // RowReduce: (used in spline interpolation)
@@ -178,7 +178,7 @@ Exports:
 // Imports: s, h, import, n
 // Exports: a, b, c
 	void calc_abc(cepMatrix<double> & a,cepMatrix<double> & b,cepMatrix<double> & c,
-								cepMatrix<double> & s,cepMatrix<double> & h,const cepMatrix<double> & input, int n);
+								cepMatrix<double> & s,cepMatrix<double> & h,cepMatrix<double> & input, int n);
 
 };
 

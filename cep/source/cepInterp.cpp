@@ -32,7 +32,7 @@ cepInterp::cepInterp()
 
 }
 
-cepMatrix<double> & cepInterp::doInterp(cepMatrix<double> const & input, double sampleRate,
+cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input, double sampleRate,
 												int interpType, int winSize = 1, double winOverlap = 0.0)
 {
 	/* winLength is the length of a window minus overlap on start edge*/
@@ -49,7 +49,12 @@ cepMatrix<double> & cepInterp::doInterp(cepMatrix<double> const & input, double 
 	cepMatrix<double> timeScale(numSamples,3);
 	timeScale.setValue(0,0,input.getValue(0,0));
 	for (int i = 1; i < numSamples; i++)
+	{
 		timeScale.setValue(i,0,timeScale.getValue(i-1,0)+sampleRate);
+		timeScale.setValue(i,2, 0.0);
+	}
+
+	cout << "Generate timescale\n";
 
 	for (int i=0; i < timeScale.getNumRows(); i++)
 	{
@@ -57,15 +62,16 @@ cepMatrix<double> & cepInterp::doInterp(cepMatrix<double> const & input, double 
 			cout << timeScale.getValue(i,j);
 		cout << '\n';
 	}
-
+	cout << "Blah\n";
 
 	/* do interpolation and return results */
 	return doInterp(input,timeScale,interpType);
 }
 
-cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
+cepMatrix<double> cepInterp::doInterp(cepMatrix<double> & input,
                                  cepMatrix<double> & timeScale,int interpType)
 {
+	cout << "Select interp\n";
 	switch(interpType)
 	{
 		case NEAREST_INTERP:
@@ -87,7 +93,7 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 	return timeScale;
 }
 
-	cepMatrix<double> & cepInterp::nearestInterp(cepMatrix<double> const & input,
+	cepMatrix<double> cepInterp::nearestInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale)
 {
 	int newSize = timeScale.getNumRows();
@@ -101,8 +107,8 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 	{
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
-			distA = input.getValue(i,0) - input.getValue(position,0);
-			distB = input.getValue(i,0) - input.getValue(position+1,0);
+			distA = timeScale.getValue(i,0) - input.getValue(position,0);
+			distB = input.getValue(position+1,0) - timeScale.getValue(i,0);
 			if (distA < distB)
 				timeScale.setValue(i,1,input.getValue(position,1));
 			else
@@ -116,9 +122,10 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 	return timeScale;
 }
 
-	cepMatrix<double> & cepInterp::linearInterp(const cepMatrix<double> & input,
+	cepMatrix<double> cepInterp::linearInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale)
 {
+	cout << "Linear interp\n";
 	int newSize = timeScale.getNumRows();
 	int oldSize = input.getNumRows();
 
@@ -130,6 +137,7 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 	{
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
+			cout << "i:" << i << "pos:" << position << '\n';
 			distDate = input.getValue(position+1,0)-input.getValue(position,0);
 			distValue = input.getValue(position+1,1)-input.getValue(position,1);
 			timeScale.setValue(i,1,input.getValue(position,1)+distValue/distDate*
@@ -140,11 +148,19 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 			return timeScale;
 		}
 	}
+
+	for (int i = 0; i < timeScale.getNumRows(); i++)
+	{
+		for (int j = 0; j < timeScale.getNumCols(); j++)
+			cout << timeScale.getValue(i,j) << " ";
+		cout << '\n';
+	}
+
 	return timeScale;
 
 }
 
-	cepMatrix<double> & cepInterp::naturalSplineInterp(const cepMatrix<double> & input,
+	cepMatrix<double> cepInterp::naturalSplineInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale)
 {
 	int i;
@@ -210,22 +226,22 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 
 	// augment t with s then row reduce
 	rowReduce(t,s,n);
-
 	// use values of s to calculate a, b and c
 	calc_abc(a,b,c,s,h,input,n);
-
 	// use a,b,c and d to interpolate the data to the new timescale
 
 	int position = 0;
 	for (i = 0; i < newSize; i++)
 	{
+		cout << "Am here \n";
 		if (inBounds(input, timeScale, position, i, newSize, oldSize))
 		{
+			cout << "i:" << i << " pos:" << position << "\n";
 			timeScale.setValue(i,1,
-								a.getValue(i,0)*pow((timeScale.getValue(i,0)-input.getValue(i,0)),3.0)+
-								b.getValue(i,0)*pow((timeScale.getValue(i,0)-input.getValue(i,0)),2.0)+
-								c.getValue(i,0)*(timeScale.getValue(i,0)-input.getValue(i,0))+
-								d.getValue(i,0));
+								a.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),3.0)+
+								b.getValue(position,0)*pow((timeScale.getValue(i,0)-input.getValue(position,0)),2.0)+
+								c.getValue(position,0)*(timeScale.getValue(i,0)-input.getValue(position,0))+
+								d.getValue(position,0));
 		}
 		else
 		{
@@ -237,14 +253,14 @@ cepMatrix<double> & cepInterp::doInterp(const cepMatrix<double> & input,
 
 }
 
-cepMatrix<double> & cepInterp::cubicSplineInterp(const cepMatrix<double> & input,
+cepMatrix<double> cepInterp::cubicSplineInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale)
 {
 	return timeScale;
 }
 
 
-cepMatrix<double> & cepInterp::dividedInterp(const cepMatrix<double> & input,
+cepMatrix<double> cepInterp::dividedInterp(cepMatrix<double> & input,
 												cepMatrix<double> & timeScale)
 {
 	int i;
@@ -333,11 +349,11 @@ cepMatrix<double> & cepInterp::dividedInterp(const cepMatrix<double> & input,
 	return timeScale;
 }
 
-bool cepInterp::inBounds(const cepMatrix<double> & input, cepMatrix<double> & timeScale,
+bool cepInterp::inBounds(cepMatrix<double> & input, cepMatrix<double> & timeScale,
 								 int & position, int & i, int newSize, int oldSize)
 {
 
-	if (input.getValue(position+1,0) < timeScale.getValue(i,0))
+	if ((position < oldSize -1) && input.getValue(position+1,0) < timeScale.getValue(i,0))
 	{
 		if (position+2 >= oldSize)
 		{
@@ -399,7 +415,7 @@ void cepInterp::rowReduce(cepMatrix<double> & t, cepMatrix<double> & s, int n)
 }
 
 void cepInterp::calc_abc(cepMatrix<double> & a,cepMatrix<double> & b,cepMatrix<double> & c,
-							cepMatrix<double> & s,cepMatrix<double> & h,const cepMatrix<double> & input, int n)
+							cepMatrix<double> & s,cepMatrix<double> & h,cepMatrix<double> & input, int n)
 {
 	int i;
 
