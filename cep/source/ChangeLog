@@ -3,3 +3,12 @@
 
 20020417 Michael Still (mikal@stillhq.com)
 	Added the cepDate class
+
+20020528 Michael Still (mikal@stillhq.com)
+	Removed compile errors from cepDataset.cpp
+
+20020529 Michael Still (mikal@stillhq.com)
+	Added cvs reporting script
+
+20020529 Michael Still (mikal@stillhq.com)
+	Started implementing the UI

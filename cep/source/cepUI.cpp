@@ -1,29 +1,38 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        docview.cpp
-// Purpose:     Document/view demo
-// Author:      Julian Smart
-// Modified by:
-// Created:     04/01/98
-// RCS-ID:      $Id: cepUI.cpp,v 1.1 2002-05-29 02:27:58 u964076 Exp $
-// Copyright:   (c) Julian Smart and Markus Holzem
-// Licence:   	wxWindows license
-/////////////////////////////////////////////////////////////////////////////
+/* 
+   UI for the CEP program
+   Copyright (C) Michael Still                    2002
 
-#ifdef __GNUG__
-// #pragma implementation "docview.h"
-#endif
-
-/*
- * Purpose:  Document/view architecture demo for wxWindows class library - MDI
- */
-
+   Based on a demo which originally had this notice:
+   ////////////////////////////////////////////////////////////////////////////
+   // Name:        docview.cpp
+   // Purpose:     Document/view demo
+   // Author:      Julian Smart
+   // Modified by:
+   // Created:     04/01/98
+   // Copyright:   (c) Julian Smart and Markus Holzem
+   // Licence:   	wxWindows license
+   ////////////////////////////////////////////////////////////////////////////
+  
+   [The wxWindows license is compatible with the GNU GPL, as it is the GNU
+   LGPL]
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
 
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
@@ -198,7 +207,7 @@ MyFrame::MyFrame(wxDocManager *manager, wxFrame *frame, const wxString& title,
 
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event) )
 {
-    (void)wxMessageBox("DocView Demo\nAuthor: Julian Smart julian.smart@ukonline.co.uk\nUsage: docview.exe", "About DocView");
+    (void)wxMessageBox("CEPtor\n\nA GPS, VLBI and SLR dataset manipulation tool by\n\tMichael Still\n\tDaniel Fernandez\n\tBlake Swadling\n\tNick Wheatstone\n\tand Kristy Van Der Vlist\n\nPortions copyright: Julian Smart julian.smart@ukonline.co.uk\n\nReleased under the terms of the GNU GPL", "About CEPtor");
 }
 
 // Creates a canvas. Called from view.cpp when a new drawing
