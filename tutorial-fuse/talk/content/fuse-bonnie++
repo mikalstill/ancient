@@ -1,9 +1,30 @@
 TITLE: Performance: bonnie++
 
 <ul>
-<pre>
-bonnie++ -d /tmp/benchmarks/ -u root
-</pre>
-</ul>
 
-%% TODO
+<b>Straight ext3:</b><br>
+<ul><pre>
+Version  1.03       ------Sequential Output------ --Sequential Input- --Random-
+                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+challenger       2G 23723  74 23900   6  9162   2 22858  64 27670   3 125.5   0
+                    ------Sequential Create------ --------Random Create--------
+                    -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16  2675  97 +++++ +++ +++++ +++  2801  98 +++++ +++ 13645  9
+</pre></ul>
+
+<BR><BR>
+
+<b>Userspace write through to ext3:</b><br>
+<ul><pre>
+Version  1.03       ------Sequential Output------ --Sequential Input- --Random-
+                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+challenger       2G 14037  43 22377   4  9857   2 20704  57 22355   3  52.9   0
+                    ------Sequential Create------ --------Random Create--------
+                    -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16  2489   2 +++++ +++ +++++ +++  2542   1 +++++ +++ 10218   7
+</pre></ul>
+</ul>

@@ -1,1 +1,6 @@
 TITLE: The FUSE threading model
+
+<ul>
+<li>By default FUSE is threaded
+<li>You can disable this if you would like with a command line option
+</ul>

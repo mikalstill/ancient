@@ -64,9 +64,7 @@ content/fuse-performancemetrics
 content/fuse-kernelcompiles
 content/fuse-bonnie++
 content/fuse-dbench
-content/fuse-loadhandling
 content/fuse-mounting
 content/fuse-unmounting
 content/fuse-largefilesupport
-content/fuse-supportinguserspacelibrary
 content/questions-end
