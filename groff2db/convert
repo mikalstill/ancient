@@ -1,617 +1,604 @@
 #!/usr/bin/perl
 
-# groff2db 0.2. Copyright (c) Michael Still 2001 (mikal@stillhq.com)
+# groff2db 0.5. Copyright (c) Michael Still 2001 and 2002 (mikal@stillhq.com)
 # Released under the terms of the GNU GPL. Please submit all patches to mik al@stillhq.com
 # Initially developed for Greg Lehey's "The Complete FreeBSD"... Many thanks for his
 # sponsorship and support of this project.
 
 # The basic concept of this script to to convert troff marked up input into
-# docbook compliant XML. This script is somewhat Greg specific at the moment, but I would
-# love to make it more generalised over time...
+# docbook compliant XML. It also makes an attempt at being able to convert man pages to
+# docbook...
 
 use strict;
-my($INPUT, $OUTPUT, $PREPROC, $outputstyle);
+my($INPUT, $PREPROC, $outputstyle);
 my($parastate, $liststate, $listitemstate, $footnotestate, $sectionstate, $tablestate, $stylestate, $displaystate, $waitstate, $quotestate, $pausedlist, $tablestate, $tablecolcount, $tablebracestate);
 my($length);
-my($chapters, $chapter, $chaptercount, $temp, $inputused);
+my($temp);
 my($linecount, $condlinecount, $firstsect);
 my(@inline, @outline, $linemax, $count);
 
-#####################################################################
-# We need to check the command line arguements...
-if($ARGV[0] eq "jade" ){
-    print "Jade output style selected (one big file).\n";
-    print "The output will go to output.sgml\n";
-    $outputstyle = "jade";
-}
-else{
-    print "Output style is gmat (many docbook files).\n";
-    print "The files will have .sgml extensions...\n";
-    $outputstyle = "gmat";
-}
-
-$chapters = "introduction concepts evolution quickinstall shareinstall install xsetup postinstall ports problems xtheory unixref starting filesys disks tapes printers desktop building current emulate netintro netsetup isp modems ppp slip dns firewall netdebug nfs netbasics email www fax micronet mobile";
-
-$chaptercount = 0;
 $linecount = 0;
-
-if($outputstyle eq "jade"){
-    open OUTPUT, "> output.sgml";
-}
-
-# Print out the prelude
-print OUTPUT "<!DOCTYPE book PUBLIC \"-//OASIS//DTD DocBook V3.1//EN\">\n";
-print OUTPUT "<book><bookinfo><title>The Complete FreeBSD</title><author><firstname>Greg</firstname><surname>Lehey</surname></author><copyright><year>2001</year><holder>Greg Lehey</holder></copyright></bookinfo>\n";
-
-# For each chapter we specified
-foreach $chapter (split(/ /, $chapters)){
-    if($outputstyle ne "jade"){
-	open OUTPUT, "> $chapter.sgml";
-    }
-
-    $chaptercount++;
-
-    print "Preprocessing chapter $chapter\n";
-    print "  - Table conversion\n";
-
-    open INPUT, "< $chapter.mm";
-    open PREPROC, "> $chapter.pp";
-    $tablestate = 0;
+$tablestate = 0;
+open PREPROC, "> tmp.pp";
     
-    #####################################################################
+#####################################################################
 # We setup the conversion rules for many of the translations here...
 #####################################################################
     
 # Table start
-    $inline[0] = "\.TH[ \t]*(.*)";
-    $outline[0] = "\$tablestate = 1; \$temp = \"\";";
-    
+$inline[0] = "\.TH[ \t]*(.*)";
+$outline[0] = "\$tablestate = 1; \$temp = \"\";";
+
 # Table end
-    $inline[1] = "\.TE";
-    $outline[1] = "\$tablestate = 0; print PREPROC \"\$temp\n\";";
-    
-    $linemax = 2;
-    
-    while(<INPUT>){
-	for($count = 0; $count < $linemax; $count++){
-	    if(/^$inline[$count]/){
-		eval $outline[$count];
-		$count = $linemax + 1;
-	    }
+$inline[1] = "\.TE";
+$outline[1] = "\$tablestate = 0; print PREPROC \"\$temp\n\";";
+
+$linemax = 2;
+
+while(<STDIN>){
+    for($count = 0; $count < $linemax; $count++){
+	if(/^$inline[$count]/){
+	    eval $outline[$count];
+	    $count = $linemax + 1;
 	}
+    }
+    
+    # If we are in table state, then we need to rewrite lines for the table cells
+    if($tablestate == 1){
+	s/T\{\n//;
+	s/T\}//g;
 	
-	# If we are in table state, then we need to rewrite lines for the table cells
-	if($tablestate == 1){
-	    s/T\{\n//;
-	    s/T\}//g;
-
-	    if(/^\./){
-		$_="\n$_";
-	    }
-	    elsif(/\#/){
-	    }
-	    else{
-		chomp;
-	    }
-
-	    $temp="$temp $_";
+	if(/^\./){
+	    $_="\n$_";
+	}
+	elsif(/\#/){
 	}
 	else{
-	    print PREPROC "$_";
-	}
-    }
-    close INPUT;
-    close PREPROC;
-
-    print "Processing chapter $chapter ($chaptercount)\n";
-    open INPUT, "< $chapter.pp";
-
-    $liststate = 0;
-    $listitemstate = 0;
-    $parastate = 0;
-    $footnotestate = 0;
-    $sectionstate = 0;
-    $tablestate = 0;
-    $displaystate = 0;
-    $stylestate = "";
-    $quotestate = 0;
-    $tablestate = 0;
-    $inputused = 0;
-    $pausedlist = 0;
-    $firstsect = 1;
-    
-    # For each line in the file...
-    while(<INPUT>){
-	$linecount++;
-        $inputused = 1;
-
-	# There are some conditional elements used, for instance in xtheory.mm (which is also an
-	# article)
-	if((/^\.\.if article/i) || (/^\.\.if XXX/i) || (/^\.\.if appropriate/i) || (/^\.\.if complete/i) ||
-	   (/^\.\.if finished/i) || (/^\.\.if fixme/i) || (/^\.\.if isdn/i) || (/^\.\.if itworks/i) || (/^\.\.if long/i) ||
-	   (/^\.\.if needed/i) || (/^\.\.if netnews/i) || (/^\.\.if network/i) || (/^\.\.if partofthebook/i) ||
-	   (/^\.\.if raid5/i) || (/^\.\.if review/i) || (/^\.\.if short/i) || (/^\.\.if sorted/i) || (/^\.\.if verylong/i) ||
-	   (/^\.\.if X/i)){
-	    $waitstate = 1;
-	    $condlinecount = 0;
-	    while(($waitstate == 1) && ($_ = <INPUT>)){
-		$linecount++;
-		$condlinecount++;
-
-		if(/^..else/){
-		    $waitstate = 0;
-		}
-		elsif(/^..endif/){
-		    $waitstate = 0;
-		}
-	    }
-	}
-
-	# Ampersands
-	s/&/&amp;/g;
-
-	# LT
-	s/</&lt;/g;
-
-	# GT
-	s/>/&gt;/g;
-
-	# Mu (micro) doesn't work with db2ps (jade)
-	s/µ/&mu;/g;
-
-	# Sometimes there are some other special characters that we deal with
-	s/\\\(ae/&aelig;g/;
-
-	# Footnote thingie we don't use
-	s/\\\*F//g;
-
-	# Bold italic for a single word (there is no equivalent, so merely italics)
-	s/\\f\(BI([^ \t\"\\]*)/<emphasis>$1<\/emphasis>/ig;
-
-	# Italic for a single word
-	s/[ \t]*\\\(em[ \t]*/&mdash;/ig;
-
-	# We run some little conversion rules to deal with things like italics et al
-	$temp = processstyles($displaystate, $_);
-	$_ = $temp;	
-
-	##############################################################
-	# Comments
-	if(/^\.\\\"(.*)/i){
-	    $_ = $1;
-	    s/nroff-fill/sgml-fill/g;
-	    print OUTPUT "<!-- $_ -->\n";
-	}
-
-	# No mapping
-	elsif(/^\.\./){
-	}
-
-	# Aside start
-	elsif(/^\.Aside(.*)/i){
-	    endpara();
-	    print OUTPUT "<note>\n";
-            startpara();
-	}
-
-	elsif(/^\.End-aside(.*)/i){
-            endpara();
-	    print OUTPUT "</note>\n";
-            startpara();
-	}
-
-	# No mapping?
-	elsif(/^\.ad/i){
+	    chomp;
 	}
 	
-	# No mapping?
-	elsif(/^\.br/i){
-	}
-
-	# No mapping
-	elsif(/^\.ce/i){
-	}
-
-	# Defining display strings
-	elsif(/^.ds/){
-	}
-	
-	# Display start -- is case sensitive
-	elsif((/^\.DS(.*)/) || (/^\.Dx(.*)/i)){
-	    endpara();
-	    print OUTPUT closeallstates();
-	    print OUTPUT "<programlisting>\n";
-	    $displaystate = 1;
-	}
-
-	# Display end
-	elsif(/^\.DE(.*)/i){
-	    if($displaystate == 1){
-		print OUTPUT closeallstates();
-		print OUTPUT "</programlisting>\n";
-		$displaystate = 0;
-		startpara();
-	    }
-	}
-	
-	# The content of floating displays is handled in with the images themselves
-	# This also squelches the display output command
-	elsif(/^\.DF/i){
-	}
-	
-	# Ifs
-	elsif(/^\.\.if/i){
-	}
-
-	# Else
-	elsif(/^\.\.else/i){
-	}
-
-	# Endifs
-	elsif(/^\.\.endif/i){
-	}
-
-	# Setting the font family
-	elsif(/^\.fam/i){
-	    # No mapping?
-	}
-
-	# Set the font
-	elsif(/^\.ft/i){
-	    # No mapping
-	}
-
-	# Footnote start
-	elsif(/^\.FS[ \t]*(.*)/i){
-	    print OUTPUT "<footnote>\n";
-            startpara();
-	    $footnotestate = 1;
-	}
-	
-	# Footnote end
-	elsif(/^\.FE[ \t]*(.*)/i){
-	    if($footnotestate == 0){
-	    }
-	    
-	    endpara();
-	    print OUTPUT "</footnote>\n";
-	    $footnotestate = 0;
-	}
-
-	# Figure headings
-	elsif(/^\.Figure-heading [\"]*([^\"]*)[\"]*/i){
-	    print OUTPUT "<figure>";
-	    if($1 ne ""){
-		print OUTPUT "<title>$1</title>";
-		}
-	    print OUTPUT "<graphic format=\"JPEG\" fileref=\"images/missing.jpg\"></graphic></figure>\n";
-	}
-
-	# Filenames
-	elsif(/^\.File ([ \t]*)(.*)/i){
-	    print OUTPUT "<filename>$1</filename>$2\n";
-	}
-	
-	# Headings
-	elsif(/^\.H([0-7])[ \t]*(.*)/i){
-	    print OUTPUT closeallstates();
-	    endpara();
-	    
-	    # Docbook only goes up to sect5
-	    if($1 > 5){
-		print "Warning: docbook sect limit exceeded\n";
-	    }
-
-	    while($sectionstate > ($1 - 2)){
-		if($firstsect == 1){
-		    $firstsect = 0;
-		}
-		else{
-		    print OUTPUT "</sect$sectionstate>\n";
-		}
-		$sectionstate--;
-	    }
-	    
-	    while($sectionstate < ($1 - 2)){
-		$sectionstate++;
-		if($firstsect == 0){
-		    print OUTPUT "<sect$sectionstate>\n";
-		}
-	    }
-
-	    $sectionstate++;
-	    if($firstsect == 0){
-		print OUTPUT "<sect$sectionstate>\n";
-	    }
-
-	    $_ = $2;
-	    s/\"//g;
-
-	    if($_ ne ""){
-		print OUTPUT "<title>$_</title>\n";
-	    }
-            startpara();
-	}
-	
-	# Headings (Unsupported)
-	elsif(/^\.H([8-9])[ \t]*(.*)/i){
-	    print OUTPUT closeallstates();
-	    endpara();
-	    print OUTPUT "<sect1><title>UNSUPPRTED SECTION LEVEL</title>\n";
-	    $sectionstate = 1;
-	}
-
-	# Highlights
-	elsif(/^\.Highlight(.*)/i){
-	    endpara();
-	    print OUTPUT "<note>\n";
-            startpara();
-	}
-
-	elsif(/^\.End-highlight(.*)/i){
-            endpara();
-	    print OUTPUT "</note>\n";
-            startpara();
-	}
-
-        # Indents (not used very often in Greg's source)
-	elsif(/^\.Indent(.*)/i){
-	    endpara();
-	    print OUTPUT "<note>\n";
-            startpara();
-	}
-
-	elsif(/^\.End-indent(.*)/i){
-            endpara();
-	    print OUTPUT "</note>\n";
-            startpara();
-	}	
-
-	# Another form of indenting (has no mapping)
-	elsif(/^\.in/i){
-	}
-	
-	# List start
-	elsif((/^\.LS(.*)/i) || (/^\.LB(.*)/i)){
-            liststart();
-	}
-	
-	# List item
-	elsif(/^\.LI[ \t]*(.*)/i){
-	    if($liststate == 0){
-                liststart();
-	    }
-
-	    if($pausedlist == 1){
-		print OUTPUT "<itemizedlist>\n";
-		$pausedlist = 0;
-	    }
-	    
-	    endpara();
-	    if($listitemstate == 1){
-		print OUTPUT "</listitem>\n";
-	    }
-	    
-	    print OUTPUT "<listitem>\n";
-            startpara();
-	    $listitemstate = 1;
-	}
-	
-	# List end
-	elsif(/^\.LE(.*)/i){
-	    if($liststate == 0){
-	    }
-	    
-	    endpara();
-	 
-	    if($listitemstate > 0){
-		print OUTPUT "</listitem>\n";
-	    }
-
-	    if($liststate == 1){
-		print OUTPUT "</itemizedlist>\n";
-                startpara();
-	    }
-	    else{
-		print OUTPUT "</orderedlist>\n";
-		$pausedlist = 1;
-	    }
-	    $liststate--;
-	    $listitemstate = 0;
-
-	    if($liststate < 0){
-	    }
-	}
-	
-	# No mapping
-	elsif(/^\.na/i){
-	}
-
-	# Space on page
-	elsif(/^\.ne/i){
-	    # No mapping to docbook?
-	}
-
-	# No fill
-	elsif(/^\.nf/i){
-	    # No mapping to docbook?
-	}
-
-	# Set the fill (after a ne?)
-	elsif(/^\.fi/i){
-	    # No mapping to docbook?
-	}
-	
-	# Page link target -- some of Greg's anchors start with numbers, which is why we insert some text
-	elsif(/^\.Pn[ \t]+(.*)/i){
-	    print OUTPUT "<anchor id=\"CFBSD-$1\"/>\n";
-	}
-
-	# Paragraphs
-	elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
-	    endpara();
-            startpara();
-	}
-
-	# Pictures
-	elsif(/^\.PIC [\"]*([^\"]*)[\"]*/i){
-	    print OUTPUT "<figure><graphic format=\"PS\" fileref=\"$1\"></graphic></figure>\n";
-	}
-
-	# Quotes
-	elsif(/^\.Quote(.*)/i){
-	    print OUTPUT "<quote>\n";
-	    $quotestate = 1;
-	}
-
-	elsif((/^\.End-quote(.*)/i) && ($quotestate == 1)){
-	    print OUTPUT "</quote>\n";
-	}
-
-#	elsif(/^.Sref[ \t]*\\\*\[(.*)\]/i){
-#	    print OUTPUT "...Section reference $1 (edit manually)...\n";
-#	}
-
-	# Insets are treated as quotes as well
-	elsif(/^\in[ \t]\+(.*)/i){
-	    print OUTPUT "<quote>\n";
-	    $quotestate = 1;
-	}
-
-	elsif((/^\.in/i) && ($quotestate == 1)){
-	    print OUTPUT "</quote>\n";
-	}
-
-	# Spacing commands don't map to db
-	elsif(/^\.sp(.*)/i){
-	}
-
-	# I believe that so is the inclusion of a shared object
-	elsif(/^\.so/i){
-	}
-
-	# Table title
-	elsif(/^\.TB[ \t]*[\"]*([^\"]*)[\"]*/i){
-	    print OUTPUT "<table frame='all'>";
-	    if($1 ne "" ){
-		print OUTPUT "<title>$1</title>\n";
-	    }
-	    $tablestate = 1;
-	}
-
-	# Table start
-	elsif(/^\.TS[ \t]*(.*)/i){
-	}
-
-	# Table heading
-	elsif(/^\.TH(.*)/i){
-	    $tablestate = 2;
-	}
-	
-	# Table end
-	elsif(/^\.TE/i){
-	    print OUTPUT "</tbody></tgroup></table>\n";
-	    $tablestate = 0;
-	}
-
-	# Table reference for later
-	elsif(/^\.Tn/i){
-	}
-
-	# Chapters
-	elsif(/^\.Chapter[ \t]\\\*\[([^ \t]*)\][ \t]\"(.*)\"/){
-	    print OUTPUT "<chapter id=\"CFBSD-$1\">";
-	    if($2 ne ""){
-		print OUTPUT "<title>$2</title>\n";
-	    }
-
-	    # The introductory text doesn't need to have a sect1
-            startpara();
-	    $sectionstate = 1;
-	    }
-
-	elsif(/^\.X[ \t]\"*([^ \",]*)[ \t,]*([^,\"]*)\"*/i){
-	    print OUTPUT "<indexterm><primary>$1</primary>";
-	    if($2 ne ""){
-		print OUTPUT "<secondary>$2</secondary>";
-		}
-	    print OUTPUT "</indexterm>\n";
-	}
-	
-	# We don't know anything about this command at all
-	elsif(/^\.(.*)/i){
-	    print "DEFAULT COMMAND FOUND: $1\n";
-	}
-	
-	# A document line?
-	else{
-	    # References to chapters and stuff like that
-	    s/\\\*\[([^\]]*)\]/<xref linkend=\"CFBSD-$1\"\/>/g;
-
-	    if($tablestate > 1){
-		s/\#/<\/entry><entry>/g;
-	    }
-	    
-	    if($tablestate == 2){
-		$tablecolcount = 1;
-		$temp = $_;
-		while($temp =~ /<entry>/g){ $tablecolcount++ }
-
-		print OUTPUT "<tgroup cols='$tablecolcount' align='left' colsep='1' rowsep='1'><tbody>\n";
-		$tablestate = 3;
-	    }
-
-	    if($tablestate > 1){
-		print OUTPUT "<row><entry>";
-	    }
-	    s/[ \t\n]+$//;
-	    # chomp;
-	    print OUTPUT "$_\n";
-	    if($tablestate > 1){
-		print OUTPUT "</entry></row>\n";
-	    }
-	}
-    }
-    
-    endpara();
-    
-    while($sectionstate > 0){
-	$sectionstate--;
-    }
-    
-    # Some input files are not used because they don't exist!
-    if($inputused > 0){
-        print OUTPUT "</chapter>\n";
+	$temp="$temp $_";
     }
     else{
-        print "  File was empty\n";
+	print PREPROC "$_";
+    }
+}
+close PREPROC;
+
+open INPUT, "< tmp.pp";
+
+$liststate = 0;
+$listitemstate = 0;
+$parastate = 0;
+$footnotestate = 0;
+$sectionstate = 0;
+$tablestate = 0;
+$displaystate = 0;
+$stylestate = "";
+$quotestate = 0;
+$tablestate = 0;
+$pausedlist = 0;
+$firstsect = 1;
+
+# For each line in the file...
+while(<INPUT>){
+    $linecount++;
+    
+    # There are some conditional elements used, for instance in xtheory.mm (which is also an
+    # article)
+    if((/^\.\.if article/i) || (/^\.\.if XXX/i) || (/^\.\.if appropriate/i) || (/^\.\.if complete/i) ||
+       (/^\.\.if finished/i) || (/^\.\.if fixme/i) || (/^\.\.if isdn/i) || (/^\.\.if itworks/i) || (/^\.\.if long/i) ||
+       (/^\.\.if needed/i) || (/^\.\.if netnews/i) || (/^\.\.if network/i) || (/^\.\.if partofthebook/i) ||
+       (/^\.\.if raid5/i) || (/^\.\.if review/i) || (/^\.\.if short/i) || (/^\.\.if sorted/i) || (/^\.\.if verylong/i) ||
+       (/^\.\.if X/i)){
+	$waitstate = 1;
+	$condlinecount = 0;
+	while(($waitstate == 1) && ($_ = <INPUT>)){
+	    $linecount++;
+	    $condlinecount++;
+	    
+	    if(/^..else/){
+		$waitstate = 0;
+	    }
+	    elsif(/^..endif/){
+		$waitstate = 0;
+	    }
+	}
     }
 
-    close INPUT;
+    # Man pages also do wierd things with ...'s
+    s/\\&\.\.\./.../g;
+    
+    # Ampersands
+    s/&/&amp;/g;
 
-    if($outputstyle ne "jade"){
-	close OUTPUT;
+    # LT
+    s/</&lt;/g;
+    
+    # GT
+    s/>/&gt;/g;
+    
+    # Mu (micro) doesn't work with db2ps (jade)
+    s/µ/&mu;/g;
+    
+    # Man pages escape hyphens
+    s/\\-/-/g;
+
+    # Sometimes there are some other special characters that we deal with
+    s/\\\(ae/&aelig;g/;
+    
+    # Footnote thingie we don't use
+    s/\\\*F//g;
+    
+    # Bold italic for a single word (there is no equivalent, so merely italics)
+    s/\\f\(BI([^ \t\"\\]*)/<emphasis>$1<\/emphasis>/ig;
+    
+    # Italic for a single word
+    s/[ \t]*\\\(em[ \t]*/&mdash;/ig;
+    
+    # We run some little conversion rules to deal with things like italics et al
+    $temp = processstyles($displaystate, $_);
+    $_ = $temp;	
+    
+    ##############################################################
+    # Comments
+    if(/^\.\\\"(.*)/i){
+	$_ = $1;
+	s/nroff-fill/sgml-fill/g;
+	print "<!-- $_ -->\n";
+    }
+    
+    # No mapping
+    elsif(/^\.\./){
+    }
+    
+    # Aside start
+    elsif(/^\.Aside(.*)/i){
+	endpara();
+	print "<note>\n";
+	startpara();
+    }
+    
+    elsif(/^\.End-aside(.*)/i){
+	endpara();
+	print "</note>\n";
+	startpara();
+    }
+    
+    # No mapping?
+    elsif(/^\.ad/i){
+    }
+    
+    # No mapping?
+    elsif(/^\.br/i){
+    }
+    
+    # No mapping
+    elsif(/^\.ce/i){
+    }
+    
+    # Defining display strings
+    elsif(/^.ds/){
+    }
+    
+    # Display start -- is case sensitive
+    elsif((/^\.DS(.*)/) || (/^\.Dx(.*)/i)){
+	endpara();
+	print closeallstates();
+	print "<programlisting>\n";
+	$displaystate = 1;
+    }
+    
+    # Display end
+    elsif(/^\.DE(.*)/i){
+	if($displaystate == 1){
+	    print closeallstates();
+	    print "</programlisting>\n";
+	    $displaystate = 0;
+	    startpara();
+	}
+    }
+    
+    # The content of floating displays is handled in with the images themselves
+    # This also squelches the display output command
+    elsif(/^\.DF/i){
+    }
+    
+    # Ifs
+    elsif(/^\.\.if/i){
+    }
+    
+    # Else
+    elsif(/^\.\.else/i){
+    }
+    
+    # Endifs
+    elsif(/^\.\.endif/i){
+    }
+    
+    # Setting the font family
+    elsif(/^\.fam/i){
+	# No mapping?
+    }
+    
+    # Set the font
+    elsif(/^\.ft/i){
+	# No mapping
+    }
+
+    # Make a few words bold (todo, check mapping makes sense) (man pages)
+    elsif(/^\.SM[ \t]+(.*)/){
+	print "<emphasis>$1</emphasis>\n";
+    }
+
+    # Italic (man pages)
+    elsif(/^\.I[ \t]+(.*)/){
+	print "<emphasis>$1</emphasis>\n";
+    }
+
+    # Bold (man pages)
+    elsif(/^\.B[ \t]+(.*)/){
+	print "<command>$1</command>\n";
+    }
+    
+    # References to other pages (man pages)
+    elsif(/^\.IR[ \t]+(.*)/){
+	print "<emphasis>$1</emphasis>\n";
+    }
+
+    # Footnote start
+    elsif(/^\.FS[ \t]*(.*)/i){
+	print "<footnote>\n";
+	startpara();
+	$footnotestate = 1;
+    }
+    
+    # Footnote end
+    elsif(/^\.FE[ \t]*(.*)/i){
+	if($footnotestate == 0){
+	}
+	
+	endpara();
+	print "</footnote>\n";
+	$footnotestate = 0;
+    }
+    
+    # Figure headings
+    elsif(/^\.Figure-heading [\"]*([^\"]*)[\"]*/i){
+	print "<figure>";
+	if($1 ne ""){
+	    print "<title>$1</title>";
+	}
+	print "<graphic format=\"JPEG\" fileref=\"images/missing.jpg\"></graphic></figure>\n";
+    }
+    
+    # Filenames
+    elsif(/^\.File ([ \t]*)(.*)/i){
+	print "<filename>$1</filename>$2\n";
+    }
+    
+    # Headings
+    elsif(/^\.H([0-7])[ \t]*(.*)/i){
+	print closeallstates();
+	endpara();
+	
+	# Docbook only goes up to sect5
+	if($1 > 5){
+	    print "Warning: docbook sect limit exceeded\n";
+	}
+	
+	while($sectionstate > ($1 - 2)){
+	    if($firstsect == 1){
+		$firstsect = 0;
+	    }
+	    else{
+		print "</sect$sectionstate>\n";
+	    }
+	    $sectionstate--;
+	}
+	
+	while($sectionstate < ($1 - 2)){
+	    $sectionstate++;
+	    if($firstsect == 0){
+		print "<sect$sectionstate>\n";
+	    }
+	}
+	
+	$sectionstate++;
+	if($firstsect == 0){
+	    print "<sect$sectionstate>\n";
+	}
+	
+	$_ = $2;
+	s/\"//g;
+	
+	if($_ ne ""){
+	    print "<title>$_</title>\n";
+	}
+	startpara();
+    }
+    
+    # Headings (Unsupported)
+    elsif(/^\.H([8-9])[ \t]*(.*)/i){
+	print closeallstates();
+	endpara();
+	print "<sect1><title>UNSUPPRTED SECTION LEVEL</title>\n";
+	$sectionstate = 1;
+    }
+
+    # Headings (man pages)
+    elsif(/^\.SH[ \t]*(.*)/i){
+	print closeallstates();
+	endpara();
+	
+	while($sectionstate > 0){
+	    print "</sect$sectionstate>\n";
+	    $sectionstate--;
+	}
+	
+	$sectionstate++;
+	print "<sect$sectionstate>\n";
+	
+	$_ = $1;
+	s/\"//g;
+	
+	if($_ ne ""){
+	    print "<title>$_</title>\n";
+	}
+	startpara();
+    }
+    
+    # Highlights
+    elsif(/^\.Highlight(.*)/i){
+	endpara();
+	print "<note>\n";
+	startpara();
+    }
+    
+    elsif(/^\.End-highlight(.*)/i){
+	endpara();
+	print "</note>\n";
+	startpara();
+    }
+    
+    # Indents (not used very often in Greg's source)
+    elsif(/^\.Indent(.*)/i){
+	endpara();
+	print "<note>\n";
+	startpara();
+    }
+    
+    elsif(/^\.End-indent(.*)/i){
+	endpara();
+	print "</note>\n";
+	startpara();
+    }	
+    
+    # Another form of indenting (has no mapping)
+    elsif(/^\.in/i){
+    }
+    
+    # List start
+    elsif((/^\.LS(.*)/i) || (/^\.LB(.*)/i)){
+	liststart();
+    }
+    
+    # List item
+    elsif(/^\.LI[ \t]*(.*)/i){
+	if($liststate == 0){
+	    liststart();
+	}
+	
+	if($pausedlist == 1){
+	    print "<itemizedlist>\n";
+	    $pausedlist = 0;
+	}
+	
+	endpara();
+	if($listitemstate == 1){
+	    print "</listitem>\n";
+	}
+	
+	print "<listitem>\n";
+	startpara();
+	$listitemstate = 1;
+    }
+    
+    # List end
+    elsif(/^\.LE(.*)/i){
+	if($liststate == 0){
+	}
+	
+	endpara();
+	
+	if($listitemstate > 0){
+	    print "</listitem>\n";
+	}
+	
+	if($liststate == 1){
+	    print "</itemizedlist>\n";
+	    startpara();
+	}
+	else{
+	    print "</orderedlist>\n";
+	    $pausedlist = 1;
+	}
+	$liststate--;
+	$listitemstate = 0;
+	
+	if($liststate < 0){
+	}
+    }
+    
+    # No mapping
+    elsif(/^\.na/i){
+    }
+    
+    # Space on page
+    elsif(/^\.ne/i){
+	# No mapping to docbook?
+    }
+    
+    # No fill
+    elsif(/^\.nf/i){
+	# No mapping to docbook?
+    }
+    
+    # Set the fill (after a ne?)
+    elsif(/^\.fi/i){
+	# No mapping to docbook?
+    }
+    
+    # Page link target -- some of Greg's anchors start with numbers, which is why we insert some text
+    elsif(/^\.Pn[ \t]+(.*)/i){
+	print "<anchor id=\"CFBSD-$1\"/>\n";
+    }
+
+    # Paragraphs
+    elsif(/^\.P[ \t]*([0-9]*)(.*)/i){
+	endpara();
+	startpara();
+    }
+    
+    # Pictures
+    elsif(/^\.PIC [\"]*([^\"]*)[\"]*/i){
+	print "<figure><graphic format=\"PS\" fileref=\"$1\"></graphic></figure>\n";
+    }
+    
+    # Quotes
+    elsif(/^\.Quote(.*)/i){
+	print "<quote>\n";
+	$quotestate = 1;
+    }
+    
+    elsif((/^\.End-quote(.*)/i) && ($quotestate == 1)){
+	print "</quote>\n";
+    }
+    
+    # Insets are treated as quotes as well
+    elsif(/^\in[ \t]\+(.*)/i){
+	print "<quote>\n";
+	$quotestate = 1;
+    }
+    
+    elsif((/^\.in/i) && ($quotestate == 1)){
+	print "</quote>\n";
+    }
+    
+    # Spacing commands don't map to db
+    elsif(/^\.sp(.*)/i){
+    }
+    
+    # I believe that so is the inclusion of a shared object
+    elsif(/^\.so/i){
+    }
+    
+    # Table title
+    elsif(/^\.TB[ \t]*[\"]*([^\"]*)[\"]*/i){
+	print "<table frame='all'>";
+	if($1 ne "" ){
+	    print "<title>$1</title>\n";
+	}
+	$tablestate = 1;
+    }
+    
+    # Table start
+    elsif(/^\.TS[ \t]*(.*)/i){
+    }
+    
+    # Table heading
+    elsif(/^\.TH(.*)/i){
+	$tablestate = 2;
+    }
+    
+    # Table end
+    elsif(/^\.TE/i){
+	print "</tbody></tgroup></table>\n";
+	$tablestate = 0;
+    }
+    
+    # Table reference for later
+    elsif(/^\.Tn/i){
+    }
+    
+    # Chapters
+    elsif(/^\.Chapter[ \t]\\\*\[([^ \t]*)\][ \t]\"(.*)\"/){
+	print "<chapter id=\"CFBSD-$1\">";
+	if($2 ne ""){
+	    print "<title>$2</title>\n";
+	}
+	
+	# The introductory text doesn't need to have a sect1
+	startpara();
+	$sectionstate = 1;
+    }
+    
+    elsif(/^\.X[ \t]\"*([^ \",]*)[ \t,]*([^,\"]*)\"*/i){
+	print "<indexterm><primary>$1</primary>";
+	if($2 ne ""){
+	    print "<secondary>$2</secondary>";
+	}
+	print "</indexterm>\n";
+    }
+    
+    # We don't know anything about this command at all
+    elsif(/^\.(.*)/i){
+	print "DEFAULT COMMAND FOUND: $1\n";
+    }
+    
+    # A document line?
+    else{
+	# References to chapters and stuff like that
+	s/\\\*\[([^\]]*)\]/<xref linkend=\"CFBSD-$1\"\/>/g;
+	
+	if($tablestate > 1){
+	    s/\#/<\/entry><entry>/g;
+	}
+	
+	if($tablestate == 2){
+	    $tablecolcount = 1;
+	    $temp = $_;
+	    while($temp =~ /<entry>/g){ $tablecolcount++ }
+	    
+	    print "<tgroup cols='$tablecolcount' align='left' colsep='1' rowsep='1'><tbody>\n";
+	    $tablestate = 3;
+	    }
+	
+	if($tablestate > 1){
+	    print "<row><entry>";
+	}
+	s/[ \t\n]+$//;
+	# chomp;
+	print "$_\n";
+	if($tablestate > 1){
+	    print "</entry></row>\n";
+	}
     }
 }
 
-print "Processed $chaptercount chapters\n";
-print OUTPUT "</book>\n";
+endpara();
+    
+while($sectionstate > 0){
+    $sectionstate--;
+}
+
+close INPUT;
 exit;
 
 sub liststart(){
     endpara();
 
     if($liststate == 0){
-        print OUTPUT "<itemizedlist>\n";
+        print "<itemizedlist>\n";
         }
     else{
         if($listitemstate > 0){
-            print OUTPUT "</listitem>\n";
+            print "</listitem>\n";
             $listitemstate--;
         }
 
-        print OUTPUT "</itemizedlist>\n";
-        print OUTPUT "<orderedlist>\n";
+        print "</itemizedlist>\n";
+        print "<orderedlist>\n";
         }
 
     $liststate++;
@@ -619,14 +606,14 @@ sub liststart(){
 
 sub endpara(){
     if($parastate > 0){
-	print OUTPUT "</para>\n";
+	print "</para>\n";
 	$parastate--;
     }
 }
 
 sub startpara(){
     if($displaystate == 0){
-	print OUTPUT "\n<para>";
+	print "\n<para>";
 	$parastate++;
     }
 }
