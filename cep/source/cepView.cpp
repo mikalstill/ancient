@@ -66,6 +66,7 @@ BEGIN_EVENT_TABLE (cepView, wxView)
   EVT_MENU (CEPMENU_COLORAXES, cepView::OnColorAxes)
   EVT_MENU (CEPMENU_COLORLINE, cepView::OnColorLine)
   EVT_MENU (CEPMENU_COLORAVERAGE, cepView::OnColorAverage)
+  EVT_MENU (CEPMENU_COLORERROR, cepView::OnColorError)
   EVT_MENU (CEPMENU_ELIMINATEOUTLIERS, cepView::OnEliminateOutliers)
   EVT_MENU (CEPMENU_VIEWCENTERED, cepView::OnViewCentered)
   EVT_MENU (CEPMENU_VIEWZOOMED, cepView::OnViewZoomed)
@@ -250,8 +251,10 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     for (unsigned int i = 0; i < theDataset->getData (dir).size (); i++)
     {
       pres.addDataPoint (i,
-                           (long)(theDataset->getData (dir)[i].
-                                  sample * 10000));
+			 (long)(theDataset->getData (dir)[i].
+				sample * 10000),
+			 (long)(theDataset->getData (dir)[i].
+				error * 10000));
       cepDebugPrint ("Data point: " +
                      cepToString ((long)
                               (theDataset->getData (dir)[i].
@@ -286,6 +289,14 @@ void cepView::drawPresentation(cepDataset *theDataset, cepDataset::direction dir
     err = m_config->getValue("ui-graph-color-average-b", 255, blue);
     if(err.isReal()) err.display();
     pres.setAverageColor(red, green, blue);
+
+    err = m_config->getValue("ui-graph-color-error-r", 127, red);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-graph-color-error-g", 127, green);
+    if(err.isReal()) err.display();
+    err = m_config->getValue("ui-graph-color-error-b", 127, blue);
+    if(err.isReal()) err.display();
+    pres.setErrorColor(red, green, blue);
 
     pres.setView(m_currentView);
     err = pres.createPNG (cfname);
@@ -359,6 +370,22 @@ cepView::OnColorAverage (wxCommandEvent & WXUNUSED (event))
     m_config->setValue("ui-graph-color-average-r", color.Red());
     m_config->setValue("ui-graph-color-average-g", color.Green());
     m_config->setValue("ui-graph-color-average-b", color.Blue());
+
+    m_dirty = true;
+    // todo_mikal: post paint event
+  }
+}
+
+void
+cepView::OnColorError (wxCommandEvent & WXUNUSED (event))
+{
+  wxColourDialog picker(NULL);
+  if(picker.ShowModal() == wxID_OK){
+    wxColourData data = picker.GetColourData();
+    wxColour color = data.GetColour();
+    m_config->setValue("ui-graph-color-error-r", color.Red());
+    m_config->setValue("ui-graph-color-error-g", color.Green());
+    m_config->setValue("ui-graph-color-error-b", color.Blue());
 
     m_dirty = true;
     // todo_mikal: post paint event

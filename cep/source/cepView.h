@@ -77,6 +77,7 @@ public:
   void OnColorAxes  (wxCommandEvent& event);
   void OnColorLine  (wxCommandEvent& event);
   void OnColorAverage  (wxCommandEvent& event);
+  void OnColorError  (wxCommandEvent& event);
   void OnEliminateOutliers (wxCommandEvent& event);
   void OnViewCentered (wxCommandEvent& event);
   void OnViewZoomed (wxCommandEvent& event);

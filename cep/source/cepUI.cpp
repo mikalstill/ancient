@@ -300,6 +300,9 @@ cepApp::CreateChildFrame (wxDocument * doc, wxView * view, bool isCanvas)
     
     view_menu->Append (CEPMENU_COLORAVERAGE, "Average color",
 		       "The color of the average line on the graph", FALSE);
+
+    view_menu->Append (CEPMENU_COLORERROR, "Error color",
+		       "The color of the error bars on the graph", FALSE);
   }
 
   wxMenu *dev_menu = (wxMenu *) NULL;

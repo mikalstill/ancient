@@ -40,7 +40,7 @@ public:
   void xAxisTitle (const string & title);
   void yAxisTitle (const string & title);
 
-  cepError addDataPoint (long x, long y);
+  cepError addDataPoint (long x, long y, long error = 0);
 
   void useAverage(bool yesno);
   void recalculateAverage();
@@ -49,6 +49,7 @@ public:
   void setAxesColor(char red, char green, char blue);
   void setLineColor(char red, char green, char blue);
   void setAverageColor(char red, char green, char blue);
+  void setErrorColor(char red, char green, char blue);
   void setView(view v);
 
   cepError createPDF (const string & filename);
@@ -76,14 +77,16 @@ private:
 
   color m_axesColor;
   color m_lineColor;
+  color m_averageColor;
+  color m_errorColor;
 
   bool m_useAverage;
   long m_average;
-  color m_averageColor;
 
   view m_currentView;
 
   vector < long > m_data;
+  vector < long > m_errors;
   char *m_raster;
 };
 

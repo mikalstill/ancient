@@ -50,6 +50,7 @@ cepPresentation::cepPresentation (long width, long height):
   m_ymaxval(-2000000000),
   m_useAverage(false),
   m_data (1, long (INVALID)),
+  m_errors (1, long(0)),
   m_raster(NULL)
 {
   m_averageColor.red = 0;
@@ -63,6 +64,10 @@ cepPresentation::cepPresentation (long width, long height):
   m_lineColor.red = 0;
   m_lineColor.green = 0;
   m_lineColor.blue = 0;
+
+  m_errorColor.red = 0;
+  m_errorColor.green = 0;
+  m_errorColor.blue = 0;
 }
 
 void
@@ -77,10 +82,12 @@ cepPresentation::yAxisTitle (const string & title)
   m_yTitle = title;
 }
 
-cepError cepPresentation::addDataPoint (long x, long y)
+cepError cepPresentation::addDataPoint (long x, long y, long error)
 {
-  cepDebugPrint ("Current data vector size is: " + cepToString (m_data.size ()));
-  cepDebugPrint ("Added (" + cepToString (x) + ", " + cepToString (y) + ")");
+  cepDebugPrint ("Current data vector size is: " + 
+		 cepToString (m_data.size ()));
+  cepDebugPrint ("Added (" + cepToString (x) + ", " + 
+		 cepToString (y) + "," + cepToString(error) + ")");
 
   // Values
   if ((unsigned int) x >= m_data.size ())
@@ -91,6 +98,7 @@ cepError cepPresentation::addDataPoint (long x, long y)
       m_data.resize (x + CHUNKALLOC);
       for(; i < m_data.size(); i++)
 	m_data[i] = INVALID;
+      m_errors.resize (x + CHUNKALLOC);
 
       cepDebugPrint ("Resize presentation data to " + 
 		     cepToString (x + CHUNKALLOC));
@@ -104,16 +112,17 @@ cepError cepPresentation::addDataPoint (long x, long y)
   }
 
   m_data[x] = y;
+  m_errors[x] = error;
 
   if (x > m_xmaxval)
     m_xmaxval = x;
   if (x < m_xminval)
     m_xminval = x;
 
-  if (y > m_ymaxval)
-    m_ymaxval = y;
-  if (y < m_yminval)
-    m_yminval = y;
+  if ((y + error) > m_ymaxval)
+    m_ymaxval = y + error;
+  if ((y - error) < m_yminval)
+    m_yminval = y - error;
 
   return cepError ();
 }
@@ -184,7 +193,7 @@ cepPresentation::createBitmap ()
     plot_addlinesegment (graph, m_width - 10, midpoint);
     plot_strokeline (graph);
     plot_endline (graph);
-    
+
     // Draw data points
     plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
 		       m_lineColor.blue);
@@ -212,6 +221,26 @@ cepPresentation::createBitmap ()
     midpoint = 0;
     yscale = ((float) (m_ymaxval - m_yminval)) / ((float) m_height);
 
+    // Draw error bars so they appear under the data points
+    plot_setlinecolor (graph, m_errorColor.red, m_errorColor.green, 
+		       m_errorColor.blue);
+    for (unsigned int i = 0; i < m_data.size (); i++)
+      {
+	if (m_data[i] != INVALID){
+	  plot_setlinestart (graph, i + 10, 
+			     (unsigned int) (m_height - 
+					     (((m_data[i] - m_errors[i]) - 
+					       m_yminval) / yscale)));
+	  plot_addlinesegment (graph, i + 10, 
+			     (unsigned int) (m_height - 
+					     (((m_data[i] + m_errors[i]) - 
+					       m_yminval) / yscale)));
+
+	  plot_strokeline(graph);
+	  plot_endline(graph);
+	}
+      }
+
     // Draw the data points
     plot_setlinecolor (graph, m_lineColor.red, m_lineColor.green, 
 		       m_lineColor.blue);
@@ -225,7 +254,13 @@ cepPresentation::createBitmap ()
 				      (unsigned int) (m_height - 
 						      ((m_data[i] - m_yminval) 
 						       / yscale)));
-		cepDebugPrint("Zoomed graph point. The data point being graphed is " + cepToString(m_data[i]) + " which results in the following calculation: " + cepToString(m_height) + " - ((" + cepToString(m_data[i]) + " - " + cepToString(m_yminval) + ") / " + cepToString(yscale) + ")).");
+		cepDebugPrint("Zoomed graph point. The data point being graphed is " + 
+			      cepToString(m_data[i]) + 
+			      " which results in the following calculation: " + 
+			      cepToString(m_height) + " - ((" + 
+			      cepToString(m_data[i]) + " - " + 
+			      cepToString(m_yminval) + ") / " + 
+			      cepToString(yscale) + ")).");
 		linestarted = true;
 	      }
 	    else{
@@ -233,7 +268,16 @@ cepPresentation::createBitmap ()
 				   (unsigned int) (m_height - 
 						   ((m_data[i] - m_yminval) 
 						    / yscale)));
-	      cepDebugPrint("Zoomed graph point. The data point being graphed is " + cepToString(m_data[i]) + " which results in the following calculation: " + cepToString(m_height) + " - ((" + cepToString(m_data[i]) + " - " + cepToString(m_yminval) + ") / " + cepToString(yscale) + ")) = " + cepToString((unsigned int) (m_height - ((m_data[i] - m_yminval) / yscale))));
+	      cepDebugPrint("Zoomed graph point. The data point being graphed is " + 
+			    cepToString(m_data[i]) + 
+			    " which results in the following calculation: " + 
+			    cepToString(m_height) + " - ((" + 
+			    cepToString(m_data[i]) + " - " + 
+			    cepToString(m_yminval) + ") / " + 
+			    cepToString(yscale) + ")) = " + 
+			    cepToString((unsigned int) (m_height - ((m_data[i] - 
+								     m_yminval) / 
+								    yscale))));
 	    }
 	  }
       }    
@@ -390,6 +434,13 @@ void cepPresentation::setAverageColor(char red, char green, char blue)
   m_averageColor.red = red;
   m_averageColor.green = green;
   m_averageColor.blue = blue;
+}
+
+void cepPresentation::setErrorColor(char red, char green, char blue)
+{
+  m_errorColor.red = red;
+  m_errorColor.green = green;
+  m_errorColor.blue = blue;
 }
 
 void cepPresentation::setAxesColor(char red, char green, char blue)
