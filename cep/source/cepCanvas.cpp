@@ -107,6 +107,7 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
   
   string dirName;
   cepDataset::direction selDir = determineGraph(pt.y, dirName);
+
   if(selDir < 0){
     cepDebugPrint("Determined graph as: " + cepToString(selDir));
     return;
@@ -115,13 +116,14 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     cepDebugPrint("Determined graph as: " + cepToString(selDir));
     return;
   }
+
+  int top, bottom, width;
+  graphPlacement(selDir, top, bottom, width);
   
   // Is the mouse down?
   if(event.LeftIsDown() || event.RightIsDown()){
-    int top, bottom, width;
     int cwidth, cheight;
     m_frame->GetSize (&cwidth, &cheight);
-    graphPlacement(selDir, top, bottom, width);
 
     // Record the type of selection
     if(event.LeftIsDown() && (m_select != selLeft)){
@@ -181,8 +183,8 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     int selectXStart = m_selectXStart;
     m_selectXStart = -1;
     
-    float startExtracted = ((selectXStart - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
-    float endExtracted = ((m_selectXEnd - 10) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
+    float startExtracted = ((selectXStart - 20) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
+    float endExtracted = ((m_selectXEnd - 20) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
     if(startExtracted > endExtracted){
       float temp = endExtracted;
       endExtracted = startExtracted;
@@ -271,7 +273,8 @@ cepCanvas::OnMouseEvent (wxMouseEvent & event)
     float xextracted = ((pt.x - 20) * m_horizScale[selDir] + m_xminval[selDir]) / 10000;
     cepDate hoverDate(xextracted);
 
-    float yextracted = m_yrange[selDir] + m_yminval[selDir] - ((float) (pt.y - 20) * m_vertScale[selDir]);
+    float yextracted = (m_yrange[selDir] + m_yminval[selDir] - 
+			((float) (pt.y - top - 20) * m_vertScale[selDir])) / 10000;
 
     string hover = hoverDate.getDay() + " " + hoverDate.getShortMonthName() + " " +
       hoverDate.getYear() + " (" + cepToString(xextracted, true) + ") reading " +
