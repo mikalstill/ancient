@@ -18,7 +18,7 @@
       support a number of different interpolation algorithms. There are hundreds,
       if not thousands of different interpolation algorithms available, each with
       their own strengths and weaknesses. As it was not possible to implement them all we needed to pick a set of algorithms
-      that would work with discrete datasets and provide sufficent results with given dataset. 
+      that would work with discrete datasets and provide sufficient results with given dataset. 
       In order to narrow the complexity of our task, we chose to implement the interpolation methods
       available within MATLAB as it is a commercial package designed to work with a large range of datasets.
     </para>
@@ -30,16 +30,16 @@
     <para>
       Spline interpolation is very popular method as the smooth curve it produces
       is usually aesthetically pleasing. Many different types of spline are available,
-      althogh most are unsuitable for this type of data analysis. B splines and their derivatives, for example, are undesirable
+      although most are unsuitable for this type of data analysis. B splines and their derivatives, for example, are undesirable
       as the resulting dataset may not pass through the initial set of points.
-      Cubic splines were chosen because the resulting curve is always garanteed to pass through each point in the
+      Cubic splines were chosen because the resulting curve is always guaranteed to pass through each point in the
       original datasets.  
     </para>
     
     <para>  
-      As cubic spline are knowen to be inaccurate near the end points
+      As cubic spline are known to be inaccurate near the end points
       two different types of splines have been included.  The first is natural splines which tend
-      to be too straight near to the end points. Conversly, the other cubic spline implementation trends
+      to be too straight near to the end points. Conversely, the other cubic spline implementation trends
       too curved near the end points.  On large data sets (i.e. more than 1000 points), however, both method should converge to the
       same result.
     </para>
@@ -201,7 +201,7 @@ end for
   <para>
     <command>Optimization note</command>: To increase the speed and
     efficiency of this algorithm the <command>n-1</command> by <command>n-1</command> tridiagonal matrix <command>t</command>
-    has been represented by a <command>n-1</command> by 3 dimensional matrix in the program. In additon,
+    has been represented by a <command>n-1</command> by 3 dimensional matrix in the program. In addition,
     some commands have been grouped differently for similar reasons.
   </para>
   </sect4>

@@ -7,7 +7,7 @@
       mathematical functionality thus providing a working model, but to also act as a test bed for the final
       product. Most of the features implemented in C++ were tested in this way to ensure correct and
       consistent results. Limited time was spent on the prototype user interface (UI) so that it could be completed early enough 
-      in the devlopment cycle for group to be able concentrate on the full implementation of the <command>GMDS</command> in C++.
+      in the development cycle for group to be able concentrate on the full implementation of the <command>GMDS</command> in C++.
     </para>
 
   </sect2> <!--Introduction-->

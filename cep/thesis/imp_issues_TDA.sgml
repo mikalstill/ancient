@@ -28,7 +28,7 @@
     the maximum amount of flexibility in determining to what degree a given point in the data set will influence the line of best
     fit. Another method of VCV analysis offered is that of automatic re-weighting. In this type of analysis, the most accurate
     regression model is calculated by the process of automated re-weighing using the residual space which is discussed in
-    depth in chapter 2, Time Domain analyisis. The implementation of this process can also be seen in the following diagram
+    depth in chapter 2, Time Domain analysis. The implementation of this process can also be seen in the following diagram
     
     <figure><title>Flow Diagram of the Automated Re-Weighting Process of VCV Least Squares Analysis</title>
         <execute><cmd>eqimg</cmd><args>TD-ReweightFlow.gif</args></execute>

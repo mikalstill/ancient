@@ -147,11 +147,11 @@ field, which is wrapped in angled brackets, is the name of the state that the sp
 shown here are for the default state, known as INITIAL (Levin, Mason &amp; Brown 1990). What follows this is a posix compliant 
 regular expression to be matched. Finally, within the braces lies C code to execute when a match occurs.
 In each of these examples, the C code writes a log entry for the match, sets up the data structure symbolizing the match, and then 
-returns the name of the lexicial token which was matched.
+returns the name of the lexical token which was matched.
 </para>
 
 <para>
-<command>Yacc</command> and <command>bison</command> define the grammer which uses the tokens defined by <command>lex</command> 
+<command>Yacc</command> and <command>bison</command> define the grammar which uses the tokens defined by <command>lex</command> 
 or <command>flex</command>. In effect, this defines valid orders for the tokens to appear in, and what operations should be 
 performed when a set of tokens is matched. Error handling for undefined token combinations is also supplied by the grammar. 
 This is done through the use of hooks for reporting to the user in a manner which is appropriate to that particular application.
@@ -199,7 +199,7 @@ It should also be noted that the SQL production is recursive, except for this ca
 <para>
 The alternative to using the compiler construction tools is to develop a language parser by hand. Depending on the complexity of 
 the grammar to be implemented, this can be quite a realistic alternative. On the other hand, if the grammar is complex, then it 
-can rapdily escalate into task of much larger scale, comparible to that of the rest of the application.
+can rapidly escalate into task of much larger scale, comparable to that of the rest of the application.
 This option was found to be the most suitable for the <command>GDMS</command>. The grammar for the scripting language implemented 
 by the batch version of <command>GDMS</command> is relatively simple,
 in that all commands are parsed based on only one line, and no recursion within productions is required.
@@ -213,7 +213,7 @@ As mentioned earlier in this section, the graphical user interface to <command>G
 implemented using the wxWindows windowing toolkit. 
 The batch user interface was developed using a hand coded parser written in c++.
 This has maximised the amount of design flexibility enjoyed by the development team, 
-whilst minimizing the amount of unnessary code development.
+whilst minimizing the amount of unnecessary code development.
   </para>      
   </sect3> <!--Implementation-->
   
@@ -221,7 +221,7 @@ whilst minimizing the amount of unnessary code development.
 <para>
 A significant portion of the <command>GDMS</command> user interface development was integrating the various classes and features 
 with the graphical user interface.
-This integration has been facilitaded by a standard process for integrating mathematical functionality. The process is as 
+This integration has been facilitated by a standard process for integrating mathematical functionality. The process is as 
 follows:
 </para>
 
@@ -262,19 +262,19 @@ there are a variety of improvements which could be made in the future. These inc
   the user interface. wxWindows supports the display of HTML files within windows, which would an
   efficient and standard method for the implementation of online help within the application.</para></listitem>
 <listitem>
-  <para><emphasis>Greater resiliance to errors</emphasis>: if an error is discovered, the application
+  <para><emphasis>Greater resilience to errors</emphasis>: if an error is discovered, the application
   currently abandons all further processing on that dataset. This should be improved in the future, so
   that a failure will not stop all calculations.</para></listitem>
 <listitem>
   <para><emphasis>Greater flexibility in the batch user interface</emphasis>: Further research into what other
   commands should be implemented needs to be undertaken</para></listitem>
 <listitem>
-  <para><emphasis>The ability to determine the value of the nearest datapoint by hovering over
+  <para><emphasis>The ability to determine the value of the nearest data point by hovering over
   it</emphasis>: Currently the application checks the location of the mouse and looks up the relevant graph values.
   This is misleading as the display resolution means that is almost impossible to determine with any accuracy,
   the value of the data point at which you are pointing.</para></listitem>
 <listitem>
-  <para><emphasis>The ability to edit out points from the dataset</emphasis>: once accuarate mouse pointing is
+  <para><emphasis>The ability to edit out points from the dataset</emphasis>: once accurate mouse pointing is
   integrated this will be trivial.</para></listitem>
 <listitem>
   <para><emphasis>Meaningful graticules</emphasis>: currently the graphs are displayed with a fixed number
@@ -282,7 +282,7 @@ there are a variety of improvements which could be made in the future. These inc
   future release. Revision of this code was attempted late in the process, but due to time constraints and an
   uncooperative plotting library this was abandoned.</para></listitem>
 <listitem>
-  <para><emphasis>Analysis of plotting precision</emphasis>: currently the presision of the graphs is such that
+  <para><emphasis>Analysis of plotting precision</emphasis>: currently the precision of the graphs is such that
   using high sampling frequencies can cause the graphs to lose precision. Analysis of the plotting functions
   needs to be considered to minimise this</para></listitem>
 </itemizedlist>

@@ -21,8 +21,8 @@
     support our system. A number of different libraries were examined as possible candidates and CPPUnit was
     selected as the most appropriate.
     </para>
-    <para>CPPUNit is a C++ framework based closely on the very mature JUnit testing framework. It allows the developers
-    to write simple, focussed tests, and provides a number of assertions with which to validate results. Additionally, 
+    <para>CPPUnit is a C++ framework based closely on the very mature JUnit testing framework. It allows the developers
+    to write simple, focused tests, and provides a number of assertions with which to validate results. Additionally, 
     the tests have special methods which are designed to support test independence. 
     The first is setUp(),
     which is executed immediately preceding each test, and the second is tearDown() which is run following
@@ -30,9 +30,9 @@
     the test required.
     </para>
     <para>
-    JUnit makes extensive use of the refelection Application Programmers Interface (API) to locate test methods. Methods are deemed 
+    JUnit makes extensive use of the reflection Application Programmers Interface (API) to locate test methods. Methods are deemed 
     to be tests if their name
-    begins with the word &quot;test&quot;, they take no paramteres and their return type is void. Due to limmitations in the 
+    begins with the word &quot;test&quot;, they take no parameters and their return type is void. Due to limitations in the 
     C++
     language, there is no reflection API as such, thus ruling out reflection as an alternative. Consequently CPPUnit
     requires the user to register tests with the TestCaller via a static method. The Test class is then registered
@@ -46,7 +46,7 @@
     reports the error and returns, allowing the test suite to continue.
     </para>
     <para>
-    Early in the developement of the project, a template was developed to provide a simple means by which developers could
+    Early in the development of the project, a template was developed to provide a simple means by which developers could
     start their testing. A sample test, based on this template follows.
     <programlisting>
     namespace {
@@ -83,7 +83,7 @@
 
       /**
       * DEFINE YOUR TESTS HERE:
-      * make your tests protected since you dont need to expose them
+      * make your tests protected since you do not need to expose them
       */
 
       /** simple test 1. uses a generic assert true macro */
@@ -97,7 +97,7 @@
     }; // end Test
 
     /**
-     * Register the test immeditely after definition. This should probably
+     * Register the test immediately after definition. This should probably
      * be done in the class header file for larger projects
      */
     CPPUNIT_TEST_SUITE_REGISTRATION( Test );

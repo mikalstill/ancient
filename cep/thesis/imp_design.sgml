@@ -48,8 +48,8 @@ the use of OO methodology.
   first is our desire to ensure that maximum possible stability of this system. This can only be achieved through
   efficient and appropriate error handling. For example, errors that are not fatal to the application will not cause
   termination, instead provide feedback on the error, before returning to a stable state. In addition, most operations use the 
-  matrix class which often invokes dynamic memory allocation and it is vital to handel any errors that may arrise as a result for
-  stablity reasons. Therefore, there needs to be constant tracking to ensure an error has not occurred.
+  matrix class which often invokes dynamic memory allocation and it is vital to handle any errors that may arise as a result for
+  stability reasons. Therefore, there needs to be constant tracking to ensure an error has not occurred.
 </para>
 
  <figure><title>Deployment diagram for the <command>GDMS</command>.</title>

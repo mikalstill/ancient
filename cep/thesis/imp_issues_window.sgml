@@ -19,7 +19,7 @@
       this could
       not be used. A second attempt was made using a window generated in the frequency domain, using code based on the original 
       1947 paper
-      by Dolph. This algorithm only supported odd window sizes, and the implementation of the IFFT libary contained in the 
+      by Dolph. This algorithm only supported odd window sizes, and the implementation of the IFFT library contained in the 
       <command>GDMS</command> required that its window size be  2<superscript>n</superscript>.
       The final algorithm that was implemented is based on FORTRAN code published in 1977 by
       IEEE Acoustics, Speech, and Signal Processing Society,
@@ -49,7 +49,7 @@
     of Chebyshev, the most expensive calculation involves two cosine and four multiplication operations. Since the size of the 
     windows used
     tend to be small this is a relatively insignificant overhead. Dolph-Chebyshev is a little different, as this window is
-    calculated in the Fourier domain, the trasfomed into the time domain via an IFFT it is computationally more expensive. 
+    calculated in the Fourier domain, the transformed into the time domain via an IFFT it is computationally more expensive. 
     In order to support the flexibility of the windowing
     subsystem, this algorithm implements its own IFFT. Due to the small size of the window used, however, this cost is minimal. In
     fact, it is more than offset by the increase in flexibility and confidence in the integrity of the algorithm.
