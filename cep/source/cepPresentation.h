@@ -39,8 +39,6 @@ public:
 
   void xAxisTitle (const string & title);
   void yAxisTitle (const string & title);
-  void xAxisScale (int unitsPerCentiPixel);
-  void yAxisScale (int unitsPerCentiPixel);
 
   cepError addDataPoint (long x, long y);
 
@@ -70,13 +68,11 @@ private:
   string m_xTitle;
   string m_yTitle;
 
-  int m_xUnit;
-  int m_xminval;
-  int m_xmaxval;
+  long m_xminval;
+  long m_xmaxval;
 
-  int m_yUnit;
-  int m_yminval;
-  int m_ymaxval;
+  long m_yminval;
+  long m_ymaxval;
 
   color m_axesColor;
   color m_lineColor;

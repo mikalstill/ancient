@@ -128,8 +128,8 @@ cepView::OnDraw (wxDC * dc)
   {
     cepDebugPrint ("Dataset valid, so displaying");
     drawPresentation(theDataset, cepDataset::dirX, 0, dc);
-    drawPresentation(theDataset, cepDataset::dirY, PRESHEIGHT, dc);
-    drawPresentation(theDataset, cepDataset::dirZ, PRESHEIGHT * 2, dc);
+    drawPresentation(theDataset, cepDataset::dirY, PRESHEIGHT + 10, dc);
+    drawPresentation(theDataset, cepDataset::dirZ, (PRESHEIGHT + 10) * 2, dc);
     m_dirty = false;
   }
   else
