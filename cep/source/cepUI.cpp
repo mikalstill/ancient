@@ -3,11 +3,11 @@
    Copyright (C) Michael Still                    2002
 
    Based on a demo which originally had this notice:
+
    ////////////////////////////////////////////////////////////////////////////
    // Name:        docview.cpp
    // Purpose:     Document/view demo
    // Author:      Julian Smart
-   // Modified by:
    // Created:     04/01/98
    // Copyright:   (c) Julian Smart and Markus Holzem
    // Licence:   	wxWindows license
