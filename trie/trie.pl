@@ -1,66 +1,60 @@
-#!/usr/local/bin/perl
-
-# A simple example of a hash of hashes -- so I know how to do it for
-# objectify... This implements a trie...
+#!/usr/bin/perl
 
 use strict;
+my($hashref, $INFILE, $lines, $line);
 
-my(%phash, $INFILE, $lines, $line, $letter, $ref);
-
-%phash = ();
-
-# Go through the system dictionary
-open INFILE, "< words";    # /usr/share/dict/words";
+# Read in all the words
+open INFILE, "< /usr/share/dict/words";
 print "Reading in the system dictionary...\n";
 $lines = 0;
 while(<INFILE>){
     $lines++;
     chomp;
     $line = lc;
-    addword($line, %phash);
+
+    $hashref = addword($hashref, $line);
+    print "\n";
 }
 close INFILE;
 print "Read $lines words\n";
-dumphash(%phash);
-exit;
 
-sub addword{
-    my($line, %hash) = @_;
+dumphash($hashref, 0, "");
 
-    print "\n\"$line\" -- ";
 
-    if(length($line) == 0){
-	print "[Terminal]";
-	$hash{"END"} = "END";
+##########################
+sub addword()
+{
+    my($hash_ref, $word) = @_;
+    my($char, $subword);
+
+    $char = substr($word, 0, 1);
+    $subword = substr($word, 1, length($word));
+    print "[$char, $subword]";
+    
+    if(length($char) == 0){
+	$hash_ref->{"END"} = "END";
+	print "[END]";
     }
     else{
-	print "Adding ".substr($line, 0, 1);
-	if(!exists $hash{substr($line, 0, 1)}){
-	    print " [New]";
-	    $hash{substr($line, 0, 1)} = ();
-	}
-
-	addword(substr($line, 1), $hash{substr($line, 0, 1)});
+	$hash_ref->{$char} = addword($hash_ref->{$char}, $subword);
     }
+
+    return $hash_ref;
 }
 
-sub dumphash{
-    my(%hash, $depth) = @_;
-    my($key, $ref, $count);
-    
-    foreach $key (keys %hash){
-	for($count = 0; $count < $depth; $count++){
+sub dumphash()
+{
+    my($hash_ref, $indent, $pre) = @_;
+    my($key, $count);
+
+    foreach $key (keys %$hash_ref){
+	for($count = 0; $count < $indent; $count++){
 	    print " ";
 	}
 
-	print "$key: ";
+	print "$key [$pre$key]\n";
 	if($key ne "END"){
-	    $ref = $hash{$key};
-	    dumphash(%$ref, $depth + 1);
+	    dumphash($hash_ref->{$key}, $indent + 1, "$pre$key");
 	}
-	else{
-	    print $hash{$key};
-	}
-	print "\n";
     }
 }
