@@ -8,7 +8,7 @@ do
   ../usblogdump/usblog-dump -i $usblog > output/$usblog-$tag-full
   if [ `cat output/$usblog-$tag-full | grep "Aborting further decoding" | wc -l | tr -d " "` -gt 0 ]
   then
-    echo $usblog FAILED TO DECODE
+    echo "$tag: $usblog FAILED TO DECODE" >> FAILED
   fi
 
   gzip output/$usblog-$tag-full
