@@ -4,9 +4,7 @@
 
 <sect1><title>About the author</title>
 <para>
-Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Austra
-lian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is als
-o the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document.
+Michael has been working in the image processing field for several years, including a couple of years managing and developing large image databases for an Australian government department. He currently works for TOWER Software, who manufacture a world leading EDMS and Records Management package named TRIM. Michael is also the developer of Panda, an open source PDF generation API, as well as being the maintainer of the comp.text.pdf USENET frequently asked questions document.
 </para>
 
 <para>
@@ -16,7 +14,153 @@ Michael has a website at http://www.stillhq.com.
 
 <sect1><title>Introduction</title>
 <para>
-...
+...Assumed C knowledge...
+
+TODO
 </para>
 </sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<sect1><title>UDP</title>
+<para>
+It strikes me as logical to start this article with an extremely brief introduction to UDP. For more information on UDP, and IP in general, I recommend:
+
+TODO
+</para>
+
+<sect2><title>Datagrams</title>
+<para>
+TODO
+</para>
+</sect2>
+
+<sect2><title>Disconnected sockets</title>
+<para>
+TODO
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/disconnected.c</input></execute>
+</sect2>
+
+<sect2><title>Connected sockets</title>
+<para>
+TODO
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/connected.c</input></execute>
+</sect2>
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+<sect1><title>inetd</title>
+<para>
+I guess I should also briefly explain what inetd and xinetd do for you.
+
+TODO
+</para>
+
+<sect2><title>Role</title>
+<para>
+TODO
+</para>
+</sect2>
+
+<sect2><title>Working with UDP</title>
+<para>
+TODO
+</para>
+</sect2>
+
+<sect2><title>Getting connected sockets</title>
+<para>
+TODO
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/disconnexec.c</input></execute>
+
+<para>
+TODO
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/sockets/connexec.c</input></execute>
+</sect2>
+
+<sect2><title>Patches</title>
+<para>
+TODO
+</para>
+</sect2>
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<sect1><title>shdns</title>
+<para>
+TODO
+</para>
+
+<sect2><title>The code</title>
+<para>
+TODO
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/shdns-server</input></execute>
+
+<para>
+TODO
+</para>
+
+<execute><cmd>code2db</cmd><input>~mikal/opensource-unstable/shdns/shdns</input></execute>
+</sect2>
+
+<sect2><title>Does it work?</title>
+<para>
+TODO
+</para>
+</sect2>
+</sect1>
+
+<sect1><title>Getting the code from this article</title>
+<para>
+TODO
+</para>
+</sect1>
+
 </article>
