@@ -243,12 +243,12 @@ elsif($mode eq "dump"){
 			$first++;
 		    }
 		    else{
-			print "</qandaentry></qandaset></sect1>\n";
+			print "</sect1>\n";
 		    }
 
-		    print "<sect1><title>$data2[1]</title><qandaset><qandaentry><question>\n<para>";
+		    print "<sect1><title>$data2[1]</title>\n<para>";
 		    printtext("$data2[2] [Q$data2[0]]", 0);
-		    print "</para></question>\n";
+		    print "</para>\n";
 		    dumpanswers($path, $area, $data[0], $data2[0], 0);
 		}
 	    }
@@ -257,7 +257,7 @@ elsif($mode eq "dump"){
 		print $select2->rows;
 		print ")";
 	    }
-	    print "</qandaentry></qandaset></sect1></chapter>\n";
+	    print "</sect1></chapter>\n";
 	}
     }
     else{
@@ -296,10 +296,10 @@ sub dumpanswers{
     $myselect->execute() or die "Could not execute select" . $myselect->errstr;
     if($myselect->rows > 0){
 	while(@mydata = $myselect->fetchrow_array()){
-	    print "<answer>\n<para>";
+	    print "\n<sidebar><para>"; # todo_mikal: This is very bad docbook...
 	    printtext($mydata[0], 2);
-	    print "</para><para><emphasis>$mydata[1] ($mydata[2]) [A$mydata[3]]</emphasis></para>\n";
-	    print "</answer>\n";
+	    print "</para><para><emphasis>$mydata[1] ($mydata[2]) [A$mydata[3]]</emphasis></para></sidebar><para></para>\n";
+	    print "\n";
 	}
     }
 }
