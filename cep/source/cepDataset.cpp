@@ -162,8 +162,7 @@ cepDataset::munch ()
 		  if (line != NULL)
 		    free (line);
 
-		  // todo_mikal: This should also be done for the other directions...
-		  m_datax.push_back (row);
+		  getDataPtr((cepDataset::direction) i).push_back (row);
 
 		  {
 		    cepError
@@ -233,7 +232,7 @@ cepDataset
 
 //todo_daniel: once vector exists..fix this..wont need param data.
 cepDataset
-cepDataset::doWindow (cepDataset dir, double winSize, double overlap)
+cepDataset::doWindow (cepDataset::direction dir, double winSize, double overlap)
 {
 
   /*Groups data into square windows with a pre-defined width. 
@@ -254,8 +253,7 @@ cepDataset::doWindow (cepDataset dir, double winSize, double overlap)
   int numWindows;		//the total number  of windows required
   double startWindow;
 
-  // TODO mikal: Hard coded direction
-  vector < cep_datarow > &datPointer = getDataPtr (cepDataset::x);
+  vector < cep_datarow > &datPointer = getDataPtr (dir);
 
   // get timescale of data set 
   firstDate = datPointer[0].date;
@@ -332,24 +330,29 @@ cepDataset::doWindow (cepDataset dir, double winSize, double overlap)
       dataVectorRow += 1;	// increment vector row counter
     }				//end while
 
+  // TODO daniel -- I'm not sure this is really a dataset any more, because it only has one direction...
   return cepDataset (windowData, numWindows);
-
 }				//end doWindow
 
 vector < cep_datarow > &cepDataset::getDataPtr (direction dir)
 {
   switch (dir)
     {
-    case x:
+    case dirX:
       return m_datax;
       break;
 
-    case y:
+    case dirY:
       return m_datay;
       break;
 
-    case z:
+    case dirZ:
       return m_dataz;
+      break;
+
+    default:
+      cepError oor("The data direction requested was out of range", cepError::sevErrorFatal);
+      oor.display();
       break;
     }
 }

@@ -42,6 +42,13 @@ typedef vector < cep_datarow > cep_datacol;
 class cepDataset
 {
 public:
+  enum direction
+  {
+    dirX = 0,
+    dirY,
+    dirZ
+  };
+
   // Filename is the "root filename" e.g. mb_ANKR_GPS
   // I append the .dat1, .dat2 and .dat3 myself...
   cepDataset (string filename);
@@ -50,18 +57,12 @@ public:
     cepDataset (double value, double weight);
 
   // Manipulations 
-  cepDataset doWindow (cepDataset dir, double winSize, double overlap);
+  cepDataset doWindow (cepDataset::direction dir, double winSize, 
+		       double overlap);
   cepDataset doHam (double datRow[3], double startWindow, double winSize);
 
   // Actually process the file
   cepError munch ();
-
-  enum direction
-  {
-    x = 1,
-    y,
-    z
-  };
 
   // Accessor methods
     vector < cep_datarow > &getDataPtr (direction);

@@ -1,0 +1,113 @@
+#!/usr/local/bin/perl
+
+use strict;
+my($HISTORY, $workdir, $filename, $date, %dateline, $day, $adate, @dates,
+   $author, %cols, $newcolnum, @today, @html, $event, $file, $user, $i,
+   $table, %authorcolor, @colors, $newauthnum, %heading, $color);
+
+open HISTORY, "< logout";
+
+$workdir = `pwd`;
+chomp $workdir;
+$workdir =~ s/.*\///;
+
+# We need some colors for authors -- I only bother to define 10 here
+$colors[0] = "FF0000";
+$colors[1] = "00FF00";
+$colors[2] = "0000FF";
+$colors[3] = "6633FF";
+$colors[4] = "00FF66";
+$colors[5] = "0099FF";
+$colors[6] = "3300FF";
+$colors[7] = "FF9900";
+$colors[8] = "FFCC99";
+$colors[9] = "000000";
+
+# Hoon through the CVS history
+while(<HISTORY>){
+    if(/^RCS file: (.*)/){
+	$filename = $1;
+	$filename =~ s/.*$workdir\///;
+	$filename =~ s/,v$//;
+	chomp $filename;
+    }
+    elsif(/^date: ([0-9\/]+).*author: (.*);.*;/){
+	$date = $1;
+	$author = $2;
+	$date =~ s/\///g;
+	$dateline{$date} = $dateline{$date} . "$filename!$author;";
+    }
+}
+
+# Draw the graph
+$newcolnum = 0;
+$newauthnum = 0;
+$table = "";
+
+# For each date
+@dates = sort keys %dateline;
+foreach $adate (@dates) {
+    for($i = 0; $i < $newcolnum; $i++){
+	$html[$i] = "&nbsp;";
+    }
+
+    @today = split(/;/, $dateline{$adate});
+    foreach $event (@today){
+	$_ = $event;
+	/(.*)!(.*)/;
+	$file = $1;
+	$user = $2;
+	
+	# Do we need a new cell number?
+	if($cols{$file} eq ""){
+	    $cols{$file} = $newcolnum;
+	    $heading{$newcolnum} = $file;
+	    $newcolnum++;
+	}
+
+	# Do we need a new author color?
+	if($authorcolor{$user} eq ""){
+	    $authorcolor{$user} = $colors[$newauthnum];
+	    $newauthnum++;
+	}
+
+	# This could be cleaned up... Build the cell
+	if($html[$cols{$file}] eq "&nbsp;"){
+	    $html[$cols{$file}] = "";
+	}
+
+	if($html[$cols{$file}] eq ""){
+	    $html[$cols{$file}] = 
+		"<tr><td bgcolor=\"$authorcolor{$user}\">&nbsp;</td></tr>";
+	}
+	else{
+	    $html[$cols{$file}] = $html[$cols{$file}] . 
+		"<tr><td bgcolor=\"$authorcolor{$user}\">&nbsp;</td></tr>";
+	}
+    }
+
+    # This should be improved
+    for($i = 0; $i < $newcolnum; $i++){
+	$html[$i] = "<td valign=\"top\"><table width=\"100%\" cellspacing=0 cellpadding=0>" . $html[$i] . "</table></td>";
+    }
+
+    $table = $table . "<tr><td valign=\"top\">$adate</td>@html</tr>\n";
+}
+
+# The funky header thingie
+print "<table cellspacing=0 cellpadding=0><tr><td></td>";
+for($i = 0; $i < $newcolnum; $i++){
+    `convert -font helvetica -pointsize 10 -draw "text 1,10 $heading{$i}" blank.jpg colheader-$i.jpg`;
+    `convert -rotate -90 colheader-$i.jpg colheader-$i-rot.jpg`;
+    print "<td><img src=\"colheader-$i-rot.jpg\"></td>";
+}
+
+print "</tr>$table</table>";
+print "<BR><HR><BR>Authors: ";
+print "<table>";
+
+while(($user, $color) = each %authorcolor){
+    print "<tr><td bgcolor=\"$color\">$user</td></tr>";
+}
+
+print "</table>";
