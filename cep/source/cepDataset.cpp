@@ -64,7 +64,7 @@ cepError cepDataset::read (const string& filename)
   for (int i = 0; i < 3; i++)
   {
     // File is NULL if it couldn't be opened
-    if (!files[i])
+    if (!files[i].is_open())
     {
       if (errString != "")
         errString += ";";
@@ -234,6 +234,63 @@ cepMatrix < double > *cepDataset::getMatrix(direction dir)
   return mat;
 }
 
+cepMatrix <double> cepDataset::getP(const string &filename)
+{
+  fstream file;
+  int rows = 0, cols = 0;
+  double val = 0.0;
+  
+  file.open(filename.c_str(), ios::in);
+
+  if (!file.is_open())
+  {
+    cepError oor ("Error! Can not open file:" + filename,
+                  cepError::sevErrorFatal);
+    oor.display ();
+  }
+
+  file >> rows;
+  file >> cols;
+
+  //check the matrix is square
+  if(rows != cols)
+  {
+    cepError oor ("Error! The file: " + filename + " does not contain a square matrix",
+                  cepError::sevErrorFatal);
+    oor.display ();
+  }
+
+  cepMatrix <double> matP(rows, cols);
+
+  for(int i = 0; i < rows; i++)
+  {
+    for(int j = 0; j < cols; j++)
+    {
+      file >> val;
+
+      //check to see if we have hit the eof to early
+      if(file.eof())
+      {
+        cepError oor ("Error! File:" + filename + " contain to few values",
+                  cepError::sevErrorFatal);
+        oor.display ();
+      }
+      matP.setValue(i,j,val);
+    }
+  }
+
+  file >> val;
+
+  //check to see there are no more values in the file
+  if(!file.eof())
+  {
+    cepError oor ("Error! File: " + filename + " contains too many values",
+                  cepError::sevErrorFatal);
+    oor.display ();
+  }
+    
+  return matP;
+}
 bool cepDataset::isReady()
 {
   return m_ready;
@@ -261,3 +318,4 @@ cepDataset::direction cepDataset::getDirectionFromName(string name)
   unknown.display();
   return dirX;
 }
+

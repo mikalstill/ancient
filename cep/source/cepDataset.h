@@ -88,6 +88,9 @@ public:
   vector < cep_datarow > &getData (direction dir);
   cepMatrix <double> *getMatrix(direction dir);
 
+  //reads a LS P weighting matrix from a file
+  cepMatrix <double> getP(const string& filename);
+  
   // Utility methods
   direction getDirectionFromName(string name);
 
