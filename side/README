@@ -1,0 +1,18 @@
+Side displays two files next to each other for comparison. For example:
+
+[mikal@localhost side]$ ./side "cat - < %s" long short
+Warning, do not use this command in a secure environment...
+  cat - < long > /tmp/side.Agou7k                                       |cat - < short > /tmp/side.uQTNBm
+  ----------------------------------------------------------------------|--------------------------------------------------------------------
+   1                                                                    | 1                                                                  
+   2                                                                    | 2                                                                  
+   3                                                                    | 3                                                                  
+++ 4                                                                    |*                                                                   
+++ 5                                                                    |*                                                                   
+++ 6                                                                    |*                                                                   
+++ 7                                                                    |*                                                                   
+++ 8                                                                    |*                                                                   
+++ 9                                                                    |*                                                                   
+++ 10                                                                   |*                                                                   
+[mikal@localhost side]$ 
+

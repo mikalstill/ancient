@@ -1,0 +1,3 @@
+I use this script to backup machines over the network using rsync.
+
+Each directory to be backed up has a .BACKUP file, which names where in the filesystem to rsync the backup to. Results are syslogged.
