@@ -1533,7 +1533,7 @@ usage (char *cmd, int exitamt)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1665,7 +1665,7 @@ Specify the percentage of the blue channel to use (default 11).
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -1916,7 +1916,7 @@ Matters are even worse for 4-, 2-, and 1-bit palette images.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2042,7 +2042,7 @@ ImageWidth: 256 520
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2332,7 +2332,7 @@ the source file.)
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2520,7 +2520,7 @@ This image, after being pushed through <command>tiffdither</command> looks somet
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -2632,19 +2632,19 @@ i.e. a leading ``0x'' for hexadecimal and a leading ``0'' for octal.
 <programlisting>
 [mikal@localhost tutorial-imaging]$ tiffdump tiff-figure10.tif 
 tiff-figure10.tif:
-Magic: 0x4949 <little-endian> Version: 0x2a
+Magic: 0x4949 &lt;little-endian&gt; Version: 0x2a
 Directory 0: offset 38228 (0x9554) next 0 (0)
-ImageWidth (256) SHORT (3) 1<640>
-ImageLength (257) SHORT (3) 1<479>
-BitsPerSample (258) SHORT (3) 1<1>
-Compression (259) SHORT (3) 1<32773>
-Photometric (262) SHORT (3) 1<1>
-ImageDescription (270) ASCII (2) 41<Dithered B&W version of  ...>
-StripOffsets (273) LONG (4) 5<8 8141 16315 24528 32662>
-SamplesPerPixel (277) SHORT (3) 1<1>
-RowsPerStrip (278) SHORT (3) 1<102>
-StripByteCounts (279) LONG (4) 5<8133 8174 8213 8134 5566>
-PlanarConfig (284) SHORT (3) 1<1>
+ImageWidth (256) SHORT (3) 1&lt;640&gt;
+ImageLength (257) SHORT (3) 1&lt;479&gt;
+BitsPerSample (258) SHORT (3) 1&lt;1&gt;
+Compression (259) SHORT (3) 1&lt;32773&gt;
+Photometric (262) SHORT (3) 1&lt;1&gt;
+ImageDescription (270) ASCII (2) 41&lt;Dithered B&amp;W version of  ...&gt;
+StripOffsets (273) LONG (4) 5&lt;8 8141 16315 24528 32662&gt;
+SamplesPerPixel (277) SHORT (3) 1&lt;1&gt;
+RowsPerStrip (278) SHORT (3) 1&lt;102&gt;
+StripByteCounts (279) LONG (4) 5&lt;8133 8174 8213 8134 5566&gt;
+PlanarConfig (284) SHORT (3) 1&lt;1&gt;
 [mikal@localhost tutorial-imaging]$ 
 </programlisting>
 </sidebar>
@@ -2656,7 +2656,7 @@ PlanarConfig (284) SHORT (3) 1<1>
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3007,7 +3007,7 @@ crashing old versions of the window manager.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3194,7 +3194,7 @@ Strip 0:
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1990-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -3354,7 +3354,7 @@ Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1992-1997 Sam Leffler -->
 <!--  Copyright (c) 1992-1997 Silicon Graphics, Inc. -->
@@ -3454,7 +3454,7 @@ is used.
 ...
 </para>
 
-<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.16 2002-07-01 19:27:07 mikal Exp $ -->
+<!-- 	$Header: /usr/local/google/home/mikal/cvs/tutorial-imaging/output.sgml,v 1.17 2002-07-02 22:59:17 mikal Exp $ -->
 <!--  -->
 <!--  Copyright (c) 1988-1997 Sam Leffler -->
 <!--  Copyright (c) 1991-1997 Silicon Graphics, Inc. -->
@@ -4511,19 +4511,26 @@ The basis of this chapter was two articles, first published by IBM DeveloperWork
 </chapter>
 <chapter id="chap-png"><title>PNG</title>
 <para><quote>
- A Turbo-Studly Image Format with Lossless Compression
+A Turbo-Studly Image Format with Lossless Compression
 (Not Related to Papua New Guinea, the Pawnee National Grassland,
 the Professional Numismatists Guild or the ``Pack 'N' Go'' format)
 </quote> -- libpng.org</para>
 
+<figure>
+<title>Put chunk info in here</title>
+<graphic format="EPS" fileref="todo.eps"></graphic>
+</figure>
+
 <para>
-PNG is my favorite image format after TIFF. It is well conceived, well implemented, and very powerful. It also has some interesting features, mainly aimed at Internet use, which TIFF lacks. It is also usable in modern web browsers
+PNG
+  <footnote><para>Short for Portable Network Graphics.</para></footnote>
+is my favorite image format after TIFF. It is well conceived, well implemented, and very powerful. It also has some interesting features, mainly aimed at Internet use, which TIFF lacks. It is also usable in modern web browsers
   <footnote><para>For instance Netscape 4 and Internet Explorer 4 and later.</para></footnote>
 , unlike TIFF. PNG is also much simpler in many respects than TIFF.
 </para>
 
 <para>
-This chapter will focus on the libpng library.
+This chapter will focus on the libpng library. This isn't really a limitation, as the people behind libpng are also the people who write the PNG specification, so you're pretty safe in assuming that if it's useful and PNG does it, then libpng implements it.
 </para>
 
 <sect1><title>Introduction</title>
