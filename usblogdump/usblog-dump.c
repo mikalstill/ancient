@@ -307,27 +307,28 @@ main (int argc, char *argv[])
 	    {
 	      int i;
 
-	      fileutil_getnumber (file, &filep);
-
-	      urb_printf ("Data: \t");
-	      for (i = 0; i < psize; i++)
+	      if(fileutil_getnumber (file, &filep) != 0)
 		{
-		  if (isgraph (file[filep]))
+		  urb_printf ("Data: \t");
+		  for (i = 0; i < psize; i++)
 		    {
-		      urb_printf ("   %c ", (unsigned char) file[filep]);
-		    }
-		  else if (file[filep] == 0x20)
-		    {
-		      urb_printf ("<SP> ");
-		    }
-		  else
-		    {
-		      urb_printf ("0x%02x ", (unsigned char) file[filep]);
-		    }
-		  filep++;
-		  if (!((i + 1) % 16))
-		    {
-		      urb_printf ("\n\t");
+		      if (isgraph (file[filep]))
+			{
+			  urb_printf ("   %c ", (unsigned char) file[filep]);
+			}
+		      else if (file[filep] == 0x20)
+			{
+			  urb_printf ("<SP> ");
+			}
+		      else
+			{
+			  urb_printf ("0x%02x ", (unsigned char) file[filep]);
+			}
+		      filep++;
+		      if (!((i + 1) % 16))
+			{
+			  urb_printf ("\n\t");
+			}
 		    }
 		}
 	      urb_printf ("\n");
