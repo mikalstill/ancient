@@ -27,22 +27,10 @@
  * Tests the framework which has been set up to window the incoming data
  *
  * @author Blake Swadling
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 
 namespace {
-
-class MyDataWindower : public cepDataWindower {
-public:
-  MyDataWindower() : cepDataWindower() {}
-  MyDataWindower( const cepWindow type, int size, int overlap )
-      : cepDataWindower() {
-        setWindowType( type, size, overlap );
-      }
-  int countWindows( int samples, int winSize, int overlap ) {
-    return cepDataWindower::countWindows( samples, winSize, overlap );
-  }
-};
 
 class Test : public CppUnit::TestFixture {
 
@@ -58,28 +46,28 @@ protected:
   {
 //    cout << "testing rectangular ... " << endl;
     
-    windower->setWindowType( cepDataWindower::WINDOW_RECTANGULAR, 10, 0 );
+    cepDataWindower::setWindowType( cepDataWindower::WINDOW_RECTANGULAR, 10, 0 );
 
     int expected = 10;
-    int num = windower->countWindows(  100, 10,  0 );
+    int num = cepDataWindower::countWindows(  100, 10,  0 );
     CPPUNIT_ASSERT_EQUAL_MESSAGE("window number unexpected", expected, num);
 
     expected = 19;
-    num = windower->countWindows(  100, 10,  5 );
+    num = cepDataWindower::countWindows(  100, 10,  5 );
     CPPUNIT_ASSERT_EQUAL_MESSAGE("window number unexpected", expected, num);
 
     expected = 6;
-    num = windower->countWindows(   10,  5,  4 );
+    num = cepDataWindower::countWindows(   10,  5,  4 );
     CPPUNIT_ASSERT_EQUAL_MESSAGE("window number unexpected", expected, num);
 
     expected = 16;
-    num = windower->countWindows( 1000, 90, 30 );
+    num = cepDataWindower::countWindows( 1000, 90, 30 );
     CPPUNIT_ASSERT_EQUAL_MESSAGE("window number unexpected", expected, num);
 
     // cout << "done" << endl;
     int size = 10;
     cepMatrix<double> result;
-    windower->window( makeData( size ), result );
+    cepDataWindower::window( makeData( size ), result );
 
     CPPUNIT_ASSERT_EQUAL_MESSAGE( "incorrect row count",  size, result.getNumRows() );
     
@@ -103,10 +91,14 @@ protected:
   {
 //    cout << "testing hamming ... " << endl;
     int size = 100;
-    windower->setWindowType( cepDataWindower::WINDOW_HAMMING, size, 0 );
+    cepDataWindower::setWindowType( cepDataWindower::WINDOW_HAMMING, size, 0 );
     
     cepMatrix<double> result;
-    windower->window( makeData( size ), result );
+    cepMatrix<double> input = makeData( size );
+    cepError err = cepDataWindower::window( input , result );
+    if( err.isReal() ) {
+      err.display();
+    }
 
     ofstream f("hamming.txt", ios::trunc);
     for( int i=0; i<result.getNumRows(); ++i ) {
@@ -117,6 +109,30 @@ protected:
   }
 
 
+  /** Test the hanning window. Dumps the coefficients to a delimited text file
+   * for viewing in your spread sheet of choice
+   */
+  void testHanning ()
+  {
+//    cout << "testing hanning ... " << endl;
+    int size = 100;
+    cepDataWindower::setWindowType( cepDataWindower::WINDOW_HANNING, size, 0 );
+    
+    cepMatrix<double> result;
+    cepMatrix<double> input = makeData( size );
+    cepError err = cepDataWindower::window( input , result );
+    if( err.isReal() ) {
+      err.display();
+    }
+
+    ofstream f("hanning.txt", ios::trunc);
+    for( int i=0; i<result.getNumRows(); ++i ) {
+      f << result.getValue(i, 0, 0) << ' ' << result.getValue(i, 1, 0) << endl;
+    }
+    f.close();
+
+  }
+
   /** Test the hamming window. Dumps the coefficients to a delimited text file
    * for viewing in your spread sheet of choice
    */
@@ -124,10 +140,14 @@ protected:
   {
 //    cout << "testing blackman ... " << endl;
     int size = 100;
-    windower->setWindowType( cepDataWindower::WINDOW_BLACKMAN, size, 0 );
+    cepDataWindower::setWindowType( cepDataWindower::WINDOW_BLACKMAN, size, 0 );
 
     cepMatrix<double> result;
-    windower->window( makeData( size ), result );
+    cepMatrix<double> input = makeData( size );
+    cepError err = cepDataWindower::window( input , result );
+    if( err.isReal() ) {
+      err.display();
+    }
 
     ofstream f("blackman.txt", ios::trunc);
     for( int i=0; i<result.getNumRows(); ++i ) {
@@ -147,10 +167,10 @@ protected:
   {
 //    cout << "testing chebyshev ... " << endl;
     int size = 99;
-    windower->setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
+    cepDataWindower::setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
     cepMatrix<double> result;
     cepMatrix<double> input = makeData( size );
-    cepError err = windower->window( input , result );
+    cepError err = cepDataWindower::window( input , result );
     if( err.isReal() ) {
       err.display();
     } 
@@ -167,10 +187,10 @@ protected:
   {
 //    cout << "testing chebyshev ... " << endl;
     int size = 100;
-    windower->setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
+    cepDataWindower::setWindowType( cepDataWindower::WINDOW_CHEBYSHEV, size, 0 );
     cepMatrix<double> result;
     cepMatrix<double> input = makeData( size );
-    cepError err = windower->window( input , result );
+    cepError err = cepDataWindower::window( input , result );
     if( err.isReal() ) {
       err.display();
     }
@@ -185,8 +205,6 @@ protected:
   }
   
 private:
-  MyDataWindower *windower;
-
 
   // makes a data set with linear scale (1->n) and data of all 1's
   const cepMatrix<double> & makeData( int size ) {
@@ -204,21 +222,19 @@ private:
 public:
   /* default constructor */
   Test() : CppUnit::TestFixture() {
-    windower = NULL;
     cepErrorHandler *eh = new cepConsoleErrorHandler();
     cepError::addErrorHandler( *eh );
+    cepDataWindower::init();
   }
 
   /** setup - run prior to each test */
   void setUp ()
   {
-    windower = new MyDataWindower();
   }
 
   /** teardown - run after each test */
   void tearDown ()
   {
-    delete windower;
   }
   
   /**
@@ -234,8 +250,9 @@ public:
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testHamming", &Test::testHamming ) );
     suiteOfTests->addTest(
+      new CppUnit::TestCaller<Test>( "testHanning", &Test::testHanning ) );
+    suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testBlackman", &Test::testBlackman ) );
-    
     suiteOfTests->addTest(
       new CppUnit::TestCaller<Test>( "testChebyshev", &Test::testChebyshev ) );
     suiteOfTests->addTest(

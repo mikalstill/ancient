@@ -69,7 +69,7 @@ OBJS_LS = ../cepLs.o
 OBJS_WINDOWER = ../cepDataWindower.o ../cepWindowAlg.o\
 ../cepWindowRect.o ../cepwindowhamming.o ../cepwindowchebyshev.o\
 ../cepwindowblackman.o ../cepConsoleErrorHandler.o ../cepErrorHandler.o\
-../cepConfiguration.o
+../cepConfiguration.o ../cepwindowhanning.o
 OBJS_PRESENTATION =
 OBJS_DATASET = ../cepDataset.o
 
