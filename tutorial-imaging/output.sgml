@@ -76,6 +76,12 @@ There are many people who need to be thanked when one attempts a project of this
 </para>
 </sect1>
 
+<sect1><title>How this document was produced</title>
+<para>
+This tutorial was written in Docbook SGML using xemacs. This was then converted into PDF using the jade SGML tools. Diagrams were developed in a combination of the gimp, killustrator, and custom developed code.
+</para>
+</sect1>
+
 <sect1><title>License</title>
 <para>
 This document is covered by two licenses -- the license for the text of this document, and the license for the included source code. The license terms are set out below.
@@ -566,38 +572,6 @@ Public License instead of this License.
 </sect2>
 </sect1>
 </chapter>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <chapter id="chap-concepts"><title>Imaging concepts</title>
 <para>
