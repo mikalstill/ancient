@@ -2,6 +2,7 @@
 /* 
    Imp for the CEP error
    Copyright (C) Michael Still                    2002
+   Copyright (C) Blake Swadling                   2002
    
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -196,12 +197,12 @@ public:
 
 private:
   
-  static bool handlerInstalled;
-  static class cepErrorHandler *handler;
+  static bool m_handlerInstalled;
+  static class cepErrorHandler *m_handler;
 
-  string message;
-  severity level;
-  bool actioned;
+  string m_message;
+  severity m_level;
+  bool m_actioned;
 };
 
 #endif

@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: cepView.h,v 1.9 2002-08-10 13:06:45 u964076 Exp $
+// RCS-ID:      $Id: cepView.h,v 1.10 2002-08-10 13:19:18 u964076 Exp $
 // Copyright:   (c) Julian Smart and Markus Holzem
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,7 @@
 #define __VIEWSAMPLEH__
 
 #include "wx/docview.h"
+#include "cepWxErrorHandler.h"
 
 class cepCanvas:public wxScrolledWindow
 {
