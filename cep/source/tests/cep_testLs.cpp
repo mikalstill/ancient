@@ -37,11 +37,14 @@
  *     void tearDown( void ) { ... }
  *
  * @author <your name here>
- * @version $Revision: 1.6 $ $Date: 2002-09-08 05:50:27 $
+ * @version $Revision: 1.7 $ $Date: 2002-09-26 08:59:57 $
  *
  * Revision History
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.6  2002/09/08 05:50:27  u983118
+ * Updated test for new way that the date, sample, error stuff is stored
+ *
  * Revision 1.5  2002/08/24 01:51:02  u983118
  * new tests for cepMatrix template, cepLs core implementation
  *
@@ -96,7 +99,7 @@ protected:
   /** Tests Ls */
   void testLsVCV()
   {
-    cepMatrix<double> data(5,3), P(5,5);
+    cepMatrix<double> data(5,3), P(5,5), residual;
     cepLs ans;
     
     //define the data matrix
@@ -151,22 +154,23 @@ protected:
     P.setValue(4,4,1);
     
     ans.cepDoVCV(data, P);
+    residual = ans.getResidual();
     
     //tests for B1 and B2
     CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.05241276, ans.getB1(), 0.00000001 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL( -1.624906007, ans.getB2(), 0.000000001 );
     
     //tests for residuals 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.248806007, ans.getResidual(0,0), 0.000000001 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.25061208,  ans.getResidual(1,0), 0.000000001 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.250070566, ans.getResidual(2,0), 0.000000001 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.247829051, ans.getResidual(3,0), 0.000000001 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.248482296, ans.getResidual(4,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.001006007, residual.getValue(0,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.00118792021,  residual.getValue(1,0), 0.000000001 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.00092943466, residual.getValue(2,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.00102905088, residual.getValue(3,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.00008229516, residual.getValue(4,0), 0.000000001 );
   }
   
   void testLsRW()
   {
-    cepMatrix<double> data(5,3), P(5,5);
+    cepMatrix<double> data(5,3), P(5,5), residual;
     cepLs ans;
     
     //define the data matrix
@@ -220,18 +224,19 @@ protected:
     P.setValue(3,4,0);
     P.setValue(4,4,1);
     
-    ans.cepDoRW(data, P);
-        
+    ans.cepDoVCV(data, P);
+    residual = ans.getResidual();
+    
     //tests for B1 and B2
     CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.05241276, ans.getB1(), 0.00000001 );
     CPPUNIT_ASSERT_DOUBLES_EQUAL( -1.624906007, ans.getB2(), 0.000000001 );
     
     //tests for residuals 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.248806007, ans.getResidual(0,0), 0.000000001 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.25061208,  ans.getResidual(1,0), 0.000000001 ); 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.250070566, ans.getResidual(2,0), 0.000000001 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.247829051, ans.getResidual(3,0), 0.000000001 );
-    CPPUNIT_ASSERT_DOUBLES_EQUAL( -3.248482296, ans.getResidual(4,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.001006007, residual.getValue(0,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.00118792021,  residual.getValue(1,0), 0.000000001 ); 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(  0.00092943466, residual.getValue(2,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.00102905088, residual.getValue(3,0), 0.000000001 );
+    CPPUNIT_ASSERT_DOUBLES_EQUAL( -0.00008229516, residual.getValue(4,0), 0.000000001 );
   }    
 }; // end Test
 
