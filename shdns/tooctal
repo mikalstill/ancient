@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Take a decimal number and output it's octal
+quotient=$1
+while [ $quotient -ne 0 ]
+do
+  remainder=$(( $quotient % 8 ))
+  octal="$remainder$octal"
+  quotient=$(( $quotient / 8 ))
+done
+
+echo $octal
