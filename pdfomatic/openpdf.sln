@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "openpdf", "openpdf.csproj", "{3333BC62-453F-4162-A980-3417DAB6C39C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "openpdfdescribe", "..\openpdfdescribe\openpdfdescribe.csproj", "{B6085366-2A3A-4727-A1D2-38F8ABAEA010}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{3333BC62-453F-4162-A980-3417DAB6C39C}.Debug.ActiveCfg = Debug|.NET
+		{3333BC62-453F-4162-A980-3417DAB6C39C}.Debug.Build.0 = Debug|.NET
+		{3333BC62-453F-4162-A980-3417DAB6C39C}.Release.ActiveCfg = Release|.NET
+		{3333BC62-453F-4162-A980-3417DAB6C39C}.Release.Build.0 = Release|.NET
+		{B6085366-2A3A-4727-A1D2-38F8ABAEA010}.Debug.ActiveCfg = Debug|.NET
+		{B6085366-2A3A-4727-A1D2-38F8ABAEA010}.Debug.Build.0 = Debug|.NET
+		{B6085366-2A3A-4727-A1D2-38F8ABAEA010}.Release.ActiveCfg = Release|.NET
+		{B6085366-2A3A-4727-A1D2-38F8ABAEA010}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

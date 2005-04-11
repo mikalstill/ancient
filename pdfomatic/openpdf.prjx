@@ -1,0 +1,37 @@
+<Project name="OpenPdf" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name="./Pdf.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./ParseException.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Object.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./PdfStream.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./ObjectCollection.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./TextException.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Dictionary.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./DictionaryItem.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./RuntimeException.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./XrefItem.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Utility.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./ObjectReference.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./ObjectReferenceCollection.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+  </Contents>
+  <References />
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configuration runwithwarnings="False" name="Debug">
+    <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+    <Execution commandlineparameters="" consolepause="False" />
+    <Output directory="./bin/Debug" assembly="openpdf" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+  </Configuration>
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="False" name="Debug">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="False" />
+      <Output directory="./bin/Debug" assembly="openpdf" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="Release">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="False" />
+      <Output directory="./bin/Release" assembly="openpdf" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+  </Configurations>
+</Project>
