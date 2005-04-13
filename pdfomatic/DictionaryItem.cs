@@ -50,7 +50,7 @@ namespace OpenPdf
 			{
 				m_name = name;
 			}
-			Console.WriteLine("Dictionary item named: " + name + " added");
+			Utility.TraceLine("Dictionary item named: " + name + " added");
 			
 			if(val.StartsWith("["))
 			{
@@ -78,7 +78,7 @@ namespace OpenPdf
 					}
 					catch(Exception)
 					{
-						Console.WriteLine("Gave up on object reference parsing for this dictionary item: " + val);
+						Utility.TraceLine("Gave up on object reference parsing for this dictionary item: " + val);
 						m_objects.Clear();
 						m_stringval = val;
 						m_type = ValueType.String;
@@ -174,6 +174,13 @@ namespace OpenPdf
 			if(m_type != ValueType.Number)
 				throw new RuntimeException("Value cannot be represented as an integer");
 			return m_intval;
+		}
+		
+		public Dictionary ValueAsDictionary()
+		{
+			if(m_type != ValueType.Dictionary)
+				throw new RuntimeException("Value cannot be represented as a dictionary");
+			return m_dictionary;
 		}
 		
 		public bool Valid

@@ -21,12 +21,12 @@ namespace OpenPdf
 		{
 			if(m_hash[name] == null)
 			{
-				Console.Write("Dictionary name " + name + " missing. We have: ");
+				Utility.Trace("Dictionary name " + name + " missing. We have: ");
 				foreach(string dikey in m_hash.Keys)
 				{
-					Console.Write(((DictionaryItem)m_hash[dikey]).Name + " ");
+					Utility.Trace(((DictionaryItem)m_hash[dikey]).Name + " ");
 				}
-				Console.WriteLine("");
+				Utility.TraceLine("");
 				return new DictionaryItem();
 			}
 			return (DictionaryItem) m_hash[name];
@@ -38,6 +38,11 @@ namespace OpenPdf
 			{
 				return m_hash.Count;
 			}
+		}
+		
+		public IEnumerator GetEnumerator()
+		{
+			return m_hash.GetEnumerator();
 		}
 		
 #region Parsing code
@@ -52,7 +57,7 @@ namespace OpenPdf
 				string lastchar = "";
 				string thischar;
 				string thischarforlast;
-				Console.WriteLine("Reading a dictionary: ");
+				Utility.TraceLine("Reading a dictionary: ");
 				while((count > 0) && !st.Eof)
 				{
 					thischar = st.ReadBlock(1);
@@ -77,33 +82,33 @@ namespace OpenPdf
 					}
 					
 					lastchar = thischarforlast;
-					Console.Write(".");
+					Utility.Trace(".");
 				}
 				if(count > 0)
 				{
 					throw new ParseException("Dictionary didn't end: " + count);
 				}
-				Console.WriteLine(" Done");
+				Utility.TraceLine(" Done");
 				
 				ReadDictionary(bloc.ToString());
 				
 				string peeked = st.PeekLine(true, true);
-				Console.WriteLine("Data trailing after dictionary: \"" + peeked + "\"");
+				Utility.TraceLine("Data trailing after dictionary: \"" + peeked + "\"");
 				if((peeked != "stream") && (peeked != "endobj"))
 				{
-					Console.WriteLine("Wasted a line");
+					Utility.TraceLine("Wasted a line");
 					st.ReadLine();
 				}
 			}
 			else
 			{
-				Console.WriteLine("Object has no dictionary: " + st.PeekLine());
+				Utility.TraceLine("Object has no dictionary: " + st.PeekLine());
 			}
 		}
 				
 		public void ReadDictionary(string processing)
 		{
-			Console.WriteLine("Processing dictionary line: " + processing);
+			Utility.TraceLine("Processing dictionary line: " + processing);
 			Regex reObjRef =      new Regex("^/([^ \t/\\(\\[]+)[ \t]*([0-9]+ [0-9]+ R)[ \t]*(.*)$");
 			Regex reObjRefs =     new Regex("^/([^ \t/\\(\\[]+)[ \t]*(\\[([0-9]+ [0-9]+ R[ \t]*)*\\])[ \t]*(.*)$");
 			Regex reDictStart =   new Regex("^/([^ \t/\\(\\[]+)[ \t]*<<[ \t]*(.*)$");
@@ -130,14 +135,14 @@ namespace OpenPdf
 				
 				if(mtchObjRef.Success)
 				{
-					Console.WriteLine("Dictionary: object reference");
+					Utility.TraceLine("Dictionary: object reference");
 					DictionaryItem di = new DictionaryItem(mtchObjRef.Groups[1].Value, mtchObjRef.Groups[2].Value);
 					Add(di);
 					processing = mtchObjRef.Groups[3].Value;
 				}
 				else if(mtchObjRefs.Success)
 				{
-					Console.WriteLine("Dictionary: object references");
+					Utility.TraceLine("Dictionary: object references");
 					DictionaryItem di = new DictionaryItem(mtchObjRefs.Groups[1].Value, mtchObjRefs.Groups[2].Value);
 					Add(di);
 					processing = mtchObjRefs.Groups[4].Value;
@@ -146,7 +151,7 @@ namespace OpenPdf
 				{
 					// Determine how much of the remaining stream is to be used for this dictionary
 					// This is very similar, but subtly different from the stream code above
-					Console.WriteLine("Dictionary: dictionary start");
+					Utility.TraceLine("Dictionary: dictionary start");
 					StringBuilder bloc = new StringBuilder();
 					int count = 1;
 					
@@ -202,49 +207,49 @@ namespace OpenPdf
 				}
 				else if(mtchName.Success)
 				{
-					Console.WriteLine("Dictionary: name");
+					Utility.TraceLine("Dictionary: name");
 					DictionaryItem di = new DictionaryItem(mtchName.Groups[1].Value, mtchName.Groups[2].Value);
 					Add(di);
 					processing = mtchName.Groups[3].Value;
 				}
 				else if(mtchDecimal.Success)
 				{
-					Console.WriteLine("Dictionary: decimal");
+					Utility.TraceLine("Dictionary: decimal");
 					DictionaryItem di = new DictionaryItem(mtchDecimal.Groups[1].Value, mtchDecimal.Groups[2].Value);
 					Add(di);
 					processing = mtchDecimal.Groups[3].Value;
 				}
 				else if(mtchNumber.Success)
 				{
-					Console.WriteLine("Dictionary: number");
+					Utility.TraceLine("Dictionary: number");
 					DictionaryItem di = new DictionaryItem(mtchNumber.Groups[1].Value, mtchNumber.Groups[2].Value);
 					Add(di);
 					processing = mtchNumber.Groups[3].Value;
 				}
 				else if(mtchStringOne.Success)
 				{
-					Console.WriteLine("Dictionary: string one");
+					Utility.TraceLine("Dictionary: string one");
 					DictionaryItem di = new DictionaryItem(mtchStringOne.Groups[1].Value, mtchStringOne.Groups[2].Value);
 					Add(di);
 					processing = mtchStringOne.Groups[4].Value;
 				}
 				else if(mtchStringThree.Success)
 				{
-					Console.WriteLine("Dictionary: string three");
+					Utility.TraceLine("Dictionary: string three");
 					DictionaryItem di = new DictionaryItem(mtchStringThree.Groups[1].Value, mtchStringThree.Groups[2].Value);
 					Add(di);
 					processing = mtchStringThree.Groups[3].Value;
 				}
 				else if(mtchStringFour.Success)
 				{
-					Console.WriteLine("Dictionary: string four");
+					Utility.TraceLine("Dictionary: string four");
 					DictionaryItem di = new DictionaryItem(mtchStringFour.Groups[1].Value, mtchStringFour.Groups[2].Value);
 					Add(di);
 					processing = mtchStringFour.Groups[3].Value;
 				}
 				else if(mtchStringTwo.Success)
 				{
-					Console.WriteLine("Dictionary: string two");
+					Utility.TraceLine("Dictionary: string two");
 					DictionaryItem di = new DictionaryItem(mtchStringTwo.Groups[1].Value, mtchStringTwo.Groups[2].Value);
 					Add(di);
 					processing = mtchStringTwo.Groups[3].Value;

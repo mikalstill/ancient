@@ -2,6 +2,7 @@
 // Released under the terms of the GNU LGPL. See COPYING for more details...
 
 using System;
+using System.Configuration;
 
 namespace OpenPdf
 {
@@ -38,5 +39,22 @@ namespace OpenPdf
 			Console.WriteLine(st.ReadRange(start, end));
 			Console.WriteLine("------------------------------------------------------------------------");
 		}
+		
+		internal static void TraceLine(string message)
+		{
+			if(ConfigurationSettings.AppSettings["TraceMode"] == "true")
+			{
+				Console.WriteLine(message);	
+			}
+		}
+		
+		internal static void Trace(string message)
+		{
+			if(ConfigurationSettings.AppSettings["TraceMode"] == "true")
+			{
+				Console.Write(message);	
+			}
+		}
+
 	}
 }

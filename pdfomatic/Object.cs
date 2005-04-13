@@ -20,7 +20,7 @@ namespace OpenPdf
 		// It has already been verified that the next thing in the stream is an object
 		public Object(PdfStream st, string number, string generation, string extra)
 		{
-			Console.WriteLine("Object header extra is: " + extra);
+			Utility.TraceLine("Object header extra is: " + extra);
 			st.Position -= extra.Length;
 			m_parseStartedAt = st.Position;
 			m_number = Int32.Parse(number);
@@ -28,9 +28,22 @@ namespace OpenPdf
 			Parse(st);
 		}
 		
+		public Object(int number, int generation)
+		{
+			m_number = number;
+			m_generation = generation;
+		}
+		
+		public Object()
+		{
+			m_number = -1;
+			m_generation = -1;
+		}
+		
+#region Parsing methods
 		public void Parse(PdfStream st)
 		{
-			Console.WriteLine("Read object parse pass for object " + Number + " " + Generation);
+			Utility.TraceLine("Read object parse pass for object " + Number + " " + Generation);
 		
 			try
 			{
@@ -52,31 +65,18 @@ namespace OpenPdf
 			}
 		}
 		
-		public Object(int number, int generation)
-		{
-			m_number = number;
-			m_generation = generation;
-		}
-		
-		public Object()
-		{
-			m_number = -1;
-			m_generation = -1;
-		}
-		
-#region Parsing methods
 		private void ReadStream(PdfStream st)
 		{
 			if(st.PeekLine() == "stream")
 			{
-				Console.WriteLine("Read stream: ");
+				Utility.TraceLine("Read stream: ");
 				st.ReadLine();
 				while(!st.PeekLine(true, true).EndsWith("endstream") && !st.Eof)
 				{
-					Console.Write("-");
+					Utility.Trace("-");
 					m_stream.Append(st.ReadLineAsBytes());
 				}
-				Console.WriteLine(" Done");
+				Utility.TraceLine(" Done");
 				st.ReadLine();
 			}
 		}
@@ -92,7 +92,7 @@ namespace OpenPdf
 			}
 			else
 			{
-				Console.WriteLine("Not eligible for direct value");
+				Utility.TraceLine("Not eligible for direct value");
 			}
 		}
 #endregion
@@ -150,6 +150,14 @@ namespace OpenPdf
 			get
 			{
 				return m_dictionary;
+			}
+		}
+		
+		public byte[] Stream
+		{
+			get
+			{
+				return m_stream.ToBytes();
 			}
 		}
 #endregion

@@ -1,6 +1,3 @@
-// Copyright (C) Michael Still (mikal@stillhq.com) 2005
-// Released under the terms of the GNU LGPL. See COPYING for more details...
-
 using System;
 using System.IO;
 using System.Text;
@@ -29,7 +26,7 @@ namespace OpenPdf
 			bool linflag = false;
 			while(!eof && (st.Position != pos))
 			{
-				Console.WriteLine("Starting read pass");
+				Utility.TraceLine("Starting read pass");
 				pos = st.Position;
 				ReadComment(st);
 				
@@ -49,7 +46,7 @@ namespace OpenPdf
 								{
 									linflag = true;
 									m_linearized = true;
-									Console.WriteLine("Linearized PDF document found");
+									Utility.TraceLine("Linearized PDF document found");
 								}
 							}
 							else
@@ -66,7 +63,7 @@ namespace OpenPdf
 					if(linflag == true)
 					{
 						linflag = false;
-						Console.WriteLine("Linearization trailer");
+						Utility.TraceLine("Linearization trailer");
 					}
 					else
 					{
@@ -91,7 +88,7 @@ namespace OpenPdf
 				st.Expect("%PDF-", true);
 				m_version = float.Parse(st.ReadBlock(3));
 				st.ReadLine();
-				Console.WriteLine("Read header");	
+				Utility.TraceLine("Read header");	
 			}
 			catch(Exception except)
 			{
@@ -106,7 +103,7 @@ namespace OpenPdf
 				return false;
 			}
 			st.ReadLine();
-			Console.WriteLine("Read comment");
+			Utility.TraceLine("Read comment");
 			return true;
 		}
 
@@ -118,7 +115,7 @@ namespace OpenPdf
 
 			if(mtch.Success)
 			{
-				Console.WriteLine("Read object");
+				Utility.TraceLine("Read object");
 				st.ReadLine();
 				return new Object(st, mtch.Groups[1].Value, mtch.Groups[2].Value, mtch.Groups[3].Value);
 			}
@@ -129,7 +126,7 @@ namespace OpenPdf
 		{
 			if(st.PeekLine(true, true) == "xref")
 			{
-				Console.WriteLine("Read xref");
+				Utility.TraceLine("Read xref");
 				st.ReadLine();
 				
 				Regex re = new Regex("[0-9]+ [0-9]+");
@@ -159,14 +156,14 @@ namespace OpenPdf
 		{
 			if(st.PeekLine(true, true) == "startxref")
 			{
-				Console.WriteLine("Read startxref");
+				Utility.TraceLine("Read startxref");
 				string line = st.ReadLine(true, true);
 				while(line != "%%EOF")
 				{
-					Console.WriteLine("\t" + line);
+					Utility.TraceLine("\t" + line);
 					line = st.ReadLine(true, true);
 				}
-				Console.WriteLine("\t" + line);
+				Utility.TraceLine("\t" + line);
 				return true;
 			}
 			return false;
@@ -176,7 +173,7 @@ namespace OpenPdf
 		{
 			if(st.PeekLine() == "trailer")
 			{
-				Console.WriteLine("Read trailer");
+				Utility.TraceLine("Read trailer");
 				st.ReadLine();
 				m_trailer.ReadDictionary(st);
 				return true;
@@ -186,7 +183,15 @@ namespace OpenPdf
 		}
 #endregion		
 		
-		public Object Catalog
+		public ObjectCollection Objects
+		{
+			get
+			{
+				return m_objects;
+			}
+		}
+		
+		public Object CatalogObject
 		{
 			get
 			{
@@ -211,37 +216,41 @@ namespace OpenPdf
 			}
 		}
 		
-		public ObjectCollection Pages
+		public ObjectCollection PagesObjects
 		{
 			get
 			{
-				if(!Catalog.Valid)
+				if(!CatalogObject.Valid)
 				{
 					throw new RuntimeException("Catalog is not valid");
 				}
 				
-				DictionaryItem pages = Catalog.Dictionary.Get("Pages");
+				DictionaryItem pages = CatalogObject.Dictionary.Get("Pages");
 				return pages.ValueAsObjects(m_objects);
 			}
 		}
 		
-		public int PageCount
+		public ObjectCollection Pages
 		{
 			get
 			{
-				int count = 0;
-				foreach(Object obj in Pages)
+				ObjectCollection retval = new ObjectCollection();
+				foreach(Object obj in PagesObjects)
 				{
 					DictionaryItem kids = obj.Dictionary.Get("Kids");
 					if(!kids.Valid)
 					{
 						throw new RuntimeException("Kids entry for a pages object was not valid");
 					}
+					
 					ObjectCollection kidobjs = kids.ValueAsObjects(m_objects);
-					count += kidobjs.Count;
+					foreach(Object kid in kidobjs)
+					{
+						retval.Add(kid);
+					}
 				}
 				
-				return count;
+				return retval;
 			}
 		}
 	}
