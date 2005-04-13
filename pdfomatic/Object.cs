@@ -1,3 +1,6 @@
+// Copyright (C) Michael Still (mikal@stillhq.com) 2005
+// Released under the terms of the GNU LGPL. See COPYING for more details...
+
 using System;
 using System.IO;
 using System.Text;
@@ -11,7 +14,7 @@ namespace OpenPdf
 		private long m_parseStartedAt = -1;
 		
 		private Dictionary m_dictionary = new Dictionary();
-		private StringBuilder m_stream = new StringBuilder();
+		private ByteBuilder m_stream = new ByteBuilder();
 		private string m_directValue;
 		
 		// It has already been verified that the next thing in the stream is an object
@@ -71,7 +74,7 @@ namespace OpenPdf
 				while(!st.PeekLine(true, true).EndsWith("endstream") && !st.Eof)
 				{
 					Console.Write("-");
-					m_stream.Append(st.ReadLine());
+					m_stream.Append(st.ReadLineAsBytes());
 				}
 				Console.WriteLine(" Done");
 				st.ReadLine();

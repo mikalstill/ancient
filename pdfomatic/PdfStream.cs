@@ -1,3 +1,6 @@
+// Copyright (C) Michael Still (mikal@stillhq.com) 2005
+// Released under the terms of the GNU LGPL. See COPYING for more details...
+
 using System;
 using System.IO;
 using System.Text;
@@ -238,6 +241,37 @@ namespace OpenPdf
 			}
 			
 			return line.ToString();
+		}
+		
+		public byte[] ReadLineAsBytes()
+		{
+			ByteBuilder line = new ByteBuilder();
+			byte[] data = new byte[1];
+		
+			data[0] = (byte) ' ';
+			
+			while((data[0] != '\r') && (data[0] != '\n') && !Eof)
+			{
+				m_st.Read(data, 0, 1);
+				if((data[0] != '\r') && (data[0] != '\n'))
+				{
+					line.Append(data[0]);
+				}
+			}
+			
+			if(data[0] == '\r')
+			{
+				long pos = Position;
+				m_st.Read(data, 0, 1);
+				
+				if(data[0] != '\n')
+				{
+					Position = pos;
+					line.Append((byte) '\n');
+				}
+			}
+			
+			return line.ToBytes();
 		}
 	}
 }

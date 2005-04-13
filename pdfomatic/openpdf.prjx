@@ -14,6 +14,7 @@
     <File name="./Utility.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./ObjectReference.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./ObjectReferenceCollection.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./ByteBuilder.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References />
   <DeploymentInformation target="" script="" strategy="File" />

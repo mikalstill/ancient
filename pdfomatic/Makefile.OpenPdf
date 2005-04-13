@@ -15,7 +15,8 @@ SOURCES = \
 ./XrefItem.cs \
 ./Utility.cs \
 ./ObjectReference.cs \
-./ObjectReferenceCollection.cs
+./ObjectReferenceCollection.cs \
+./ByteBuilder.cs
 
 MCS_OPTIONS = 
 

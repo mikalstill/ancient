@@ -1,3 +1,6 @@
+// Copyright (C) Michael Still (mikal@stillhq.com) 2005
+// Released under the terms of the GNU LGPL. See COPYING for more details...
+
 using System;
 using System.Collections;
 using System.Text;
@@ -78,7 +81,7 @@ namespace OpenPdf
 				}
 				if(count > 0)
 				{
-					throw new ParseException("Dictionary didn't end");
+					throw new ParseException("Dictionary didn't end: " + count);
 				}
 				Console.WriteLine(" Done");
 				

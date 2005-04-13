@@ -1,20 +1,24 @@
 <Combine fileversion="1.0" name="openpdf" description="">
-  <StartMode startupentry="openpdfdescribe" single="True">
+  <StartMode startupentry="openpdfui" single="True">
     <Execute entry="OpenPdf" type="None" />
     <Execute entry="openpdfdescribe" type="None" />
+    <Execute entry="openpdfui" type="None" />
   </StartMode>
   <Entries>
     <Entry filename="./openpdf.prjx" />
     <Entry filename="../openpdfdescribe/openpdfdescribe.prjx" />
+    <Entry filename="../openpdfui/openpdfui.prjx" />
   </Entries>
   <Configurations active="Debug">
     <Configuration name="Release">
       <Entry name="OpenPdf" configurationname="Debug" build="False" />
       <Entry name="openpdfdescribe" configurationname="Debug" build="False" />
+      <Entry name="openpdfui" configurationname="Debug" build="False" />
     </Configuration>
     <Configuration name="Debug">
       <Entry name="OpenPdf" configurationname="Debug" build="False" />
       <Entry name="openpdfdescribe" configurationname="Debug" build="False" />
+      <Entry name="openpdfui" configurationname="Debug" build="False" />
     </Configuration>
   </Configurations>
 </Combine>
