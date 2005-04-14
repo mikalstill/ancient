@@ -24,7 +24,7 @@ namespace mGnu
 			{
 				Arg a = new Arg();
 				a.Flag = "-" + ParametersDescription[i];
-				if(ParametersDescription[i + 1] == ':')
+				if((ParametersDescription.Length > i + 1) && (ParametersDescription[i + 1] == ':'))
 				{
 					a.TakesParameter = true;
 					i++;
@@ -36,10 +36,10 @@ namespace mGnu
 
 		public Arg NextArg()
 		{
-			if(m_args.Count == 0)
-				return null;
-
 			SnarfExtras();
+
+			if(m_params.Count == 0)
+				return null;			
 
 			foreach(Arg a in m_args)
 			{
@@ -63,6 +63,13 @@ namespace mGnu
 				}
 			}
 
+			if(m_params[0][0] == '-')
+			{
+				Arg tempa = new Arg();
+				tempa.Flag = m_params[0];
+				tempa.TakesParameter = false;
+				return tempa;
+			}
 			return null;
 		}
 
@@ -82,7 +89,7 @@ namespace mGnu
 		private void SnarfExtras()
 		{
 			// Parameters must start with a hyphen
-			while(m_params[0][0] != '-')
+			while((m_params.Count > 0) && (m_params[0][0] != '-'))
 			{
 				m_extras.Add(m_params[0]);
 				m_params.RemoveAt(0);
