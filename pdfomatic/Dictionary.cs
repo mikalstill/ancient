@@ -57,32 +57,88 @@ namespace OpenPdf
 				string lastchar = "";
 				string thischar;
 				string thischarforlast;
+				
+				bool insidequoted = false;
+				bool hasname = false;
+				StringBuilder line = new StringBuilder();
+				Regex isname = new Regex("^/[A-Za-z0-9]* $");
+				Match mtch;
+				
 				Utility.TraceLine("Reading a dictionary: ");
 				while((count > 0) && !st.Eof)
 				{
 					thischar = st.ReadBlock(1);
 					thischarforlast = thischar;
-					if((thischar == ">") && (lastchar == ">"))
+					
+					if(!insidequoted)
 					{
-						count--;
-						thischarforlast = " ";
+						// Start and end conditions for sub dictionaries
+						if((thischar == ">") && (lastchar == ">"))
+						{
+							count--;
+							thischarforlast = " ";
+						}
+						else if((thischar == "<") && (lastchar == "<"))
+						{
+							count++;
+						}
+						
+						// Opening an angle quoted block
+						else if((lastchar != "<") && (thischar == "<") && (st.PeekBlock(1) != "<"))
+						{
+							insidequoted = true;
+							Utility.Trace(" [ANGLEQUOTED] ");
+						}
 					}
-					else if((thischar == "<") && (lastchar == "<"))
+					else if(thischar == ">")
 					{
-						count++;
+						insidequoted = false;
+						Utility.Trace(" [ENDANGLEQUOTED] ");
 					}
 					
 					if((thischar != "\r") && (thischar != "\n"))
 					{
+						// Not a newline
 						bloc.Append(thischar);
+						line.Append(thischar);
+						
+						if(hasname && ((thischar == "(") || (thischar == "[")))
+						{
+							insidequoted = true;
+							Utility.Trace(" [QUOTED] ");
+						}
+						
+						if(insidequoted && 
+							((thischar == ")") || (thischar == "]")))
+						{
+							insidequoted = false;
+							Utility.Trace(" [ENDQUOTED] ");
+						}
 					}
-					else if(!Utility.IsWhite(lastchar))
+					else
 					{
+						// Not a repeated newline character
 						bloc.Append(" ");
+						line = new StringBuilder();
+						hasname = false;
+						insidequoted = false;
+						Utility.TraceLine(" [END]");
+					}
+										
+					lastchar = thischarforlast;
+					
+					// We need to know if this is a line which starts with a name
+					if(!hasname)
+					{
+						mtch = isname.Match(line.ToString());
+						if(mtch.Success)
+						{
+							hasname = true;
+							Utility.Trace(" [NAME] ");
+						}
 					}
 					
-					lastchar = thischarforlast;
-					Utility.Trace(".");
+					Utility.Trace(thischar);
 				}
 				if(count > 0)
 				{
@@ -119,19 +175,30 @@ namespace OpenPdf
 			Regex reStringFour  = new Regex("^/([^ \t/\\(\\[]+)[ \t]*(\\<([^\\>]*|\\<|\\>)*\\>)[ \t]*(.*)$");
 			Regex reNumber =      new Regex("^/([^ \t/\\(\\[]+)[ \t]+([0-9]+)[ \t]*(.*)$");
 			Regex reDecimal =     new Regex("^/([^ \t/\\(\\[]+)[ \t]+([0-9]+\\.[0-9]+)[ \t]*(.*)$");
+
+			Match mtchObjRef;
+			Match mtchObjRefs;
+			Match mtchDictStart;
+			Match mtchName;
+			Match mtchStringOne;
+			Match mtchStringTwo;
+			Match mtchStringThree;
+			Match mtchStringFour;
+			Match mtchNumber;
+			Match mtchDecimal;
 			
 			while(processing != "")
 			{
-				Match mtchObjRef = reObjRef.Match(processing);
-				Match mtchObjRefs = reObjRefs.Match(processing);
-				Match mtchDictStart = reDictStart.Match(processing);
-				Match mtchName = reName.Match(processing);
-				Match mtchStringOne = reStringOne.Match(processing);
-				Match mtchStringTwo = reStringTwo.Match(processing);
-				Match mtchStringThree = reStringThree.Match(processing);
-				Match mtchStringFour = reStringFour.Match(processing);
-				Match mtchNumber = reNumber.Match(processing);
-				Match mtchDecimal = reDecimal.Match(processing);
+				mtchObjRef = reObjRef.Match(processing);
+				mtchObjRefs = reObjRefs.Match(processing);
+				mtchDictStart = reDictStart.Match(processing);
+				mtchName = reName.Match(processing);
+				mtchStringOne = reStringOne.Match(processing);
+				mtchStringTwo = reStringTwo.Match(processing);
+				mtchStringThree = reStringThree.Match(processing);
+				mtchStringFour = reStringFour.Match(processing);
+				mtchNumber = reNumber.Match(processing);
+				mtchDecimal = reDecimal.Match(processing);
 				
 				if(mtchObjRef.Success)
 				{
