@@ -201,5 +201,35 @@ namespace OpenPdf
 				return m_type;
 			}
 		}
+		
+		public override string ToString()
+		{
+			StringBuilder retval = new StringBuilder();
+			retval.Append(Name + " = ");
+			
+			switch(m_type)
+			{
+				case ValueType.String:
+					retval.Append(m_stringval);
+					break;
+				
+				case ValueType.Objects:
+					retval.Append(m_objects.ToString());
+					break;
+			
+				case ValueType.Dictionary:
+					retval.Append("TODO: Not yet supported");
+					break;
+			
+				case ValueType.Number:
+					retval.Append(m_intval);
+					break;
+					
+				default:
+					throw new RuntimeException("There is do ToString() formatter for this DictionaryItem type");
+			}
+			
+			return retval.ToString();
+		}
 	}
 }

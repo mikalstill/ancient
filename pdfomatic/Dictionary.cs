@@ -14,6 +14,7 @@ namespace OpenPdf
 	
 		public void Add(DictionaryItem di)
 		{
+			Utility.TraceLine("Adding " + di.ToString());
 			m_hash[di.Name] = di;
 		}
 		
@@ -200,7 +201,7 @@ namespace OpenPdf
 		{
 			Utility.TraceLine("Processing dictionary line: " + processing);
 			Regex reObjRef =      new Regex("^/([^ \t/\\(\\[]+)[ \t]*([0-9]+ [0-9]+ R)[ \t]*(.*)$");
-			Regex reObjRefs =     new Regex("^/([^ \t/\\(\\[]+)[ \t]*(\\[([0-9]+ [0-9]+ R[ \t]*)*\\])[ \t]*(.*)$");
+			Regex reObjRefs =     new Regex("^/([^ \t/\\(\\[]+)[ \t]*(\\[[ \t]*([0-9]+ [0-9]+ R[ \t]*)*[ \t]*\\])[ \t]*(.*)$");
 			Regex reDictStart =   new Regex("^/([^ \t/\\(\\[]+)[ \t]*<<[ \t]*(.*)$");
 			Regex reName =        new Regex("^/([^ \t/\\(\\[]+)[ \t]*/([^ \t/\\(\\[]+)[ \t]*(.*)$");
 			Regex reStringOne =   new Regex("^/([^ \t/\\(\\[]+)[ \t]*(\\[([^\\]]*|\\(|\\))*\\])[ \t]*(.*)$");
