@@ -98,7 +98,7 @@ namespace OpenPdf
 								if((thischar == ")") && (lastchar != "\\"))
 								{
 									quote = QuoteType.None;
-									Utility.Trace(" [ENDANQUOTE] ");
+									Utility.Trace(" [ENDRDQUOTE] ");
 								}
 								break;
 								
@@ -107,7 +107,7 @@ namespace OpenPdf
 								{
 									quote = QuoteType.None;
 									thischarforlast = " ";
-									Utility.Trace(" [ENDANQUOTE] ");
+									Utility.Trace(" [ENDSQQUOTE] ");
 								}
 								break;
 						}
@@ -295,7 +295,7 @@ namespace OpenPdf
 									if((thischar == ')') && (lastchar != '\\'))
 									{
 										quote = QuoteType.None;
-										Utility.Trace(" [ENDANQUOTE] ");
+										Utility.Trace(" [ENDRDQUOTE] ");
 									}
 									break;
 									
@@ -304,7 +304,7 @@ namespace OpenPdf
 									{
 										quote = QuoteType.None;
 										thischarforlast = ' ';
-										Utility.Trace(" [ENDANQUOTE] ");
+										Utility.Trace(" [ENDSQQUOTE] ");
 									}
 									break;
 							}
