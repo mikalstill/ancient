@@ -46,6 +46,14 @@ namespace OpenPdf
 		}
 		
 #region Parsing code
+		private enum QuoteType
+		{
+			None,
+			Round,
+			Square,
+			Angle		
+		}
+
 		public void ReadDictionary(PdfStream st)
 		{
 			if(st.Expect("<<", false))
@@ -54,14 +62,14 @@ namespace OpenPdf
 				StringBuilder bloc = new StringBuilder();
 				int count = 1;
 				
-				string lastchar = "";
 				string thischar;
+				string lastchar = " ";
 				string thischarforlast;
+				QuoteType quote = QuoteType.None;
 				
-				bool insidequoted = false;
 				bool hasname = false;
 				StringBuilder line = new StringBuilder();
-				Regex isname = new Regex("^/[A-Za-z0-9]* $");
+				Regex isname = new Regex("^/[A-Za-z0-9]*$");
 				Match mtch;
 				
 				Utility.TraceLine("Reading a dictionary: ");
@@ -69,65 +77,76 @@ namespace OpenPdf
 				{
 					thischar = st.ReadBlock(1);
 					thischarforlast = thischar;
+					Utility.Trace(thischar);
 					
-					if(!insidequoted)
+					// If we're inside something quoted, then we ignore the end of dictionary markers
+					// until we get to the end of the quoted section
+					if(quote != QuoteType.None)
 					{
-						// Start and end conditions for sub dictionaries
+						switch(quote)
+						{
+							case QuoteType.Angle:
+								if((thischar == ">") && (lastchar != "\\"))
+								{
+									quote = QuoteType.None;
+									thischarforlast = " ";
+									Utility.Trace(" [ENDANQUOTE] ");
+								}
+								break;
+								
+							case QuoteType.Round:
+								if((thischar == ")") && (lastchar != "\\"))
+								{
+									quote = QuoteType.None;
+									Utility.Trace(" [ENDANQUOTE] ");
+								}
+								break;
+								
+							case QuoteType.Square:
+								if((thischar == "]") && (lastchar != "\\"))
+								{
+									quote = QuoteType.None;
+									thischarforlast = " ";
+									Utility.Trace(" [ENDANQUOTE] ");
+								}
+								break;
+						}
+					}
+					
+					// Otherwise, it's possible that we're finishing the dictionary
+					else
+					{
 						if((thischar == ">") && (lastchar == ">"))
 						{
 							count--;
-							thischarforlast = " ";
+							Utility.Trace(" [count = " + count + "] ");
 						}
+						
 						else if((thischar == "<") && (lastchar == "<"))
 						{
 							count++;
+							Utility.Trace(" [count = " + count + "] ");
 						}
-						
-						// Opening an angle quoted block
-						else if((lastchar != "<") && (thischar == "<") && (st.PeekBlock(1) != "<"))
-						{
-							insidequoted = true;
-							Utility.Trace(" [ANGLEQUOTED] ");
-						}
-					}
-					else if(thischar == ">")
-					{
-						insidequoted = false;
-						Utility.Trace(" [ENDANGLEQUOTED] ");
 					}
 					
-					if((thischar != "\r") && (thischar != "\n"))
+					// If we have previously found a name, then it is possible that this is something
+					// quoted
+					if(hasname && (quote == QuoteType.None))
 					{
-						// Not a newline
-						bloc.Append(thischar);
-						line.Append(thischar);
-						
-						if(hasname && ((thischar == "(") || (thischar == "[")))
+						switch(thischar)
 						{
-							insidequoted = true;
-							Utility.Trace(" [QUOTED] ");
-						}
-						
-						if(insidequoted && 
-							((thischar == ")") || (thischar == "]")))
-						{
-							insidequoted = false;
-							Utility.Trace(" [ENDQUOTED] ");
+							case "(":	quote = QuoteType.Round; Utility.Trace(" [STARTRDQUOTE] ");		break;
+							case "[":	quote = QuoteType.Square; Utility.Trace(" [STARTSQQUOTE] ");	break;
+							case "<":
+								if((lastchar != "<") && (st.PeekBlock(1) != "<"))
+								{
+									quote = QuoteType.Angle; Utility.Trace(" [STARTANQUOTE] ");
+								}
+								break;
 						}
 					}
-					else
-					{
-						// Not a repeated newline character
-						bloc.Append(" ");
-						line = new StringBuilder();
-						hasname = false;
-						insidequoted = false;
-						Utility.TraceLine(" [END]");
-					}
-										
-					lastchar = thischarforlast;
 					
-					// We need to know if this is a line which starts with a name
+					// Check if we have found a name on this line yet
 					if(!hasname)
 					{
 						mtch = isname.Match(line.ToString());
@@ -138,8 +157,23 @@ namespace OpenPdf
 						}
 					}
 					
-					Utility.Trace(thischar);
+					// And we put the character into the line and bloc
+					if((thischar == "\r") || (thischar == "\n"))
+					{
+						line.Append(" ");
+						bloc.Append(" ");
+						Utility.TraceLine(" [END]");
+					}
+					else
+					{
+						line.Append(thischar);
+						bloc.Append(thischar);
+					}
+					
+					lastchar = thischarforlast;
 				}
+				
+				// Make sure the dictionary was balanced
 				if(count > 0)
 				{
 					throw new ParseException("Dictionary didn't end: " + count);
@@ -218,40 +252,126 @@ namespace OpenPdf
 				{
 					// Determine how much of the remaining stream is to be used for this dictionary
 					// This is very similar, but subtly different from the stream code above
-					Utility.TraceLine("Dictionary: dictionary start");
+					Utility.TraceLine("Dictionary: dictionary start: " + mtchDictStart.Groups[2].Value);
 					StringBuilder bloc = new StringBuilder();
 					int count = 1;
 					
-					char lastchar = 'm';
+					char lastchar = ' ';
 					char thischar;
 					char thischarforlast;
 					int i = 0;
+					
+					QuoteType quote = QuoteType.None;
+				
+					bool hasname = false;
+					StringBuilder line = new StringBuilder();
+					Regex isname = new Regex("^/[A-Za-z0-9]*$");
+					Match mtch;
+				
 					while((count > 0) && (i < mtchDictStart.Groups[2].Value.Length))
 					{
 						thischar = mtchDictStart.Groups[2].Value[i];
 						thischarforlast = thischar;
-						if((thischar == '>') && (lastchar == '>'))
+						Utility.Trace(thischar);
+						
+						// If we're inside something quoted, then we ignore the end of dictionary markers
+						// until we get to the end of the quoted section
+						// TODO: I really should try and find a wa\y to roll these two blocks of code
+						// together
+						if(quote != QuoteType.None)
 						{
-							count--;
-							thischarforlast = ' ';
-						}
-						else if((thischar == '<') && (lastchar == '<'))
-						{
-							count++;
+							switch(quote)
+							{
+								case QuoteType.Angle:
+									if((thischar == '>') && (lastchar != '\\'))
+									{
+										quote = QuoteType.None;
+										thischarforlast = ' ';
+										Utility.Trace(" [ENDANQUOTE] ");
+									}
+									break;
+									
+								case QuoteType.Round:
+									if((thischar == ')') && (lastchar != '\\'))
+									{
+										quote = QuoteType.None;
+										Utility.Trace(" [ENDANQUOTE] ");
+									}
+									break;
+									
+								case QuoteType.Square:
+									if((thischar == ']') && (lastchar != '\\'))
+									{
+										quote = QuoteType.None;
+										thischarforlast = ' ';
+										Utility.Trace(" [ENDANQUOTE] ");
+									}
+									break;
+							}
 						}
 						
-						if((thischar != '\r') && (thischar != '\n'))
+						// Otherwise, it's possible that we're finishing the dictionary
+						else
 						{
-							bloc.Append(thischar);
+							if((thischar == '>') && (lastchar == '>'))
+							{
+								count--;
+								Utility.Trace(" [count = " + count + "] ");
+							}
+							
+							else if((thischar == '<') && (lastchar == '<'))
+							{
+								count++;
+								Utility.Trace(" [count = " + count + "] ");
+							}
 						}
-						else if(!Utility.IsWhite(lastchar))
+						
+						// If we have previously found a name, then it is possible that this is something
+						// quoted
+						if(hasname && (quote == QuoteType.None))
 						{
+							switch(thischar)
+							{
+								case '(':	quote = QuoteType.Round; Utility.Trace(" [STARTRDQUOTE] ");		break;
+								case '[':	quote = QuoteType.Square; Utility.Trace(" [STARTSQQUOTE] ");	break;
+								case '<':
+									if((lastchar != '<') && (mtchDictStart.Groups[2].Value[i + 1] != '<'))
+									{
+										quote = QuoteType.Angle; Utility.Trace(" [STARTANQUOTE] ");
+									}
+									break;
+							}
+						}
+						
+						// Check if we have found a name on this line yet
+						if(!hasname)
+						{
+							mtch = isname.Match(line.ToString());
+							if(mtch.Success)
+							{
+								hasname = true;
+								Utility.Trace(" [NAME] ");
+							}
+						}
+						
+						// And we put the character into the line and bloc
+						if((thischar == '\r') || (thischar == '\n'))
+						{
+							line.Append(" ");
 							bloc.Append(" ");
+							Utility.TraceLine(" [END]");
+						}
+						else
+						{
+							line.Append(thischar);
+							bloc.Append(thischar);
 						}
 						
 						lastchar = thischarforlast;
 						i++;
 					}
+					Utility.TraceLine("");
+					
 					if(count > 0)
 					{
 						throw new ParseException("Sub dictionary didn't end");

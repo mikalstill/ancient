@@ -57,5 +57,9 @@ namespace OpenPdf
 			}
 		}
 
+		internal static void Trace(char message)
+		{
+			Utility.Trace(message.ToString());
+		}
 	}
 }
