@@ -160,6 +160,11 @@ namespace OpenPdf
 				return m_stream.ToBytes();
 			}
 		}
+		
+		public override string ToString()
+		{
+			return Number + " " + Generation + " R";
+		}
 #endregion
 	}
 }

@@ -56,6 +56,10 @@ namespace OpenPdf
 			{
 				val = val.Substring(1, val.Length - 2);
 			}
+			else if(val.StartsWith("/"))
+			{
+				val = val.Substring(1, val.Length - 1);
+			}
 			
 			Regex reObjects = new Regex("^[ \t]*([0-9]+) ([0-9]+) R[ \t]*(.*)$");
 			Match mtchObjects = reObjects.Match(val);

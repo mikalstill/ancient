@@ -14,7 +14,7 @@ namespace OpenPdf
 		///</summary>
 		public Content(Pdf Document, Object PageObject)
 		{
-			DictionaryItem di = PageObject.Dictionary.Get("Content");
+			DictionaryItem di = PageObject.Dictionary.Get("Contents");
 			if(!di.Valid)
 			{
 				throw new RuntimeException("Page object does not refer to a content object");
@@ -30,7 +30,7 @@ namespace OpenPdf
 		///<summary>
 		///Get a list of the filters on the stream. Returns null for no filters.
 		///</summary>
-		public string[] Filters
+		public FilterCollection Filters
 		{
 			get
 			{
@@ -43,18 +43,20 @@ namespace OpenPdf
 				
 				if(di.Type == DictionaryItem.ValueType.String)
 				{
-					return new string[] { di.ValueAsString() };
+					FilterCollection fc = new FilterCollection();
+					fc.Add(di.ValueAsString());
+					return fc;
 				}
 				
 				if(di.Type == DictionaryItem.ValueType.Dictionary)
 				{
 					Dictionary subdict = di.ValueAsDictionary();
-					string[] results = new string[subdict.Count];
+					FilterCollection results = new FilterCollection();
 					
 					int i = 0;
 					foreach(DictionaryItem subdi in subdict)
 					{
-						results[i] = subdi.ValueAsString();
+						results.Add(subdi.ValueAsString());
 					}
 					
 					return results;

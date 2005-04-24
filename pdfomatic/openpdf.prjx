@@ -16,6 +16,7 @@
     <File name="./ObjectReferenceCollection.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./ByteBuilder.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Content.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./FilterCollection.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References />
   <DeploymentInformation target="" script="" strategy="File" />

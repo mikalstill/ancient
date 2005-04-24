@@ -17,7 +17,8 @@ SOURCES = \
 ./ObjectReference.cs \
 ./ObjectReferenceCollection.cs \
 ./ByteBuilder.cs \
-./Content.cs
+./Content.cs \
+./FilterCollection.cs
 
 MCS_OPTIONS = 
 
