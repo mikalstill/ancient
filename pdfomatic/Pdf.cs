@@ -191,31 +191,43 @@ namespace OpenPdf
 			}
 		}
 		
+		private Object GetTrailerObject(string name)
+		{
+			if(m_trailer.Count == 0)
+			{
+				throw new RuntimeException("Empty trailer");
+			}
+			
+			DictionaryItem rootValue = m_trailer.Get(name);
+			if(!rootValue.Valid)
+			{
+				return new Object();
+			}
+			
+			if(rootValue.Type != DictionaryItem.ValueType.Objects)
+			{
+				throw new RuntimeException(name + " entry in trailer does not point to an object: " + rootValue.ValueAsString());
+			}
+			
+			return rootValue.ValueAsObject(m_objects);
+		}
+		
 		public Object CatalogObject
 		{
 			get
 			{
-				// The trailer points to a root object, with a type of catalog, which contains a list of pages objects
-				if(m_trailer.Count == 0)
-				{
-					throw new RuntimeException("Empty trailer");
-				}
-				
-				DictionaryItem rootValue = m_trailer.Get("Root");
-				if(!rootValue.Valid)
-				{
-					throw new RuntimeException("Root entry in trailer is empty");
-				}
-				
-				if(rootValue.Type != DictionaryItem.ValueType.Objects)
-				{
-					throw new RuntimeException("Root entry in trailer does not point to an object: " + rootValue.ValueAsString());
-				}
-				
-				return rootValue.ValueAsObject(m_objects);
+				return GetTrailerObject("Root");
 			}
 		}
-		
+
+		public Object InfoObject
+		{
+			get
+			{
+				return GetTrailerObject("Info");
+			}
+		}
+
 		public ObjectCollection PagesObjects
 		{
 			get
