@@ -4,6 +4,8 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
+
 using OpenPdf;
 
 namespace OpenPdf
@@ -74,20 +76,18 @@ namespace OpenPdf
 		
 		public bool Expect(string expected, bool throwOnFail, bool stripTrailingWhitespace)
 		{
-			long pos = Position;
-			string read = ReadBlock(expected.Length);
+			string read = PeekBlock(expected.Length);
 			
 			if(read != expected)
 			{
-				Position = pos;
-
 				if(throwOnFail)
 				{
-					throw new Exception("failed to find expected text \"" + expected + "\"");
+					throw new Exception("found \"" + read + "\" at " + Position + " instead of \"" + expected + "\"");
 				}
 				return false;
 			}
 			
+			ReadBlock(expected.Length);
 			while(Utility.IsWhite(PeekBlock(1)))
 			{
 				ReadBlock(1);
@@ -138,9 +138,43 @@ namespace OpenPdf
 			byte[] data = new byte[count];
 			
 			count = m_st.Read(data, 0, count);
+			//Utility.TraceLine("Read " + count + " bytes from stream at " + Position + " (EOF = " + (Length == Position) + ")");
 			for(int i = 0; i < count; i++)
 			{
 				sb.Append((char) data[i]);
+			}
+			
+			return sb.ToString();
+		}
+		
+		// Return a given number of characters without changing the state of the stream
+		public string PeekBlockWithoutNewlines(int count)
+		{
+			long pos = Position;
+			string line = ReadBlockWithoutNewlines(count);
+			Position = pos;
+			return line;
+		}
+		
+		// Read a given number of characters
+		public string ReadBlockWithoutNewlines(int count)
+		{
+			// TODO: This can be nicer if we use an encoder as we do for FillFromString
+			StringBuilder sb = new StringBuilder();
+			byte[] data = new byte[count];
+			
+			count = m_st.Read(data, 0, count);
+			//Utility.TraceLine("Read " + count + " bytes from stream at " + Position + " (EOF = " + (Length == Position) + ")");
+			for(int i = 0; i < count; i++)
+			{
+				if(((char) data[i] != '\n') && ((char) data[i] != '\r'))
+				{
+					sb.Append((char) data[i]);
+				}
+				else
+				{
+					sb.Append(' ');
+				}
 			}
 			
 			return sb.ToString();
@@ -272,6 +306,38 @@ namespace OpenPdf
 			}
 			
 			return line.ToBytes();
+		}
+		
+		public string RegexMatch(string reg)
+		{
+			return RegexMatch(reg, true);
+		}
+		
+		public string RegexMatch(string reg, bool consumeonmatch)
+		{
+			Regex re = new Regex(reg);
+			string line = PeekBlockWithoutNewlines(4096);
+			
+			Match mtch = re.Match(line);
+			if(!mtch.Success)
+			{
+				Utility.TraceLine("Line " + line.Substring(0, 20) + " (first 20) does not match " + reg);
+				return "";
+			}
+			
+			Utility.TraceLine("Line  " + line.Substring(0, 20) + " (first 20) matches " + reg);
+			
+			if(consumeonmatch)
+			{
+				ReadBlock(mtch.Groups[1].Value.Length);
+			}
+			return mtch.Groups[1].Value;
+		}
+		
+		public void ConsumeWhitespace()
+		{
+			while(Utility.IsWhite(PeekBlock(1)))
+				ReadBlock(1);
 		}
 	}
 }

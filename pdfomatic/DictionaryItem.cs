@@ -27,6 +27,11 @@ namespace OpenPdf
 		
 		public DictionaryItem(string name, Dictionary subdict)
 		{
+			if(name == "")
+			{
+				throw new RuntimeException("Subdictionaries must have a name");	
+			}
+		
 			if(name.StartsWith("/"))
 			{
 				m_name = name.Substring(1, name.Length - 1);
@@ -42,6 +47,11 @@ namespace OpenPdf
 		
 		public DictionaryItem(string name, string val)
 		{
+			if(name == "")
+			{
+				throw new RuntimeException("Dictionary items must have a name");
+			}
+		
 			if(name.StartsWith("/"))
 			{
 				m_name = name.Substring(1, name.Length - 1);
@@ -63,7 +73,7 @@ namespace OpenPdf
 			
 			Regex reObjects = new Regex("^[ \t]*([0-9]+) ([0-9]+) R[ \t]*(.*)$");
 			Match mtchObjects = reObjects.Match(val);
-			Regex reNumber = new Regex("^[0-9]$");
+			Regex reNumber = new Regex("^[0-9][ \t]*$");
 			Match mtchNumber = reNumber.Match(val);
 			
 			if(mtchObjects.Success)

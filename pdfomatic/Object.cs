@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace OpenPdf
 {
@@ -18,13 +19,20 @@ namespace OpenPdf
 		private string m_directValue;
 		
 		// It has already been verified that the next thing in the stream is an object
-		public Object(PdfStream st, string number, string generation, string extra)
+		public Object(PdfStream st, string header)
 		{
-			Utility.TraceLine("Object header extra is: " + extra);
-			st.Position -= extra.Length;
-			m_parseStartedAt = st.Position;
-			m_number = Int32.Parse(number);
-			m_generation = Int32.Parse(generation);
+			m_parseStartedAt = st.Position - header.Length;
+			
+			Regex re = new Regex("^([0-9]+) ([0-9]+)");
+			Match mtch = re.Match(header);
+			if(!mtch.Success)
+			{
+				throw new ParseException("Object header was not valid");
+			}
+			
+			m_number = Int32.Parse(mtch.Groups[1].Value);
+			m_generation = Int32.Parse(mtch.Groups[2].Value);
+			st.ConsumeWhitespace();
 			Parse(st);
 		}
 		
@@ -60,8 +68,7 @@ namespace OpenPdf
 			catch(ParseException ex)
 			{
 				Utility.CrashDump(m_parseStartedAt, st.Position, st);
-				throw new RuntimeException("Error processing object " + Number + " " + Generation + ": " +
-					ex.Message);
+				throw new RuntimeException("Error processing object: " + ex.Message + " for object " + Number + " " + Generation);
 			}
 		}
 		
@@ -78,6 +85,9 @@ namespace OpenPdf
 				}
 				Utility.TraceLine(" Done");
 				st.ReadLine();
+				
+				// Sometimes there is a blank line after the endstream
+				st.ConsumeWhitespace();
 			}
 		}
 		

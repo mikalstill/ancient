@@ -4,6 +4,8 @@
 
 using System;
 using System.Configuration;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace OpenPdf
 {
@@ -24,6 +26,24 @@ namespace OpenPdf
 			if(s == '\t') return true;
 			if(s == '\r') return true;
 			if(s == '\n') return true;
+			return false;		
+		}
+		
+		internal static bool IsAllWhitespace(string s)
+		{
+			foreach(char c in s)
+			{
+				if(!IsWhite(c))
+					return false;	
+			}
+			
+			return true;
+		}
+		
+		internal static bool IsNewLine(string s)
+		{
+			if(s == "\r") return true;
+			if(s == "\n") return true;
 			return false;		
 		}
 		
@@ -61,5 +81,12 @@ namespace OpenPdf
 		{
 			Utility.Trace(message.ToString());
 		}
+		
+		public static bool RegexCompare(string regex, string victim)
+	{
+		Regex re = new Regex(regex);
+		Match m = re.Match(victim);
+		return m.Success;
+	}
 	}
 }

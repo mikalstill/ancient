@@ -1,0 +1,16 @@
+<Combine fileversion="1.0" name="test-dictionaryparser" description="">
+  <StartMode startupentry="test-dictionaryparser" single="True">
+    <Execute entry="test-dictionaryparser" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./test-dictionaryparser.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="test-dictionaryparser" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="test-dictionaryparser" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>

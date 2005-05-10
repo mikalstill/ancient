@@ -72,10 +72,8 @@ namespace OpenPdf
 				}
 				ReadStartXref(st);
 				
-				if(!eof && (st.Position == pos) && (m_objects.Count < 2))
+				if(!eof && (st.Position == pos))
 				{
-					// There are some PDF documents which have a line of crap 
-					// between their headers and the objects
 					st.ReadLine();
 				}
 			}
@@ -109,15 +107,10 @@ namespace OpenPdf
 
 		public Object ReadObject(PdfStream st)
 		{
-			string line = st.PeekLine();
-			Regex re = new Regex("^([0-9]+) ([0-9]+) obj(.*)$");
-			Match mtch = re.Match(line);
-
-			if(mtch.Success)
+			string objheader = st.RegexMatch("^([0-9]+ [0-9]+ obj)");
+			if(objheader != "")
 			{
-				Utility.TraceLine("Read object");
-				st.ReadLine();
-				return new Object(st, mtch.Groups[1].Value, mtch.Groups[2].Value, mtch.Groups[3].Value);
+				return new Object(st, objheader);
 			}
 			return new Object();
 		}
