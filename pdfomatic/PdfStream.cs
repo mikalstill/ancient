@@ -143,7 +143,6 @@ namespace OpenPdf
 			{
 				sb.Append((char) data[i]);
 			}
-			
 			return sb.ToString();
 		}
 		
@@ -176,7 +175,6 @@ namespace OpenPdf
 					sb.Append(' ');
 				}
 			}
-			
 			return sb.ToString();
 		}
 		
@@ -203,16 +201,13 @@ namespace OpenPdf
 		// Read a line whilst not affecting the state of the stream
 		public string PeekLine()
 		{
-			long pos = Position;
-			string line = ReadLine();
-			Position = pos;
-			return line;
+			return PeekLine(false, false);
 		}
 		
 		public string PeekLine(bool stripLeadingWhitespace, bool stripTrailingWhitespace)
 		{
 			long pos = Position;
-			string line = ReadLine(true, true);
+			string line = ReadLine(stripLeadingWhitespace, stripTrailingWhitespace);
 			Position = pos;
 			return line;
 		}			

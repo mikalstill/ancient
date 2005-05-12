@@ -87,13 +87,18 @@ namespace OpenPdf
 					else
 					{
 						Utility.TraceLine("Finding the value");
-						string nameval = st.RegexMatch("^(/[^ \t/\\[\\]\\(\\)\\<\\>]+)[ \t]*", false);
-						string objrefval = st.RegexMatch("^([0-9]+ [0-9]+ R)[ \t]*", false);
-						string numval = st.RegexMatch("^(-{0,1}[0-9]+)[ \t]*", false);
-						string sqbrackets = st.RegexMatch("^(\\[[^\\]]*\\]+)[ \t]*", false);
-						string rdbrackets = st.RegexMatch("^(\\([^\\)]*\\)+)[ \t]*", false);
-						string anbrackets = st.RegexMatch("^(\\<[^\\>]*\\>+)[ \t]*", false);
-						string singleword = st.RegexMatch("^([^ \t]+)[ \t]*", false);
+						string nameval = st.RegexMatch("^(/[^ \t/\\[\\]\\(\\)\\<\\>]+)", false);
+						string objrefval = st.RegexMatch("^([0-9]+ [0-9]+ R)", false);
+						string numval = st.RegexMatch("^(-{0,1}[0-9]+)", false);
+						string floatval = st.RegexMatch("^(-{0,1}[0-9]+\\.[0-9]+)", false);
+						
+						// The old version of these:
+						//string rdbrackets = st.RegexMatch("^(\\([^\\)]*\\)+)[ \t]*", false);
+						
+						string sqbrackets = st.RegexMatch(@"^(\[.*?[^\\]+?\])", false);
+						string rdbrackets = st.RegexMatch(@"^(\(.*?[^\\]+?\))", false);
+						string anbrackets = st.RegexMatch(@"^(\<.*?[^\\]+?\>)", false);
+						string singleword = st.RegexMatch("^([^ \t]+)", false);
 						
 						if(nameval != "")
 						{
@@ -106,6 +111,12 @@ namespace OpenPdf
 							DictionaryItem di = new DictionaryItem(name, objrefval);
 							Add(di);
 							st.ReadBlock(objrefval.Length);
+						}
+						else if(floatval != "")
+						{
+							DictionaryItem di = new DictionaryItem(name, floatval);
+							Add(di);
+							st.ReadBlock(floatval.Length);
 						}
 						else if(numval != "")
 						{

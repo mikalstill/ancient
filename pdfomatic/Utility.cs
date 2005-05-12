@@ -83,10 +83,10 @@ namespace OpenPdf
 		}
 		
 		public static bool RegexCompare(string regex, string victim)
-	{
-		Regex re = new Regex(regex);
-		Match m = re.Match(victim);
-		return m.Success;
-	}
+		{
+			Regex re = new Regex(regex);
+			Match m = re.Match(victim);
+			return m.Success;
+		}
 	}
 }
