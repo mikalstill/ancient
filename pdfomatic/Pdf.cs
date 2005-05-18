@@ -9,6 +9,7 @@ namespace OpenPdf
 	{
 		private	float m_version;
 		private bool m_linearized = false;
+		private int m_xrefLocation = 0;
 		private ObjectCollection m_objects = new ObjectCollection();
 		private Dictionary m_trailer = new Dictionary();
 
@@ -122,23 +123,28 @@ namespace OpenPdf
 				Utility.TraceLine("Read xref");
 				st.ReadLine();
 				
-				Regex re = new Regex("[0-9]+ [0-9]+");
-				Match mtch = re.Match(st.PeekLine());
-				if(!mtch.Success)
-				{
-					return true;
-				}
-				st.ReadLine();
-				
-				Regex xre = new Regex("[0-9]+ [0-9]+ [fn]");
-				while(true)
-				{
-					Match xmtch = xre.Match(st.PeekLine());
-					if(!xmtch.Success)
+				while(st.RegexMatch("^[0-9]+ [0-9]+") != "")
+				{ 
+					// Each xref block starts with a line with the starting number of the objects in the
+					// block, and then a count of the number of objects in the block PDF 1.5 p70
+					int startat = 0;
+					int count = 0;
+					try
 					{
-						return true;
+						startat = Int32.Parse(st.RegexMatch("^([0-9]+)", true));
+						count = Int32.Parse(st.RegexMatch("^[ \t]*([0-9]+)", true));
 					}
-					st.ReadLine();
+					catch(Exception except)
+					{
+						throw new ParseException("Error reading xref block starter: " + except.Message);
+					}
+					
+					// The you get one line per object in the block. They contain:
+					// <byte offset> <generation> <n = inuse, f = free>
+					for(int i = 0; i < count; i++)
+					{
+						st.ReadLine();
+					}
 				}				
 			}
 			
@@ -150,13 +156,23 @@ namespace OpenPdf
 			if(st.PeekLine(true, true) == "startxref")
 			{
 				Utility.TraceLine("Read startxref");
+				st.ReadLine();
+				
+				try
+				{
+					string sline = st.RegexMatch("^([0-9]+)");
+					m_xrefLocation = Int32.Parse(sline);
+				}
+				catch(Exception except)
+				{
+					throw new ParseException("Error reading xref inset: " + except.Message);
+				}
+				
 				string line = st.ReadLine(true, true);
 				while(line != "%%EOF")
 				{
-					Utility.TraceLine("\t" + line);
 					line = st.ReadLine(true, true);
 				}
-				Utility.TraceLine("\t" + line);
 				return true;
 			}
 			return false;
@@ -256,6 +272,14 @@ namespace OpenPdf
 				}
 				
 				return retval;
+			}
+		}
+		
+		public int XrefLocation
+		{
+			get
+			{
+				return m_xrefLocation;
 			}
 		}
 	}

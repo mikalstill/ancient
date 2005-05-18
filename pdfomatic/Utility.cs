@@ -88,5 +88,11 @@ namespace OpenPdf
 			Match m = re.Match(victim);
 			return m.Success;
 		}
+		
+		public static int min(int a, int b)
+		{
+			if(a < b) return a;
+			return b;
+		}
 	}
 }

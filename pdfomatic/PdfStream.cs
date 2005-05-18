@@ -316,11 +316,11 @@ namespace OpenPdf
 			Match mtch = re.Match(line);
 			if(!mtch.Success)
 			{
-				Utility.TraceLine("Line " + line.Substring(0, 20) + " (first 20) does not match " + reg);
+				Utility.TraceLine("Line " + line.Substring(0, Utility.min(20, line.Length)) + " (first 20) does not match " + reg);
 				return "";
 			}
 			
-			Utility.TraceLine("Line  " + line.Substring(0, 20) + " (first 20) matches " + reg);
+			Utility.TraceLine("Line  " + line.Substring(0, Utility.min(20, line.Length)) + " (first 20) matches " + reg);
 			
 			if(consumeonmatch)
 			{
