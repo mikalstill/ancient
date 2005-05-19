@@ -1,18 +1,7 @@
 #!/bin/bash
 
-# Find out what version we want
-line=`wget "http://www.kernel.org/pub/linux/kernel/v2.6/testing/cset/" -O - | grep "Gzipped full patch from" | sed -e 's/<H2><A HREF="//' -e 's/">Gzipped full patch from / /' -e 's/<\/A><\/H2>//' -e 's/^ //'`
-csetfilename=`echo $line | cut -f 1 -d " "`
-cset=`echo $csetfilename | sed 's/.gz//'`
-base=`echo $line | cut -f 2 -d " " | sed 's/^v//'`
-
-# Get the kernel base if we need it
-echo "Checking for linux-$base (stillhq cache)"
-if [ ! -d linux-$base ]
-then
-  wget -c http://diskbox.stillhq.com/kernel.org/linux-$base.tar.bz2
-  tar --bzip2 -xf linux-$base.tar.bz2
-fi
+# Changed to deal with the demise of bitkeeper
+base=`findlatestkernel | sed -e 's/^.*\/linux-//' -e 's/.tar.gz//'`
 
 echo "Checking for linux-$base (kernel.org)"
 if [ ! -d linux-$base ]
@@ -35,34 +24,7 @@ then
   exit 2
 fi
 
-# Mainline
-if [ -d linux-$base-`echo $cset | sed 's/.txt//'` ]
-then
-  echo "We already have the latest mainline cset"
-else
-  # Get the cset if we need it
-  if [ ! -f $cset ]
-  then
-    wget http://www.kernel.org/pub/linux/kernel/v2.6/testing/cset/$csetfilename
-    gunzip $csetfilename
-  fi
-
-  if [ ! -f $cset ] 
-  then
-    echo "Failed to get cset"
-    exit 1
-  fi
-
-  # Copy to the target directory
-  echo "Copying the base to the new cset directory, and applying the patch"
-  cp -R linux-$base linux-$base-`echo $cset | sed 's/.txt//'`
-  pwd=`pwd`
-  cd linux-$base-`echo $cset | sed 's/.txt//'`
-  patch -p 1 < $pwd/$cset
-  cd $pwd
-
-  echo linux-$base-`echo $cset | sed 's/.txt//'` > latest
-fi
+echo linux-$base > latest
 
 # And now the mm cset
 mmpatch=`wget http://ftp.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/$base/ -O - | grep mm | tail -1 | sed -e 's/^.*<a href=".*">//' -e 's/\/<\/a>.*$//'`
