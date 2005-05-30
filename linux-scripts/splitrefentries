@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+
+use strict;
+my($FILE, $count);
+
+$count = 0;
+while(<STDIN>){
+  if(/<refentry>/){
+    open FILE, "> $count" or die "Couldn't open file";
+
+    print FILE "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    print FILE "<!DOCTYPE book PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\"\n";
+    print FILE "        \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\" []>\n";
+    print FILE "<book><reference><title>foo</title>\n";
+  }
+
+  print FILE $_;
+
+  if(/The template for this document tried to insert/){
+    close FILE;
+    unlink "$count";
+    open FILE, "> /tmp/$$";
+  }
+
+  if(/<\/refentry>/){
+    print FILE "</reference></book>\n";
+    close FILE;
+    $count++;
+  }
+}

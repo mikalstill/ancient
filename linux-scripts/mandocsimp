@@ -1,0 +1,18 @@
+#!/bin/bash
+
+find . -type f -name "*.c" -exec scripts/kernel-doc -docbook {} \; > /tmp/mandocsimp.out 2> /tmp/mandocsimp.err
+
+mkdir /tmp/man
+cd /tmp/man
+splitrefentries-sgml < /tmp/mandocsimp.out
+for item in *
+do
+  docbook2man $item
+  rm $item
+done
+
+echo "Compressing"
+for item in *
+do
+  gzip $item
+done

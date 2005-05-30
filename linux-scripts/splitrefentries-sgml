@@ -1,0 +1,33 @@
+#!/usr/bin/perl
+
+use strict;
+my($FILE, $count, $mode);
+
+$count = 0;
+$mode = 0;
+while(<STDIN>){
+  if(/<refentry>/){
+    open FILE, "> $count" or die "Couldn't open file";
+
+    print FILE "<!DOCTYPE refentry PUBLIC \"-//Davenport//DTD DocBook V3.0//EN\">\n";
+  }
+
+  if(/<refentryinfo>/){ $mode = 1; }
+
+  if($mode == 0){
+    print FILE $_;
+  } 
+
+  if(/<\/refentryinfo>/) { $mode = 0; }
+
+  if(/The template for this document tried to insert/){
+    close FILE;
+    unlink "$count";
+    open FILE, "> /tmp/$$";
+  }
+
+  if(/<\/refentry>/){
+    close FILE;
+    $count++;
+  }
+}
