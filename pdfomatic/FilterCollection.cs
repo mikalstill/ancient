@@ -10,7 +10,10 @@ namespace OpenPdf
 	{
 		public void Add(string filt)
 		{
-			List.Add(filt);
+			if(!List.Contains(filt))
+			{
+				List.Add(filt);
+			}
 		}
 		
 		public override string ToString()

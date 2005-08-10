@@ -1,28 +1,28 @@
-<Combine fileversion="1.0" name="pdfomatic" description="">
-  <StartMode startupentry="pdfomatic" single="True">
-    <Execute entry="pdfomatic" type="None" />
-    <Execute entry="getopt" type="None" />
-    <Execute entry="pdfdescribe" type="None" />
-    <Execute entry="test-dictionaryparser" type="None" />
-  </StartMode>
-  <Entries>
-    <Entry filename="./pdfomatic.prjx" />
-    <Entry filename="../getopt/getopt.prjx" />
-    <Entry filename="../pdfdescribe/pdfdescribe.prjx" />
-    <Entry filename="./test-dictionaryparser/test-dictionaryparser.prjx" />
-  </Entries>
+<Combine name="pdfomatic" fileversion="2.0">
   <Configurations active="Debug">
-    <Configuration name="Release">
-      <Entry name="pdfomatic" configurationname="Debug" build="False" />
-      <Entry name="getopt" configurationname="Debug" build="False" />
-      <Entry name="pdfdescribe" configurationname="Debug" build="False" />
-      <Entry name="test-dictionaryparser" configurationname="Debug" build="False" />
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="False" name="pdfomatic" />
+      <Entry build="False" name="getopt" />
+      <Entry build="False" name="pdfdescribe" />
+      <Entry build="False" name="test-dictionaryparser" />
     </Configuration>
-    <Configuration name="Debug">
-      <Entry name="pdfomatic" configurationname="Debug" build="False" />
-      <Entry name="getopt" configurationname="Debug" build="False" />
-      <Entry name="pdfdescribe" configurationname="Debug" build="False" />
-      <Entry name="test-dictionaryparser" configurationname="Debug" build="False" />
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="False" name="pdfomatic" />
+      <Entry build="False" name="getopt" />
+      <Entry build="False" name="pdfdescribe" />
+      <Entry build="False" name="test-dictionaryparser" />
     </Configuration>
   </Configurations>
+  <StartMode startupentry="pdfdescribe" single="True">
+    <Execute type="None" entry="pdfomatic" />
+    <Execute type="None" entry="getopt" />
+    <Execute type="None" entry="pdfdescribe" />
+    <Execute type="None" entry="test-dictionaryparser" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./pdfomatic.mdp" />
+    <Entry filename="../getopt/getopt.mdp" />
+    <Entry filename="../pdfdescribe/pdfdescribe.mdp" />
+    <Entry filename="./test-dictionaryparser/test-dictionaryparser.mdp" />
+  </Entries>
 </Combine>

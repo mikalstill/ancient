@@ -7,73 +7,66 @@ namespace OpenPdf
 {
 	public class Content
 	{
-		private Object m_object;
+		private ObjectCollection m_objects;
 	
-		///<summary>
-		///Get the content object for this page
-		///</summary>
 		public Content(Pdf Document, Object PageObject)
 		{
+			if(PageObject.Number == -1)
+			{
+				throw new RuntimeException("Page object is invalid");
+			}
+		
 			DictionaryItem di = PageObject.Dictionary.Get("Contents");
 			if(!di.Valid)
 			{
 				throw new RuntimeException("Page object does not refer to a content object");
 			}
 			
-			m_object = di.ValueAsObject(Document.Objects);
-			if(!m_object.Valid)
+			m_objects = di.ValueAsObjects(Document.Objects);
+			if(m_objects.Count == 0)
 			{
-				throw new RuntimeException("Page object does not refer to a content object which is valid");
+				throw new RuntimeException("Page object " + PageObject.Number + " " + PageObject.Generation + 
+					" does not refer to a content object which is valid");
 			}
 		}
 		
-		///<summary>
-		///Get a list of the filters on the stream. Returns null for no filters.
-		///</summary>
 		public FilterCollection Filters
 		{
 			get
 			{
-				DictionaryItem di = m_object.Dictionary.Get("Filter");
-				if(!di.Valid)
-				{
-					// No filters
-					return null;
-				}
+				FilterCollection fc = new FilterCollection();
 				
-				if(di.Type == DictionaryItem.ValueType.String)
+				foreach(Object obj in m_objects)
 				{
-					FilterCollection fc = new FilterCollection();
-					fc.Add(di.ValueAsString());
-					return fc;
-				}
-				
-				if(di.Type == DictionaryItem.ValueType.Dictionary)
-				{
-					Dictionary subdict = di.ValueAsDictionary();
-					FilterCollection results = new FilterCollection();
-					
-					int i = 0;
-					foreach(DictionaryItem subdi in subdict)
+					DictionaryItem di = obj.Dictionary.Get("Filter");
+					if(di.Valid)
 					{
-						results.Add(subdi.ValueAsString());
+						if(di.Type == DictionaryItem.ValueType.String)
+						{
+							
+							fc.Add(di.ValueAsString());
+						}
+						else if(di.Type == DictionaryItem.ValueType.Dictionary)
+						{
+							Dictionary subdict = di.ValueAsDictionary();
+							
+							foreach(DictionaryItem subdi in subdict)
+							{
+								fc.Add(subdi.ValueAsString());
+							}
+						}
 					}
-					
-					return results;
 				}
 				
-				throw new RuntimeException("Unknown filters format");
+				return fc;
 			}
 		}
 		
-		///<summary>
-		///The content object
-		///</summary>
-		public Object Object
+		public ObjectCollection Objects
 		{
 			get
 			{
-				return m_object;	
+				return m_objects;	
 			}
 		}
 	}

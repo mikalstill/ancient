@@ -159,7 +159,7 @@ namespace OpenPdf
 				return new Object();
 			
 			if(m_objects.Count == 0)
-				throw new RuntimeException("There are no objects to return");
+				return new Object();
 				
 			if(m_objects.Count != 1)
 				return new Object();

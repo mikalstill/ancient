@@ -21,6 +21,7 @@ namespace OpenPdf
 		// It has already been verified that the next thing in the stream is an object
 		public Object(PdfStream st, string header)
 		{
+			Utility.TraceLine("Object start position is " + st.Position + " - " + header.Length);
 			m_parseStartedAt = st.Position - header.Length;
 			
 			Regex re = new Regex("^([0-9]+) ([0-9]+)");
@@ -46,6 +47,7 @@ namespace OpenPdf
 		{
 			m_number = -1;
 			m_generation = -1;
+			m_parseStartedAt = -1;
 		}
 		
 #region Parsing methods
@@ -169,6 +171,28 @@ namespace OpenPdf
 			{
 				return m_stream.ToBytes();
 			}
+		}
+		
+		public long StartedAt
+		{
+			get
+			{
+				return m_parseStartedAt;
+			}
+		}
+		
+		public string DirectValue
+		{
+			get
+			{
+				return m_directValue;
+			}
+		}
+		
+		public ObjectCollection DirectValueAsObjects(ObjectCollection objs)
+		{
+			DictionaryItem di = new DictionaryItem("Direct", DirectValue);
+			return di.ValueAsObjects(objs);
 		}
 		
 		public override string ToString()
