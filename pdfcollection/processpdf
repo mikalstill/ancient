@@ -1,0 +1,28 @@
+#!/bin/bash
+
+location=$1
+pobjid=$2
+producer=$3
+
+echo "Document being processed is $pobjid"
+
+echo "Extracting pages"
+gs --version > $location/$pobjid/gs.version
+rm -rf /tmp/magic*
+
+rm -f $location/$pobjid/gspage-* 2> /dev/null
+rm -f $location/$pobjid/cgspage-* 2> /dev/null
+convert $location/$pobjid/data.pdf $location/$pobjid/cgspage-%d.png &> $location/$pobjid/gs.errors
+mogrify -sample 120x200 $location/$pobjid/gspage-* 2> /dev/null
+
+pagecount=`ls $location/$pobjid/cgspage-*.png 2> /dev/null | wc -l | tr -d " "`
+echo "Number of pages: $pagecount"
+echo "GSPAGECOUNT: $pagecount" > $location/$pobjid/data.internal
+
+echo "Extract info"
+rm -f $location/$pobjid/data.info
+pdfinfo $location/$pobjid/data.pdf > $location/$pobjid/data.info
+if [ "%$producer%" != "%%" ]
+then
+  echo "Producer: $producer" >> $location/$pobjid/data.info
+fi

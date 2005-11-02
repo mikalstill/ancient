@@ -1,9 +1,13 @@
 #!/bin/bash
 
+# Where is the PDF database
+echo -n "Where is the PDF database? "
+read location
+
 # Add the named PDF to the online collection
 if [ "%$2%" != "%--force%" ]
 then
-  xpdf $1
+  gv "$1"
   echo -n "Publish? (y/n) "
   read publish
   if [ "%$publish%" != "%y%" ]
@@ -14,29 +18,16 @@ then
 fi
 
 echo "Adding $1"
-highest=`cat /home/httpd/html/pdfdb/highest`
+highest=`cat $location/highest`
 objid=$(( $highest + 1 ))
 pobjid=`printf "%06d" $objid`
 echo "New object id is $objid ($pobjid)"
 
 echo "Moving PDF"
-mkdir -p /home/httpd/html/pdfdb/$pobjid
-cp $1 /home/httpd/html/pdfdb/$pobjid/data.pdf
+mkdir -p $location/$pobjid
+cp "$1" $location/$pobjid/data.pdf
 
-echo "Extracting pages"
-gs --version > /home/httpd/html/pdfdb/$pobjid/gs.version
-rm -rf /tmp/magic*
-convert /home/httpd/html/pdfdb/$pobjid/data.pdf /home/httpd/html/pdfdb/$pobjid/gspage-%d.png &> /home/httpd/html/pdfdb/$pobjid/gs.errors
-rm -rf /tmp/magic*
-pagecount=`ls /home/httpd/html/pdfdb/$pobjid/gspage-*.png | wc -l | tr -d " "`
-echo "Number of pages: $pagecount"
-echo "GSPAGECOUNT: $pagecount" > /home/httpd/html/pdfdb/$pobjid/data.internal
+echo "Processing PDF"
+./processpdf $location $pobjid
 
-echo "Extract info"
-pdfinfo /home/httpd/html/pdfdb/$pobjid/data.pdf > /home/httpd/html/pdfdb/$pobjid/data.info
-if [ "%$3%" != "%%" ]
-then
-  echo "Producer: $3" >> /home/httpd/html/pdfdb/$pobjid/data.info
-fi
-
-echo $objid > /home/httpd/html/pdfdb/highest
+echo $objid > $location/highest
