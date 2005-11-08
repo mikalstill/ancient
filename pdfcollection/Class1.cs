@@ -41,6 +41,8 @@ namespace pdfdb
       SortedList pdfmeta = new SortedList();
       SortedList pagecount = new SortedList();
       SortedList plparse = new SortedList();
+      SortedList pdfomatic = new SortedList();
+      SortedList pdfa = new SortedList();
     
       int docs = 0;
       int exceptions = 0;
@@ -144,22 +146,74 @@ namespace pdfdb
 	    }
 
 	  // Now do something with the status we found
-	  string[] results = Regex.Split(mostRecentStatus, "\t");
-	  string change = results[1];
-	  string oldvalue = change;
+	  try
+	  {
+		  string[] results = Regex.Split(mostRecentStatus, "\t");
+		  string change = results[1];
+		  string oldvalue = change;
+		  try
+		    {
+		    string[] oldresults = Regex.Split(previousStatus, "\t");
+		    oldvalue  = oldresults[1];
+		    }
+		  catch(Exception e)
+		    {
+		    // Do nothing
+		    }
+
+		  if(change != oldvalue)
+		    change += " (new)";
+		  plparse[change] += ";" + m.ToString();
+	  }
+	  catch(Exception e)
+	  {
+	  }
+	  
+	  // We also need to check the status of the latest pdfomatic parsing regression test
+	  input = new StreamReader(args[0] + "/" + m.ToString() + "/data.pdfomatic");
+	  mostRecentStatus = "";
+	  previousStatus = "";
 	  try
 	    {
-	    string[] oldresults = Regex.Split(previousStatus, "\t");
-	    oldvalue  = oldresults[1];
+	    while( input.Peek() != -1 )
+	      {
+	      string line = input.ReadLine();
+	      previousStatus = mostRecentStatus;
+	      mostRecentStatus = line;
+	      }
 	    }
 	  catch(Exception e)
 	    {
-	    // Do nothing
+	    Console.WriteLine("{0}: Caught exception processing pdfomatic regression: {1}", m.ToString(), e.ToString());
+	    exceptions++;
 	    }
 
-	  if(change != oldvalue)
-	    change += " (new)";
-	  plparse[change] += ";" + m.ToString();
+	  if(mostRecentStatus != previousStatus)
+	    mostRecentStatus += " (new)";
+	  pdfomatic[mostRecentStatus] += ";" + m.ToString();
+	  
+	  // Ditto PDF/A
+	  input = new StreamReader(args[0] + "/" + m.ToString() + "/data.pdfa");
+	  mostRecentStatus = "";
+	  previousStatus = "";
+	  try
+	    {
+	    while( input.Peek() != -1 )
+	      {
+	      string line = input.ReadLine();
+	      previousStatus = mostRecentStatus;
+	      mostRecentStatus = line;
+	      }
+	    }
+	  catch(Exception e)
+	    {
+	    Console.WriteLine("{0}: Caught exception processing pdfa regression: {1}", m.ToString(), e.ToString());
+	    exceptions++;
+	    }
+
+	  if(mostRecentStatus != previousStatus)
+	    mostRecentStatus += " (new)";
+	  pdfa[mostRecentStatus] += ";" + m.ToString();
 
 	  // End of PDF file processing
 	  }
@@ -188,11 +242,13 @@ namespace pdfdb
       output.WriteLine("<a href=\"#version\">Version</a> ");
       output.WriteLine("<a href=\"#pagecount\">Length</a> ");
       output.WriteLine("<a href=\"#plparse\">PandaLex</a> ");
+      output.WriteLine("<a href=\"#pdfomatic\">PdfOMatic</a> ");
+      output.WriteLine("<a href=\"#pdfa\">PDF/A compliance</a> ");
       output.WriteLine("<a href=\"#all\">All</a> ");
       output.WriteLine("<BR><BR>");
     
       int ht;
-      for(ht = 0; ht < 7; ht++)
+      for(ht = 0; ht < 9; ht++)
 	{
 	SortedList target = producer;
 	string catname = "";
@@ -239,6 +295,18 @@ namespace pdfdb
 	    target = plparse;
 	    catname = "PandaLex parse results";
 	    output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=plparse>By PandaLex parse result</b></td></tr></table>");
+	    break;
+	    
+	  case 7:
+	    target = pdfomatic;
+	    catname = "PdfOMatic parse results";
+	    output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=pdfomatic>By PdfOMatic parse result</b></td></tr></table>");
+	    break;
+	    
+	  case 8:
+	    target = pdfa;
+	    catname = "PDF/A compliance";
+	    output.WriteLine("<table><tr><td bgcolor=\"#CCCCCC\"><b><a name=pdfa>By PDF/A compliance</b></td></tr></table>");
 	    break;
 	  }
 
@@ -369,7 +437,7 @@ namespace pdfdb
 		
       output.WriteLine("<BR><BR><HR><BR><BR>PDF database administered by ");
       output.WriteLine("<a href=\"mailto:mikal@stillhq.com\">mikal@stillhq.com</a><br>");
-      output.WriteLine("Database Copyright (c) Michael Still 2003. PDFs Copyright their various authors.");
+      output.WriteLine("Database Copyright (c) Michael Still 2003, 2004, 2005. PDFs Copyright their various authors.");
       output.Close();
 
       // Now write out each of the individual pages

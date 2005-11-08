@@ -30,4 +30,6 @@ cp "$1" $location/$pobjid/data.pdf
 echo "Processing PDF"
 ./processpdf $location $pobjid
 
-echo $objid > $location/highest
+touch /home/httpd/html/pdfdb/$pobjid/data.pandalex
+touch /home/httpd/html/pdfdb/$pobjid/data.openpdf
+echo $objid > /home/httpd/html/pdfdb/highest

@@ -1,16 +1,16 @@
-<Combine fileversion="1.0" name="pdfdb" description="">
-  <StartMode startupentry="pdfdb" single="True">
-    <Execute entry="pdfdb" type="None" />
-  </StartMode>
-  <Entries>
-    <Entry filename="./pdfdb.prjx" />
-  </Entries>
+<Combine name="pdfdb" fileversion="2.0">
   <Configurations active="Debug">
-    <Configuration name="Release">
-      <Entry name="pdfdb" configurationname="Debug" build="False" />
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="False" name="pdfdb" />
     </Configuration>
-    <Configuration name="Debug">
-      <Entry name="pdfdb" configurationname="Debug" build="False" />
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="False" name="pdfdb" />
     </Configuration>
   </Configurations>
+  <StartMode startupentry="pdfdb" single="True">
+    <Execute type="None" entry="pdfdb" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./pdfdb.mdp" />
+  </Entries>
 </Combine>

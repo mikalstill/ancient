@@ -1,0 +1,53 @@
+#!/bin/bash
+
+if [ "%$1%" != "%%" ]
+then
+  count=$1
+  passcount=$(( $1 - 1 ))
+else
+  count=1
+  passcount=0
+fi
+
+highest=`cat highest`
+highest=$(( $highest + 1 ))
+
+ulimit -t 40
+
+mkdir /tmp/$$/
+cp /home/opensource/pdfdescribe/bin/Debug/pdfdescribe.exe /tmp/$$/test.exe
+cp /home/opensource/pdfdescribe/bin/Debug/*.dll /tmp/$$/
+
+while [ $count -lt $highest ]
+do
+  dir=`printf "%06d" $count`
+  echo $count
+  killall -9 osd_cat
+  echo "Testing PDF: $passcount of $count passed"
+  echo "Testing PDF: $passcount of $count passed" | osd_cat -A center -d 1800 &
+
+  if [ -e "$dir/data.pdf" ]
+  then
+    /tmp/$$/test.exe -v $dir/data.pdf > $dir/pdfomatic.out 2> $dir/pdfomatic.err
+    if [ $? -eq 0 ]
+    then
+      echo "Pass" >> $dir/data.pdfomatic
+      passcount=$(( $passcount + 1 ))
+    elif [ $? -eq 1 ]
+    then
+      # echo "Fail" >> $dir/data.pdfomatic
+      cat $dir/pdfomatic.err | head -2 | tail -1 | sed -e 's/Unhandled Exception: //' -e 's/:[^:]*$//' >> $dir/data.pdfomatic
+    else
+      echo "Unknown" >> $dir/data.pdfomatic
+    fi
+
+    /home/opensource/pdfcollection/mygrep < $dir/pdfomatic.out | sed -e 's/Document is valid PDF\/A: //' > $dir/data.pdfa
+  else
+    passcount=$(( $passcount + 1 ))
+  fi
+
+  count=$(( $count + 1 ))
+done
+
+killall -9 osd_cat
+echo "Done" | osd_cat -A center -d 1800 &

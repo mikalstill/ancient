@@ -1,0 +1,5 @@
+#!/usr/bin/perl
+
+while(<STDIN>){
+  if(/Document is valid PDF\/A/){ print $_; }
+}
