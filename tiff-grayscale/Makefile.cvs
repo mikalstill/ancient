@@ -1,0 +1,29 @@
+all:
+	@echo ""
+	@echo "This Makefile is only for the CVS repository"
+	@echo "This will be deleted before making the distribution"
+	@echo ""
+	@if test ! -d config; then \
+	   echo "*** creating config directory" ; \
+	   mkdir config; \
+	fi
+#	@if test ! -e config/ltmain.sh; then \
+#	   echo "*** locating ltmain.sh"; \
+#	   ln -s `locate ltmain.sh | grep libtool | head -1` config/ltmain.sh > /dev/null 2>&1; \
+#	fi
+	@echo "*** Retrieving configure tests needed by configure.in"
+	@rm -f aclocal.m4
+	@aclocal
+	@echo "*** Building Makefile templates (step one)"
+	@automake --add-missing
+	@echo "*** Building Makefile templates (step two)"
+	@autoconf
+	@perl -pi -e 'if (/\[\/\$$\]\*. INSTALL=/) { print $$_ ; $$_ = "\"\") ;;\n"; }' configure
+	@-rm -f config.cache config.h
+	@echo "*** Create date/time stamp"
+	@touch stamp-h.in
+	@echo "*** Finished"
+	@echo "    Don't forget to run ./configure"
+	@echo "    If you haven't done so in a while, run ./configure --help"
+
+.SILENT:

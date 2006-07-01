@@ -1,7 +1,6 @@
-# Generated automatically from Makefile.in by configure.
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -16,6 +15,7 @@ SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = .
+
 prefix = /usr/local
 exec_prefix = ${prefix}
 
@@ -40,15 +40,15 @@ pkgincludedir = $(includedir)/grayscale
 
 top_builddir = .
 
-ACLOCAL = aclocal
+ACLOCAL = aclocal-1.4
 AUTOCONF = autoconf
-AUTOMAKE = automake
+AUTOMAKE = automake-1.4
 AUTOHEADER = autoheader
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL} $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = ${INSTALL} -m 644
-INSTALL_SCRIPT = ${INSTALL_PROGRAM}
+INSTALL_SCRIPT = ${INSTALL}
 transform = s,x,x,
 
 NORMAL_INSTALL = :
@@ -57,22 +57,33 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-host_alias = i686-pc-linux-gnu
+host_alias = 
 host_triplet = i686-pc-linux-gnu
-AS = 
+AR = ar
+AS = as
 CC = gcc
-CXX = c++
-DLLTOOL = 
-LD = /usr/bin/ld
-LEX = @LEX@
+CXX = g++
+CXXCPP = g++ -E
+DLLTOOL = dlltool
+ECHO = echo
+EGREP = grep -E
+EXEEXT = 
+F77 = 
+GCJ = @GCJ@
+GCJFLAGS = @GCJFLAGS@
+HAVE_LIB = @HAVE_LIB@
+LIB = @LIB@
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
+LTLIB = @LTLIB@
 MAINT = #
-MAKEINFO = makeinfo
-NM = /usr/bin/nm -B
-OBJDUMP = 
+MAKEINFO = /home/opensource/tiff-grayscale/config/missing makeinfo
+OBJDUMP = objdump
+OBJEXT = o
 PACKAGE = grayscale
 RANLIB = ranlib
+RC = @RC@
+STRIP = strip
 VERSION = 0.1
 
 noinst_PROGRAMS = broken good
@@ -81,32 +92,34 @@ good_SOURCES = gray-good.c
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_CLEAN_FILES = 
+noinst_PROGRAMS =  broken$(EXEEXT) good$(EXEEXT)
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS =  -DPACKAGE=\"grayscale\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBTIFF=1 -DSTDC_HEADERS=1 -DHAVE_TIFFIO_H=1  -I. -I$(srcdir) 
+DEFS = -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE=\"grayscale\" -DVERSION=\"0.1\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DHAVE_LIBM=1 -DHAVE_LIBTIFF=1 -DSTDC_HEADERS=1 -DHAVE_TIFFIO_H=1  -I. -I$(srcdir) 
 CPPFLAGS = 
 LDFLAGS = 
 LIBS = -ltiff -lm 
-broken_OBJECTS =  gray-wrong.o
+broken_OBJECTS =  gray-wrong.$(OBJEXT)
 broken_LDADD = $(LDADD)
 broken_DEPENDENCIES = 
 broken_LDFLAGS = 
-good_OBJECTS =  gray-good.o
+good_OBJECTS =  gray-good.$(OBJEXT)
 good_LDADD = $(LDADD)
 good_DEPENDENCIES = 
 good_LDFLAGS = 
 CFLAGS = -g -O2
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
 Makefile.in NEWS aclocal.m4 configure configure.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/gray-good.P .deps/gray-wrong.P
 SOURCES = $(broken_SOURCES) $(good_SOURCES)
@@ -114,7 +127,7 @@ OBJECTS = $(broken_OBJECTS) $(good_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .lo .o .obj .s
 $(srcdir)/Makefile.in: # Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile
 
@@ -139,6 +152,11 @@ distclean-noinstPROGRAMS:
 
 maintainer-clean-noinstPROGRAMS:
 
+# FIXME: We should only use cygpath when building on Windows,
+# and only if it is available.
+.c.obj:
+	$(COMPILE) -c `cygpath -w $<`
+
 .s.o:
 	$(COMPILE) -c $<
 
@@ -147,6 +165,7 @@ maintainer-clean-noinstPROGRAMS:
 
 mostlyclean-compile:
 	-rm -f *.o core *.core
+	-rm -f *.$(OBJEXT)
 
 clean-compile:
 
@@ -155,12 +174,28 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-broken: $(broken_OBJECTS) $(broken_DEPENDENCIES)
-	@rm -f broken
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+
+maintainer-clean-libtool:
+
+broken$(EXEEXT): $(broken_OBJECTS) $(broken_DEPENDENCIES)
+	@rm -f broken$(EXEEXT)
 	$(LINK) $(broken_LDFLAGS) $(broken_OBJECTS) $(broken_LDADD) $(LIBS)
 
-good: $(good_OBJECTS) $(good_DEPENDENCIES)
-	@rm -f good
+good$(EXEEXT): $(good_OBJECTS) $(good_DEPENDENCIES)
+	@rm -f good$(EXEEXT)
 	$(LINK) $(good_LDFLAGS) $(good_OBJECTS) $(good_LDADD) $(LIBS)
 
 tags: TAGS
@@ -181,7 +216,7 @@ TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	  awk '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+	  || (cd $(srcdir) && etags -o $$here/TAGS $(ETAGS_ARGS) $$tags  $$unique $(LISP))
 
 mostlyclean-tags:
 
@@ -313,25 +348,28 @@ distclean-generic:
 
 maintainer-clean-generic:
 mostlyclean-am:  mostlyclean-noinstPROGRAMS mostlyclean-compile \
-		mostlyclean-tags mostlyclean-depend mostlyclean-generic
+		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
+		mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-noinstPROGRAMS clean-compile clean-tags clean-depend \
-		clean-generic mostlyclean-am
+clean-am:  clean-noinstPROGRAMS clean-compile clean-libtool clean-tags \
+		clean-depend clean-generic mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-noinstPROGRAMS distclean-compile distclean-tags \
-		distclean-depend distclean-generic clean-am
+distclean-am:  distclean-noinstPROGRAMS distclean-compile \
+		distclean-libtool distclean-tags distclean-depend \
+		distclean-generic clean-am
+	-rm -f libtool
 
 distclean: distclean-am
 	-rm -f config.status
 
 maintainer-clean-am:  maintainer-clean-noinstPROGRAMS \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-depend maintainer-clean-generic \
-		distclean-am
+		maintainer-clean-compile maintainer-clean-libtool \
+		maintainer-clean-tags maintainer-clean-depend \
+		maintainer-clean-generic distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
@@ -341,14 +379,16 @@ maintainer-clean: maintainer-clean-am
 .PHONY: mostlyclean-noinstPROGRAMS distclean-noinstPROGRAMS \
 clean-noinstPROGRAMS maintainer-clean-noinstPROGRAMS \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir mostlyclean-depend \
-distclean-depend clean-depend maintainer-clean-depend info-am info \
-dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
-install-exec install-data-am install-data install-am install \
-uninstall-am uninstall all-redirect all-am all installdirs \
-mostlyclean-generic distclean-generic clean-generic \
-maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+maintainer-clean-compile mostlyclean-libtool distclean-libtool \
+clean-libtool maintainer-clean-libtool tags mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags distdir \
+mostlyclean-depend distclean-depend clean-depend \
+maintainer-clean-depend info-am info dvi-am dvi check check-am \
+installcheck-am installcheck install-exec-am install-exec \
+install-data-am install-data install-am install uninstall-am uninstall \
+all-redirect all-am all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
