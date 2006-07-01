@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <tiffio.h>
 #include <stdio.h>
 
