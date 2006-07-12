@@ -9,7 +9,11 @@ while(<STDIN>){
   if(/<refentry>/){
     open FILE, "> $count" or die "Couldn't open file";
 
-    print FILE "<!DOCTYPE refentry PUBLIC \"-//Davenport//DTD DocBook V3.0//EN\">\n";
+#    print FILE "<!DOCTYPE refentry PUBLIC \"-//Davenport//DTD DocBook V3.0//EN\" >\n";
+    print FILE "<?xml version="1.0" encoding="UTF-8"?>\n";
+    print FILE "<!DOCTYPE book PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\"\n";
+    print FILE "    \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\" []>\n";
+
   }
 
   if(/<refentryinfo>/){ $mode = 1; }
