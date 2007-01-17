@@ -1,0 +1,2 @@
+./parser.py --url "http://www.podtech.net/scobleshow/feed" ScobleShow
+./parser.py --url "http://video.google.com/videofeed?type=search&q=engedu&so=0&num=2000&output=rss" EngEdu
