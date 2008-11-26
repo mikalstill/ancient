@@ -21,8 +21,8 @@
 # names of the elements which are waiting until the end of the file, and
 # subitems stores the elements which will be needed at that time.
 
-# This code is (c) Michael Still 2001, 2002 and is released under the terms of the
-# GNU GPL
+# This code is (c) Michael Still 2001, 2002 and is released under 
+# the terms of the GNU GPL v2
 
 use strict;
 my($CFILE, $filename, $docbook, $blockmode, $blockstring, $blockkey, %myhash);
