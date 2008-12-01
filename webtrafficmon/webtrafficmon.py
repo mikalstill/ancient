@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-# A simple example of how to use pcapy. This needs to be run as root.
+# A simple traffic monitor using pcapy and impacket. This needs to be run as
+# root.
 
 import asyncore
 import cStringIO
@@ -27,7 +28,9 @@ gflags.DEFINE_boolean('verbose', False, 'Show debug output')
 
 
 cstart = ('<img src="http://chart.apis.google.com/chart?cht=lc&chs=600x50&'
-          'chco=ff0000,00ff00,0000ff&')
+          'chco=ff0000,00ff00,0000ff&chxt=y&')
+maxcount = 100
+maxbytes = 100
 history = []
 
 
@@ -88,15 +91,19 @@ class http_handler(asyncore.dispatcher):
 
     self.data_lock.acquire()
     self.buffer += ('HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
-                    '<html><head><title>Traffic monitor</title></head>'
+                    '<html><head>'
+                    '<META HTTP-EQUIV="Refresh" CONTENT="30">'
+                    '<title>Traffic monitor</title></head>'
                     '<body>')
     if not history or len(history) < 2:
       self.buffer += 'No data yet'
     else:
       self.buffer += ('Only currently active flows with more than one sample '
-                      'shown (there are currently %d samples)<br/><br/><table>'
+                      'shown (there are currently %d samples). Only the the '
+                      'largest flows by bytes are shown.<br/><br/><table>'
                       % len(history))
-      bgcolor = ''
+
+      output = {}
       for flow in history[-1]:
         c = 0
 
@@ -104,7 +111,8 @@ class http_handler(asyncore.dispatcher):
         abytes = []
         bcount = []
         bbytes = []
-        
+
+        traffic = 0
         for h in history:
           d = h.get(flow, None)
           if d:
@@ -114,26 +122,40 @@ class http_handler(asyncore.dispatcher):
             abytes.append('%s.0' % ab)
             bcount.append('%s.0' % bc)
             bbytes.append('%s.0' % bb)
+            traffic = ab + bb
           else:
             acount.append('0.0')
             abytes.append('0.0')
             bcount.append('0.0')
             bbytes.append('0.0')
+            traffic = 0
 
-        if c > 1:
-          self.buffer += ('<tr%s><td>%s</td><td>'
-                          '%schd=t:%s|%s"><br/>'
-                          '%schd=t:%s|%s"><br/>'
-                          '</td></tr>'
-                          %(bgcolor, flow,
-                            cstart, ','.join(acount), ','.join(bcount),
-                            cstart, ','.join(abytes), ','.join(bbytes)))
+        if c > 1 and traffic > 0:
+          e = output.get(traffic, [])
+          e.append('<td>%s</td><td>'
+                   '%schxl=0:|0|%d&chds=0,%d,0,%d&chd=t:%s|%s"><br/>'
+                   '%schxl=0:|0|%0.0f+MB&chds=0,%d,0,%d&chd=t:%s|%s"><br/>'
+                   '</td></tr>'
+                   %(flow,
+                     cstart, maxcount, maxcount, maxcount,
+                     ','.join(acount), ','.join(bcount),
+                     cstart, maxbytes / 1024.0 / 1024.0, maxbytes, maxbytes,
+                     ','.join(abytes), ','.join(bbytes)))
+          output[traffic] = e
+
+      keys = output.keys()
+      keys.sort(reverse=True)
+      bgcolor = ''
+      for key in keys[:10]:
+        for e in output[key]:
+          self.buffer += '<tr%s>%s\n' %(bgcolor, e)
+          
           if bgcolor:
             bgcolor = ''
           else:
             bgcolor = ' bgcolor="#DDDDDD"'
 
-    self.buffer += '</body></html>'
+    self.buffer += '</table></body></html>'
     self.data_lock.release()
 
   def writable(self):
@@ -155,6 +177,8 @@ class Sniffer(threading.Thread):
     threading.Thread.__init__(self)
   
   def run(self):
+    global maxcount
+    global maxbytes
     global history
     
     flows = {}
@@ -188,69 +212,89 @@ class Sniffer(threading.Thread):
         print ('%s: captured %d bytes, truncated to %d bytes'
                %(datetime.datetime.now(), header.getlen(), header.getcaplen()))
 
-      # The link level packet contains a payload 
-      l = decoder.decode(payload)
-      p = l.child()
-      key = None
+      try:
+        # The link level packet contains a payload 
+        l = decoder.decode(payload)
+        p = l.child()
+        key = None
 
-      if p.ethertype == 0x800:
-        # This is an IP packet
-        ip = p.child()
-        ips = [p.get_ip_src(), p.get_ip_dst()]
-        ips.sort()
+        if p.ethertype == 0x800:
+          # This is an IP packet
+          ip = p.child()
+          ips = [p.get_ip_src(), p.get_ip_dst()]
+          ips.sort()
 
-        if ip.protocol == 1:
-          # ICMP
-          if FLAGS.verbose:
-            print ('  ICMP: %s -> %s type %s'
-                   %(p.get_ip_src(), p.get_ip_dst(),
-                     ip.get_type_name(ip.get_icmp_type())))
+          if ip.protocol == 1:
+            # ICMP
+            if FLAGS.verbose:
+              print ('  ICMP: %s -> %s type %s'
+                     %(p.get_ip_src(), p.get_ip_dst(),
+                       ip.get_type_name(ip.get_icmp_type())))
 
-          key = 'ICMP %s' % repr(ips)
+            key = 'ICMP %s' % repr(ips)
 
-        elif ip.protocol == 6:
-          # TCP
-          if FLAGS.verbose:
-            print '  TCP: %s:%d -> %s:%d' %(p.get_ip_src(),
-                                            ip.get_th_sport(),
-                                            p.get_ip_dst(),
-                                            ip.get_th_dport())
+          elif ip.protocol == 6:
+            # TCP
+            if FLAGS.verbose:
+              print '  TCP: %s:%d -> %s:%d' %(p.get_ip_src(),
+                                              ip.get_th_sport(),
+                                              p.get_ip_dst(),
+                                              ip.get_th_dport())
 
-          ports = [ip.get_th_sport(), ip.get_th_dport()]
-          ports.sort()
-          key = 'TCP %s %s' %(repr(ips), repr(ports))
+            ports = [ip.get_th_sport(), ip.get_th_dport()]
+            ports.sort()
+            key = 'TCP %s %s' %(repr(ips), repr(ports))
 
-        elif ip.protocol == 17:
-          # UDP
-          if FLAGS.verbose:
-            print '  UDP: %s:%d -> %s:%d' %(p.get_ip_src(),
-                                            ip.get_uh_sport(),
-                                            p.get_ip_dst(),
-                                            ip.get_uh_dport())
+          elif ip.protocol == 17:
+            # UDP
+            if FLAGS.verbose:
+              print '  UDP: %s:%d -> %s:%d' %(p.get_ip_src(),
+                                              ip.get_uh_sport(),
+                                              p.get_ip_dst(),
+                                              ip.get_uh_dport())
 
-          ports = [ip.get_uh_sport(), ip.get_uh_dport()]
-          ports.sort()
-          key = 'TCP %s %s' %(repr(ips), repr(ports))
+            ports = [ip.get_uh_sport(), ip.get_uh_dport()]
+            ports.sort()
+            key = 'TCP %s %s' %(repr(ips), repr(ports))
+
+          else:
+            print '  Unknown IP protocol %s' % ip.protocol
+
+          if key:
+            flows.setdefault(key, (0, 0, 0, 0))
+            (a_count, a_bytes, b_count, b_bytes) = flows[key]
+            if ips == [p.get_ip_src(), p.get_ip_dst()]:
+              a_count += 1
+              a_bytes += header.getlen()
+            else:
+              b_count += 1
+              b_bytes += header.getlen()
+            flows[key] = (a_count, a_bytes, b_count, b_bytes)
 
         else:
-          print '  Unknown IP protocol %s' % ip.protocol
+          print '  Unknown ethertype %x' % p.ethertype
 
-        if key:
-          flows.setdefault(key, (0, 0, 0, 0))
-          (a_count, a_bytes, b_count, b_bytes) = flows[key]
-          if ips == [p.get_ip_src(), p.get_ip_dst()]:
-            a_count += 1
-            a_bytes += header.getlen()
-          else:
-            b_count += 1
-            b_bytes += header.getlen()
-          flows[key] = (a_count, a_bytes, b_count, b_bytes)
-
-      else:
-        print '  Unknown ethertype %x' % p.ethertype
+      except impacket.ImpactPacketException, e:
+        print '%s: Sniffer skipped packet: %s' %(datetime.datetime.now(), e)
 
       if time.time() - last_dump > 30:
         self.data_lock.acquire()
+
+        # Recalibrate maximums
+        maxcount = 100
+        maxbytes = 100
+        for flow in flows:
+          (acount, abytes, bcount, bbytes) = flows[flow]
+          if acount > maxcount:
+            maxcount = acount
+          if bcount > maxcount:
+            maxcount = bcount
+          if abytes > maxbytes:
+            maxbytes = abytes
+          if bbytes > maxbytes:
+            maxbytes = bbytes
+
+        # Append to history
         history.append(flows)
         history = history[-120:]
         self.data_lock.release()
