@@ -1,0 +1,7 @@
+This is a sample gtalkbot module. It uses the MythTV telnet network control
+interface that a MythTV front end provides (if enabled) to control that MythTV
+front end.
+
+You can do basically anything you can do in the MythTV telnet interface, with
+the exception that the "query location" command also returns the name of the
+recording, instead of just it's filename like the telnet interface.

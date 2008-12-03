@@ -1,0 +1,14 @@
+#!/bin/bash
+
+mkdir /tmp/gtalkbot-$1
+cp -R * /tmp/gtalkbot-$1/
+cd /tmp/gtalkbot-$1
+
+echo "Removing files from download"
+for item in CVS "*.pyc"
+do
+  find . -name "$item" -exec rm -rf {} \; -print 2> /dev/null
+done
+
+cd /tmp
+tar cvzf gtalkbot-$1.tgz gtalkbot-$1

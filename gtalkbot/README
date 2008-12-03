@@ -1,0 +1,29 @@
+To run gtalkbot:
+
+ - Install the dependancies. On Debian / Ubuntu:
+
+sudo apt-get install python-pyxmpp python-pyxmpp-doc
+
+ - Write a plugin! There is a sample on in plugins/mythbot.py
+ - Create a password file and put it somewhere
+
+	The format is:
+	<username><tab><password>
+
+	For example:
+	exampleuser@gmail.com	banana
+
+ - Create a jabber or Google Talk account for the bot
+ - Create a config file. It should contain:
+
+connectwith     <account to connect with>
+password        <password>
+pluginsdir      <path to plugins directory>
+authfile	<path to your password file>
+
+ - Start up gtalkbot:
+
+	./gtalkbot.py ~/.gtalkbotrc
+
+ - Now you can IM the bot account, and off you go. You'll need to start off
+   with a "auth <password>" to login to the bot

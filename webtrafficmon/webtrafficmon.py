@@ -274,7 +274,7 @@ class Sniffer(threading.Thread):
         else:
           print '  Unknown ethertype %x' % p.ethertype
 
-      except impacket.ImpactPacketException, e:
+      except impacket.ImpactPacket.ImpactPacketException, e:
         print '%s: Sniffer skipped packet: %s' %(datetime.datetime.now(), e)
 
       if time.time() - last_dump > 30:
