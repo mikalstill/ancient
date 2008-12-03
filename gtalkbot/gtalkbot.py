@@ -18,6 +18,7 @@ This code is very heavily based on the echobot example from the PyXMPP
 distribution.
 """
 
+import datetime
 import sys
 import logging
 import locale
@@ -28,6 +29,7 @@ import imp
 
 from pyxmpp.all import JID, Iq, Presence, Message, StreamError
 from pyxmpp.jabber.client import JabberClient
+from pyxmpp.client import Client
 from pyxmpp import streamtls
 
 plugins = {}
@@ -74,14 +76,14 @@ class NoAuthentication(PasswordVerifier):
     """Always say yes"""
     return True
 
-class Client(JabberClient):
+class BotClient(JabberClient):
   """This class implements all the Jabber parts of the program, a lot
   of the Jabber functionality comes from inheriting from JabberClient,
   which is part of PyXMPP."""
 
   authenticated = {}
 
-  def __init__(self, jid, password, password_verifier):
+  def __init__(self, jid, password, password_verifier, outbox_directory):
     # If a bare JID is provided add a resource
     if not jid.resource:
       jid=JID(jid.node, jid.domain, "gtalkbot")
@@ -100,7 +102,9 @@ class Client(JabberClient):
 
     # Initialize the client
     print u'Initialize client'
+    self.jid = jid
     self.passwd = password_verifier
+    self.outbox_directory = outbox_directory
 
   def session_started(self):
     """This is called when the IM session is successfully started
@@ -144,6 +148,11 @@ class Client(JabberClient):
     body = stanza.get_body()
     sender = stanza.get_from().as_utf8().split('/')[0]
     t = stanza.get_type()
+    
+    print ' ... sender = %s' % sender
+    print ' ... subject = %s' % subject
+    print ' ... body = %s' % body
+    print ' ... type = %s' % t
 
     # If this is a text message, then we respond
     if stanza.get_type() != 'headline' and body:
@@ -213,6 +222,8 @@ class Client(JabberClient):
                   subject = subject,
                   body = result)
       self.stream.send(m)
+      print ' ... recipient = %s' % stanza.get_from()
+      print ' ... body = %s' % result
 
     return True
 
@@ -223,6 +234,33 @@ class Client(JabberClient):
     print 'Handling presence request'
     self.stream.send(stanza.make_accept_response())
     return True
+
+  def idle(self):
+    """Called when there is a chance to do idle work."""
+
+    print '%s Idle' % datetime.datetime.now()
+    if self.outbox_directory:
+      # Outbox format is one message per file. First line is the recipient,
+      # the remaining lines are the message
+
+      for ent in os.listdir(self.outbox_directory):
+        print ' ... Found %s' % ent
+	f = open('%s/%s' %(self.outbox_directory, ent), 'r')
+	d = f.readlines()
+        f.close()
+
+        m = Message(to_jid = JID(d[0].rstrip('\n')),
+                    from_jid = self.jid,
+                    stanza_type = 'chat',
+                    subject = None,
+                    body = ''.join(d[1:]))
+        self.stream.send(m)
+        print ' ... recipient = %s' % d[0].rstrip('\n')
+        print ' ... body = %s' % ''.join(d[1:])
+        os.unlink('%s/%s' %(self.outbox_directory, ent))
+
+    Client.idle(self)
+
 
 # The XMPP protocol is Unicode-based. To properly display data received
 # it _must_ be converted to local encoding or UnicodeException may be 
@@ -254,6 +292,7 @@ password = ''
 plugin_directory = ''
 password_filename = '/usr/local/share/gtalkbot/passwd'
 require_auth = True
+outbox_directory = ''
 
 try:
   config_file = open(sys.argv[1], 'r')
@@ -269,6 +308,8 @@ try:
       password_filename = value
     if option == 'requireauth':
       require_auth = (value == 'False')
+    if option == 'outboxdir':
+      outbox_directory = value
 
 except:
   print 'Error: %s' % sys.exc_info()[0]
@@ -302,7 +343,7 @@ print u'Creating client...'
 password_verifier = PasswordCache(password_filename)
 if not require_auth:
   password_verifier = NoAuthentication()
-c = Client(JID(account), password, password_verifier)
+c = BotClient(JID(account), password, password_verifier, outbox_directory)
 
 print u'Connecting...'
 c.connect()
