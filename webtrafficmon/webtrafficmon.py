@@ -331,7 +331,7 @@ class Sniffer(threading.Thread):
 
         # Append to history
         history.append(flows)
-        history = history[-120:]
+        history = history[-30:]
 
         # Write to persistant history as well
         persistant.setdefault('history', {})
