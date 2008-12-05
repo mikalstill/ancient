@@ -7,4 +7,5 @@
 f=`mktemp /tmp/notify.XXXXXX`
 echo $1 > $f
 cat - >> $f
+chmod ugo+rw $f
 mv $f /data/src/stillhq_public/trunk/gtalkbot/outbox/

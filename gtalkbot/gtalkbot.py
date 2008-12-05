@@ -18,27 +18,37 @@ This code is very heavily based on the echobot example from the PyXMPP
 distribution.
 """
 
+import codecs
 import datetime
-import sys
+import imp
 import logging
 import locale
-import codecs
 import os
 import re
-import imp
+import sys
+import unicodedata
 
 from pyxmpp.all import JID, Iq, Presence, Message, StreamError
 from pyxmpp.jabber.client import JabberClient
 from pyxmpp.client import Client
 from pyxmpp import streamtls
 
+
 plugins = {}
 verbs = {}
+
+
+def Normalize(value):
+  normalized = unicodedata.normalize('NFKD', unicode(value))
+  normalized = normalized.encode('ascii', 'ignore')
+  return normalized
+
 
 class PasswordVerifier:
   def authenticate(self, jid, password):
     """Authenticate the jabber id with the given password"""
     return False;
+
 
 class PasswordCache(PasswordVerifier):
   """Reads a file of jabber IDs and passwords at startup, and then provides
@@ -71,10 +81,12 @@ class PasswordCache(PasswordVerifier):
                                                         self.passwd[jid])
     return self.passwd[jid] == password
 
+
 class NoAuthentication(PasswordVerifier):
   def authenticate(self, jid, password):
     """Always say yes"""
     return True
+
 
 class BotClient(JabberClient):
   """This class implements all the Jabber parts of the program, a lot
@@ -220,10 +232,10 @@ class BotClient(JabberClient):
                   from_jid = stanza.get_to(),
                   stanza_type = stanza.get_type(),
                   subject = subject,
-                  body = result)
+                  body = Normalize(result))
       self.stream.send(m)
       print ' ... recipient = %s' % stanza.get_from()
-      print ' ... body = %s' % result
+      print ' ... body = %s' % Normalize(result)
 
     return True
 
@@ -253,10 +265,10 @@ class BotClient(JabberClient):
                     from_jid = self.jid,
                     stanza_type = 'chat',
                     subject = None,
-                    body = ''.join(d[1:]))
+                    body = Normalize(''.join(d[1:]).rstrip('\n')))
         self.stream.send(m)
         print ' ... recipient = %s' % d[0].rstrip('\n')
-        print ' ... body = %s' % ''.join(d[1:])
+        print ' ... body = %s' % Normalize(''.join(d[1:]).rstrip('\n'))
         os.unlink('%s/%s' %(self.outbox_directory, ent))
 
     Client.idle(self)
