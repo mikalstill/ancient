@@ -9,12 +9,14 @@ import datetime
 import gflags
 import impacket
 import pcapy
+import shelve
 import socket
 import sys
 import time
 import thread
 import threading
 import traceback
+import types
 
 
 from impacket.ImpactDecoder import EthDecoder, LinuxSLLDecoder
@@ -28,10 +30,38 @@ gflags.DEFINE_boolean('verbose', False, 'Show debug output')
 
 
 cstart = ('<img src="http://chart.apis.google.com/chart?cht=lc&chs=600x50&'
-          'chco=ff0000,00ff00,0000ff&chxt=y&')
+          'chco=ff0000,00ff00,0000ff&chg=20&chxt=y&')
 maxcount = 100
 maxbytes = 100
 history = []
+persistant = shelve.open('history.%d.shlf' % time.time(), writeback=True)
+
+
+def DisplayFriendlySize(bytes, short=False):
+  """DisplayFriendlySize -- turn a number of bytes into a nice string"""
+
+  t = type(bytes)
+  if t != types.LongType and t != types.IntType and t != decimal.Decimal:
+    return 'NotANumber(%s=%s)' %(t, bytes)
+
+  if bytes < 1024:
+    if short:
+      return '%dB' % bytes
+    return '%d bytes' % bytes
+
+  if bytes < 1024 * 1024:
+    if short:
+      return '%dK' % (bytes / 1024)
+    return '%d kb (%d bytes)' %((bytes / 1024), bytes)
+
+  if bytes < 1024 * 1024 * 1024:
+    if short:
+      return '%dM' % (bytes / (1024 * 1024))
+    return '%d mb (%d bytes)' %((bytes / (1024 * 1024)), bytes)
+
+  if short:
+    return '%dG' % (bytes / (1024 * 1024 * 1024))
+  return '%d gb (%d bytes)' %((bytes / (1024 * 1024 * 1024)), bytes)
 
 
 class http_server(asyncore.dispatcher):
@@ -79,6 +109,7 @@ class http_handler(asyncore.dispatcher):
   def handle_read(self):
     global cstart
     global history
+    global persistant
     
     rq = self.recv(1024)
     file = ''
@@ -113,6 +144,7 @@ class http_handler(asyncore.dispatcher):
         bbytes = []
 
         traffic = 0
+        total_traffic = 0
         for h in history:
           d = h.get(flow, None)
           if d:
@@ -123,6 +155,7 @@ class http_handler(asyncore.dispatcher):
             bcount.append('%s.0' % bc)
             bbytes.append('%s.0' % bb)
             traffic = ab + bb
+            total_traffic += traffic
           else:
             acount.append('0.0')
             abytes.append('0.0')
@@ -134,13 +167,15 @@ class http_handler(asyncore.dispatcher):
           e = output.get(traffic, [])
           e.append('<td>%s</td><td>'
                    '%schxl=0:|0|%d&chds=0,%d,0,%d&chd=t:%s|%s"><br/>'
-                   '%schxl=0:|0|%0.0f+MB&chds=0,%d,0,%d&chd=t:%s|%s"><br/>'
-                   '</td></tr>'
+                   '%schxl=0:|0|%s&chds=0,%d,0,%d&chd=t:%s|%s"><br/>'
+                   '</td><td>%s</td></tr>'
                    %(flow,
                      cstart, maxcount, maxcount, maxcount,
                      ','.join(acount), ','.join(bcount),
-                     cstart, maxbytes / 1024.0 / 1024.0, maxbytes, maxbytes,
-                     ','.join(abytes), ','.join(bbytes)))
+                     cstart, DisplayFriendlySize(maxbytes, short=True),
+                     maxbytes, maxbytes,
+                     ','.join(abytes), ','.join(bbytes),
+                     DisplayFriendlySize(total_traffic)))
           output[traffic] = e
 
       keys = output.keys()
@@ -297,6 +332,12 @@ class Sniffer(threading.Thread):
         # Append to history
         history.append(flows)
         history = history[-120:]
+
+        # Write to persistant history as well
+        persistant.setdefault('history', {})
+        persistant['history'][time.time()] = flows
+        persistant.sync()
+        
         self.data_lock.release()
 
         print ('%s Sniffer captured %d packets in the last 30 seconds'
