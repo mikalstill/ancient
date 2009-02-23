@@ -31,10 +31,13 @@ gflags.DEFINE_boolean('verbose', False, 'Show debug output')
 
 cstart = ('<img src="http://chart.apis.google.com/chart?cht=lc&chs=600x50&'
           'chco=ff0000,00ff00,0000ff&chg=20&chxt=y&')
+
+running = True
 maxcount = 100
 maxbytes = 100
 history = []
 persistant = shelve.open('history.%d.shlf' % time.time(), writeback=True)
+last_dump = time.time()
 
 
 def DisplayFriendlySize(bytes, short=False):
@@ -114,7 +117,7 @@ class http_handler(asyncore.dispatcher):
     rq = self.recv(1024)
     file = ''
     for line in rq.split('\n'):
-      print '%s %s --> %s' %(datetime.datetime.now(), repr(self.addr), line)
+      # print '%s %s --> %s' %(datetime.datetime.now(), repr(self.addr), line)
       line = line.rstrip('\r')
 
       if line.startswith('GET'):
@@ -191,6 +194,8 @@ class http_handler(asyncore.dispatcher):
             bgcolor = ' bgcolor="#DDDDDD"'
 
     self.buffer += '</table></body></html>'
+    print '%s %s Served HTTP request' %(datetime.datetime.now(),
+                                        repr(self.addr))
     self.data_lock.release()
 
   def writable(self):
@@ -215,6 +220,9 @@ class Sniffer(threading.Thread):
     global maxcount
     global maxbytes
     global history
+    global persistant
+    global running
+    global last_dump
     
     flows = {}
     count = 0
@@ -233,18 +241,17 @@ class Sniffer(threading.Thread):
     elif pcapy.DLT_LINUX_SLL == datalink:
       decoder = LinuxSLLDecoder()
     else:
-      print 'Datalink type not supported: ' % datalink
+      print '%s Datalink type not supported: ' %(datetime.datetime.now(),
+                                                 datalink)
       sys.exit(1)
 
     # Read packets -- header contains information about the data from pcap,
     # payload is the actual packet as a string
-    last_dump = time.time()
-
     (header, payload) = cap.next()
     while header:
       count += 1
       if FLAGS.verbose:
-        print ('%s: captured %d bytes, truncated to %d bytes'
+        print ('%s captured %d bytes, truncated to %d bytes'
                %(datetime.datetime.now(), header.getlen(), header.getcaplen()))
 
       try:
@@ -292,8 +299,9 @@ class Sniffer(threading.Thread):
             ports.sort()
             key = 'TCP %s %s' %(repr(ips), repr(ports))
 
-          else:
-            print '  Unknown IP protocol %s' % ip.protocol
+          elif ip.protocol:
+            print '%s Unknown IP protocol %s' %(datetime.datetime.now(),
+                                                ip.protocol)
 
           if key:
             flows.setdefault(key, (0, 0, 0, 0))
@@ -307,14 +315,14 @@ class Sniffer(threading.Thread):
             flows[key] = (a_count, a_bytes, b_count, b_bytes)
 
         else:
-          print '  Unknown ethertype %x' % p.ethertype
+          print '%s Unknown ethertype %x' %(datetime.datetime.now(),
+                                            p.ethertype)
 
       except impacket.ImpactPacket.ImpactPacketException, e:
-        print '%s: Sniffer skipped packet: %s' %(datetime.datetime.now(), e)
+        print '%s Sniffer skipped packet: %s' %(datetime.datetime.now(), e)
 
+      self.data_lock.acquire()
       if time.time() - last_dump > 30:
-        self.data_lock.acquire()
-
         # Recalibrate maximums
         maxcount = 100
         maxbytes = 100
@@ -338,18 +346,27 @@ class Sniffer(threading.Thread):
         persistant['history'][time.time()] = flows
         persistant.sync()
         
-        self.data_lock.release()
-
+        if len(persistant['history']) > 29:
+          print '%s Committing suicide' % datetime.datetime.now()
+          persistant.close()
+          running = False
+          raise SystemExit()
+        
         print ('%s Sniffer captured %d packets in the last 30 seconds'
                %(datetime.datetime.now(), count))
         count = 0
         flows = {}
         last_dump = time.time()
 
+      self.data_lock.release()
+      del header
+      del payload
       (header, payload) = cap.next()
 
 
 def main(argv):
+  global running
+  
   # Parse flags
   try:
     argv = FLAGS(argv)
@@ -366,7 +383,17 @@ def main(argv):
   # Start the web server, which takes over this thread
   print '%s Started listening on port %s' %(datetime.datetime.now(),
                                             FLAGS.port)
-  asyncore.loop(timeout=4.0)
+
+  while running:
+    print '%s ... %d' %(datetime.datetime.now(), time.time() - last_dump)
+
+    data_lock.acquire()
+    if time.time() - last_dump > 180:
+      print '%s Dump stale' % datetime.datetime.now()
+      running = False
+    data_lock.release()
+
+    asyncore.loop(timeout=10.0, count=1)
 
 
 if __name__ == "__main__":

@@ -289,7 +289,7 @@ sys.stderr = codecs.getwriter(encoding)(sys.stderr, errors='replace')
 # set it up as needed
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler())
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 if len(sys.argv) < 2:
   print u'Usage:'
