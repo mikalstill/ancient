@@ -95,7 +95,7 @@ class Database:
     """CheckSchema -- ensure we're running the latest schema version"""
 
     # Check if we even have tables
-    for table in ['settings']
+    for table in ['settings']:
       if not self.TableExists(table):
         self.CreateTable(table)
 
@@ -116,7 +116,7 @@ class Database:
   def GetSetting(self, name):
     """GetSetting -- get the current value of a setting"""
 
-    row = self.GetOneRow('select value from mythnettv_settings where '
+    row = self.GetOneRow('select value from settings where '
                          'name="%s";' % name)
     if row == None:
       return None
@@ -126,21 +126,20 @@ class Database:
     """GetSettingWithDefault -- get a setting with a default value"""
 
     cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('select value from mythnettv_settings where '
+    cursor.execute('select value from settings where '
                    'name="%s";' % name)
     if cursor.rowcount != 0:
       retval = cursor.fetchone()
       cursor.close()
       return retval['value']
     else:
-      self.db_connection.query('insert into mythnettv_settings (name, value) '
+      self.db_connection.query('insert into settings (name, value) '
                                'values("%s", "%s");' %(name, default))
-      self.Log('Settings value %s defaulted to %s' %(name, default))
       return default
 
   def WriteSetting(self, name, value):
     """WriteSetting -- write a setting to the database"""
-    self.WriteOneRow('mythnettv_settings', 'name',
+    self.WriteOneRow('settings', 'name',
                      {'name': name, 'value': value})
 
   def GetOneRow(self, sql):
@@ -209,8 +208,6 @@ class Database:
                    %(key_col, table, key_col, dict[key_col]))
 
     if cursor.rowcount > 0:
-      self.Log('Updating %s row with %s of %s' %(table, key_col,
-                                                 dict[key_col]))
       vals = []
       for col in dict:
         val = '%s=%s' %(col, self.FormatSqlValue(col, dict[col]))
@@ -220,8 +217,6 @@ class Database:
                                                 key_col, dict[key_col])
 
     else:
-      self.Log('Creating %s row with %s of %s' %(table, key_col,
-                                                 dict[key_col]))
       vals = []
       for col in dict:
         val = self.FormatSqlValue(col, dict[col])
@@ -252,5 +247,4 @@ class Database:
     """Handle schema upgrades"""
 
     if self.version == '0':
-      self.Log('Upgrading schema from 0 to 1')
       self.version = '1'
