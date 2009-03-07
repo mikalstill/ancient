@@ -25,7 +25,18 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='1'
+CURRENT_SCHEMA='2'
+
+
+class FormatException(Exception):
+  """ FormatException -- Used for reporting failures for format DB values """
+
+
+def Normalize(value):
+  normalized = unicodedata.normalize('NFKD', unicode(value))
+  normalized = normalized.encode('ascii', 'ignore')
+  return normalized
+
 
 class Database:
   """Handle all the details of MySQL."""
@@ -165,6 +176,8 @@ class Database:
     except Exception, e:
       print 'Database error:'
       traceback.print_exc()
+      print
+      print 'Problem SQL: %s' % sql
       sys.exit(1)
 
   def GetRows(self, sql):
@@ -187,11 +200,17 @@ class Database:
       return 'STR_TO_DATE("%s", "%s")' \
              %(value.strftime('%a, %d %b %Y %H:%M:%S'),
                '''%a, %d %b %Y %H:%i:%s''')
+
     if name == 'date':
       return 'STR_TO_DATE("%s", "%s")' %(value, '''%a, %d %b %Y %H:%i:%s''')
+
     if type(value) == long or type(value) == int:
       return value
-    if value == None:
+
+    if value == '':
+      return '""'
+
+    if value is None:
       return 'NULL'
 
     try:
@@ -248,3 +267,26 @@ class Database:
 
     if self.version == '0':
       self.version = '1'
+
+    if self.version == '1':
+      self.db_connection.query('create table tracks (artist varchar(255), '
+                               'album varchar(255), number int, '
+                               'song varchar(255), paths text, plays int, '
+                               'skips int, '
+                               'primary key(artist, album, number, song));')
+
+      self.version = '2'
+
+    self.WriteSetting('schema', self.version)
+
+  def ExecuteSql(self, sql):
+    """ ExecuteSql -- execute some SQL and return the number of rows affected
+    """
+
+    cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(sql)
+
+    changed = cursor.rowcount
+    cursor.close()
+
+    return changed

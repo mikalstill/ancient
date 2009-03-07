@@ -4,15 +4,19 @@
 
 
 import datetime
+import os
 import re
 import sys
 import types
 
 import database
 import gflags
+import track
 
 
 FLAGS = gflags.FLAGS
+gflags.DEFINE_string('remove_from_path', 'file://localhost/Volumes',
+                     'Remove this string from MP3 paths')
 
 
 _DATE_RE = re.compile('([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9])T'
@@ -167,8 +171,22 @@ if __name__ == '__main__':
   for key in keys:
     location = key_map[key]
 
-    for k in songs[location]:
-      if k != 'keys':
-        print '%s: %s' %(k, songs[location][k])
+    try:
+      this_track = track.Track(db,
+                               songs[location].get('Artist', ''),
+                               songs[location].get('Album', ''),
+                               songs[location].get('Track Number', -1),
+                               songs[location].get('Name', ''))
 
-    print
+      for k in songs[location]:
+        actual_path = location
+        if FLAGS.remove_from_path:
+          actual_path = actual_path.replace(FLAGS.remove_from_path, '')
+
+        if os.path.exists(actual_path):
+          this_track.AddPath(actual_path)
+
+      this_track.Store()
+
+    except database.FormatException, e:
+      print 'Skipped: %s' % location
