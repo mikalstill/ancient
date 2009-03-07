@@ -172,11 +172,11 @@ if __name__ == '__main__':
     location = key_map[key]
 
     try:
-      this_track = track.Track(db,
-                               songs[location].get('Artist', ''),
-                               songs[location].get('Album', ''),
-                               songs[location].get('Track Number', -1),
-                               songs[location].get('Name', ''))
+      this_track = track.Track(db)
+        this_track.FromMeta(songs[location].get('Artist', ''),
+                            songs[location].get('Album', ''),
+                            songs[location].get('Track Number', -1),
+                            songs[location].get('Name', ''))
 
       for k in songs[location]:
         actual_path = location
@@ -196,3 +196,37 @@ if __name__ == '__main__':
 
     except database.FormatException, e:
       print 'Skipped: %s' % location
+
+  # Process playlists as tags
+  plname_re = re.compile('\s+<key>Name</key><string>(.*)</string>')
+  pltrack_re = re.compile('\s+<key>Track ID</key><integer>(.*)</integer>')
+
+  playlist = None
+  is_smart = False
+  playlists = {}
+  for l in postamble:
+    m = plname_re.match(l)
+    if m:
+      playlist = m.group(1)
+      is_smart = False
+
+    if l.find('<key>Smart Info</key>') != -1:
+      is_smart = True
+
+    if playlist != 'Library' and not is_smart:
+      m = pltrack_re.match(l)
+      if m:
+        tracks = playlists.get(playlist, [])
+        tracks.append(m.group(1))
+        playlists[playlist] = tracks
+
+  for playlist in playlists:
+    print 'Playlist %s: %s' %(playlist, len(playlists[playlist]))
+
+    for key in playlists[playlist]:
+      if int(key) in key_map:
+        location = key_map[int(key)]
+        this_track = track.Track(db)
+        this_track.FromPath(location.replace(FLAGS.remove_from_path, ''))
+        this_track.AddTag(playlist)
+        this_track.Store()
