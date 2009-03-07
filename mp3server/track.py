@@ -4,12 +4,18 @@
 """Data structure for a single song."""
 
 
+import cStringIO
 import MySQLdb
 
 import database
 import gflags
 import id3reader
 import sys
+
+
+FLAGS = gflags.FLAGS
+gflags.DEFINE_string('audio_path', '/data',
+                     'The directory containing audio files')
 
 
 class Track:
@@ -163,3 +169,44 @@ class Track:
 
       else:
         raise Exception('MySQL %d: %s' %(errno, errstr))
+
+  def RenderHtml(self):
+    """Render a HTML description of this track."""
+
+    keys = self.persistant.keys()
+    keys.sort()
+
+    out = cStringIO.StringIO()
+    for key in keys:
+      if key == 'paths':
+        out.write('<li>')
+        paths = eval(self.persistant[key])
+
+        mp3_path = ''
+
+        for path in paths:
+          out.write('<a href="%s">%s</a>' %(path.replace(FLAGS.audio_path, ''),
+                                            path))
+          if path.endswith('mp3'):
+            mp3_path = path
+
+        out.write("""
+
+    <script type="text/javascript">
+    function play()
+    {
+        if (myListener.position == 0) {
+            getFlashObject().SetVariable("method:setUrl",
+                                         "%s");
+        }
+        getFlashObject().SetVariable("method:play", "");
+        getFlashObject().SetVariable("enabled", "true");
+    }
+    </script>
+
+                 """ % mp3_path.replace(FLAGS.audio_path, ''))
+
+      else:
+        out.write('<li>%s: %s' %(key, self.persistant[key]))
+
+    return out.getvalue()

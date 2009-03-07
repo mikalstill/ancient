@@ -1,0 +1,123 @@
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="/local/style.css"
+      media="screen" />
+<title>MP3 server</title>
+</head>
+
+<body>
+
+
+<script type="text/javascript">
+//<![CDATA[
+    var myListener = new Object();
+    
+    /**
+     * Initialisation
+     */
+    myListener.onInit = function()
+    {
+        this.position = 0;
+    };
+    /**
+     * Update
+     */
+    myListener.onUpdate = function()
+    {
+        document.getElementById("info_playing").innerHTML = this.isPlaying;
+        document.getElementById("info_url").innerHTML = this.url;
+        document.getElementById("info_volume").innerHTML = this.volume;
+        document.getElementById("info_position").innerHTML = this.position;
+        document.getElementById("info_duration").innerHTML = this.duration;
+        document.getElementById("info_bytes").innerHTML = this.bytesLoaded + "/" + this.bytesTotal + " (" + this.bytesPercent + "%)";
+        
+        var isPlaying = (this.isPlaying == "true");
+        document.getElementById("playerplay").style.display = (isPlaying)?"none":"block";
+        document.getElementById("playerpause").style.display = (isPlaying)?"block":"none";
+        
+        var timelineWidth = 160;
+        var sliderWidth = 40;
+        var sliderPositionMin = 40;
+        var sliderPositionMax = sliderPositionMin + timelineWidth - sliderWidth;
+        var sliderPosition = sliderPositionMin + Math.round((timelineWidth - sliderWidth) * this.position / this.duration);
+        
+        if (sliderPosition < sliderPositionMin) {
+             sliderPosition = sliderPositionMin;
+        }
+        if (sliderPosition > sliderPositionMax) {
+             sliderPosition = sliderPositionMax;
+        }
+        
+        document.getElementById("playerslider").style.left = sliderPosition+"px";
+    };
+    
+    function getFlashObject()
+    {
+        return document.getElementById("myFlash");
+    }
+    function pause()
+    {
+        getFlashObject().SetVariable("method:pause", "");
+    }
+    function stop()
+    {
+        getFlashObject().SetVariable("method:stop", "");
+    }
+    function setPosition()
+    {
+        var position = document.getElementById("inputPosition").value;
+        getFlashObject().SetVariable("method:setPosition", position);
+    }
+    function setVolume()
+    {
+        var volume = document.getElementById("inputVolume").value;
+        getFlashObject().SetVariable("method:setVolume", volume);
+    }
+//]]>
+</script>
+<!--[if IE]>
+<script type="text/javascript" event="FSCommand(command,args)" for="myFlash">
+eval(args);
+</script>
+<![endif]-->
+
+
+
+
+<object class="playerpreview" id="myFlash" 
+        type="application/x-shockwave-flash"
+        data="/local/player_mp3_js.swf" width="1" height="1">
+    <param name="movie" value="/medias/player_mp3_js.swf" />
+    <param name="AllowScriptAccess" value="always" />
+    <param name="FlashVars" value="listener=myListener&amp;interval=500" />
+</object>
+
+<div id="playercontroller">
+    <div id="playerplay" class="button play">
+        <a href="javascript:play()" >PLAY</a>
+    </div>
+    <div id="playerpause" class="button pause">
+        <a href="javascript:pause()">PAUSE</a>
+    </div>
+    <div id="playerstop" class="button stop">
+        <a href="javascript:stop()">STOP</a>
+    </div>
+    <div class="timeline"><a id="playerslider" href="#slider">SLIDER</a></div>
+</div>
+
+
+<ul>
+    <li>url : <span id="info_url">undefined</span></li>
+    <li>buffering : <span id="info_bytes">undefined</span></li>
+
+    <li>isPlaying : <span id="info_playing">undefined</span></li>
+    
+    <li>position : <span id="info_position">undefined</span></li>
+    <li>duration : <span id="info_duration">undefined</span></li>
+    <li>volume : <span id="info_volume">undefined</span></li>
+</ul>
+
+
+
+
