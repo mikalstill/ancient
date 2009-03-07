@@ -186,6 +186,8 @@ if __name__ == '__main__':
         if os.path.exists(actual_path):
           this_track.AddPath(actual_path)
 
+      this_track.AddPlays(songs[location].get('Play Count', 0))
+      this_track.AddSkips(songs[location].get('Skip Count', 0))
       this_track.Store()
 
     except database.FormatException, e:
