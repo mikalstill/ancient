@@ -188,6 +188,10 @@ if __name__ == '__main__':
 
       this_track.AddPlays(songs[location].get('Play Count', 0))
       this_track.AddSkips(songs[location].get('Skip Count', 0))
+
+      if 'Genre' in songs[location] and songs[location]['Genre'] != 'Unknown':
+        this_track.AddTag(songs[location]['Genre'])
+      
       this_track.Store()
 
     except database.FormatException, e:

@@ -272,8 +272,9 @@ class Database:
       self.db_connection.query('create table tracks (artist varchar(255), '
                                'album varchar(255), number int, '
                                'song varchar(255), paths text, plays int, '
-                               'skips int, '
-                               'primary key(artist, album, number, song));')
+                               'skips int, tags varchar(255), '
+                               'primary key(artist, album, number, song), '
+                               'key(tags));')
 
       self.version = '2'
 
