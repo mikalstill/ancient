@@ -3,6 +3,7 @@
 """Read an iTunes XML file and import it into our database."""
 
 
+import datetime
 import re
 import sys
 import types
@@ -14,16 +15,30 @@ import gflags
 FLAGS = gflags.FLAGS
 
 
+_DATE_RE = re.compile('([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9])T'
+                      '([0-9][0-9]):([0-9][0-9]):([0-9][0-9])Z')
 def ExtractValue(t, v):
   if t == 'integer':
     return int(v)
+  
+  if t == 'date':
+    m = _DATE_RE.match(v)
+    if m:
+      year = int(m.group(1))
+      month = int(m.group(2))
+      day = int(m.group(3))
+      hour = int(m.group(4))
+      minute = int(m.group(5))
+      second = int(m.group(6))
+
+      # This is actually a UTC time, but I can't be bothered converting it
+      # to the local timezone at the moment
+      return datetime.datetime(year, month, day, hour, minute, second)
+  
+  if t == 'string':
+    return v
+  
   return '<%s>%s</%s>' %(t, v, t)
-
-
-def EncodeValue(v):
-  if type(v) == types.IntType:
-    return '<integer>%s</integer>' % v
-  return v
 
 
 def Usage():
@@ -125,8 +140,6 @@ if __name__ == '__main__':
               for k in ['Play Count', 'Skip Count']:
                 if k in song:
                   songs[location].setdefault(k, 0)
-                  # print '  %s(%s): %s -> %s' %(location, k, songs[location][k],
-                  #                              songs[location][k] + song[k])
                   songs[location][k] += song[k]
 
             key = None
@@ -139,12 +152,8 @@ if __name__ == '__main__':
 
     l = f.readline()
 
-
-  for l in preamble[:-1]:
-    print l
-
-  # We output by key, but stored by location -- build a reverse mapping, as well
-  # as a map of deleted keys
+  # We output by key, but stored by location -- build a reverse mapping,
+  # as well as a map of deleted keys
   key_map = {}
   old_keys = {}
   for location in songs:
@@ -158,25 +167,8 @@ if __name__ == '__main__':
   for key in keys:
     location = key_map[key]
 
-    print '\t\t<key>%s</key>' % songs[location]['keys'][0]
-    print '\t\t<dict>'
-
     for k in songs[location]:
       if k != 'keys':
-        print '\t\t\t<key>%s</key>%s' %(k, EncodeValue(songs[location][k]))
+        print '%s: %s' %(k, songs[location][k])
 
-    print '\t\t</dict>'
-
-  print '\t</dict>'
-  track_id_re = re.compile('.*<key>Track ID</key><integer>([0-9]+)</integer>.*')
-  for l in postamble:
-    m = track_id_re.match(l)
-    if not m:
-      print l
-    else:
-      if m.group(1) in old_keys:
-        print ('\t\t\t\t\t<key>Track ID</key><integer>%s</integer>'
-               % old_keys[m.group(1)])
-      else:
-        print l
-
+    print
