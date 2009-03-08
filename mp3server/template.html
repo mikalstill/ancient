@@ -97,7 +97,7 @@
         
 	document.getElementById("playerslider").style.left = sliderPosition + "px";
 
-	if ((this.duration > 0) && (this.duration - this.position < 1000)) {
+	if ((this.duration > 5000) && (this.duration - this.position < 1000)) {
 	     if (this.ended == 0) {
 	          makeHttpRequest("/done/" + this.position + "_" + this.duration + "/%(id)s", donothing);
 	          this.ended = 1;

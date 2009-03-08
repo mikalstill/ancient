@@ -223,18 +223,16 @@ class http_handler(asyncore.dispatcher):
                       '<html><head><title>...</title></head>'
                       '<body></body></html>')
 
-      path = '/'.join(file.split('/')[3:])
-      
+      id = file.split('/')[-1]
+      print '%s %s Marking %s played' %(datetime.datetime.now(),
+                                        repr(self.addr), id)
+      self.db.ExecuteSql('update tracks set plays = plays + 1, '
+                         'last_played = NOW(), last_action = NOW() '
+                         'where id=%s;'
+                         % id)
+      self.db.ExecuteSql('commit;')
+
       if self.addr[0] in requests:
-        print '%s %s Marking %s played' %(datetime.datetime.now(),
-                                          repr(self.addr),
-                                          requests[self.addr[0]])
-        self.db.ExecuteSql('update tracks set plays = plays + 1, '
-                           'last_played = NOW(), last_action = NOW() '
-                           'where id=%s;'
-                           % requests[self.addr[0]])
-        self.db.ExecuteSql('commit;')
-        
         del requests[self.addr[0]]
 
     else:
