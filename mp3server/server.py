@@ -23,7 +23,7 @@ import track
 
 
 FLAGS = gflags.FLAGS
-gflags.DEFINE_string('ip', '0.0.0.0', 'Bind to this IP')
+gflags.DEFINE_string('ip', '192.168.1.99', 'Bind to this IP')
 gflags.DEFINE_integer('port', 12345, 'Bind to this port')
 
 
@@ -84,17 +84,37 @@ class http_handler(asyncore.dispatcher):
     self.buffer = ''
 
   def handle_read(self):
-    rq = self.recv(1024)
+    rq = self.recv(32 * 1024)
     file = ''
+    method = None
+    post_data = None
+
     for line in rq.split('\n'):
       line = line.rstrip('\r')
 
       if line.startswith('GET'):
         (_, file, _) = line.split(' ')
+        method = 'GET'
+
+      if line.startswith('POST'):
+        (_, file, _) = line.split(' ')
+        method = 'POST'
+
+      if post_data is not None:
+        post_data += '%s\r\n' % line
+
+      if len(line) == 0 and method == 'POST' and post_data is None:
+        print 'Start looking for post data'
+        post_data = ''
 
     if file:
-      print '%s %s GET %s' %(datetime.datetime.now(), repr(self.addr),
-                             file)
+      print '%s %s %s %s' %(datetime.datetime.now(), repr(self.addr),
+                            method, file)
+
+      if method == 'POST' and post_data:
+        for l in post_data.split('\r\n'):
+          print '%s %s DATA %s' %(datetime.datetime.now(), repr(self.addr),
+                                  l)
 
     # Implementation of the HTTP player
     if file == '/':
