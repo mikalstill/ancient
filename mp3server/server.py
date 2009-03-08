@@ -88,10 +88,6 @@ class http_handler(asyncore.dispatcher):
     self.buffer = ''
 
   def handle_read(self):
-    global cstart
-    global history
-    global persistant
-    
     rq = self.recv(1024)
     file = ''
     for line in rq.split('\n'):

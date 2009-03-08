@@ -104,7 +104,7 @@
              }
         }
 
-	if ((this.ended == 1) && (this.position == 0)) {
+	if ((this.ended == 1) && (this.position > 0) && (this.duration > 0)) {
 	    setTimeout('window.location.reload()', 1500);
         }
     };
