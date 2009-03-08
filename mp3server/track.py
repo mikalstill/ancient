@@ -188,6 +188,6 @@ class Track:
           if path.endswith('mp3'):
             mp3_path = path
 
-        retval['url'] = mp3_path.replace(FLAGS.audio_path, '')
+        retval['mp3_path'] = mp3_path
 
     return retval

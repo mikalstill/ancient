@@ -106,20 +106,20 @@ class http_handler(asyncore.dispatcher):
         this_track.FromPath(paths[0])
         rendered = this_track.RenderValues()
 
-        if os.path.exists('%s%s' %(FLAGS.audio_path, rendered['url'])):
+        if os.path.exists(rendered['mp3_path']):
           if self.addr[0] in requests:
             print '%s %s Marking %s skipped' %(datetime.datetime.now(),
                                                repr(self.addr),
                                                requests[self.addr[0]])
             self.db.ExecuteSql('update tracks set skips = skips + 1, '
                                'last_skipped = NOW(), last_action = NOW() '
-                               'where paths like "%%%s%s%%";'
-                               %(FLAGS.audio_path, requests[self.addr[0]]))
+                               'where id=%s;'
+                               % requests[self.addr[0]])
             self.db.ExecuteSql('commit;')
 
             del requests[self.addr[0]]
 
-          requests[self.addr[0]] = rendered['url']
+          requests[self.addr[0]] = rendered['id']
 
           play_graph = {}
           skip_graph = {}
@@ -151,7 +151,7 @@ class http_handler(asyncore.dispatcher):
             skip += '%d,' % skip_graph.get(i, 0)
           
           rendered['graph'] = ('http://chart.apis.google.com/chart?cht=bvg&'
-                               'chbh=a&chds=0,5,0,5&chs=800x125&chd=t:%s|%s&'
+                               'chbh=a&chds=0,10,0,10&chs=800x125&chd=t:%s|%s&'
                                'chco=00FF00,FF0000'
                                %(play[:-1], skip[:-1]))
 
@@ -164,18 +164,22 @@ class http_handler(asyncore.dispatcher):
           print '%s %s Missing MP3 %s' %(datetime.datetime.now(),
                                          repr(self.addr), paths[0])
           if self.addr[0] in requests:
-            del requess[self.addr[0]]
+            del requests[self.addr[0]]
 
     elif file.startswith('/mp3/'):
       self.buffer += 'HTTP/1.1 200 OK\r\nContent-Type: audio/x-mpeg-3\r\n\r\n'
-      try:
-        f = open('%s%s' %(FLAGS.audio_path, file))
-        self.buffer += f.read(1000000000)
-        f.close()
-
-      except Exception, e:
-        print '%s %s MP3 serving error: %s %s' %(datetime.datetime.now(),
-                                                 repr(self.addr), file, e)
+      for row in self.db.GetRows('select paths from tracks '
+                                 'where id=%s;'
+                                 % file[5:]):
+        paths = eval(row['paths'])
+        for path in paths:
+          if path.endswith('.mp3') and os.path.exists(path):
+            print '%s %s Serving %s' %(datetime.datetime.now(),
+                                       repr(self.addr), path)
+            f = open(path)
+            self.buffer += f.read(1000000000)
+            f.close()
+            break
 
     elif file.startswith('/local/player'):
       self.buffer += ('HTTP/1.1 200 OK\r\n'
@@ -220,15 +224,17 @@ class http_handler(asyncore.dispatcher):
                       '<body></body></html>')
 
       path = '/'.join(file.split('/')[3:])
-      print '%s %s Marking %s played' %(datetime.datetime.now(),
-                                        repr(self.addr), path)
-      self.db.ExecuteSql('update tracks set plays = plays + 1, '
-                         'last_played = NOW(), last_action = NOW() '
-                         'where paths like "%%%s%%";'
-                         % path)
-      self.db.ExecuteSql('commit;')
-
+      
       if self.addr[0] in requests:
+        print '%s %s Marking %s played' %(datetime.datetime.now(),
+                                          repr(self.addr),
+                                          requests[self.addr[0]])
+        self.db.ExecuteSql('update tracks set plays = plays + 1, '
+                           'last_played = NOW(), last_action = NOW() '
+                           'where id=%s;'
+                           % requests[self.addr[0]])
+        self.db.ExecuteSql('commit;')
+        
         del requests[self.addr[0]]
 
     else:

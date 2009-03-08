@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='5'
+CURRENT_SCHEMA='6'
 
 
 class FormatException(Exception):
@@ -293,6 +293,12 @@ class Database:
                                'add column last_skipped datetime, '
                                'add column last_action datetime;')
       self.version = '5';
+
+    if self.version == '5':
+      self.db_connection.query('alter table tracks '
+                               'add column id int not null auto_increment, '
+                               'add key(id);')
+      self.version = '6';
 
     self.WriteSetting('schema', self.version)
 

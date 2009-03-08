@@ -99,7 +99,7 @@
 
 	if ((this.duration > 0) && (this.duration - this.position < 1000)) {
 	     if (this.ended == 0) {
-	          makeHttpRequest("/done/" + this.position + "_" + this.duration + "%(url)s", donothing);
+	          makeHttpRequest("/done/" + this.position + "_" + this.duration + "/%(id)s", donothing);
 	          this.ended = 1;
              }
         }
@@ -136,7 +136,7 @@
     {
         if (myListener.position == 0) {
             getFlashObject().SetVariable("method:setUrl",
-                                         "%(url)s");
+                                         "mp3/%(id)s");
         }
         getFlashObject().SetVariable("method:play", "");
         getFlashObject().SetVariable("enabled", "true");
