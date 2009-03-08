@@ -173,10 +173,10 @@ if __name__ == '__main__':
 
     try:
       this_track = track.Track(db)
-        this_track.FromMeta(songs[location].get('Artist', ''),
-                            songs[location].get('Album', ''),
-                            songs[location].get('Track Number', -1),
-                            songs[location].get('Name', ''))
+      this_track.FromMeta(songs[location].get('Artist', ''),
+                          songs[location].get('Album', ''),
+                          songs[location].get('Track Number', -1),
+                          songs[location].get('Name', ''))
 
       for k in songs[location]:
         actual_path = location

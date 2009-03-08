@@ -4,6 +4,7 @@
 """Data structure for a single song."""
 
 
+import copy
 import cStringIO
 import MySQLdb
 
@@ -170,43 +171,23 @@ class Track:
       else:
         raise Exception('MySQL %d: %s' %(errno, errstr))
 
-  def RenderHtml(self):
+  def RenderValues(self):
     """Render a HTML description of this track."""
+
+    retval = copy.deepcopy(self.persistant)
 
     keys = self.persistant.keys()
     keys.sort()
 
-    out = cStringIO.StringIO()
     for key in keys:
       if key == 'paths':
-        out.write('<li>')
         paths = eval(self.persistant[key])
 
         mp3_path = ''
-
         for path in paths:
-          out.write('<a href="%s">%s</a>' %(path.replace(FLAGS.audio_path, ''),
-                                            path))
           if path.endswith('mp3'):
             mp3_path = path
 
-        out.write("""
+        retval['url'] = mp3_path.replace(FLAGS.audio_path, '')
 
-    <script type="text/javascript">
-    function play()
-    {
-        if (myListener.position == 0) {
-            getFlashObject().SetVariable("method:setUrl",
-                                         "%s");
-        }
-        getFlashObject().SetVariable("method:play", "");
-        getFlashObject().SetVariable("enabled", "true");
-    }
-    </script>
-
-                 """ % mp3_path.replace(FLAGS.audio_path, ''))
-
-      else:
-        out.write('<li>%s: %s' %(key, self.persistant[key]))
-
-    return out.getvalue()
+    return retval

@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='2'
+CURRENT_SCHEMA='4'
 
 
 class FormatException(Exception):
@@ -277,6 +277,16 @@ class Database:
                                'key(tags));')
 
       self.version = '2'
+
+    if self.version == '2':
+      self.db_connection.query('alter table tracks '
+                               'modify column song varchar(300);')
+      self.version = '3'
+
+    if self.version == '3':
+      self.db_connection.query('alter table tracks '
+                               'add column last_played datetime;')
+      self.version = '4';
 
     self.WriteSetting('schema', self.version)
 

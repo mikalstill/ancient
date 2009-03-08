@@ -5,6 +5,7 @@
 import asyncore
 import cStringIO
 import datetime
+import os
 import socket
 import sys
 import time
@@ -62,7 +63,6 @@ class http_server(asyncore.dispatcher):
 
   def handle_accept(self):
     conn, addr = self.accept()
-    print '%s %s New connection' %(datetime.datetime.now(), repr(addr))
     handler = http_handler(conn, addr, self.db)
 
 
@@ -89,20 +89,25 @@ class http_handler(asyncore.dispatcher):
       if line.startswith('GET'):
         (_, file, _) = line.split(' ')
 
-    print '%s GET %s' %(datetime.datetime.now(), file)
+    print '%s %s GET %s' %(datetime.datetime.now(), repr(self.addr),
+                           file)
     if file == '/':
-      self.buffer += ('HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
-                      '%s' % _HEADER)
+      self.buffer += 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
 
       for row in self.db.GetRows('select paths from tracks '
                                  'where paths <> "[]" '
-                                 'order by rand() limit 1;'):
+                                 'order by rand() limit 10;'):
         paths = eval(row['paths'])
-        this_track = track.Track(self.db)
-        this_track.FromPath(paths[0])
-        self.buffer += '%s' % this_track.RenderHtml()
 
-      self.buffer += '</body></html'
+        if os.path.exists(paths[0]):
+          this_track = track.Track(self.db)
+          this_track.FromPath(paths[0])
+          self.buffer += _HEADER % this_track.RenderValues()
+          break
+
+        else:
+          print '%s %s Missing MP3 %s' %(datetime.datetime.now(),
+                                         repr(self.addr), paths[0])
 
     elif file.startswith('/mp3/'):
       self.buffer += 'HTTP/1.1 200 OK\r\nContent-Type: audio/x-mpeg-3\r\n\r\n'
@@ -112,8 +117,8 @@ class http_handler(asyncore.dispatcher):
         f.close()
 
       except Exception, e:
-        print '%s MP3 serving error: %s %s' %(datetime.datetime.now(),
-                                              file, e)
+        print '%s %s MP3 serving error: %s %s' %(datetime.datetime.now(),
+                                                 repr(self.addr), file, e)
 
     elif file.startswith('/local/player'):
       self.buffer += ('HTTP/1.1 200 OK\r\n'
@@ -124,7 +129,8 @@ class http_handler(asyncore.dispatcher):
         f.close()
 
       except Exception, e:
-        print '%s player serving error: %s' %(datetime.datetime.now(), e)
+        print '%s %d player serving error: %s' %(datetime.datetime.now(),
+                                                 repr(self.addr), e)
 
     elif file.startswith('/local/style.css'):
       self.buffer += ('HTTP/1.1 200 OK\r\n'
@@ -135,21 +141,52 @@ class http_handler(asyncore.dispatcher):
         f.close()
 
       except Exception, e:
-        print '%s css serving error: %s' %(datetime.datetime.now(), e)
+        print '%s %s css serving error: %s' %(datetime.datetime.now(),
+                                              repr(self.addr), e)
+
+    elif file.startswith('/local/control_'):
+      self.buffer += ('HTTP/1.1 200 OK\r\n'
+                      'Content-Type: image/png \r\n\r\n')
+      try:
+        f = open(file.split('/')[-1])
+        self.buffer += f.read(1000000000)
+        f.close()
+
+      except Exception, e:
+        print '%s %s image serving error: %s' %(datetime.datetime.now(),
+                                                repr(self.addr), e)
+
+    elif file.startswith('/done'):
+      self.buffer += ('HTTP/1.1 200 OK\r\n'
+                      'Content-Type: text/html \r\n\r\n'
+                      '<html><head><title>...</title></head>'
+                      '<body></body></html>')
+
+      path = '/'.join(file.split('/')[3:])
+      print '%s %s Marking %s done' %(datetime.datetime.now(),
+                                      repr(self.addr), path)
+      self.db.ExecuteSql('update tracks set plays = plays + 1, '
+                         'last_played = NOW() '
+                         'where paths like "%%%s%%";'
+                         % path)
+      self.db.ExecuteSql('commit;')
 
     else:
       self.buffer += ('HTTP/1.1 404 OK\r\nContent-Type: text/html\r\n\r\n'
-                      '<html><head><title>MP3 server</title</head>'
+                      '<html><head><title>MP3 server</title></head>'
                       '<body>File not found</body>')
 
   def writable(self):
     return len(self.buffer) > 0
 
   def handle_write(self):
-    sent = self.send(self.buffer)
-    self.buffer = self.buffer[sent:]
-    if len(self.buffer) == 0:
-      self.close()
+    try:
+      sent = self.send(self.buffer)
+      self.buffer = self.buffer[sent:]
+      if len(self.buffer) == 0:
+        self.close()
+    except:
+      pass
 
   def handle_close(self):
     pass
