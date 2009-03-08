@@ -29,9 +29,12 @@ gflags.DEFINE_integer('port', 12345, 'Bind to this port')
 running = True
 
 # Read in a default HTML header
-h = open('header.html')
-_HEADER = ''.join(h.readlines())
+h = open('template.html')
+_TEMPLATE = ''.join(h.readlines())
 h.close()
+
+
+requests = {}
 
 
 class http_server(asyncore.dispatcher):
@@ -89,8 +92,9 @@ class http_handler(asyncore.dispatcher):
       if line.startswith('GET'):
         (_, file, _) = line.split(' ')
 
-    print '%s %s GET %s' %(datetime.datetime.now(), repr(self.addr),
-                           file)
+    if file:
+      print '%s %s GET %s' %(datetime.datetime.now(), repr(self.addr),
+                             file)
     if file == '/':
       self.buffer += 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
 
@@ -98,16 +102,69 @@ class http_handler(asyncore.dispatcher):
                                  'where paths <> "[]" '
                                  'order by rand() limit 10;'):
         paths = eval(row['paths'])
+        this_track = track.Track(self.db)
+        this_track.FromPath(paths[0])
+        rendered = this_track.RenderValues()
 
-        if os.path.exists(paths[0]):
-          this_track = track.Track(self.db)
-          this_track.FromPath(paths[0])
-          self.buffer += _HEADER % this_track.RenderValues()
+        if os.path.exists('%s%s' %(FLAGS.audio_path, rendered['url'])):
+          if self.addr[0] in requests:
+            print '%s %s Marking %s skipped' %(datetime.datetime.now(),
+                                               repr(self.addr),
+                                               requests[self.addr[0]])
+            self.db.ExecuteSql('update tracks set skips = skips + 1, '
+                               'last_skipped = NOW(), last_action = NOW() '
+                               'where paths like "%%%s%s%%";'
+                               %(FLAGS.audio_path, requests[self.addr[0]]))
+            self.db.ExecuteSql('commit;')
+
+            del requests[self.addr[0]]
+
+          requests[self.addr[0]] = rendered['url']
+
+          play_graph = {}
+          skip_graph = {}
+          for row in self.db.GetRows('select song, plays, skips, last_action, '
+                                     '(time_to_sec(now()) - '
+                                     ' time_to_sec(last_played)) as lp, '
+                                     '(time_to_sec(now()) - '
+                                     ' time_to_sec(last_skipped)) as ls, '
+                                     '(time_to_sec(now()) - '
+                                     ' time_to_sec(last_action)) as secs '
+                                     'from tracks '
+                                     'where last_action is not null and '
+                                     '(time_to_sec(now()) - '
+                                     ' time_to_sec(last_action)) < 3600 '
+                                     'order by last_action asc;'):
+
+            if row['lp']:
+              play_graph.setdefault(int(row['lp'] / 60), 0)
+              play_graph[int(row['lp'] / 60)] += 1
+
+            if row['ls']:
+              skip_graph.setdefault(int(row['ls'] / 60), 0)
+              skip_graph[int(row['ls'] / 60)] += 1
+
+          play = ''
+          skip = ''
+          for i in range(60):
+            play += '%d,' % play_graph.get(i, 0)
+            skip += '%d,' % skip_graph.get(i, 0)
+          
+          rendered['graph'] = ('http://chart.apis.google.com/chart?cht=bvg&'
+                               'chbh=a&chds=0,5,0,5&chs=800x125&chd=t:%s|%s&'
+                               'chco=00FF00,FF0000'
+                               %(play[:-1], skip[:-1]))
+
+          
+          
+          self.buffer += _TEMPLATE % rendered
           break
 
         else:
           print '%s %s Missing MP3 %s' %(datetime.datetime.now(),
                                          repr(self.addr), paths[0])
+          if self.addr[0] in requests:
+            del requess[self.addr[0]]
 
     elif file.startswith('/mp3/'):
       self.buffer += 'HTTP/1.1 200 OK\r\nContent-Type: audio/x-mpeg-3\r\n\r\n'
@@ -163,13 +220,16 @@ class http_handler(asyncore.dispatcher):
                       '<body></body></html>')
 
       path = '/'.join(file.split('/')[3:])
-      print '%s %s Marking %s done' %(datetime.datetime.now(),
-                                      repr(self.addr), path)
+      print '%s %s Marking %s played' %(datetime.datetime.now(),
+                                        repr(self.addr), path)
       self.db.ExecuteSql('update tracks set plays = plays + 1, '
-                         'last_played = NOW() '
+                         'last_played = NOW(), last_action = NOW() '
                          'where paths like "%%%s%%";'
                          % path)
       self.db.ExecuteSql('commit;')
+
+      if self.addr[0] in requests:
+        del requests[self.addr[0]]
 
     else:
       self.buffer += ('HTTP/1.1 404 OK\r\nContent-Type: text/html\r\n\r\n'
