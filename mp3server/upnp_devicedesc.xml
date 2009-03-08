@@ -29,9 +29,9 @@
 <service>
 <serviceType>urn:schemas-upnp-org:service:ContentDirectory:1</serviceType>
 <serviceId>urn:upnp-org:serviceId:CDS_1-0</serviceId>
-<SCPDURL>CDS_Control/GetServDesc</SCPDURL>
-<controlURL>CDS_Control</controlURL>
-<eventSubURL>CDS_Event</eventSubURL>
+<SCPDURL>uPnP_Control/GetServDesc</SCPDURL>
+<controlURL>uPnP_Control</controlURL>
+<eventSubURL>uPnP_Event</eventSubURL>
 </service>
 </serviceList>
 </device>

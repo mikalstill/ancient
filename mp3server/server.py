@@ -6,6 +6,7 @@ import asyncore
 import cStringIO
 import datetime
 import os
+import re
 import socket
 import sys
 import time
@@ -104,7 +105,6 @@ class http_handler(asyncore.dispatcher):
         post_data += '%s\r\n' % line
 
       if len(line) == 0 and method == 'POST' and post_data is None:
-        print 'Start looking for post data'
         post_data = ''
 
     if file:
@@ -129,6 +129,8 @@ class http_handler(asyncore.dispatcher):
     # Implementation of uPnP
     elif file.startswith('/getDeviceDesc'):
       self.handleurl_getdevicedesc(file)
+    elif file.startswith('/uPnP_Control'):
+      self.handleurl_cdscontrol(file, post_data)
     
     else:
       self.senderror(404, '%s file not found' % file)
@@ -155,7 +157,34 @@ class http_handler(asyncore.dispatcher):
 
   def handleurl_root(self):
     """The top level of the user interface."""
-    
+
+    self.markskipped()
+    rendered = self.picktrack()
+    if not rendered:
+      self.senderror(501, 'Failed to select a track')
+      return
+
+    requests[self.addr[0]] = rendered['id']
+    rendered['graph'] = self.playgraph()
+    self.sendfile('template.html', subst=rendered)
+
+  def markskipped(self):
+    """Mark skipped tracks, if any."""
+
+    if self.addr[0] in requests:
+      print '%s %s Marking %s skipped' %(datetime.datetime.now(),
+                                         repr(self.addr),
+                                         requests[self.addr[0]])
+      self.db.ExecuteSql('update tracks set skips = skips + 1, '
+                         'last_skipped = NOW(), last_action = NOW() '
+                         'where id=%s;'
+                         % requests[self.addr[0]])
+      self.db.ExecuteSql('commit;')
+      del requests[self.addr[0]]
+
+  def picktrack(self):
+    """Pick a track for this client and make sure it exists."""
+
     for row in self.db.GetRows('select paths from tracks '
                                'where paths <> "[]" '
                                'order by rand() limit 10;'):
@@ -165,64 +194,46 @@ class http_handler(asyncore.dispatcher):
       rendered = this_track.RenderValues()
 
       if os.path.exists(rendered['mp3_path']):
-        if self.addr[0] in requests:
-          print '%s %s Marking %s skipped' %(datetime.datetime.now(),
-                                             repr(self.addr),
-                                             requests[self.addr[0]])
-          self.db.ExecuteSql('update tracks set skips = skips + 1, '
-                             'last_skipped = NOW(), last_action = NOW() '
-                             'where id=%s;'
-                             % requests[self.addr[0]])
-          self.db.ExecuteSql('commit;')
+        return rendered
 
-          del requests[self.addr[0]]
+    return {}
 
-        requests[self.addr[0]] = rendered['id']
+  def playgraph(self):
+    """Generate a Google chart API graph of recent play history."""
 
-        play_graph = {}
-        skip_graph = {}
-        for row in self.db.GetRows('select song, plays, skips, last_action, '
-                                   '(time_to_sec(now()) - '
-                                   ' time_to_sec(last_played)) as lp, '
-                                   '(time_to_sec(now()) - '
-                                   ' time_to_sec(last_skipped)) as ls, '
-                                   '(time_to_sec(now()) - '
-                                   ' time_to_sec(last_action)) as secs '
-                                   'from tracks '
-                                   'where last_action is not null and '
-                                   '(time_to_sec(now()) - '
-                                   ' time_to_sec(last_action)) < 3600 '
-                                   'order by last_action asc;'):
+    play_graph = {}
+    skip_graph = {}
+    for row in self.db.GetRows('select song, plays, skips, last_action, '
+                               '(time_to_sec(now()) - '
+                               ' time_to_sec(last_played)) as lp, '
+                               '(time_to_sec(now()) - '
+                               ' time_to_sec(last_skipped)) as ls, '
+                               '(time_to_sec(now()) - '
+                               ' time_to_sec(last_action)) as secs '
+                               'from tracks '
+                               'where last_action is not null and '
+                               '(time_to_sec(now()) - '
+                               ' time_to_sec(last_action)) < 3600 '
+                               'order by last_action asc;'):
 
-          if row['lp']:
-            play_graph.setdefault(int(row['lp'] / 60), 0)
-            play_graph[int(row['lp'] / 60)] += 1
+      if row['lp']:
+        play_graph.setdefault(int(row['lp'] / 60), 0)
+        play_graph[int(row['lp'] / 60)] += 1
 
-          if row['ls']:
-            skip_graph.setdefault(int(row['ls'] / 60), 0)
-            skip_graph[int(row['ls'] / 60)] += 1
+      if row['ls']:
+        skip_graph.setdefault(int(row['ls'] / 60), 0)
+        skip_graph[int(row['ls'] / 60)] += 1
 
-        play = ''
-        skip = ''
-        for i in range(60):
-          play += '%d,' % play_graph.get(i, 0)
-          skip += '%d,' % skip_graph.get(i, 0)
+    play = ''
+    skip = ''
+    for i in range(60):
+      play += '%d,' % play_graph.get(i, 0)
+      skip += '%d,' % skip_graph.get(i, 0)
 
-        rendered['graph'] = ('http://chart.apis.google.com/chart?cht=bvg&'
-                             'chbh=a&chds=0,10,0,10&chs=800x125&chd=t:%s|%s&'
-                             'chco=00FF00,FF0000'
-                             %(play[:-1], skip[:-1]))
-
-
-
-        self.sendfile('template.html', subst=rendered)
-        break
-
-      else:
-        print '%s %s Missing MP3 %s' %(datetime.datetime.now(),
-                                       repr(self.addr), paths[0])
-        if self.addr[0] in requests:
-          del requests[self.addr[0]]
+    return ('http://chart.apis.google.com/chart?cht=bvg&'
+            'chbh=a&chds=0,10,0,10&chs=800x125&chd=t:%s|%s&'
+            'chco=00FF00,FF0000'
+            %(play[:-1], skip[:-1]))
 
   def handleurl_done(self, file):
     """Mark an MP3 as played."""
@@ -274,6 +285,61 @@ class http_handler(asyncore.dispatcher):
                          'port': FLAGS.port,
                          'uuid': uuid
                          })
+
+  def handleurl_cdscontrol(self, file, post_data):
+    """uPnP CDS endpoint control."""
+
+    object_id = None
+
+    object_id_re = re.compile('<ObjectID>(.*)</ObjectID>')
+    for l in post_data.split('\r\n'):
+      m = object_id_re.match(l)
+      if m:
+        object_id = m.group(1)
+
+    if object_id:
+      print '%s %s uPnP request for object id %s' %(datetime.datetime.now(),
+                                                    repr(self.addr),
+                                                    object_id)
+    if object_id == '0':
+      f = open('upnp_results.xml')
+      results = f.read()
+      f.close()
+
+      for repl in [('&', '&amp;'), ('"', '&quot;'), ('<', '&lt;'),
+                   ('>', '&gt;')]:
+        (i, o) = repl
+        results = results.replace(i, o)
+
+      self.sendfile('upnp_browseresponse.xml',
+                    subst={'result': results,
+                           'num_returned': 1,
+                           'num_matches': 1
+                          })
+
+    elif object_id == 'Music':
+      rendered = self.picktrack()
+      rendered['ip'] = FLAGS.ip
+      rendered['port'] = FLAGS.port
+      
+      f = open('upnp_song.xml')
+      results = f.read()
+      f.close()
+
+      for repl in [('&', '&amp;'), ('"', '&quot;'), ('<', '&lt;'),
+                   ('>', '&gt;')]:
+        (i, o) = repl
+        results = results.replace(i, o)
+      results = results % rendered
+      
+      self.sendfile('upnp_browseresponse.xml',
+                    subst={'result': results,
+                           'num_returned': 1,
+                           'num_matches': 1
+                          })
+
+    else:
+      self.senderror(501, 'Unknown object ID')
                     
   def sendfile(self, path, subst=None):
     """Send a file to the client, including doing the MIME type properly."""
@@ -306,6 +372,8 @@ class http_handler(asyncore.dispatcher):
                     '<html><head><title>MP3 server</title></head>'
                     '<body>%s</body>'
                     %(number, msg))
+    print '%s %s Sent %d error' %(datetime.datetime.now(),
+                                  repr(self.addr), number)
 
 
 def main(argv):
