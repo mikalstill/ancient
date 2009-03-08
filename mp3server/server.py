@@ -13,6 +13,7 @@ import thread
 import threading
 import traceback
 import types
+import uuid
 
 import MySQLdb
 
@@ -27,12 +28,7 @@ gflags.DEFINE_integer('port', 12345, 'Bind to this port')
 
 
 running = True
-
-# Read in a default HTML header
-h = open('template.html')
-_TEMPLATE = ''.join(h.readlines())
-h.close()
-
+uuid = uuid.uuid4()
 
 requests = {}
 bytes = 0
@@ -99,6 +95,8 @@ class http_handler(asyncore.dispatcher):
     if file:
       print '%s %s GET %s' %(datetime.datetime.now(), repr(self.addr),
                              file)
+
+    # Implementation of the HTTP player
     if file == '/':
       self.handleurl_root()
     elif file.startswith('/mp3/'):
@@ -107,6 +105,11 @@ class http_handler(asyncore.dispatcher):
       self.handleurl_local(file)
     elif file.startswith('/done'):
       self.handleurl_done(file)
+
+    # Implementation of uPnP
+    elif file.startswith('/getDeviceDesc'):
+      self.handleurl_getdevicedesc(file)
+    
     else:
       self.senderror(404, '%s file not found' % file)
 
@@ -133,8 +136,6 @@ class http_handler(asyncore.dispatcher):
   def handleurl_root(self):
     """The top level of the user interface."""
     
-    self.buffer += 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
-
     for row in self.db.GetRows('select paths from tracks '
                                'where paths <> "[]" '
                                'order by rand() limit 10;'):
@@ -194,7 +195,7 @@ class http_handler(asyncore.dispatcher):
 
 
 
-        self.buffer += _TEMPLATE % rendered
+        self.sendfile('template.html', subst=rendered)
         break
 
       else:
@@ -242,8 +243,19 @@ class http_handler(asyncore.dispatcher):
 
     ent = file.split('/')[-1]
     self.sendfile(ent)
+
+  def handleurl_getdevicedesc(self, file):
+    """uPnP device discovery."""
+
+    global uuid
+
+    self.sendfile('upnp_devicedesc.xml',
+                  subst={'ip': FLAGS.ip,
+                         'port': FLAGS.port,
+                         'uuid': uuid
+                         })
                     
-  def sendfile(self, path):
+  def sendfile(self, path, subst=None):
     """Send a file to the client, including doing the MIME type properly."""
 
     data = ''
@@ -254,6 +266,9 @@ class http_handler(asyncore.dispatcher):
     except:
       senderror(404, 'File read error: %s' % path)
       return
+
+    if subst:
+      data = data % subst
 
     extn = path.split('.')[-1]
     self.buffer += ('HTTP/1.1 200 OK\r\n'
