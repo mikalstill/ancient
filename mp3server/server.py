@@ -27,6 +27,8 @@ FLAGS = gflags.FLAGS
 gflags.DEFINE_string('ip', '192.168.1.99', 'Bind to this IP')
 gflags.DEFINE_integer('port', 12345, 'Bind to this port')
 
+gflags.DEFINE_boolean('showrequest', False,
+                      'Show the content of HTTP request')
 gflags.DEFINE_boolean('showpost', False, 'Show the content of POST operations')
 
 running = True
@@ -96,9 +98,13 @@ class http_handler(asyncore.dispatcher):
     file = ''
     method = None
     post_data = None
+    chunk = None
 
     for line in rq.split('\n'):
       line = line.rstrip('\r')
+      if FLAGS.showrequest:
+        print '%s %s REQUEST %s' %(datetime.datetime.now(), repr(self.addr),
+                                   line)
 
       if line.startswith('GET'):
         (_, file, _) = line.split(' ')
@@ -107,6 +113,9 @@ class http_handler(asyncore.dispatcher):
       if line.startswith('POST'):
         (_, file, _) = line.split(' ')
         method = 'POST'
+
+      if line.startswith('Range: '):
+        chunk = line[7:]
 
       if post_data is not None:
         post_data += '%s\r\n' % line
@@ -131,7 +140,7 @@ class http_handler(asyncore.dispatcher):
     elif file == '/play':
       self.handleurl_play()
     elif file.startswith('/mp3/'):
-      self.handleurl_mp3(file[5:])
+      self.handleurl_mp3(file[5:], chunk)
     elif file.startswith('/local/'):
       self.handleurl_local(file)
     elif file.startswith('/done'):
@@ -148,7 +157,7 @@ class http_handler(asyncore.dispatcher):
       # We use the uPnP client's streaming behaviour to track plays
       self.is_tracked = True
       self.streamed_at = datetime.datetime.now()
-      self.handleurl_mp3(file[12:])
+      self.handleurl_mp3(file[12:], chunk)
     
     else:
       self.senderror(404, '%s file not found' % file)
@@ -307,11 +316,17 @@ class http_handler(asyncore.dispatcher):
     if self.addr[0] in requests:
       del requests[self.addr[0]]
 
-  def handleurl_mp3(self, file):
+  def handleurl_mp3(self, file, chunk):
     """Serve MP3 files."""
 
-    self.markskipped()
     self.id = file
+    if self.addr[0] in requests:
+      # A uPnP pause can look like a skip, but its requesting the same ID
+      if requests[self.addr[0]] != self.id:
+        self.markskipped()
+      else:
+        print '%s %s This is a resume' %(datetime.datetime.now(),
+                                         repr(self.addr))
     requests[self.addr[0]] = self.id
 
     for row in self.db.GetRows('select paths from tracks '
@@ -320,7 +335,7 @@ class http_handler(asyncore.dispatcher):
       paths = eval(row['paths'])
       for path in paths:
         if path.endswith('.mp3') and os.path.exists(path):
-          self.sendfile(path)
+          self.sendfile(path, chunk=chunk)
           self.is_mp3 = True
           return
 
@@ -398,14 +413,23 @@ class http_handler(asyncore.dispatcher):
     else:
       self.senderror(501, 'Unknown object ID')
                     
-  def sendfile(self, path, subst=None):
+  def sendfile(self, path, subst=None, chunk=None):
     """Send a file to the client, including doing the MIME type properly."""
+
+    inset = 0
+    if chunk:
+      # Format is "bytes=6600100-"
+      inset = int(chunk.split('=')[1].split('-')[0])
+      print '%s %s Skipping the first %d bytes' %(datetime.datetime.now(),
+                                                  repr(self.addr), inset)
 
     data = ''
     try:
       f = open(path)
+      f.read(inset)
       data += f.read(1000000000)
       f.close()
+
     except:
       senderror(404, 'File read error: %s' % path)
       return
@@ -433,6 +457,25 @@ class http_handler(asyncore.dispatcher):
                                   repr(self.addr), number)
 
 
+def DisplayFriendlySize(bytes):
+  """Turn a number of bytes into a nice string"""
+
+  t = type(bytes)
+  if t != types.LongType and t != types.IntType and t != decimal.Decimal:
+    return 'NotANumber(%s=%s)' %(t, bytes)
+
+  if bytes < 1024:
+    return '%d bytes' % bytes
+
+  if bytes < 1024 * 1024:
+    return '%d kb (%d bytes)' %((bytes / 1024), bytes)
+
+  if bytes < 1024 * 1024 * 1024:
+    return '%d mb (%d bytes)' %((bytes / (1024 * 1024)), bytes)
+
+  return '%d gb (%d bytes)' %((bytes / (1024 * 1024 * 1024)), bytes)
+
+
 def main(argv):
   global running
   global bytes
@@ -456,7 +499,8 @@ def main(argv):
 
     delta = datetime.datetime.now() - last_summary
     if delta.seconds > 60:
-      print '%s TOTAL BYTES SERVED: %d' %(datetime.datetime.now(), bytes)
+      print '%s TOTAL BYTES SERVED: %s' %(datetime.datetime.now(),
+                                          DisplayFriendlySize(bytes))
       last_summary = datetime.datetime.now()
 
 

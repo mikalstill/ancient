@@ -5,7 +5,7 @@
 <upnp:originalTrackNumber>%(number)s</upnp:originalTrackNumber>
 <upnp:artist>%(artist)s</upnp:artist>
 <upnp:album>%(album)s</upnp:album>
-<upnp:genre>%(tags)s</upnp:genre>
+<upnp:genre></upnp:genre>
 <dc:description>%(song)s</dc:description>
 <res protocolInfo="http-get:*:audio/mpeg:DLNA.ORG_OP=01;DLNA.ORG_CI=0;DLNA.ORG_FLAGS=01500000000000000000000000000000">http://%(ip)s:%(port)s/trackedmp3/%(id)s</res>
 </item>
