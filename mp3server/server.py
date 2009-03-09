@@ -84,6 +84,12 @@ class http_handler(asyncore.dispatcher):
 
     self.buffer = ''
 
+    # Used to track uPnP plays
+    self.is_mp3 = False
+    self.is_tracked = False
+    self.streamed_at = None
+    self.id = None
+
   def handle_read(self):
     rq = self.recv(32 * 1024)
     file = ''
@@ -120,7 +126,7 @@ class http_handler(asyncore.dispatcher):
     if file == '/':
       self.handleurl_root()
     elif file.startswith('/mp3/'):
-      self.handleurl_mp3(file)
+      self.handleurl_mp3(file[5:])
     elif file.startswith('/local/'):
       self.handleurl_local(file)
     elif file.startswith('/done'):
@@ -131,9 +137,15 @@ class http_handler(asyncore.dispatcher):
       self.handleurl_getdevicedesc(file)
     elif file.startswith('/uPnP_Control'):
       self.handleurl_cdscontrol(file, post_data)
+    elif file.startswith('/trackedmp3/'):
+      # We use the uPnP client's streaming behaviour to track plays
+      self.is_tracked = True
+      self.streamed_at = datetime.datetime.now()
+      self.handleurl_mp3(file[12:])
     
     else:
       self.senderror(404, '%s file not found' % file)
+      self.close()
 
   def writable(self):
     return len(self.buffer) > 0
@@ -147,6 +159,16 @@ class http_handler(asyncore.dispatcher):
 
       self.buffer = self.buffer[sent:]
       if len(self.buffer) == 0:
+        if self.is_mp3 and self.is_tracked and self.id:
+          print '%s %s MP3 request complete' %(datetime.datetime.now(),
+                                               repr(self.addr))
+          delta = datetime.datetime.now() - self.streamed_at
+          if delta.seconds < 30:
+            print '%s %s MP3 streamed too fast' %(datetime.datetime.now(),
+                                                  repr(self.addr))
+          else:
+            self.markplayed(self.id)
+
         self.close()
 
     except:
@@ -182,6 +204,17 @@ class http_handler(asyncore.dispatcher):
       self.db.ExecuteSql('commit;')
       del requests[self.addr[0]]
 
+  def markplayed(self, id):
+    """Mark a track as played."""
+    
+    print '%s %s Marking %s played' %(datetime.datetime.now(),
+                                      repr(self.addr), id)
+    self.db.ExecuteSql('update tracks set plays = plays + 1, '
+                       'last_played = NOW(), last_action = NOW() '
+                       'where id=%s;'
+                       % id)
+    self.db.ExecuteSql('commit;')
+
   def picktrack(self):
     """Pick a track for this client and make sure it exists."""
 
@@ -194,8 +227,12 @@ class http_handler(asyncore.dispatcher):
       rendered = this_track.RenderValues()
 
       if os.path.exists(rendered['mp3_path']):
+        print '%s %s Selected %s' %(datetime.datetime.now(), repr(self.addr),
+                                    rendered['mp3_path'])
         return rendered
 
+    print '%s %s Could not find an MP3' %(datetime.datetime.now(),
+                                          repr(self.addr))
     return {}
 
   def playgraph(self):
@@ -244,13 +281,7 @@ class http_handler(asyncore.dispatcher):
                     '<body></body></html>')
 
     id = file.split('/')[-1]
-    print '%s %s Marking %s played' %(datetime.datetime.now(),
-                                      repr(self.addr), id)
-    self.db.ExecuteSql('update tracks set plays = plays + 1, '
-                       'last_played = NOW(), last_action = NOW() '
-                       'where id=%s;'
-                       % id)
-    self.db.ExecuteSql('commit;')
+    self.markplayed(id)
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
@@ -258,13 +289,15 @@ class http_handler(asyncore.dispatcher):
   def handleurl_mp3(self, file):
     """Serve MP3 files."""
 
+    self.id = file
     for row in self.db.GetRows('select paths from tracks '
                                'where id=%s;'
-                               % file[5:]):
+                               % self.id):
       paths = eval(row['paths'])
       for path in paths:
         if path.endswith('.mp3') and os.path.exists(path):
           self.sendfile(path)
+          self.is_mp3 = True
           return
 
     self.senderror(500, 'MP3 %s missing' % file)
@@ -335,7 +368,7 @@ class http_handler(asyncore.dispatcher):
       self.sendfile('upnp_browseresponse.xml',
                     subst={'result': results,
                            'num_returned': 1,
-                           'num_matches': 1
+                           'num_matches': 1000
                           })
 
     else:
