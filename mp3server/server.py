@@ -123,15 +123,21 @@ class http_handler(asyncore.dispatcher):
           print '%s %s DATA %s' %(datetime.datetime.now(), repr(self.addr),
                                   l)
 
-    # Implementation of the HTTP player
+    # Top URL
     if file == '/':
       self.handleurl_root()
+
+    # Implementation of the HTTP player
+    elif file == '/play':
+      self.handleurl_play()
     elif file.startswith('/mp3/'):
       self.handleurl_mp3(file[5:])
     elif file.startswith('/local/'):
       self.handleurl_local(file)
     elif file.startswith('/done'):
       self.handleurl_done(file)
+    elif file.startswith('/graph'):
+      self.handleurl_graph()
 
     # Implementation of uPnP
     elif file.startswith('/getDeviceDesc'):
@@ -179,7 +185,12 @@ class http_handler(asyncore.dispatcher):
     pass
 
   def handleurl_root(self):
-    """The top level of the user interface."""
+    """The top level page."""
+
+    self.sendfile('index.html')
+
+  def handleurl_play(self):
+    """The HTTP playback user interface."""
 
     self.markskipped()
     rendered = self.picktrack()
@@ -188,7 +199,14 @@ class http_handler(asyncore.dispatcher):
       return
 
     rendered['graph'] = self.playgraph()
-    self.sendfile('template.html', subst=rendered)
+    self.sendfile('play.html', subst=rendered)
+
+  def handleurl_graph(self):
+    """Return just a page with the history graph on it."""
+
+    rendered = {}
+    rendered['graph'] = self.playgraph()
+    self.sendfile('graph.html', subst=rendered)
 
   def markskipped(self):
     """Mark skipped tracks, if any."""
