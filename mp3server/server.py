@@ -27,6 +27,7 @@ FLAGS = gflags.FLAGS
 gflags.DEFINE_string('ip', '192.168.1.99', 'Bind to this IP')
 gflags.DEFINE_integer('port', 12345, 'Bind to this port')
 
+gflags.DEFINE_boolean('showpost', False, 'Show the content of POST operations')
 
 running = True
 uuid = uuid.uuid4()
@@ -117,7 +118,7 @@ class http_handler(asyncore.dispatcher):
       print '%s %s %s %s' %(datetime.datetime.now(), repr(self.addr),
                             method, file)
 
-      if method == 'POST' and post_data:
+      if FLAGS.showpost and method == 'POST' and post_data:
         for l in post_data.split('\r\n'):
           print '%s %s DATA %s' %(datetime.datetime.now(), repr(self.addr),
                                   l)
@@ -186,7 +187,6 @@ class http_handler(asyncore.dispatcher):
       self.senderror(501, 'Failed to select a track')
       return
 
-    requests[self.addr[0]] = rendered['id']
     rendered['graph'] = self.playgraph()
     self.sendfile('template.html', subst=rendered)
 
@@ -214,6 +214,9 @@ class http_handler(asyncore.dispatcher):
                        'where id=%s;'
                        % id)
     self.db.ExecuteSql('commit;')
+
+    if self.addr[0] in requests:
+      del requests[self.addr[0]]
 
   def picktrack(self):
     """Pick a track for this client and make sure it exists."""
@@ -289,7 +292,10 @@ class http_handler(asyncore.dispatcher):
   def handleurl_mp3(self, file):
     """Serve MP3 files."""
 
+    self.markskipped()
     self.id = file
+    requests[self.addr[0]] = self.id
+
     for row in self.db.GetRows('select paths from tracks '
                                'where id=%s;'
                                % self.id):
