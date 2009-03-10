@@ -30,6 +30,8 @@ gflags.DEFINE_integer('port', 12345, 'Bind to this port')
 gflags.DEFINE_boolean('showrequest', False,
                       'Show the content of HTTP request')
 gflags.DEFINE_boolean('showpost', False, 'Show the content of POST operations')
+gflags.DEFINE_boolean('showresponse', False,
+                      'Show the content of response headers')
 
 running = True
 uuid = uuid.uuid4()
@@ -93,6 +95,9 @@ class http_handler(asyncore.dispatcher):
     self.streamed_at = None
     self.id = None
 
+    self.cookie = None
+    self.extra_headers = []
+
   def handle_read(self):
     rq = self.recv(32 * 1024)
     file = ''
@@ -116,12 +121,36 @@ class http_handler(asyncore.dispatcher):
 
       if line.startswith('Range: '):
         chunk = line[7:]
+      if line.startswith('Cookie: '):
+        self.cookie = line[8:]
 
       if post_data is not None:
         post_data += '%s\r\n' % line
 
       if len(line) == 0 and method == 'POST' and post_data is None:
         post_data = ''
+
+    if not self.cookie:
+      self.db.ExecuteSql('insert into clients(createtime) values(now());')
+      row = self.db.GetOneRow('select last_insert_id();')
+      self.cookie = 'id=%s' % row['last_insert_id()']
+      self.extra_headers.append('Set-Cookie: id=%s; '
+                                'expires=Sun, 17 Jan 2038 09:00:00 GMT'
+                                % row['last_insert_id()'])
+
+    # Extract the id
+    for elem in self.cookie.split('; '):
+      if elem.startswith('id='):
+        client_id = int(elem[3:])
+
+    print '%s %s Increment request count for client %d' %(datetime.datetime.now(),
+                                                          repr(self.addr),
+                                                          client_id)
+    self.db.ExecuteSql('update clients set requests=0 where requests is null;')
+    self.db.ExecuteSql('update clients set requests=requests + 1 '
+                       'where id=%d;'
+                       % client_id)
+    self.db.ExecuteSql('commit;')
 
     if file:
       print '%s %s %s %s' %(datetime.datetime.now(), repr(self.addr),
@@ -305,16 +334,13 @@ class http_handler(asyncore.dispatcher):
   def handleurl_done(self, file):
     """Mark an MP3 as played."""
 
-    self.buffer += ('HTTP/1.1 200 OK\r\n'
-                    'Content-Type: text/html \r\n\r\n'
-                    '<html><head><title>...</title></head>'
-                    '<body></body></html>')
-
     id = file.split('/')[-1]
     self.markplayed(id)
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
+
+    self.sendfile('done.html')
 
   def handleurl_mp3(self, file, chunk):
     """Serve MP3 files."""
@@ -438,23 +464,37 @@ class http_handler(asyncore.dispatcher):
       data = data % subst
 
     extn = path.split('.')[-1]
-    self.buffer += ('HTTP/1.1 200 OK\r\n'
-                    'Content-Type: %s\r\n'
-                    'Content-Length: %s\r\n\r\n'
-                    '%s'
-                    %(_CONTENT_TYPES.get(extn, 'application/octet-stream'),
-                      len(data), data))
+    self.sendheaders('HTTP/1.1 200 OK\r\n'
+                     'Content-Type: %s\r\n'
+                     'Content-Length: %s\r\n'            
+                     '%s\r\n'
+                     %(_CONTENT_TYPES.get(extn, 'application/octet-stream'),
+                       len(data), '\r\n'.join(self.extra_headers)))
+    self.buffer += data
+
     print '%s %s Sent %s (%d bytes)' %(datetime.datetime.now(),
                                        repr(self.addr),
                                        path, len(data))
 
   def senderror(self, number, msg):
-    self.buffer += ('HTTP/1.1 %d OK\r\nContent-Type: text/html\r\n\r\n'
-                    '<html><head><title>MP3 server</title></head>'
-                    '<body>%s</body>'
-                    %(number, msg))
+    self.sendheaders('HTTP/1.1 %d %s\r\n'
+                     'Content-Type: text/html\r\n\r\n'
+                     %(number, msg))
+    self.buffer += ('<html><head><title>MP3 server</title></head>'
+                     '<body>%s</body>'
+                     % msg)
     print '%s %s Sent %d error' %(datetime.datetime.now(),
                                   repr(self.addr), number)
+
+  def sendheaders(self, headers):
+    """Send HTTP response headers."""
+
+    if FLAGS.showresponse:
+      for l in headers.split('\r\n'):
+        print '%s %s RESPONSE %s' %(datetime.datetime.now(),
+                                    repr(self.addr), l)
+
+    self.buffer += headers
 
 
 def DisplayFriendlySize(bytes):

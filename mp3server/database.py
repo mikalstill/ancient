@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='6'
+CURRENT_SCHEMA='9'
 
 
 class FormatException(Exception):
@@ -299,6 +299,23 @@ class Database:
                                'add column id int not null auto_increment, '
                                'add key(id);')
       self.version = '6';
+
+    if self.version == '6':
+      self.db_connection.query('create table clients ('
+                               'id int not null auto_increment, '
+                               'mp3_source varchar(255), '
+                               'primary key(id));')
+      self.version = '7'
+
+    if self.version == '7':
+      self.db_connection.query('alter table clients '
+                               'add column createtime datetime;')
+      self.version = '8';
+
+    if self.version == '8':
+      self.db_connection.query('alter table clients '
+                               'add column requests int;')
+      self.version = '9';
 
     self.WriteSetting('schema', self.version)
 
