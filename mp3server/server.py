@@ -98,6 +98,8 @@ class http_handler(asyncore.dispatcher):
     self.cookie = None
     self.extra_headers = []
 
+    self.client_id = 0
+
   def handle_read(self):
     rq = self.recv(32 * 1024)
     file = ''
@@ -141,15 +143,12 @@ class http_handler(asyncore.dispatcher):
     # Extract the id
     for elem in self.cookie.split('; '):
       if elem.startswith('id='):
-        client_id = int(elem[3:])
+        self.client_id = int(elem[3:])
 
-    print '%s %s Increment request count for client %d' %(datetime.datetime.now(),
-                                                          repr(self.addr),
-                                                          client_id)
     self.db.ExecuteSql('update clients set requests=0 where requests is null;')
     self.db.ExecuteSql('update clients set requests=requests + 1 '
                        'where id=%d;'
-                       % client_id)
+                       % self.client_id)
     self.db.ExecuteSql('commit;')
 
     if file:
@@ -163,7 +162,7 @@ class http_handler(asyncore.dispatcher):
 
     # Top URL
     if file == '/':
-      self.handleurl_root()
+      self.handleurl_root(post_data)
 
     # Implementation of the HTTP player
     elif file == '/play':
@@ -186,7 +185,7 @@ class http_handler(asyncore.dispatcher):
       # We use the uPnP client's streaming behaviour to track plays
       self.is_tracked = True
       self.streamed_at = datetime.datetime.now()
-      self.handleurl_mp3(file[12:], chunk)
+      self.handleurl_mp3(file[12:], chunk, tracked=True)
     
     else:
       self.senderror(404, '%s file not found' % file)
@@ -222,10 +221,26 @@ class http_handler(asyncore.dispatcher):
   def handle_close(self):
     pass
 
-  def handleurl_root(self):
+  def handleurl_root(self, post_data):
     """The top level page."""
 
-    self.sendfile('index.html')
+    if post_data:
+      for l in post_data.split('\r\n'):
+        if l:
+          (name, value) = l.split('=')
+          value = value.replace('%2F', '/').replace('%3A', ':')
+
+          if name == 'mp3_source':
+            self.db.ExecuteSql('update clients set mp3_source="%s" '
+                               'where id=%s;'
+                               %(value, self.client_id))
+            self.db.ExecuteSql('commit;')
+          
+    row = self.db.GetOneRow('select * from clients where id=%s;'
+                            % self.client_id)
+    self.sendfile('index.html',
+                  subst={'mp3_source': row['mp3_source']
+                        })
 
   def handleurl_play(self):
     """The HTTP playback user interface."""
@@ -342,14 +357,15 @@ class http_handler(asyncore.dispatcher):
 
     self.sendfile('done.html')
 
-  def handleurl_mp3(self, file, chunk):
+  def handleurl_mp3(self, file, chunk, tracked=False):
     """Serve MP3 files."""
 
     self.id = file
     if self.addr[0] in requests:
       # A uPnP pause can look like a skip, but its requesting the same ID
       if requests[self.addr[0]] != self.id:
-        self.markskipped()
+        if tracked:
+          self.markskipped()
       else:
         print '%s %s This is a resume' %(datetime.datetime.now(),
                                          repr(self.addr))
