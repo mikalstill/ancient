@@ -238,6 +238,9 @@ class http_handler(asyncore.dispatcher):
           
     row = self.db.GetOneRow('select * from clients where id=%s;'
                             % self.client_id)
+    if not row or not row.has_key('mp3_source'):
+      row = {'mp3_source': ''}
+
     self.sendfile('index.html',
                   subst={'mp3_source': row['mp3_source']
                         })
@@ -247,6 +250,8 @@ class http_handler(asyncore.dispatcher):
 
     self.markskipped()
     rendered = self.picktrack()
+    print '%s %s MP3 url is %s' %(datetime.datetime.now(), repr(self.addr),
+                                  rendered['mp3_url'])
     if not rendered:
       self.senderror(501, 'Failed to select a track')
       return
@@ -292,6 +297,9 @@ class http_handler(asyncore.dispatcher):
   def picktrack(self):
     """Pick a track for this client and make sure it exists."""
 
+    client_settings = self.db.GetOneRow('select * from clients where id=%s;'
+                                        % self.client_id)
+
     for row in self.db.GetRows('select paths from tracks '
                                'where paths <> "[]" '
                                'order by rand() limit 10;'):
@@ -300,10 +308,21 @@ class http_handler(asyncore.dispatcher):
       this_track.FromPath(paths[0])
       rendered = this_track.RenderValues()
 
-      if os.path.exists(rendered['mp3_path']):
-        print '%s %s Selected %s' %(datetime.datetime.now(), repr(self.addr),
-                                    rendered['mp3_path'])
-        return rendered
+      for path in eval(rendered['paths']):
+        print '%s %s Checking %s' %(datetime.datetime.now(), repr(self.addr),
+                                    path)
+        if path.endswith('.mp3') and os.path.exists(path):
+          print '%s %s Selected %s' %(datetime.datetime.now(), repr(self.addr),
+                                      path)
+
+          if client_settings and client_settings['mp3_source']:
+            rendered['mp3_url'] = ('%s/%s' %(client_settings['mp3_source'],
+                                             path.replace(FLAGS.audio_path,
+                                                          '')))
+          else:
+            rendered['mp3_url'] = 'mp3/%s' % rendered['id']
+
+          return rendered
 
     print '%s %s Could not find an MP3' %(datetime.datetime.now(),
                                           repr(self.addr))
@@ -370,6 +389,7 @@ class http_handler(asyncore.dispatcher):
         print '%s %s This is a resume' %(datetime.datetime.now(),
                                          repr(self.addr))
     requests[self.addr[0]] = self.id
+
 
     for row in self.db.GetRows('select paths from tracks '
                                'where id=%s;'
@@ -454,6 +474,14 @@ class http_handler(asyncore.dispatcher):
 
     else:
       self.senderror(501, 'Unknown object ID')
+
+  def sendredirect(self, path):
+    """Send a HTTP 302 redirect."""
+
+    self.sendheaders('HTTP/1.1 302 Found\r\n'
+                     'Location: %s\r\n'
+                     % path)
+
                     
   def sendfile(self, path, subst=None, chunk=None):
     """Send a file to the client, including doing the MIME type properly."""
@@ -487,10 +515,6 @@ class http_handler(asyncore.dispatcher):
                      %(_CONTENT_TYPES.get(extn, 'application/octet-stream'),
                        len(data), '\r\n'.join(self.extra_headers)))
     self.buffer += data
-
-    print '%s %s Sent %s (%d bytes)' %(datetime.datetime.now(),
-                                       repr(self.addr),
-                                       path, len(data))
 
   def senderror(self, number, msg):
     self.sendheaders('HTTP/1.1 %d %s\r\n'

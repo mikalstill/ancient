@@ -15,7 +15,7 @@ import sys
 
 
 FLAGS = gflags.FLAGS
-gflags.DEFINE_string('audio_path', '/data',
+gflags.DEFINE_string('audio_path', '/data/mp3',
                      'The directory containing audio files')
 
 
@@ -174,20 +174,4 @@ class Track:
   def RenderValues(self):
     """Render a HTML description of this track."""
 
-    retval = copy.deepcopy(self.persistant)
-
-    keys = self.persistant.keys()
-    keys.sort()
-
-    for key in keys:
-      if key == 'paths':
-        paths = eval(self.persistant[key])
-
-        mp3_path = ''
-        for path in paths:
-          if path.endswith('mp3'):
-            mp3_path = path
-
-        retval['mp3_path'] = mp3_path
-
-    return retval
+    return copy.deepcopy(self.persistant)
