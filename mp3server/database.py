@@ -112,7 +112,7 @@ class Database:
 
     # Check the schema version
     self.version = self.GetSetting('schema')
-    if int(self.version) < int(CURRENT_SCHEMA):
+    if (self.version is None) or (int(self.version) < int(CURRENT_SCHEMA)):
       print 'Updating tables'
       self.UpdateTables()
 
@@ -265,7 +265,7 @@ class Database:
   def UpdateTables(self):
     """Handle schema upgrades"""
 
-    if self.version == '0':
+    if self.version == '0' or self.version is None:
       self.version = '1'
 
     if self.version == '1':

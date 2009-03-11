@@ -334,6 +334,7 @@ class http_handler(asyncore.dispatcher):
     one_hour = datetime.timedelta(minutes=60)
     one_hour_ago = now - one_hour
 
+    # Collect data from MySQL
     for row in self.db.GetRows('select song, plays, skips, last_action, '
                                'last_played, last_skipped from tracks '
                                'where last_action is not null and '
@@ -488,23 +489,28 @@ class http_handler(asyncore.dispatcher):
                      'Location: %s\r\n'
                      % path)
 
-  def getstats(self, prefix='', where=None):
-    """Return some playback statistics."""
-
-    if where:
-      where_clause = ' where %s' % where
-    else:
-      where_clause = ''
+  def getstats_ever(self):
+    """Return some playback statistics for all time."""
 
     retval = {}
     row = self.db.GetOneRow('select count(*), max(plays), sum(plays), '
-                            'max(skips), sum(skips) from tracks%s;'
-                            % where_clause)
+                            'max(skips), sum(skips) from tracks;')
     for key in row:
-      retval['%s_%s' %(prefix, key.replace('(', '').\
-                                   replace(')', '').\
-                                   replace('*', ''))] = row[key]
+      retval['ever_%s' %(key.replace('(', '').\
+                         replace(')', '').\
+                         replace('*', ''))] = row[key]
+    return retval
 
+  def getstats_today(self):
+    """Return some playback statistics for today."""
+
+    retval = {}
+    row = self.db.GetOneRow('select count(*) from tracks '
+                            'where day(last_played) = day(now());')
+    retval['today_countplays'] = row['count(*)']
+    row = self.db.GetOneRow('select count(*) from tracks '
+                            'where day(last_skipped) = day(now());')
+    retval['today_countskips'] = row['count(*)']
     return retval
 
   def sendfile(self, path, subst=None, chunk=None):
@@ -532,9 +538,8 @@ class http_handler(asyncore.dispatcher):
     if mime_type.find('ml') != -1:
       if not subst:
         subst = {}
-      subst.update(self.getstats(prefix='ever'))
-      subst.update(self.getstats(prefix='today',
-                                 where='day(last_action) = day(now())'))
+      subst.update(self.getstats_ever())
+      subst.update(self.getstats_today())
       data = data % subst
 
     self.sendheaders('HTTP/1.1 200 OK\r\n'
