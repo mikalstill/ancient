@@ -341,10 +341,6 @@ class http_handler(asyncore.dispatcher):
     one_hour = datetime.timedelta(minutes=60)
     one_hour_ago = now - one_hour
 
-    print '%s %s One hour ago was %s' %(datetime.datetime.now(),
-                                        repr(self.addr),
-                                        self.db.FormatSqlValue('date',
-                                                               one_hour_ago))
     for row in self.db.GetRows('select song, plays, skips, last_action, '
                                'last_played, last_skipped from tracks '
                                'where last_action is not null and '
