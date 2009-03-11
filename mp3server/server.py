@@ -299,7 +299,7 @@ class http_handler(asyncore.dispatcher):
 
     client_settings = self.db.GetOneRow('select * from clients where id=%s;'
                                         % self.client_id)
-
+      
     for row in self.db.GetRows('select paths from tracks '
                                'where paths <> "[]" '
                                'order by rand() limit 10;'):
@@ -315,13 +315,16 @@ class http_handler(asyncore.dispatcher):
           print '%s %s Selected %s' %(datetime.datetime.now(), repr(self.addr),
                                       path)
 
-          if client_settings and client_settings['mp3_source']:
+          if client_settings and client_settings.has_key('mp3_source'):
             rendered['mp3_url'] = ('%s/%s' %(client_settings['mp3_source'],
                                              path.replace(FLAGS.audio_path,
                                                           '')))
           else:
             rendered['mp3_url'] = 'mp3/%s' % rendered['id']
 
+          print '%s %s Playing %d' %(datetime.datetime.now(), repr(self.addr),
+                                     rendered['id'])
+          requests[self.addr[0]] = rendered['id']
           return rendered
 
     print '%s %s Could not find an MP3' %(datetime.datetime.now(),
@@ -379,6 +382,10 @@ class http_handler(asyncore.dispatcher):
   def handleurl_mp3(self, file, chunk, tracked=False):
     """Serve MP3 files."""
 
+    if tracked:
+      # MP101 can't handle extra headers like cookies
+      self.extra_headers = []
+
     self.id = file
     if self.addr[0] in requests:
       # A uPnP pause can look like a skip, but its requesting the same ID
@@ -388,7 +395,6 @@ class http_handler(asyncore.dispatcher):
       else:
         print '%s %s This is a resume' %(datetime.datetime.now(),
                                          repr(self.addr))
-    requests[self.addr[0]] = self.id
 
 
     for row in self.db.GetRows('select paths from tracks '
@@ -414,6 +420,9 @@ class http_handler(asyncore.dispatcher):
 
     global uuid
 
+    # Having extra headers like cookies breask the MP101
+    self.extra_headers = []
+
     self.sendfile('upnp_devicedesc.xml',
                   subst={'ip': FLAGS.ip,
                          'port': FLAGS.port,
@@ -424,6 +433,9 @@ class http_handler(asyncore.dispatcher):
     """uPnP CDS endpoint control."""
 
     object_id = None
+
+    # Having extra headers like cookies breask the MP101
+    self.extra_headers = []
 
     object_id_re = re.compile('<ObjectID>(.*)</ObjectID>')
     for l in post_data.split('\r\n'):
