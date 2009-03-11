@@ -100,6 +100,11 @@ class http_handler(asyncore.dispatcher):
 
     self.client_id = 0
 
+  def log(self, msg):
+    """Write a log line."""
+
+    print '%s %s %s' %(datetime.datetime.now(), repr(self.addr), msg)
+
   def handle_read(self):
     rq = self.recv(32 * 1024)
     file = ''
@@ -110,8 +115,7 @@ class http_handler(asyncore.dispatcher):
     for line in rq.split('\n'):
       line = line.rstrip('\r')
       if FLAGS.showrequest:
-        print '%s %s REQUEST %s' %(datetime.datetime.now(), repr(self.addr),
-                                   line)
+        self.log('REQUEST %s' % line)
 
       if line.startswith('GET'):
         (_, file, _) = line.split(' ')
@@ -152,13 +156,11 @@ class http_handler(asyncore.dispatcher):
     self.db.ExecuteSql('commit;')
 
     if file:
-      print '%s %s %s %s' %(datetime.datetime.now(), repr(self.addr),
-                            method, file)
+      self.log('%s %s' %(method, file))
 
       if FLAGS.showpost and method == 'POST' and post_data:
         for l in post_data.split('\r\n'):
-          print '%s %s DATA %s' %(datetime.datetime.now(), repr(self.addr),
-                                  l)
+          self.log('DATA %s' % l)
 
     # Top URL
     if file == '/':
@@ -204,12 +206,10 @@ class http_handler(asyncore.dispatcher):
       self.buffer = self.buffer[sent:]
       if len(self.buffer) == 0:
         if self.is_mp3 and self.is_tracked and self.id:
-          print '%s %s MP3 request complete' %(datetime.datetime.now(),
-                                               repr(self.addr))
+          self.log('MP3 request complete')
           delta = datetime.datetime.now() - self.streamed_at
           if delta.seconds < 30:
-            print '%s %s MP3 streamed too fast' %(datetime.datetime.now(),
-                                                  repr(self.addr))
+            self.log('MP3 streamed too fast')
           else:
             self.markplayed(self.id)
 
@@ -250,8 +250,7 @@ class http_handler(asyncore.dispatcher):
 
     self.markskipped()
     rendered = self.picktrack()
-    print '%s %s MP3 url is %s' %(datetime.datetime.now(), repr(self.addr),
-                                  rendered['mp3_url'])
+    self.log('MP3 url is %s' % rendered['mp3_url'])
     if not rendered:
       self.senderror(501, 'Failed to select a track')
       return
@@ -270,9 +269,7 @@ class http_handler(asyncore.dispatcher):
     """Mark skipped tracks, if any."""
 
     if self.addr[0] in requests:
-      print '%s %s Marking %s skipped' %(datetime.datetime.now(),
-                                         repr(self.addr),
-                                         requests[self.addr[0]])
+      self.log('Marking %s skipped' % requests[self.addr[0]])
       self.db.ExecuteSql('update tracks set skips = skips + 1, '
                          'last_skipped = NOW(), last_action = NOW() '
                          'where id=%s;'
@@ -283,8 +280,7 @@ class http_handler(asyncore.dispatcher):
   def markplayed(self, id):
     """Mark a track as played."""
     
-    print '%s %s Marking %s played' %(datetime.datetime.now(),
-                                      repr(self.addr), id)
+    self.log('Marking %s played' % id)
     self.db.ExecuteSql('update tracks set plays = plays + 1, '
                        'last_played = NOW(), last_action = NOW() '
                        'where id=%s;'
@@ -309,11 +305,9 @@ class http_handler(asyncore.dispatcher):
       rendered = this_track.RenderValues()
 
       for path in eval(rendered['paths']):
-        print '%s %s Checking %s' %(datetime.datetime.now(), repr(self.addr),
-                                    path)
+        self.log('Checking %s' % path)
         if path.endswith('.mp3') and os.path.exists(path):
-          print '%s %s Selected %s' %(datetime.datetime.now(), repr(self.addr),
-                                      path)
+          self.log('Selected %s' % path)
 
           if client_settings and client_settings.has_key('mp3_source'):
             rendered['mp3_url'] = ('%s/%s' %(client_settings['mp3_source'],
@@ -322,13 +316,11 @@ class http_handler(asyncore.dispatcher):
           else:
             rendered['mp3_url'] = 'mp3/%s' % rendered['id']
 
-          print '%s %s Playing %d' %(datetime.datetime.now(), repr(self.addr),
-                                     rendered['id'])
+          self.log('Playing %d' % rendered['id'])
           requests[self.addr[0]] = rendered['id']
           return rendered
 
-    print '%s %s Could not find an MP3' %(datetime.datetime.now(),
-                                          repr(self.addr))
+    self.log('Could not find an MP3')
     return {}
 
   def playgraph(self):
@@ -397,8 +389,7 @@ class http_handler(asyncore.dispatcher):
         if tracked:
           self.markskipped()
       else:
-        print '%s %s This is a resume' %(datetime.datetime.now(),
-                                         repr(self.addr))
+        self.log('This is a resume')
 
 
     for row in self.db.GetRows('select paths from tracks '
@@ -448,9 +439,7 @@ class http_handler(asyncore.dispatcher):
         object_id = m.group(1)
 
     if object_id:
-      print '%s %s uPnP request for object id %s' %(datetime.datetime.now(),
-                                                    repr(self.addr),
-                                                    object_id)
+      self.log('uPnP request for object id %s' % object_id)
     if object_id == '0':
       f = open('upnp_results.xml')
       results = f.read()
@@ -506,8 +495,7 @@ class http_handler(asyncore.dispatcher):
     if chunk:
       # Format is "bytes=6600100-"
       inset = int(chunk.split('=')[1].split('-')[0])
-      print '%s %s Skipping the first %d bytes' %(datetime.datetime.now(),
-                                                  repr(self.addr), inset)
+      self.log('Skipping the first %d bytes' % inset)
 
     data = ''
     try:
@@ -539,16 +527,14 @@ class http_handler(asyncore.dispatcher):
     self.buffer += ('<html><head><title>MP3 server</title></head>'
                      '<body>%s</body>'
                      % msg)
-    print '%s %s Sent %d error' %(datetime.datetime.now(),
-                                  repr(self.addr), number)
+    self.log('Sent %d error' % number)
 
   def sendheaders(self, headers):
     """Send HTTP response headers."""
 
     if FLAGS.showresponse:
       for l in headers.split('\r\n'):
-        print '%s %s RESPONSE %s' %(datetime.datetime.now(),
-                                    repr(self.addr), l)
+        self.log('RESPONSE %s' % l)
 
     self.buffer += headers
 
