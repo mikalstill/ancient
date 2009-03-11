@@ -43,7 +43,8 @@ _CONTENT_TYPES = {'css':  'text/css',
                   'html': 'text/html',
                   'mp3':  'audo/x-mpeg-3',
                   'png':  'image/png',
-                  'swf':  'application/x-shockwave-flash'
+                  'swf':  'application/x-shockwave-flash',
+                  'xml':  'text/xml'
                  }
 
 
@@ -487,7 +488,25 @@ class http_handler(asyncore.dispatcher):
                      'Location: %s\r\n'
                      % path)
 
-                    
+  def getstats(self, prefix='', where=None):
+    """Return some playback statistics."""
+
+    if where:
+      where_clause = ' where %s' % where
+    else:
+      where_clause = ''
+
+    retval = {}
+    row = self.db.GetOneRow('select count(*), max(plays), sum(plays), '
+                            'max(skips), sum(skips) from tracks%s;'
+                            % where_clause)
+    for key in row:
+      retval['%s_%s' %(prefix, key.replace('(', '').\
+                                   replace(')', '').\
+                                   replace('*', ''))] = row[key]
+
+    return retval
+
   def sendfile(self, path, subst=None, chunk=None):
     """Send a file to the client, including doing the MIME type properly."""
 
@@ -508,16 +527,26 @@ class http_handler(asyncore.dispatcher):
       senderror(404, 'File read error: %s' % path)
       return
 
-    if subst:
+    extn = path.split('.')[-1]
+    mime_type = _CONTENT_TYPES.get(extn, 'application/octet-stream')
+    if mime_type.find('ml') != -1:
+      if not subst:
+        subst = {}
+      subst.update(self.getstats(prefix='ever'))
+      subst.update(self.getstats(prefix='today',
+                                 where='day(last_action) = day(now())'))
       data = data % subst
 
-    extn = path.split('.')[-1]
     self.sendheaders('HTTP/1.1 200 OK\r\n'
                      'Content-Type: %s\r\n'
                      'Content-Length: %s\r\n'            
                      '%s\r\n'
-                     %(_CONTENT_TYPES.get(extn, 'application/octet-stream'),
-                       len(data), '\r\n'.join(self.extra_headers)))
+                     %(mime_type, len(data), '\r\n'.join(self.extra_headers)))
+
+    if mime_type == 'text/xml' and FLAGS.showresponse:
+      for l in data.split('\n'):
+        self.log('REPLY %s' % l)
+    
     self.buffer += data
 
   def senderror(self, number, msg):
