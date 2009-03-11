@@ -336,26 +336,34 @@ class http_handler(asyncore.dispatcher):
 
     play_graph = {}
     skip_graph = {}
+
+    now = datetime.datetime.now()
+    one_hour = datetime.timedelta(minutes=60)
+    one_hour_ago = now - one_hour
+
+    print '%s %s One hour ago was %s' %(datetime.datetime.now(),
+                                        repr(self.addr),
+                                        self.db.FormatSqlValue('date',
+                                                               one_hour_ago))
     for row in self.db.GetRows('select song, plays, skips, last_action, '
-                               '(time_to_sec(now()) - '
-                               ' time_to_sec(last_played)) as lp, '
-                               '(time_to_sec(now()) - '
-                               ' time_to_sec(last_skipped)) as ls, '
-                               '(time_to_sec(now()) - '
-                               ' time_to_sec(last_action)) as secs '
-                               'from tracks '
+                               'last_played, last_skipped from tracks '
                                'where last_action is not null and '
-                               '(time_to_sec(now()) - '
-                               ' time_to_sec(last_action)) < 3600 '
-                               'order by last_action asc;'):
+                               'last_action > %s '
+                               'order by last_action desc;'
+                               % self.db.FormatSqlValue('date', one_hour_ago)):
+      if row['last_played']:
+        delta = now - row['last_played']
+        secs = delta.seconds / 60
+        if secs < 3600:
+          play_graph.setdefault(secs, 0)
+          play_graph[secs] += 1
 
-      if row['lp']:
-        play_graph.setdefault(int(row['lp'] / 60), 0)
-        play_graph[int(row['lp'] / 60)] += 1
-
-      if row['ls']:
-        skip_graph.setdefault(int(row['ls'] / 60), 0)
-        skip_graph[int(row['ls'] / 60)] += 1
+      if row['last_skipped']:
+        delta = now - row['last_skipped']
+        secs = delta.seconds / 60
+        if secs < 3600:
+          skip_graph.setdefault(secs, 0)
+          skip_graph[secs] += 1
 
     play = ''
     skip = ''
