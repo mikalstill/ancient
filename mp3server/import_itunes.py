@@ -70,7 +70,6 @@ if __name__ == '__main__':
 
   db = database.Database()
 
-
   # I don't use the python XML parser, as it is too slow with my 22mb library
   f = open(argv[1])
 

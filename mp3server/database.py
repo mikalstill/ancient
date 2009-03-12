@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='9'
+CURRENT_SCHEMA='10'
 
 
 class FormatException(Exception):
@@ -205,7 +205,7 @@ class Database:
       return 'STR_TO_DATE("%s", "%s")' %(value, '''%a, %d %b %Y %H:%i:%s''')
 
     if type(value) == long or type(value) == int:
-      return value
+      return '%d' % value
 
     if value == '':
       return '""'
@@ -222,18 +222,23 @@ class Database:
   def WriteOneRow(self, table, key_col, dict):
     """WriteOneRow -- use a dictionary to write a row to the specified table"""
 
-    cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('select %s from %s where %s = "%s"' \
-                   %(key_col, table, key_col, dict[key_col]))
+    row_count = 0
+    try:
+      cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
+      cursor.execute('select %s from %s where %s = "%s"'
+                     %(key_col, table, key_col, dict[key_col]))
+      cursor.close()
+    except:
+      pass
 
-    if cursor.rowcount > 0:
+    if not dict.has_key('key_col') and row_count > 0:
       vals = []
       for col in dict:
         val = '%s=%s' %(col, self.FormatSqlValue(col, dict[col]))
         vals.append(val)
 
-      sql = 'update %s set %s where %s="%s";' %(table, ','.join(vals),
-                                                key_col, dict[key_col])
+      sql = ('update %s set %s where %s="%s";' %(table, ','.join(vals),
+                                                 key_col, dict[key_col]))
 
     else:
       vals = []
@@ -241,11 +246,12 @@ class Database:
         val = self.FormatSqlValue(col, dict[col])
         vals.append(val)
 
-      sql = 'insert into %s (%s) values(%s);' \
-             %(table, ','.join(dict.keys()), ','.join(vals))
+      sql = ('insert into %s (%s) values(%s);'
+             %(table, ','.join(dict.keys()), ','.join(vals)))
 
-    cursor.close()
+
     self.db_connection.query(sql)
+    self.db_connection.query('commit;')
 
   def CreateTable(self, tablename):
     """CreateTable -- a table has been found to be missing, create it with
@@ -317,6 +323,12 @@ class Database:
                                'add column requests int;')
       self.version = '9';
 
+    if self.version == '9':
+      self.db_connection.query('alter table tracks '
+                               'add column creation_time datetime;')
+      self.version = '10';
+
+    self.db_connection.query('commit;')
     self.WriteSetting('schema', self.version)
 
   def ExecuteSql(self, sql):
