@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>MP3 server: browse</title>
+
+    <script type='text/javascript' src='/local/soundmanager2.js'></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">google.load("prototype", "1.6.0.2");</script>
+
+    <script type='text/javascript'>
+      function pad(digit) {
+        if (digit < 10)
+          return ("0" + digit);
+        else
+          return digit;
+      }
+
+      soundManager.useHighPerformance = false;
+      soundManager.url = '/local/soundmanager2.swf';
+      soundManager.debugMode = false;
+    </script>
+  </head>
+  <body>
+
+    <table width=100%>
+    <tr><td>
+        <button onClick="soundManager.togglePause('aSound');">Pause</button>
+        <button onClick="soundManager.stop('aSound');">Stop</button>
+        <button onClick="goNext();">Next</button>
+    </td><td>
+        <font size=+5><span id="position">...</span></font>
+    </td></tr>
+    </table>
+
+    
+    <form name="settings" action="/browse" method="post">
+    <table width=100%>
+    <tr bgcolor="#BBBBBB">
+        <td>...</td>
+        <td valign=top>
+            <b>Artist</b><br/>
+            <div align=center>
+                <input type="text" name="artist" value="{{artist_filter}}" />
+                <br/>
+                <i>{{artist_filter_compiled}}</i>
+            </div>
+        </td>
+        <td valign=top>
+            <b>Album</b><br/>
+            <div align=center>
+                <input type="text" name="album" value="{{album_filter}}" />
+                <br/>
+                <i>{{album_filter_compiled}}</i>
+            </div>
+        </td>
+        <td valign=top>
+            <b>Track</b><br/>
+            <div align=center>
+                <input type="text" name="track" value="{{track_filter}}" />
+                <br/>
+                <i>{{track_filter_compiled}}</i>
+            </div>
+        </td>
+        <td valign=top><b>Plays</b><br/></td>
+        <td valign=top><b>Skips</b><br/></td>
+        <td valign=top><b>Added</b><br/></td>
+    </tr>
+        <td></td>
+	<td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><input type="submit" value="Filter"></td>
+    </tr>
+    
+    {{results}}
+    </table>
+    </form>
+
+</body>
+</html>

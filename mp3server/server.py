@@ -10,9 +10,6 @@ import re
 import socket
 import sys
 import time
-import thread
-import threading
-import traceback
 import types
 import uuid
 
@@ -138,25 +135,6 @@ class http_handler(asyncore.dispatcher):
       if len(line) == 0 and method == 'POST' and post_data is None:
         post_data = ''
 
-    if not self.cookie:
-      self.db.ExecuteSql('insert into clients(createtime) values(now());')
-      row = self.db.GetOneRow('select last_insert_id();')
-      self.cookie = 'id=%s' % row['last_insert_id()']
-      self.extra_headers.append('Set-Cookie: id=%s; '
-                                'expires=Sun, 17 Jan 2038 09:00:00 GMT'
-                                % row['last_insert_id()'])
-
-    # Extract the id
-    for elem in self.cookie.split('; '):
-      if elem.startswith('id='):
-        self.client_id = int(elem[3:])
-
-    self.db.ExecuteSql('update clients set requests=0 where requests is null;')
-    self.db.ExecuteSql('update clients set requests=requests + 1 '
-                       'where id=%d;'
-                       % self.client_id)
-    self.db.ExecuteSql('commit;')
-
     if file:
       self.log('%s %s' %(method, file))
 
@@ -164,24 +142,8 @@ class http_handler(asyncore.dispatcher):
         for l in post_data.split('\r\n'):
           self.log('DATA %s' % l)
 
-    # Top URL
-    if file == '/':
-      self.handleurl_root(post_data)
-
-    # Implementation of the HTTP player
-    elif file == '/play':
-      self.handleurl_play()
-    elif file.startswith('/mp3/'):
-      self.handleurl_mp3(file[5:], chunk)
-    elif file.startswith('/local/'):
-      self.handleurl_local(file)
-    elif file.startswith('/done'):
-      self.handleurl_done(file)
-    elif file.startswith('/graph'):
-      self.handleurl_graph()
-
-    # Implementation of uPnP
-    elif file.startswith('/getDeviceDesc'):
+    # Implementation of uPnP -- must come before cookie set
+    if file.startswith('/getDeviceDesc'):
       self.handleurl_getdevicedesc(file)
     elif file.startswith('/uPnP_Control'):
       self.handleurl_cdscontrol(file, post_data)
@@ -190,10 +152,51 @@ class http_handler(asyncore.dispatcher):
       self.is_tracked = True
       self.streamed_at = datetime.datetime.now()
       self.handleurl_mp3(file[12:], chunk, tracked=True)
-    
+
     else:
-      self.senderror(404, '%s file not found' % file)
-      self.close()
+      # Normal clients can handle cookies
+      if not self.cookie:
+        self.db.ExecuteSql('insert into clients(createtime) values(now());')
+        row = self.db.GetOneRow('select last_insert_id();')
+        self.cookie = 'id=%s' % row['last_insert_id()']
+        self.extra_headers.append('Set-Cookie: id=%s; '
+                                  'expires=Sun, 17 Jan 2038 09:00:00 GMT'
+                                  % row['last_insert_id()'])
+
+      # Extract the id
+      for elem in self.cookie.split('; '):
+        if elem.startswith('id='):
+          self.client_id = int(elem[3:])
+
+      self.db.ExecuteSql('update clients set requests=0 '
+                         'where requests is null;')
+      self.db.ExecuteSql('update clients set requests=requests + 1 '
+                         'where id=%d;'
+                         % self.client_id)
+      self.db.ExecuteSql('commit;')
+
+      
+      # Top URL
+      if file == '/':
+        self.handleurl_root(post_data)
+
+      # Implementation of the HTTP player
+      elif file == '/play':
+        self.handleurl_play()
+      elif file.startswith('/mp3/'):
+        self.handleurl_mp3(file[5:], chunk)
+      elif file.startswith('/local/'):
+        self.handleurl_local(file)
+      elif file.startswith('/done'):
+        self.handleurl_done(file)
+      elif file.startswith('/graph'):
+        self.handleurl_graph()
+      elif file.startswith('/browse'):
+        self.handleurl_browse(file, post_data)
+
+      else:
+        self.senderror(404, '%s file not found' % file)
+        self.close()
 
   def writable(self):
     return len(self.buffer) > 0
@@ -267,6 +270,55 @@ class http_handler(asyncore.dispatcher):
     rendered = {}
     rendered['graph'] = self.playgraph()
     self.sendfile('graph.html', subst=rendered)
+
+  def handleurl_browse(self, file, post_data):
+    """Browse the database."""
+
+    # Parse filters
+    filters = {'artist_filter': '',
+               'artist_filter_compiled': '.*',
+               'album_filter': '',
+               'album_filter_compiled': '.*',
+               'track_filter': '',
+               'track_filter_compiled': '.*'
+              }
+
+    # I am sure there is a better way than this
+    for l in post_data.split('\r\n'):
+      if len(l) > 0:
+        for arg in l.split('&'):
+          (name, value) = arg.split('=')
+          if value:
+            filters['%s_filter' % name] = value.replace('+', ' ')
+            filters['%s_filter_compiled' % name] = value.replace('+', ' ').\
+                                                         replace(' ', '[ _+]+')
+
+    f = open('browse_result.html')
+    results_template = f.read()
+    f.close()
+
+    results = []
+    bgcolor = ''
+
+    sql = ('select * from tracks '
+           'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
+           'limit 1000;'
+           %(filters['artist_filter_compiled'],
+             filters['album_filter_compiled'],
+             filters['track_filter_compiled']))
+    self.log('Browse SQL = %s' % sql)
+
+    for row in self.db.GetRows(sql):
+      if bgcolor == 'bgcolor="#DDDDDD"':
+        bgcolor = ''
+      else:
+        bgcolor = 'bgcolor="#DDDDDD"'
+
+      row['bgcolor'] = bgcolor
+      results.append(self.substitute(results_template, row))
+
+    filters['results'] = '\n'.join(results)
+    self.sendfile('browse.html', subst=filters)
 
   def markskipped(self):
     """Mark skipped tracks, if any."""
@@ -387,10 +439,6 @@ class http_handler(asyncore.dispatcher):
   def handleurl_mp3(self, file, chunk, tracked=False):
     """Serve MP3 files."""
 
-    if tracked:
-      # MP101 can't handle extra headers like cookies
-      self.extra_headers = []
-
     self.id = int(file)
     if self.addr[0] in requests:
       # A uPnP pause can look like a skip, but its requesting the same ID
@@ -425,10 +473,6 @@ class http_handler(asyncore.dispatcher):
     """uPnP device discovery."""
 
     global uuid
-
-    # Having extra headers like cookies breask the MP101
-    self.extra_headers = []
-
     self.sendfile('upnp_devicedesc.xml',
                   subst={'ip': FLAGS.ip,
                          'port': FLAGS.port,
@@ -439,10 +483,6 @@ class http_handler(asyncore.dispatcher):
     """uPnP CDS endpoint control."""
 
     object_id = None
-
-    # Having extra headers like cookies breask the MP101
-    self.extra_headers = []
-
     object_id_re = re.compile('<ObjectID>(.*)</ObjectID>')
     for l in post_data.split('\r\n'):
       m = object_id_re.match(l)
@@ -570,7 +610,8 @@ class http_handler(asyncore.dispatcher):
     m = _SUBST_RE.match(data)
     while m:
       data = '%s%s%s' %(m.group(1),
-                        subst.get(m.group(2), '<i>%s missing' % m.group(2)),
+                        subst.get(m.group(2), '<i>%s missing</i>'
+                                  % m.group(2)),
                         m.group(3))
       m = _SUBST_RE.match(data)
 
