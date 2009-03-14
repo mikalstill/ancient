@@ -277,6 +277,9 @@ class http_handler(asyncore.dispatcher):
                          'last_skipped = NOW(), last_action = NOW() '
                          'where id=%s;'
                          % requests[self.addr[0]])
+      self.db.ExecuteSql('insert into events(timestamp, track_id, event) '
+                         'values(now(), %s, "skip");'
+                         % requests[self.addr[0]])
       self.db.ExecuteSql('commit;')
       del requests[self.addr[0]]
 
@@ -287,6 +290,9 @@ class http_handler(asyncore.dispatcher):
     self.db.ExecuteSql('update tracks set plays = plays + 1, '
                        'last_played = NOW(), last_action = NOW() '
                        'where id=%s;'
+                       % id)
+    self.db.ExecuteSql('insert into events(timestamp, track_id, event) '
+                       'values(now(), %s, "play");'
                        % id)
     self.db.ExecuteSql('commit;')
 

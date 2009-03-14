@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='11'
+CURRENT_SCHEMA='12'
 
 
 class FormatException(Exception):
@@ -346,6 +346,12 @@ class Database:
                                'modify column name varchar(100);')
       self.db_connection.query('alter table settings add primary key(name);')
       self.version = '11';
+
+    if self.version == '11':
+      self.db_connection.query('create table events ('
+                               'timestamp datetime, user varchar(32), '
+                               'track_id int, event varchar(30));')
+      self.version = '12';
 
     self.db_connection.query('commit;')
     self.WriteSetting('schema', self.version)
