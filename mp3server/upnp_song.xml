@@ -1,12 +1,12 @@
 <DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/">
-<item id="Music/item?Id=%(id)s" parentID="Music" restricted="1" >
-<dc:title>%(song)s</dc:title>
+<item id="Music/item?Id={{id}}" parentID="Music" restricted="1" >
+<dc:title>{{song}}</dc:title>
 <upnp:class>object.item.audioItem.musicTrack</upnp:class>
-<upnp:originalTrackNumber>%(number)s</upnp:originalTrackNumber>
-<upnp:artist>%(artist)s</upnp:artist>
-<upnp:album>%(album)s</upnp:album>
-<upnp:genre>%(plays)s plays, %(skips)s skips</upnp:genre>
-<dc:description>%(song)s</dc:description>
-<res protocolInfo="http-get:*:audio/mpeg:DLNA.ORG_OP=01;DLNA.ORG_CI=0;DLNA.ORG_FLAGS=01500000000000000000000000000000">http://%(ip)s:%(port)s/trackedmp3/%(id)s</res>
+<upnp:originalTrackNumber>{{number}}</upnp:originalTrackNumber>
+<upnp:artist>{{artist}}</upnp:artist>
+<upnp:album>{{album}}</upnp:album>
+<upnp:genre>{{plays}} plays, {{skips}} skips</upnp:genre>
+<dc:description>{{song}}</dc:description>
+<res protocolInfo="http-get:*:audio/mpeg:DLNA.ORG_OP=01;DLNA.ORG_CI=0;DLNA.ORG_FLAGS=01500000000000000000000000000000">http://{{ip}}:{{port}}/trackedmp3/{{id}}</res>
 </item>
 </DIDL-Lite>

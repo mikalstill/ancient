@@ -1,225 +1,98 @@
 <html>
+  <head>
+    <title>MP3 server: {{song}}</title>
+    <script type='text/javascript' src='/local/soundmanager2.js'></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">google.load("prototype", "1.6.0.2");</script>
 
-<head>
-<link rel="stylesheet" type="text/css" href="/local/style.css"
-      media="screen" />
-<title>MP3 server: %(song)s</title>
-</head>
+    <script type='text/javascript'>
+      function pad(digit) {
+        if (digit < 10)
+          return ("0" + digit);
+        else
+          return digit;
+      }
 
-<body>
+      soundManager.useHighPerformance = false;
+      soundManager.url = '/local/soundmanager2.swf';
+      soundManager.debugMode = false;
+      soundManager.onload = function() {
+        var mySound = soundManager.createSound({
+          id: 'aSound',
+          url: encodeURI("{{mp3_url}}"),
+          onfinish:songFinished,
+        });
 
-<script type="text/javascript">
-//<![CDATA[
-    function makeHttpRequest(url, callback_function, return_xml)
-    {
-    var http_request, response, i;
+	mySound.options.whileplaying = function() {
+	  var position = Math.floor(mySound.position / 1000);
+	  var position_min = Math.floor(position / 60);
+	  var position_sec = pad(position - (position_min * 60));
 
-    var activex_ids = ['MSXML2.XMLHTTP.3.0', 'MSXML2.XMLHTTP',
-                       'Microsoft.XMLHTTP'];
+	  var duration = Math.floor(mySound.duration / 1000);
+	  var duration_min = Math.floor(duration / 60);
+	  var duration_sec = pad(duration - (duration_min * 60));
 
-    if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+...
-        http_request = new XMLHttpRequest();
-	if (http_request.overrideMimeType) {
-	    http_request.overrideMimeType('text/xml');
-	}
-    } else if (window.ActiveXObject) { // IE6 and older
-        for (i = 0; i < activex_ids.length; i++) {
-	    try {
-	        http_request = new ActiveXObject(activex_ids[i]);
-	    } catch (e) {}
-        }
-    }
-
-    if (!http_request) {
-        return false;
-    }
-
-    http_request.onreadystatechange = function() {
-        if (http_request.readyState !== 4) {
-            // not ready yet
-            return;
-        }
-        if (http_request.status !== 200) {
-            // ready, but not OK
-            return;
-        }
-        if (return_xml) {
-            response = http_request.responseXML;
-        } else {
-            response = http_request.responseText;
-        }
-        // invoke the callback
-        callback_function(response);
-    };
-
-    http_request.open('GET', url, true);
-    http_request.send(null);
-    }
-
-    function donothing(text){}
-
-
-    var myListener = new Object();
-    
-    /**
-     * Initialisation
-     */
-    myListener.onInit = function()
-    {
-        this.position = 0;
-	this.ended = 0;
-    };
-    /**
-     * Update
-     */
-    myListener.onUpdate = function()
-    {
-        document.getElementById("info_position").innerHTML = this.position + "ms";
-        document.getElementById("info_duration").innerHTML = this.duration + "ms";
-        document.getElementById("info_bytes").innerHTML = this.bytesLoaded;
-
-        var isPlaying = (this.isPlaying == "true");
-	document.getElementById("playerplay").style.display = (isPlaying) ? "none" : "block";
-        document.getElementById("playerpause").style.display = (isPlaying) ? "block" : "none";
-        
-        var timelineWidth = 160;
-        var sliderWidth = 40;
-        var sliderPositionMin = 40;
-        var sliderPositionMax = sliderPositionMin + timelineWidth - sliderWidth;
-        var sliderPosition = sliderPositionMin + Math.round((timelineWidth - sliderWidth) * this.position / this.duration);
-        
-        if (sliderPosition < sliderPositionMin) {
-             sliderPosition = sliderPositionMin;
-        }
-        if (sliderPosition > sliderPositionMax) {
-             sliderPosition = sliderPositionMax;
-        }
-        
-	document.getElementById("playerslider").style.left = sliderPosition + "px";
-
-	if ((this.duration > 5000) && (this.duration - this.position < 1000)) {
-	     if (this.ended == 0) {
-	          makeHttpRequest("/done/" + this.position + "_" + this.duration + "/%(id)s", donothing);
-	          this.ended = 1;
-             }
+          document.getElementById("position").innerHTML = position_min + ":" + position_sec + " of " + duration_min + ":" + duration_sec;
         }
 
-	if ((this.ended == 1) && (this.position > 0) && (this.duration > 0)) {
-	    setTimeout('window.location.reload()', 1500);
-        }
-    };
-    
-    function getFlashObject()
-    {
-        return document.getElementById("myFlash");
-    }
-    function pause()
-    {
-        getFlashObject().SetVariable("method:pause", "");
-    }
-    function stop()
-    {
-        getFlashObject().SetVariable("method:stop", "");
-    }
-    function setPosition()
-    {
-        var position = document.getElementById("inputPosition").value;
-        getFlashObject().SetVariable("method:setPosition", position);
-    }
-    function setVolume()
-    {
-        var volume = document.getElementById("inputVolume").value;
-        getFlashObject().SetVariable("method:setVolume", volume);
-    }
+        mySound.play();
+      }
 
-    function play()
-    {
-        if (myListener.position == 0) {
-            getFlashObject().SetVariable("method:setUrl",
-                                         "%(mp3_url)s");
-        }
-        getFlashObject().SetVariable("method:play", "");
-        getFlashObject().SetVariable("enabled", "true");
-    }
+      function goNext() {
+        window.location = "/play";
+      }
+      function songFinished() {
+        new Ajax.Request("/done/{{id}}", {method:'get', onSuccess:goNext});
+      }
+    </script>
+  </head>
+  <body>
+    <button onClick="soundManager.togglePause('aSound');">Pause</button>
+    <button onClick="soundManager.stop('aSound');">Stop</button>
+    <button onClick="goNext();">Next</button>
 
-//]]>
-</script>
-<!--[if IE]>
-<script type="text/javascript" event="FSCommand(command,args)" for="myFlash">
-eval(args);
-</script>
-<![endif]-->
+    <br/><br/>
 
+    <table width=100%>
+    <tr><td>
+        Artist: {{artist}}<br/>
+        Album: {{album}}<br/>
+        Song: <i>{{number}} {{song}}</i><br/>
+        Play count: {{plays}}<br/>
+        Skip count: {{skips}}<br/><br/>
+    </td><td>
+        <font size=+5><span id="position">...</span></font>
+    </td></tr>
+    </table>
 
+    <br/><br/>
 
+    Tags: {{tags}}<br/>
+    Paths: {{paths}}
 
-<object class="playerpreview" id="myFlash" 
-        type="application/x-shockwave-flash"
-        data="/local/player_mp3_js.swf" width="1" height="1">
-    <param name="movie" value="/medias/player_mp3_js.swf" />
-    <param name="AllowScriptAccess" value="always" />
-    <param name="FlashVars" value="listener=myListener&amp;interval=500" />
-</object>
+    <br/><br/>
 
-<div id="playercontroller">
-    <div id="playerplay" class="button play">
-        <a href="javascript:play()" >PLAY</a>
-    </div>
-    <div id="playerpause" class="button pause">
-        <a href="javascript:pause()">PAUSE</a>
-    </div>
-    <div id="playerstop" class="button stop">
-        <a href="javascript:stop()">STOP</a>
-    </div>
-    <div class="timeline"><a id="playerslider" href="#slider">SLIDER</a></div>
-</div>
+    <table width=100%>
+    <tr><td></td><td>Count</td>
+                 <td>Most played</td>
+                 <td>Plays</td>
+                 <td>Most skipped</td>
+                 <td>Skips</td></tr>
+    <tr><td>Today</td><td></td>
+                      <td></td>
+                      <td>{{today_countplays}}</td>
+                      <td></td>
+                      <td>{{today_countskips}}</td></tr>
+     <tr><td>Ever</td><td>{{ever_count}}</td>
+                      <td>{{ever_maxplays}}</td>
+                      <td>{{ever_sumplays}}</td>
+                      <td>{{ever_maxskips}}</td>
+                      <td>{{ever_sumskips}}</td></tr>
+    </table>
 
-<table width=100%%>
-<tr>
-<td width=50%%>
-    Artist: %(artist)s<br/>
-    Album: %(album)s<br/>
-    Song: <i>%(number)s %(song)s</i><br/>
-    Play count: %(plays)s<br/>
-    Skip count: %(skips)s<br/><br/>
-    Tags: %(tags)s<br/><br/>
-    Paths: %(paths)s
-</td>
-<td>
-    Buffering: <span id="info_bytes"></span> bytes<br/>
-    Position: <span id="info_position"></span><br/>
-    Duration: <span id="info_duration"></span><br/>
-</td>
-</tr>
-</table>
+    <br/><br/>
 
-<br/><br/>
+    <img src="{{graph}}">
 
-<img src="%(graph)s">
-
-<script type="text/javascript">
-setTimeout('play()', 1500);
-</script>
-
-<br/><br/>
-
-<table>
-<tr><td></td><td>Count</td>
-             <td>Most played</td>
-             <td>Plays</td>
-             <td>Most skipped</td>
-             <td>Skips</td></tr>
-<tr><td>Today</td><td></td>
-                  <td></td>
-                  <td>%(today_countplays)s</td>
-                  <td></td>
-                  <td>%(today_countskips)s</td></tr>
-<tr><td>Ever</td><td>%(ever_count)s</td>
-                  <td>%(ever_maxplays)s</td>
-                  <td>%(ever_sumplays)s</td>
-                  <td>%(ever_maxskips)s</td>
-                  <td>%(ever_sumskips)s</td></tr>
-</table>
-
-</body>
+  </body>
 </html>

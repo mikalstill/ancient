@@ -1,8 +1,5 @@
 <html>
-
 <head>
-<link rel="stylesheet" type="text/css" href="/local/style.css"
-      media="screen" />
 <title>MP3 server</title>
 </head>
 
@@ -15,32 +12,11 @@
 <br/><br/>
 
 <form name="settings" action="/" method="post">
-Local mp3 cache: <input type="text" name="mp3_source" value="%(mp3_source)s"
+Local mp3 cache: <input type="text" name="mp3_source" value="{{mp3_source}}"
                         size=100>
 <br/><br/>
 
 <input type="submit" value="Submit">
 </form>
-
-<br/><br/>
-
-<table>
-<tr><td></td><td>Count</td>
-             <td>Most played</td>
-             <td>Plays</td>
-             <td>Most skipped</td>
-             <td>Skips</td></tr>
-<tr><td>Today</td><td></td>
-                  <td></td>
-                  <td>%(today_countplays)s</td>
-                  <td></td>
-                  <td>%(today_countskips)s</td></tr>
-<tr><td>Ever</td><td>%(ever_count)s</td>
-                  <td>%(ever_maxplays)s</td>
-                  <td>%(ever_sumplays)s</td>
-                  <td>%(ever_maxskips)s</td>
-                  <td>%(ever_sumskips)s</td></tr>
-</table>
-
 </body>
 </html>

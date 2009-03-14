@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='10'
+CURRENT_SCHEMA='11'
 
 
 class FormatException(Exception):
@@ -49,41 +49,51 @@ class Database:
 
   def OpenConnection(self, dbname=None, dbuser=None, dbpassword=None,
                      dbhost=None):
-    """OpenConnection -- parse the MythTV config file and open a connection
-    to the MySQL database"""
-
-    global HAVE_WARNED_OF_DEFAULTS
+    """Determine what parameters to use, and connect to MySQL."""
 
     if dbname:
       # This override makes writing unit tests simpler
-      db_name = dbname
+      self.db_name = dbname
     else:
-      db_name = FLAGS.db_name
+      self.db_name = FLAGS.db_name
 
     if dbuser:
-      user = dbuser
+      self.user = dbuser
     else:
-      user = FLAGS.db_user
+      self.user = FLAGS.db_user
 
     if dbpassword:
-      password = dbpassword
+      self.password = dbpassword
     else:
-      password = FLAGS.db_password
+      self.password = FLAGS.db_password
 
     if dbhost:
-      host = dbhost
+      self.host = dbhost
     else:
-      host = FLAGS.db_host
+      self.host = FLAGS.db_host
 
-    # Open the DB connection
+    self._DoConnect()
+
+  def _DoConnect(self):
+    """Actually make a connection to the database."""
+
     try:
-      self.db_connection = MySQLdb.connect(host = host,
-                                           user = user,
-                                           passwd = password,
-                                           db = db_name)
+      self.db_connection = MySQLdb.connect(host = self.host,
+                                           user = self.user,
+                                           passwd = self.password,
+                                           db = self.db_name)
     except Exception, e:
       print 'Could not connect to the MySQL server: %s' % e
       sys.exit(1)
+
+  def GetCursor(self):
+    """Return a database cursor."""
+
+    try:
+      cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
+    except:
+      self._DoConnect()
+      cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
 
   def TableExists(self, table):
     """TableExists -- check if a table exists"""
@@ -227,11 +237,12 @@ class Database:
       cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
       cursor.execute('select %s from %s where %s = "%s"'
                      %(key_col, table, key_col, dict[key_col]))
+      row_count = cursor.rowcount
       cursor.close()
     except:
       pass
 
-    if not dict.has_key('key_col') and row_count > 0:
+    if dict.has_key(key_col) and row_count > 0:
       vals = []
       for col in dict:
         val = '%s=%s' %(col, self.FormatSqlValue(col, dict[col]))
@@ -327,6 +338,14 @@ class Database:
       self.db_connection.query('alter table tracks '
                                'add column creation_time datetime;')
       self.version = '10';
+
+    if self.version == '10':
+      self.db_connection.query('alter table tracks drop primary key;')
+      self.db_connection.query('alter table tracks add primary key(id);')
+      self.db_connection.query('alter table settings '
+                               'modify column name varchar(100);')
+      self.db_connection.query('alter table settings add primary key(name);')
+      self.version = '11';
 
     self.db_connection.query('commit;')
     self.WriteSetting('schema', self.version)

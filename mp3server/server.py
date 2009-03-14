@@ -46,6 +46,7 @@ _CONTENT_TYPES = {'css':  'text/css',
                   'swf':  'application/x-shockwave-flash',
                   'xml':  'text/xml'
                  }
+_SUBST_RE = re.compile('(.*){{([^}]+)}}(.*)', re.MULTILINE | re.DOTALL)
 
 
 class http_server(asyncore.dispatcher):
@@ -297,12 +298,15 @@ class http_handler(asyncore.dispatcher):
     client_settings = self.db.GetOneRow('select * from clients where id=%s;'
                                         % self.client_id)
       
-    for row in self.db.GetRows('select paths from tracks '
-                               'where paths <> "[]" '
-                               'order by rand() limit 10;'):
+    for row in self.db.GetRows('select id, paths, ' 
+                               'rand() + plays * 0.0001 - skips * 0.01 as idx '
+                               'from tracks where paths <> "[]" '
+                               'order by idx desc limit 10;'):
+      self.log('Considering %d, rank %f' %(row['id'], row['idx']))
+
       paths = eval(row['paths'])
       this_track = track.Track(self.db)
-      this_track.FromPath(paths[0])
+      this_track.FromId(row['id'])
       rendered = this_track.RenderValues()
 
       for path in eval(rendered['paths']):
@@ -317,7 +321,7 @@ class http_handler(asyncore.dispatcher):
           else:
             rendered['mp3_url'] = 'mp3/%s' % rendered['id']
 
-          self.log('Playing %d' % rendered['id'])
+          self.log('Sending %d' % rendered['id'])
           requests[self.addr[0]] = rendered['id']
           return rendered
 
@@ -471,7 +475,7 @@ class http_handler(asyncore.dispatcher):
                    ('>', '&gt;')]:
         (i, o) = repl
         results = results.replace(i, o)
-      results = results % rendered
+      results = self.substitute(results, rendered)
       
       self.sendfile('upnp_browseresponse.xml',
                     subst={'result': results,
@@ -530,7 +534,7 @@ class http_handler(asyncore.dispatcher):
       f.close()
 
     except:
-      senderror(404, 'File read error: %s' % path)
+      self.senderror(404, 'File read error: %s' % path)
       return
 
     extn = path.split('.')[-1]
@@ -540,7 +544,8 @@ class http_handler(asyncore.dispatcher):
         subst = {}
       subst.update(self.getstats_ever())
       subst.update(self.getstats_today())
-      data = data % subst
+      
+      data = self.substitute(data, subst)
 
     self.sendheaders('HTTP/1.1 200 OK\r\n'
                      'Content-Type: %s\r\n'
@@ -553,6 +558,18 @@ class http_handler(asyncore.dispatcher):
         self.log('REPLY %s' % l)
     
     self.buffer += data
+
+  def substitute(self, data, subst):
+    """Perform template substitution."""
+
+    m = _SUBST_RE.match(data)
+    while m:
+      data = '%s%s%s' %(m.group(1),
+                        subst.get(m.group(2), '<i>%s missing' % m.group(2)),
+                        m.group(3))
+      m = _SUBST_RE.match(data)
+
+    return data
 
   def senderror(self, number, msg):
     self.sendheaders('HTTP/1.1 %d %s\r\n'

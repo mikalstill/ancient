@@ -35,6 +35,13 @@ class Track:
     self.db = db
     self.persistant = {}
 
+  def FromId(self, id):
+    """Populate a track from its id number."""
+
+    self.persistant = self.db.GetOneRow('select * from tracks where '
+                                        'id=%d;'
+                                        % id)
+
   def FromMeta(self, artist, album, track_number, song):
     """Populate a track from its meta data."""
 
@@ -161,6 +168,9 @@ class Track:
 
     if not self.persistant:
       return
+    
+    if self.persistant.get('paths', '[]') == '[]':
+      raise TrackException('You cannot store a track with no paths')
 
     try:
       self.db.WriteOneRow('tracks', 'id', self.persistant)
@@ -173,6 +183,56 @@ class Track:
     except Exception, e:
       raise TrackException(self.db, 'Could not store track: %s: "%s" (%s)'
                            %(self.persistant['paths'], e, type(e)))
+
+  def Delete(self):
+    """Remove this song from the database."""
+
+    self.db.ExecuteSql('delete from tracks where id=%d;'
+                       % self.persistant['id'])
+
+  def Merge(self, other):
+    """Merge another track with this one."""
+
+    # Fields which can be summed
+    for f in ['plays', 'skips']:
+      self.persistant[f] = (self.persistant.get(f, 0) +
+                            other.persistant.get(f, 0))
+
+    # Date fields where we take the newest
+    for f in ['last_played', 'last_skipped', 'last_action']:
+      a = self.persistant.get(f, datetime.datetime(1970, 1, 1))
+      b = other.persistant.get(f, datetime.datetime(1970, 1, 1))
+      if a > b:
+        v = a
+      else:
+        v = b
+      if v != datetime.datetime(1970, 1, 1):
+        self.persistant[f] = v
+
+    # Date fields where we take the oldest
+    for f in ['creation_time']:
+      a = self.persistant.get(f, datetime.datetime(1970, 1, 1))
+      b = other.persistant.get(f, datetime.datetime(1970, 1, 1))
+      if a < b:
+        v = a
+      else:
+        v = b
+      if v != datetime.datetime(1970, 1, 1):
+        self.persistant[f] = v
+
+    # Fields where we only clobber ours if we don't have a value
+    for f in ['artist', 'album', 'number', 'song']:
+      if not self.persistant.has_key(f) or not self.persistant[f]:
+        self.persistant[f] = other.persistant.get(f, None)
+
+    # Arrays we merge
+    for f in ['paths', 'tags']:
+      a = eval(self.persistant.get(f, '[]'))
+      b = eval(other.persistant.get(f, '[]'))
+      for elem in b:
+        if not elem in a:
+          a.append(elem)
+      self.persistant[f] = repr(a)
 
   def RenderValues(self):
     """Render a HTML description of this track."""
