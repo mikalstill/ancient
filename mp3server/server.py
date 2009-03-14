@@ -252,6 +252,7 @@ class http_handler(asyncore.dispatcher):
 
     self.markskipped()
     rendered = self.picktrack()
+    requests[self.addr[0]] = rendered['id']
     self.log('MP3 url is %s' % rendered['mp3_url'])
     if not rendered:
       self.senderror(501, 'Failed to select a track')
@@ -299,8 +300,8 @@ class http_handler(asyncore.dispatcher):
                                         % self.client_id)
       
     for row in self.db.GetRows('select id, paths, ' 
-                               'rand() + plays * 0.0001 - skips * 0.01 as idx '
-                               'from tracks where paths <> "[]" '
+                               'rand() + (plays * 0.00005) - (skips * 0.01) '
+                               'as idx from tracks where paths <> "[]" '
                                'order by idx desc limit 10;'):
       self.log('Considering %d, rank %f' %(row['id'], row['idx']))
 
@@ -312,8 +313,6 @@ class http_handler(asyncore.dispatcher):
       for path in eval(rendered['paths']):
         self.log('Checking %s' % path)
         if path.endswith('.mp3') and os.path.exists(path):
-          self.log('Selected %s' % path)
-
           if client_settings and client_settings.has_key('mp3_source'):
             rendered['mp3_url'] = ('%s/%s' %(client_settings['mp3_source'],
                                              path.replace(FLAGS.audio_path,
@@ -321,8 +320,6 @@ class http_handler(asyncore.dispatcher):
           else:
             rendered['mp3_url'] = 'mp3/%s' % rendered['id']
 
-          self.log('Sending %d' % rendered['id'])
-          requests[self.addr[0]] = rendered['id']
           return rendered
 
     self.log('Could not find an MP3')
@@ -388,15 +385,17 @@ class http_handler(asyncore.dispatcher):
       # MP101 can't handle extra headers like cookies
       self.extra_headers = []
 
-    self.id = file
+    self.id = int(file)
     if self.addr[0] in requests:
       # A uPnP pause can look like a skip, but its requesting the same ID
-      if requests[self.addr[0]] != self.id:
-        if tracked:
-          self.markskipped()
+      self.log('Comparing %s(%s) and %s(%s)' %(type(requests[self.addr[0]]),
+                                               requests[self.addr[0]],
+                                               type(self.id),
+                                               self.id))
+      if requests[self.addr[0]] != self.id and tracked:
+        self.markskipped()
       else:
         self.log('This is a resume')
-
 
     for row in self.db.GetRows('select paths from tracks '
                                'where id=%s;'
