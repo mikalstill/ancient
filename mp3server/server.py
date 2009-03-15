@@ -270,8 +270,12 @@ class http_handler(asyncore.dispatcher):
     rendered = {}
     rendered['graph'] = self.playgraph()
 
-    # select * from events inner join tracks on events.track_id = tracks.id;
-    
+    sql = ('select * from events inner join tracks on '
+           'events.track_id = tracks.id order by events.timestamp desc '
+           'limit 30;')
+    results = self.renderbrowseresults(sql)
+    rendered['results'] = '\n'.join(results)
+
     self.sendfile('graph.html', subst=rendered)
 
   def handleurl_browse(self, file, post_data):
@@ -293,10 +297,28 @@ class http_handler(asyncore.dispatcher):
           for arg in l.split('&'):
             (name, value) = arg.split('=')
             if value:
-              filters['%s_filter' % name] = value.replace('+', ' ')
-              filters['%s_filter_compiled' % name] = value.replace('+', ' ').\
-                                                           replace(' ',
+              for replacement in [('+', ' '), ('%5E', '^'), ('%24', '$')]:
+                (a, b) = replacement
+                value = value.replace(a, b)
+
+              filters['%s_filter' % name] = value
+              filters['%s_filter_compiled' % name] = value.replace(' ',
                                                                    '[ _+]+')
+
+    sql = ('select * from tracks '
+           'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
+           'order by artist, album, number, song limit 1000;'
+           %(filters['artist_filter_compiled'],
+             filters['album_filter_compiled'],
+             filters['track_filter_compiled']))
+    self.log('Browse SQL = %s' % sql)
+
+    results = self.renderbrowseresults(sql)
+    filters['results'] = '\n'.join(results)
+    self.sendfile('browse.html', subst=filters)
+
+  def renderbrowseresults(self, sql):
+    """Paint a table of the results of a SQL statement."""
 
     f = open('browse_result.html')
     results_template = f.read()
@@ -304,14 +326,6 @@ class http_handler(asyncore.dispatcher):
 
     results = []
     bgcolor = ''
-
-    sql = ('select * from tracks '
-           'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
-           'limit 1000;'
-           %(filters['artist_filter_compiled'],
-             filters['album_filter_compiled'],
-             filters['track_filter_compiled']))
-    self.log('Browse SQL = %s' % sql)
 
     for row in self.db.GetRows(sql):
       if bgcolor == 'bgcolor="#DDDDDD"':
@@ -322,8 +336,7 @@ class http_handler(asyncore.dispatcher):
       row['bgcolor'] = bgcolor
       results.append(self.substitute(results_template, row))
 
-    filters['results'] = '\n'.join(results)
-    self.sendfile('browse.html', subst=filters)
+    return results
 
   def markskipped(self):
     """Mark skipped tracks, if any."""
