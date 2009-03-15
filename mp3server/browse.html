@@ -14,6 +14,8 @@
           return digit;
       }
 
+      var trackIds = Array();
+
       soundManager.useHighPerformance = false;
       soundManager.url = '/local/soundmanager2.swf';
       soundManager.debugMode = false;
@@ -23,9 +25,9 @@
 
     <table width=100%>
     <tr><td>
-        <button onClick="soundManager.togglePause('aSound');">Pause</button>
-        <button onClick="soundManager.stop('aSound');">Stop</button>
-        <button onClick="goNext();">Next</button>
+        <button onClick="soundManager.togglePause(trackId);">Pause</button>
+        <button onClick="soundManager.stop(trackId);">Stop</button>
+        <button onClick="nextButton();">Next</button>
     </td><td>
         <font size=+5><span id="position">...</span></font>
     </td></tr>
@@ -76,6 +78,47 @@
     {{results}}
     </table>
     </form>
+
+    <script type='text/javascript'>
+      soundManager.onload = goNext();
+
+      function nextButton() {
+        soundManager.stop(trackId);
+	document.getElementById(trackId + "_state").innerHTML = "";
+	goNext();
+      }
+
+      function goNext() {
+        trackId = trackIds.shift();
+	document.getElementById(trackId + "_state").innerHTML = "**";
+
+        var mySound = soundManager.createSound({
+          id: trackId,
+          url: encodeURI("/mp3/" + trackId),
+          onfinish:songFinished,
+        });
+
+	mySound.options.whileplaying = function() {
+	  var position = Math.floor(mySound.position / 1000);
+	  var position_min = Math.floor(position / 60);
+	  var position_sec = pad(position - (position_min * 60));
+
+	  var duration = Math.floor(mySound.duration / 1000);
+	  var duration_min = Math.floor(duration / 60);
+	  var duration_sec = pad(duration - (duration_min * 60));
+
+          document.getElementById("position").innerHTML = position_min + ":" + position_sec + " of " + duration_min + ":" + duration_sec;
+	  }
+
+        mySound.play();
+      }
+
+      function songFinished() {
+        soundManager.stop(trackId);
+	document.getElementById(trackId + "_state").innerHTML = "";
+        new Ajax.Request("/done/" + trackId, {method:'get', onSuccess:goNext});
+      }
+    </script>
 
 </body>
 </html>

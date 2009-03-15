@@ -1,5 +1,10 @@
 <tr {{bgcolor}}>
-    <td><span id="{{id}}_state"></span></td>
+    <td>
+        <script type='text/javascript'>
+	     trackIds.push("{{id}}");
+        </script>
+        <span id="{{id}}_state"></span>
+    </td>
     <td>{{artist}}</td>
     <td>{{album}}</td>
     <td>{{number}} {{song}}</td>

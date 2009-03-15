@@ -451,10 +451,10 @@ class http_handler(asyncore.dispatcher):
                                                requests[self.addr[0]],
                                                type(self.id),
                                                self.id))
-      if int(requests[self.addr[0]]) != self.id and tracked:
-        self.markskipped()
-      else:
+      if int(requests[self.addr[0]]) == self.id and tracked:
         self.log('This is a resume')
+      else:
+        self.markskipped()
 
     for row in self.db.GetRows('select paths from tracks '
                                'where id=%s;'
