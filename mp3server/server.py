@@ -287,14 +287,16 @@ class http_handler(asyncore.dispatcher):
               }
 
     # I am sure there is a better way than this
-    for l in post_data.split('\r\n'):
-      if len(l) > 0:
-        for arg in l.split('&'):
-          (name, value) = arg.split('=')
-          if value:
-            filters['%s_filter' % name] = value.replace('+', ' ')
-            filters['%s_filter_compiled' % name] = value.replace('+', ' ').\
-                                                         replace(' ', '[ _+]+')
+    if post_data:
+      for l in post_data.split('\r\n'):
+        if len(l) > 0:
+          for arg in l.split('&'):
+            (name, value) = arg.split('=')
+            if value:
+              filters['%s_filter' % name] = value.replace('+', ' ')
+              filters['%s_filter_compiled' % name] = value.replace('+', ' ').\
+                                                           replace(' ',
+                                                                   '[ _+]+')
 
     f = open('browse_result.html')
     results_template = f.read()
