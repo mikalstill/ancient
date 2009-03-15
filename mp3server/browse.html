@@ -26,7 +26,7 @@
     <table width=100%>
     <tr><td>
         <button onClick="soundManager.togglePause(trackId);">Pause</button>
-        <button onClick="soundManager.stop(trackId);">Stop</button>
+        <button onClick="trackIds = shuffle(trackIds);">Shuffle</button>
         <button onClick="nextButton();">Next</button>
     </td><td>
         <font size=+5><span id="position">...</span></font>
@@ -86,9 +86,15 @@
       soundManager.onload = goNext();
 
       function nextButton() {
+        cleanUpCurrent();
+        goNext();
+      }
+
+      function cleanUpCurrent() {
         soundManager.stop(trackId);
+	soundManager.unload(trackId);
+	soundManager.destroySound(trackId);
 	document.getElementById(trackId + "_state").innerHTML = "";
-	goNext();
       }
 
       function goNext() {
@@ -121,6 +127,12 @@
 	document.getElementById(trackId + "_state").innerHTML = "";
         new Ajax.Request("/done/" + trackId, {method:'get', onSuccess:goNext});
       }
+
+      // Jonas Raoni Soares Silva (http://jsfromhell.com/array/shuffle [v1.0])
+      function shuffle(o){
+	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	return o;
+      };
     </script>
 
 </body>
