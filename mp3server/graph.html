@@ -11,7 +11,35 @@
       var trackIds = Array();
     </script>
 
+    <div align=center>
     <img src="{{graph}}">
+
+    <br/><br/>
+
+    <table>
+    <tr bgcolor="#BBBBBB">
+        <td bgcolor="#FFFFFF"></td>
+        <td>Count</td>
+        <td>Most played</td>
+        <td>Plays</td>
+        <td>Most skipped</td>
+        <td>Skips</td>
+    </tr>
+    <tr><td bgcolor="#BBBBBB">Today</td>
+        <td></td>
+        <td></td>
+        <td>{{today_countplays}}</td>
+        <td></td>
+        <td>{{today_countskips}}</td>
+     </tr>
+     <tr><td bgcolor="#BBBBBB">Ever</td>
+         <td>{{ever_count}}</td>
+         <td>{{ever_maxplays}}</td>
+         <td>{{ever_sumplays}}</td>
+         <td>{{ever_maxskips}}</td>
+         <td>{{ever_sumskips}}</td></tr>
+    </table>
+    </div>
 
     <br/><br/>
 
