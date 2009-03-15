@@ -94,6 +94,12 @@
         soundManager.stop(trackId);
 	soundManager.unload(trackId);
 	soundManager.destroySound(trackId);
+	
+	var tr = document.getElementById(trackId + "_row");
+	if (tr != null) {
+	  tr.style.display = 'none';
+        }
+
 	document.getElementById(trackId + "_state").innerHTML = "";
       }
 
