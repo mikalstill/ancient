@@ -15,6 +15,7 @@
       }
 
       var trackIds = Array();
+      var trackUrls = new Object();
 
       soundManager.useHighPerformance = false;
       soundManager.url = '/local/soundmanager2.swf';
@@ -109,7 +110,8 @@
 
         var mySound = soundManager.createSound({
           id: trackId,
-          url: encodeURI("/mp3/" + trackId),
+          // url: encodeURI("/mp3/" + trackId),
+	  url: trackUrls[trackId],
           onfinish:songFinished,
         });
 

@@ -334,6 +334,7 @@ class http_handler(asyncore.dispatcher):
         bgcolor = 'bgcolor="#DDDDDD"'
 
       row['bgcolor'] = bgcolor
+      row['mp3_url'] = self.findMP3(row['id'], row['paths'])
       results.append(self.substitute(results_template, row))
 
     return results
@@ -372,9 +373,6 @@ class http_handler(asyncore.dispatcher):
   def picktrack(self):
     """Pick a track for this client and make sure it exists."""
 
-    client_settings = self.db.GetOneRow('select * from clients where id=%s;'
-                                        % self.client_id)
-      
     for row in self.db.GetRows('select id, paths, ' 
                                'rand() + (plays * 0.00005) - (skips * 0.01) '
                                'as idx from tracks where paths <> "[]" '
@@ -385,21 +383,32 @@ class http_handler(asyncore.dispatcher):
       this_track = track.Track(self.db)
       this_track.FromId(row['id'])
       rendered = this_track.RenderValues()
-
-      for path in eval(rendered['paths']):
-        self.log('Checking %s' % path)
-        if path.endswith('.mp3') and os.path.exists(path):
-          if client_settings and client_settings.has_key('mp3_source'):
-            rendered['mp3_url'] = ('%s/%s' %(client_settings['mp3_source'],
-                                             path.replace(FLAGS.audio_path,
-                                                          '')))
-          else:
-            rendered['mp3_url'] = 'mp3/%s' % rendered['id']
-
-          return rendered
+      rendered['mp3_url'] = self.findMP3(rendered['id'], row['paths'])
+      if rendered['mp3_url']:
+        return rendered
 
     self.log('Could not find an MP3')
     return {}
+
+  def findMP3(self, id, paths):
+    """Find a working MP3 file from a list of paths."""
+
+    client_settings = self.db.GetOneRow('select * from clients where id=%s;'
+                                        % self.client_id)
+      
+    for path in eval(paths):
+      self.log('Checking %s' % path)
+      if path.endswith('.mp3') and os.path.exists(path):
+        if client_settings and client_settings.has_key('mp3_source'):
+          mp3_url = ('%s/%s' %(client_settings['mp3_source'],
+                               path.replace(FLAGS.audio_path,
+                                                        '')))
+        else:
+          mp3_url = 'mp3/%s' % id
+
+        return mp3_url
+
+    return None
 
   def playgraph(self):
     """Generate a Google chart API graph of recent play history."""
