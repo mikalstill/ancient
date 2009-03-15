@@ -269,6 +269,9 @@ class http_handler(asyncore.dispatcher):
 
     rendered = {}
     rendered['graph'] = self.playgraph()
+
+    # select * from events inner join tracks on events.track_id = tracks.id;
+    
     self.sendfile('graph.html', subst=rendered)
 
   def handleurl_browse(self, file, post_data):
@@ -446,7 +449,7 @@ class http_handler(asyncore.dispatcher):
                                                requests[self.addr[0]],
                                                type(self.id),
                                                self.id))
-      if requests[self.addr[0]] != self.id and tracked:
+      if int(requests[self.addr[0]]) != self.id and tracked:
         self.markskipped()
       else:
         self.log('This is a resume')
@@ -457,6 +460,7 @@ class http_handler(asyncore.dispatcher):
       paths = eval(row['paths'])
       for path in paths:
         if path.endswith('.mp3') and os.path.exists(path):
+          requests[self.addr[0]] = self.id
           self.sendfile(path, chunk=chunk)
           self.is_mp3 = True
           return
