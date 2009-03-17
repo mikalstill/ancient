@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='12'
+CURRENT_SCHEMA='13'
 
 
 class FormatException(Exception):
@@ -352,6 +352,24 @@ class Database:
                                'timestamp datetime, user varchar(32), '
                                'track_id int, event varchar(30));')
       self.version = '12';
+
+    if self.version == '12':
+      self.db_connection.query('create table tags ('
+                               'tag varchar(32), track_id int, '
+                               'primary key(tag, track_id));')
+
+      # Move the data from the old location to the new one
+      for row in self.GetRows('select id, tags from tracks '
+                              'where tags <> "[]";'):
+        for tag in eval(row['tags']):
+          self.ExecuteSql('insert into tags(tag, track_id) '
+                          'values("%s", %d);'
+                          %(tag, row['id']))
+          self.ExecuteSql('commit;')
+
+      self.ExecuteSql('alter table tracks drop column tags;')
+
+      self.version = '13'
 
     self.db_connection.query('commit;')
     self.WriteSetting('schema', self.version)

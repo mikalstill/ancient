@@ -397,7 +397,6 @@ class http_handler(asyncore.dispatcher):
                                         % self.client_id)
       
     for path in eval(paths):
-      self.log('Checking %s' % path)
       if path.endswith('.mp3') and os.path.exists(path):
         if client_settings and client_settings.has_key('mp3_source'):
           mp3_url = ('%s/%s' %(client_settings['mp3_source'],
