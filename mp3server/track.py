@@ -146,14 +146,9 @@ class Track:
     if not self.persistant:
       return
 
-    if 'tags' in self.persistant and self.persistant['tags']:
-      t = eval(self.persistant['tags'])
-    else:
-      t = []
-
-    if not tag in t:
-      t.append(tag)
-    self.persistant['tags'] = repr(t)
+    self.db.ExecuteSql('insert into tags(tag, track_id) values("%s", %d);'
+                       %(tag, self.persistant['id']))
+    self.db.ExecuteSql('commit;')
 
   def AddPlays(self, plays):
     """This track has been played."""
@@ -226,7 +221,7 @@ class Track:
         self.persistant[f] = other.persistant.get(f, None)
 
     # Arrays we merge
-    for f in ['paths', 'tags']:
+    for f in ['paths']:
       a = eval(self.persistant.get(f, '[]'))
       b = eval(other.persistant.get(f, '[]'))
       for elem in b:
@@ -234,7 +229,21 @@ class Track:
           a.append(elem)
       self.persistant[f] = repr(a)
 
+    # Update the id in the tags table
+    self.db.ExecuteSql('update tags set track_id=%d where track_id=%d;'
+                       %(other.persistant['id'], other.persistant['id']))
+    self.db.ExecuteSql('commit;')
+
   def RenderValues(self):
     """Render a HTML description of this track."""
 
-    return copy.deepcopy(self.persistant)
+    retval = copy.deepcopy(self.persistant)
+
+    tags = []
+    for row in self.db.GetRows('select tag from tags where track_id=%d;'
+                               % self.persistant['id']):
+      tags.append(row['tag'])
+
+    retval['tags'] = tags
+
+    return retval

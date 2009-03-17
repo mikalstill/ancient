@@ -5,6 +5,7 @@
 import asyncore
 import cStringIO
 import datetime
+import mad
 import os
 import re
 import socket
@@ -699,15 +700,19 @@ def main(argv):
   print '%s Started listening on port %s' %(datetime.datetime.now(),
                                             FLAGS.port)
 
-  last_summary = datetime.datetime.now()
+  last_summary = time.time()
   while running:
+    last_event = time.time()
     asyncore.loop(timeout=10.0, count=1)
 
-    delta = datetime.datetime.now() - last_summary
-    if delta.seconds > 60:
+    if time.time() - last_event > 9.0:
+      # We are idle
+      print '%s IDLE' % datetime.datetime.now()
+
+    if time.time() - last_summary > 60.0:
       print '%s TOTAL BYTES SERVED: %s' %(datetime.datetime.now(),
                                           DisplayFriendlySize(bytes))
-      last_summary = datetime.datetime.now()
+      last_summary = time.time()
 
 
 if __name__ == "__main__":

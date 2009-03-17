@@ -2,6 +2,8 @@
   <head>
     <title>MP3 server: {{song}}</title>
     <script type='text/javascript' src='/local/soundmanager2.js'></script>
+    <script type='text/javascript' src='/local/shortcut.js'></script>
+
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">google.load("prototype", "1.6.0.2");</script>
 
@@ -50,15 +52,24 @@
     <button onClick="soundManager.togglePause('aSound');">Pause</button>
     <button onClick="goNext();">Next</button>
 
+    <script type="text/javascript">
+      shortcut.add('Space', function() {soundManager.togglePause('aSound')});
+    </script>
+
     <br/><br/>
 
     <table width=100%>
+    <tr bgcolor="#BBBBBB"><td><b>Track details</b></td><td><b>Playback</b></td></tr>
     <tr><td>
-        Artist: {{artist}}<br/>
-        Album: {{album}}<br/>
-        Song: <i>{{number}} {{song}}</i><br/>
-        Play count: {{plays}}<br/>
-        Skip count: {{skips}}<br/><br/>
+        <ul>
+        <table>
+        <tr><td>Artist: {{artist}}</td></tr>
+        <tr bgcolor="#CCCCCC"><td>Album: {{album}}</td></tr>
+        <tr><td>Song: <i>{{number}} {{song}}</i></td></tr>
+        <tr bgcolor="CCCCCC"><td>Play count: {{plays}}</td></tr>
+        <tr><td>Skip count: {{skips}}</td></tr>
+        </table>
+        </ul>
     </td><td>
         <font size=+5><span id="position">...</span></font>
     </td></tr>
@@ -66,7 +77,8 @@
 
     <br/><br/>
 
-    Paths: {{paths}}
+    Paths: {{paths}}<br/>
+    Tags: {{tags}}
 
     <br/><br/>
 
