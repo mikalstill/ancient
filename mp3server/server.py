@@ -3,6 +3,7 @@
 # Web interface to my MP3 database
 
 import asyncore
+import base64
 import cStringIO
 import datetime
 import mad
@@ -16,6 +17,7 @@ import uuid
 
 import MySQLdb
 
+import coverhunt
 import database
 import gflags
 import track
@@ -194,6 +196,8 @@ class http_handler(asyncore.dispatcher):
         self.handleurl_graph()
       elif file.startswith('/browse'):
         self.handleurl_browse(file, post_data)
+      elif file.startswith('/art'):
+        self.handleurl_art(file)
 
       else:
         self.senderror(404, '%s file not found' % file)
@@ -318,6 +322,28 @@ class http_handler(asyncore.dispatcher):
     filters['results'] = '\n'.join(results)
     self.sendfile('browse.html', subst=filters)
 
+  def handleurl_art(self, file):
+    """Serve an image for a given album, if we have one."""
+
+    print file
+    (_, _, artist, album) = file.split('/')
+    self.log('Fetching art for "%s" "%s"' %(artist, album))
+    row = self.db.GetOneRow('select art from art where artist=%s and '
+                            'album=%s;'
+                            %(self.db.FormatSqlValue('artist', artist),
+                              self.db.FormatSqlValue('album', album)))
+    if not row or not row['art']:
+      self.senderror(404, 'No such art')
+      return
+
+    data = base64.decodestring(row['art'])
+    self.sendheaders('HTTP/1.1 200 OK\r\n'
+                     'Content-Type: image/jpeg\r\n'
+                     'Content-Length: %s\r\n'            
+                     '%s\r\n'
+                     %(len(data), '\r\n'.join(self.extra_headers)))
+    self.buffer += data
+
   def renderbrowseresults(self, sql):
     """Paint a table of the results of a SQL statement."""
 
@@ -335,7 +361,7 @@ class http_handler(asyncore.dispatcher):
         bgcolor = 'bgcolor="#DDDDDD"'
 
       row['bgcolor'] = bgcolor
-      row['mp3_url'] = self.findMP3(row['id'], row['paths'])
+      row['mp3_url'] = self.findMP3(row['id'])
       results.append(self.substitute(results_template, row))
 
     return results
@@ -374,35 +400,34 @@ class http_handler(asyncore.dispatcher):
   def picktrack(self):
     """Pick a track for this client and make sure it exists."""
 
-    for row in self.db.GetRows('select id, paths, ' 
+    for row in self.db.GetRows('select id, ' 
                                'rand() + (plays * 0.00005) - (skips * 0.01) '
-                               'as idx from tracks where paths <> "[]" '
+                               'as idx from tracks '
                                'order by idx desc limit 10;'):
       self.log('Considering %d, rank %f' %(row['id'], row['idx']))
 
-      paths = eval(row['paths'])
       this_track = track.Track(self.db)
       this_track.FromId(row['id'])
       rendered = this_track.RenderValues()
-      rendered['mp3_url'] = self.findMP3(rendered['id'], row['paths'])
+      rendered['mp3_url'] = self.findMP3(rendered['id'])
       if rendered['mp3_url']:
         return rendered
 
     self.log('Could not find an MP3')
     return {}
 
-  def findMP3(self, id, paths):
+  def findMP3(self, id):
     """Find a working MP3 file from a list of paths."""
 
     client_settings = self.db.GetOneRow('select * from clients where id=%s;'
                                         % self.client_id)
       
-    for path in eval(paths):
-      if path.endswith('.mp3') and os.path.exists(path):
+    for row in self.db.GetRows('select path from paths where track_id=%d;'
+                               % id):
+      if row['path'].endswith('.mp3') and os.path.exists(row['path']):
         if client_settings and client_settings.has_key('mp3_source'):
           mp3_url = ('%s/%s' %(client_settings['mp3_source'],
-                               path.replace(FLAGS.audio_path,
-                                                        '')))
+                               row['path'].replace(FLAGS.audio_path, '')))
         else:
           mp3_url = 'mp3/%s' % id
 
@@ -478,16 +503,13 @@ class http_handler(asyncore.dispatcher):
       else:
         self.markskipped()
 
-    for row in self.db.GetRows('select paths from tracks '
-                               'where id=%s;'
+    for row in self.db.GetRows('select path from paths where track_id=%s;'
                                % self.id):
-      paths = eval(row['paths'])
-      for path in paths:
-        if path.endswith('.mp3') and os.path.exists(path):
-          requests[self.addr[0]] = self.id
-          self.sendfile(path, chunk=chunk)
-          self.is_mp3 = True
-          return
+      if row['path'].endswith('.mp3') and os.path.exists(row['path']):
+        requests[self.addr[0]] = self.id
+        self.sendfile(row['path'], chunk=chunk)
+        self.is_mp3 = True
+        return
 
     self.senderror(500, 'MP3 %s missing' % file)
 
@@ -708,6 +730,41 @@ def main(argv):
     if time.time() - last_event > 9.0:
       # We are idle
       print '%s IDLE' % datetime.datetime.now()
+      for row in db.GetRows('select path from paths where error is null '
+                            'and duration is null limit 1;'):
+        try:
+          duration = mad.MadFile(row['path']).total_time()
+          print '%s %s: %f' %(datetime.datetime.now(), row['path'], duration)
+
+          db.ExecuteSql('update paths set duration=%f where path=%s;'
+                        %(duration, db.FormatSqlValue('path', row['path'])))
+        except Exception, e:
+          db.ExecuteSql('update paths set error=%s where path=%s;'
+                        %(db.FormatSqlValue('error', str(e)),
+                          db.FormatSqlValue('path', row['path'])))
+
+      for row in db.GetRows('select distinct tracks.artist, tracks.album, '
+                            'art.art from tracks left join art on '
+                            'tracks.artist = art.artist and '
+                            'tracks.album = art.album where '
+                            'art.art is null and art.error is null and '
+                            'tracks.artist is not null '
+                            'and tracks.album is not null '
+                            'group by tracks.album, tracks.artist limit 1;'):
+        print '%s Fetching art for "%s" "%s"' %(datetime.datetime.now(),
+                                                row['artist'], row['album'])
+        a = coverhunt.Art(row['artist'], row['album'])
+        art = a.Search()
+        if not art:
+          db.ExecuteSql('insert into art(artist, album, error) values '
+                        '(%s, %s, "No art found");'
+                        %(db.FormatSqlValue('artist', row['artist']),
+                          db.FormatSqlValue('album', row['album'])))
+        else:
+          db.ExecuteSql('insert into art(artist, album, art) values '
+                        '(%s, %s, "%s");'
+                        %(db.FormatSqlValue('artist', row['artist']),
+                          db.FormatSqlValue('album', row['album']), art))
 
     if time.time() - last_summary > 60.0:
       print '%s TOTAL BYTES SERVED: %s' %(datetime.datetime.now(),

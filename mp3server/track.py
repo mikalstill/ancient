@@ -67,8 +67,6 @@ class Track:
       self.persistant['album'] = album
       self.persistant['number'] = track_number
       self.persistant['song'] = song
-      self.persistant['paths'] = '[]'
-      self.persistant['tags'] = '[]'
 
       self.persistant['plays'] = 0
       self.persistant['skips'] = 0
@@ -77,10 +75,12 @@ class Track:
   def FromPath(self, path, attemptparse=True):
     """Rehydrate a track from its path."""
 
-    self.persistant = self.db.GetOneRow('select * from tracks where '
-                                        'paths like "%%%s%%";'
-                                        % self.db.FormatSqlValue('path',
-                                                                 path)[1:-2])
+    id_row = self.db.GetOneRow('select id from paths where path = "%s";'
+                               % path)
+    id = id_row['id']
+
+    self.persistant = self.db.GetOneRow('select * from tracks where id=%d;'
+                                        % id)
     if self.persistant:
       return
 
@@ -128,17 +128,12 @@ class Track:
     except:
       pass
 
-  def AddPath(self, path, attemptparse=False):
+  def AddPath(self, path):
     """This song is stored at..."""
 
-    if self.persistant.has_key('paths'):
-      p = eval(self.persistant['paths'])
-    else:
-      p = []
-
-    if not path in p:
-      p.append(path)
-    self.persistant['paths'] = repr(p)
+    self.db.ExecuteSql('insert into paths(path, track_id) values("%s", %d);'
+                       %(path, self.persistant['id']))
+    self.db.ExecuteSql('commit;')
 
   def AddTag(self, tag):
     """Add a tag for the track."""
@@ -164,26 +159,24 @@ class Track:
     if not self.persistant:
       return
     
-    if self.persistant.get('paths', '[]') == '[]':
-      raise TrackException('You cannot store a track with no paths')
-
     try:
       self.db.WriteOneRow('tracks', 'id', self.persistant)
     except MySQLdb.Error, (errno, errstr):
       if errno != 1064:
         raise TrackException(self.db, 'Could not store track %s: %s "%s"'
-                             %(self.persistant['paths'], errno, errstr))
+                             %(self.persistant['id'], errno, errstr))
     except database.FormatException, e:
       raise e
     except Exception, e:
       raise TrackException(self.db, 'Could not store track: %s: "%s" (%s)'
-                           %(self.persistant['paths'], e, type(e)))
+                           %(self.persistant['id'], e, type(e)))
 
   def Delete(self):
     """Remove this song from the database."""
 
     self.db.ExecuteSql('delete from tracks where id=%d;'
                        % self.persistant['id'])
+    self.db.ExecuteSql('commit;')
 
   def Merge(self, other):
     """Merge another track with this one."""
@@ -220,17 +213,13 @@ class Track:
       if not self.persistant.has_key(f) or not self.persistant[f]:
         self.persistant[f] = other.persistant.get(f, None)
 
-    # Arrays we merge
-    for f in ['paths']:
-      a = eval(self.persistant.get(f, '[]'))
-      b = eval(other.persistant.get(f, '[]'))
-      for elem in b:
-        if not elem in a:
-          a.append(elem)
-      self.persistant[f] = repr(a)
-
     # Update the id in the tags table
     self.db.ExecuteSql('update tags set track_id=%d where track_id=%d;'
+                       %(other.persistant['id'], other.persistant['id']))
+    self.db.ExecuteSql('commit;')
+
+    # Update the id in the paths table
+    self.db.ExecuteSql('update paths set track_id=%d where track_id=%d;'
                        %(other.persistant['id'], other.persistant['id']))
     self.db.ExecuteSql('commit;')
 
@@ -245,5 +234,12 @@ class Track:
       tags.append(row['tag'])
 
     retval['tags'] = tags
+
+    paths = []
+    for row in self.db.GetRows('select path from paths where track_id=%d;'
+                               % self.persistant['id']):
+      paths.append(row['path'])
+
+    retval['paths'] = paths 
 
     return retval

@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='13'
+CURRENT_SCHEMA='18'
 
 
 class FormatException(Exception):
@@ -370,6 +370,59 @@ class Database:
       self.ExecuteSql('alter table tracks drop column tags;')
 
       self.version = '13'
+
+    if self.version == '13':
+      self.db_connection.query('create table paths ('
+                               'path varchar(1000), track_id int, '
+                               'primary key(path));')
+
+      # Move the data from the old location to the new one
+      failed = 0
+      for row in self.GetRows('select id, paths from tracks '
+                              'where paths <> "[]";'):
+        for path in eval(row['paths']):
+          try:
+            self.ExecuteSql('insert into paths(path, track_id) '
+                            'values("%s", %d);'
+                            %(path, row['id']))
+            self.ExecuteSql('commit;')
+          except:
+            print '%s Failed to migrate path %s' %(datetime.datetime.now(),
+                                                   path)
+            failed += 1
+
+      if failed > 5:
+        print 'Too many failed migrations'
+        sys.exit(1)
+
+      self.ExecuteSql('alter table tracks drop column paths;')
+
+      self.version = '14'
+
+    if self.version == '14':
+      self.ExecuteSql('alter table paths add column duration float, '
+                      'add column active boolean;')
+      self.ExecuteSql('commit;')
+      self.version = '15'
+
+    if self.version == '15':
+      self.ExecuteSql('alter table paths drop column active, '
+                      'add column error varchar(255);')
+      self.ExecuteSql('commit;')
+      self.version = '16'
+
+    if self.version == '16':
+      self.ExecuteSql('create table art(artist varchar(255), '
+                      'album varchar(255), art longtext, '
+                      'primary key(artist, album));')
+      self.ExecuteSql('commit;') 
+
+      self.version = '17'
+
+    if self.version == '17':
+      self.ExecuteSql('alter table art add column error varchar(255);')
+      self.ExecuteSql('commit;')
+      self.version = '18'
 
     self.db_connection.query('commit;')
     self.WriteSetting('schema', self.version)
