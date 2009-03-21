@@ -326,7 +326,7 @@ class http_handler(asyncore.dispatcher):
     """Serve an image for a given album, if we have one."""
 
     print file
-    (_, _, artist, album) = file.split('/')
+    (_, _, artist, album) = file.replace('%20', ' ').split('/')
     self.log('Fetching art for "%s" "%s"' %(artist, album))
     row = self.db.GetOneRow('select art from art where artist=%s and '
                             'album=%s;'
@@ -400,11 +400,15 @@ class http_handler(asyncore.dispatcher):
   def picktrack(self):
     """Pick a track for this client and make sure it exists."""
 
-    for row in self.db.GetRows('select id, ' 
-                               'rand() + (plays * 0.00005) - (skips * 0.01) '
+    for row in self.db.GetRows('select *, ' 
+                               'rand() + (plays * 0.00005) - (skips * 0.01) + '
+                               '(to_days(now()) - to_days(last_played)) * '
+                               '0.00001 '
                                'as idx from tracks '
                                'order by idx desc limit 10;'):
-      self.log('Considering %d, rank %f' %(row['id'], row['idx']))
+      self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s)'
+               %(row['id'], row['idx'], row['plays'], row['skips'],
+                 row['last_played']))
 
       this_track = track.Track(self.db)
       this_track.FromId(row['id'])
@@ -472,8 +476,8 @@ class http_handler(asyncore.dispatcher):
       play += '%d,' % play_graph.get(i, 0)
       skip += '%d,' % skip_graph.get(i, 0)
 
-    return ('http://chart.apis.google.com/chart?cht=bvg&'
-            'chbh=a&chds=0,10,0,10&chs=800x125&chd=t:%s|%s&'
+    return ('cht=bvg&'
+            'chbh=a&chds=0,10,0,10&chd=t:%s|%s&'
             'chco=00FF00,FF0000'
             %(play[:-1], skip[:-1]))
 
@@ -729,12 +733,16 @@ def main(argv):
 
     if time.time() - last_event > 9.0:
       # We are idle
-      print '%s IDLE' % datetime.datetime.now()
+      db.ExecuteSql('update tracks set last_played=makedate(1970,1) where '
+                    'last_played is null;')
+      db.ExecuteSql('commit;')
+
       for row in db.GetRows('select path from paths where error is null '
                             'and duration is null limit 1;'):
         try:
           duration = mad.MadFile(row['path']).total_time()
-          print '%s %s: %f' %(datetime.datetime.now(), row['path'], duration)
+          print '%s MP3 length %s: %f ms' %(datetime.datetime.now(),
+                                            row['path'], duration)
 
           db.ExecuteSql('update paths set duration=%f where path=%s;'
                         %(duration, db.FormatSqlValue('path', row['path'])))

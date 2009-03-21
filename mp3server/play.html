@@ -49,60 +49,72 @@
     </script>
   </head>
   <body>
-    <button onClick="soundManager.togglePause('aSound');">Pause</button>
-    <button onClick="goNext();">Next</button>
+    <table width=100%>
+    <tr><td>
+        <button onClick="soundManager.togglePause('aSound');">Pause</button>
+        <button onClick="goNext();">Next</button>
+    </td><td>
+        <div align=right>
+            <font size=+5><span id="position">...</span></font>
+        </div>
+    </td></tr>
+    </table>
 
     <script type="text/javascript">
       shortcut.add('Space', function() {soundManager.togglePause('aSound')});
     </script>
 
-    <br/><br/>
-
     <table width=100%>
-    <tr bgcolor="#BBBBBB"><td><b>Track details</b></td><td><b>Playback</b></td></tr>
+    <tr bgcolor="#BBBBBB"><td><b>Track details</b></td><td><b>Art</b></td></tr>
     <tr><td>
         <ul>
         <table>
         <tr><td>Artist: {{artist}}</td></tr>
         <tr bgcolor="#CCCCCC"><td>Album: {{album}}</td></tr>
         <tr><td>Song: <i>{{number}} {{song}}</i></td></tr>
-        <tr bgcolor="CCCCCC"><td>Play count: {{plays}}</td></tr>
+        <tr bgcolor="#CCCCCC"><td>Play count: {{plays}}</td></tr>
         <tr><td>Skip count: {{skips}}</td></tr>
+	<tr><td bcolor="#CCCCCC"></td></tr>
+        <tr><td>Paths: {{paths}}</td></tr>
+        <tr><td bcolor="#CCCCCC">Tags: {{tags}}</td></tr>
         </table>
         </ul>
+
+        <div align=center>
+        <table>
+        <tr bgcolor="#BBBBBB">
+            <td bgcolor="#FFFFFF"></td>
+            <td>Count</td>
+            <td>Most played</td>
+            <td>Plays</td>
+            <td>Most skipped</td>
+            <td>Skips</td>
+        </tr>
+        <tr><td bgcolor="#BBBBBB">Today</td>
+            <td></td>
+            <td></td>
+            <td>{{today_countplays}}</td>
+            <td></td>
+            <td>{{today_countskips}}</td>
+        </tr>
+        <tr><td bgcolor="#BBBBBB">Ever</td>
+            <td>{{ever_count}}</td>
+            <td>{{ever_maxplays}}</td>
+            <td>{{ever_sumplays}}</td>
+            <td>{{ever_maxskips}}</td>
+            <td>{{ever_sumskips}}</td></tr>
+        </table>
+    
+        <br/><br/>
+
+        <img src="http://chart.apis.google.com/chart?chs=500x100&{{graph}}">
+        </div>
+
     </td><td>
-        <font size=+5><span id="position">...</span></font>
+        <img src="/art/{{artist}}/{{album}}">
     </td></tr>
     </table>
 
-    <br/><br/>
-
-    Paths: {{paths}}<br/>
-    Tags: {{tags}}
-
-    <br/><br/>
-
-    <table width=100%>
-    <tr><td></td><td>Count</td>
-                 <td>Most played</td>
-                 <td>Plays</td>
-                 <td>Most skipped</td>
-                 <td>Skips</td></tr>
-    <tr><td>Today</td><td></td>
-                      <td></td>
-                      <td>{{today_countplays}}</td>
-                      <td></td>
-                      <td>{{today_countskips}}</td></tr>
-     <tr><td>Ever</td><td>{{ever_count}}</td>
-                      <td>{{ever_maxplays}}</td>
-                      <td>{{ever_sumplays}}</td>
-                      <td>{{ever_maxskips}}</td>
-                      <td>{{ever_sumskips}}</td></tr>
-    </table>
-
-    <br/><br/>
-
-    <img src="{{graph}}">
 
   </body>
 </html>

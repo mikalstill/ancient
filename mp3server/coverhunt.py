@@ -26,8 +26,8 @@ class Art:
   """Artwork for an album."""
 
   def __init__(self, artist, album):
-    self.artist = artist
-    self.album = album
+    self.artist = artist.replace('_', ' ')
+    self.album = album.replace('_', ' ')
 
   def Search(self):
     """Try to find album art."""
@@ -63,6 +63,8 @@ class Art:
     except Exception, e:
       print e
       return None
+
+    return None
 
 
 if __name__ == '__main__':
