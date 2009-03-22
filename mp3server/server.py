@@ -402,9 +402,10 @@ class http_handler(asyncore.dispatcher):
 
     for row in self.db.GetRows('select *, ' 
                                'rand() + (plays * 0.00005) - (skips * 0.01) + '
-                               '(to_days(now()) - to_days(last_played)) * '
-                               '0.00001 '
-                               'as idx from tracks '
+                               '  (to_days(now()) - '
+                               '    greatest(to_days(last_played), '
+                               '             to_days(last_skipped))) '
+                               '  * 0.00001 as idx from tracks '
                                'order by idx desc limit 10;'):
       self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s)'
                %(row['id'], row['idx'], row['plays'], row['skips'],
@@ -733,7 +734,10 @@ def main(argv):
 
     if time.time() - last_event > 9.0:
       # We are idle
+      print '%s ...' % datetime.datetime.now()
       db.ExecuteSql('update tracks set last_played=makedate(1970,1) where '
+                    'last_played is null;')
+      db.ExecuteSql('update tracks set last_skipped=makedate(1970,1) where '
                     'last_played is null;')
       db.ExecuteSql('commit;')
 
