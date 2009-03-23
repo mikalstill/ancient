@@ -24,7 +24,7 @@ function SoundManager(smURL,smID) {
   this.useMovieStar = false;	   // enable support for Flash 9.0r115+ (codename "MovieStar") MPEG4 audio + video formats (AAC, M4V, FLV, MOV etc.)
   this.bgColor = '#ffffff';	   // movie (.swf) background color, useful if showing on-screen for video etc.
   this.useHighPerformance = false; // position:fixed flash movie gives increased js/flash speed
-  this.flashLoadTimeout = 30000;     // ms to wait for flash movie to load before failing (0 = infinity)
+  this.flashLoadTimeout = 0;     // ms to wait for flash movie to load before failing (0 = infinity)
 
   this.defaultOptions = {
     'autoLoad': false,             // enable automatic loading (otherwise .load() will be called on demand with .play(), the latter being nicer on bandwidth - if you want to .load yourself, you also can)

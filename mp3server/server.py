@@ -407,9 +407,10 @@ class http_handler(asyncore.dispatcher):
                                '             to_days(last_skipped))) '
                                '  * 0.00001 as idx from tracks '
                                'order by idx desc limit 10;'):
-      self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s)'
+      self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s, '
+               'last_skipped %s)'
                %(row['id'], row['idx'], row['plays'], row['skips'],
-                 row['last_played']))
+                 row['last_played'], row['last_skipped']))
 
       this_track = track.Track(self.db)
       this_track.FromId(row['id'])
@@ -738,7 +739,7 @@ def main(argv):
       db.ExecuteSql('update tracks set last_played=makedate(1970,1) where '
                     'last_played is null;')
       db.ExecuteSql('update tracks set last_skipped=makedate(1970,1) where '
-                    'last_played is null;')
+                    'last_skipped is null;')
       db.ExecuteSql('commit;')
 
       for row in db.GetRows('select path from paths where error is null '
