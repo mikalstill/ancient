@@ -1,5 +1,4 @@
-<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/">
-<item id="Music/item?Id={{id}}" parentID="Music" restricted="1" >
+<item id="{{objectid}}/item?Id={{id}}" parentID="{{objectid}}" restricted="1" >
 <dc:title>{{song}}</dc:title>
 <upnp:class>object.item.audioItem.musicTrack</upnp:class>
 <upnp:originalTrackNumber>{{number}}</upnp:originalTrackNumber>
@@ -9,4 +8,3 @@
 <dc:description>{{song}}</dc:description>
 <res protocolInfo="http-get:*:audio/mpeg:DLNA.ORG_OP=01;DLNA.ORG_CI=0;DLNA.ORG_FLAGS=01500000000000000000000000000000">http://{{ip}}:{{port}}/trackedmp3/{{id}}</res>
 </item>
-</DIDL-Lite>

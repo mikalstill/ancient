@@ -3,7 +3,9 @@
 <s:Body>
 <u:BrowseResponse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
 <Result>
+  &lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; xmlns:upnp=&quot;urn:schemas-upnp-org:metadata-1-0/upnp/&quot; xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&quot;&gt;
 {{result}}
+  &lt;/DIDL-Lite&gt;
 </Result>
 <NumberReturned>{{num_returned}}</NumberReturned>
 <TotalMatches>{{num_matches}}</TotalMatches>

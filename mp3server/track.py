@@ -75,14 +75,14 @@ class Track:
   def FromPath(self, path, attemptparse=True):
     """Rehydrate a track from its path."""
 
-    id_row = self.db.GetOneRow('select id from paths where path = "%s";'
+    id_row = self.db.GetOneRow('select track_id from paths where path = "%s";'
                                % path)
-    id = id_row['id']
-
-    self.persistant = self.db.GetOneRow('select * from tracks where id=%d;'
-                                        % id)
-    if self.persistant:
-      return
+    if id_row:
+      id = id_row['track_id']
+      self.persistant = self.db.GetOneRow('select * from tracks where id=%d;'
+                                          % id)
+      if self.persistant:
+        return
 
     # This is a new track
     self.persistant = {}
@@ -128,12 +128,30 @@ class Track:
     except:
       pass
 
+    # Now write this to the database to get an ID
+    self.db.ExecuteSql('insert into tracks(artist, album, song, number) '
+                       'values(%s, %s, %s, %d);'
+                       %(self.db.FormatSqlValue('artist',
+                                                self.persistant['artist']),
+                         self.db.FormatSqlValue('album',
+                                                self.persistant['album']),
+                         self.db.FormatSqlValue('song',
+                                                self.persistant['song']),
+                         self.persistant.get('number', 0)))
+    id = self.db.GetOneRow('select last_insert_id();')['last_insert_id()']
+    self.persistant['id'] = id
+    
+
   def AddPath(self, path):
     """This song is stored at..."""
 
-    self.db.ExecuteSql('insert into paths(path, track_id) values("%s", %d);'
-                       %(path, self.persistant['id']))
-    self.db.ExecuteSql('commit;')
+    if not self.db.GetOneRow('select * from paths where path="%s";'
+                             % path):
+      self.db.ExecuteSql('insert into paths(path, track_id) values("%s", %d);'
+                         %(path, self.persistant['id']))
+      self.db.ExecuteSql('commit;')
+    else:
+      print 'Path already stored'
 
   def AddTag(self, tag):
     """Add a tag for the track."""

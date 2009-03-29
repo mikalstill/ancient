@@ -18,6 +18,7 @@ import uuid
 import MySQLdb
 
 import coverhunt
+import business
 import database
 import gflags
 import track
@@ -58,11 +59,25 @@ class http_server(asyncore.dispatcher):
     self.ip= ip
     self.port = port
     self.db = db
+    self.logfile = open('log', 'a')
+
+    self.business = business.BusinessLogic(self.db, self.log)
     
     asyncore.dispatcher.__init__(self)
     self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
     self.bind((ip, port))
     self.listen(5)
+
+  def log(self, msg, console=True):
+    """Write a log line."""
+
+    l = '%s %s %s\n' %(datetime.datetime.now(), repr(self.addr), msg)
+    
+    if console:
+      sys.stdout.write(l)
+
+    self.logfile.write(l)
+    self.logfile.flush()
 
   def writable(self):
     return 0
@@ -78,16 +93,18 @@ class http_server(asyncore.dispatcher):
 
   def handle_accept(self):
     conn, addr = self.accept()
-    handler = http_handler(conn, addr, self.db)
+    handler = http_handler(conn, addr, self.db, self.business, self.log)
 
 
 class http_handler(asyncore.dispatcher):
   """Handle a single connection"""
 
-  def __init__(self, conn, addr, db):
+  def __init__(self, conn, addr, db, business, log):
     asyncore.dispatcher.__init__(self, sock=conn)
     self.addr = addr
     self.db = db
+    self.business = business
+    self.log = log
 
     self.buffer = ''
 
@@ -102,11 +119,6 @@ class http_handler(asyncore.dispatcher):
 
     self.client_id = 0
 
-  def log(self, msg):
-    """Write a log line."""
-
-    print '%s %s %s' %(datetime.datetime.now(), repr(self.addr), msg)
-
   def handle_read(self):
     rq = self.recv(32 * 1024)
     file = ''
@@ -116,8 +128,7 @@ class http_handler(asyncore.dispatcher):
 
     for line in rq.split('\n'):
       line = line.rstrip('\r')
-      if FLAGS.showrequest:
-        self.log('REQUEST %s' % line)
+      self.log('REQUEST %s' % line, console=FLAGS.showrequest)
 
       if line.startswith('GET'):
         (_, file, _) = line.split(' ')
@@ -141,9 +152,9 @@ class http_handler(asyncore.dispatcher):
     if file:
       self.log('%s %s' %(method, file))
 
-      if FLAGS.showpost and method == 'POST' and post_data:
+      if method == 'POST' and post_data:
         for l in post_data.split('\r\n'):
-          self.log('DATA %s' % l)
+          self.log('DATA %s' % l, console=FLAGS.showpost)
 
     # Implementation of uPnP -- must come before cookie set
     if file.startswith('/getDeviceDesc'):
@@ -239,8 +250,11 @@ class http_handler(asyncore.dispatcher):
         if l:
           (name, value) = l.split('=')
           value = value.replace('%2F', '/').replace('%3A', ':')
+          if value == '':
+            value = None
 
           if name == 'mp3_source':
+            self.log('Updating MP3 source to %s' % value)
             self.db.ExecuteSql('update clients set mp3_source="%s" '
                                'where id=%s;'
                                %(value, self.client_id))
@@ -259,7 +273,7 @@ class http_handler(asyncore.dispatcher):
     """The HTTP playback user interface."""
 
     self.markskipped()
-    rendered = self.picktrack()
+    rendered = self.business.picktrack(client_id=self.client_id)
     requests[self.addr[0]] = rendered['id']
     self.log('MP3 url is %s' % rendered['mp3_url'])
     if not rendered:
@@ -312,7 +326,7 @@ class http_handler(asyncore.dispatcher):
 
     sql = ('select * from tracks '
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
-           'order by artist, album, number, song limit 1000;'
+           'order by artist, album, number, song limit 100;'
            %(filters['artist_filter_compiled'],
              filters['album_filter_compiled'],
              filters['track_filter_compiled']))
@@ -361,7 +375,9 @@ class http_handler(asyncore.dispatcher):
         bgcolor = 'bgcolor="#DDDDDD"'
 
       row['bgcolor'] = bgcolor
-      row['mp3_url'] = self.findMP3(row['id'])
+      (row['mp3_url'],
+       row['mp3_file']) = self.business.findMP3(row['id'],
+                                                client_id=self.client_id)
       results.append(self.substitute(results_template, row))
 
     return results
@@ -396,50 +412,6 @@ class http_handler(asyncore.dispatcher):
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
-
-  def picktrack(self):
-    """Pick a track for this client and make sure it exists."""
-
-    for row in self.db.GetRows('select *, ' 
-                               'rand() + (plays * 0.00005) - (skips * 0.01) + '
-                               '  (to_days(now()) - '
-                               '    greatest(to_days(last_played), '
-                               '             to_days(last_skipped))) '
-                               '  * 0.00001 as idx from tracks '
-                               'order by idx desc limit 10;'):
-      self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s, '
-               'last_skipped %s)'
-               %(row['id'], row['idx'], row['plays'], row['skips'],
-                 row['last_played'], row['last_skipped']))
-
-      this_track = track.Track(self.db)
-      this_track.FromId(row['id'])
-      rendered = this_track.RenderValues()
-      rendered['mp3_url'] = self.findMP3(rendered['id'])
-      if rendered['mp3_url']:
-        return rendered
-
-    self.log('Could not find an MP3')
-    return {}
-
-  def findMP3(self, id):
-    """Find a working MP3 file from a list of paths."""
-
-    client_settings = self.db.GetOneRow('select * from clients where id=%s;'
-                                        % self.client_id)
-      
-    for row in self.db.GetRows('select path from paths where track_id=%d;'
-                               % id):
-      if row['path'].endswith('.mp3') and os.path.exists(row['path']):
-        if client_settings and client_settings.has_key('mp3_source'):
-          mp3_url = ('%s/%s' %(client_settings['mp3_source'],
-                               row['path'].replace(FLAGS.audio_path, '')))
-        else:
-          mp3_url = 'mp3/%s' % id
-
-        return mp3_url
-
-    return None
 
   def playgraph(self):
     """Generate a Google chart API graph of recent play history."""
@@ -549,34 +521,32 @@ class http_handler(asyncore.dispatcher):
       self.log('uPnP request for object id %s' % object_id)
     if object_id == '0':
       f = open('upnp_results.xml')
-      results = f.read()
+      results_template = f.read()
       f.close()
 
-      for repl in [('&', '&amp;'), ('"', '&quot;'), ('<', '&lt;'),
-                   ('>', '&gt;')]:
-        (i, o) = repl
-        results = results.replace(i, o)
+      results = []
+      for title in ['All', 'Recent']:
+        result = self.substitute(results_template, {'title': title})
+        results.append(self.xmlsafe(result))
 
       self.sendfile('upnp_browseresponse.xml',
-                    subst={'result': results,
-                           'num_returned': 1,
-                           'num_matches': 1
+                    subst={'result': '\n'.join(results),
+                           'num_returned': len(results),
+                           'num_matches': len(results)
                           })
 
-    elif object_id == 'Music':
-      rendered = self.picktrack()
+    elif object_id == 'All' or object_id == 'Recent':
+      rendered = self.business.picktrack(recent=(object_id == 'Recent'),
+                                         client_id=self.client_id)
       rendered['ip'] = FLAGS.ip
       rendered['port'] = FLAGS.port
+      rendered['objectid'] = object_id
       
       f = open('upnp_song.xml')
       results = f.read()
       f.close()
 
-      for repl in [('&', '&amp;'), ('"', '&quot;'), ('<', '&lt;'),
-                   ('>', '&gt;')]:
-        (i, o) = repl
-        results = results.replace(i, o)
-      results = self.substitute(results, rendered)
+      results = self.xmlsafe(self.substitute(results, rendered))
       
       self.sendfile('upnp_browseresponse.xml',
                     subst={'result': results,
@@ -586,6 +556,15 @@ class http_handler(asyncore.dispatcher):
 
     else:
       self.senderror(501, 'Unknown object ID')
+
+  def xmlsafe(self, s):
+    """Return an XML safe version of a string."""
+    
+    for repl in [('&', '&amp;'), ('"', '&quot;'),
+                 ('<', '&lt;'), ('>', '&gt;')]:
+      (i, o) = repl
+      s = s.replace(i, o)
+    return s
 
   def sendredirect(self, path):
     """Send a HTTP 302 redirect."""
@@ -654,9 +633,9 @@ class http_handler(asyncore.dispatcher):
                      '%s\r\n'
                      %(mime_type, len(data), '\r\n'.join(self.extra_headers)))
 
-    if mime_type == 'text/xml' and FLAGS.showresponse:
+    if mime_type == 'text/xml':
       for l in data.split('\n'):
-        self.log('REPLY %s' % l)
+        self.log('REPLY %s' % l, console=FLAGS.showresponse)
     
     self.buffer += data
 
@@ -685,9 +664,8 @@ class http_handler(asyncore.dispatcher):
   def sendheaders(self, headers):
     """Send HTTP response headers."""
 
-    if FLAGS.showresponse:
-      for l in headers.split('\r\n'):
-        self.log('RESPONSE %s' % l)
+    for l in headers.split('\r\n'):
+      self.log('RESPONSE %s' % l, console=FLAGS.showresponse)
 
     self.buffer += headers
 
