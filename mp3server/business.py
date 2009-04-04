@@ -6,6 +6,11 @@ import os
 
 import database
 import track
+import gflags
+
+
+FLAGS = gflags.FLAGS
+
 
 class BusinessLogic(object):
   """Handle business logic like track selection."""
@@ -69,4 +74,4 @@ class BusinessLogic(object):
         return (mp3_url, row['path'])
 
     self.log('No MP3 file found for id = %d' % id)
-    return None
+    return (None, None)

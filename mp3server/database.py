@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='18'
+CURRENT_SCHEMA='19'
 
 
 class FormatException(Exception):
@@ -423,6 +423,12 @@ class Database:
       self.ExecuteSql('alter table art add column error varchar(255);')
       self.ExecuteSql('commit;')
       self.version = '18'
+
+    if self.version == '18':
+      self.ExecuteSql('alter table tracks add column active int, '
+                      'add column comment varchar(255);')
+      self.ExecuteSql('commit;')
+      self.version = '19'
 
     self.db_connection.query('commit;')
     self.WriteSetting('schema', self.version)

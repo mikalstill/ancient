@@ -15,6 +15,7 @@
       }
 
       var trackIds = Array();
+      var allTrackIds = Array();
       var trackUrls = new Object();
 
       soundManager.useHighPerformance = false;
@@ -29,6 +30,7 @@
         <button onClick="soundManager.togglePause(trackId);">Pause</button>
         <button onClick="trackIds = shuffle(trackIds);">Shuffle</button>
         <button onClick="nextButton();">Next</button>
+	<button onClick="mergeButton();">Merge</button>
     </td><td>
         <div align=right>
             <font size=+5><span id="position">...</span></font>
@@ -67,7 +69,10 @@
         </td>
         <td valign=top><b>Plays</b><br/></td>
         <td valign=top><b>Skips</b><br/></td>
-        <td valign=top><b>Added</b><br/></td>
+        <td valign=top>
+            <b>Added</b><br/>
+            <input type="checkbox" name="recent" value="Recent" {{recent_checked}}>Recent</a>
+        </td>
     </tr>
         <td>
             <script type='text/javascript'>trackIds.push("nosuch");</script>
@@ -91,6 +96,11 @@
       function nextButton() {
         cleanUpCurrent('#FFBBBB');
         goNext();
+      }
+
+      function mergeButton() {
+        new Ajax.Request("/merge/" + allTrackIds.join(','),
+                         {method: 'get', onSuccess:alert('Merged')})
       }
 
       function cleanUpCurrent(color) {

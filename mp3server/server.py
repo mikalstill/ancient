@@ -306,7 +306,10 @@ class http_handler(asyncore.dispatcher):
                'album_filter': '',
                'album_filter_compiled': '.*',
                'track_filter': '',
-               'track_filter_compiled': '.*'
+               'track_filter_compiled': '.*',
+               'recent_filter': '',
+               'recent_filter_compiled': '',
+               'recent_checked': '',
               }
 
     # I am sure there is a better way than this
@@ -324,12 +327,18 @@ class http_handler(asyncore.dispatcher):
               filters['%s_filter_compiled' % name] = value.replace(' ',
                                                                    '[ _+]+')
 
+    recent_sql = ''
+    if filters['recent_filter'] == 'Recent':
+      recent_sql = 'and (to_days(now()) - to_days(creation_time)) < 15'
+      filters['recent_checked'] = 'checked'
+
     sql = ('select * from tracks '
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
-           'order by artist, album, number, song limit 100;'
+           '%s order by artist, album, number, song limit 100;'
            %(filters['artist_filter_compiled'],
              filters['album_filter_compiled'],
-             filters['track_filter_compiled']))
+             filters['track_filter_compiled'],
+             recent_sql))
     self.log('Browse SQL = %s' % sql)
 
     results = self.renderbrowseresults(sql)
