@@ -1,0 +1,23 @@
+#!/bin/bash
+
+hostname=`hostname`
+
+for dev in $*
+do
+  if [[ "$dev" =~ sd.* ]]
+  then
+    type="-d ata"
+  else
+    type=""
+  fi
+
+  echo "$hostname $dev: smartctl $type -l error /dev/$dev"
+  errors=`/usr/sbin/smartctl $type -T permissive -l error /dev/$dev | grep "Error Count"`
+  echo $errors
+
+  if [ "%$errors%" != "%%" ]
+  then
+    echo "Sent notification"
+    echo "$hostname $dev: $errors" | notify mikalstill@gmail.com
+  fi
+done
