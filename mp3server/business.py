@@ -32,7 +32,8 @@ class BusinessLogic(object):
                                'rand() + (plays * 0.00005) - (skips * 0.01) + '
                                '  (to_days(now()) - '
                                '   greatest(to_days(last_played), '
-                               '            to_days(last_skipped))) * 0.00001 '
+                               '            to_days(last_skipped))) * '
+                               '            0.000005 '
                                '  as idx from tracks %s '
                                'order by idx desc limit 10;'
                                % recent_sql):
@@ -75,3 +76,29 @@ class BusinessLogic(object):
 
     self.log('No MP3 file found for id = %d' % id)
     return (None, None)
+
+  def markplayed(self, id):
+    """Mark a track played in the database."""
+    
+    self.log('Marking %s played' % id)
+    self.db.ExecuteSql('update tracks set plays = plays + 1, '
+                       'last_played = NOW(), last_action = NOW() '
+                       'where id=%s;'
+                       % id)
+    self.db.ExecuteSql('insert into events(timestamp, track_id, event) '
+                       'values(now(), %s, "play");'
+                       % id)
+    self.db.ExecuteSql('commit;')
+
+  def markskipped(self, id):
+    """Mark a track as skipped in the database."""
+
+    self.log('Marking %s skipped' % id)
+    self.db.ExecuteSql('update tracks set skips = skips + 1, '
+                       'last_skipped = NOW(), last_action = NOW() '
+                       'where id=%s;'
+                       % id)
+    self.db.ExecuteSql('insert into events(timestamp, track_id, event) '
+                       'values(now(), %s, "skip");'
+                       % id)
+    self.db.ExecuteSql('commit;')

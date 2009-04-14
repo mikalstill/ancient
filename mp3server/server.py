@@ -209,6 +209,8 @@ class http_handler(asyncore.dispatcher):
         self.handleurl_browse(file, post_data)
       elif file.startswith('/art'):
         self.handleurl_art(file)
+      elif file.startswith('/merge'):
+        self.handleurl_merge(file)
 
       else:
         self.senderror(404, '%s file not found' % file)
@@ -348,7 +350,6 @@ class http_handler(asyncore.dispatcher):
   def handleurl_art(self, file):
     """Serve an image for a given album, if we have one."""
 
-    print file
     (_, _, artist, album) = file.replace('%20', ' ').split('/')
     self.log('Fetching art for "%s" "%s"' %(artist, album))
     row = self.db.GetOneRow('select art from art where artist=%s and '
@@ -366,6 +367,33 @@ class http_handler(asyncore.dispatcher):
                      '%s\r\n'
                      %(len(data), '\r\n'.join(self.extra_headers)))
     self.buffer += data
+
+  def handleurl_merge(self, file):
+    """Merge the specified list of tracks."""
+
+    (_, _, tracks) = file.split('/')
+    tracks = tracks.split(',')
+
+    self.log('Merging %s' % repr(tracks))
+    first_track = track.Track(self.db)
+    first_track.FromId(int(tracks[0]))
+    self.log('Before: %s' % repr(first_track.persistant))
+
+    cleanup = []
+    for second_track_id in tracks[1:]:
+      second_track = track.Track(self.db)
+      second_track.FromId(int(second_track_id))
+
+      first_track.Merge(second_track)
+      self.log('After: %s' % repr(first_track.persistant))
+
+      cleanup.append(second_track)
+
+    first_track.Store()
+    for second_track in cleanup:
+      second_track.Delete()
+
+    self.log('Merge finished')
 
   def renderbrowseresults(self, sql):
     """Paint a table of the results of a SQL statement."""
@@ -387,7 +415,11 @@ class http_handler(asyncore.dispatcher):
       (row['mp3_url'],
        row['mp3_file']) = self.business.findMP3(row['id'],
                                                 client_id=self.client_id)
-      results.append(self.substitute(results_template, row))
+
+      if row['mp3_url']:
+        results.append(self.substitute(results_template, row))
+      else:
+        self.log('Skipping row with no MP3 URL')
 
     return results
 
@@ -395,30 +427,13 @@ class http_handler(asyncore.dispatcher):
     """Mark skipped tracks, if any."""
 
     if self.addr[0] in requests:
-      self.log('Marking %s skipped' % requests[self.addr[0]])
-      self.db.ExecuteSql('update tracks set skips = skips + 1, '
-                         'last_skipped = NOW(), last_action = NOW() '
-                         'where id=%s;'
-                         % requests[self.addr[0]])
-      self.db.ExecuteSql('insert into events(timestamp, track_id, event) '
-                         'values(now(), %s, "skip");'
-                         % requests[self.addr[0]])
-      self.db.ExecuteSql('commit;')
+      self.business.markskipped(requests[self.addr[0]])
       del requests[self.addr[0]]
 
   def markplayed(self, id):
     """Mark a track as played."""
-    
-    self.log('Marking %s played' % id)
-    self.db.ExecuteSql('update tracks set plays = plays + 1, '
-                       'last_played = NOW(), last_action = NOW() '
-                       'where id=%s;'
-                       % id)
-    self.db.ExecuteSql('insert into events(timestamp, track_id, event) '
-                       'values(now(), %s, "play");'
-                       % id)
-    self.db.ExecuteSql('commit;')
 
+    self.business.markplayed(id)
     if self.addr[0] in requests:
       del requests[self.addr[0]]
 
@@ -598,11 +613,13 @@ class http_handler(asyncore.dispatcher):
     """Return some playback statistics for today."""
 
     retval = {}
-    row = self.db.GetOneRow('select count(*) from tracks '
-                            'where day(last_played) = day(now());')
+    row = self.db.GetOneRow('select count(*) from events '
+                            'where date(timestamp) = date(now()) '
+                            'and event = "play";')
     retval['today_countplays'] = row['count(*)']
-    row = self.db.GetOneRow('select count(*) from tracks '
-                            'where day(last_skipped) = day(now());')
+    row = self.db.GetOneRow('select count(*) from events '
+                            'where date(timestamp) = date(now()) '
+                            'and event = "skip";')
     retval['today_countskips'] = row['count(*)']
     return retval
 

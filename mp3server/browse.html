@@ -100,7 +100,7 @@
 
       function mergeButton() {
         new Ajax.Request("/merge/" + allTrackIds.join(','),
-                         {method: 'get', onSuccess:alert('Merged')})
+                         {method: 'get', onSuccess:null})
       }
 
       function cleanUpCurrent(color) {

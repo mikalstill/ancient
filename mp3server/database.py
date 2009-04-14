@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='19'
+CURRENT_SCHEMA='20'
 
 
 class FormatException(Exception):
@@ -429,6 +429,11 @@ class Database:
                       'add column comment varchar(255);')
       self.ExecuteSql('commit;')
       self.version = '19'
+
+    if self.version == '19':
+      self.ExecuteSql('alter table events add column details text;')
+      self.ExecuteSql('commit;')
+      self.version = '20'
 
     self.db_connection.query('commit;')
     self.WriteSetting('schema', self.version)

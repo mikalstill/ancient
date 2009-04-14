@@ -199,6 +199,18 @@ class Track:
   def Merge(self, other):
     """Merge another track with this one."""
 
+    # Logging just in case
+    self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
+                       'details) values (now(), %d, "merge: before", %s);'
+                       %(self.persistant['id'],
+                         self.db.FormatSqlValue('details',
+                                                repr(self.persistant))))
+    self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
+                       'details) values (now(), %d, "merge: deleted", %s);'
+                       %(other.persistant['id'], 
+                         self.db.FormatSqlValue('details',
+                                                repr(other.persistant))))
+
     # Fields which can be summed
     for f in ['plays', 'skips']:
       self.persistant[f] = (self.persistant.get(f, 0) +
@@ -227,18 +239,49 @@ class Track:
         self.persistant[f] = v
 
     # Fields where we only clobber ours if we don't have a value
-    for f in ['artist', 'album', 'number', 'song']:
+    for f in ['artist', 'album', 'song']:
       if not self.persistant.has_key(f) or not self.persistant[f]:
         self.persistant[f] = other.persistant.get(f, None)
 
+    # Sometimes the number is a placeholder
+    if self.persistant.has_key('number') and self.persistant['number'] == -1:
+      self.persistant['number'] = other.persistant.get('number', -1)
+    if not self.persistant.has_key('number'):
+      self.persistant['number'] = other.persistant.get('number', -1)
+
     # Update the id in the tags table
-    self.db.ExecuteSql('update tags set track_id=%d where track_id=%d;'
-                       %(other.persistant['id'], other.persistant['id']))
-    self.db.ExecuteSql('commit;')
+    tags = self.db.GetRows('select tag from tags where track_id=%d;'
+                           % other.persistant['id'])
+    self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
+                       'details) values (now(), %d, "merge: tags: %d", %s);'
+                       %(self.persistant['id'], other.persistant['id'],
+                         self.db.FormatSqlValue('details', repr(tags))))
+
+    try:
+      self.db.ExecuteSql('update tags set track_id=%d where track_id=%d;'
+                         %(self.persistant['id'], other.persistant['id']))
+      self.db.ExecuteSql('commit;')
+    except:
+      # This can happen if the is already a matching tag for the first track
+      pass
 
     # Update the id in the paths table
+    paths = self.db.GetRows('select path from paths where track_id=%d;'
+                           % other.persistant['id'])
+    self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
+                       'details) values (now(), %d, "merge: paths: %d", %s);'
+                       %(self.persistant['id'], other.persistant['id'],
+                         self.db.FormatSqlValue('details', repr(paths))))
+    
     self.db.ExecuteSql('update paths set track_id=%d where track_id=%d;'
-                       %(other.persistant['id'], other.persistant['id']))
+                       %(self.persistant['id'], other.persistant['id']))
+    self.db.ExecuteSql('commit;')
+
+    self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
+                       'details) values (now(), %d, "merge: after", %s);'
+                       %(self.persistant['id'],
+                         self.db.FormatSqlValue('details',
+                                                repr(self.persistant))))
     self.db.ExecuteSql('commit;')
 
   def RenderValues(self):
