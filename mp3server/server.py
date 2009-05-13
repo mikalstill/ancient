@@ -506,9 +506,12 @@ class http_handler(asyncore.dispatcher):
   def handleurl_skipped(self, file):
     """Mark an MP3 as skipped."""
 
+    # I use the business layer here, because its possible that the server doesn't
+    # know the track currently being played (think browse interface)
+
     id = file.split('/')[-1]
     if id and id != 'nosuch':
-      self.markskipped(id)
+      self.business.markskipped(id)
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
