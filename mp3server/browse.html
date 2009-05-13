@@ -72,6 +72,7 @@
         <td valign=top>
             <b>Added</b><br/>
             <input type="checkbox" name="recent" value="Recent" {{recent_checked}}>Recent</a>
+            <input type="checkbox" name="unplayed" value="Unplayed" {{unplayed_checked}}>Unplayed</a>
         </td>
     </tr>
         <td>
@@ -95,7 +96,7 @@
 
       function nextButton() {
         cleanUpCurrent('#FFBBBB');
-        goNext();
+        new Ajax.Request("/skipped/" + trackId, {method:'get', onSuccess:goNext});
       }
 
       function mergeButton() {

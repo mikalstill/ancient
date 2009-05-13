@@ -203,6 +203,8 @@ class http_handler(asyncore.dispatcher):
         self.handleurl_local(file)
       elif file.startswith('/done'):
         self.handleurl_done(file)
+      elif file.startswith('/skipped'):
+        self.handleurl_skipped(file)
       elif file.startswith('/graph'):
         self.handleurl_graph()
       elif file.startswith('/browse'):
@@ -215,6 +217,8 @@ class http_handler(asyncore.dispatcher):
       else:
         self.senderror(404, '%s file not found' % file)
         self.close()
+
+    self.log('%d bytes queued' % len(self.buffer))
 
   def writable(self):
     return len(self.buffer) > 0
@@ -276,7 +280,7 @@ class http_handler(asyncore.dispatcher):
 
     self.markskipped()
     rendered = self.business.picktrack(client_id=self.client_id)
-    requests[self.addr[0]] = rendered['id']
+    requests[self.addr[0]] = (datetime.datetime.now(), rendered['id'])
     self.log('MP3 url is %s' % rendered['mp3_url'])
     if not rendered:
       self.senderror(501, 'Failed to select a track')
@@ -312,6 +316,9 @@ class http_handler(asyncore.dispatcher):
                'recent_filter': '',
                'recent_filter_compiled': '',
                'recent_checked': '',
+               'unplayed_filter': '',
+               'unplayed_filter_compiled': '',
+               'unplayed_checked': '',
               }
 
     # I am sure there is a better way than this
@@ -334,13 +341,18 @@ class http_handler(asyncore.dispatcher):
       recent_sql = 'and (to_days(now()) - to_days(creation_time)) < 15'
       filters['recent_checked'] = 'checked'
 
+    unplayed_sql = ''
+    if filters['unplayed_filter'] == 'Unplayed':
+      unplayed_sql = 'and last_played=makedate(1970,1) and last_skipped=makedate(1970,1)'
+      filters['unplayed_checked'] = 'checked'
+
     sql = ('select * from tracks '
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
-           '%s order by artist, album, number, song limit 100;'
+           '%s %s order by artist, song, album, number limit 100;'
            %(filters['artist_filter_compiled'],
              filters['album_filter_compiled'],
              filters['track_filter_compiled'],
-             recent_sql))
+             recent_sql, unplayed_sql))
     self.log('Browse SQL = %s' % sql)
 
     results = self.renderbrowseresults(sql)
@@ -427,7 +439,7 @@ class http_handler(asyncore.dispatcher):
     """Mark skipped tracks, if any."""
 
     if self.addr[0] in requests:
-      self.business.markskipped(requests[self.addr[0]])
+      self.business.markskipped(requests[self.addr[0]][1])
       del requests[self.addr[0]]
 
   def markplayed(self, id):
@@ -490,17 +502,28 @@ class http_handler(asyncore.dispatcher):
 
     self.sendfile('done.html')
 
+  def handleurl_skipped(self, file):
+    """Mark an MP3 as skipped."""
+
+    id = file.split('/')[-1]
+    self.markskipped(id)
+
+    if self.addr[0] in requests:
+      del requests[self.addr[0]]
+
+    self.sendfile('skipped.html')
+
   def handleurl_mp3(self, file, chunk, tracked=False):
     """Serve MP3 files."""
 
     self.id = int(file)
     if self.addr[0] in requests:
       # A uPnP pause can look like a skip, but its requesting the same ID
-      self.log('Comparing %s(%s) and %s(%s)' %(type(requests[self.addr[0]]),
-                                               requests[self.addr[0]],
+      self.log('Comparing %s(%s) and %s(%s)' %(type(requests[self.addr[0]][1]),
+                                               requests[self.addr[0]][1],
                                                type(self.id),
                                                self.id))
-      if int(requests[self.addr[0]]) == self.id and tracked:
+      if int(requests[self.addr[0]][1]) == self.id and tracked:
         self.log('This is a resume')
       else:
         self.markskipped()
@@ -508,7 +531,7 @@ class http_handler(asyncore.dispatcher):
     for row in self.db.GetRows('select path from paths where track_id=%s;'
                                % self.id):
       if row['path'].endswith('.mp3') and os.path.exists(row['path']):
-        requests[self.addr[0]] = self.id
+        requests[self.addr[0]] = (datetime.datetime.now(), self.id)
         self.sendfile(row['path'], chunk=chunk)
         self.is_mp3 = True
         return
@@ -740,6 +763,18 @@ def main(argv):
     if time.time() - last_event > 9.0:
       # We are idle
       print '%s ...' % datetime.datetime.now()
+      
+      remove = []
+      for ent in requests:
+        (t, _) = requests[ent]
+        delta = datetime.datetime.now() - t
+        if delta.seconds > 3600:
+          print '%s Entry %s is too old' %(datetime.datetime.now(), ent)
+          remove.append(ent)
+
+      for ent in remove:
+        del requests[ent]
+      
       db.ExecuteSql('update tracks set last_played=makedate(1970,1) where '
                     'last_played is null;')
       db.ExecuteSql('update tracks set last_skipped=makedate(1970,1) where '
