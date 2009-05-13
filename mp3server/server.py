@@ -495,7 +495,8 @@ class http_handler(asyncore.dispatcher):
     """Mark an MP3 as played."""
 
     id = file.split('/')[-1]
-    self.markplayed(id)
+    if id:
+      self.markplayed(id)
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
@@ -506,7 +507,8 @@ class http_handler(asyncore.dispatcher):
     """Mark an MP3 as skipped."""
 
     id = file.split('/')[-1]
-    self.markskipped(id)
+    if id:
+      self.markskipped(id)
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
