@@ -19,7 +19,7 @@ class BusinessLogic(object):
     self.db = db
     self.log = log
 
-  def picktrack(self, client_id=-1, recent=False):
+  def picktrack(self, client_id=-1, recent=False, skips=0):
     """Pick a track for this client and make sure it exists."""
 
     if recent:
@@ -33,15 +33,16 @@ class BusinessLogic(object):
                                '  (to_days(now()) - '
                                '   greatest(to_days(last_played), '
                                '            to_days(last_skipped))) * '
-                               '            0.000005 '
+                               '            0.000001 * (5 - skips)'
                                '  as idx from tracks %s '
                                'order by idx desc limit 10;'
                                % recent_sql):
       self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s, '
-               'last_skipped %s created %s)'
+               'last_skipped %s created %s, %d recent skips)'
                %(row['id'], row['idx'], row['plays'], row['skips'],
                  row['last_played'], row['last_skipped'],
-                 row['creation_time']))
+                 row['creation_time'],
+                 skips))
 
       this_track = track.Track(self.db)
       this_track.FromId(row['id'])
@@ -90,10 +91,10 @@ class BusinessLogic(object):
                        % id)
     self.db.ExecuteSql('commit;')
 
-  def markskipped(self, id):
+  def markskipped(self, id, skips):
     """Mark a track as skipped in the database."""
 
-    self.log('Marking %s skipped' % id)
+    self.log('Marking %s skipped (%d skipped in a row)' % (id, skips))
     self.db.ExecuteSql('update tracks set skips = skips + 1, '
                        'last_skipped = NOW(), last_action = NOW() '
                        'where id=%s;'

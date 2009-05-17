@@ -38,6 +38,7 @@ running = True
 uuid = uuid.uuid4()
 
 requests = {}
+skips = {}
 bytes = 0
 
 _CONTENT_TYPES = {'css':  'text/css',
@@ -279,7 +280,9 @@ class http_handler(asyncore.dispatcher):
     """The HTTP playback user interface."""
 
     self.markskipped()
-    rendered = self.business.picktrack(client_id=self.client_id)
+    skips.setdefault(self.addr[0], 0)
+    rendered = self.business.picktrack(client_id=self.client_id,
+                                       skips=skips[self.addr[0]])
     requests[self.addr[0]] = (datetime.datetime.now(), rendered['id'])
     self.log('MP3 url is %s' % rendered['mp3_url'])
     if not rendered:
@@ -439,7 +442,10 @@ class http_handler(asyncore.dispatcher):
     """Mark skipped tracks, if any."""
 
     if self.addr[0] in requests:
-      self.business.markskipped(requests[self.addr[0]][1])
+      skips.setdefault(self.addr[0], 0)
+      skips[self.addr[0]] += 1
+      self.business.markskipped(requests[self.addr[0]][1],
+                                skips[self.addr[0]])
       del requests[self.addr[0]]
 
   def markplayed(self, id):
@@ -447,6 +453,7 @@ class http_handler(asyncore.dispatcher):
 
     self.business.markplayed(id)
     if self.addr[0] in requests:
+      skips[self.addr[0]] = 0
       del requests[self.addr[0]]
 
   def playgraph(self):
@@ -506,12 +513,14 @@ class http_handler(asyncore.dispatcher):
   def handleurl_skipped(self, file):
     """Mark an MP3 as skipped."""
 
-    # I use the business layer here, because its possible that the server doesn't
-    # know the track currently being played (think browse interface)
+    # I use the business layer here, because its possible that the server
+    # doesn't know the track currently being played (think browse interface).
+    # I also don't do skip length tracking, as it makes no sense to the browse
+    # interface
 
     id = file.split('/')[-1]
     if id and id != 'nosuch':
-      self.business.markskipped(id)
+      self.business.markskipped(id, -1)
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
@@ -579,7 +588,8 @@ class http_handler(asyncore.dispatcher):
       results = []
       for title in ['All', 'Recent']:
         result = self.substitute(results_template, {'title': title})
-        results.append(self.xmlsafe(result))
+        self.log('XML %s' % result, console=FLAGS.showresponse)
+        results.append(self.xmlsafe(result))        
 
       self.sendfile('upnp_browseresponse.xml',
                     subst={'result': '\n'.join(results),
@@ -588,8 +598,11 @@ class http_handler(asyncore.dispatcher):
                           })
 
     elif object_id == 'All' or object_id == 'Recent':
+      skips.setdefault(self.addr[0], 0)
       rendered = self.business.picktrack(recent=(object_id == 'Recent'),
-                                         client_id=self.client_id)
+                                         client_id=self.client_id,
+                                         skips=skips[self.addr[0]])
+      self.log('uPnP track selection %s' % rendered['id'])
       rendered['ip'] = FLAGS.ip
       rendered['port'] = FLAGS.port
       rendered['objectid'] = object_id
@@ -598,7 +611,10 @@ class http_handler(asyncore.dispatcher):
       results = f.read()
       f.close()
 
-      results = self.xmlsafe(self.substitute(results, rendered))
+      results = self.substitute(results, rendered)
+      for l in results.split('\n'):
+        self.log('XML %s' % l, console=FLAGS.showresponse)
+      results = self.xmlsafe(results)
       
       self.sendfile('upnp_browseresponse.xml',
                     subst={'result': results,
@@ -613,7 +629,8 @@ class http_handler(asyncore.dispatcher):
     """Return an XML safe version of a string."""
     
     for repl in [('&', '&amp;'), ('"', '&quot;'),
-                 ('<', '&lt;'), ('>', '&gt;')]:
+                 ('<', '&lt;'), ('>', '&gt;'),
+                 ("'", '')]:
       (i, o) = repl
       s = s.replace(i, o)
     return s
