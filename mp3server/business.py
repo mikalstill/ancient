@@ -29,7 +29,8 @@ class BusinessLogic(object):
       recent_sql = ''
 
     for row in self.db.GetRows('select *, ' 
-                               'rand() + (plays * 0.00005) - (skips * 0.01) + '
+                               'rand() + '
+                               '  (plays * 0.00005 * skips) - (skips * 0.01) + '
                                '  (to_days(now()) - '
                                '   greatest(to_days(last_played), '
                                '            to_days(last_skipped))) * '

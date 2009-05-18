@@ -51,6 +51,16 @@ _CONTENT_TYPES = {'css':  'text/css',
 _SUBST_RE = re.compile('(.*){{([^}]+)}}(.*)', re.MULTILINE | re.DOTALL)
 
 
+def htc(m):
+  return chr(int(m.group(1),16))
+
+
+def urldecode(url):
+  url = url.replace('+', ' ')
+  rex = re.compile('%([0-9a-hA-H][0-9a-hA-H])',re.M)
+  return rex.sub(htc,url)
+
+
 class http_server(asyncore.dispatcher):
   """Listen for new client connections, which are then handed off to
      another class
@@ -331,10 +341,7 @@ class http_handler(asyncore.dispatcher):
           for arg in l.split('&'):
             (name, value) = arg.split('=')
             if value:
-              for replacement in [('+', ' '), ('%5E', '^'), ('%24', '$')]:
-                (a, b) = replacement
-                value = value.replace(a, b)
-
+              value = urldecode(value.replace('+', ' '))
               filters['%s_filter' % name] = value
               filters['%s_filter_compiled' % name] = value.replace(' ',
                                                                    '[ _+]+')
