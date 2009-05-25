@@ -19,8 +19,10 @@ class BusinessLogic(object):
     self.db = db
     self.log = log
 
-  def picktrack(self, client_id=-1, recent=False, skips=0):
+  def picktrack(self, client_id=-1, recent=False, skips=0, limit=1):
     """Pick a track for this client and make sure it exists."""
+
+    returnable = []
 
     if recent:
       recent_sql = ' where (to_days(now()) - to_days(creation_time)) < 15'
@@ -28,16 +30,19 @@ class BusinessLogic(object):
     else:
       recent_sql = ''
 
-    for row in self.db.GetRows('select *, ' 
-                               'rand() + '
-                               '  (plays * 0.00005 * skips) - (skips * 0.01) + '
-                               '  (to_days(now()) - '
-                               '   greatest(to_days(last_played), '
-                               '            to_days(last_skipped))) * '
-                               '            0.000001 * (5 - skips)'
-                               '  as idx from tracks %s '
-                               'order by idx desc limit 10;'
-                               % recent_sql):
+    sql = ('select *, ' 
+           'rand() + '
+           '  (least(plays, 15) * 0.00005 * %d) - '
+           '  (skips * 0.01 * %d) + '
+           '  (to_days(now()) - '
+           '   greatest(to_days(last_played), '
+           '            to_days(last_skipped))) * '
+           '            0.000001 * (5 - %d)'
+           '  as idx from tracks %s '
+           'order by idx desc limit 100;'
+           % (skips + 1, skips + 1, skips + 1, recent_sql))
+
+    for row in self.db.GetRows(sql):
       self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s, '
                'last_skipped %s created %s, %d recent skips)'
                %(row['id'], row['idx'], row['plays'], row['skips'],
@@ -52,7 +57,12 @@ class BusinessLogic(object):
        rendered['mp3_file']) = self.findMP3(rendered['id'],
                                             client_id=client_id)
       if rendered['mp3_url']:
-        return rendered
+        returnable.append(rendered)
+
+    if limit == 1:
+      return returnable[0]
+    if returnable:
+      return returnable
 
     self.log('Could not find an MP3')
     return {}

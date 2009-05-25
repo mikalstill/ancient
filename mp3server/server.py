@@ -353,16 +353,24 @@ class http_handler(asyncore.dispatcher):
 
     unplayed_sql = ''
     if filters['unplayed_filter'] == 'Unplayed':
-      unplayed_sql = 'and last_played=makedate(1970,1) and last_skipped=makedate(1970,1)'
+      unplayed_sql = ('and last_played=makedate(1970,1) and '
+                      'last_skipped=makedate(1970,1)')
       filters['unplayed_checked'] = 'checked'
+
+    if (filters['artist_filter'] or
+        filters['album_filter'] or
+        filters['track_filter']):
+      limit_sql = ''
+    else:
+      limit_sql = 'limit 50'
 
     sql = ('select * from tracks '
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
-           '%s %s order by artist, song, album, number limit 100;'
+           '%s %s order by artist, song, album, number %s;'
            %(filters['artist_filter_compiled'],
              filters['album_filter_compiled'],
              filters['track_filter_compiled'],
-             recent_sql, unplayed_sql))
+             recent_sql, unplayed_sql, limit_sql))
     self.log('Browse SQL = %s' % sql)
 
     results = self.renderbrowseresults(sql)
@@ -428,20 +436,26 @@ class http_handler(asyncore.dispatcher):
     bgcolor = ''
 
     for row in self.db.GetRows(sql):
-      if bgcolor == 'bgcolor="#DDDDDD"':
-        bgcolor = ''
-      else:
-        bgcolor = 'bgcolor="#DDDDDD"'
+      this_track = track.Track(self.db)
+      this_track.FromId(row['id'])
+      rendered = this_track.RenderValues()
+      
+      (rendered['mp3_url'],
+       rendered['mp3_file']) = self.business.findMP3(row['id'],
+                                                     client_id=self.client_id)
+      if not 'creation_time' in rendered:
+        rendered['creation_time'] = ''
 
-      row['bgcolor'] = bgcolor
-      (row['mp3_url'],
-       row['mp3_file']) = self.business.findMP3(row['id'],
-                                                client_id=self.client_id)
+      if rendered['mp3_url']:
+        if bgcolor == 'bgcolor="#DDDDDD"':
+          bgcolor = ''
+        else:
+          bgcolor = 'bgcolor="#DDDDDD"'
 
-      if row['mp3_url']:
-        results.append(self.substitute(results_template, row))
+        rendered['bgcolor'] = bgcolor
+        results.append(self.substitute(results_template, rendered))
       else:
-        self.log('Skipping row with no MP3 URL')
+        self.log('Skipping row with no MP3 URL: %s' % repr(rendered))
 
     return results
 
