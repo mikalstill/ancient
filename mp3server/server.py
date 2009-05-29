@@ -235,6 +235,8 @@ class http_handler(asyncore.dispatcher):
         self.handleurl_tags(file)
       elif file.startswith('/tag/'):
         self.handleurl_tag(file)
+      elif file.startswith('/addtag/'):
+        self.handleurl_addtag(file)
       elif file.startswith('/deletetag/'):
         self.handleurl_deletetag(file)
 
@@ -419,6 +421,20 @@ class http_handler(asyncore.dispatcher):
     tags['tag'] = tag
     tags['tag_encoded'] = tag_encoded
     self.sendfile('tag.html', subst=tags)
+
+  def handleurl_addtag(self, file):
+    """Add this tag."""
+
+    (_, _, tag_encoded, tracks) = file.split('/')
+    tag = urldecode(tag_encoded.split('=')[1])
+    tracks = tracks.split(',')
+
+    for track in tracks:
+      self.db.ExecuteSql('insert ignore into tags(tag, track_id) '
+                         'values("%s", %s);'
+                         %(tag, track))
+      self.db.ExecuteSql('commit;')
+    self.sendfile('done.html')
 
   def handleurl_deletetag(self, file):
     """Delete this tag."""
