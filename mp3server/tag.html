@@ -1,0 +1,147 @@
+<html>
+<head>
+    <title>MP3 server: tag "{{tag}}"</title>
+
+    <script type='text/javascript' src='/local/soundmanager2.js'></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">google.load("prototype", "1.6.0.2");</script>
+
+    <script type='text/javascript'>
+      function pad(digit) {
+        if (digit < 10)
+          return ("0" + digit);
+        else
+          return digit;
+      }
+
+      var trackIds = Array();
+      var allTrackIds = Array();
+      var trackUrls = new Object();
+
+      soundManager.useHighPerformance = false;
+      soundManager.url = '/local/soundmanager2.swf';
+      soundManager.debugMode = false;
+    </script>
+  </head>
+  <body>
+
+    <table width=100%>
+    <tr><td>
+        <button onClick="soundManager.togglePause(trackId);">Pause</button>
+        <button onClick="trackIds = shuffle(trackIds);">Shuffle</button>
+        <button onClick="nextButton();">Next</button>
+	<button onClick="deleteTagButton();">Delete tag</button>
+    </td><td>
+        <div align=right>
+            <font size=+5><span id="position">...</span></font>
+        </div>
+    </td></tr>
+    </table>
+    
+    <table width=100%>
+    <tr bgcolor="#BBBBBB">
+        <td>...</td>
+        <td valign=top>
+            <b>Artist</b>
+        </td>
+        <td valign=top>
+            <b>Album</b>
+        </td>
+        <td valign=top>
+            <b>Track</b>
+        </td>
+        <td valign=top><b>Plays</b><br/></td>
+        <td valign=top><b>Skips</b><br/></td>
+        <td valign=top>
+            <b>Added</b>
+        </td>
+    </tr>
+        <td>
+            <script type='text/javascript'>trackIds.push("nosuch");</script>
+            <span id="nosuch_state"></span>
+        </td>
+	<td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><input type="submit" value="Filter"></td>
+    </tr>
+    
+    {{results}}
+    </table>
+    </form>
+
+    <script type='text/javascript'>
+      soundManager.onload = goNext();
+
+      function nextButton() {
+        cleanUpCurrent('#FFBBBB');
+        new Ajax.Request("/skipped/" + trackId,
+                         {method:'get', onSuccess:goNext});
+      }
+
+      function deleteTagButton() {
+        new Ajax.Request("/deletetag/{{tag_encoded}}/" + allTrackIds.join(','),
+                         {method: 'get', onSuccess:goTagList})
+      }
+
+      function cleanUpCurrent(color) {
+        soundManager.stop(trackId);
+	soundManager.unload(trackId);
+	soundManager.destroySound(trackId);
+	
+	var tr = document.getElementById(trackId + "_row");
+	if (tr != null) {
+	  tr.style.backgroundColor = color;
+        }
+
+	document.getElementById(trackId + "_state").innerHTML = "";
+      }
+
+      function goNext() {
+        trackId = trackIds.shift();
+	document.getElementById(trackId + "_state").innerHTML = "**";
+
+        var mySound = soundManager.createSound({
+          id: trackId,
+          // url: encodeURI("/mp3/" + trackId),
+	  url: trackUrls[trackId],
+          onfinish:songFinished,
+        });
+
+	mySound.options.whileplaying = function() {
+	  var position = Math.floor(mySound.position / 1000);
+	  var position_min = Math.floor(position / 60);
+	  var position_sec = pad(position - (position_min * 60));
+
+	  var duration = Math.floor(mySound.duration / 1000);
+	  var duration_min = Math.floor(duration / 60);
+	  var duration_sec = pad(duration - (duration_min * 60));
+
+          document.getElementById("position").innerHTML = position_min + ":" + position_sec + " of " + duration_min + ":" + duration_sec;
+	  }
+
+        soundManager.setVolume('aSound', 50);
+        mySound.play();
+      }
+
+      function goTagList() {
+        window.location = "/tags";
+      }
+
+      function songFinished() {
+        cleanUpCurrent('#BBFFBB');
+	document.getElementById(trackId + "_state").innerHTML = "";
+        new Ajax.Request("/done/" + trackId, {method:'get', onSuccess:goNext});
+      }
+
+      // Jonas Raoni Soares Silva (http://jsfromhell.com/array/shuffle [v1.0])
+      function shuffle(o){
+	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	return o;
+      };
+    </script>
+
+</body>
+</html>

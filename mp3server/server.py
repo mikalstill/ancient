@@ -13,6 +13,7 @@ import socket
 import sys
 import time
 import types
+import urllib
 import uuid
 
 import MySQLdb
@@ -216,14 +217,26 @@ class http_handler(asyncore.dispatcher):
         self.handleurl_done(file)
       elif file.startswith('/skipped'):
         self.handleurl_skipped(file)
-      elif file.startswith('/graph'):
-        self.handleurl_graph()
-      elif file.startswith('/browse'):
-        self.handleurl_browse(file, post_data)
       elif file.startswith('/art'):
         self.handleurl_art(file)
       elif file.startswith('/merge'):
         self.handleurl_merge(file)
+      elif file.startswith('/art'):
+        self.handleurl_art(file)
+      elif file.startswith('/merge'):
+        self.handleurl_merge(file)
+
+      # User interface for the HTTP player
+      elif file.startswith('/graph'):
+        self.handleurl_graph()
+      elif file.startswith('/browse'):
+        self.handleurl_browse(file, post_data)
+      elif file.startswith('/tags'):
+        self.handleurl_tags(file)
+      elif file.startswith('/tag/'):
+        self.handleurl_tag(file)
+      elif file.startswith('/deletetag/'):
+        self.handleurl_deletetag(file)
 
       else:
         self.senderror(404, '%s file not found' % file)
@@ -362,7 +375,7 @@ class http_handler(asyncore.dispatcher):
         filters['track_filter']):
       limit_sql = ''
     else:
-      limit_sql = 'limit 50'
+      limit_sql = 'limit 25'
 
     sql = ('select * from tracks '
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
@@ -376,6 +389,50 @@ class http_handler(asyncore.dispatcher):
     results = self.renderbrowseresults(sql)
     filters['results'] = '\n'.join(results)
     self.sendfile('browse.html', subst=filters)
+
+  def handleurl_tags(self, file):
+    """Serve a list of the tags available."""
+
+    tags = []
+    for row in self.db.GetRows('select distinct(tag), count(*) from tags '
+                               'group by tag order by tag;'):
+      self.log('Found tag: %s (%d tracks)' %(row['tag'], row['count(*)']))
+      tags.append('<li><a href="/tag/%s">%s</a> (%d tracks)'
+                  %(urllib.urlencode({'id': row['tag']}),
+                    row['tag'], row['count(*)']))
+      
+    self.sendfile('tags.html', subst={'tags': '\n'.join(tags)})
+
+  def handleurl_tag(self, file):
+    """Show songs with a given tag."""
+
+    (_, _, tag_encoded) = file.split('/')
+    tag = urldecode(tag_encoded.split('=')[1])
+    sql = ('select * from tags inner join tracks on tags.track_id = tracks.id '
+           'where tag="%s";'
+           % tag)
+    self.log('Tag browse SQL = %s' % sql)
+    results = self.renderbrowseresults(sql, includemissing=True)
+
+    tags = {}
+    tags['results'] = '\n'.join(results)
+    tags['tag'] = tag
+    tags['tag_encoded'] = tag_encoded
+    self.sendfile('tag.html', subst=tags)
+
+  def handleurl_deletetag(self, file):
+    """Delete this tag."""
+
+    (_, _, tag_encoded, tracks) = file.split('/')
+    tag = urldecode(tag_encoded.split('=')[1])
+    tracks = tracks.split(',')
+
+    self.log('Deleting tag %s from %s' %(tag, repr(tracks)))
+    self.db.ExecuteSql('delete from tags where tag="%s" and '
+                       'track_id in (%s);'
+                       %(tag, ','.join(tracks)))
+    self.db.ExecuteSql('commit;')
+    self.sendfile('done.html')
 
   def handleurl_art(self, file):
     """Serve an image for a given album, if we have one."""
@@ -424,12 +481,17 @@ class http_handler(asyncore.dispatcher):
       second_track.Delete()
 
     self.log('Merge finished')
+    self.sendfile('done.html')
 
-  def renderbrowseresults(self, sql):
+  def renderbrowseresults(self, sql, includemissing=False):
     """Paint a table of the results of a SQL statement."""
 
     f = open('browse_result.html')
     results_template = f.read()
+    f.close()
+
+    f = open('missing_result.html')
+    missing_template = f.read()
     f.close()
 
     results = []
@@ -455,6 +517,8 @@ class http_handler(asyncore.dispatcher):
         rendered['bgcolor'] = bgcolor
         results.append(self.substitute(results_template, rendered))
       else:
+        if includemissing:
+          results.append(self.substitute(missing_template, rendered))
         self.log('Skipping row with no MP3 URL: %s' % repr(rendered))
 
     return results
