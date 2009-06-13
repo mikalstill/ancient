@@ -5,8 +5,12 @@
     <script type='text/javascript' src='/local/soundmanager2.js'></script>
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">google.load("prototype", "1.6.0.2");</script>
+    <script type="text/javascript">google.load("jquery", "1.3.2");</script>
+    <script type="text/javascript">google.load("jqueryui", "1.7.0");</script>
 
     <script type='text/javascript'>
+      jQuery.noConflict();
+
       function pad(digit) {
         if (digit < 10)
           return ("0" + digit);
@@ -32,6 +36,10 @@
         <button onClick="nextButton();">Next</button>
 	<button onClick="deleteTagButton();">Delete tag</button>
     </td><td>
+        <div align=center><font size="+1"><i>
+        <span id="nowplaying"></span>
+        </i></font></div>
+    </td><td width=40%>
         <div align=right>
             <font size=+5><span id="position">...</span></font>
         </div>
@@ -56,29 +64,21 @@
             <b>Added</b>
         </td>
     </tr>
-        <td>
-            <script type='text/javascript'>trackIds.push("nosuch");</script>
-            <span id="nosuch_state"></span>
-        </td>
-	<td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
     
     {{results}}
     </table>
     </form>
 
     <script type='text/javascript'>
-      soundManager.onload = goNext();
-
       function nextButton() {
         cleanUpCurrent('#FFBBBB');
-        new Ajax.Request("/skipped/" + trackId,
-                         {method:'get', onSuccess:goNext});
+        if(typeof(trackId) != "undefined") {
+          new Ajax.Request("/skipped/" + trackId,
+                           {method:'get', onSuccess:goNext});
+        }
+        else {
+          goNext();
+        }
       }
 
       function deleteTagButton() {
@@ -87,6 +87,10 @@
       }
 
       function cleanUpCurrent(color) {
+        if (typeof(trackId) == "undefined"){
+          return;
+        }
+
         soundManager.stop(trackId);
 	soundManager.unload(trackId);
 	soundManager.destroySound(trackId);
@@ -101,7 +105,12 @@
 
       function goNext() {
         trackId = trackIds.shift();
-	document.getElementById(trackId + "_state").innerHTML = "**";
+        if (typeof(trackId) == "undefined") {
+          return;
+        }
+
+	jQuery("#" + trackId + "_state").html("**");
+        jQuery("#nowplaying").html(jQuery("#" + trackId + "_artist").text() + " " + jQuery("#" + trackId + "_album").text() + " " + jQuery("#" + trackId + "_title").text());
 
         var mySound = soundManager.createSound({
           id: trackId,
