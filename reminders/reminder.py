@@ -63,14 +63,18 @@ for distance in distances:
   delta = distance - now
 
   work_days = 0
+  weekends = 0
   t = now
   while t < distance:
     dow = t.strftime('%w')
     if dow != '0' and dow != '6':
       work_days +=1
+    else:
+      weekends += 1
     t += one_day
 
-  print ('%3d days, %3d work days: %s'
-         % (delta.days, work_days, ', '.join(days_away[distance])))
+  print ('%3dd, %3dwd, %3dwe: %s'
+         % (delta.days, work_days, weekends / 2,
+            ', '.join(days_away[distance])))
 
 print
