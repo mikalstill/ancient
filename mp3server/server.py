@@ -377,7 +377,7 @@ class http_handler(asyncore.dispatcher):
         filters['track_filter']):
       limit_sql = ''
     else:
-      limit_sql = 'limit 25'
+      limit_sql = 'limit 100'
 
     sql = ('select * from tracks '
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
@@ -782,11 +782,11 @@ class http_handler(asyncore.dispatcher):
     try:
       f = open(path)
       f.read(inset)
-      data += f.read(1000000000)
+      data += f.read()
       f.close()
 
-    except:
-      self.senderror(404, 'File read error: %s' % path)
+    except Exception, e:
+      self.senderror(404, 'File read error: %s (%s)' % (path, e))
       return
 
     extn = path.split('.')[-1]

@@ -14,9 +14,9 @@ import gflags
 FLAGS = gflags.FLAGS
 gflags.DEFINE_string('db_host', 'localhost',
                      'The name of the host the MySQL database is on')
-gflags.DEFINE_string('db_user', 'root',
+gflags.DEFINE_string('db_user', 'mp3server',
                      'The name of the user to connect to the database with')
-gflags.DEFINE_string('db_password', '',
+gflags.DEFINE_string('db_password', 'mp3',
                      'The password for the database user')
 gflags.DEFINE_string('db_name', 'mp3server',
                      'The name of the database which MythNetTV uses')

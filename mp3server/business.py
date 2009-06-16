@@ -58,9 +58,9 @@ class BusinessLogic(object):
                                             client_id=client_id)
       if rendered['mp3_url']:
         returnable.append(rendered)
+      if len(returnable) == limit and limit == 1:
+        return returnable[0]
 
-    if limit == 1:
-      return returnable[0]
     if returnable:
       return returnable
 
@@ -77,13 +77,14 @@ class BusinessLogic(object):
                                % id):
       self.log('Considering id = %d: %s' %(id, row['path']))
       if row['path'].endswith('.mp3') and os.path.exists(row['path']):
+        self.log('MP3 check: %s' % row['path'])
         if client_settings and client_settings.has_key('mp3_source'):
           mp3_url = ('%s/%s' %(client_settings['mp3_source'],
                                row['path'].replace(FLAGS.audio_path, '')))
         else:
           mp3_url = 'mp3/%s' % id
 
-        self.log('Using MP3 URL %s' % mp3_url)
+        self.log('MP3 ok: %s' % mp3_url)
         return (mp3_url, row['path'])
 
     self.log('No MP3 file found for id = %d' % id)

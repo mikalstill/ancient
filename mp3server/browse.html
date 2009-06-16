@@ -38,7 +38,10 @@
 
         || Add tag: <input type="text" id="newtag" />
 	<button onClick="addTagButton();">Add</button>
-    </td><td>
+    </td><td>        <div align=center><font size="+1"><i>
+        <span id="nowplaying"></span>
+        </i></font></div>
+    </td><td width=40%>
         <div align=right>
             <font size=+5><span id="position">...</span></font>
         </div>
@@ -132,7 +135,12 @@
 
       function goNext() {
         trackId = trackIds.shift();
-	document.getElementById(trackId + "_state").innerHTML = "**";
+        if (typeof(trackId) == "undefined") {
+          return;
+        }
+
+        jQuery("#" + trackId + "_state").html("**");
+        jQuery("#nowplaying").html(jQuery("#" + trackId + "_artist").text() + " " + jQuery("#" + trackId + "_album").text() + " " + jQuery("#" + trackId + "_title").text());
 
         var mySound = soundManager.createSound({
           id: trackId,
