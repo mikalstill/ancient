@@ -347,6 +347,9 @@ class http_handler(asyncore.dispatcher):
                'unplayed_filter': '',
                'unplayed_filter_compiled': '',
                'unplayed_checked': '',
+               'random_filter': '',
+               'random_filter_compiled': '',
+               'random_checked': '',
               }
 
     # I am sure there is a better way than this
@@ -372,6 +375,13 @@ class http_handler(asyncore.dispatcher):
                       'last_skipped=makedate(1970,1)')
       filters['unplayed_checked'] = 'checked'
 
+    random_sql_cols = ''
+    random_sql_order = ''
+    if filters['random_filter'] == 'Random':
+      random_sql_cols = ', %s' % business.GenerateRankSql(0)
+      random_sql_order = 'idx desc,'
+      filters['random_checked'] = 'checked'
+
     if (filters['artist_filter'] or
         filters['album_filter'] or
         filters['track_filter']):
@@ -379,13 +389,17 @@ class http_handler(asyncore.dispatcher):
     else:
       limit_sql = 'limit 100'
 
-    sql = ('select * from tracks '
+    sql = ('select *%s from tracks '
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
-           '%s %s order by artist, song, album, number %s;'
-           %(filters['artist_filter_compiled'],
+           '%s %s order by %s artist, song, album, number %s;'
+           %(random_sql_cols,
+             filters['artist_filter_compiled'],
              filters['album_filter_compiled'],
              filters['track_filter_compiled'],
-             recent_sql, unplayed_sql, limit_sql))
+             unplayed_sql,
+             recent_sql,
+             random_sql_order,
+             limit_sql))
     self.log('Browse SQL = %s' % sql)
 
     results = self.renderbrowseresults(sql)

@@ -11,6 +11,19 @@ import gflags
 
 FLAGS = gflags.FLAGS
 
+def GenerateRankSql(skips):
+  """Generate the SQL to rank tracks."""
+
+  return ('rand() + '
+          '  (least(plays, 15) * 0.00005 * %d) - '
+          '  (skips * 0.01 * %d) + '
+          '  (to_days(now()) - '
+          '   greatest(to_days(last_played), '
+          '            to_days(last_skipped))) * '
+          '            0.000001 * (5 - %d)'
+          '  as idx'
+          % (skips + 1, skips + 1, skips + 1))
+
 
 class BusinessLogic(object):
   """Handle business logic like track selection."""
@@ -24,23 +37,11 @@ class BusinessLogic(object):
 
     returnable = []
 
+    recent_sql = ''
     if recent:
-      recent_sql = ' where (to_days(now()) - to_days(creation_time)) < 15'
+      recent_sql = 'where (to_days(now()) - to_days(creation_time)) < 15'
       self.log('Request is for a recent track')
-    else:
-      recent_sql = ''
-
-    sql = ('select *, ' 
-           'rand() + '
-           '  (least(plays, 15) * 0.00005 * %d) - '
-           '  (skips * 0.01 * %d) + '
-           '  (to_days(now()) - '
-           '   greatest(to_days(last_played), '
-           '            to_days(last_skipped))) * '
-           '            0.000001 * (5 - %d)'
-           '  as idx from tracks %s '
-           'order by idx desc limit 100;'
-           % (skips + 1, skips + 1, skips + 1, recent_sql))
+    sql = 'select *, %s from tracks %s order by idx desc limit 100;' %(GenerateRankSql(skips), recent_sql) 
 
     for row in self.db.GetRows(sql):
       self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s, '
