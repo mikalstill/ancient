@@ -221,6 +221,8 @@ class http_handler(asyncore.dispatcher):
         self.handleurl_art(file)
       elif file.startswith('/merge'):
         self.handleurl_merge(file)
+      elif file.startswith('/unmerge'):
+        self.handleurl_unmerge(file)
       elif file.startswith('/art'):
         self.handleurl_art(file)
       elif file.startswith('/merge'):
@@ -239,6 +241,8 @@ class http_handler(asyncore.dispatcher):
         self.handleurl_addtag(file)
       elif file.startswith('/deletetag/'):
         self.handleurl_deletetag(file)
+      elif file.startswith('/events'):
+        self.handleurl_events(file)
 
       else:
         self.senderror(404, '%s file not found' % file)
@@ -324,8 +328,8 @@ class http_handler(asyncore.dispatcher):
     rendered['graph'] = self.playgraph()
 
     sql = ('select * from events inner join tracks on '
-           'events.track_id = tracks.id order by events.timestamp desc '
-           'limit 30;')
+           'events.track_id = tracks.id where event in ("play", "skip") '
+           'order by events.timestamp desc limit 30;')
     results = self.renderbrowseresults(sql)
     rendered['results'] = '\n'.join(results)
 
@@ -378,7 +382,7 @@ class http_handler(asyncore.dispatcher):
     random_sql_cols = ''
     random_sql_order = ''
     if filters['random_filter'] == 'Random':
-      random_sql_cols = ', %s' % business.GenerateRankSql(0)
+      random_sql_cols = ', %s' % business.GenerateRankSql(2)
       random_sql_order = 'idx desc,'
       filters['random_checked'] = 'checked'
 
@@ -418,6 +422,46 @@ class http_handler(asyncore.dispatcher):
                     row['tag'], row['count(*)']))
       
     self.sendfile('tags.html', subst={'tags': '\n'.join(tags)})
+
+  def handleurl_events(self, file):
+    """Show recent events."""
+
+    events = []
+    merge_master = None
+    merge_slave = None
+    merge_slave_tags = None
+    merge_slave_paths = None
+
+    # This select is like this because timestamps aren't accurate enough to be
+    # ordered correctly unless we take the default sort order. I should fix this
+    # by adding a unique counter to these rows
+    for row in self.db.GetRows('select * from events;')[-1000:]:
+      if row['event'] == 'merge: before':
+        merge_master = row['track_id']
+      elif row['event'] == 'merge: deleted':
+        merge_slave = row['track_id']
+      elif row['event'].startswith('merge: tags'):
+        merge_slave_tags = eval(row['details'])
+      elif row['event'].startswith('merge: paths'):
+        merge_slave_paths = eval(row['details'])
+      elif row['event'] == 'merge: after':
+        events.append('<tr><td>%s</td><td>%s and %s</td><td>Merge</td>'
+                      '<td>Track %s and %s were merged. %s owned tags %s and '
+                      'paths %s before the merge</td><tr/>'
+                      %(row['timestamp'],
+                        merge_master, merge_slave, merge_master, merge_slave,
+                        merge_slave, merge_slave_tags, merge_slave_paths))
+
+      else:
+        events.append('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
+                      %(row['timestamp'], row['track_id'], row['event'],
+                        row['details']))
+
+    self.sendfile('events.html',
+                  subst={'events': ('<table><tr><td>Timestamp</td>'
+                                    '<td>Track Id</td><td>Event</td>'
+                                    '<td>Details</td></tr>%s</table>'
+                                    % '\n'.join(events))})
 
   def handleurl_tag(self, file):
     """Show songs with a given tag."""
@@ -512,6 +556,60 @@ class http_handler(asyncore.dispatcher):
 
     self.log('Merge finished')
     self.sendfile('done.html')
+
+  def handleurl_unmerge(self, file):
+    """Undo a merge."""
+
+    (_, _, tracks) = file.split('/')
+    tracks = tracks.split(',')
+
+    self.log('Unmerging %s' % repr(tracks))
+    first_track = track.Track(self.db)
+    first_track.persistant = eval(self.db.GetOneRow('select * from events where '
+                                                    'event = "merge: before" and '
+                                                    'track_id = %s order by '
+                                                    'timestamp asc limit 1;'
+                                                    % tracks[0])['details'])
+    self.log('Previous state of %s: %s'
+             %(tracks[0], repr(first_track.persistant)))
+    first_track.Store()
+    
+    for t_id in tracks[1:]:
+      t = track.Track(self.db)
+      t.persistant = eval(self.db.GetOneRow('select * from events where '
+                                            'event = "merge: deleted" and '
+                                            'track_id = %s order by '
+                                            'timestamp desc limit 1;'
+                                            % t_id)['details'])
+
+      tags = eval(self.db.GetOneRow('select * from events where '
+                                    'event = "merge: tags: %s" '
+                                    'order by timestamp desc limit 1;'
+                                    % t_id)['details'])
+      paths = eval(self.db.GetOneRow('select * from events where '
+                                    'event = "merge: paths: %s" '
+                                    'order by timestamp desc limit 1;'
+                                    % t_id)['details'])
+      self.log('Previous state of %s: %s. Tags %s, Paths %s.'
+               %(t_id, repr(t.persistant), tags, paths))
+      t.Store()
+
+      for tag in tags:
+        try:
+          self.db.ExecuteSql('update tags set track_id=%s where tag="%s";'
+                             % (t_id, tag['tag']))
+        except:
+          pass
+
+      for path in paths:
+        try:
+          self.db.ExecuteSql('update paths set track_id=%s where path=%s;'
+                             % (t_id, self.db.FormatSqlValue('path',
+                                                             path['path'])))
+        except:
+          pass
+
+      self.db.ExecuteSql('commit;')
 
   def renderbrowseresults(self, sql, includemissing=False):
     """Paint a table of the results of a SQL statement."""
