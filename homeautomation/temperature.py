@@ -4,6 +4,7 @@ import datetime
 import re
 import time
 import urllib
+import MySQLdb
 
 from pygooglechart import Chart
 from pygooglechart import SimpleLineChart
@@ -14,6 +15,9 @@ SENSOR_LOCATIONS = {'t10fa473500000037': 'Beer Fridge'}
 MIN_Y = -20.0
 MAX_Y = 50.0
 DATA_RE = re.compile('.*<pre>(.*)</pre>.*', re.DOTALL)
+
+db = MySQLdb.connect(user = 'root', db = 'home')
+cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
 values = {}
 start_time = time.time()
@@ -34,8 +38,13 @@ while True:
         print '%s: %s' %(datetime.datetime.now(), l.rstrip())
 
         try:
-          if l.startswith('t'):
-            (name, value) = l.split(': ')
+          (name, value) = l.split(': ')
+          cursor.execute('insert into sensors(epoch_seconds, sensor, value) '
+                         'values(%s, "%s", "%s");'
+                         %(time.time(), name, value))
+          cursor.execute('commit;')
+
+          if name.startswith('t'):
             values.setdefault(name, [])
             values[name].append(float(value))
 
@@ -50,29 +59,32 @@ while True:
   print
 
   # Annoyingly we have to create a new graph each time
+  chart = SimpleLineChart(600, 400, y_range=[MIN_Y, MAX_Y])
+  chart.set_title('Temperature sensors')
+  chart.add_horizontal_range('E5ECF9', 3.5, 4.0)
+  chart.set_colours(['0000FF'])
+  chart.set_grid(0, 5, 5, 5)
+
+  left_axis = []
+  for v in range(MIN_Y, MAX_Y + 1.0, 5):
+    left_axis.append('%s' % v)
+  chart.set_axis_labels(Axis.LEFT, left_axis)
+
+  bottom_axis = []
+  end_time = time.time()
+  for v in range(start_time, end_time + 1,
+                 max(1, (end_time - start_time) / 5)):
+    tuple = time.localtime(v)
+    bottom_axis.append('%d/%d %d:%d' %(tuple[2], tuple[1],
+                                       tuple[3], tuple[4]))
+  chart.set_axis_labels(Axis.BOTTOM, bottom_axis)
+
+  legend = []
   for name in values:
-    chart = SimpleLineChart(600, 400, y_range=[MIN_Y, MAX_Y])
-    chart.set_title(SENSOR_LOCATIONS.get(name, name))
-    chart.add_horizontal_range('E5ECF9', 3.5, 4.0)
-    chart.set_colours(['0000FF'])
-    chart.set_grid(0, 5, 5, 5)
-
-    left_axis = []
-    for v in range(MIN_Y, MAX_Y + 1.0, 5):
-      left_axis.append('%s' % v)
-    chart.set_axis_labels(Axis.LEFT, left_axis)
-
-    bottom_axis = []
-    end_time = time.time()
-    for v in range(start_time, end_time + 1,
-                   max(1, (end_time - start_time) / 5)):
-      tuple = time.localtime(v)
-      bottom_axis.append('%d/%d %d:%d' %(tuple[2], tuple[1],
-                                         tuple[3], tuple[4]))
-    chart.set_axis_labels(Axis.BOTTOM, bottom_axis)
-
+    legend.append(SENSOR_LOCATIONS.get(name, name))
     chart.add_data(values[name])
-    print chart.get_url()
+  chart.set_legend(legend)
 
+  print chart.get_url()
   print
   time.sleep(10)
