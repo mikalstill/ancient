@@ -35,16 +35,6 @@ db = None
 blogic = None
 
 
-_CONTENT_TYPES = {'css':  'text/css',
-                  'html': 'text/html',
-                  'mp3':  'audo/x-mpeg-3',
-                  'png':  'image/png',
-                  'swf':  'application/x-shockwave-flash',
-                  'xml':  'text/xml'
-                 }
-_SUBST_RE = re.compile('(.*){{([^}]+)}}(.*)', re.MULTILINE | re.DOTALL)
-
-
 class http_server(mhttp.http_server):
   def client_init(self):
     """Do local setup."""
@@ -720,12 +710,14 @@ class http_handler(mhttp.http_handler):
       s = s.replace(i, o)
     return s
 
-  def sendredirect(self, path):
-    """Send a HTTP 302 redirect."""
+  def global_subst(self, subst):
+    """Update the subst array with some standard numbers."""
 
-    self.sendheaders('HTTP/1.1 302 Found\r\n'
-                     'Location: %s\r\n'
-                     % path)
+    if not subst:
+      subst = {}
+    subst.update(self.getstats_ever())
+    subst.update(self.getstats_today())
+    return subst
 
   def getstats_ever(self):
     """Return some playback statistics for all time."""
