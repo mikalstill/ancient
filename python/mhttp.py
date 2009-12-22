@@ -209,9 +209,21 @@ class http_handler(asyncore.dispatcher):
                     'You need to implement a root URL!'
                     '</body></html>')
 
+  def sendredirect(self, path):
+    """Send a HTTP 302 redirect."""
+
+    self.sendheaders('HTTP/1.1 302 Found\r\n'
+                     'Location: %s\r\n'
+                     % path)
+
+  def global_subst(self, subst):
+    """A chance to update the substitutions with global values."""
+    return subst
+
   def sendfile(self, path, subst=None, chunk=None):
     """Send a file to the client, including doing the MIME type properly."""
 
+    subst = self.global_subst(subst)
     inset = 0
     if chunk:
       # Format is "bytes=6600100-"
@@ -234,8 +246,6 @@ class http_handler(asyncore.dispatcher):
     if mime_type.find('ml') != -1:
       if not subst:
         subst = {}
-      subst.update(self.getstats_ever())
-      subst.update(self.getstats_today())
       
       data = self.substitute(data, subst)
 
