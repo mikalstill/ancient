@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Web interface to my MP3 database
+# Helpful web server stub
 
 import asyncore
 import base64
@@ -26,12 +26,13 @@ import track
 
 
 FLAGS = gflags.FLAGS
-gflags.DEFINE_string('ip', '192.168.1.99', 'Bind to this IP')
+gflags.DEFINE_string('ip', '192.168.1.13', 'Bind to this IP')
 gflags.DEFINE_integer('port', 12345, 'Bind to this port')
 
 gflags.DEFINE_boolean('showrequest', False,
                       'Show the content of HTTP request')
-gflags.DEFINE_boolean('showpost', False, 'Show the content of POST operations')
+gflags.DEFINE_boolean('showpost', False,
+                      'Show the content of POST operations')
 gflags.DEFINE_boolean('showresponse', False,
                       'Show the content of response headers')
 
