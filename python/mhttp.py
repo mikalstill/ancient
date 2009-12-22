@@ -14,7 +14,6 @@ import sys
 import time
 import types
 import urllib
-import uuid
 
 import MySQLdb
 
@@ -31,7 +30,6 @@ gflags.DEFINE_boolean('showresponse', False,
                       'Show the content of response headers')
 
 running = True
-uuid = uuid.uuid4()
 
 requests = {}
 skips = {}
@@ -165,14 +163,16 @@ class http_handler(asyncore.dispatcher):
         for l in post_data.split('\r\n'):
           self.log('DATA %s' % l, console=FLAGS.showpost)
 
+    self.dispatch(file, post_data)
+    self.log('%d bytes queued' % len(self.buffer))
+
+  def dispatch(self, file, post_data):
     if file == '/':
       self.handleurl_root(post_data)
 
     else:
       self.senderror(404, '%s file not found' % file)
       self.close()
-
-    self.log('%d bytes queued' % len(self.buffer))
 
   def writable(self):
     return len(self.buffer) > 0
@@ -308,7 +308,10 @@ def main(argv):
   # Parse flags
   try:
     argv = FLAGS(argv)
+
   except gflags.FlagsError, e:
+    print 'Flags error: %s' % e
+    print
     print FLAGS
 
   server = http_server(FLAGS.ip, FLAGS.port)

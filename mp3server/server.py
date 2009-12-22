@@ -2,21 +2,18 @@
 
 # Web interface to my MP3 database
 
-import asyncore
-import base64
-import cStringIO
-import datetime
-import mad
-import os
-import re
-import socket
 import sys
-import time
-import types
-import urllib
-import uuid
+sys.path.append('/data/src/stillhq_public/trunk/python/')
 
+import asyncore
+import datetime
+import re
+import time
+import uuid
+import urllib
 import MySQLdb
+
+import mhttp
 
 import coverhunt
 import business
@@ -26,14 +23,7 @@ import track
 
 
 FLAGS = gflags.FLAGS
-gflags.DEFINE_string('ip', '192.168.1.99', 'Bind to this IP')
-gflags.DEFINE_integer('port', 12345, 'Bind to this port')
 
-gflags.DEFINE_boolean('showrequest', False,
-                      'Show the content of HTTP request')
-gflags.DEFINE_boolean('showpost', False, 'Show the content of POST operations')
-gflags.DEFINE_boolean('showresponse', False,
-                      'Show the content of response headers')
 
 running = True
 uuid = uuid.uuid4()
@@ -41,6 +31,9 @@ uuid = uuid.uuid4()
 requests = {}
 skips = {}
 bytes = 0
+db = None
+blogic = None
+
 
 _CONTENT_TYPES = {'css':  'text/css',
                   'html': 'text/html',
@@ -52,122 +45,17 @@ _CONTENT_TYPES = {'css':  'text/css',
 _SUBST_RE = re.compile('(.*){{([^}]+)}}(.*)', re.MULTILINE | re.DOTALL)
 
 
-def htc(m):
-  return chr(int(m.group(1),16))
-
-
-def urldecode(url):
-  url = url.replace('+', ' ')
-  rex = re.compile('%([0-9a-hA-H][0-9a-hA-H])',re.M)
-  return rex.sub(htc,url)
-
-
-class http_server(asyncore.dispatcher):
-  """Listen for new client connections, which are then handed off to
-     another class
-  """
-
-  def __init__(self, ip, port, db):
-    self.ip= ip
-    self.port = port
-    self.db = db
-    self.logfile = open('log', 'a')
-
-    self.business = business.BusinessLogic(self.db, self.log)
+class http_server(mhttp.http_server):
+  def client_init(self):
+    """Do local setup."""
     
-    asyncore.dispatcher.__init__(self)
-    self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-    self.bind((ip, port))
-    self.listen(5)
+    self.http_handler_class = http_handler
 
-  def log(self, msg, console=True):
-    """Write a log line."""
 
-    l = '%s %s %s\n' %(datetime.datetime.now(), repr(self.addr), msg)
+class http_handler(mhttp.http_handler):
+  def dispatch(self, file, post_data):
+    global db
     
-    if console:
-      sys.stdout.write(l)
-
-    self.logfile.write(l)
-    self.logfile.flush()
-
-  def writable(self):
-    return 0
-
-  def handle_read(self):
-    pass
-
-  def readable(self):
-    return self.accepting
-
-  def handle_connect(self):
-    pass
-
-  def handle_accept(self):
-    conn, addr = self.accept()
-    handler = http_handler(conn, addr, self.db, self.business, self.log)
-
-
-class http_handler(asyncore.dispatcher):
-  """Handle a single connection"""
-
-  def __init__(self, conn, addr, db, business, log):
-    asyncore.dispatcher.__init__(self, sock=conn)
-    self.addr = addr
-    self.db = db
-    self.business = business
-    self.log = log
-
-    self.buffer = ''
-
-    # Used to track uPnP plays
-    self.is_mp3 = False
-    self.is_tracked = False
-    self.streamed_at = None
-    self.id = None
-
-    self.cookie = None
-    self.extra_headers = []
-
-    self.client_id = 0
-
-  def handle_read(self):
-    rq = self.recv(32 * 1024)
-    file = ''
-    method = None
-    post_data = None
-    chunk = None
-
-    for line in rq.split('\n'):
-      line = line.rstrip('\r')
-      self.log('REQUEST %s' % line, console=FLAGS.showrequest)
-
-      if line.startswith('GET'):
-        (_, file, _) = line.split(' ')
-        method = 'GET'
-
-      if line.startswith('POST'):
-        (_, file, _) = line.split(' ')
-        method = 'POST'
-
-      if line.startswith('Range: '):
-        chunk = line[7:]
-      if line.startswith('Cookie: '):
-        self.cookie = line[8:]
-
-      if post_data is not None:
-        post_data += '%s\r\n' % line
-
-      if len(line) == 0 and method == 'POST' and post_data is None:
-        post_data = ''
-
-    if file:
-      self.log('%s %s' %(method, file))
-
-      if method == 'POST' and post_data:
-        for l in post_data.split('\r\n'):
-          self.log('DATA %s' % l, console=FLAGS.showpost)
-
     # Implementation of uPnP -- must come before cookie set
     if file.startswith('/getDeviceDesc'):
       self.handleurl_getdevicedesc(file)
@@ -182,8 +70,8 @@ class http_handler(asyncore.dispatcher):
     else:
       # Normal clients can handle cookies
       if not self.cookie:
-        self.db.ExecuteSql('insert into clients(createtime) values(now());')
-        row = self.db.GetOneRow('select last_insert_id();')
+        db.ExecuteSql('insert into clients(createtime) values(now());')
+        row = db.GetOneRow('select last_insert_id();')
         self.cookie = 'id=%s' % row['last_insert_id()']
         self.extra_headers.append('Set-Cookie: id=%s; '
                                   'expires=Sun, 17 Jan 2038 09:00:00 GMT'
@@ -194,12 +82,12 @@ class http_handler(asyncore.dispatcher):
         if elem.startswith('id='):
           self.client_id = int(elem[3:])
 
-      self.db.ExecuteSql('update clients set requests=0 '
-                         'where requests is null;')
-      self.db.ExecuteSql('update clients set requests=requests + 1 '
-                         'where id=%d;'
-                         % self.client_id)
-      self.db.ExecuteSql('commit;')
+      db.ExecuteSql('update clients set requests=0 '
+                    'where requests is null;')
+      db.ExecuteSql('update clients set requests=requests + 1 '
+                    'where id=%d;'
+                    % self.client_id)
+      db.ExecuteSql('commit;')
 
       
       # Top URL
@@ -247,37 +135,7 @@ class http_handler(asyncore.dispatcher):
       else:
         self.senderror(404, '%s file not found' % file)
         self.close()
-
-    self.log('%d bytes queued' % len(self.buffer))
-
-  def writable(self):
-    return len(self.buffer) > 0
-
-  def handle_write(self):
-    global bytes
-    
-    try:
-      sent = self.send(self.buffer)
-      bytes += sent
-
-      self.buffer = self.buffer[sent:]
-      if len(self.buffer) == 0:
-        if self.is_mp3 and self.is_tracked and self.id:
-          self.log('MP3 request complete')
-          delta = datetime.datetime.now() - self.streamed_at
-          if delta.seconds < 30:
-            self.log('MP3 streamed too fast')
-          else:
-            self.markplayed(self.id)
-
-        self.close()
-
-    except:
-      pass
-
-  def handle_close(self):
-    pass
-
+  
   def handleurl_root(self, post_data):
     """The top level page."""
 
@@ -291,13 +149,13 @@ class http_handler(asyncore.dispatcher):
 
           if name == 'mp3_source':
             self.log('Updating MP3 source to %s' % value)
-            self.db.ExecuteSql('update clients set mp3_source="%s" '
-                               'where id=%s;'
-                               %(value, self.client_id))
-            self.db.ExecuteSql('commit;')
+            db.ExecuteSql('update clients set mp3_source="%s" '
+                          'where id=%s;'
+                          %(value, self.client_id))
+            db.ExecuteSql('commit;')
           
-    row = self.db.GetOneRow('select * from clients where id=%s;'
-                            % self.client_id)
+    row = db.GetOneRow('select * from clients where id=%s;'
+                       % self.client_id)
     if not row or not row.has_key('mp3_source'):
       row = {'mp3_source': ''}
 
@@ -308,10 +166,12 @@ class http_handler(asyncore.dispatcher):
   def handleurl_play(self):
     """The HTTP playback user interface."""
 
+    global blogic
+
     self.markskipped()
     skips.setdefault(self.addr[0], 0)
-    rendered = self.business.picktrack(client_id=self.client_id,
-                                       skips=skips[self.addr[0]])
+    rendered = blogic.picktrack(client_id=self.client_id,
+                                  skips=skips[self.addr[0]])
     requests[self.addr[0]] = (datetime.datetime.now(), rendered['id'])
     self.log('MP3 url is %s' % rendered['mp3_url'])
     if not rendered:
@@ -338,6 +198,8 @@ class http_handler(asyncore.dispatcher):
   def handleurl_browse(self, file, post_data):
     """Browse the database."""
 
+    global blogic
+
     # Parse filters
     filters = {'artist_filter': '',
                'artist_filter_compiled': '.*',
@@ -363,7 +225,7 @@ class http_handler(asyncore.dispatcher):
           for arg in l.split('&'):
             (name, value) = arg.split('=')
             if value:
-              value = urldecode(value.replace('+', ' '))
+              value = mhttp.urldecode(value.replace('+', ' '))
               filters['%s_filter' % name] = value
               filters['%s_filter_compiled' % name] = value.replace(' ',
                                                                    '[ _+]+')
@@ -382,7 +244,7 @@ class http_handler(asyncore.dispatcher):
     random_sql_cols = ''
     random_sql_order = ''
     if filters['random_filter'] == 'Random':
-      random_sql_cols = ', %s' % business.GenerateRankSql(2)
+      random_sql_cols = ', %s' % blogic.GenerateRankSql(2)
       random_sql_order = 'idx desc,'
       filters['random_checked'] = 'checked'
 
@@ -414,8 +276,8 @@ class http_handler(asyncore.dispatcher):
     """Serve a list of the tags available."""
 
     tags = []
-    for row in self.db.GetRows('select distinct(tag), count(*) from tags '
-                               'group by tag order by tag;'):
+    for row in db.GetRows('select distinct(tag), count(*) from tags '
+                          'group by tag order by tag;'):
       self.log('Found tag: %s (%d tracks)' %(row['tag'], row['count(*)']))
       tags.append('<li><a href="/tag/%s">%s</a> (%d tracks)'
                   %(urllib.urlencode({'id': row['tag']}),
@@ -433,9 +295,9 @@ class http_handler(asyncore.dispatcher):
     merge_slave_paths = None
 
     # This select is like this because timestamps aren't accurate enough to be
-    # ordered correctly unless we take the default sort order. I should fix this
-    # by adding a unique counter to these rows
-    for row in self.db.GetRows('select * from events;')[-1000:]:
+    # ordered correctly unless we take the default sort order. I should fix
+    # this by adding a unique counter to these rows
+    for row in db.GetRows('select * from events;')[-1000:]:
       if row['event'] == 'merge: before':
         merge_master = row['track_id']
       elif row['event'] == 'merge: deleted':
@@ -467,7 +329,7 @@ class http_handler(asyncore.dispatcher):
     """Show songs with a given tag."""
 
     (_, _, tag_encoded) = file.split('/')
-    tag = urldecode(tag_encoded.split('=')[1])
+    tag = mhttp.urldecode(tag_encoded.split('=')[1])
     sql = ('select * from tags inner join tracks on tags.track_id = tracks.id '
            'where tag="%s";'
            % tag)
@@ -484,28 +346,28 @@ class http_handler(asyncore.dispatcher):
     """Add this tag."""
 
     (_, _, tag_encoded, tracks) = file.split('/')
-    tag = urldecode(tag_encoded.split('=')[1])
+    tag = mhttp.urldecode(tag_encoded.split('=')[1])
     tracks = tracks.split(',')
 
     for track in tracks:
-      self.db.ExecuteSql('insert ignore into tags(tag, track_id) '
-                         'values("%s", %s);'
-                         %(tag, track))
-      self.db.ExecuteSql('commit;')
+      db.ExecuteSql('insert ignore into tags(tag, track_id) '
+                    'values("%s", %s);'
+                    %(tag, track))
+      db.ExecuteSql('commit;')
     self.sendfile('done.html')
 
   def handleurl_deletetag(self, file):
     """Delete this tag."""
 
     (_, _, tag_encoded, tracks) = file.split('/')
-    tag = urldecode(tag_encoded.split('=')[1])
+    tag = mhttp.urldecode(tag_encoded.split('=')[1])
     tracks = tracks.split(',')
 
     self.log('Deleting tag %s from %s' %(tag, repr(tracks)))
-    self.db.ExecuteSql('delete from tags where tag="%s" and '
-                       'track_id in (%s);'
-                       %(tag, ','.join(tracks)))
-    self.db.ExecuteSql('commit;')
+    db.ExecuteSql('delete from tags where tag="%s" and '
+                  'track_id in (%s);'
+                  %(tag, ','.join(tracks)))
+    db.ExecuteSql('commit;')
     self.sendfile('done.html')
 
   def handleurl_art(self, file):
@@ -513,10 +375,10 @@ class http_handler(asyncore.dispatcher):
 
     (_, _, artist, album) = file.replace('%20', ' ').split('/')
     self.log('Fetching art for "%s" "%s"' %(artist, album))
-    row = self.db.GetOneRow('select art from art where artist=%s and '
-                            'album=%s;'
-                            %(self.db.FormatSqlValue('artist', artist),
-                              self.db.FormatSqlValue('album', album)))
+    row = db.GetOneRow('select art from art where artist=%s and '
+                       'album=%s;'
+                       %(db.FormatSqlValue('artist', artist),
+                         db.FormatSqlValue('album', album)))
     if not row or not row['art']:
       self.senderror(404, 'No such art')
       return
@@ -536,13 +398,13 @@ class http_handler(asyncore.dispatcher):
     tracks = tracks.split(',')
 
     self.log('Merging %s' % repr(tracks))
-    first_track = track.Track(self.db)
+    first_track = track.Track(db)
     first_track.FromId(int(tracks[0]))
     self.log('Before: %s' % repr(first_track.persistant))
 
     cleanup = []
     for second_track_id in tracks[1:]:
-      second_track = track.Track(self.db)
+      second_track = track.Track(db)
       second_track.FromId(int(second_track_id))
 
       first_track.Merge(second_track)
@@ -564,55 +426,58 @@ class http_handler(asyncore.dispatcher):
     tracks = tracks.split(',')
 
     self.log('Unmerging %s' % repr(tracks))
-    first_track = track.Track(self.db)
-    first_track.persistant = eval(self.db.GetOneRow('select * from events where '
-                                                    'event = "merge: before" and '
-                                                    'track_id = %s order by '
-                                                    'timestamp asc limit 1;'
-                                                    % tracks[0])['details'])
+    first_track = track.Track(db)
+    first_track.persistant = eval(db.GetOneRow('select * from events '
+                                               'where '
+                                               'event = "merge: before" '
+                                               'and '
+                                               'track_id = %s order by '
+                                               'timestamp asc limit 1;'
+                                               % tracks[0])['details'])
     self.log('Previous state of %s: %s'
              %(tracks[0], repr(first_track.persistant)))
     first_track.Store()
     
     for t_id in tracks[1:]:
-      t = track.Track(self.db)
-      t.persistant = eval(self.db.GetOneRow('select * from events where '
-                                            'event = "merge: deleted" and '
-                                            'track_id = %s order by '
-                                            'timestamp desc limit 1;'
-                                            % t_id)['details'])
+      t = track.Track(db)
+      t.persistant = eval(db.GetOneRow('select * from events where '
+                                       'event = "merge: deleted" and '
+                                       'track_id = %s order by '
+                                       'timestamp desc limit 1;'
+                                       % t_id)['details'])
 
-      tags = eval(self.db.GetOneRow('select * from events where '
-                                    'event = "merge: tags: %s" '
-                                    'order by timestamp desc limit 1;'
-                                    % t_id)['details'])
-      paths = eval(self.db.GetOneRow('select * from events where '
-                                    'event = "merge: paths: %s" '
-                                    'order by timestamp desc limit 1;'
-                                    % t_id)['details'])
+      tags = eval(db.GetOneRow('select * from events where '
+                               'event = "merge: tags: %s" '
+                               'order by timestamp desc limit 1;'
+                               % t_id)['details'])
+      paths = eval(db.GetOneRow('select * from events where '
+                                'event = "merge: paths: %s" '
+                                'order by timestamp desc limit 1;'
+                                % t_id)['details'])
       self.log('Previous state of %s: %s. Tags %s, Paths %s.'
                %(t_id, repr(t.persistant), tags, paths))
       t.Store()
 
       for tag in tags:
         try:
-          self.db.ExecuteSql('update tags set track_id=%s where tag="%s";'
-                             % (t_id, tag['tag']))
+          db.ExecuteSql('update tags set track_id=%s where tag="%s";'
+                        % (t_id, tag['tag']))
         except:
           pass
 
       for path in paths:
         try:
-          self.db.ExecuteSql('update paths set track_id=%s where path=%s;'
-                             % (t_id, self.db.FormatSqlValue('path',
-                                                             path['path'])))
+          db.ExecuteSql('update paths set track_id=%s where path=%s;'
+                        % (t_id, db.FormatSqlValue('path', path['path'])))
         except:
           pass
 
-      self.db.ExecuteSql('commit;')
+      db.ExecuteSql('commit;')
 
   def renderbrowseresults(self, sql, includemissing=False):
     """Paint a table of the results of a SQL statement."""
+
+    global blogic
 
     f = open('browse_result.html')
     results_template = f.read()
@@ -625,14 +490,14 @@ class http_handler(asyncore.dispatcher):
     results = []
     bgcolor = ''
 
-    for row in self.db.GetRows(sql):
-      this_track = track.Track(self.db)
+    for row in db.GetRows(sql):
+      this_track = track.Track(db)
       this_track.FromId(row['id'])
       rendered = this_track.RenderValues()
       
       (rendered['mp3_url'],
-       rendered['mp3_file']) = self.business.findMP3(row['id'],
-                                                     client_id=self.client_id)
+       rendered['mp3_file']) = blogic.findMP3(row['id'],
+                                                client_id=self.client_id)
       if not 'creation_time' in rendered:
         rendered['creation_time'] = ''
 
@@ -654,17 +519,20 @@ class http_handler(asyncore.dispatcher):
   def markskipped(self):
     """Mark skipped tracks, if any."""
 
+    global blogic
+
     if self.addr[0] in requests:
       skips.setdefault(self.addr[0], 0)
       skips[self.addr[0]] += 1
-      self.business.markskipped(requests[self.addr[0]][1],
-                                skips[self.addr[0]])
+      blogic.markskipped(requests[self.addr[0]][1], skips[self.addr[0]])
       del requests[self.addr[0]]
 
   def markplayed(self, id):
     """Mark a track as played."""
 
-    self.business.markplayed(id)
+    global blogic
+
+    blogic.markplayed(id)
     if self.addr[0] in requests:
       skips[self.addr[0]] = 0
       del requests[self.addr[0]]
@@ -680,12 +548,12 @@ class http_handler(asyncore.dispatcher):
     one_hour_ago = now - one_hour
 
     # Collect data from MySQL
-    for row in self.db.GetRows('select song, plays, skips, last_action, '
-                               'last_played, last_skipped from tracks '
-                               'where last_action is not null and '
-                               'last_action > %s '
-                               'order by last_action desc;'
-                               % self.db.FormatSqlValue('date', one_hour_ago)):
+    for row in db.GetRows('select song, plays, skips, last_action, '
+                          'last_played, last_skipped from tracks '
+                          'where last_action is not null and '
+                          'last_action > %s '
+                          'order by last_action desc;'
+                          % db.FormatSqlValue('date', one_hour_ago)):
       if row['last_played']:
         delta = now - row['last_played']
         secs = delta.seconds / 60
@@ -726,14 +594,16 @@ class http_handler(asyncore.dispatcher):
   def handleurl_skipped(self, file):
     """Mark an MP3 as skipped."""
 
-    # I use the business layer here, because its possible that the server
+    global blogic
+
+    # I use the blogic layer here, because its possible that the server
     # doesn't know the track currently being played (think browse interface).
     # I also don't do skip length tracking, as it makes no sense to the browse
     # interface
 
     id = file.split('/')[-1]
     if id and id != 'nosuch':
-      self.business.markskipped(id, -1)
+      blogic.markskipped(id, -1)
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
@@ -755,8 +625,8 @@ class http_handler(asyncore.dispatcher):
       else:
         self.markskipped()
 
-    for row in self.db.GetRows('select path from paths where track_id=%s;'
-                               % self.id):
+    for row in db.GetRows('select path from paths where track_id=%s;'
+                          % self.id):
       if row['path'].endswith('.mp3') and os.path.exists(row['path']):
         requests[self.addr[0]] = (datetime.datetime.now(), self.id)
         self.sendfile(row['path'], chunk=chunk)
@@ -783,6 +653,8 @@ class http_handler(asyncore.dispatcher):
 
   def handleurl_cdscontrol(self, file, post_data):
     """uPnP CDS endpoint control."""
+
+    global blogic
 
     object_id = None
     object_id_re = re.compile('<ObjectID>(.*)</ObjectID>')
@@ -812,9 +684,9 @@ class http_handler(asyncore.dispatcher):
 
     elif object_id == 'All' or object_id == 'Recent':
       skips.setdefault(self.addr[0], 0)
-      rendered = self.business.picktrack(recent=(object_id == 'Recent'),
-                                         client_id=self.client_id,
-                                         skips=skips[self.addr[0]])
+      rendered = blogic.picktrack(recent=(object_id == 'Recent'),
+                                    client_id=self.client_id,
+                                    skips=skips[self.addr[0]])
       self.log('uPnP track selection %s' % rendered['id'])
       rendered['ip'] = FLAGS.ip
       rendered['port'] = FLAGS.port
@@ -859,8 +731,8 @@ class http_handler(asyncore.dispatcher):
     """Return some playback statistics for all time."""
 
     retval = {}
-    row = self.db.GetOneRow('select count(*), max(plays), sum(plays), '
-                            'max(skips), sum(skips) from tracks;')
+    row = db.GetOneRow('select count(*), max(plays), sum(plays), '
+                       'max(skips), sum(skips) from tracks;')
     for key in row:
       retval['ever_%s' %(key.replace('(', '').\
                          replace(')', '').\
@@ -871,120 +743,36 @@ class http_handler(asyncore.dispatcher):
     """Return some playback statistics for today."""
 
     retval = {}
-    row = self.db.GetOneRow('select count(*) from events '
-                            'where date(timestamp) = date(now()) '
-                            'and event = "play";')
+    row = db.GetOneRow('select count(*) from events '
+                       'where date(timestamp) = date(now()) '
+                       'and event = "play";')
     retval['today_countplays'] = row['count(*)']
-    row = self.db.GetOneRow('select count(*) from events '
-                            'where date(timestamp) = date(now()) '
-                            'and event = "skip";')
+    row = db.GetOneRow('select count(*) from events '
+                       'where date(timestamp) = date(now()) '
+                       'and event = "skip";')
     retval['today_countskips'] = row['count(*)']
     return retval
 
-  def sendfile(self, path, subst=None, chunk=None):
-    """Send a file to the client, including doing the MIME type properly."""
-
-    inset = 0
-    if chunk:
-      # Format is "bytes=6600100-"
-      inset = int(chunk.split('=')[1].split('-')[0])
-      self.log('Skipping the first %d bytes' % inset)
-
-    data = ''
-    try:
-      f = open(path)
-      f.read(inset)
-      data += f.read()
-      f.close()
-
-    except Exception, e:
-      self.senderror(404, 'File read error: %s (%s)' % (path, e))
-      return
-
-    extn = path.split('.')[-1]
-    mime_type = _CONTENT_TYPES.get(extn, 'application/octet-stream')
-    if mime_type.find('ml') != -1:
-      if not subst:
-        subst = {}
-      subst.update(self.getstats_ever())
-      subst.update(self.getstats_today())
-      
-      data = self.substitute(data, subst)
-
-    self.sendheaders('HTTP/1.1 200 OK\r\n'
-                     'Content-Type: %s\r\n'
-                     'Content-Length: %s\r\n'            
-                     '%s\r\n'
-                     %(mime_type, len(data), '\r\n'.join(self.extra_headers)))
-
-    if mime_type == 'text/xml':
-      for l in data.split('\n'):
-        self.log('REPLY %s' % l, console=FLAGS.showresponse)
-    
-    self.buffer += data
-
-  def substitute(self, data, subst):
-    """Perform template substitution."""
-
-    m = _SUBST_RE.match(data)
-    while m:
-      data = '%s%s%s' %(m.group(1),
-                        subst.get(m.group(2), '<i>%s missing</i>'
-                                  % m.group(2)),
-                        m.group(3))
-      m = _SUBST_RE.match(data)
-
-    return data
-
-  def senderror(self, number, msg):
-    self.sendheaders('HTTP/1.1 %d %s\r\n'
-                     'Content-Type: text/html\r\n\r\n'
-                     %(number, msg))
-    self.buffer += ('<html><head><title>MP3 server</title></head>'
-                     '<body>%s</body>'
-                     % msg)
-    self.log('Sent %d error' % number)
-
-  def sendheaders(self, headers):
-    """Send HTTP response headers."""
-
-    for l in headers.split('\r\n'):
-      self.log('RESPONSE %s' % l, console=FLAGS.showresponse)
-
-    self.buffer += headers
-
-
-def DisplayFriendlySize(bytes):
-  """Turn a number of bytes into a nice string"""
-
-  t = type(bytes)
-  if t != types.LongType and t != types.IntType and t != decimal.Decimal:
-    return 'NotANumber(%s=%s)' %(t, bytes)
-
-  if bytes < 1024:
-    return '%d bytes' % bytes
-
-  if bytes < 1024 * 1024:
-    return '%d kb (%d bytes)' %((bytes / 1024), bytes)
-
-  if bytes < 1024 * 1024 * 1024:
-    return '%d mb (%d bytes)' %((bytes / (1024 * 1024)), bytes)
-
-  return '%d gb (%d bytes)' %((bytes / (1024 * 1024 * 1024)), bytes)
 
 
 def main(argv):
   global running
   global bytes
+  global db
+  global blogic
   
   # Parse flags
   try:
     argv = FLAGS(argv)
+
   except gflags.FlagsError, e:
+    print 'Flags error: %s' % e
+    print
     print FLAGS
 
   db = database.Database()
-  server = http_server(FLAGS.ip, FLAGS.port, db)
+  server = http_server(FLAGS.ip, FLAGS.port)
+  blogic = business.BusinessLogic(db, server.log)
 
   # Start the web server, which takes over this thread
   print '%s Started listening on port %s' %(datetime.datetime.now(),
@@ -1055,7 +843,7 @@ def main(argv):
 
     if time.time() - last_summary > 60.0:
       print '%s TOTAL BYTES SERVED: %s' %(datetime.datetime.now(),
-                                          DisplayFriendlySize(bytes))
+                                          mhttp.DisplayFriendlySize(bytes))
       last_summary = time.time()
 
 
