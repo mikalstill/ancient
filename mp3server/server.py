@@ -234,7 +234,7 @@ class http_handler(mhttp.http_handler):
     random_sql_cols = ''
     random_sql_order = ''
     if filters['random_filter'] == 'Random':
-      random_sql_cols = ', %s' % blogic.GenerateRankSql(2)
+      random_sql_cols = ', %s' % business.GenerateRankSql(2)
       random_sql_order = 'idx desc,'
       filters['random_checked'] = 'checked'
 

@@ -20,6 +20,8 @@ FLAGS = gflags.FLAGS
 gflags.DEFINE_string('audio_path', '/data/mp3',
                      'The directory containing audio files')
 
+gflags.DEFINE_boolean('verbose', False, 'Be verbose')
+
 
 _PATH_PARSE_RE = re.compile('.*/([^/]*)/([^/]*)/([0-9]*)([^/]*)\.mp3')
 
@@ -150,8 +152,12 @@ class Track:
       self.db.ExecuteSql('insert into paths(path, track_id) values("%s", %d);'
                          %(path, self.persistant['id']))
       self.db.ExecuteSql('commit;')
-    else:
+      return True
+
+    elif FLAGS.verbose:
       print 'Path already stored'
+
+    return False
 
   def AddTag(self, tag):
     """Add a tag for the track."""
