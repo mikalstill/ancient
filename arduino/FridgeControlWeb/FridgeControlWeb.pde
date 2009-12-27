@@ -21,8 +21,13 @@
 
 // It is recommended to not turn the compressor on immediately after startup
 // because back pressure can damage the compressor
-#define COMPRESSOR_STARTUP_DELAY 90
+#define COMPRESSOR_STARTUP_DELAY 900
 
+// If we detect the door is open, wait this long before trying to chill again
+#define DOOR_OPEN_PERIOD 60
+#define DOOR_OPEN_DELAY 300
+
+// How long between measurement cycles
 #define SLEEP_SEC 10
 
 OneWire oneWire(ONEWIRE);
@@ -30,7 +35,9 @@ DallasTemperature sensors(&oneWire);
 
 unsigned long runtime = 0, chilltime = 0, this_chilltime = 0, last_checked = 0,
               this_check = 0;
+int start_compressor = COMPRESSOR_STARTUP_DELAY;
 uint8_t compressor = LOW;
+float compressor_start_temp = 0.0;
 
 // Web server setup
 #define MYWWWPORT 80
@@ -65,13 +72,15 @@ uint16_t print_webpage(uint8_t *buf)
 }
 
 // Float support is hard on arduinos
-// (http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1164927646)
+// (http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1164927646) with tweaks
 char *ftoa(char *a, double f, int precision)
 {
   long p[] = {0,10,100,1000,10000,100000,1000000,10000000,100000000};
-  
   char *ret = a;
   long heiltal = (long)f;
+  
+  if(f < 0.0) *a++ = '-';
+  
   itoa(heiltal, a, 10);
   while (*a != '\0') a++;
   *a++ = '.';
@@ -104,6 +113,7 @@ void loop()
   {
     delta = int((this_check - last_checked) / 1000);
     runtime += delta;
+    if(start_compressor > 0) start_compressor -= delta;
     if(compressor == HIGH)
     {
       chilltime += delta;
@@ -127,23 +137,57 @@ void loop()
       data_inset = strlen(data);
     }
     
+    // If we're cooling at the moment, how much have we decreased the temperature
+    // by?
+    if(compressor == HIGH)
+    {
+      sprintf(data + data_inset, "Temperature reduction: %s\n",
+             ftoa(float_conv, compressor_start_temp - t, 2));
+      data_inset = strlen(data);
+      
+      if(compressor_start_temp - t < 1.0 && this_chilltime > DOOR_OPEN_PERIOD)
+      {
+        // The door of the fridge is open. Stop cooling and try again in a while
+        sprintf(data + data_inset, "Door open detected: yes\n");
+        data_inset = strlen(data);
+        
+        start_compressor = DOOR_OPEN_DELAY;
+        digitalWrite(DISABLE, HIGH);
+        
+        compressor = LOW;
+        digitalWrite(COMPRESSOR, compressor);
+ 
+        Serial.println("");
+        Serial.println("Door is open. Compressor disabled.");
+        Serial.println("");
+      }
+    }
+    
     // Control compressor
-    if(millis() > COMPRESSOR_STARTUP_DELAY * 1000)
+    if(start_compressor < 1)
     {
       digitalWrite(DISABLE, LOW);
  
-      if(t > HIGHTEMP) compressor = HIGH;
+      if(t > HIGHTEMP)
+      {
+        if(compressor == LOW)
+        {
+          this_chilltime = 0;
+          compressor_start_temp = t;
+        }
+        compressor = HIGH;
+      }
       else if(t < LOWTEMP)
       {
-        this_chilltime = 0;
         compressor = LOW;
+        this_chilltime = 0;
       }
       digitalWrite(COMPRESSOR, compressor);
     }
     else
     {
       sprintf(data + data_inset, "Start delay remaining: %d\n",
-              COMPRESSOR_STARTUP_DELAY - int(millis() / 1000));
+              start_compressor);
       data_inset = strlen(data);
       digitalWrite(DISABLE, HIGH);
     }
