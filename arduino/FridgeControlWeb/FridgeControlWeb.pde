@@ -9,21 +9,27 @@
 #include <DallasTemperature.h>
 
 // Temperature sensor and compressor setup
-#define COMPRESSOR 9
 #define ONEWIRE 3
+#define DISABLE 8
+#define COMPRESSOR 9
 
-#define HIGHTEMP 4
+#define HIGHTEMP 4.0
 #define LOWTEMP 3.6
 
 // 220L Kelvinator is 85 watts
 #define COMPRESSOR_WATTAGE 85.0
+
+// It is recommended to not turn the compressor on immediately after startup
+// because back pressure can damage the compressor
+#define COMPRESSOR_STARTUP_DELAY 90
 
 #define SLEEP_SEC 10
 
 OneWire oneWire(ONEWIRE);
 DallasTemperature sensors(&oneWire);
 
-unsigned long runtime = 0, chilltime = 0, last_checked = 0, this_check = 0;
+unsigned long runtime = 0, chilltime = 0, this_chilltime = 0, last_checked = 0,
+              this_check = 0;
 uint8_t compressor = LOW;
 
 // Web server setup
@@ -98,7 +104,11 @@ void loop()
   {
     delta = int((this_check - last_checked) / 1000);
     runtime += delta;
-    if(compressor == HIGH) chilltime += delta;
+    if(compressor == HIGH)
+    {
+      chilltime += delta;
+      this_chilltime += delta;
+    }
     
     data_inset = 0;
     sensors.requestTemperatures();
@@ -118,15 +128,35 @@ void loop()
     }
     
     // Control compressor
-    if(t > HIGHTEMP) compressor = HIGH;
-    else if(t < LOWTEMP) compressor = LOW;
-    digitalWrite(COMPRESSOR, compressor);
+    if(millis() > COMPRESSOR_STARTUP_DELAY * 1000)
+    {
+      digitalWrite(DISABLE, LOW);
+ 
+      if(t > HIGHTEMP) compressor = HIGH;
+      else if(t < LOWTEMP)
+      {
+        this_chilltime = 0;
+        compressor = LOW;
+      }
+      digitalWrite(COMPRESSOR, compressor);
+    }
+    else
+    {
+      sprintf(data + data_inset, "Start delay remaining: %d\n",
+              COMPRESSOR_STARTUP_DELAY - int(millis() / 1000));
+      data_inset = strlen(data);
+      digitalWrite(DISABLE, HIGH);
+    }
  
     // Status dump
     sprintf(data + data_inset,
-            "Compressor: %s\nRuntime: %lu\nChilltime: %lu\n%% chill: %d\nWatt hours: %d\n",
-            compressor == HIGH ? "on" : "off", runtime, chilltime,
-            int(chilltime * 100.0 / runtime),
+            "Compressor: %s\nRuntime: %lu\nChilltime: %lu\nThis chilltime: %lu\n"
+            "%% chill: %d\nWatt hours: %d\n",
+            compressor == HIGH ? "on" : "off",
+            runtime, 
+            chilltime,
+            this_chilltime,
+            int(chilltime * 100.0 / millis()),
             int(chilltime * COMPRESSOR_WATTAGE / 3600));
     Serial.println(data);
     last_checked = this_check;
