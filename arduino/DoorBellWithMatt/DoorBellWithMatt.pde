@@ -1,36 +1,13 @@
-/* 
- Debounce
- 
- Each time the input pin goes from LOW to HIGH (e.g. because of a push-button
- press), the output pin is toggled from LOW to HIGH or HIGH to LOW.  There's
- a minimum delay between toggles to debounce the circuit (i.e. to ignore
- noise).  
- 
- The circuit:
- * LED attached from pin 13 to ground
- * pushbutton attached from pin 2 to +5V
- * 10K resistor attached from pin 2 to ground
- 
- * Note: On most Arduino boards, there is already an LED on the board
- connected to pin 13, so you don't need any extra components for this example.
- 
- 
- created 21 November 2006
- by David A. Mellis
- modified 3 Jul 2009
- by Limor Fried
- 
- 
- http://www.arduino.cc/en/Tutorial/Debounce
- */
+// A simple doorbell project based on the debounce sample.
+//
+// You need a 10K resistor between pin 3 and ground, as well as a button between pin 3 and
+// 5 volt. We also hooked up a peizo buzzer between pin 12 and ground.
 
-// constants won't change. They're used here to 
-// set pin numbers:
-const int buttonPin = 2;     // the number of the pushbutton pin
-const int ledPin =  13;      // the number of the LED pin
+#define BUTTON 2
+#define SPEAKER 12
+#define LED 13
 
 // Variables will change:
-int ledState = HIGH;         // the current state of the output pin
 int buttonState;             // the current reading from the input pin
 int lastButtonState = LOW;   // the previous reading from the input pin
 
@@ -40,13 +17,14 @@ long lastDebounceTime = 0;  // the last time the output pin was toggled
 long debounceDelay = 50;    // the debounce time; increase if the output flickers
 
 void setup() {
-  pinMode(buttonPin, INPUT);
-  pinMode(ledPin, OUTPUT);
+  pinMode(BUTTON, INPUT);
+  pinMode(LED, OUTPUT);
+  pinMode(SPEAKER, OUTPUT);
 }
 
 void loop() {
   // read the state of the switch into a local variable:
-  int reading = digitalRead(buttonPin);
+  int reading = digitalRead(BUTTON);
 
   // check to see if you just pressed the button 
   // (i.e. the input went from LOW to HIGH),  and you've waited 
@@ -65,16 +43,17 @@ void loop() {
   }
   
   // set the LED using the state of the button:
-  digitalWrite(ledPin, buttonState);
+  digitalWrite(LED, buttonState);
+  digitalWrite(SPEAKER, buttonState);
   
   if(buttonState == HIGH)
   {
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < 20; i += 2)
     {
-      delay(10);
-      digitalWrite(ledPin, LOW);
-      delay(10);
-      digitalWrite(ledPin, HIGH);
+      delay(i);
+      digitalWrite(SPEAKER, LOW);
+      delay(20 - i);
+      digitalWrite(SPEAKER, HIGH);
     }
   }
 
