@@ -10,8 +10,8 @@
 
 // Temperature sensor and compressor setup
 #define ONEWIRE 3
-#define DISABLE 8
-#define COMPRESSOR 9
+#define DISABLE 7
+#define COMPRESSOR 8
 
 #define HIGHTEMP 4.0
 #define LOWTEMP 3.6
@@ -21,10 +21,10 @@
 
 // It is recommended to not turn the compressor on immediately after startup
 // because back pressure can damage the compressor
-#define COMPRESSOR_STARTUP_DELAY 900
+#define COMPRESSOR_STARTUP_DELAY 0
 
 // If we detect the door is open, wait this long before trying to chill again
-#define DOOR_OPEN_PERIOD 60
+#define DOOR_OPEN_PERIOD 6000000
 #define DOOR_OPEN_DELAY 300
 
 // How long between measurement cycles
@@ -79,8 +79,6 @@ char *ftoa(char *a, double f, int precision)
   char *ret = a;
   long heiltal = (long)f;
   
-  if(f < 0.0) *a++ = '-';
-  
   itoa(heiltal, a, 10);
   while (*a != '\0') a++;
   *a++ = '.';
@@ -122,6 +120,10 @@ void loop()
     
     data_inset = 0;
     sensors.requestTemperatures();
+    sprintf(data + data_inset, "Sensor count: %d\n",
+            sensors.getDeviceCount());
+    data_inset = strlen(data);
+ 
     for(i = 0; i < sensors.getDeviceCount(); i++)
     {
       t = sensors.getTempCByIndex(i);
