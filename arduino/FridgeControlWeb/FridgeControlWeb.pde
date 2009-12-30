@@ -16,6 +16,9 @@
 #define HIGHTEMP 4.0
 #define LOWTEMP 3.6
 
+uint8_t fridge_address[8] = {0x10, 0x30, 0xfc, 0xdc, 0x01, 0x08, 0x00, 0x5f};
+//{0x10, 0x30, 0xfc, 0xdc, 0x01, 0x08, 0x00, 0x5f};
+
 // 220L Kelvinator is 85 watts
 #define COMPRESSOR_WATTAGE 85.0
 
@@ -101,7 +104,7 @@ void loop()
 {
   int i, j, data_inset, delta;
   char float_conv[10];
-  float t;
+  float t, fridge = 0.0;
   DeviceAddress addr;
   uint16_t plen, dat_p;
 
@@ -135,8 +138,11 @@ void loop()
         sprintf(data + data_inset, "%02x", addr[j]);
         data_inset += 2;
       }
+
       sprintf(data + data_inset, ": %s\n", ftoa(float_conv, t, 2));
       data_inset = strlen(data);
+      
+      if(memcmp(addr, fridge_address, 8)) fridge = t;
     }
     
     // If we're cooling at the moment, how much have we decreased the temperature
@@ -165,12 +171,16 @@ void loop()
       }
     }
     
+    sprintf(data + data_inset, "Fridge temperature: %s\n",
+            ftoa(float_conv, fridge, 2));
+    data_inset = strlen(data);
+    
     // Control compressor
     if(start_compressor < 1)
     {
       digitalWrite(DISABLE, LOW);
  
-      if(t > HIGHTEMP)
+      if(fridge > HIGHTEMP)
       {
         if(compressor == LOW)
         {
@@ -179,7 +189,7 @@ void loop()
         }
         compressor = HIGH;
       }
-      else if(t < LOWTEMP)
+      else if(fridge < LOWTEMP)
       {
         compressor = LOW;
         this_chilltime = 0;
