@@ -16,18 +16,17 @@
 #define HIGHTEMP 4.0
 #define LOWTEMP 3.6
 
-uint8_t fridge_address[8] = {0x10, 0x30, 0xfc, 0xdc, 0x01, 0x08, 0x00, 0x5f};
-//{0x10, 0x30, 0xfc, 0xdc, 0x01, 0x08, 0x00, 0x5f};
+uint8_t fridge_address[8] = {0x10, 0xfa, 0x47, 0x35, 0x00, 0x00, 0x00, 0x37};
 
 // 220L Kelvinator is 85 watts
 #define COMPRESSOR_WATTAGE 85.0
 
 // It is recommended to not turn the compressor on immediately after startup
 // because back pressure can damage the compressor
-#define COMPRESSOR_STARTUP_DELAY 0
+#define COMPRESSOR_STARTUP_DELAY 120
 
 // If we detect the door is open, wait this long before trying to chill again
-#define DOOR_OPEN_PERIOD 6000000
+#define DOOR_OPEN_PERIOD 60
 #define DOOR_OPEN_DELAY 300
 
 // How long between measurement cycles
@@ -142,18 +141,23 @@ void loop()
       sprintf(data + data_inset, ": %s\n", ftoa(float_conv, t, 2));
       data_inset = strlen(data);
       
-      if(memcmp(addr, fridge_address, 8)) fridge = t;
+      if(memcmp(addr, fridge_address, 8) == 0) fridge = t;
     }
+    
+    sprintf(data + data_inset, "Fridge temperature: %s\n",
+            ftoa(float_conv, fridge, 2));
+    data_inset = strlen(data);
     
     // If we're cooling at the moment, how much have we decreased the temperature
     // by?
     if(compressor == HIGH)
     {
       sprintf(data + data_inset, "Temperature reduction: %s\n",
-             ftoa(float_conv, compressor_start_temp - t, 2));
+             ftoa(float_conv, compressor_start_temp - fridge, 2));
       data_inset = strlen(data);
       
-      if(compressor_start_temp - t < 1.0 && this_chilltime > DOOR_OPEN_PERIOD)
+      if(compressor_start_temp - fridge < 1.0 &&
+         this_chilltime > DOOR_OPEN_PERIOD)
       {
         // The door of the fridge is open. Stop cooling and try again in a while
         sprintf(data + data_inset, "Door open detected: yes\n");
@@ -171,10 +175,6 @@ void loop()
       }
     }
     
-    sprintf(data + data_inset, "Fridge temperature: %s\n",
-            ftoa(float_conv, fridge, 2));
-    data_inset = strlen(data);
-    
     // Control compressor
     if(start_compressor < 1)
     {
@@ -185,7 +185,7 @@ void loop()
         if(compressor == LOW)
         {
           this_chilltime = 0;
-          compressor_start_temp = t;
+          compressor_start_temp = fridge;
         }
         compressor = HIGH;
       }
