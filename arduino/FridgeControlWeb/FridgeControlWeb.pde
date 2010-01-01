@@ -13,10 +13,13 @@
 #define DISABLE 7
 #define COMPRESSOR 8
 
-#define HIGHTEMP 4.0
-#define LOWTEMP 3.6
+#define FRIDGEHIGHTEMP 4.0
+#define FRIDGELOWTEMP 3.5
+#define FREEZERHIGHTEMP -17.0
+#define FREEZERLOWTEMP -18.0
 
 uint8_t fridge_address[8] = {0x10, 0xfa, 0x47, 0x35, 0x00, 0x00, 0x00, 0x37};
+uint8_t freezer_address[8] = {0x10, 0xfb, 0xfa, 0xdc, 0x01, 0x08, 0x00, 0xa4};
 
 // 220L Kelvinator is 85 watts
 #define COMPRESSOR_WATTAGE 85.0
@@ -103,7 +106,7 @@ void loop()
 {
   int i, j, data_inset, delta;
   char float_conv[10];
-  float t, fridge = 0.0;
+  float t, fridge = 0.0, freezer = -20.0;
   DeviceAddress addr;
   uint16_t plen, dat_p;
 
@@ -142,10 +145,14 @@ void loop()
       data_inset = strlen(data);
       
       if(memcmp(addr, fridge_address, 8) == 0) fridge = t;
+      else if(memcmp(addr, freezer_address, 8) == 0) freezer = t;
     }
     
     sprintf(data + data_inset, "Fridge temperature: %s\n",
             ftoa(float_conv, fridge, 2));
+    data_inset = strlen(data);
+    sprintf(data + data_inset, "Freezer temperature: %s\n",
+            ftoa(float_conv, freezer, 2));
     data_inset = strlen(data);
     
     // If we're cooling at the moment, how much have we decreased the temperature
@@ -180,7 +187,7 @@ void loop()
     {
       digitalWrite(DISABLE, LOW);
  
-      if(fridge > HIGHTEMP)
+      if(fridge > FRIDGEHIGHTEMP || freezer > FREEZERHIGHTEMP)
       {
         if(compressor == LOW)
         {
@@ -189,7 +196,7 @@ void loop()
         }
         compressor = HIGH;
       }
-      else if(fridge < LOWTEMP)
+      else if(fridge < FRIDGELOWTEMP && freezer < FREEZERLOWTEMP)
       {
         compressor = LOW;
         this_chilltime = 0;
