@@ -28,21 +28,15 @@ uint8_t freezer_address[8] = {0x10, 0xfb, 0xfa, 0xdc, 0x01, 0x08, 0x00, 0xa4};
 // because back pressure can damage the compressor
 #define COMPRESSOR_STARTUP_DELAY 120
 
-// If we detect the door is open, wait this long before trying to chill again
-#define DOOR_OPEN_PERIOD 60
-#define DOOR_OPEN_DELAY 300
-
 // How long between measurement cycles
 #define SLEEP_SEC 10
 
 OneWire oneWire(ONEWIRE);
 DallasTemperature sensors(&oneWire);
 
-unsigned long runtime = 0, chilltime = 0, this_chilltime = 0, last_checked = 0,
-              this_check = 0;
+unsigned long runtime = 0, chilltime = 0, last_checked = 0, this_check = 0;
 int start_compressor = COMPRESSOR_STARTUP_DELAY;
 uint8_t compressor = LOW;
-float compressor_start_temp = 0.0;
 
 // Web server setup
 #define MYWWWPORT 80
@@ -117,11 +111,7 @@ void loop()
     delta = int((this_check - last_checked) / 1000);
     runtime += delta;
     if(start_compressor > 0) start_compressor -= delta;
-    if(compressor == HIGH)
-    {
-      chilltime += delta;
-      this_chilltime += delta;
-    }
+    if(compressor == HIGH) chilltime += delta;
     
     data_inset = 0;
     sensors.requestTemperatures();
@@ -154,34 +144,7 @@ void loop()
     sprintf(data + data_inset, "Freezer temperature: %s\n",
             ftoa(float_conv, freezer, 2));
     data_inset = strlen(data);
-    
-    // If we're cooling at the moment, how much have we decreased the temperature
-    // by?
-    if(compressor == HIGH)
-    {
-      sprintf(data + data_inset, "Temperature reduction: %s\n",
-             ftoa(float_conv, compressor_start_temp - fridge, 2));
-      data_inset = strlen(data);
-      
-      if(compressor_start_temp - fridge < 1.0 &&
-         this_chilltime > DOOR_OPEN_PERIOD)
-      {
-        // The door of the fridge is open. Stop cooling and try again in a while
-        sprintf(data + data_inset, "Door open detected: yes\n");
-        data_inset = strlen(data);
         
-        start_compressor = DOOR_OPEN_DELAY;
-        digitalWrite(DISABLE, HIGH);
-        
-        compressor = LOW;
-        digitalWrite(COMPRESSOR, compressor);
- 
-        Serial.println("");
-        Serial.println("Door is open. Compressor disabled.");
-        Serial.println("");
-      }
-    }
-    
     // Control compressor
     if(start_compressor < 1)
     {
@@ -189,17 +152,11 @@ void loop()
  
       if(fridge > FRIDGEHIGHTEMP || freezer > FREEZERHIGHTEMP)
       {
-        if(compressor == LOW)
-        {
-          this_chilltime = 0;
-          compressor_start_temp = fridge;
-        }
         compressor = HIGH;
       }
       else if(fridge < FRIDGELOWTEMP && freezer < FREEZERLOWTEMP)
       {
         compressor = LOW;
-        this_chilltime = 0;
       }
       digitalWrite(COMPRESSOR, compressor);
     }
@@ -213,12 +170,11 @@ void loop()
  
     // Status dump
     sprintf(data + data_inset,
-            "Compressor: %s\nRuntime: %lu\nChilltime: %lu\nThis chilltime: %lu\n"
+            "Compressor: %s\nRuntime: %lu\nChilltime: %lu\n"
             "%% chill: %d\nWatt hours: %d\n",
             compressor == HIGH ? "on" : "off",
             runtime, 
             chilltime,
-            this_chilltime,
             int(chilltime * 100.0 / millis()),
             int(chilltime * COMPRESSOR_WATTAGE / 3600));
     Serial.println(data);
