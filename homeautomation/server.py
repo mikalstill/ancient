@@ -22,9 +22,10 @@ from mpygooglechart import Axis
 
 
 FLAGS = gflags.FLAGS
-MIN_Y = -20.0
-MAX_Y = 50.0
+MIN_Y = -30.0
+MAX_Y = 70.0
 MAX_READINGS_PER_GRAPH = 580
+POWER_COST = 0.138
 
 
 sensor_names = {}
@@ -34,8 +35,6 @@ uuid = uuid.uuid4()
 requests = {}
 skips = {}
 bytes = 0
-db = None
-cursor = None
 
 
 class http_server(mhttp.http_server):
@@ -49,23 +48,32 @@ class http_handler(mhttp.http_handler):
   def dispatch(self, urlpath, post_data):
     if urlpath == '/':
       now_tuple = datetime.datetime.now().timetuple()
-      self.sendredirect('/sensor/today')
+      self.sendredirect('/sensor/today,3,0/Beer%20fridge,Outside%20deck,'
+                        'Roof%20cavity%20rear,Inside%20rear')
 
     elif urlpath.startswith('/sensor'):
       self.handleurl_sensor(urlpath, post_data)
 
+    elif urlpath.startswith('/chilltime'):
+      self.handleurl_chilltime(urlpath, post_data)
+
+    # TODO(mikal): this should be in mhttp
+    elif urlpath.startswith('/local/'):
+        self.handleurl_local(urlpath, post_data)
+
     else:
       self.senderror(404, '%s file not found' % urlpath)
       self.close()
-  
-  def handleurl_sensor(self, urlpath, post_data):
-    """The top level page."""
 
-    global cursor
-    global sensor_names
+  def handleurl_local(self, file, post_data):
+    """Return a local file needed by the user interface."""
 
-    args = urlpath.split('/')
-    time_field = args[2].split(',')
+    ent = file.split('/')[-1]
+    self.sendfile(ent)
+
+  def timewindow(self, time_field):
+    """Given a time arguement, work out what epoch second window to use."""
+
     day_field = time_field[0].split('.')
     self.log('Time field is %s, day field is %s' %(time_field, day_field))
 
@@ -86,6 +94,94 @@ class http_handler(mhttp.http_handler):
       start_epoch -= int(time_field[1]) * (60 * 60 * 24)
       end_epoch += int(time_field[2]) * (60 * 60 * 24)
     self.log('Event window is: %d to %d' %(start_epoch, end_epoch))
+    
+    return (start_epoch, end_epoch)
+
+  def summarizingjoin(self, space, skip, values):
+    """space.join(values) with skip instead of repeated values."""
+
+    out = []
+    previous = None
+
+    for v in values:
+      if v != previous:
+        out.append(v)
+      elif out[-1] != skip:
+        out.append(skip)
+      previous = v
+      
+    return space.join(out)
+
+  def handleurl_chilltime(self, urlpath, post_data):
+    """Analyse the expense of running a fridge."""
+
+    db = MySQLdb.connect(user = 'root', db = 'home')
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+    args = urlpath.split('/')
+    time_field = args[2].split(',')
+    (start_epoch, end_epoch) = self.timewindow(time_field)
+
+    data = ['<h1>Chiller use summary</h1><ul>',
+            ('<table><tr><td>When</td><td>Use seconds</td>'
+             '<td></td><td>Cost</td></tr>')]
+    cursor.execute('select * from sensors where sensor="Chilltime" and '
+                   'epoch_seconds > %d and epoch_seconds < %d '
+                   'order by epoch_seconds;'
+                   %(start_epoch - 1, end_epoch - 1))
+
+    total = 0.0
+    previous = 0
+    preamble = []
+    for row in cursor:
+      preamble.append(str(previous))
+      if int(row['value']) < previous:
+        cost = previous * 85.0 / 1000 / 3600 * POWER_COST
+        total += cost
+
+        when = time.localtime(row['epoch_seconds'])
+        data.append('<tr><td>%s.%s.%s</td><td>%s</td><td>'
+                    '<a href="javascript:void(0);" '
+                    'onmouseover="Tip(\'%s\')" '
+                    'onmouseout="UnTip()">Why</a></td>'
+                    '<td>$%.02f</td></tr>'
+                    %(when[0], when[1], when[2], previous,
+                      self.summarizingjoin(' ', '...', preamble),
+                      cost))
+        preamble = []
+
+      previous = int(row['value'])
+
+    cost = previous * 85.0 / 1000 / 3600 * POWER_COST
+    total += cost
+
+    when = time.localtime(row['epoch_seconds'])
+    data.append('<tr><td>%s.%s.%s</td><td>%s</td><td>'
+                '<a href="javascript:void(0);" '
+                'onmouseover="Tip(\'%s\')" '
+                'onmouseout="UnTip()">Why</a></td>'
+                '<td>$%.02f</td></tr>'
+                %(when[0], when[1], when[2], previous,
+                  self.summarizingjoin(' ', '...', preamble),
+                  cost))
+
+    data.append('<tr><td></td><td></td><td>Total</td><td>$%.02f</td></tr>'
+                % total)
+    data.append('</table>')
+
+    self.sendfile('index.html', subst={'data': '\n'.join(data)})
+  
+  def handleurl_sensor(self, urlpath, post_data):
+    """The top level page."""
+
+    global sensor_names
+
+    db = MySQLdb.connect(user = 'root', db = 'home')
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+    args = urlpath.split('/')
+    time_field = args[2].split(',')
+    (start_epoch, end_epoch) = self.timewindow(time_field)
 
     data = []
     if len(args) < 4:
@@ -102,89 +198,78 @@ class http_handler(mhttp.http_handler):
       data.append('</ul>')
 
     else:
-      data = ['<h1>%s</h1><ul>' % args[3]]
-      readings = {}
-
-      # Grab the readings from the DB
-      cursor.execute('select epoch_seconds, value from sensors where '
-                     'sensor in ("%s") and epoch_seconds > %d and '
-                     'epoch_seconds < %d order by epoch_seconds;'
-                     %(args[3], start_epoch - 1, end_epoch + 1))
-      for row in cursor:
-        try:
-          readings[int(row['epoch_seconds'])] = float(row['value'])
-
-        except:
-          # This isn't a float? Let's try and use a meaningful value instead...
-          if row['value'] == 'on':
-            readings[int(row['epoch_seconds'])] = 10.0
-          elif row['value'] == 'off':
-            readings[int(row['epoch_seconds'])] = -10.0
-          else:
-            readings[int(row['epoch_seconds'])] = None
-            self.log('Could not convert %s to a float' % row['value'])
-
-      times = readings.keys()
-      times.sort()
-      self.log('Data window is: %d to %d (%d seconds)'
-               %(times[0], times[-1], times[-1] - times[0]))
-
-      if not times:
-        self.senderror(405, 'No data')
-
-      # Build a list of the values to chart
-      values = []
-      offsets = []
-      step_size = (times[-1] - times[0]) / MAX_READINGS_PER_GRAPH
-      for t in range(times[0], times[-1], step_size):
-        for offset in [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5, -6, 6, -7, 7,
-                       -8, 8, -9, 9, -10, 10, -11, 11, -15, 15, None]:
-          if offset is None:
-            self.log('t: %d, data missing' % t)
-            offsets.append(None)
-            values.append(None)
-            break
-
-          if t + offset in readings:
-            offsets.append(offset)
-            values.append(readings[t + offset])
-            break
-      self.log('Offsets: %s' % repr(offsets))
+      sensors = mhttp.urldecode(args[3]).split(',')
+      data = ['<h1>%s</h1><ul>' % ', '.join(sensors)]
 
       # Build a chart
       chart = SimpleLineChart(600, 400, y_range=[MIN_Y, MAX_Y])
       chart.set_title('Temperature sensors')
-      chart.add_horizontal_range('E5ECF9', 3.5, 4.0)
-      chart.set_colours(['0000FF'])
+      chart.set_colours(['0000FF', '00FF00', 'FF0000',
+                         'dd5500', 'ee11ff', '88ddff',
+                         '44cc00', 'bb0011', '11aaff'])
       chart.set_grid(0, 20, 5, 5)
 
+      min_time = 9999999999
+      max_time = 0
+      readings = {}
+
+      # Determine what data is available for requested sensors
+      for sensor in sensors:
+        self.log('Collecting data for sensor %s' % sensor)
+        readings[sensor] = self.GetData(cursor, sensor, start_epoch, end_epoch)
+
+        if readings[sensor]:
+          times = readings[sensor].keys()
+          times.sort()
+          self.log('Data window for %s is: %d to %d (%d seconds)'
+                   %(sensor, times[0], times[-1], times[-1] - times[0]))
+
+          if not times:
+            self.senderror(405, 'No data for %s' % args[3])
+            return
+
+          if min_time > times[0]:
+            min_time = times[0]
+          if max_time < times[-1]:
+            max_time = times[-1]
+      self.log('Final data window is %d to %d (%d seconds)'
+               %(min_time, max_time, max_time - min_time))
+
+      # Chart axes
       left_axis = []
       for v in range(MIN_Y, MAX_Y + 1.0, 5):
         left_axis.append('%s' % v)
       chart.set_axis_labels(Axis.LEFT, left_axis)
 
       bottom_axis = []
-      for v in range(times[0], times[-1] + 1,
-                     max(1, (times[-1] - times[0]) / 5)):
+      for v in range(min_time, max_time + 1,
+                     max(1, (max_time - min_time) / 5)):
         tuple = time.localtime(v)
         bottom_axis.append('%d/%d %02d:%02d' %(tuple[2], tuple[1],
                                                tuple[3], tuple[4]))
       chart.set_axis_labels(Axis.BOTTOM, bottom_axis)
 
       legend = []
-      legend.append(sensor_names.get(args[3], args[3]))
+      step_size = ((max_time - min_time) /
+                   (MAX_READINGS_PER_GRAPH / len(sensors)))
+      for sensor in sensors:
+        self.log('Values for %s' % sensor)
+        legend.append(sensor_names.get(sensor, sensor))
+        values = self.GetChartPoints(start_epoch, end_epoch, min_time,
+                                     max_time, step_size, readings[sensor])
+        chart.add_data(values)
+
+      # Legend
       chart.set_legend(legend)
 
       # Add markers
       cursor.execute('select * from events where '
                      'epoch_seconds > %d and epoch_seconds < %d '
                      'order by epoch_seconds asc;'
-                     %(times[0], times[-1]))
+                     %(min_time, max_time))
       for row in cursor:
-        chart.add_marker(0, (row['epoch_seconds'] - times[0]) / step_size,
+        chart.add_marker(0, (row['epoch_seconds'] - min_time) / step_size,
                          'o', '00ff00', 10)
-
-      chart.add_data(values)
 
       data.append('<img src="%s">' % chart.get_url())
       data.append('</ul>')
@@ -192,11 +277,68 @@ class http_handler(mhttp.http_handler):
     self.sendfile('index.html', subst={'data': '\n'.join(data)})
 
 
+  def GetData(self, cursor, sensor, start_epoch, end_epoch):
+    """Grab the readings from the DB."""
+
+    global sensor_names
+
+    target_sensors = [sensor]
+    for s in sensor_names:
+      if sensor_names[s] == sensor:
+        target_sensors.append(s)
+
+    readings = {}
+    sql = ('select epoch_seconds, value from sensors where '
+           'sensor in ("%s") and epoch_seconds > %d and '
+           'epoch_seconds < %d order by epoch_seconds;'
+           %('", "'.join(target_sensors), start_epoch - 1, end_epoch + 1))
+    self.log('Data select sql: %s' % sql)
+    cursor.execute(sql)
+    for row in cursor:
+      try:
+        readings[int(row['epoch_seconds'])] = float(row['value'])
+
+      except:
+        # This isn't a float? Let's try and use a meaningful value instead...
+        if row['value'] == 'on':
+          readings[int(row['epoch_seconds'])] = 10.0
+        elif row['value'] == 'off':
+          readings[int(row['epoch_seconds'])] = -10.0
+        elif row['value'] == 'yes':
+          readings[int(row['epoch_seconds'])] = 5.0
+        else:
+          readings[int(row['epoch_seconds'])] = None
+          self.log('Could not convert %s to a float' % row['value'])
+
+    return readings
+
+  def GetChartPoints(self, start_epoch, end_epoch, min_time, max_time,
+                     step_size, readings):
+    """Grab an array of values for a chart."""
+
+    values = []
+    offsets = []
+    for t in range(min_time, max_time, step_size):
+      for offset in [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5, -6, 6, -7, 7,
+                     -8, 8, -9, 9, -10, 10, -11, 11, -15, 15, None]:
+        if offset is None:
+          # self.log('t: %d, data missing' % t)
+          offsets.append(None)
+          values.append(None)
+          break
+
+        if t + offset in readings:
+          offsets.append(offset)
+          values.append(readings[t + offset])
+          break
+
+    # self.log('Offsets: %s' % repr(offsets))
+    return values
+
+
 def main(argv):
   global running
   global bytes
-  global db
-  global cursor
   global sensor_names
   
   # Parse flags
