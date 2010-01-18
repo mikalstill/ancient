@@ -17,7 +17,7 @@
 #define HS1101DATA 5
 #define HS1101POWER 7
 
-unsigned int count_transitions(int ms);
+int count_transitions(int ms);
 
 // How long between measurement cycles
 #define SLEEP_SEC 10
@@ -75,7 +75,7 @@ char *ftoa(char *a, double f, int precision)
   return ret;
 }
 
-float measure_RH(void)
+int measure_RH(void)
 {
      long RH_count;
      float RH_raw;
@@ -85,16 +85,14 @@ float measure_RH(void)
 
      RH_count = count_transitions(1000);
      Serial.println(RH_count);
-     RH_raw = 557.7 - 0.0759 * RH_count;
-
      digitalWrite(HS1101POWER, LOW); // turn off the 555
-     return(RH_raw);
+     return(RH_count);
 }
 
 #define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 
-unsigned int count_transitions(int ms)
+int count_transitions(int ms)
 {
      // configure Counter 1
      cbi(TCCR1A, WGM11);
@@ -140,6 +138,7 @@ void loop()
   DeviceAddress addr;
   uint16_t plen, dat_p;
   float RH_raw, RH_corrected;
+  int RH_count;
 
   // Read temperatures, we dump the state to a buffer so we can serve it
   this_check = millis();
@@ -166,7 +165,11 @@ void loop()
       sprintf(data + data_inset, ": %s\n", ftoa(float_conv, t, 2));
       data_inset = strlen(data);
       
-      RH_raw = measure_RH();
+      RH_count = measure_RH();
+      sprintf(data + data_inset, "HS1101 cycles: %d\n", RH_count);
+      data_inset = strlen(data);
+      
+      RH_raw = 557.7 - 0.0759 * RH_count;
       sprintf(data + data_inset, "Raw humidity: %s\n", ftoa(float_conv, RH_raw, 2));
       data_inset = strlen(data);
       
