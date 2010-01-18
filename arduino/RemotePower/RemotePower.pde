@@ -1,4 +1,4 @@
-uint8_t ports[8] = {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH};
+uint8_t ports[8] = {LOW, LOW, LOW, LOW, LOW, LOW, LOW, LOW};
 
 void usage()
 {
