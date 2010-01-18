@@ -13,10 +13,10 @@
 #define DISABLE 7
 #define COMPRESSOR 8
 
-#define FRIDGEHIGHTEMP 4.0
-#define FRIDGELOWTEMP 3.5
-#define FREEZERHIGHTEMP -17.0
-#define FREEZERLOWTEMP -18.0
+#define FRIDGEHIGHTEMP 3.0
+#define FRIDGELOWTEMP 2.5
+#define FREEZERHIGHTEMP 0.0
+#define FREEZERLOWTEMP -1.0
 
 uint8_t fridge_address[8] = {0x10, 0xfa, 0x47, 0x35, 0x00, 0x00, 0x00, 0x37};
 uint8_t freezer_address[8] = {0x10, 0xfb, 0xfa, 0xdc, 0x01, 0x08, 0x00, 0xa4};
