@@ -13,34 +13,40 @@ db = MySQLdb.connect(user = 'root', db = 'home')
 cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
 while True:
-  try:
-    remote = urllib.urlopen('http://192.168.1.253')
-    data = remote.read()
-    remote.close()
+  for ip in ['192.168.1.252', '192.168.1.253']:
+    try:
+      remote = urllib.urlopen('http://%s' % ip)
+      data = remote.read()
+      remote.close()
 
-    m = DATA_RE.match(data)
-    if not m:
-      print '%s: NO MATCHING DATA' % datetime.datetime.now()
-      print data
+      m = DATA_RE.match(data)
+      if not m:
+        print '%s: NO MATCHING DATA' % datetime.datetime.now()
+        print data
 
-    else:
-      for l in m.group(1).split('\n'):
-        print '%s: %s' %(datetime.datetime.now(), l.rstrip())
+      else:
+        for l in m.group(1).split('\n'):
+          print '%s: %s' %(datetime.datetime.now(), l.rstrip())
 
-        try:
-          (name, value) = l.split(': ')
-          cursor.execute('insert into sensors(epoch_seconds, sensor, value) '
-                         'values(%s, "%s", "%s");'
-                         %(time.time(), name, value))
-          cursor.execute('commit;')
+          try:
+            (name, value) = l.split(': ')
 
-        except Exception, e:
-          print '%s: VALUE ERROR: %s' %(datetime.datetime.now(), e)
+            if not name in ['Fridge temperature', 'Freezer temperature',
+                            'Sensor count']:
+              cursor.execute('insert into sensors'
+                             '(epoch_seconds, sensor, value, ip) '
+                             'values(%s, "%s", "%s", "%s");'
+                             %(time.time(), name, value, ip))
+              cursor.execute('commit;')
+              print '  **'
 
-  except Exception, e:
-    print '%s: ERROR %s' %(datetime.datetime.now(), e)
-    for name in values:
-      values[name].append(None)
+          except Exception, e:
+            print '%s: VALUE ERROR: %s' %(datetime.datetime.now(), e)
+
+    except Exception, e:
+      print '%s: ERROR %s' %(datetime.datetime.now(), e)
+      for name in values:
+        values[name].append(None)
   
   print
   time.sleep(10)
