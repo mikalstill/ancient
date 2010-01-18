@@ -32,7 +32,7 @@ unsigned long last_checked = 0, this_check = 0;
 #define BUFFER_SIZE 550
 #define ERROR_500 "HTTP/1.0 500 Error\r\nContent-Type: text/html\r\n\r\n<h1>500 Error</h1>"
 
-static uint8_t mymac[6] = {0x54, 0x55, 0x58, 0x10, 0x00, 0x24}; 
+static uint8_t mymac[6] = {0x54, 0x55, 0x58, 0x10, 0x00, 0x25}; 
 static uint8_t myip[4] = {192, 168, 1, 252};
 static uint8_t buf[BUFFER_SIZE + 1];
 char data[BUFFER_SIZE + 1];
