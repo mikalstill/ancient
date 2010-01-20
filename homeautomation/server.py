@@ -16,6 +16,7 @@ import urllib
 import MySQLdb
 
 import mhttp
+import mplugin
 
 from mpygooglechart import Chart
 from mpygooglechart import SimpleLineChart
@@ -27,7 +28,7 @@ MIN_Y = -30.0
 MAX_Y = 70.0
 MAX_READINGS_PER_GRAPH = 580
 POWER_COST = 0.138
-
+PLUGIN_DIR = '/data/src/stillhq_public/trunk/homeautomation/plugins/'
 
 sensor_names = {}
 running = True
@@ -265,6 +266,9 @@ class http_handler(mhttp.http_handler):
       sensors = mhttp.urldecode(args[3]).split(',')
       data = ['<h1>%s</h1><ul>' % ', '.join(sensors)]
 
+      # TODO(mikal): add options parsing here
+      wideinterp = True
+
       # Build a chart
       chart = SimpleLineChart(600, 400, y_range=[MIN_Y, MAX_Y])
       chart.set_title('Temperature sensors')
@@ -272,13 +276,6 @@ class http_handler(mhttp.http_handler):
                          'dd5500', 'ee11ff', '88ddff',
                          '44cc00', 'bb0011', '11aaff'])
       chart.set_grid(0, 20, 5, 5)
-
-      readings = {}
-
-      # Determine what data is available for requested sensors
-      for sensor in sensors:
-        self.log('Collecting data for sensor %s' % sensor)
-        readings[sensor] = self.GetData(cursor, sensor, start_epoch, end_epoch)
 
       # Chart axes
       left_axis = []
@@ -295,16 +292,17 @@ class http_handler(mhttp.http_handler):
       chart.set_axis_labels(Axis.BOTTOM, bottom_axis)
 
       legend = []
+      values = {}
+
       step_size = ((end_epoch - start_epoch) /
                    (MAX_READINGS_PER_GRAPH / len(sensors)))
       self.log('Each pixel is %d seconds' % step_size)
       for sensor in sensors:
-        self.log('Values for %s between %s and %s' %(sensor, start_epoch,
-                                                     end_epoch))
-        legend.append(sensor_names.get(sensor, sensor))
-        values = self.GetChartPoints(start_epoch, end_epoch, step_size,
-                                     readings[sensor], sensor)
-        chart.add_data(values)
+        values = self.ResolveSensor(values, cursor, sensor, start_epoch,
+                                    end_epoch, step_size, wideinterp)
+        self.log('Resolved values: %s' % values.keys())
+        chart.add_data(values[sensor])
+        legend.append(sensor)
 
       # Legend
       chart.set_legend(legend)
@@ -334,16 +332,17 @@ class http_handler(mhttp.http_handler):
 
     args = urlpath.split('/')
 
-    interpolation = True
+    wideinterp = True
     incomplete = True
     for param in args[1].split(','):
       self.log('Considering table param: %s' % param)
-      if param == 'nointerpolation':
-        interpolation = False
+      if param == 'nowideinterpolation':
+        wideinterp = False
       elif param == 'noincomplete':
         incomplete = False
-    self.log('Table parameters: interpolation = %s, incomplete = %s'
-             %(interpolation, incomplete))
+
+    self.log('Table parameters: wideinterpolation = %s, incomplete = %s'
+             %(wideinterp, incomplete))
     
     time_field = args[2].split(',')
     (start_epoch, end_epoch, day_field) = self.timewindow(time_field)
@@ -367,44 +366,19 @@ class http_handler(mhttp.http_handler):
       sensors = mhttp.urldecode(args[3]).split(',')
       data = ['<h1>%s</h1><ul>' % ', '.join(sensors)]
 
-      readings = {}
       values = {}
       step_size = 60
 
-      # Determine what data is available for requested sensors
-      for sensor in sensors:
-        self.log('Collecting data for sensor %s' % sensor)
-        readings[sensor] = self.GetData(cursor, sensor, start_epoch, end_epoch)
-
       # Fetch data points for the table
       for sensor in sensors:
-        self.log('Values for %s between %s and %s' %(sensor, start_epoch,
-                                                     end_epoch))
-        values[sensor] = self.GetChartPoints(start_epoch, end_epoch, step_size,
-                                             readings[sensor], sensor,
-                                             interpolation=interpolation)
+        values = self.ResolveSensor(values, cursor, sensor, start_epoch,
+                                    end_epoch, step_size, wideinterp)
+        self.log('Resolved values: %s' % values.keys())
 
-      # Calculated humidity
-      if ('HS1101 cycles' in sensors and
-          'Outside garage rear' in sensors):
-        calc_humidity = []
-        hs1101 = copy.deepcopy(values['HS1101 cycles'])
-        temp = copy.deepcopy(values['Outside garage rear'])
-
-        while hs1101:
-          if hs1101[0] and temp[0]:
-            raw = -738.77 + (int(hs1101[0]) * 0.09965)
-            corr = (1.0 + (0.001 * (temp[0] - 25))) * raw
-            calc_humidity.append('<font color=red><b>%d</b></font>'
-                                 % int(corr))
-          else:
-            calc_humidity.append(None)
-
-          hs1101 = hs1101[1:]
-          temp = temp[1:]
-
-        sensors.append('Calculated humidity')
-        values['Calculated humidity'] = calc_humidity
+      # Tell people what we fetched
+      data.append('<i>To generate this table, we fetched the following values:'
+                  ' %s</i><br/><br/>'
+                  % ', '.join(values.keys()))
 
       # The table
       data.append('<table width=100%><tr><td><b>Time</b></td>')
@@ -424,6 +398,8 @@ class http_handler(mhttp.http_handler):
         non_null = 0
         for sensor in sensors:
           row += '<td>%s</td>' % values[sensor][0]
+
+          # TODO(mikal): erroneously classes 0.0 as None?
           if values[sensor][0]:
             non_null += 1
           values[sensor] = values[sensor][1:]
@@ -440,6 +416,48 @@ class http_handler(mhttp.http_handler):
       
     self.sendfile('index.html', subst={'data': '\n'.join(data),
                                        'refresh': '3600'})
+
+  def ResolveSensor(self, values, cursor, sensor, start_epoch, end_epoch,
+                    step_size, wideinterp):
+    """Resolve a time series of this sensor value. This could be recursive."""
+
+    self.log('Values for %s between %s and %s' %(sensor, start_epoch,
+                                                     end_epoch))
+
+    if sensor.startswith('='):
+      plugin = mplugin.LoadPlugin(PLUGIN_DIR, sensor[1:], log=self.log)
+      if not plugin:
+        self.log('No plugin matching %s' % sensor[1:])
+        return values
+
+      input_values = {}
+      db = MySQLdb.connect(user = 'root', db = 'home')
+      cursor = db.cursor(MySQLdb.cursors.DictCursor)
+    
+      for input in plugin.Requires(cursor, sensor_names):
+        self.log('Plugin requires: %s' % input)
+        if input in values:
+          self.log('We already have that timeseries')
+          input_values[input] = copy.deepcopy(values[input])
+
+        else:
+          self.log('Fetching timeseries')
+          values = self.ResolveSensor(values, cursor, input,
+                                      start_epoch, end_epoch, step_size,
+                                      wideinterp)
+          input_values[input] = copy.deepcopy(values[input])
+
+      self.log('Calculating derived values')
+      values[sensor] = plugin.Calculate(input_values, log=self.log)
+
+    else:
+      readings = self.GetData(cursor, sensor, start_epoch, end_epoch)
+      values[sensor] = self.GetChartPoints(start_epoch, end_epoch,
+                                           step_size, readings, sensor,
+                                           wideinterp=wideinterp)
+      self.log('Found %d chart points' % len(values[sensor]))
+
+    return values
 
   def GetData(self, cursor, sensor, start_epoch, end_epoch):
     """Grab the readings from the DB."""
@@ -477,7 +495,7 @@ class http_handler(mhttp.http_handler):
     return readings
 
   def GetChartPoints(self, start_epoch, end_epoch, step_size, readings,
-                     sensor, interpolation=True):
+                     sensor, wideinterp=True):
     """Grab an array of values for a chart."""
 
     global wiggle
@@ -489,8 +507,8 @@ class http_handler(mhttp.http_handler):
     if step_size < 1:
       step_size = 1
 
-    if not interpolation:
-      wig = [0, None]
+    if not wideinterp:
+      wig = wiggle
     elif sensor.startswith('BOM '):
       wig = bom_wiggle
     else:
