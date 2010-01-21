@@ -16,19 +16,12 @@ def Calculate(inputs, log=None):
         inputs['=Outside humidity'][0]):
       bom = int(inputs['BOM Relative humidity %'][0])
 
-      if log:
-        log('Considering local humidity reading of: %s'
-            % inputs['=Outside humidity'][0])
-
       try:
         us = int(inputs['=Outside humidity'][0])
       except Exception, e:
         if log:
           log('Int parse error: %s' % e)
         us = None
-
-      if log:
-        log('Comparing %s and %s' %(bom, us))
 
       if us:
         out.append(bom - us)

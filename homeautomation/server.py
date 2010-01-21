@@ -399,8 +399,7 @@ class http_handler(mhttp.http_handler):
         for sensor in sensors:
           row += '<td>%s</td>' % values[sensor][0]
 
-          # TODO(mikal): erroneously classes 0.0 as None?
-          if values[sensor][0]:
+          if not values[sensor][0] is None:
             non_null += 1
           values[sensor] = values[sensor][1:]
         row += '</tr>'
@@ -451,16 +450,35 @@ class http_handler(mhttp.http_handler):
       values[sensor] = plugin.Calculate(input_values, log=self.log)
 
     else:
-      readings = self.GetData(cursor, sensor, start_epoch, end_epoch)
-      values[sensor] = self.GetChartPoints(start_epoch, end_epoch,
-                                           step_size, readings, sensor,
-                                           wideinterp=wideinterp)
-      self.log('Found %d chart points' % len(values[sensor]))
+      sensors = self.ExpandSensorName(sensor)
+      
+      ips = []
+      cursor.execute('select distinct(ip) from sensors where '
+                     'sensor in ("%s") and epoch_seconds > %s and '
+                     'epoch_seconds < %s;'
+                     %('", "'.join(sensors), start_epoch - 1, end_epoch + 1))
+      for row in cursor:
+        ips.append(row['ip'])
+      self.log('Found IPs: %s' % repr(ips))
+
+      # TODO(mikal): handle repeated sensor names
+      #for ip in ips:
+      #  if len(ips) == 1:
+      #    name = sensor
+      #  else:
+      #    name = '%s (%s)' %(sensor, ip)
+
+      name = sensor
+      readings = self.GetData(cursor, sensors, ips[0], start_epoch, end_epoch)
+      values[name] = self.GetChartPoints(start_epoch, end_epoch,
+                                         step_size, readings, sensor,
+                                         wideinterp=wideinterp)
+      self.log('Found %d chart points for %s' %(len(values[name]), name))
 
     return values
 
-  def GetData(self, cursor, sensor, start_epoch, end_epoch):
-    """Grab the readings from the DB."""
+  def ExpandSensorName(self, sensor):
+    """Turn a sensor name into all possible sensor entries."""
 
     global sensor_names
 
@@ -469,11 +487,16 @@ class http_handler(mhttp.http_handler):
       if sensor_names[s] == sensor:
         target_sensors.append(s)
 
+    return target_sensors
+
+  def GetData(self, cursor, sensors, ip, start_epoch, end_epoch):
+    """Grab the readings from the DB."""
+
     readings = {}
     sql = ('select epoch_seconds, value from sensors where '
-           'sensor in ("%s") and epoch_seconds > %d and '
+           'sensor in ("%s") and ip="%s" and epoch_seconds > %d and '
            'epoch_seconds < %d order by epoch_seconds;'
-           %('", "'.join(target_sensors), start_epoch - 1, end_epoch + 1))
+           %('", "'.join(sensors), ip, start_epoch - 1, end_epoch + 1))
     self.log('Data select sql: %s' % sql)
     cursor.execute(sql)
     for row in cursor:

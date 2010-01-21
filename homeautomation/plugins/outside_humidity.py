@@ -15,9 +15,12 @@ def Calculate(inputs, log=None):
     
   while inputs['HS1101 cycles']:
     if inputs['HS1101 cycles'][0] and inputs[OUTSIDE_TEMP][0]:
-      raw = 137.1 - (int(inputs['HS1101 cycles'][0]) * 0.014497207)
+      raw = 557.1 - (int(inputs['HS1101 cycles'][0]) * 0.0758) + 16
       temp = inputs[OUTSIDE_TEMP][0]
       corr = (1.0 + (0.001 * (temp - 25))) * raw
+      if log:
+        log('Cycles = %s, raw = %.02f, temp = %.02f, corr = %.02f'
+            %(inputs['HS1101 cycles'][0], raw, temp, corr))
       out.append(corr)
 
     else:                  
