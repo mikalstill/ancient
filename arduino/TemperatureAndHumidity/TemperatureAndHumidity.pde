@@ -104,7 +104,7 @@ void setup()   {
   es.ES_enc28j60Init(mymac);
   es.ES_init_ip_arp_udp_tcp(mymac, myip, MYWWWPORT);
   
-  pinMode(HS1101POWER, LOW);
+  pinMode(HS1101POWER, OUTPUT);
 }
 
 void loop()                     
