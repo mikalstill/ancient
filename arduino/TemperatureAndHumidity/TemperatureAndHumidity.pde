@@ -1,5 +1,5 @@
 // Temperature and humidity sensor node. Based on the FridgeControlWeb project of mine
-// as well as http://www.phanderson.com/picaxe/rh_count.html
+// as well as http://www.phanderson.com/picaxe/relhum_count.html
 
 #include <enc28j60.h>
 #include <etherShield.h>
@@ -75,20 +75,6 @@ char *ftoa(char *a, double f, int precision)
   return ret;
 }
 
-int measure_RH(void)
-{
-     long RH_count;
-     float RH_raw;
-
-     digitalWrite(HS1101POWER, HIGH);   // power up the 555 cicuit
-     delay(500);   // allow some time for the 555 to stabilize
-
-     RH_count = count_transitions(1000);
-     Serial.println(RH_count);
-     digitalWrite(HS1101POWER, LOW); // turn off the 555
-     return(RH_count);
-}
-
 #define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 
@@ -110,15 +96,6 @@ int count_transitions(int ms)
      return(TCNT1);
 }
 
-float calc_RH_corrected(float RH_raw, float Tc)
-{
-    float T_diff, RH_corrected;
-
-    T_diff = Tc - 25.00;
-    RH_corrected = (1.0 + 0.001 * T_diff) * RH_raw;
-    return(RH_corrected);
-}
-
 void setup()   {                
   // initialize the digital pin as an output:
   Serial.begin(9600);
@@ -127,7 +104,7 @@ void setup()   {
   es.ES_enc28j60Init(mymac);
   es.ES_init_ip_arp_udp_tcp(mymac, myip, MYWWWPORT);
   
-  pinMode(HS1101POWER, HIGH);
+  pinMode(HS1101POWER, LOW);
 }
 
 void loop()                     
@@ -137,8 +114,8 @@ void loop()
   float t;
   DeviceAddress addr;
   uint16_t plen, dat_p;
-  float RH_raw, RH_corrected;
-  int RH_count;
+  float relhum_raw, relhum_corrected;
+  int relhum_count;
 
   // Read temperatures, we dump the state to a buffer so we can serve it
   this_check = millis();
@@ -164,21 +141,25 @@ void loop()
 
       sprintf(data + data_inset, ": %s\n", ftoa(float_conv, t, 2));
       data_inset = strlen(data);
-      
-      RH_count = measure_RH();
-      sprintf(data + data_inset, "HS1101 cycles: %d\n", RH_count);
-      data_inset = strlen(data);
-      
-      RH_raw = 557.7 - 0.0759 * RH_count;
-      sprintf(data + data_inset, "Raw humidity: %s\n", ftoa(float_conv, RH_raw, 2));
-      data_inset = strlen(data);
-      
-      RH_corrected = calc_RH_corrected(RH_raw, t);
-      sprintf(data + data_inset, "Corrected humidity: %s\n",
-              ftoa(float_conv, RH_corrected, 2));
-      
-      Serial.println(data);
     }
+      
+    // Power up the 555 / HS1101, and take a measurement. Power it down again afterwards.
+    digitalWrite(HS1101POWER, HIGH);
+    delay(500);
+    relhum_count = count_transitions(1000);
+    digitalWrite(HS1101POWER, LOW);
+    sprintf(data + data_inset, "HS1101 cycles: %d\n", relhum_count);
+    data_inset = strlen(data);
+    
+    relhum_raw = 557.7 - 0.0759 * relhum_count;
+    sprintf(data + data_inset, "Raw humidity: %s\n", ftoa(float_conv, relhum_raw, 2));
+    data_inset = strlen(data);
+    
+    relhum_corrected = (1.0 + 0.001 * (t - 25.00)) * relhum_raw;
+    sprintf(data + data_inset, "Corrected humidity: %s\n",
+            ftoa(float_conv, relhum_corrected, 2));
+    
+    Serial.println(data);
     
     last_checked = this_check;
   }
