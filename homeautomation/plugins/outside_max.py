@@ -22,9 +22,13 @@ def Requires(cursor, sensor_names):
   return out
 
 
-UNDEFINED = -99999999.0
+def Returns(unused_cursor):
+  """What values would be returned?"""
+  return ['=Outside max']
 
-def Calculate(inputs, log=None):
+
+UNDEFINED = -99999999.0
+def Calculate(inputs, redirects, log=None):
   """Determine minimum."""
 
   out = []

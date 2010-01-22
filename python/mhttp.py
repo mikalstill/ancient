@@ -12,6 +12,7 @@ import re
 import socket
 import sys
 import time
+import traceback
 import types
 import urllib
 
@@ -163,7 +164,11 @@ class http_handler(asyncore.dispatcher):
         for l in post_data.split('\r\n'):
           self.log('DATA %s' % l, console=FLAGS.showpost)
 
-    self.dispatch(file, post_data)
+    try:
+      self.dispatch(file, post_data)
+    except Exception, e:
+      self.sendtraceback()
+
     self.log('%d bytes queued' % len(self.buffer))
 
   def dispatch(self, file, post_data):
@@ -273,6 +278,24 @@ class http_handler(asyncore.dispatcher):
       m = _SUBST_RE.match(data)
 
     return data
+
+  def sendtraceback(self):
+    exc = None
+    msg = ['Exception:']
+
+    try:
+      exc = sys.exc_info()
+      for tb in traceback.format_exception(exc[0], exc[1], exc[2]):
+        msg.append(tb)
+        del tb
+
+    finally:
+      del exc
+
+    # Headers have almost certainly already been sent at this point
+    self.buffer += ('<br/><br/><font color=red><b>%s</b></font>'
+                    % '<br/>'.join(msg))
+    self.log(' ** '.join(msg))
 
   def senderror(self, number, msg):
     self.sendheaders('HTTP/1.1 %d %s\r\n'

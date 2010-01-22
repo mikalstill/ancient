@@ -291,20 +291,35 @@ class http_handler(mhttp.http_handler):
                                                tuple[3], tuple[4]))
       chart.set_axis_labels(Axis.BOTTOM, bottom_axis)
 
-      legend = []
+      # Determine how many values will be on the graph
+      returned = []
+      for sensor in sensors:
+        for item in self.ResolveWouldReturn(cursor, sensor, start_epoch,
+                                            end_epoch):
+          if not item in returned:
+            returned.append(item)
+      
+      # Fetch those values
       values = {}
+      redirects = {}
 
       step_size = ((end_epoch - start_epoch) /
-                   (MAX_READINGS_PER_GRAPH / len(sensors)))
-      self.log('Each pixel is %d seconds' % step_size)
+                   (MAX_READINGS_PER_GRAPH / len(returned)))
+      self.log('%d time series, each pixel is %d seconds' %(len(returned),
+                                                            step_size))
       for sensor in sensors:
-        values = self.ResolveSensor(values, cursor, sensor, start_epoch,
-                                    end_epoch, step_size, wideinterp)
+        (values, redirects) = self.ResolveSensor(values, redirects, cursor,
+                                                 sensor, start_epoch,
+                                                 end_epoch, step_size,
+                                                 wideinterp)
         self.log('Resolved values: %s' % values.keys())
-        chart.add_data(values[sensor])
-        legend.append(sensor)
 
-      # Legend
+      # Put the values on the chart
+      legend = []
+      for value in returned:
+        self.log('Adding %s' % value)
+        chart.add_data(values[value])
+        legend.append(value)
       chart.set_legend(legend)
 
       # Add markers
@@ -367,12 +382,15 @@ class http_handler(mhttp.http_handler):
       data = ['<h1>%s</h1><ul>' % ', '.join(sensors)]
 
       values = {}
+      redirects = {}
       step_size = 60
 
       # Fetch data points for the table
       for sensor in sensors:
-        values = self.ResolveSensor(values, cursor, sensor, start_epoch,
-                                    end_epoch, step_size, wideinterp)
+        (values, redirects) = self.ResolveSensor(values, redirects, cursor,
+                                                 sensor, start_epoch,
+                                                 end_epoch, step_size,
+                                                 wideinterp)
         self.log('Resolved values: %s' % values.keys())
 
       # Tell people what we fetched
@@ -391,6 +409,10 @@ class http_handler(mhttp.http_handler):
         target = 1
       else:
         target = len(sensors)
+
+      # Squelch redirects
+      for key in redirects:
+        values[key] = self.HandleRedirects(values, redirects, key)
 
       for i in range(start_epoch, end_epoch, step_size):
         row = ('<tr bgcolor="#%s"><td>%s</td>'
@@ -416,8 +438,54 @@ class http_handler(mhttp.http_handler):
     self.sendfile('index.html', subst={'data': '\n'.join(data),
                                        'refresh': '3600'})
 
-  def ResolveSensor(self, values, cursor, sensor, start_epoch, end_epoch,
-                    step_size, wideinterp):
+  def HandleRedirects(self, values, redirects, name):
+    """Lookup a value which might have a redirect."""
+
+    if not name in redirects:
+      return values[name]
+
+    else:
+      self.log('Redirects for %s: %s' %(name, redirects[name]))
+      self.log('Values available: %s' % repr(values.keys()))
+      return values[redirects[name][0]]
+
+  def ResolveWouldReturn(self, cursor, sensor, start_epoch, end_epoch):
+    """What would we get back if we resolved this sensor over this period?"""
+
+    if sensor.startswith('='):
+      plugin = mplugin.LoadPlugin(PLUGIN_DIR, sensor[1:], log=self.log)
+      if not plugin:
+        self.log('No plugin matching %s' % sensor[1:])
+        return values
+
+      db = MySQLdb.connect(user = 'root', db = 'home')
+      cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+      out = plugin.Returns(cursor)
+      self.log('Resolving %s would return %s' %(sensor, repr(out)))
+      return out
+
+    else:
+      ips = []
+      cursor.execute('select distinct(ip) from sensors where '
+                     'sensor in ("%s") and epoch_seconds > %s and '
+                     'epoch_seconds < %s;'
+                     %(sensor, start_epoch - 1, end_epoch + 1))
+      for row in cursor:
+        ips.append(row['ip'])
+
+      if len(ips) == 1:
+        self.log('Resolving %s would return %s' %(sensor, sensor))
+        return [sensor]
+
+      out = []
+      for ip in ips:
+        out.append('%s (%s)' %(sensor, ip))
+      self.log('Resolving %s would return %s' %(sensor, repr(out)))
+      return out
+
+  def ResolveSensor(self, values, redirects, cursor, sensor, start_epoch,
+                    end_epoch, step_size, wideinterp):
     """Resolve a time series of this sensor value. This could be recursive."""
 
     self.log('Values for %s between %s and %s' %(sensor, start_epoch,
@@ -429,25 +497,32 @@ class http_handler(mhttp.http_handler):
         self.log('No plugin matching %s' % sensor[1:])
         return values
 
-      input_values = {}
       db = MySQLdb.connect(user = 'root', db = 'home')
       cursor = db.cursor(MySQLdb.cursors.DictCursor)
-    
-      for input in plugin.Requires(cursor, sensor_names):
+
+      inputs = plugin.Requires(cursor, sensor_names)
+
+      # Fetch missing values
+      for input in inputs:
         self.log('Plugin requires: %s' % input)
-        if input in values:
-          self.log('We already have that timeseries')
-          input_values[input] = copy.deepcopy(values[input])
+        if not input in values and input not in redirects:
+          (values, redirects) = self.ResolveSensor(values, redirects, cursor,
+                                                   input, start_epoch,
+                                                   end_epoch, step_size,
+                                                   wideinterp)
 
-        else:
-          self.log('Fetching timeseries')
-          values = self.ResolveSensor(values, cursor, input,
-                                      start_epoch, end_epoch, step_size,
-                                      wideinterp)
-          input_values[input] = copy.deepcopy(values[input])
+      # Make redirect handling optional
+      input_values = copy.deepcopy(values)
+      for input in inputs:
+        if input in redirects:
+          input_values[input] = copy.deepcopy(self.HandleRedirects(values,
+                                                                   redirects,
+                                                                   input))
 
-      self.log('Calculating derived values')
-      values[sensor] = plugin.Calculate(input_values, log=self.log)
+      # Calculate
+      self.log('Calculating derived values with inputs: %s'
+               % input_values.keys())
+      values[sensor] = plugin.Calculate(input_values, redirects, log=self.log)
 
     else:
       sensors = self.ExpandSensorName(sensor)
@@ -461,21 +536,21 @@ class http_handler(mhttp.http_handler):
         ips.append(row['ip'])
       self.log('Found IPs: %s' % repr(ips))
 
-      # TODO(mikal): handle repeated sensor names
-      #for ip in ips:
-      #  if len(ips) == 1:
-      #    name = sensor
-      #  else:
-      #    name = '%s (%s)' %(sensor, ip)
+      for ip in ips:
+        if len(ips) == 1:
+          name = sensor
+        else:
+          name = '%s (%s)' %(sensor, ip)
+          redirects.setdefault(sensor, [])
+          redirects[sensor].append(name)
 
-      name = sensor
-      readings = self.GetData(cursor, sensors, ips[0], start_epoch, end_epoch)
-      values[name] = self.GetChartPoints(start_epoch, end_epoch,
-                                         step_size, readings, sensor,
-                                         wideinterp=wideinterp)
-      self.log('Found %d chart points for %s' %(len(values[name]), name))
+        readings = self.GetData(cursor, sensors, ip, start_epoch, end_epoch)
+        values[name] = self.GetChartPoints(start_epoch, end_epoch,
+                                           step_size, readings, sensor,
+                                           wideinterp=wideinterp)
+        self.log('Found %d chart points for %s' %(len(values[name]), name))
 
-    return values
+    return (values, redirects)
 
   def ExpandSensorName(self, sensor):
     """Turn a sensor name into all possible sensor entries."""
