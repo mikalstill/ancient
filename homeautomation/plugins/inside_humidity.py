@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-# Calculate the outside humdity based on known inputs
+# Calculate the inside humdity based on known inputs. Note this is the same
+# code as the outside humidity, except for the humidity and temperature
+# sources. One day I should work out inheritance for plugins.
 
 OUTSIDE_TEMP = 'Outside garage rear'
 
@@ -11,7 +13,7 @@ def Requires(unused_cursor, unused_sensor_names):
 
 def Returns(unused_cursor):
   """What values would be returned?"""
-  return ['=Outside humidity']
+  return ['=Inside humidity']
 
 
 def Calculate(inputs, redirects, log=None):
@@ -19,10 +21,10 @@ def Calculate(inputs, redirects, log=None):
 
   out = []
 
-  while inputs['HS1101 cycles (192.168.1.252)']:
-    if inputs['HS1101 cycles (192.168.1.252)'][0] and inputs[OUTSIDE_TEMP][0]:
+  while inputs['HS1101 cycles (192.168.1.251)']:
+    if inputs['HS1101 cycles (192.168.1.251)'][0] and inputs[OUTSIDE_TEMP][0]:
       raw = (557.1 -
-             (int(inputs['HS1101 cycles (192.168.1.252)'][0]) * 0.0758) + 16)
+             (int(inputs['HS1101 cycles (192.168.1.251)'][0]) * 0.0758) + 16)
       temp = inputs[OUTSIDE_TEMP][0]
       corr = (1.0 + (0.001 * (temp - 25))) * raw
 

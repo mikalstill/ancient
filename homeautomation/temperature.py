@@ -13,7 +13,7 @@ db = MySQLdb.connect(user = 'root', db = 'home')
 cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
 while True:
-  for ip in ['192.168.1.252', '192.168.1.253']:
+  for ip in ['192.168.1.251', '192.168.1.252', '192.168.1.253']:
     try:
       remote = urllib.urlopen('http://%s' % ip)
       data = remote.read()
@@ -21,12 +21,12 @@ while True:
 
       m = DATA_RE.match(data)
       if not m:
-        print '%s: NO MATCHING DATA' % datetime.datetime.now()
+        print '%s: %s: NO MATCHING DATA' %(datetime.datetime.now(), ip)
         print data
 
       else:
         for l in m.group(1).split('\n'):
-          print '%s: %s' %(datetime.datetime.now(), l.rstrip())
+          print '%s: %s: %s' %(datetime.datetime.now(), ip, l.rstrip())
 
           try:
             (name, value) = l.split(': ')
@@ -38,15 +38,12 @@ while True:
                              'values(%s, "%s", "%s", "%s");'
                              %(time.time(), name, value, ip))
               cursor.execute('commit;')
-              print '  **'
 
           except Exception, e:
-            print '%s: VALUE ERROR: %s' %(datetime.datetime.now(), e)
+            print '%s: %s: VALUE ERROR: %s' %(datetime.datetime.now(), ip, e)
 
     except Exception, e:
-      print '%s: ERROR %s' %(datetime.datetime.now(), e)
-      for name in values:
-        values[name].append(None)
+      print '%s: %s: ERROR %s' %(datetime.datetime.now(), ip, e)
   
   print
   time.sleep(10)

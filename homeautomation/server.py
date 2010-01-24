@@ -298,6 +298,7 @@ class http_handler(mhttp.http_handler):
                                             end_epoch):
           if not item in returned:
             returned.append(item)
+      self.log('Calculations will return: %s' % repr(returned))
       
       # Fetch those values
       values = {}
@@ -385,6 +386,15 @@ class http_handler(mhttp.http_handler):
       redirects = {}
       step_size = 60
 
+      # Determine how many values will be on the graph
+      returned = []
+      for sensor in sensors:
+        for item in self.ResolveWouldReturn(cursor, sensor, start_epoch,
+                                            end_epoch):
+          if not item in returned:
+            returned.append(item)
+      self.log('Calculations will return: %s' % repr(returned))
+      
       # Fetch data points for the table
       for sensor in sensors:
         (values, redirects) = self.ResolveSensor(values, redirects, cursor,
@@ -400,7 +410,7 @@ class http_handler(mhttp.http_handler):
 
       # The table
       data.append('<table width=100%><tr><td><b>Time</b></td>')
-      for sensor in sensors:
+      for sensor in returned:
         data.append('<td><b>%s</b></td>' % sensor_names.get(sensor, sensor))
       data.append('</tr>')
       bgcolor = 'FFFFFF'
@@ -408,17 +418,13 @@ class http_handler(mhttp.http_handler):
       if incomplete:
         target = 1
       else:
-        target = len(sensors)
-
-      # Squelch redirects
-      for key in redirects:
-        values[key] = self.HandleRedirects(values, redirects, key)
+        target = len(returned)
 
       for i in range(start_epoch, end_epoch, step_size):
         row = ('<tr bgcolor="#%s"><td>%s</td>'
                %(bgcolor, datetime.datetime.fromtimestamp(i)))
         non_null = 0
-        for sensor in sensors:
+        for sensor in returned:
           row += '<td>%s</td>' % values[sensor][0]
 
           if not values[sensor][0] is None:
@@ -452,6 +458,8 @@ class http_handler(mhttp.http_handler):
   def ResolveWouldReturn(self, cursor, sensor, start_epoch, end_epoch):
     """What would we get back if we resolved this sensor over this period?"""
 
+    global sensor_names
+
     if sensor.startswith('='):
       plugin = mplugin.LoadPlugin(PLUGIN_DIR, sensor[1:], log=self.log)
       if not plugin:
@@ -466,16 +474,21 @@ class http_handler(mhttp.http_handler):
       return out
 
     else:
+      sensors = [sensor]
+      for s in sensor_names:
+        if sensor_names[s] == sensor:
+          sensors.append(s)
+      
       ips = []
       cursor.execute('select distinct(ip) from sensors where '
                      'sensor in ("%s") and epoch_seconds > %s and '
                      'epoch_seconds < %s;'
-                     %(sensor, start_epoch - 1, end_epoch + 1))
+                     %('", "'.join(sensors), start_epoch - 1, end_epoch + 1))
       for row in cursor:
         ips.append(row['ip'])
 
       if len(ips) == 1:
-        self.log('Resolving %s would return %s' %(sensor, sensor))
+        self.log('Resolving %s would return %s' %(sensors, sensor))
         return [sensor]
 
       out = []
