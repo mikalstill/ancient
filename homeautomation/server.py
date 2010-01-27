@@ -271,7 +271,7 @@ class http_handler(mhttp.http_handler):
 
       # Build a chart
       chart = SimpleLineChart(600, 400, y_range=[MIN_Y, MAX_Y])
-      chart.set_title('Temperature sensors')
+      chart.set_title('Sensors')
       chart.set_colours(['0000FF', '00FF00', 'FF0000',
                          'dd5500', 'ee11ff', '88ddff',
                          '44cc00', 'bb0011', '11aaff'])
@@ -279,9 +279,12 @@ class http_handler(mhttp.http_handler):
 
       # Chart axes
       left_axis = []
+      right_axis = []
       for v in range(MIN_Y, MAX_Y + 1.0, 5):
         left_axis.append('%s' % v)
+        right_axis.append('%.01fk' %((v * 50.0) / 1000))
       chart.set_axis_labels(Axis.LEFT, left_axis)
+      chart.set_axis_labels(Axis.RIGHT, right_axis)
 
       bottom_axis = []
       for v in range(start_epoch, end_epoch + 1,
@@ -641,6 +644,120 @@ class http_handler(mhttp.http_handler):
     return values
 
 
+def FetchSensorNames():
+  """Update the cache of sensor names."""
+
+  print '%s: Updating sensor name cache' % datetime.datetime.now()
+  db = MySQLdb.connect(user = 'root', db = 'home')
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+  cursor.execute('select * from sensor_names;')
+  out = {}
+  for row in cursor:
+    out[row['sensor']] = row['name']
+    print '%s: %s is called %s' %(datetime.datetime.now(), row['sensor'],
+                                  row['name'])
+  return out
+
+
+def InitializeCleanup():
+  """Ensure that all sensor names are covered by the cleanup table."""
+
+  print '%s: Preparing to cleanup old data' % datetime.datetime.now()
+  db = MySQLdb.connect(user = 'root', db = 'home')
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+  cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
+
+  # This query is slow, so don't do it too often
+  cursor.execute('select distinct(sensor), ip from sensors;')
+  for row in cursor:
+    cursor2.execute('select * from cleanup where sensor="%s" and ip="%s";'
+                    %(row['sensor'], row['ip']))
+    if cursor2.rowcount > 0:
+      continue
+    
+    print ('%s: Finding the minimum entry for %s at %s'
+           %(datetime.datetime.now(), row['sensor'], row['ip']))
+    cursor2.execute('select min(epoch_seconds) from sensors where sensor="%s" '
+                    'and ip="%s";'
+                    %(row['sensor'], row['ip']))
+    row2 = cursor2.fetchone()
+    print '%s: --> %s' %(datetime.datetime.now(), repr(row2))
+    start_seconds = row2['min(epoch_seconds)']
+    cursor2.execute('insert ignore into cleanup(sensor, ip, upto) values '
+                    '("%s", "%s", %s);'
+                    %(row['sensor'], row['ip'], start_seconds))
+    if cursor2.rowcount > 0:
+      print ('%s Initialized cleanup for %s at %s to %s'
+             %(datetime.datetime.now(), row['sensor'], row['ip'],
+               start_seconds))
+    cursor2.execute('commit;')
+
+
+def Cleanup():
+  """Downsample data older than a week to being within one minute accuracy."""
+
+  db = MySQLdb.connect(user = 'root', db = 'home')
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+  cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
+
+  cursor.execute('select * from cleanup where upto < %d '
+                 'order by upto desc limit 1;'
+                 % (time.time() - (7 * 24 * 60 * 60)))
+  for row in cursor:
+    print ('%s: Cleaning %s at %s'
+           %(datetime.datetime.now(), row['sensor'], row['ip']))
+
+    cursor2.execute('select * from sensors where sensor="%s" and ip="%s" and '
+                    'epoch_seconds > %d and epoch_seconds < %d '
+                    'order by epoch_seconds desc;'
+                    %(row['sensor'], row['ip'], row['upto'] - 1,
+                      row['upto'] + 61))
+    timestamps = []
+    for row2 in cursor2:
+      if not timestamps:
+        print '%s: **> %s' %(datetime.datetime.now(), repr(row2))
+      else:
+        print '%s: --> %s' %(datetime.datetime.now(), repr(row2))
+      timestamps.append(str(row2['epoch_seconds']))
+
+    if not timestamps:
+      # We have found a gap in the data, skip forward
+      cursor2.execute('select min(epoch_seconds) from sensors '
+                      'where sensor="%s" and ip="%s" and epoch_seconds > %s;'
+                      %(row['sensor'], row['ip'], row['upto']))
+      new_upto = cursor2.fetchone()['min(epoch_seconds)']
+
+      if not new_upto:
+        print '%s: No more data for %s at %s' %(datetime.datetime.now(),
+                                                row['sensor'], row['ip'])
+        new_upto = time.time()
+
+      print ('%s: Found a gap for %s at %s, skipping from %s to %s'
+             %(datetime.datetime.now(), row['sensor'], row['ip'], row['upto'],
+               new_upto))
+      cursor2.execute('update cleanup set upto=%s where sensor="%s" and '
+                      'ip="%s";'
+                      %(new_upto, row['sensor'], row['ip']))
+      cursor2.execute('commit;')
+
+    timestamps = timestamps[1:]
+    print '%s: Remove %s' %(datetime.datetime.now(), repr(timestamps))
+
+    if timestamps:
+      cursor2.execute('delete from sensors where sensor="%s" and ip="%s" and '
+                      'epoch_seconds in (%s);'
+                      %(row['sensor'], row['ip'], ', '.join(timestamps)))
+      print '%s: %d rows removed' %(datetime.datetime.now(),
+                                    cursor2.rowcount)
+      cursor2.execute('commit;')
+
+    cursor2.execute('update cleanup set upto=upto + 60 '
+                    'where sensor="%s" and ip="%s";'
+                    %(row['sensor'], row['ip']))
+    cursor2.execute('commit;')
+
+
 def main(argv):
   global running
   global bytes
@@ -655,28 +772,30 @@ def main(argv):
     print
     print FLAGS
 
-  db = MySQLdb.connect(user = 'root', db = 'home')
-  cursor = db.cursor(MySQLdb.cursors.DictCursor)
-
-  cursor.execute('select * from sensor_names;')
-  for row in cursor:
-    sensor_names[row['sensor']] = row['name']
-    print '%s is called %s' %(row['sensor'], row['name'])
-  
+  sensor_names = FetchSensorNames()
+  sensor_names_age = time.time()
   server = http_server(FLAGS.ip, FLAGS.port)
 
   # Start the web server, which takes over this thread
-  print '%s Started listening on port %s' %(datetime.datetime.now(),
+  print '%s: Started listening on port %s' %(datetime.datetime.now(),
                                             FLAGS.port)
 
   last_summary = time.time()
   while running:
     last_event = time.time()
-    asyncore.loop(timeout=10.0, count=1)
+    asyncore.loop(timeout=0.2, count=1)
 
-    if time.time() - last_event > 9.0:
+    if time.time() - last_event > 0.2:
       # We are idle
       print '%s ...' % datetime.datetime.now()
+
+      if time.time() - sensor_names_age > 1800:
+        sensor_names = FetchSensorNames()
+        InitializeCleanup()
+        sensor_names_age = time.time()
+
+      else:
+        Cleanup()
 
     if time.time() - last_summary > 60.0:
       print '%s TOTAL BYTES SERVED: %s' %(datetime.datetime.now(),
