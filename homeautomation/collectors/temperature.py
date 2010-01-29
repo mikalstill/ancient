@@ -9,10 +9,7 @@ import MySQLdb
 DATA_RE = re.compile('.*<pre>(.*)</pre>.*', re.DOTALL)
 
 
-db = MySQLdb.connect(user = 'root', db = 'home')
-cursor = db.cursor(MySQLdb.cursors.DictCursor)
-
-while True:
+def Collect(cursor):
   for ip in ['192.168.1.251', '192.168.1.252', '192.168.1.253']:
     try:
       remote = urllib.urlopen('http://%s' % ip)
@@ -44,6 +41,3 @@ while True:
 
     except Exception, e:
       print '%s: %s: ERROR %s' %(datetime.datetime.now(), ip, e)
-  
-  print
-  time.sleep(10)
