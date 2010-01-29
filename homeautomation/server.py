@@ -9,6 +9,7 @@ import asyncore
 import copy
 import datetime
 import gflags
+import os
 import re
 import time
 import uuid
@@ -106,6 +107,12 @@ class http_handler(mhttp.http_handler):
       day_field = datetime.datetime.now().timetuple()[0:3]
       self.log('Time field is %s, day field is %s' %(time_field, day_field))
 
+    elif day_field == ['yesterday']:
+      one_day = datetime.timedelta(days=1)
+      yesterday = datetime.datetime.now() - one_day
+      day_field = yesterday.timetuple()[0:3]
+      self.log('Time field is %s, day field is %s' %(time_field, day_field))
+
     day = datetime.datetime(int(day_field[0]), int(day_field[1]),
                             int(day_field[2]), 0, 0, 0)
     day_tuple = day.timetuple()
@@ -141,8 +148,7 @@ class http_handler(mhttp.http_handler):
     """Analyse the expense of running a fridge."""
 
     args = urlpath.split('/')
-    time_field = args[2].split(',')
-    (start_epoch, end_epoch, day_field) = self.timewindow(time_field)
+    (start_epoch, end_epoch, day_field) = self.timewindow(args[2].split(','))
 
     data = ['<h1>Chiller use summary</h1><ul>',
             ('<table><tr><td>When</td><td>Use seconds</td>'
@@ -234,6 +240,37 @@ class http_handler(mhttp.http_handler):
       
     return (total_seconds, self.summarizingjoin(' ', '...', preamble),
             total_cost, max_temp)
+
+  def AvailableSensors(self, cursor, range):
+    """Return a HTML encoded list of the available sensors for a given day."""
+
+    global sensor_names
+
+    sensors = []
+    cursor.execute('select distinct(sensor), max(epoch_seconds) from sensors '
+                   'where epoch_seconds > %d and '
+                   'epoch_seconds < %d group by sensor order by epoch_seconds;'
+                   %(range[0] - 1, range[1] + 1))
+    for row in cursor:
+      t = datetime.datetime.utcfromtimestamp(row['max(epoch_seconds)'])
+      sensors.append('<li><a href="/chart/%d.%d.%d/%s">%s</a> '
+                     '(last reading at %s)'
+                     % (int(range[2][0]), int(range[2][1]),
+                        int(range[2][2]), row['sensor'],
+                        sensor_names.get(row['sensor'], row['sensor']), t))
+
+    for ent in os.listdir(PLUGIN_DIR):
+      if ent.endswith('.py'):
+        plugin = mplugin.LoadPlugin(PLUGIN_DIR, ent[:-3], log=self.log)
+        for out in plugin.Returns(cursor):
+          sensors.append('<li><a href="/chart/%d.%d.%d/%s">%s</a>'
+                         % (int(range[2][0]), int(range[2][1]),
+                            int(range[2][2]), out, out))
+
+    sensors.sort()
+    return ['<h1>Available sensors</h1><ul>',
+            '\n'.join(sensors),
+            '</ul>']
   
   def handleurl_chart(self, urlpath, post_data):
     """Pretty graphs."""
@@ -244,23 +281,17 @@ class http_handler(mhttp.http_handler):
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
-    time_field = args[2].split(',')
-    (start_epoch, end_epoch, day_field) = self.timewindow(time_field)
+    ranges = []
+    times = []
+    for time_field in args[2].split(';'):
+      # Each range is (start_epoch, end_epoch, day_field)
+      ranges.append(self.timewindow(time_field.split(',')))
+      times.append(time_field)
+    self.log('Time ranges: %s' % repr(ranges))
 
     data = []
     if len(args) < 4:
-      # TODO(mikal): move this to a generic function
-      data = ['<h1>Available sensors</h1><ul>']
-      cursor.execute('select distinct(sensor) from sensors where '
-                     'epoch_seconds > %d and '
-                     'epoch_seconds < %d order by epoch_seconds;'
-                     %(start_epoch - 1, end_epoch + 1))
-      for row in cursor:
-        data.append('<li><a href="/chart/%d.%d.%d/%s">%s</a>'
-                    % (int(day_field[0]), int(day_field[1]),
-                       int(day_field[2]), row['sensor'],
-                       sensor_names.get(row['sensor'], row['sensor'])))
-      data.append('</ul>')
+      data = self.AvailableSensors(cursor, ranges[0])
 
     else:
       sensors = mhttp.urldecode(args[3]).split(',')
@@ -287,52 +318,62 @@ class http_handler(mhttp.http_handler):
       chart.set_axis_labels(Axis.RIGHT, right_axis)
 
       bottom_axis = []
-      for v in range(start_epoch, end_epoch + 1,
-                     max(1, (end_epoch - start_epoch) / 5)):
+      for v in range(ranges[0][0], ranges[0][1] + 1,
+                     max(1, (ranges[0][1] - ranges[0][0]) / 5)):
         tuple = time.localtime(v)
-        bottom_axis.append('%d/%d %02d:%02d' %(tuple[2], tuple[1],
-                                               tuple[3], tuple[4]))
+        if len(ranges) == 1:
+          bottom_axis.append('%d/%d %02d:%02d' %(tuple[2], tuple[1],
+                                                 tuple[3], tuple[4]))
+        else:
+          bottom_axis.append('%02d:%02d' %(tuple[3], tuple[4]))
       chart.set_axis_labels(Axis.BOTTOM, bottom_axis)
 
       # Determine how many values will be on the graph
       returned = []
       for sensor in sensors:
-        for item in self.ResolveWouldReturn(cursor, sensor, start_epoch,
-                                            end_epoch):
+        for item in self.ResolveWouldReturn(cursor, sensor, ranges[0][0],
+                                            ranges[0][1]):
           if not item in returned:
             returned.append(item)
       self.log('Calculations will return: %s' % repr(returned))
       
       # Fetch those values
-      values = {}
-      redirects = {}
-
-      step_size = ((end_epoch - start_epoch) /
-                   (MAX_READINGS_PER_GRAPH / len(returned)))
-      self.log('%d time series, each pixel is %d seconds' %(len(returned),
-                                                            step_size))
-      for sensor in sensors:
-        (values, redirects) = self.ResolveSensor(values, redirects, cursor,
-                                                 sensor, start_epoch,
-                                                 end_epoch, step_size,
-                                                 wideinterp)
-        self.log('Resolved values: %s' % values.keys())
+      step_size = ((ranges[0][1] - ranges[0][0]) /
+                   (MAX_READINGS_PER_GRAPH / (len(returned) * len(ranges))))
+      self.log('%d time series, each pixel is %d seconds'
+               %(len(returned) * len(ranges), step_size))
 
       # Put the values on the chart
       legend = []
-      for value in returned:
-        self.log('Adding %s' % value)
-        chart.add_data(values[value])
-        legend.append(value)
+      for r in ranges:
+        values = {}
+        redirects = {}
+
+        for sensor in sensors:
+          (values, redirects) = self.ResolveSensor(values, redirects, cursor,
+                                                   sensor, r[0], r[1],
+                                                   step_size, wideinterp)
+        self.log('Resolved values: %s' % values.keys())
+
+        for value in returned:
+          self.log('Adding %s' % value)
+          chart.add_data(values[value])
+
+          if len(ranges) == 1:
+            legend.append(value)
+          else:
+            legend.append('%s %s' %(value, times[0]))
+        times = times[1:]
+
       chart.set_legend(legend)
 
       # Add markers
       cursor.execute('select * from events where '
                      'epoch_seconds > %d and epoch_seconds < %d '
                      'order by epoch_seconds asc;'
-                     %(start_epoch, end_epoch))
+                     %(ranges[0][0], ranges[0][1]))
       for row in cursor:
-        chart.add_marker(0, (row['epoch_seconds'] - start_epoch) / step_size,
+        chart.add_marker(0, (row['epoch_seconds'] - ranges[0][0]) / step_size,
                          'o', '00ff00', 10)
 
       data.append('<img src="%s">' % chart.get_url())
@@ -363,23 +404,11 @@ class http_handler(mhttp.http_handler):
     self.log('Table parameters: wideinterpolation = %s, incomplete = %s'
              %(wideinterp, incomplete))
     
-    time_field = args[2].split(',')
-    (start_epoch, end_epoch, day_field) = self.timewindow(time_field)
+    (start_epoch, end_epoch, day_field) = self.timewindow(args[2].split(','))
 
     data = []
     if len(args) < 4:
-      # TODO(mikal): move this to a generic function
-      data = ['<h1>Available sensors</h1><ul>']
-      cursor.execute('select distinct(sensor) from sensors where '
-                     'epoch_seconds > %d and '
-                     'epoch_seconds < %d order by epoch_seconds;'
-                     %(start_epoch - 1, end_epoch + 1))
-      for row in cursor:
-        data.append('<li><a href="/table/%d.%d.%d/%s">%s</a>'
-                    % (int(day_field[0]), int(day_field[1]),
-                       int(day_field[2]), row['sensor'],
-                       sensor_names.get(row['sensor'], row['sensor'])))
-      data.append('</ul>')
+      data = self.AvailableSensors(cursor, ranges[0])
 
     else:
       sensors = mhttp.urldecode(args[3]).split(',')
@@ -697,6 +726,7 @@ def InitializeCleanup():
 def Cleanup():
   """Downsample data older than a week to being within one minute accuracy."""
 
+  cleaned = False
   db = MySQLdb.connect(user = 'root', db = 'home')
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
   cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
@@ -705,8 +735,9 @@ def Cleanup():
                  'order by upto desc limit 1;'
                  % (time.time() - (7 * 24 * 60 * 60)))
   for row in cursor:
-    print ('%s: Cleaning %s at %s'
-           %(datetime.datetime.now(), row['sensor'], row['ip']))
+    t = datetime.datetime.fromtimestamp(row['upto'])
+    print ('%s: Cleaning %s at %s (from %s)'
+           %(datetime.datetime.now(), row['sensor'], row['ip'], t))
 
     cursor2.execute('select * from sensors where sensor="%s" and ip="%s" and '
                     'epoch_seconds > %d and epoch_seconds < %d '
@@ -740,6 +771,7 @@ def Cleanup():
                       'ip="%s";'
                       %(new_upto, row['sensor'], row['ip']))
       cursor2.execute('commit;')
+      cleaned = True
 
     timestamps = timestamps[1:]
     print '%s: Remove %s' %(datetime.datetime.now(), repr(timestamps))
@@ -756,6 +788,9 @@ def Cleanup():
                     'where sensor="%s" and ip="%s";'
                     %(row['sensor'], row['ip']))
     cursor2.execute('commit;')
+    cleaned  = True
+
+  return cleaned
 
 
 def main(argv):
@@ -780,12 +815,13 @@ def main(argv):
   print '%s: Started listening on port %s' %(datetime.datetime.now(),
                                             FLAGS.port)
 
+  timeout = 0.2
   last_summary = time.time()
   while running:
     last_event = time.time()
-    asyncore.loop(timeout=0.2, count=1)
+    asyncore.loop(timeout=timeout, count=1)
 
-    if time.time() - last_event > 0.2:
+    if time.time() - last_event > timeout:
       # We are idle
       print '%s ...' % datetime.datetime.now()
 
@@ -795,7 +831,10 @@ def main(argv):
         sensor_names_age = time.time()
 
       else:
-        Cleanup()
+        if Cleanup():
+          timeout = 0.2
+        else:
+          timeout = 10
 
     if time.time() - last_summary > 60.0:
       print '%s TOTAL BYTES SERVED: %s' %(datetime.datetime.now(),
