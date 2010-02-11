@@ -13,9 +13,9 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-#define ONEWIRE 3
+#define ONEWIRE 7
 #define HS1101DATA 5
-#define HS1101POWER 7
+#define HS1101POWER 6
 
 int count_transitions(int ms);
 
@@ -32,8 +32,8 @@ unsigned long last_checked = 0, this_check = 0;
 #define BUFFER_SIZE 550
 #define ERROR_500 "HTTP/1.0 500 Error\r\nContent-Type: text/html\r\n\r\n<h1>500 Error</h1>"
 
-static uint8_t mymac[6] = {0x54, 0x55, 0x58, 0x10, 0x00, 0x26}; 
-static uint8_t myip[4] = {192, 168, 1, 251};
+static uint8_t mymac[6] = {0x54, 0x55, 0x58, 0x10, 0x00, 0x25}; 
+static uint8_t myip[4] = {192, 168, 1, 252};
 static uint8_t buf[BUFFER_SIZE + 1];
 char data[BUFFER_SIZE + 1];
 
