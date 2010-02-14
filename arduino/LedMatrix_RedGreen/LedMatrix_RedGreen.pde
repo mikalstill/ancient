@@ -3,51 +3,66 @@
 #define DATAPIN  11
 
 int powers[] = {1, 2, 4, 8, 16, 32, 64, 128, 256};
-unsigned int redcols, greencols, rows;
+byte red[8], green[8];
 
 void cleardisplay() {
-  redcols = 0;
-  greencols = 0;
-  rows = 0;
+  int i;
+  for(i = 0; i < 8; i++) {
+    red[i] = 0;
+    green[i] = 0;
+  }
 }
 
-void printbinary(unsigned int d) {
+void printbinary(byte d) {
   int i;
-  
   for(i = 0; i < 8; i++) {
     if(d & powers[i]) Serial.print("1");
     else Serial.print("0");
   }
 }
 
-void setredpixel(int x, int y) {
-  if(!(redcols & powers[x]))
-    redcols += powers[x];
-  if(!(rows & powers[y]))
-    rows += powers[y];
-}
-
-void setgreenpixel(int x, int y) {
-  if(!(greencols & powers[x]))
-    greencols += powers[x];
-  if(!(rows & powers[y]))
-    rows += powers[y];
+void setpixel(int x, int y, byte *color) {
+  if(!(color[y] & powers[x]))
+    color[y] += powers[x];
 }
 
 // Flush the display state to the shift registers
-void writedisplay(byte rc, byte gc, byte r) {
-  printbinary(rc);
-  Serial.print(", ");
-  printbinary(gc);
-  Serial.print(", ");
-  printbinary(r);
-  Serial.println("");
+void writedisplay() {
+  int i;
   
-  digitalWrite(LATCHPIN, LOW);
-  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, r);
-  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, gc);
-  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, rc);
-  digitalWrite(LATCHPIN, HIGH);
+  for(i = 0; i < 8; i++) {
+    if(green[i] != 0 || red[i] != 0) {
+      digitalWrite(LATCHPIN, LOW);
+      shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, powers[i]);
+      shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, green[i]);
+      shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, red[i]);
+      digitalWrite(LATCHPIN, HIGH);
+      delay(1);
+    }
+  }
+}
+
+unsigned char setuptimer(float frequency){
+  unsigned char result;
+
+  //Calculate the timer load value
+  result=(int)((257.0-(TIMER_CLOCK_FREQ/timeoutFrequency))+0.5);
+  //The 257 really should be 256 but I get better results with 257.
+
+  //Timer2 Settings: Timer Prescaler /8, mode 0
+  //Timer clock = 16MHz/8 = 2Mhz or 0.5us
+  //The /8 prescale gives us a good range to work with
+  //so we just hard code this for now.
+  TCCR2A = 0;
+  TCCR2B = 0<<CS22 | 1<<CS21 | 0<<CS20;
+
+  //Timer2 Overflow Interrupt Enable
+  TIMSK2 = 1<<TOIE2;
+
+  //load the timer for its first cycle
+  TCNT2=result;
+
+  return(result);
 }
 
 void setup() {
@@ -55,25 +70,14 @@ void setup() {
   pinMode(LATCHPIN, OUTPUT);
   pinMode(CLOCKPIN, OUTPUT);
   pinMode(DATAPIN, OUTPUT);
+  
+  cleardisplay();
+  setpixel(0, 0, red);
+  setpixel(7, 7, green);
+  
+  setuptimer(25);
 }
 
 void loop() {
-//  int x, y;
-//  
-//  for(y = 0; y < 8; y++) {
-//    for(x = 0; x < 8; x++) {
-//      cleardisplay();
-//      setredpixel(x, y);
-//      setgreenpixel(7 - x, 7 - y);
-//      writedisplay(redcols, greencols, rows);
-//      delay(30);
-//    }
-//  }
-
-  cleardisplay();
-  setredpixel(0, 0);
-  writedisplay(redcols, greencols, rows);
-  cleardisplay();
-  setgreenpixel(7, 7);
-  writedisplay(redcols, greencols, rows);
+  writedisplay();
 }
