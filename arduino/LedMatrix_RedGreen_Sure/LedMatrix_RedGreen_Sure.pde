@@ -1,5 +1,7 @@
-// This code is for the San Young LED matrix from Sparkfun. It has a sensible
-// pinout for the matrix.
+// This code is for the Sure LED matrix from Sparkfun. It has a rather
+// non-sensible pinout for the matrix. There are lots of software fixups to try
+// and make the hardware a little bit easier to wire here. See the San Young
+// version of this code for a more sensible implementation.
 
 #include <MsTimer2.h>
 
@@ -13,8 +15,8 @@ byte red[8], green[8];
 void cleardisplay() {
   int i;
   for(i = 0; i < 8; i++) {
-    red[i] = 0;
-    green[i] = 0;
+    red[i] = 255;
+    green[i] = 255;
   }
 }
 
@@ -31,13 +33,11 @@ void writedisplay() {
   i++;
   if(i == 8) i = 0;
 
-  if(green[i] != 0 || red[i] != 0) {
-    digitalWrite(LATCHPIN, LOW);
-    shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, powers[i]);
-    shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, green[i]);
-    shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, red[i]);
-    digitalWrite(LATCHPIN, HIGH);
-  }
+  digitalWrite(LATCHPIN, LOW);
+  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, 0);
+  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, 0);
+  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, 255 - powers[i]);
+  digitalWrite(LATCHPIN, HIGH);
 }
 
 void setup() {
@@ -48,13 +48,9 @@ void setup() {
   
   cleardisplay();
   randomSeed(analogRead(0));
-  MsTimer2::set(2, writedisplay);
+  MsTimer2::set(1000, writedisplay);
   MsTimer2::start();
 }
 
 void loop() {
-  if(random(0, 10) == 3) cleardisplay();
-  setpixel(random(0, 8), random(0, 8), red);
-  setpixel(random(0, 8), random(0, 8), green);
-  delay(100);
 }
