@@ -12,7 +12,7 @@ def Returns(unused_cursor):
   return ['=Humidity delta']
 
 
-def Calculate(inputs, redirects, log=None):
+def Calculate(inputs, redirects, step_size=None, log=None):
   """Determine delta."""
 
   out = []

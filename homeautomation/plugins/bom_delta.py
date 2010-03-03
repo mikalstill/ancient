@@ -13,7 +13,7 @@ def Returns(unused_cursor):
 
 
 UNDEFINED = 999999999
-def Calculate(inputs, redirects, log=None):
+def Calculate(inputs, redirects, step_size=None, log=None):
   """Determine delta."""
 
   out = []

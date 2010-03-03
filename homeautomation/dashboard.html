@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>Home Dashboard</title>
+<meta http-equiv="refresh" content="300">
+</head>
+<body>
+
+<table width=100%><tr><td>
+
+<h1>Temperature</h1>
+<a href="/chart/today/Outside deck,Outside garage rear,Inside rear,Roof cavity rear,Inside lounge,Inside lounge TV"><img src="/image/today/Outside deck,Outside garage rear,Inside rear,Roof cavity rear,Inside lounge,Inside lounge TV"></a>
+
+<h1>Temperature history</h1>
+
+<a href="/chart/today,3,0/=Outside min,=Outside max,=Inside min,=Inside max"><img src="/image/today,3,0/=Outside min,=Outside max,=Inside min,=Inside max"></a>
+
+</td><td>
+
+<h1>Power use</h1>
+<a href="/chart/today;yesterday/=Watts"><img src="/image/today;yesterday/=Watts"></a>
+
+<h1>Humidity history</h1>
+
+<a href="/chart/today,3,0/=Inside humidity,=Outside humidity,BOM relative humidity %"><img src="/image/today,3,0/=Inside humidity,=Outside humidity,BOM relative humidity %"></a>
+
+</td></tr><table>
+
+<h1>Now</h1>
+{{now}}
+</body>
+</html>

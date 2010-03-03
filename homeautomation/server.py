@@ -26,7 +26,7 @@ from mpygooglechart import Axis
 
 FLAGS = gflags.FLAGS
 MIN_Y = -30.0
-MAX_Y = 70.0
+MAX_Y = 100.0
 MAX_READINGS_PER_GRAPH = 580
 POWER_COST = 0.138
 PLUGIN_DIR = '/data/src/stillhq_public/trunk/homeautomation/plugins/'
@@ -41,8 +41,8 @@ bytes = 0
 
 
 wiggle = [0]
-backwards = range(-30, 0, 1)
-forwards = range(30, 0, -1)
+backwards = range(-150, 0, 1)
+forwards = range(150, 0, -1)
 while backwards:
   wiggle.append(backwards.pop())
   wiggle.append(forwards.pop())
@@ -68,8 +68,7 @@ class http_handler(mhttp.http_handler):
   def dispatch(self, urlpath, post_data):
     if urlpath == '/':
       now_tuple = datetime.datetime.now().timetuple()
-      self.sendredirect('/chart/today,3,0/Beer%20fridge,Outside%20deck,'
-                        'Roof%20cavity%20rear,Inside%20rear')
+      self.sendredirect('/dashboard')
 
     elif urlpath.startswith('/sensor/'):
       self.sendredirect(urlpath.replace('/sensor/', '/chart/'))
@@ -77,11 +76,20 @@ class http_handler(mhttp.http_handler):
     elif urlpath.startswith('/chart'):
       self.handleurl_chart(urlpath, post_data)
 
+    elif urlpath.startswith('/image'):
+      self.handleurl_image(urlpath, post_data)
+
     elif urlpath.startswith('/table'):
       self.handleurl_table(urlpath, post_data)
 
+    elif urlpath.startswith('/csv'):
+      self.handleurl_csv(urlpath, post_data)
+
     elif urlpath.startswith('/chilltime'):
       self.handleurl_chilltime(urlpath, post_data)
+
+    elif urlpath.startswith('/dashboard'):
+      self.handleurl_dashboard(urlpath, post_data)
 
     # TODO(mikal): this should be in mhttp
     elif urlpath.startswith('/local/'):
@@ -273,7 +281,40 @@ class http_handler(mhttp.http_handler):
             '</ul>']
   
   def handleurl_chart(self, urlpath, post_data):
-    """Pretty graphs."""
+    """Pretty graphs wrapped in HTML."""
+
+    global sensor_names
+
+    db = MySQLdb.connect(user = 'root', db = 'home')
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+    args = urlpath.split('/')
+    links = ['<a href="/table/%s">Table</a>' % '/'.join(args[2:])]
+
+    ranges = []
+    times = []
+    for time_field in args[2].split(';'):
+      # Each range is (start_epoch, end_epoch, day_field)
+      ranges.append(self.timewindow(time_field.split(',')))
+      times.append(time_field)
+    self.log('Time ranges: %s' % repr(ranges))
+
+    data = []
+    if len(args) < 4:
+      data = self.AvailableSensors(cursor, ranges[0])
+
+    else:
+      sensors = mhttp.urldecode(args[3]).split(',')
+      data = ['<h1>%s</h1><ul>' % ', '.join(sensors),
+              '<img src="%s">' % urlpath.replace('chart', 'image'),
+              '</ul>']
+
+    self.sendfile('index.html', subst={'data': '\n'.join(data),
+                                       'links': ' '.join(links),
+                                       'refresh': '60'})
+
+  def handleurl_image(self, urlpath, post_data):
+    """Pretty graphs with the HTML."""
 
     global sensor_names
 
@@ -289,151 +330,154 @@ class http_handler(mhttp.http_handler):
       times.append(time_field)
     self.log('Time ranges: %s' % repr(ranges))
 
-    data = []
-    if len(args) < 4:
-      data = self.AvailableSensors(cursor, ranges[0])
+    # TODO(mikal): add options parsing here
+    sensors = mhttp.urldecode(args[3]).split(',')
+    wideinterp = True
 
-    else:
-      sensors = mhttp.urldecode(args[3]).split(',')
-      data = ['<h1>%s</h1><ul>' % ', '.join(sensors)]
+    # Build a chart
+    chart = SimpleLineChart(600, 400, y_range=[MIN_Y, MAX_Y])
+    chart.set_title('Sensors')
+    chart.set_colours(['0000FF', '00FF00', 'FF0000',
+                       'dd5500', 'ee11ff', '88ddff',
+                       '44cc00', 'bb0011', '11aaff'])
+    chart.set_grid(0, 20, 5, 5)
 
-      # TODO(mikal): add options parsing here
-      wideinterp = True
+    # Chart axes
+    left_axis = []
+    right_axis = []
+    for v in range(MIN_Y, MAX_Y + 1.0, 5):
+      left_axis.append('%s' % v)
+      right_axis.append('%.01fk' %((v * 50.0) / 1000))
+    chart.set_axis_labels(Axis.LEFT, left_axis)
+    chart.set_axis_labels(Axis.RIGHT, right_axis)
 
-      # Build a chart
-      chart = SimpleLineChart(600, 400, y_range=[MIN_Y, MAX_Y])
-      chart.set_title('Sensors')
-      chart.set_colours(['0000FF', '00FF00', 'FF0000',
-                         'dd5500', 'ee11ff', '88ddff',
-                         '44cc00', 'bb0011', '11aaff'])
-      chart.set_grid(0, 20, 5, 5)
+    bottom_axis = []
+    for v in range(ranges[0][0], ranges[0][1] + 1,
+                   max(1, (ranges[0][1] - ranges[0][0]) / 5)):
+      tuple = time.localtime(v)
+      if len(ranges) == 1:
+        bottom_axis.append('%d/%d %02d:%02d' %(tuple[2], tuple[1],
+                                               tuple[3], tuple[4]))
+      else:
+        bottom_axis.append('%02d:%02d' %(tuple[3], tuple[4]))
+    chart.set_axis_labels(Axis.BOTTOM, bottom_axis)
 
-      # Chart axes
-      left_axis = []
-      right_axis = []
-      for v in range(MIN_Y, MAX_Y + 1.0, 5):
-        left_axis.append('%s' % v)
-        right_axis.append('%.01fk' %((v * 50.0) / 1000))
-      chart.set_axis_labels(Axis.LEFT, left_axis)
-      chart.set_axis_labels(Axis.RIGHT, right_axis)
+    # Determine how many values will be on the graph
+    returned = []
+    for sensor in sensors:
+      for item in self.ResolveWouldReturn(cursor, sensor, ranges[0][0],
+                                          ranges[0][1]):
+        if not item in returned:
+          returned.append(item)
+    self.log('Calculations will return: %s' % repr(returned))
 
-      bottom_axis = []
-      for v in range(ranges[0][0], ranges[0][1] + 1,
-                     max(1, (ranges[0][1] - ranges[0][0]) / 5)):
-        tuple = time.localtime(v)
-        if len(ranges) == 1:
-          bottom_axis.append('%d/%d %02d:%02d' %(tuple[2], tuple[1],
-                                                 tuple[3], tuple[4]))
-        else:
-          bottom_axis.append('%02d:%02d' %(tuple[3], tuple[4]))
-      chart.set_axis_labels(Axis.BOTTOM, bottom_axis)
+    # Fetch those values
+    step_size = ((ranges[0][1] - ranges[0][0]) /
+                 (MAX_READINGS_PER_GRAPH / (len(returned) * len(ranges))))
+    self.log('%d time series, each pixel is %d seconds'
+             %(len(returned) * len(ranges), step_size))
 
-      # Determine how many values will be on the graph
-      returned = []
+    # Put the values on the chart
+    legend = []
+    for r in ranges:
+      values = {}
+      redirects = {}
+
       for sensor in sensors:
-        for item in self.ResolveWouldReturn(cursor, sensor, ranges[0][0],
-                                            ranges[0][1]):
-          if not item in returned:
-            returned.append(item)
-      self.log('Calculations will return: %s' % repr(returned))
-      
-      # Fetch those values
-      step_size = ((ranges[0][1] - ranges[0][0]) /
-                   (MAX_READINGS_PER_GRAPH / (len(returned) * len(ranges))))
-      self.log('%d time series, each pixel is %d seconds'
-               %(len(returned) * len(ranges), step_size))
+        (values, redirects) = self.ResolveSensor(values, redirects, cursor,
+                                                 sensor, r[0], r[1],
+                                                 step_size, wideinterp)
+      self.log('Resolved values: %s' % values.keys())
 
-      # Put the values on the chart
-      legend = []
-      for r in ranges:
-        values = {}
-        redirects = {}
+      for value in returned:
+        self.log('Adding %s' % value)
+        chart.add_data(values[value])
 
-        for sensor in sensors:
-          (values, redirects) = self.ResolveSensor(values, redirects, cursor,
-                                                   sensor, r[0], r[1],
-                                                   step_size, wideinterp)
-        self.log('Resolved values: %s' % values.keys())
+        if len(ranges) == 1:
+          legend.append(value)
+        else:
+          legend.append('%s %s' %(value, times[0]))
+      times = times[1:]
 
-        for value in returned:
-          self.log('Adding %s' % value)
-          chart.add_data(values[value])
+    chart.set_legend(legend)
 
-          if len(ranges) == 1:
-            legend.append(value)
-          else:
-            legend.append('%s %s' %(value, times[0]))
-        times = times[1:]
+    # Add markers
+    cursor.execute('select * from events where '
+                   'epoch_seconds > %d and epoch_seconds < %d '
+                   'order by epoch_seconds asc;'
+                   %(ranges[0][0], ranges[0][1]))
+    for row in cursor:
+      chart.add_marker(0, (row['epoch_seconds'] - ranges[0][0]) / step_size,
+                       'o', '00ff00', 10)
 
-      chart.set_legend(legend)
+    self.sendredirect(chart.get_url())
 
-      # Add markers
-      cursor.execute('select * from events where '
-                     'epoch_seconds > %d and epoch_seconds < %d '
-                     'order by epoch_seconds asc;'
-                     %(ranges[0][0], ranges[0][1]))
-      for row in cursor:
-        chart.add_marker(0, (row['epoch_seconds'] - ranges[0][0]) / step_size,
-                         'o', '00ff00', 10)
-
-      data.append('<img src="%s">' % chart.get_url())
-      data.append('</ul>')
-      
-    self.sendfile('index.html', subst={'data': '\n'.join(data),
-                                       'refresh': '60'})
-
-  def handleurl_table(self, urlpath, post_data):
-    """A table of data."""
+  def FetchTableData(self, args):
+    """Fetch a table's worth of data."""
 
     global sensor_names
 
     db = MySQLdb.connect(user = 'root', db = 'home')
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
-    args = urlpath.split('/')
-
     wideinterp = True
-    incomplete = True
     for param in args[1].split(','):
       self.log('Considering table param: %s' % param)
       if param == 'nowideinterpolation':
         wideinterp = False
-      elif param == 'noincomplete':
-        incomplete = False
-
-    self.log('Table parameters: wideinterpolation = %s, incomplete = %s'
-             %(wideinterp, incomplete))
+    self.log('Data fetch parameters: wideinterpolation = %s' % wideinterp)
     
     (start_epoch, end_epoch, day_field) = self.timewindow(args[2].split(','))
+  
+    sensors = mhttp.urldecode(args[3]).split(',')
+    data = ['<h1>%s</h1><ul>' % ', '.join(sensors)]
 
+    values = {}
+    redirects = {}
+    step_size = 60
+
+    # Determine how many values will be on the graph
+    returned = []
+    for sensor in sensors:
+      for item in self.ResolveWouldReturn(cursor, sensor, start_epoch,
+                                          end_epoch):
+        if not item in returned:
+          returned.append(item)
+    self.log('Calculations will return: %s' % repr(returned))
+
+    # Fetch data points for the table
+    for sensor in sensors:
+      (values, redirects) = self.ResolveSensor(values, redirects, cursor,
+                                               sensor, start_epoch,
+                                               end_epoch, step_size,
+                                               wideinterp)
+      self.log('Resolved values: %s' % values.keys())
+
+    return (start_epoch, end_epoch, step_size, returned, values)
+
+  def handleurl_table(self, urlpath, post_data):
+    """A table of data."""
+
+    global sensor_names
+
+    args = urlpath.split('/')
+    links = ['<a href="/chart/%s">Chart</a>' % '/'.join(args[2:]),
+             '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:])]
     data = []
+
+    incomplete = True
+    for param in args[1].split(','):
+      self.log('Considering table param: %s' % param)
+      if param == 'noincomplete':
+        incomplete = False
+    self.log('Table parameters: incomplete = %s' % incomplete)
+
     if len(args) < 4:
       data = self.AvailableSensors(cursor, ranges[0])
 
     else:
-      sensors = mhttp.urldecode(args[3]).split(',')
-      data = ['<h1>%s</h1><ul>' % ', '.join(sensors)]
-
-      values = {}
-      redirects = {}
-      step_size = 60
-
-      # Determine how many values will be on the graph
-      returned = []
-      for sensor in sensors:
-        for item in self.ResolveWouldReturn(cursor, sensor, start_epoch,
-                                            end_epoch):
-          if not item in returned:
-            returned.append(item)
-      self.log('Calculations will return: %s' % repr(returned))
-      
-      # Fetch data points for the table
-      for sensor in sensors:
-        (values, redirects) = self.ResolveSensor(values, redirects, cursor,
-                                                 sensor, start_epoch,
-                                                 end_epoch, step_size,
-                                                 wideinterp)
-        self.log('Resolved values: %s' % values.keys())
+      (start_epoch, end_epoch, step_size,
+       returned, values) = self.FetchTableData(args)
 
       # Tell people what we fetched
       data.append('<i>To generate this table, we fetched the following values:'
@@ -474,7 +518,82 @@ class http_handler(mhttp.http_handler):
       data.append('</table>')
       
     self.sendfile('index.html', subst={'data': '\n'.join(data),
+                                       'links': ' '.join(links),
                                        'refresh': '3600'})
+
+  def handleurl_csv(self, urlpath, post_data):
+    """A table of csv formatted data."""
+
+    global sensor_names
+
+    args = urlpath.split('/')
+    data = []
+
+    incomplete = True
+    for param in args[1].split(','):
+      self.log('Considering table param: %s' % param)
+      if param == 'noincomplete':
+        incomplete = False
+    self.log('Table parameters: incomplete = %s' % incomplete)
+
+    if len(args) < 4:
+      data = self.AvailableSensors(cursor, ranges[0])
+
+    else:
+      (start_epoch, end_epoch, step_size,
+       returned, values) = self.FetchTableData(args)
+
+      # The table
+      header = ['timestamp']
+      for sensor in returned:
+        header.append('%s' % sensor_names.get(sensor, sensor))
+      data.append(','.join(header))
+
+      if incomplete:
+        target = 1
+      else:
+        target = len(returned)
+
+      for i in range(start_epoch, end_epoch, step_size):
+        row = '%s' % datetime.datetime.fromtimestamp(i)
+        non_null = 0
+        for sensor in returned:
+          row += ', %s' % values[sensor][0]
+
+          if not values[sensor][0] is None:
+            non_null += 1
+          values[sensor] = values[sensor][1:]
+
+        if non_null >= target:
+          data.append(row)
+      
+    self.senddata('\n'.join(data))
+
+  def handleurl_dashboard(self, urlpath, post_data):
+    """A simple dashboard."""
+
+    global sensor_names
+    
+    db = MySQLdb.connect(user = 'root', db = 'home')
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
+    cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
+
+    now = []
+    cursor.execute('select distinct(sensor), ip from sensors;')
+    for row in cursor:
+      cursor2.execute('select * from sensors where sensor="%s" and ip="%s" '
+                      'and epoch_seconds > %d '
+                      'order by epoch_seconds desc limit 1;'
+                      %(row['sensor'], row['ip'],
+                        time.time() - (24 * 60 * 60)))
+      for row2 in cursor2:
+        t = datetime.datetime.fromtimestamp(row2['epoch_seconds'])
+        now.append('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
+                   %(sensor_names.get(row2['sensor'], row2['sensor']),
+                     row2['ip'], row2['value'], t))
+
+    self.sendfile('dashboard.html', subst={'now': ('<table>%s</table>'
+                                                   % '\n'.join(now))})
 
   def HandleRedirects(self, values, redirects, name):
     """Lookup a value which might have a redirect."""
@@ -567,7 +686,8 @@ class http_handler(mhttp.http_handler):
       # Calculate
       self.log('Calculating derived values with inputs: %s'
                % input_values.keys())
-      values[sensor] = plugin.Calculate(input_values, redirects, log=self.log)
+      values[sensor] = plugin.Calculate(input_values, redirects,
+                                        step_size=step_size, log=self.log)
 
     else:
       sensors = self.ExpandSensorName(sensor)
@@ -733,7 +853,7 @@ def Cleanup():
 
   cursor.execute('select * from cleanup where upto < %d '
                  'order by upto desc limit 1;'
-                 % (time.time() - (7 * 24 * 60 * 60)))
+                 % (time.time() - (3 * 24 * 60 * 60)))
   for row in cursor:
     t = datetime.datetime.fromtimestamp(row['upto'])
     print ('%s: Cleaning %s at %s (from %s)'
@@ -743,7 +863,7 @@ def Cleanup():
                     'epoch_seconds > %d and epoch_seconds < %d '
                     'order by epoch_seconds desc;'
                     %(row['sensor'], row['ip'], row['upto'] - 1,
-                      row['upto'] + 61))
+                      row['upto'] + 301))
     timestamps = []
     for row2 in cursor2:
       if not timestamps:
@@ -784,7 +904,7 @@ def Cleanup():
                                     cursor2.rowcount)
       cursor2.execute('commit;')
 
-    cursor2.execute('update cleanup set upto=upto + 60 '
+    cursor2.execute('update cleanup set upto=upto + 300 '
                     'where sensor="%s" and ip="%s";'
                     %(row['sensor'], row['ip']))
     cursor2.execute('commit;')

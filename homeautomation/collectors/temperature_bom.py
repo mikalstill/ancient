@@ -43,8 +43,9 @@ def Collect(cursor):
           elif t[-2] == 'a' and hour == 12:
             hour = 0
 
-          print 'Most recent reading from %s/%s/%s %s:%s' %(year, month, day,
-                                                            hour, minute)
+          print '%s: Most recent reading from %s/%s/%s %s:%s' %(datetime.datetime.now(),
+                                                                year, month, day,
+                                                                hour, minute)
           dt = datetime.datetime(year, month, day, hour, minute)
           print '%s: Parsed date: %s' %(datetime.datetime.now(), dt)
           reading.append(time.mktime(dt.timetuple()))
@@ -62,7 +63,6 @@ def Collect(cursor):
                       'BOM Dew point', 'BOM Apparent temperature',
                       'BOM Temperature']:
           if field != '-':
-            print '%s = %s' %(field, reading[-1])
             cursor.execute('insert ignore into sensors(epoch_seconds, sensor, '
                            'value, ip) values(%s, "%s", "%s", "%s");'
                            %(epoch, field, reading.pop(), id))

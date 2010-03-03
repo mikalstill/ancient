@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Munge the watts reading into something which works on the graph scale
+# Calculate cumulative kilo watt hours
 
 def Requires(cursor, sensor_names):
   """Required inputs."""
@@ -9,19 +9,20 @@ def Requires(cursor, sensor_names):
 
 def Returns(unused_cursor):
   """What values would be returned?"""
-  return ['=Watts']
+  return ['=WattHours']
 
 
 def Calculate(inputs, redirects, step_size=None, log=None):
-  """Munge values to fit graph scale."""
+  """Count kWh."""
 
   out = []
+  total = 0.0
+
   while inputs['Watts']:
     if inputs['Watts'][0]:
-      out.append(float(inputs['Watts'][0]) / 50)
-    else:
-      out.append(None)
+      total += float(inputs['Watts'][0]) * step_size / 3600 / 1000
 
+    out.append(total)
     for input in inputs:
       inputs[input] = inputs[input][1:]
 

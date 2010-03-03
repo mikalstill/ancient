@@ -15,7 +15,7 @@ def Returns(unused_cursor):
   return ['=Watts average']
 
 
-def Calculate(inputs, redirects, log=None):
+def Calculate(inputs, redirects, step_size=None, log=None):
   """Determine SAMPLE_SIZE sample rolling average"""
 
   out = []

@@ -1,19 +1,19 @@
 #!/usr/bin/python
 
-# What was the maximum outside temperature reported?
+# What was the maximum inside temperature reported?
 
 def Requires(cursor, sensor_names):
-  """Lookup all outside temperature sensors."""
+  """Lookup all inside temperature sensors."""
 
-  outside_sensors = []
+  inside_sensors = []
   for k in sensor_names:
-    if sensor_names[k].startswith('Outside '):
-      outside_sensors.append(k)
+    if sensor_names[k].startswith('Inside '):
+      inside_sensors.append(k)
 
   out = []
   sql = ('select distinct(sensor) from sensors where '
-         'sensor like "Outside %%" or sensor in ("%s");'
-         % '", "'.join(outside_sensors))
+         'sensor like "Inside %%" or sensor in ("%s");'
+         % '", "'.join(inside_sensors))
 
   cursor.execute(sql)
   for row in cursor:
@@ -24,7 +24,7 @@ def Requires(cursor, sensor_names):
 
 def Returns(unused_cursor):
   """What values would be returned?"""
-  return ['=Outside max']
+  return ['=Inside max']
 
 
 UNDEFINED = -99999999.0

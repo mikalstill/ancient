@@ -5,6 +5,7 @@
 import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
+import datetime
 import os
 import time
 import MySQLdb
@@ -19,10 +20,13 @@ db = MySQLdb.connect(user = 'root', db = 'home')
 cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
 
-while True:
-  for ent in os.listdir(COLLECTOR_DIR):
-    if ent.endswith('.py'):
+for ent in os.listdir(COLLECTOR_DIR):
+  if ent.endswith('.py'):
+    print
+    print '----------------------------------------------------------'
+    print '%s: Running %s' %(datetime.datetime.now(), ent)
+    try:
       plugin = mplugin.LoadPlugin(COLLECTOR_DIR, ent[:-3], log=None)
       plugin.Collect(cursor)
-
-  time.sleep(10)
+    except Exception, e:
+      print '%s: Exception: %s' %(datetime.datetime.now(), e)

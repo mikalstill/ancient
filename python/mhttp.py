@@ -180,17 +180,21 @@ class http_handler(asyncore.dispatcher):
       self.close()
 
   def writable(self):
+    self.log('Client could read: %s' % (len(self.buffer) > 0))
     return len(self.buffer) > 0
 
   def handle_write(self):
     global bytes
     
+    self.log('Client attempting read')
     try:
       sent = self.send(self.buffer)
       bytes += sent
+      self.log('%d bytes sent to client' % sent)
 
       self.buffer = self.buffer[sent:]
       if len(self.buffer) == 0:
+        # TODO(mikal): this code does not belong here
         if self.is_mp3 and self.is_tracked and self.id:
           self.log('MP3 request complete')
           delta = datetime.datetime.now() - self.streamed_at
@@ -201,8 +205,8 @@ class http_handler(asyncore.dispatcher):
 
         self.close()
 
-    except:
-      pass
+    except Exception, e:
+      self.log('Client read error: %s' % e)
 
   def handle_close(self):
     pass
@@ -264,6 +268,11 @@ class http_handler(asyncore.dispatcher):
       for l in data.split('\n'):
         self.log('REPLY %s' % l, console=FLAGS.showresponse)
     
+    self.buffer += data
+
+  def senddata(self, data):
+    """Send just some data."""
+
     self.buffer += data
 
   def substitute(self, data, subst):

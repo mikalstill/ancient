@@ -14,7 +14,7 @@ def Returns(unused_cursor):
   return ['=Outside humidity']
 
 
-def Calculate(inputs, redirects, log=None):
+def Calculate(inputs, redirects, step_size=None, log=None):
   """Calculated humidity."""
 
   out = []
