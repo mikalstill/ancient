@@ -88,6 +88,7 @@
             <input type="checkbox" name="random" value="Random" {{random_checked}}>Random</a>
         </td>
     </tr>
+    <tr>
         <td>
             <script type='text/javascript'>trackIds.push("nosuch");</script>
             <span id="nosuch_state"></span>
@@ -112,6 +113,13 @@
         new Ajax.Request("/skipped/" + trackId, {method:'get', onSuccess:goNext});
       }
 
+      function removeTrack(id) {
+        allTrackIds.splice(allTrackIds.indexOf(id), 1);
+        trackIds.splice(trackIds.indexOf(id), 1);
+        jQuery("#trackIds").html(allTrackIds.join(', '));
+        setTrackColor(id, '#BBBBFF');
+      }
+
       function mergeButton() {
         new Ajax.Request("/merge/" + allTrackIds.join(','),
                          {method: 'get', onSuccess:null})
@@ -127,13 +135,16 @@
         soundManager.stop(trackId);
 	soundManager.unload(trackId);
 	soundManager.destroySound(trackId);
-	
-	var tr = document.getElementById(trackId + "_row");
+	setTrackColor(trackId, color);
+      }
+
+      function setTrackColor(id, color) {
+	var tr = document.getElementById(id + "_row");
 	if (tr != null) {
 	  tr.style.backgroundColor = color;
         }
 
-	document.getElementById(trackId + "_state").innerHTML = "";
+	document.getElementById(id + "_state").innerHTML = "";
       }
 
       function goNext() {
@@ -164,7 +175,7 @@
           document.getElementById("position").innerHTML = position_min + ":" + position_sec + " of " + duration_min + ":" + duration_sec;
 	  }
 
-        soundManager.setVolume('aSound', 50);
+        soundManager.setVolume('aSound', 30);
         mySound.play();
       }
 
@@ -181,5 +192,9 @@
       };
     </script>
 
+<i>All track ids: <span id="trackIds"></span></i>
+<script type='text/javascript'>
+  jQuery("#trackIds").html(allTrackIds.join(', '));
+</script>
 </body>
 </html>

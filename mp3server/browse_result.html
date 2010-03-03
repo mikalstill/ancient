@@ -5,12 +5,12 @@
 	     allTrackIds.push("{{id}}");
 	     trackUrls["{{id}}"] = "{{mp3_url}}";
         </script>
-        <span id="{{id}}_state"></span>
+        <span id="{{id}}_state"><input type="button" onClick="removeTrack('{{id}}');" value="X"></span>
     </td>
     <td><span id="{{id}}_artist">{{artist}}</span></td>
     <td><span id="{{id}}_album">{{album}}</span></td>
-    <td><span id="{{id}}_title" title="{{paths}}">{{number}} {{song}}</span></td>
+    <td><span id="{{id}}_title" title="{{paths}}">{{number}} {{song}}</span> <a href="{{mp3_url}}">mp3</a></td>
     <td>{{plays}}</td>
     <td>{{skips}}</td>
-    <td>{{creation_time}}</td>
+    <td>{{creation_time}}</i></td>
 </tr>

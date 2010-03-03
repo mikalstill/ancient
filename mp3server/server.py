@@ -6,7 +6,9 @@ import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
 import asyncore
+import base64
 import datetime
+import os
 import re
 import time
 import uuid
@@ -43,7 +45,7 @@ class http_server(mhttp.http_server):
 
 
 class http_handler(mhttp.http_handler):
-  def dispatch(self, file, post_data):
+  def dispatch(self, file, post_data, chunk=None):
     global db
     
     # Implementation of uPnP -- must come before cookie set

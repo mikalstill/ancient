@@ -165,7 +165,7 @@ class http_handler(asyncore.dispatcher):
           self.log('DATA %s' % l, console=FLAGS.showpost)
 
     try:
-      self.dispatch(file, post_data)
+      self.dispatch(file, post_data, chunk=chunk)
     except Exception, e:
       self.sendtraceback()
 
@@ -315,7 +315,7 @@ class http_handler(asyncore.dispatcher):
     self.buffer += ('<html><head><title>MP3 server</title></head>'
                      '<body>%s</body>'
                      % msg)
-    self.log('Sent %d error' % number)
+    self.log('Sent %d error: %s' %(number, msg))
 
   def sendheaders(self, headers):
     """Send HTTP response headers."""
