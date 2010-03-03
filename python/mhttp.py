@@ -193,6 +193,8 @@ class http_handler(asyncore.dispatcher):
       self.log('%d bytes sent to client' % sent)
 
       self.buffer = self.buffer[sent:]
+      self.log('%d bytes queued' % len(self.buffer))
+
       if len(self.buffer) == 0:
         # TODO(mikal): this code does not belong here
         if self.is_mp3 and self.is_tracked and self.id:
@@ -206,10 +208,10 @@ class http_handler(asyncore.dispatcher):
         self.close()
 
     except Exception, e:
-      self.log('Client read error: %s' % e)
+      self.log('Error writing to client: %s' % e)
 
   def handle_close(self):
-    pass
+    self.log('Connection closed')
 
   def handleurl_root(self, post_data):
     """The top level page."""
