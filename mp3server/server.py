@@ -61,18 +61,21 @@ class http_handler(mhttp.http_handler):
 
     else:
       # Normal clients can handle cookies
-      if not self.cookie:
+      if not self.cookie or 'mp3_server_id' not in self.cookie:
         db.ExecuteSql('insert into clients(createtime) values(now());')
         row = db.GetOneRow('select last_insert_id();')
-        self.cookie = 'id=%s' % row['last_insert_id()']
-        self.extra_headers.append('Set-Cookie: id=%s; '
+        self.cookie = 'mp3_server_id=%s' % row['last_insert_id()']
+        self.extra_headers.append('Set-Cookie: mp3_server_id=%s; '
                                   'expires=Sun, 17 Jan 2038 09:00:00 GMT'
                                   % row['last_insert_id()'])
+        self.log('Created new client id %s' % row['last_insert_id()'])
 
       # Extract the id
+      self.log('Cookie is %s' % self.cookie)
       for elem in self.cookie.split('; '):
-        if elem.startswith('id='):
-          self.client_id = int(elem[3:])
+        if elem.startswith('mp3_server_id='):
+          self.client_id = int(elem[14:])
+      self.log('This is client id %s' % self.client_id)
 
       db.ExecuteSql('update clients set requests=0 '
                     'where requests is null;')
@@ -141,6 +144,9 @@ class http_handler(mhttp.http_handler):
 
           if name == 'mp3_source':
             self.log('Updating MP3 source to %s' % value)
+            db.ExecuteSql('insert ignore into clients(id, createtime) '
+                          'values(%s, now());'
+                          % self.client_id)
             db.ExecuteSql('update clients set mp3_source="%s" '
                           'where id=%s;'
                           %(value, self.client_id))
