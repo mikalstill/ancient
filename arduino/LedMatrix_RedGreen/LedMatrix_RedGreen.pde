@@ -23,6 +23,11 @@ void setpixel(int x, int y, byte *color) {
     color[y] += powers[x];
 }
 
+void clearpixel(int x, int y, byte *color) {
+  if(color[y] & powers[x])
+    color[y] -= powers[x];
+}
+
 // Flush the display state to the shift registers. This is done in an ISR and
 // can't use delay(), hence the slightly odd looping.
 void writedisplay() {
@@ -31,13 +36,11 @@ void writedisplay() {
   i++;
   if(i == 8) i = 0;
 
-  if(green[i] != 0 || red[i] != 0) {
-    digitalWrite(LATCHPIN, LOW);
-    shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, powers[i]);
-    shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, green[i]);
-    shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, red[i]);
-    digitalWrite(LATCHPIN, HIGH);
-  }
+  digitalWrite(LATCHPIN, LOW);
+  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, powers[i]);
+  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, green[i]);
+  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, red[i]);
+  digitalWrite(LATCHPIN, HIGH);
 }
 
 void setup() {
@@ -53,8 +56,33 @@ void setup() {
 }
 
 void loop() {
-  if(random(0, 10) == 3) cleardisplay();
-  setpixel(random(0, 8), random(0, 8), red);
-  setpixel(random(0, 8), random(0, 8), green);
-  delay(100);
+  //if(random(0, 10) == 3) cleardisplay();
+  //setpixel(random(0, 8), random(0, 8), red);
+  //setpixel(random(0, 8), random(0, 8), green);
+  
+  int i, j;
+  
+  cleardisplay();
+  delay(1000);
+  
+  for(i = 0; i < 8; i++){
+    for(j = 0; j < 8; j++){
+      delay(500);
+      if(j != 300){
+        setpixel(i, j, red);
+      }
+    }
+  }
+  delay(1000);
+  
+  cleardisplay();
+  for(i = 0; i < 8; i++){
+    for(j = 0; j < 8; j++){
+      delay(500);
+      if(j != 300){
+        setpixel(i, j, green);
+      }
+    }
+  }
+  delay(1000);
 }

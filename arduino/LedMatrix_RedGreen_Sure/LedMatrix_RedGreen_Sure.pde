@@ -47,7 +47,7 @@ void setup() {
   pinMode(DATAPIN, OUTPUT);
   
   cleardisplay();
-  randomSeed(analogRead(0));
+  //randomSeed(analogRead(0));
   MsTimer2::set(1000, writedisplay);
   MsTimer2::start();
 }
