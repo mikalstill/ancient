@@ -83,7 +83,7 @@ class BusinessLogic(object):
           mp3_url = ('%s/%s' %(client_settings['mp3_source'],
                                row['path'].replace(FLAGS.audio_path, '')))
         else:
-          mp3_url = 'mp3/%s' % id
+          mp3_url = '/mp3/%s' % id
 
         self.log('MP3 ok: %s' % mp3_url)
         return (mp3_url, row['path'])

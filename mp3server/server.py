@@ -169,7 +169,7 @@ class http_handler(mhttp.http_handler):
     self.markskipped()
     skips.setdefault(self.addr[0], 0)
     rendered = blogic.picktrack(client_id=self.client_id,
-                                  skips=skips[self.addr[0]])
+                                skips=skips[self.addr[0]])
     requests[self.addr[0]] = (datetime.datetime.now(), rendered['id'])
     self.log('MP3 url is %s' % rendered['mp3_url'])
     if not rendered:
