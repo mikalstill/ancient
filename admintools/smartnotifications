@@ -2,7 +2,7 @@
 
 hostname=`hostname`
 
-for dev in $*
+for dev in `ls /dev/sd[a-z]`
 do
   if [[ "$dev" =~ sd.* ]]
   then
@@ -11,11 +11,11 @@ do
     type=""
   fi
 
-  echo "$hostname $dev: smartctl $type -l error /dev/$dev"
-  errors=`/usr/sbin/smartctl $type -T permissive -l error /dev/$dev | grep "Error Count"`
-  echo $errors
+  echo "$hostname $dev: smartctl $type -l error $dev"
+  errors=`/usr/sbin/smartctl $type -T permissive -l error $dev | grep -c "Error Count"`
+  echo "$hostname $dev: $errors errors"
 
-  if [ "%$errors%" != "%%" ]
+  if [ $errors -gt 0 ]
   then
     echo "Sent notification"
     echo "$hostname $dev: $errors" | notify mikalstill@gmail.com
