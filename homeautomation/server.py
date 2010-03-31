@@ -460,6 +460,9 @@ class http_handler(mhttp.http_handler):
 
     global sensor_names
 
+    db = MySQLdb.connect(user = 'root', db = 'home')
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
     args = urlpath.split('/')
     links = ['<a href="/chart/%s">Chart</a>' % '/'.join(args[2:]),
              '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:])]
