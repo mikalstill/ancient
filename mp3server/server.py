@@ -211,9 +211,9 @@ class http_handler(mhttp.http_handler):
                'unplayed_filter': '',
                'unplayed_filter_compiled': '',
                'unplayed_checked': '',
-               'random_filter': '',
+               'random_filter': 'Random',
                'random_filter_compiled': '',
-               'random_checked': '',
+               'random_checked': 'checked',
               }
 
     # I am sure there is a better way than this
@@ -421,7 +421,7 @@ class http_handler(mhttp.http_handler):
     """Undo a merge."""
 
     (_, _, tracks) = file.split('/')
-    tracks = tracks.split(',')
+    tracks = tracks.replace(' ', '').replace('%20', '').split(',')
 
     self.log('Unmerging %s' % repr(tracks))
     first_track = track.Track(db)
@@ -802,6 +802,8 @@ def main(argv):
                     'last_played is null;')
       db.ExecuteSql('update tracks set last_skipped=makedate(1970,1) where '
                     'last_skipped is null;')
+      db.ExecuteSql('update tracks set plays=0 where plays is null;')
+      db.ExecuteSql('update tracks set skips=0 where skips is null;')
       db.ExecuteSql('commit;')
 
       for row in db.GetRows('select path from paths where error is null '
