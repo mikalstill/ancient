@@ -120,6 +120,12 @@
         setTrackColor(id, '#BBBBFF');
       }
 
+      function preSkipTrack(id) {
+        removeTrack(id);
+        setTrackColor(id, '#FFBBBB');
+        new Ajax.Request("/skipped/" + id, {method:'get'});
+      }
+      
       function mergeButton() {
         new Ajax.Request("/merge/" + allTrackIds.join(','),
                          {method: 'get', onSuccess:null})
