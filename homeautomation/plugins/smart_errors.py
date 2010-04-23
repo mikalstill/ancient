@@ -39,14 +39,20 @@ def Calculate(inputs, redirects, step_size=None, log=None):
 
   while inputs[key]:
     m = 0.0
+    data_seen = False
     for k in REQUIRED_SENSORS:
-      if inputs[k][0]:
+      if inputs[k][0] is not None:
         try:
           m += float(inputs[k][0])
+          data_seen = True
+
         except:
           pass
 
-    out.append(m)
+    if not data_seen:
+      out.append(None)
+    else:
+      out.append(m)
 
     for input in inputs:
       inputs[input] = inputs[input][1:]

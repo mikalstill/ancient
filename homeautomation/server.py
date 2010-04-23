@@ -76,6 +76,9 @@ class http_handler(mhttp.http_handler):
     elif urlpath.startswith('/chart'):
       self.handleurl_chart(urlpath, post_data)
 
+    elif urlpath.startswith('/flash'):
+      self.handleurl_flash(urlpath, post_data)
+
     elif urlpath.startswith('/image'):
       self.handleurl_image(urlpath, post_data)
 
@@ -84,6 +87,9 @@ class http_handler(mhttp.http_handler):
 
     elif urlpath.startswith('/csv'):
       self.handleurl_csv(urlpath, post_data)
+
+    elif urlpath.startswith('/json'):
+      self.handleurl_json(urlpath, post_data)
 
     elif urlpath.startswith('/chilltime'):
       self.handleurl_chilltime(urlpath, post_data)
@@ -182,7 +188,8 @@ class http_handler(mhttp.http_handler):
                 % total)
     data.append('</table>')
 
-    self.sendfile('index.html', subst={'data': '\n'.join(data),
+    self.sendfile('index.html', subst={'head': '',
+                                       'data': '\n'.join(data),
                                        'refresh': '3600'})
 
   def getchilltime(self, start_epoch, end_epoch):
@@ -289,14 +296,12 @@ class http_handler(mhttp.http_handler):
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
-    links = ['<a href="/table/%s">Table</a>' % '/'.join(args[2:])]
+    links = ['<a href="/flash/%s">Flash</a>' % '/'.join(args[2:]),
+             '<a href="/table/%s">Table</a>' % '/'.join(args[2:]),
+             '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:]),
+             '<a href="/json/%s">JSON</a>' % '/'.join(args[2:])]
 
-    ranges = []
-    times = []
-    for time_field in args[2].split(';'):
-      # Each range is (start_epoch, end_epoch, day_field)
-      ranges.append(self.timewindow(time_field.split(',')))
-      times.append(time_field)
+    (ranges, times) = self.ParseTimeField(args[2])
     self.log('Time ranges: %s' % repr(ranges))
 
     data = []
@@ -309,7 +314,49 @@ class http_handler(mhttp.http_handler):
               '<img src="%s">' % urlpath.replace('chart', 'image'),
               '</ul>']
 
-    self.sendfile('index.html', subst={'data': '\n'.join(data),
+    self.sendfile('index.html', subst={'head': '',
+                                       'data': '\n'.join(data),
+                                       'links': ' '.join(links),
+                                       'refresh': '60'})
+
+  def handleurl_flash(self, urlpath, post_data):
+    """Pretty graphs done with flash wrapped in HTML."""
+
+    global sensor_names
+
+    db = MySQLdb.connect(user = 'root', db = 'home')
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+    args = urlpath.split('/')
+    links = ['<a href="/chart/%s">Static</a>' % '/'.join(args[2:]),
+             '<a href="/table/%s">Table</a>' % '/'.join(args[2:]),
+             '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:]),
+             '<a href="/json/%s">JSON</a>' % '/'.join(args[2:])]
+
+    (ranges, times) = self.ParseTimeField(args[2])
+    self.log('Time ranges: %s' % repr(ranges))
+
+    data = []
+    head = []
+    if len(args) < 4:
+      data = self.AvailableSensors(cursor, ranges[0])
+
+    else:
+      sensors = mhttp.urldecode(args[3]).split(',')
+      data = ['<h1>%s</h1><ul>' % ', '.join(sensors),
+              '<div id="my_chart"></div>',
+              '</ul>']
+      head = ['<script type="text/javascript" src="/local/swfobject.js"></script>',
+              '<script type="text/javascript">',
+              'swfobject.embedSWF(',
+              '  "/local/open-flash-chart.swf", "my_chart", "600", "400",',
+              '  "9.0.0", "expressInstall.swf",',
+              '  {"data-file":"%s"}' % urlpath.replace('flash', 'json'),
+              '  );',
+              '</script>']
+
+    self.sendfile('index.html', subst={'head': '\n'.join(head),
+                                       'data': '\n'.join(data),
                                        'links': ' '.join(links),
                                        'refresh': '60'})
 
@@ -322,12 +369,7 @@ class http_handler(mhttp.http_handler):
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
-    ranges = []
-    times = []
-    for time_field in args[2].split(';'):
-      # Each range is (start_epoch, end_epoch, day_field)
-      ranges.append(self.timewindow(time_field.split(',')))
-      times.append(time_field)
+    (ranges, times) = self.ParseTimeField(args[2])
     self.log('Time ranges: %s' % repr(ranges))
 
     # TODO(mikal): add options parsing here
@@ -412,6 +454,17 @@ class http_handler(mhttp.http_handler):
 
     self.sendredirect(chart.get_url())
 
+  def ParseTimeField(self, tf):
+    """Parse the time field from the URL."""
+
+    ranges = []
+    times = []
+    for time_field in tf.split(';'):
+      # Each range is (start_epoch, end_epoch, day_field)
+      ranges.append(self.timewindow(time_field.split(',')))
+      times.append(time_field)
+    return (ranges, times)
+
   def FetchTableData(self, args):
     """Fetch a table's worth of data."""
 
@@ -419,6 +472,8 @@ class http_handler(mhttp.http_handler):
 
     db = MySQLdb.connect(user = 'root', db = 'home')
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
+    (ranges, times) = self.ParseTimeField(args[2])
+    self.log('Time ranges: %s' % repr(ranges))
 
     wideinterp = True
     for param in args[1].split(','):
@@ -426,34 +481,39 @@ class http_handler(mhttp.http_handler):
       if param == 'nowideinterpolation':
         wideinterp = False
     self.log('Data fetch parameters: wideinterpolation = %s' % wideinterp)
-    
-    (start_epoch, end_epoch, day_field) = self.timewindow(args[2].split(','))
   
     sensors = mhttp.urldecode(args[3]).split(',')
     data = ['<h1>%s</h1><ul>' % ', '.join(sensors)]
 
     values = {}
-    redirects = {}
-    step_size = 60
-
-    # Determine how many values will be on the graph
     returned = []
-    for sensor in sensors:
-      for item in self.ResolveWouldReturn(cursor, sensor, start_epoch,
-                                          end_epoch):
-        if not item in returned:
-          returned.append(item)
-    self.log('Calculations will return: %s' % repr(returned))
+    step_size = 60
+    max_window_size = ranges[0][1] - ranges[0][0]
 
     # Fetch data points for the table
     for sensor in sensors:
-      (values, redirects) = self.ResolveSensor(values, redirects, cursor,
-                                               sensor, start_epoch,
-                                               end_epoch, step_size,
-                                               wideinterp)
-      self.log('Resolved values: %s' % values.keys())
+      for r in ranges:
+        self.log('Fetching values for %s between %s and %s (%s seconds)'
+                 %(sensor, r[0], r[1], r[1] - r[0]))
+        max_window_size = r[1] - r[0]
+        (t_values, t_redirects) = self.ResolveSensor(values, {}, cursor,
+                                                     sensor, r[0], r[1], step_size,
+                                                     wideinterp)
+        self.log('Resolved values: %s' % t_values.keys())
 
-    return (start_epoch, end_epoch, step_size, returned, values)
+        if len(ranges) == 1:
+          values[sensor] = t_values[sensor]
+          returned.append(sensor)
+          self.log('Creating simple value for %s' % sensor)
+
+        else:
+          t = times[ranges.index(r)]
+          k = '%s %s' %(sensor, t)
+          values[k] = t_values[sensor]
+          returned.append(k)
+          self.log('Creating meta value %s from %s at %s' %(k, sensor, t))
+
+    return (ranges[0][0], ranges[0][0] + max_window_size, step_size, returned, values)
 
   def handleurl_table(self, urlpath, post_data):
     """A table of data."""
@@ -464,8 +524,11 @@ class http_handler(mhttp.http_handler):
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
-    links = ['<a href="/chart/%s">Chart</a>' % '/'.join(args[2:]),
-             '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:])]
+    links = ['<a href="/flash/%s">Flash</a>' % '/'.join(args[2:]),
+             '<a href="/chart/%s">Chart</a>' % '/'.join(args[2:]),
+             '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:]),
+             '<a href="/json/%s">JSON</a>' % '/'.join(args[2:])]
+
     data = []
 
     incomplete = True
@@ -499,6 +562,8 @@ class http_handler(mhttp.http_handler):
       else:
         target = len(returned)
 
+      self.log('Displayed data is from %s to %s (%s seconds)'
+               %(start_epoch, end_epoch, end_epoch - start_epoch))
       for i in range(start_epoch, end_epoch, step_size):
         row = ('<tr bgcolor="#%s"><td>%s</td>'
                %(bgcolor, datetime.datetime.fromtimestamp(i)))
@@ -520,7 +585,8 @@ class http_handler(mhttp.http_handler):
 
       data.append('</table>')
       
-    self.sendfile('index.html', subst={'data': '\n'.join(data),
+    self.sendfile('index.html', subst={'head': '',
+                                       'data': '\n'.join(data),
                                        'links': ' '.join(links),
                                        'refresh': '3600'})
 
@@ -530,6 +596,7 @@ class http_handler(mhttp.http_handler):
     global sensor_names
 
     args = urlpath.split('/')
+    (ranges, times) = self.ParseTimeField(args[2])
     data = []
 
     incomplete = True
@@ -561,7 +628,10 @@ class http_handler(mhttp.http_handler):
         row = '%s' % datetime.datetime.fromtimestamp(i)
         non_null = 0
         for sensor in returned:
-          row += ', %s' % values[sensor][0]
+          if values[sensor][0]:
+            row += ', %s' % values[sensor][0]
+          else:
+            row += ', '
 
           if not values[sensor][0] is None:
             non_null += 1
@@ -571,6 +641,77 @@ class http_handler(mhttp.http_handler):
           data.append(row)
       
     self.senddata('\n'.join(data))
+
+  def handleurl_json(self, urlpath, post_data):
+    """A table of JSON formatted data."""
+
+    global sensor_names
+
+    args = urlpath.split('/')
+    (ranges, times) = self.ParseTimeField(args[2])
+    data = []
+
+    incomplete = True
+    for param in args[1].split(','):
+      self.log('Considering table param: %s' % param)
+      if param == 'noincomplete':
+        incomplete = False
+    self.log('Table parameters: incomplete = %s' % incomplete)
+
+    if len(args) < 4:
+      data = self.AvailableSensors(cursor, ranges[0])
+      self.senddata('\n'.join(data))
+
+    else:
+      (start_epoch, end_epoch, step_size,
+       returned, values) = self.FetchTableData(args)
+    
+      if len(ranges) == 1:
+        xformat = '#date:j/n g:i#'
+      else:
+        xformat = '#date: g:i#'
+
+      f = open('data.json.element')
+      template = f.read()
+      f.close()
+
+      colors = ['0000FF', '00FF00', 'FF0000',
+                'dd5500', 'ee11ff', '88ddff',
+                '44cc00', 'bb0011', '11aaff']
+
+      y_max = 0
+      elements = []
+
+      for r in returned:
+        upto = ranges[0][0]
+        float_values = []
+        for v in values[r]:
+          try:
+            float_values.append('{"x": %d, "y": %d}'
+                                %(upto, float(v)))
+            if float(v) > y_max:
+              y_max = float(v)
+          except:
+            pass
+
+          upto += step_size
+
+        elements.append(self.substitute(template,
+                                       subst={'name': sensor_names.get(r, r),
+                                              'values': ', '.join(float_values),
+                                              'color': colors[returned.index(r)]
+                                             }))
+
+      elements.reverse()
+      self.sendfile('data.json',
+                    subst={'y_max': y_max,
+                           'y_step': y_max / 15,
+                           'elements': ', '.join(elements),
+                           'x_min': ranges[0][0],
+                           'x_max': ranges[0][1],
+                           'x_step': (ranges[0][1] - ranges[0][0]) / 10,
+                           'x_format': xformat
+                          })
 
   def handleurl_dashboard(self, urlpath, post_data):
     """A simple dashboard."""
