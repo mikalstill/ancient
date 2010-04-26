@@ -346,19 +346,20 @@ class http_handler(mhttp.http_handler):
       data = ['<h1>%s</h1><ul>' % ', '.join(sensors),
               '<div id="my_chart"></div>',
               '</ul>']
-      head = ['<script type="text/javascript" src="/local/swfobject.js"></script>',
-              '<script type="text/javascript">',
-              'swfobject.embedSWF(',
-              '  "/local/open-flash-chart.swf", "my_chart", "600", "400",',
-              '  "9.0.0", "expressInstall.swf",',
-              '  {"data-file":"%s"}' % urlpath.replace('flash', 'json'),
-              '  );',
-              '</script>']
+      
+      f = open('ofc-helper.html')
+      template = f.read()
+      f.close()
+      head = self.substitute(template,
+                             subst={'data_file': urlpath.replace('flash',
+                                                                 'json')
+                                    })
 
-    self.sendfile('index.html', subst={'head': '\n'.join(head),
+    self.sendfile('index.html', subst={'head': head,
                                        'data': '\n'.join(data),
                                        'links': ' '.join(links),
-                                       'refresh': '60'})
+                                       'refresh': '3600'
+                                       })
 
   def handleurl_image(self, urlpath, post_data):
     """Pretty graphs with the HTML."""

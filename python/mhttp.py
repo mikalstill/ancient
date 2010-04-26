@@ -37,6 +37,8 @@ skips = {}
 bytes = 0
 
 _CONTENT_TYPES = {'css':  'text/css',
+                  'js':   'text/javascript',
+                  'json': 'text/plain',
                   'html': 'text/html',
                   'mp3':  'audo/x-mpeg-3',
                   'png':  'image/png',
@@ -254,7 +256,7 @@ class http_handler(asyncore.dispatcher):
 
     extn = path.split('.')[-1]
     mime_type = _CONTENT_TYPES.get(extn, 'application/octet-stream')
-    if mime_type.find('ml') != -1:
+    if mime_type.find('text/') != -1:
       if not subst:
         subst = {}
       
