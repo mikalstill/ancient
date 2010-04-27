@@ -65,7 +65,7 @@ class http_server(mhttp.http_server):
 
 
 class http_handler(mhttp.http_handler):
-  def dispatch(self, urlpath, post_data):
+  def dispatch(self, urlpath, post_data, chunk=None):
     if urlpath == '/':
       now_tuple = datetime.datetime.now().timetuple()
       self.sendredirect('/dashboard')
