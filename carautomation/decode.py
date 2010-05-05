@@ -14,6 +14,9 @@ valid_packet_lengths = {
   '240': 3,
   '430': 3,
   '4B0': 9,
+  '4EA': 2,
+  '4F0': 8,
+  '4F3': 4,
   }
 
 f = gzip.open(sys.argv[1])
@@ -52,7 +55,7 @@ for l in f.readlines():
   elif d[0] == '430':
     print 'Undecoded opcode: %s' % l
 
-  elif l.startswith('4B0'):
+  elif d[0] == '4B0':
     # I think the units might be off here, there is way too many zero readings
     print ('Wheels: LF %f RF %f LR %f RR %f (km/h)'
            %(float(int('%s%s' %(d[1], d[2]), 16) - 10000) / 100,
@@ -60,7 +63,20 @@ for l in f.readlines():
              float(int('%s%s' %(d[5], d[6]), 16) - 10000) / 100,
              float(int('%s%s' %(d[7], d[8]), 16) - 10000) / 100))
 
-  elif l.startswith('BUFFER FULL') or l.find('AT') != -1 or l.startswith('>'):
+  elif d[0] == '4EA':
+    print 'Undecoded opcode: %s' % l
+
+  elif d[0] == '4F0':
+    print 'Undecoded opcode: %s' % l
+
+  elif d[0] == '4F3':
+    print 'Undecoded opcode: %s' % l
+
+  elif (l.startswith('BUFFER FULL') or 
+        l.find('AT') != -1 or 
+        l.startswith('>') or
+        l.find('OK') != -1 or
+        l.startswith('ELM')):
     pass
   elif len(l) < 1:
     pass
