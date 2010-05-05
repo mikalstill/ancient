@@ -12,6 +12,11 @@ valid_packet_lengths = {
   '228': 2,
   '231': 2,
   '240': 3,
+  '290': 9,
+  '291': 9,
+  '400': 9,
+  '401': 2,
+  '420': 9,
   '430': 3,
   '4B0': 9,
   '4EA': 2,
@@ -51,6 +56,26 @@ for l in f.readlines():
 
   elif d[0] == '240':
     print 'Undecoded opcode: %s' % l
+
+  elif d[0] == '290' or d[0] == '291':
+    sys.stdout.write('HUD %d/2: ' %(int(d[0]) - 289))
+    for i in d[1:]:
+      sys.stdout.write('%s' % chr(int(i, 16)))
+      sys.stdout.flush()
+    sys.stdout.write(' (%s)\n' % ' '.join(d[1:]))
+
+  elif d[0] == '400':
+    print ('Trip computer: Avg speed %f km/h, Inst Cons %f L/100km, Cons %d L/100km, Range %f km'
+           %(float(int('%s%s' %(d[1], d[2]), 16)),
+             float(int('%s%s' %(d[3], d[4]), 16) / 10),
+             float(int('%s%s' %(d[5], d[6]), 16) / 10),
+             float(int('%s%s' %(d[5], d[6]), 16))))
+
+  elif d[0] == '401':
+    print 'Undecoded opcode: %s' % l
+
+  elif d[0] == '420':
+    print 'Heartbeat counter?'
 
   elif d[0] == '430':
     print 'Undecoded opcode: %s' % l
