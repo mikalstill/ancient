@@ -63,6 +63,8 @@ def display(opcode, s):
     keys = values.keys()
     keys.sort()
     i = 0
+    stdscr.erase()
+
     for key in keys:
       stdscr.addstr(i, 0, '%s: %s' %(key, values[key]))
       i += 1
