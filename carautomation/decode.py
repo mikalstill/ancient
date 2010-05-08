@@ -44,12 +44,18 @@ special_ascii = {
   'EA': '[4]',
   'EB': '[5]',
   'EC': '[6]',
+  'F3': 'C',   # Small caps
+  'F4': 'H',
 }
 
 hud = ''
 hud_raw = []
 
-f = gzip.open(sys.argv[1])
+if sys.argv[1] == '-':
+  f = sys.stdin
+else:
+  f = gzip.open(sys.argv[1])
+
 for l in f.readlines():
   l = l.rstrip()
   d = l.split(' ')
