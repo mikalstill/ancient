@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 # With a big nod to http://www.madox.net/blog/projects/mazda-can-bus/
+#
+# 100% decoded: 265
 
 import curses
 import datetime
@@ -153,7 +155,24 @@ def decodeline(l):
     display(d[0], 'Key position: %s' % ' '.join(bits))
 
   elif d[0] == '28F':
-    display(d[0], 'Undecoded opcode: %s' % ' '.join(d[1:]))
+    # CD IN, playing: C0 00 00 18 20 00 00 00
+    # CD IN, off:     C0 00 00 00 20 00 00 00
+    # CD OUT, FM ST:  90 00 00 22 20 00 00 00
+    # CD OUT, FM MON: 80 00 00 22 20 00 00 00
+    # CD OUT, AM:     80 00 00 00 20 00 00 00
+    # CD OUT, off:    80 00 00 00 20 00 00 00
+
+    if d[1] == 'C0' or '80':  # First is with CD in
+      bits.append('stereo')
+    elif d[1] == 'D0' or '90':
+      bits.append('mono')
+
+    if d[4] == '18':
+      bits.append('cd')
+    elif d[4] == '22':
+      bits.append('frequency')
+
+    display(d[0], 'Head unit information: %s (%s)' %(' '.join(bits)' '.join(d[2:])))
 
   elif d[0] == '290' or d[0] == '291':
     if d[0] == '290':
@@ -184,7 +203,8 @@ def decodeline(l):
               float(int('%s%s' %(d[7], d[8]), 16))))
 
   elif d[0] == '401':
-    display(d[0], 'Undecoded opcode: %s' % l)
+    # Current best guess: 00 = mode change; 04 is display current; 24 is cycle to next
+    display(d[0], 'Trip computer display: %s' % ' '.join(d[1:]))
 
   elif d[0] == '420':
     display(d[0], 'Undecoded opcode: %s' % l)
