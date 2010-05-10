@@ -216,9 +216,23 @@ def decodeline(l):
   elif d[0] == '433':
     # The first two bytes are always 00 01 on my Mazda 3 without climate
     # control
+
+    # Temp == d[3] d[7]
+    # 2 == 57.5 63.0
+    # 1 == 59.5 60.75
+    # 0 == 60.5 60.5
+    # 0 == 1.0 60.5
+    # 0 == 3.5 60.5
+    # 0 == 5.5 60.5
+    # 0 == 6.0 60.5
+    # 0 == 7.0 60.5
+    # 0 == 7.5 60.5
+    # 0 == 13.0 60.5
+
     display(d[0],
-            'Climate: Amb %s (%s)'
-            %(int(d[3], 16) / 4.0, ' '.join(d[1:])))
+            'Climate: Amb %s A/C %s ??? %s (%s)'
+            %(int(d[3], 16) / 4.0, d[4] == '08',
+              int(d[7], 16) / 4.0, ' '.join(d[1:])))
 
   elif d[0] == '4B0':
     # I think the units might be off here, there is way too many zero readings
