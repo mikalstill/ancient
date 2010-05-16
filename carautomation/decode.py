@@ -215,25 +215,8 @@ def decodeline(l):
 
   elif d[0] == '433':
     # The first two bytes are always 00 01 on my Mazda 3 without climate
-    # control
-
-    # Temp == d[3] d[7]
-    # 2 == 57.5 63.0
-    # 1 == 59.5 60.75
-    # 0 == 60.5 60.5
-    # 0 == 1.0 60.5
-    # 0 == 3.5 60.5
-    # 0 == 5.5 60.5
-    # 0 == 6.0 60.5
-    # 0 == 7.0 60.5
-    # 0 == 7.5 60.5
-    # 0 == 13.0 60.5
-    # 7 == 0E 0E
-    # 7 == 10 0E
-    # 8 == 1E 11
-    # 8 == 3C 13
-    # 9 == 3A 17
-    # 10 == 28 1b
+    # control. Observed values for d[3] and d[7] are at
+    # http://spreadsheets.google.com/pub?key=tETfNV_IZXXhoBcw_Fl1lig&single=true&gid=0&output=html
 
     display(d[0],
             'Climate: Amb %s A/C %s ??? %s (%s)'
