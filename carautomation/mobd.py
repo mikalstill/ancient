@@ -34,7 +34,7 @@ def main(argv):
     print FLAGS
 
   s = serial.Serial()
-  s.port = sys.argv[1]
+  s.port = argv[1]
   s.baudrate = 38400
   s.open()
 
@@ -72,3 +72,6 @@ def main(argv):
       l += v
     else:
       l = ''
+
+if __name__ == '__main__':
+  main(sys.argv)

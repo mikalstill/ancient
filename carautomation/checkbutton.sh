@@ -1,15 +1,16 @@
 #!/bin/bash
 
 # $1: the serial device to monitor
+# $2: the test
 
-for button in clock set
+for count in 1 2 3
 do
-  for count in 1 2 3
-  do
-    ./mobd.py --output="$button-$count" $1 &
-    echo "Press $button"
-    sleep 10
-    killall -9 mobd.py
-    ./decode.py "$button-$count" | grep 401
-  done
+  echo "Setup"
+  read dummy
+  ./mobd.py --output="$2-$count" $1 > /dev/null &
+  echo "Press $2"
+  sleep 5
+  killall -9 mobd.py
+  gzip "$2-$count.txt"
+  ./decode.py "$2-$count.txt.gz" | grep -i "Trip computer display" | uniq -c
 done
