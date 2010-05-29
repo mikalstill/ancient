@@ -45,19 +45,19 @@ class http_server(mhttp.http_server):
 
 
 class http_handler(mhttp.http_handler):
-  def dispatch(self, file, post_data, chunk=None):
+  def dispatch(self, urlfile, post_data, chunk=None):
     global db
     
     # Implementation of uPnP -- must come before cookie set
-    if file.startswith('/getDeviceDesc'):
-      self.handleurl_getdevicedesc(file)
-    elif file.startswith('/uPnP_Control'):
-      self.handleurl_cdscontrol(file, post_data)
-    elif file.startswith('/trackedmp3/'):
+    if urlfile.startswith('/getDeviceDesc'):
+      self.handleurl_getdevicedesc(urlfile)
+    elif urlfile.startswith('/uPnP_Control'):
+      self.handleurl_cdscontrol(urlfile, post_data)
+    elif urlfile.startswith('/trackedmp3/'):
       # We use the uPnP client's streaming behaviour to track plays
       self.is_tracked = True
       self.streamed_at = datetime.datetime.now()
-      self.handleurl_mp3(file[12:], chunk, tracked=True)
+      self.handleurl_mp3(urlfile[12:], chunk, tracked=True)
 
     else:
       # Normal clients can handle cookies
@@ -86,52 +86,52 @@ class http_handler(mhttp.http_handler):
 
       
       # Top URL
-      if file == '/':
-        self.handleurl_root(post_data)
+      if urlfile == '/':
+        self.handleurl_root(urlfile, post_data)
 
       # Implementation of the HTTP player
-      elif file == '/play':
+      elif urlfile == '/play':
         self.handleurl_play()
-      elif file.startswith('/mp3/'):
-        self.handleurl_mp3(file[5:], chunk)
-      elif file.startswith('/local/'):
-        self.handleurl_local(file)
-      elif file.startswith('/done'):
-        self.handleurl_done(file)
-      elif file.startswith('/skipped'):
-        self.handleurl_skipped(file)
-      elif file.startswith('/art'):
-        self.handleurl_art(file)
-      elif file.startswith('/merge'):
-        self.handleurl_merge(file)
-      elif file.startswith('/unmerge'):
-        self.handleurl_unmerge(file)
-      elif file.startswith('/art'):
-        self.handleurl_art(file)
-      elif file.startswith('/merge'):
-        self.handleurl_merge(file)
+      elif urlfile.startswith('/mp3/'):
+        self.handleurl_mp3(urlfile[5:], chunk)
+      elif urlfile.startswith('/local/'):
+        self.handleurl_local(urlfile)
+      elif urlfile.startswith('/done'):
+        self.handleurl_done(urlfile)
+      elif urlfile.startswith('/skipped'):
+        self.handleurl_skipped(urlfile)
+      elif urlfile.startswith('/art'):
+        self.handleurl_art(urlfile)
+      elif urlfile.startswith('/merge'):
+        self.handleurl_merge(urlfile)
+      elif urlfile.startswith('/unmerge'):
+        self.handleurl_unmerge(urlfile)
+      elif urlfile.startswith('/art'):
+        self.handleurl_art(urlfile)
+      elif urlfile.startswith('/merge'):
+        self.handleurl_merge(urlfile)
 
       # User interface for the HTTP player
-      elif file.startswith('/graph'):
+      elif urlfile.startswith('/graph'):
         self.handleurl_graph()
-      elif file.startswith('/browse'):
-        self.handleurl_browse(file, post_data)
-      elif file.startswith('/tags'):
-        self.handleurl_tags(file)
-      elif file.startswith('/tag/'):
-        self.handleurl_tag(file)
-      elif file.startswith('/addtag/'):
-        self.handleurl_addtag(file)
-      elif file.startswith('/deletetag/'):
-        self.handleurl_deletetag(file)
-      elif file.startswith('/events'):
-        self.handleurl_events(file)
+      elif urlfile.startswith('/browse'):
+        self.handleurl_browse(urlfile, post_data)
+      elif urlfile.startswith('/tags'):
+        self.handleurl_tags(urlfile)
+      elif urlfile.startswith('/tag/'):
+        self.handleurl_tag(urlfile)
+      elif urlfile.startswith('/addtag/'):
+        self.handleurl_addtag(urlfile)
+      elif urlfile.startswith('/deletetag/'):
+        self.handleurl_deletetag(urlfile)
+      elif urlfile.startswith('/events'):
+        self.handleurl_events(urlfile)
 
       else:
-        self.senderror(404, '%s file not found' % file)
+        self.senderror(404, '%s urlfile not found' % urlfile)
         self.close()
   
-  def handleurl_root(self, post_data):
+  def handleurl_root(self, urlfile, post_data):
     """The top level page."""
 
     if post_data:
@@ -270,7 +270,7 @@ class http_handler(mhttp.http_handler):
     filters['results'] = '\n'.join(results)
     self.sendfile('browse.html', subst=filters)
 
-  def handleurl_tags(self, file):
+  def handleurl_tags(self, urlfile):
     """Serve a list of the tags available."""
 
     tags = []
@@ -283,7 +283,7 @@ class http_handler(mhttp.http_handler):
       
     self.sendfile('tags.html', subst={'tags': '\n'.join(tags)})
 
-  def handleurl_events(self, file):
+  def handleurl_events(self, urlfile):
     """Show recent events."""
 
     events = []
@@ -323,10 +323,10 @@ class http_handler(mhttp.http_handler):
                                     '<td>Details</td></tr>%s</table>'
                                     % '\n'.join(events))})
 
-  def handleurl_tag(self, file):
+  def handleurl_tag(self, urlfile):
     """Show songs with a given tag."""
 
-    (_, _, tag_encoded) = file.split('/')
+    (_, _, tag_encoded) = urlfile.split('/')
     tag = mhttp.urldecode(tag_encoded.split('=')[1])
     sql = ('select * from tags inner join tracks on tags.track_id = tracks.id '
            'where tag="%s";'
@@ -340,10 +340,10 @@ class http_handler(mhttp.http_handler):
     tags['tag_encoded'] = tag_encoded
     self.sendfile('tag.html', subst=tags)
 
-  def handleurl_addtag(self, file):
+  def handleurl_addtag(self, urlfile):
     """Add this tag."""
 
-    (_, _, tag_encoded, tracks) = file.split('/')
+    (_, _, tag_encoded, tracks) = urlfile.split('/')
     tag = mhttp.urldecode(tag_encoded.split('=')[1])
     tracks = tracks.split(',')
 
@@ -354,10 +354,10 @@ class http_handler(mhttp.http_handler):
       db.ExecuteSql('commit;')
     self.sendfile('done.html')
 
-  def handleurl_deletetag(self, file):
+  def handleurl_deletetag(self, urlfile):
     """Delete this tag."""
 
-    (_, _, tag_encoded, tracks) = file.split('/')
+    (_, _, tag_encoded, tracks) = urlfile.split('/')
     tag = mhttp.urldecode(tag_encoded.split('=')[1])
     tracks = tracks.split(',')
 
@@ -368,10 +368,10 @@ class http_handler(mhttp.http_handler):
     db.ExecuteSql('commit;')
     self.sendfile('done.html')
 
-  def handleurl_art(self, file):
+  def handleurl_art(self, urlfile):
     """Serve an image for a given album, if we have one."""
 
-    (_, _, artist, album) = file.replace('%20', ' ').split('/')
+    (_, _, artist, album) = urlfile.replace('%20', ' ').split('/')
     self.log('Fetching art for "%s" "%s"' %(artist, album))
     row = db.GetOneRow('select art from art where artist=%s and '
                        'album=%s;'
@@ -389,10 +389,10 @@ class http_handler(mhttp.http_handler):
                      %(len(data), '\r\n'.join(self.extra_headers)))
     self.buffer += data
 
-  def handleurl_merge(self, file):
+  def handleurl_merge(self, urlfile):
     """Merge the specified list of tracks."""
 
-    (_, _, tracks) = file.split('/')
+    (_, _, tracks) = urlfile.split('/')
     tracks = tracks.split(',')
 
     self.log('Merging %s' % repr(tracks))
@@ -417,10 +417,10 @@ class http_handler(mhttp.http_handler):
     self.log('Merge finished')
     self.sendfile('done.html')
 
-  def handleurl_unmerge(self, file):
+  def handleurl_unmerge(self, urlfile):
     """Undo a merge."""
 
-    (_, _, tracks) = file.split('/')
+    (_, _, tracks) = urlfile.split('/')
     tracks = tracks.replace(' ', '').replace('%20', '').split(',')
 
     self.log('Unmerging %s' % repr(tracks))
@@ -494,7 +494,7 @@ class http_handler(mhttp.http_handler):
       rendered = this_track.RenderValues()
       
       (rendered['mp3_url'],
-       rendered['mp3_file']) = blogic.findMP3(row['id'],
+       rendered['mp3_urlfile']) = blogic.findMP3(row['id'],
                                                 client_id=self.client_id)
       if not 'creation_time' in rendered:
         rendered['creation_time'] = ''
@@ -577,10 +577,10 @@ class http_handler(mhttp.http_handler):
             'chco=00FF00,FF0000'
             %(play[:-1], skip[:-1]))
 
-  def handleurl_done(self, file):
+  def handleurl_done(self, urlfile):
     """Mark an MP3 as played."""
 
-    id = file.split('/')[-1]
+    id = urlfile.split('/')[-1]
     if id and id != 'nosuch':
       self.markplayed(id)
 
@@ -589,7 +589,7 @@ class http_handler(mhttp.http_handler):
 
     self.sendfile('done.html')
 
-  def handleurl_skipped(self, file):
+  def handleurl_skipped(self, urlfile):
     """Mark an MP3 as skipped."""
 
     global blogic
@@ -599,7 +599,7 @@ class http_handler(mhttp.http_handler):
     # I also don't do skip length tracking, as it makes no sense to the browse
     # interface
 
-    id = file.split('/')[-1]
+    id = urlfile.split('/')[-1]
     if id and id != 'nosuch':
       blogic.markskipped(id, -1)
 
@@ -608,10 +608,10 @@ class http_handler(mhttp.http_handler):
 
     self.sendfile('skipped.html')
 
-  def handleurl_mp3(self, file, chunk, tracked=False):
-    """Serve MP3 files."""
+  def handleurl_mp3(self, urlfile, chunk, tracked=False):
+    """Serve MP3 urlfiles."""
 
-    self.id = int(file)
+    self.id = int(urlfile)
     if self.addr[0] in requests:
       # A uPnP pause can look like a skip, but its requesting the same ID
       self.log('Comparing %s(%s) and %s(%s)' %(type(requests[self.addr[0]][1]),
@@ -631,15 +631,15 @@ class http_handler(mhttp.http_handler):
         self.is_mp3 = True
         return
 
-    self.senderror(500, 'MP3 %s missing' % file)
+    self.senderror(500, 'MP3 %s missing' % urlfile)
 
-  def handleurl_local(self, file):
-    """Return a local file needed by the user interface."""
+  def handleurl_local(self, urlfile):
+    """Return a local urlfile needed by the user interface."""
 
-    ent = file.split('/')[-1]
+    ent = urlfile.split('/')[-1]
     self.sendfile(ent)
 
-  def handleurl_getdevicedesc(self, file):
+  def handleurl_getdevicedesc(self, urlfile):
     """uPnP device discovery."""
 
     global uuid
@@ -649,7 +649,7 @@ class http_handler(mhttp.http_handler):
                          'uuid': uuid
                          })
 
-  def handleurl_cdscontrol(self, file, post_data):
+  def handleurl_cdscontrol(self, urlfile, post_data):
     """uPnP CDS endpoint control."""
 
     global blogic

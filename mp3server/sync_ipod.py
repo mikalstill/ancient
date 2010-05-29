@@ -1,27 +1,46 @@
 #!/usr/bin/python
 
-"""Sync an iPod with our database."""
+"""Sync an iPod with the MP3 server, possibly remotely."""
 
-
-import gpod
 import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
 
-import business
-import database
+import cookielib
+import gpod
+import os
+import urllib2
+
 import gflags
-import track
 
 
 FLAGS = gflags.FLAGS
 gflags.DEFINE_boolean('parse_path', True,
                       'Attempt to parse the path to obtain metadata')
-gflags.DEFINE_boolean('record', True, 'Record plays and skips')
+gflags.DEFINE_boolean('record', True,
+                      'Record plays and skips directly to the database')
+
+gflags.DEFINE_string('mp3server', 'http://localhost:12345',
+                     'Top level URL for the mp3server')
+gflags.DEFINE_string('mp3cache', 'http://localhost/mp3',
+                     'Top level URL for the mp3cache')
+gflags.DEFINE_string('cookie_file', '~/.mp3server_cookies',
+                     'A file to store local cookies in')
+gflags.DEFINE_string('user', 'shared', 'The user of this iPod')
+
+
+def readurl(url):
+  remote = urllib2.urlopen(url)
+  out = remote.readlines()
+  remote.close()
+
+  return out
 
 
 def Usage():
   """Print a usage message and exit."""
 
-  print 'Unknown command line. Please pass a mount point for the iPod.'
+  print 'Unknown command line. Please pass a mount point for the iPod'
+  print '(for example /mnt where /dev/sdh2 is mounted there).'
   print '\n\nAdditionally, you can use these global flags:%s' % FLAGS
   sys.exit(1)
 
@@ -45,15 +64,27 @@ if __name__ == '__main__':
   if len(argv) < 2:
     Usage()
 
-  db = database.Database()
-  blogic = business.BusinessLogic(db, Log)
+  # Handle cookies
+  jar = cookielib.LWPCookieJar()
+  cookies = FLAGS.cookie_file.replace('~', os.environ['HOME'])
+  if os.path.isfile(cookies):
+    jar.load(cookies)
+
+  opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(jar))
+  urllib2.install_opener(opener)
+
+  # Initialize the client
+  readurl('%s/?user=%s&mp3_source=%s'
+          %(FLAGS.mp3server, FLAGS.user, FLAGS.mp3cache))
+
+  # Empty the iPod
   ipod_db = gpod.Database(argv[1])
 
   delete_passes = 0
   total_skips = 0
   total_plays = 0
 
-  while len(ipod_db) > 0:
+  while False: #len(ipod_db) > 0:
     delete_passes += 1
     print '%d tracks on iPod' % len(ipod_db)
 
@@ -69,40 +100,17 @@ if __name__ == '__main__':
         track_id = t['userdata']['mp3server_track_id']
         if FLAGS.record and track_id:
           for i in range(t['skipcount']):
-            blogic.markskipped(track_id, 0)
+            urlread('%s/skipped/%s' %(FLAGS.mp3server, track_id))
           for i in range(t['playcount']):
-            blogic.markplayed(track_id)
+            urlread('%s/done/%s' %(FLAGS.mp3server, track_id))
 
       ipod_db.remove(t)
 
   ipod_db.close()
   ipod_db = gpod.Database(argv[1])
 
-  ids = []
-  while len(ids) < 2000:
-    print
-    print 'Found %d tracks' % len(ids)
-    rendered_tracks = blogic.picktrack(limit=100)
-
-    for rendered in rendered_tracks:
-      if not rendered['id'] in ids:
-        try:
-          t = ipod_db.new_Track(filename=rendered['mp3_file'], podcast=False)
-          t['userdata']['mp3server_track_id'] = rendered['id']
-          t['skipcount'] = 0
-          t['playcount'] = 0
-          ids.append(rendered['id'])
-
-        except Exception, e:
-          print 'Error: %s' % e
-          db.ExecuteSql('update paths set error=1 where path=%s;'
-                        % db.FormatSqlValue('path', rendered['mp3_file']))
-          db.ExecuteSql('insert into events(timestamp, track_id, event, '
-                        'details) values(now(), %d, "error: ipod sync", '
-                        '%s);'
-                        %(rendered['id'], db.FormatSqlValue('details', e)))
-          db.ExecuteSql('commit;')
-
-  print
-  ipod_db.copy_delayed_files(callback=Progress)
-  ipod_db.close()
+  # Persist our cookies
+  print 'These are the cookies we have received so far :'
+  for index, cookie in enumerate(jar):
+    print index, '  :  ', cookie
+  jar.save(cookies)
