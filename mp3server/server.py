@@ -129,7 +129,7 @@ class http_handler(mhttp.http_handler):
 
       # Needed for the remote ipod sync, think ghetto RPC
       elif urlfile.startswith('/picktracks'):
-        self.handleurl_picktracks()
+        self.handleurl_picktracks(urlfile)
 
       else:
         self.senderror(404, '%s urlfile not found' % urlfile)
@@ -664,11 +664,12 @@ class http_handler(mhttp.http_handler):
     ent = urlfile.split('/')[-1]
     self.sendfile(ent)
 
-  def handleurl_picktracks(self):
+  def handleurl_picktracks(self, urlfile):
     """Bulk pick tracks."""
 
     global blogic
-    self.sendtext(repr(blogic.picktrack(limit=100, client_id=self.client_id)))
+    self.sendtext(repr(blogic.picktrack(limit=int(urlfile.split('/')[-1]),
+                                        client_id=self.client_id)))
 
   # uPnP stuff
   def handleurl_getdevicedesc(self, urlfile):

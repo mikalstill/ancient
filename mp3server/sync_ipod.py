@@ -5,6 +5,7 @@
 import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
+import datetime
 import cookielib
 import gpod
 import os
@@ -33,7 +34,7 @@ def readurl(url):
   out = remote.readlines()
   remote.close()
 
-  return out
+  return ''.join(out)
 
 
 def Usage():
@@ -113,7 +114,7 @@ if __name__ == '__main__':
   while len(ids) < 2000:
     print
     print 'Found %d tracks' % len(ids)
-    rendered_tracks = blogic.picktrack(limit=100)
+    rendered_tracks = eval(readurl('%s/picktracks' % FLAGS.mp3server))
 
     for rendered in rendered_tracks:
       if not rendered['id'] in ids:
@@ -126,13 +127,6 @@ if __name__ == '__main__':
 
         except Exception, e:
           print 'Error: %s' % e
-          db.ExecuteSql('update paths set error=1 where path=%s;'
-                        % db.FormatSqlValue('path', rendered['mp3_file']))
-          db.ExecuteSql('insert into events(timestamp, track_id, event, '
-                        'details) values(now(), %d, "error: ipod sync", '
-                        '%s);'
-                        %(rendered['id'], db.FormatSqlValue('details', e)))
-          db.ExecuteSql('commit;')
 
   print
   ipod_db.copy_delayed_files(callback=Progress)
