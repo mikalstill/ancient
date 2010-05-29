@@ -52,7 +52,7 @@ class BusinessLogic(object):
     if recent:
       recent_sql = 'where (to_days(now()) - to_days(creation_time)) < 15'
       self.log('Request is for a recent track')
-    sql = ('select %s from tracks join usersummary on '
+    sql = ('select *, %s from tracks join usersummary on '
            'usersummary.user="%s" and usersummary.track_id = id '
            '%s order by idx desc limit 100;'
            %(GenerateRankSql(skips), 
