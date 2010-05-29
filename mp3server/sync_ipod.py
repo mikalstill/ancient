@@ -85,7 +85,7 @@ if __name__ == '__main__':
   total_skips = 0
   total_plays = 0
 
-  while False: #len(ipod_db) > 0:
+  while len(ipod_db) > 0:
     delete_passes += 1
     print '%d tracks on iPod' % len(ipod_db)
 
@@ -101,9 +101,9 @@ if __name__ == '__main__':
         track_id = t['userdata']['mp3server_track_id']
         if FLAGS.record and track_id:
           for i in range(t['skipcount']):
-            urlread('%s/skipped/%s' %(FLAGS.mp3server, track_id))
+            readurl('%s/skipped/%s' %(FLAGS.mp3server, track_id))
           for i in range(t['playcount']):
-            urlread('%s/done/%s' %(FLAGS.mp3server, track_id))
+            readurl('%s/done/%s' %(FLAGS.mp3server, track_id))
 
       ipod_db.remove(t)
 

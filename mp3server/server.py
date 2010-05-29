@@ -127,6 +127,10 @@ class http_handler(mhttp.http_handler):
       elif urlfile.startswith('/events'):
         self.handleurl_events(urlfile)
 
+      # Needed for the remote ipod sync, think ghetto RPC
+      elif urlfile.startswith('/picktracks'):
+        self.handleurl_picktracks()
+
       else:
         self.senderror(404, '%s urlfile not found' % urlfile)
         self.close()
@@ -542,7 +546,8 @@ class http_handler(mhttp.http_handler):
     if self.addr[0] in requests:
       skips.setdefault(self.addr[0], 0)
       skips[self.addr[0]] += 1
-      blogic.markskipped(requests[self.addr[0]][1], skips[self.addr[0]], client_id=self.client_id)
+      blogic.markskipped(requests[self.addr[0]][1],
+                         skips[self.addr[0]], client_id=self.client_id)
       del requests[self.addr[0]]
 
   def markplayed(self, id, client_id):
@@ -659,6 +664,13 @@ class http_handler(mhttp.http_handler):
     ent = urlfile.split('/')[-1]
     self.sendfile(ent)
 
+  def handleurl_picktracks(self):
+    """Bulk pick tracks."""
+
+    global blogic
+    self.sendtext(repr(blogic.picktracks(limit=100)))
+
+  # uPnP stuff
   def handleurl_getdevicedesc(self, urlfile):
     """uPnP device discovery."""
 
