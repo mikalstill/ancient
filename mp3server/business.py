@@ -62,9 +62,9 @@ class BusinessLogic(object):
     for row in self.db.GetRows(sql):
       self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s, '
                'last_skipped %s created %s, %d recent skips)'
-               %(row['id'], row['idx'], row['plays'], row['skips'],
-                 row['last_played'], row['last_skipped'],
-                 row['creation_time'],
+               %(row['tracks.id'], row['idx'], row['tracks.plays'],
+                 row['usersummary.skips'], row['last_played'],
+                 row['last_skipped'], row['creation_time'],
                  skips))
 
       this_track = track.Track(self.db)
