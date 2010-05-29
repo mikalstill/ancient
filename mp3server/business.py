@@ -63,7 +63,7 @@ class BusinessLogic(object):
       self.log('Got %s' % row.keys())
       self.log('Considering %d, rank %f (plays %d, skips %s, last_played %s, '
                'last_skipped %s created %s, %d recent skips)'
-               %(row['tracks.id'], row['idx'], row['tracks.plays'],
+               %(row['id'], row['idx'], row['plays'],
                  row['usersummary.skips'], row['last_played'],
                  row['last_skipped'], row['creation_time'],
                  skips))
