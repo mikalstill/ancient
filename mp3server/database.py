@@ -25,7 +25,7 @@ gflags.DEFINE_boolean('db_debugging', False,
                       'Output debugging messages for the database')
 
 
-CURRENT_SCHEMA='20'
+CURRENT_SCHEMA='22'
 
 
 class FormatException(Exception):
@@ -434,6 +434,27 @@ class Database:
       self.ExecuteSql('alter table events add column details text;')
       self.ExecuteSql('commit;')
       self.version = '20'
+
+    if self.version == '20':
+      self.ExecuteSql('alter table clients add column user varchar(100);')
+      self.ExecuteSql('commit;')
+
+      self.ExecuteSql('create table usersummary(user varchar(100), '
+                      'track_id int, skips int, plays int, '
+                      'primary key(user, track_id));')
+      self.ExecuteSql('commit;')
+
+      print 'Assuming that all currently tracked plays and skips are for'
+      print 'the user named mikal!'
+      self.ExecuteSql('insert ignore usersummary select "mikal" as user, '
+                      'id as track_id, skips, plays from tracks;')
+      self.ExecuteSql('commit;')
+      self.version = '21'
+
+    if self.version == '21':
+      self.ExecuteSql('alter table usersummary add column updated datetime;')
+      self.ExecuteSql('commit;')
+      self.version = '22'
 
     self.db_connection.query('commit;')
     self.WriteSetting('schema', self.version)

@@ -135,30 +135,37 @@ class http_handler(mhttp.http_handler):
     """The top level page."""
 
     if post_data:
-      for l in post_data.split('\r\n'):
-        if l:
-          (name, value) = l.split('=')
-          value = value.replace('%2F', '/').replace('%3A', ':')
-          if value == '':
-            value = None
+      for line in post_data.split('\r\n'):
+       for l in line.split('&'):
+         if l:
+            (name, value) = l.split('=')
+            value = value.replace('%2F', '/').replace('%3A', ':')
+            if value == '':
+              value = None
 
-          if name == 'mp3_source':
-            self.log('Updating MP3 source to %s' % value)
-            db.ExecuteSql('insert ignore into clients(id, createtime) '
-                          'values(%s, now());'
-                          % self.client_id)
-            db.ExecuteSql('update clients set mp3_source="%s" '
-                          'where id=%s;'
-                          %(value, self.client_id))
-            db.ExecuteSql('commit;')
+            if name in ['mp3_source', 'user']:
+              self.log('Updating %s to %s' %(name, value))
+              db.ExecuteSql('insert ignore into clients(id, createtime) '
+                            'values(%s, now());'
+                            % self.client_id)
+              db.ExecuteSql('update clients set %s="%s" '
+                            'where id=%s;'
+                            %(name, value, self.client_id))
+              db.ExecuteSql('commit;')
           
     row = db.GetOneRow('select * from clients where id=%s;'
                        % self.client_id)
-    if not row or not row.has_key('mp3_source'):
-      row = {'mp3_source': ''}
+    if not row:
+      row = {'mp3_source': '',
+             'user': ''}
+    if not row.has_key('mp3_source'):
+      row['mp3_source'] = ''
+    if not row.has_key('user'):
+      row['user'] = ''
 
     self.sendfile('index.html',
-                  subst={'mp3_source': row['mp3_source']
+                  subst={'mp3_source': row['mp3_source'],
+                         'user': row['user'],
                         })
 
   def handleurl_play(self):
@@ -166,7 +173,7 @@ class http_handler(mhttp.http_handler):
 
     global blogic
 
-    self.markskipped()
+    self.markskipped(self.client_id)
     skips.setdefault(self.addr[0], 0)
     rendered = blogic.picktrack(client_id=self.client_id,
                                 skips=skips[self.addr[0]])
@@ -253,10 +260,11 @@ class http_handler(mhttp.http_handler):
     else:
       limit_sql = 'limit 100'
 
-    sql = ('select *%s from tracks '
+    sql = ('select *%s from tracks join usersummary on usersummary.user="%s" and usersummary.track_id = id '
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
            '%s %s order by %s artist, song, album, number %s;'
            %(random_sql_cols,
+             business.GetClientSetting(db, self.client_id, 'user'),
              filters['artist_filter_compiled'],
              filters['album_filter_compiled'],
              filters['track_filter_compiled'],
@@ -495,7 +503,7 @@ class http_handler(mhttp.http_handler):
       
       (rendered['mp3_url'],
        rendered['mp3_urlfile']) = blogic.findMP3(row['id'],
-                                                client_id=self.client_id)
+                                              client_id=self.client_id)
       if not 'creation_time' in rendered:
         rendered['creation_time'] = ''
 
@@ -514,7 +522,7 @@ class http_handler(mhttp.http_handler):
 
     return results
 
-  def markskipped(self):
+  def markskipped(self, client_id):
     """Mark skipped tracks, if any."""
 
     global blogic
@@ -522,15 +530,15 @@ class http_handler(mhttp.http_handler):
     if self.addr[0] in requests:
       skips.setdefault(self.addr[0], 0)
       skips[self.addr[0]] += 1
-      blogic.markskipped(requests[self.addr[0]][1], skips[self.addr[0]])
+      blogic.markskipped(requests[self.addr[0]][1], skips[self.addr[0]], client_id=self.client_id)
       del requests[self.addr[0]]
 
-  def markplayed(self, id):
+  def markplayed(self, id, client_id):
     """Mark a track as played."""
 
     global blogic
 
-    blogic.markplayed(id)
+    blogic.markplayed(id, client_id=client_id)
     if self.addr[0] in requests:
       skips[self.addr[0]] = 0
       del requests[self.addr[0]]
@@ -582,7 +590,7 @@ class http_handler(mhttp.http_handler):
 
     id = urlfile.split('/')[-1]
     if id and id != 'nosuch':
-      self.markplayed(id)
+      self.markplayed(id, client_id=self.client_id)
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
@@ -601,7 +609,7 @@ class http_handler(mhttp.http_handler):
 
     id = urlfile.split('/')[-1]
     if id and id != 'nosuch':
-      blogic.markskipped(id, -1)
+      blogic.markskipped(id, -1, client_id=self.client_id)
 
     if self.addr[0] in requests:
       del requests[self.addr[0]]
@@ -621,7 +629,7 @@ class http_handler(mhttp.http_handler):
       if int(requests[self.addr[0]][1]) == self.id and tracked:
         self.log('This is a resume')
       else:
-        self.markskipped()
+        self.markskipped(self.client_id)
 
     for row in db.GetRows('select path from paths where track_id=%s;'
                           % self.id):
