@@ -668,7 +668,7 @@ class http_handler(mhttp.http_handler):
     """Bulk pick tracks."""
 
     global blogic
-    self.sendtext(repr(blogic.picktrack(limit=100)))
+    self.sendtext(repr(blogic.picktrack(limit=100, client_id=self.client_id)))
 
   # uPnP stuff
   def handleurl_getdevicedesc(self, urlfile):
