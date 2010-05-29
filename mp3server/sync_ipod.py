@@ -92,7 +92,6 @@ if __name__ == '__main__':
     for t in ipod_db:
       total_skips += t['skipcount']
       total_plays += t['playcount']
-
       print 'Pass %d, %d skips, %d plays: %s' %(delete_passes, total_skips,
                                                 total_plays, t['title'])
 
@@ -109,6 +108,36 @@ if __name__ == '__main__':
 
   ipod_db.close()
   ipod_db = gpod.Database(argv[1])
+
+  ids = []
+  while len(ids) < 2000:
+    print
+    print 'Found %d tracks' % len(ids)
+    rendered_tracks = blogic.picktrack(limit=100)
+
+    for rendered in rendered_tracks:
+      if not rendered['id'] in ids:
+        try:
+          t = ipod_db.new_Track(filename=rendered['mp3_file'], podcast=False)
+          t['userdata']['mp3server_track_id'] = rendered['id']
+          t['skipcount'] = 0
+          t['playcount'] = 0
+          ids.append(rendered['id'])
+
+        except Exception, e:
+          print 'Error: %s' % e
+          db.ExecuteSql('update paths set error=1 where path=%s;'
+                        % db.FormatSqlValue('path', rendered['mp3_file']))
+          db.ExecuteSql('insert into events(timestamp, track_id, event, '
+                        'details) values(now(), %d, "error: ipod sync", '
+                        '%s);'
+                        %(rendered['id'], db.FormatSqlValue('details', e)))
+          db.ExecuteSql('commit;')
+
+  print
+  ipod_db.copy_delayed_files(callback=Progress)
+  ipod_db.close()
+
 
   # Persist our cookies
   print 'These are the cookies we have received so far :'
