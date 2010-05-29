@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import datetime
 import serial
 import sys
 import time
@@ -15,8 +16,14 @@ class TeeFile(object):
 
   def write(self, string):
     self.f.write(string)
-    self.f.flush()
     sys.stdout.write(string)
+
+    if string.endswith('\n'):
+      dt = datetime.datetime.now()
+      self.f.write('%s ||' % dt)
+      sys.stdout.write('%s ||' % dt)
+
+    self.f.flush()
     sys.stdout.flush()
 
   def close(self):

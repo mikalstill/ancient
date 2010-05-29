@@ -98,10 +98,12 @@ def decode(argv):
 
   f.close()
 
-def decodeline(l):
+def decodeline(whole_line):
   global hud
   global hud_raw
 
+  elements = whole_line.split(' ||')
+  l = elements[-1]
   d = l.split(' ')
 
   # Check packet length
