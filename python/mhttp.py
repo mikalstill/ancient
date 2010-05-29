@@ -2,15 +2,16 @@
 
 # Helpful web server stub
 
+import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
+
 import asyncore
 import base64
 import cStringIO
 import datetime
-import gflags
 import os
 import re
 import socket
-import sys
 import time
 import traceback
 import types
@@ -18,6 +19,8 @@ import urllib
 
 import MySQLdb
 
+import gflags
+import substitute
 
 FLAGS = gflags.FLAGS
 gflags.DEFINE_string('ip', '192.168.1.13', 'Bind to this IP')
@@ -45,7 +48,6 @@ _CONTENT_TYPES = {'css':  'text/css',
                   'swf':  'application/x-shockwave-flash',
                   'xml':  'text/xml'
                  }
-_SUBST_RE = re.compile('(.*){{([^}]+)}}(.*)', re.MULTILINE | re.DOTALL)
 
 
 def htc(m):
@@ -260,7 +262,7 @@ class http_handler(asyncore.dispatcher):
       if not subst:
         subst = {}
       
-      data = self.substitute(data, subst)
+      data = substitute.substitute(data, subst)
 
     self.sendheaders('HTTP/1.1 200 OK\r\n'
                      'Content-Type: %s\r\n'
@@ -279,18 +281,15 @@ class http_handler(asyncore.dispatcher):
 
     self.buffer += data
 
-  def substitute(self, data, subst):
-    """Perform template substitution."""
+  def sendtext(self, data):
+    """Send text formatted data."""
 
-    m = _SUBST_RE.match(data)
-    while m:
-      data = '%s%s%s' %(m.group(1),
-                        subst.get(m.group(2), '<i>%s missing</i>'
-                                  % m.group(2)),
-                        m.group(3))
-      m = _SUBST_RE.match(data)
-
-    return data
+    self.sendheaders('HTTP/1.1 200 OK\r\n'
+                     'Content-Type: text/plain\r\n'
+                     'Content-Length: %s\r\n'            
+                     '%s\r\n'
+                     %(len(data), '\r\n'.join(self.extra_headers)))
+    self.buffer += data
 
   def sendtraceback(self):
     exc = None
