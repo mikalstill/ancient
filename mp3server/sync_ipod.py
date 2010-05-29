@@ -114,7 +114,7 @@ if __name__ == '__main__':
   while len(ids) < 2000:
     print
     print 'Found %d tracks' % len(ids)
-    rendered_tracks = eval(readurl('%s/picktracks' % FLAGS.mp3server))
+    rendered_tracks = eval(readurl('%s/picktracks/2000' % FLAGS.mp3server))
 
     for rendered in rendered_tracks:
       if not rendered['id'] in ids:
