@@ -86,7 +86,7 @@ class http_handler(mhttp.http_handler):
 
       
       # Top URL
-      if urlfile == '/':
+      if urlfile == '/' or urlfile.startswith('/?'):
         self.handleurl_root(urlfile, post_data)
 
       # Implementation of the HTTP player
@@ -131,6 +131,22 @@ class http_handler(mhttp.http_handler):
         self.senderror(404, '%s urlfile not found' % urlfile)
         self.close()
   
+  def _set_user_var(self, db, name, value):
+    """Set a user variable."""
+    
+    value = value.replace('%2F', '/').replace('%3A', ':')
+    if value == '':
+      value = None
+
+    self.log('Updating %s to %s' %(name, value))
+    db.ExecuteSql('insert ignore into clients(id, createtime) '
+                  'values(%s, now());'
+                  % self.client_id)
+    db.ExecuteSql('update clients set %s="%s" '
+                  'where id=%s;'
+                  %(name, value, self.client_id))
+    db.ExecuteSql('commit;')
+
   def handleurl_root(self, urlfile, post_data):
     """The top level page."""
 
@@ -139,19 +155,15 @@ class http_handler(mhttp.http_handler):
        for l in line.split('&'):
          if l:
             (name, value) = l.split('=')
-            value = value.replace('%2F', '/').replace('%3A', ':')
-            if value == '':
-              value = None
-
             if name in ['mp3_source', 'user']:
-              self.log('Updating %s to %s' %(name, value))
-              db.ExecuteSql('insert ignore into clients(id, createtime) '
-                            'values(%s, now());'
-                            % self.client_id)
-              db.ExecuteSql('update clients set %s="%s" '
-                            'where id=%s;'
-                            %(name, value, self.client_id))
-              db.ExecuteSql('commit;')
+              self._set_user_var(db, name, value)
+
+    elif '?' in urlfile:
+      v = urlfile.split('?')[1]
+      for l in v.split('&'):
+        (name, value) = l.split('=')
+        if name in ['mp3_source', 'user']:
+          self._set_user_var(db, name, value)
           
     row = db.GetOneRow('select * from clients where id=%s;'
                        % self.client_id)

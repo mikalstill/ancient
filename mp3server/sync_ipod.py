@@ -75,7 +75,8 @@ if __name__ == '__main__':
 
   # Initialize the client
   readurl('%s/?user=%s&mp3_source=%s'
-          %(FLAGS.mp3server, FLAGS.user, FLAGS.mp3cache))
+          %(FLAGS.mp3server, FLAGS.user,
+            FLAGS.mp3cache.replace('/', '%2F').replace(':', '%3A')))
 
   # Empty the iPod
   ipod_db = gpod.Database(argv[1])
