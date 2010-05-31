@@ -3,6 +3,7 @@
  * To use the above modeline in vim you must have "set modeline" in your .vimrc
  *
  * Author: Guido Socher 
+ * Author: Michael Still (mikal@stillhq.com)
  * Copyright: GPL V2
  * See http://www.gnu.org/licenses/gpl.html
  *
@@ -12,8 +13,10 @@
  * only if all data can be sent in one single packet. This is however
  * not a big limitation for a microcontroller as you will anyhow use
  * small web-pages. The web server must send the entire web page in one
- * packet. The client "web browser" as implemented here can also receive
- * large pages.
+ * packet.
+ *
+ * Note that this is a significantly cut down and refactored version
+ * of the original nuelectronics code.
  *
  * Chip type           : ATMEGA88 with ENC28J60
  *********************************************/
@@ -25,32 +28,7 @@
 #include "enc28j60.h"
 #include "ip_config.h"
 
-static uint8_t wwwport_l=80; // server port
-static uint8_t wwwport_h=0;  // Note: never use same as TCPCLIENT_SRC_PORT_H
-#if defined (WWW_client)
-  static uint8_t browsertype=0; // 0 = get, 1 = post
-  static uint8_t client_state=0;
-  static prog_char *client_additionalheaderline;
-  static prog_char *client_method;
-  static char *client_postval;
-  static void (*client_browser_callback)(uint8_t,uint16_t);
-  static prog_char *client_urlbuf;
-  static char *client_urlbuf_var;
-  static prog_char *client_hoststr;
-
-  // just lower byte, the upper byte is TCPCLIENT_SRC_PORT_H:
-  static uint8_t tcpclient_src_port_l=1; 
-  #define TCPCLIENT_SRC_PORT_H 11
-  static uint8_t wwwip[4];
-#endif
-
 static void (*icmp_callback)(uint8_t *ip);
-#if defined (WWW_client) || defined (NTP_client)
-  static int16_t delaycnt=1;
-  static uint8_t gwip[4];
-  static uint8_t gwmacaddr[6];
-  static volatile uint8_t waitgwmac=1;
-#endif
 
 static uint8_t macaddr[6];
 static uint8_t ipaddr[4];
@@ -60,13 +38,6 @@ static uint8_t seqnum=0xa; // my initial tcp sequence number
 
 #define HTTP_HEADER_START ((uint16_t)TCP_SRC_PORT_H_P+(buf[TCP_HEADER_LEN_P]>>4)*4)
 const char arpreqhdr[] PROGMEM ={0,1,8,0,6,4,0,1};
-#if defined (WWW_client) || defined (NTP_client) ||  defined (WOL_client)
-  const char iphdr[] PROGMEM ={0x45,0,0,0x82,0,0,0x40,0,0x20}; // 0x82 is the total len on ip, 0x20 is ttl (time to live)
-#endif
-
-#ifdef NTP_client
-  const char ntpreqhdr[] PROGMEM ={0xe3,0,4,0xfa,0,1,0,1,0,0};
-#endif
 
 // The Ip checksum is calculated over the ip header only starting
 // with the header length field and a total length of 20 bytes
@@ -605,431 +576,17 @@ void www_server_reply(uint8_t *buf,uint16_t dlen)
         make_tcp_ack_with_data_noflags(buf,dlen); // send data
 }
 
-#if defined (WWW_client) || defined (NTP_client) ||  defined (WOL_client)
-// fill buffer with a prog-mem string
-void fill_buf_p(uint8_t *buf,uint16_t len, const prog_char *progmem_s)
-{
-        while (len){
-                *buf= pgm_read_byte(progmem_s);
-                buf++;
-                progmem_s++;
-                len--;
-        }
-}
-#endif
-
-#ifdef PING_client
-// icmp echo, matchpat is a pattern that has to be sent back by the 
-// host answering the ping.
-// The ping is sent to destip  and mac gwmacaddr
-void client_icmp_request(uint8_t *buf,uint8_t *destip)
-{
-        uint8_t i=0;
-        uint16_t ck;
-        //
-        while(i<6){
-                buf[ETH_DST_MAC +i]=gwmacaddr[i]; // gw mac in local lan or host mac
-                buf[ETH_SRC_MAC +i]=macaddr[i];
-                i++;
-        }
-        buf[ETH_TYPE_H_P] = ETHTYPE_IP_H_V;
-        buf[ETH_TYPE_L_P] = ETHTYPE_IP_L_V;
-        fill_buf_p(&buf[IP_P],9,iphdr);
-        buf[IP_TOTLEN_L_P]=0x82;
-        buf[IP_PROTO_P]=IP_PROTO_UDP_V;
-        i=0;
-        while(i<4){
-                buf[IP_DST_P+i]=destip[i];
-                buf[IP_SRC_P+i]=ipaddr[i];
-                i++;
-        }
-        fill_ip_hdr_checksum(buf);
-        buf[ICMP_TYPE_P]=ICMP_TYPE_ECHOREQUEST_V;
-        buf[ICMP_TYPE_P+1]=0; // code
-        // zero the checksum
-        buf[ICMP_CHECKSUM_H_P]=0;
-        buf[ICMP_CHECKSUM_L_P]=0;
-        // a possibly unique id of this host:
-        buf[ICMP_IDENT_H_P]=5; // some number 
-        buf[ICMP_IDENT_L_P]=ipaddr[3]; // last byte of my IP
-        //
-        buf[ICMP_IDENT_L_P+1]=0; // seq number, high byte
-        buf[ICMP_IDENT_L_P+2]=1; // seq number, low byte, we send only 1 ping at a time
-        // copy the data:
-        i=0;
-        while(i<56){ 
-                buf[ICMP_DATA_P+i]=PINGPATTERN;
-                i++;
-        }
-        //
-        ck=checksum(&buf[ICMP_TYPE_P], 56+8,0);
-        buf[ICMP_CHECKSUM_H_P]=ck>>8;
-        buf[ICMP_CHECKSUM_L_P]=ck& 0xff;
-        enc28j60PacketSend(98,buf);
-}
-#endif // PING_client
-
-
-#ifdef NTP_client
-// ntp udp packet
-// See http://tools.ietf.org/html/rfc958 for details
-//
-void client_ntp_request(uint8_t *buf,uint8_t *ntpip,uint8_t srcport)
-{
-        uint8_t i=0;
-        uint16_t ck;
-        //
-        while(i<6){
-                buf[ETH_DST_MAC +i]=gwmacaddr[i]; // gw mac in local lan or host mac
-                buf[ETH_SRC_MAC +i]=macaddr[i];
-                i++;
-        }
-        buf[ETH_TYPE_H_P] = ETHTYPE_IP_H_V;
-        buf[ETH_TYPE_L_P] = ETHTYPE_IP_L_V;
-//        fill_buf_p(&buf[IP_P],10,iphdr);
-        fill_buf_p(&buf[IP_P],9,iphdr);
-        buf[IP_TOTLEN_L_P]=0x4c;
-        buf[IP_PROTO_P]=IP_PROTO_UDP_V;
-        i=0;
-        while(i<4){
-                buf[IP_DST_P+i]=ntpip[i];
-                buf[IP_SRC_P+i]=ipaddr[i];
-                i++;
-        }
-        fill_ip_hdr_checksum(buf);
-        buf[UDP_DST_PORT_H_P]=0;
-        buf[UDP_DST_PORT_L_P]=0x7b; // ntp=123
-        buf[UDP_SRC_PORT_H_P]=10;
-        buf[UDP_SRC_PORT_L_P]=srcport; // lower 8 bit of src port
-        buf[UDP_LEN_H_P]=0;
-        buf[UDP_LEN_L_P]=56; // fixed len
-        // zero the checksum
-        buf[UDP_CHECKSUM_H_P]=0;
-        buf[UDP_CHECKSUM_L_P]=0;
-        // copy the data:
-        i=0;
-        // most fields are zero, here we zero everything and fill later
-        while(i<48){ 
-                buf[UDP_DATA_P+i]=0;
-                i++;
-        }
-        fill_buf_p(&buf[UDP_DATA_P],10,ntpreqhdr);
-        //
-        ck=checksum(&buf[IP_SRC_P], 16 + 48,1);
-        buf[UDP_CHECKSUM_H_P]=ck>>8;
-        buf[UDP_CHECKSUM_L_P]=ck& 0xff;
-        enc28j60PacketSend(90,buf);
-}
-// process the answer from the ntp server:
-// if dstport==0 then accept any port otherwise only answers going to dstport
-// return 1 on sucessful processing of answer
-uint8_t client_ntp_process_answer(uint8_t *buf,uint32_t *time,uint8_t dstport_l){
-        if (dstport_l){
-                if (buf[UDP_DST_PORT_L_P]!=dstport_l){ 
-                        return(0);
-                }
-        }
-        if (buf[UDP_LEN_H_P]!=0 || buf[UDP_LEN_L_P]!=56 || buf[UDP_SRC_PORT_L_P]!=0x7b){
-                // not ntp
-                return(0);
-        }
-        // copy time from the transmit time stamp field:
-        *time=((uint32_t)buf[0x52]<<24)|((uint32_t)buf[0x53]<<16)|((uint32_t)buf[0x54]<<8)|((uint32_t)buf[0x55]);
-        return(1);
-}
-#endif
-
-#ifdef WOL_client
-// -------------------- special code to make a WOL packet
-
-// A WOL (Wake on Lan) packet is a UDP packet to the broadcast
-// address and UDP port 9. The data part contains 6x FF followed by
-// 16 times the mac address of the host to wake-up
-//
-void send_wol(uint8_t *buf,uint8_t *wolmac)
-{
-        uint8_t i=0;
-        uint8_t m=0;
-        uint8_t pos=0;
-        uint16_t ck;
-        //
-        while(i<6){
-                buf[ETH_DST_MAC +i]=0xff;
-                buf[ETH_SRC_MAC +i]=macaddr[i];
-                i++;
-        }
-        buf[ETH_TYPE_H_P] = ETHTYPE_IP_H_V;
-        buf[ETH_TYPE_L_P] = ETHTYPE_IP_L_V;
-        fill_buf_p(&buf[IP_P],9,iphdr);
-        buf[IP_TOTLEN_L_P]=0x54;
-        buf[IP_PROTO_P]=IP_PROTO_ICMP_V;
-        i=0;
-        while(i<4){
-                buf[IP_SRC_P+i]=ipaddr[i];
-                buf[IP_DST_P+i]=0xff;
-                i++;
-        }
-        fill_ip_hdr_checksum(buf);
-        buf[UDP_DST_PORT_H_P]=0;
-        buf[UDP_DST_PORT_L_P]=0x9; // wol=normally 9
-        buf[UDP_SRC_PORT_H_P]=10;
-        buf[UDP_SRC_PORT_L_P]=0x42; // source port does not matter
-        buf[UDP_LEN_H_P]=0;
-        buf[UDP_LEN_L_P]=110; // fixed len
-        // zero the checksum
-        buf[UDP_CHECKSUM_H_P]=0;
-        buf[UDP_CHECKSUM_L_P]=0;
-        // copy the data (102 bytes):
-        i=0;
-        while(i<6){ 
-                buf[UDP_DATA_P+i]=0xff;
-                i++;
-        }
-        m=0;
-        pos=UDP_DATA_P+i;
-        while (m<16){
-                i=0;
-                while(i<6){ 
-                        buf[pos]=wolmac[i];
-                        i++;
-                        pos++;
-                }
-                m++;
-        }
-        //
-        ck=checksum(&buf[IP_SRC_P], 16+ 102,1);
-        buf[UDP_CHECKSUM_H_P]=ck>>8;
-        buf[UDP_CHECKSUM_L_P]=ck& 0xff;
-
-        enc28j60PacketSend(pos,buf);
-}
-#endif // WOL_client
-
-#if (defined WWW_client) || (defined NTP_client)
-// make a arp request
-void client_arp_whohas(uint8_t *buf,uint8_t *ip_we_search)
-{
-        uint8_t i=0;
-        //
-        while(i<6){
-                buf[ETH_DST_MAC +i]=0xff;
-                buf[ETH_SRC_MAC +i]=macaddr[i];
-                i++;
-        }
-        buf[ETH_TYPE_H_P] = ETHTYPE_ARP_H_V;
-        buf[ETH_TYPE_L_P] = ETHTYPE_ARP_L_V;
-        fill_buf_p(&buf[ETH_ARP_P],8,arpreqhdr);
-        i=0;
-        while(i<6){
-                buf[ETH_ARP_SRC_MAC_P +i]=macaddr[i];
-                buf[ETH_ARP_DST_MAC_P+i]=0;
-                i++;
-        }
-        i=0;
-        while(i<4){
-                buf[ETH_ARP_DST_IP_P+i]=*(ip_we_search +i);
-                buf[ETH_ARP_SRC_IP_P+i]=ipaddr[i];
-                i++;
-        }
-        // 0x2a=42=len of packet
-        enc28j60PacketSend(0x2a,buf);
-}
-
-// store the mac addr from an arp reply
-// no len check here, you must first call eth_type_is_arp_and_my_ip
-uint8_t client_store_gw_mac(uint8_t *buf)
-{
-        uint8_t i=0;
-        while(i<4){
-                if(buf[ETH_ARP_SRC_IP_P+i]!=gwip[i]){
-                        return(0);
-                }
-                i++;
-        }
-        i=0;
-        while(i<6){
-                gwmacaddr[i]=buf[ETH_ARP_SRC_MAC_P +i];
-                i++;
-        }
-        return(1);
-}
-
-void client_set_wwwip(uint8_t *wwwipaddr)
-{
-        uint8_t i=0;
-        while(i<4){
-                wwwip[i]=wwwipaddr[i];
-                i++;
-        }
-}
-void client_set_gwip(uint8_t *gwipaddr)
-{
-        uint8_t i=0;
-        waitgwmac=2; // causes an arp request in the packet loop
-        while(i<4){
-                gwip[i]=gwipaddr[i];
-                i++;
-        }
-}
-#endif
-
-#ifdef WWW_client
-// Make a tcp syn packet
-void client_syn(uint8_t *buf,uint8_t srcport,uint8_t dstport_h,uint8_t dstport_l)
-{
-        uint16_t ck;
-        uint8_t i=0;
-        // -- make the main part of the eth/IP/tcp header:
-        while(i<6){
-                buf[ETH_DST_MAC +i]=gwmacaddr[i]; // gw mac in local lan or host mac
-                buf[ETH_SRC_MAC +i]=macaddr[i];
-                i++;
-        }
-        buf[ETH_TYPE_H_P] = ETHTYPE_IP_H_V;
-        buf[ETH_TYPE_L_P] = ETHTYPE_IP_L_V;
-        fill_buf_p(&buf[IP_P],9,iphdr);
-        buf[IP_TOTLEN_L_P]=44; // good for syn
-        buf[IP_PROTO_P]=IP_PROTO_TCP_V;
-        i=0;
-        while(i<4){
-                buf[IP_DST_P+i]=wwwip[i];
-                buf[IP_SRC_P+i]=ipaddr[i];
-                i++;
-        }
-        fill_ip_hdr_checksum(buf);
-        buf[TCP_DST_PORT_H_P]=dstport_h;
-        buf[TCP_DST_PORT_L_P]=dstport_l;
-        buf[TCP_SRC_PORT_H_P]=TCPCLIENT_SRC_PORT_H;
-        buf[TCP_SRC_PORT_L_P]=srcport; // lower 8 bit of src port
-        i=0;
-        // zero out sequence number and acknowledgement number
-        while(i<8){
-                buf[TCP_SEQ_H_P+i]=0;
-                i++;
-        }
-        // -- header ready 
-        // put inital seq number
-        // we step only the second byte, this allows us to send packts 
-        // with 255 bytes 512 (if we step the initial seqnum by 2)
-        // or 765 (step by 3)
-        buf[TCP_SEQ_H_P+2]= seqnum; 
-        // step the inititial seq num by something we will not use
-        // during this tcp session:
-        seqnum+=3;
-        buf[TCP_HEADER_LEN_P]=0x60; // 0x60=24 len: (0x60>>4) * 4
-        buf[TCP_FLAGS_P]=TCP_FLAGS_SYN_V;
-        // use a low window size otherwise we have to have
-        // timers and can not just react on every packet.
-        buf[TCP_WIN_SIZE]=0x4; // 1024=0x400
-        buf[TCP_WIN_SIZE+1]=0x0;
-        // zero the checksum
-        buf[TCP_CHECKSUM_H_P]=0;
-        buf[TCP_CHECKSUM_L_P]=0;
-        // urgent pointer
-        buf[TCP_CHECKSUM_L_P+1]=0;
-        buf[TCP_CHECKSUM_L_P+2]=0;
-        // MSS=768, must be more than 50% of the window size we use
-        // 768 in hex is 0x300
-        buf[TCP_OPTIONS_P]=2;
-        buf[TCP_OPTIONS_P+1]=4;
-        buf[TCP_OPTIONS_P+2]=3;
-        buf[TCP_OPTIONS_P+3]=0;
-        ck=checksum(&buf[IP_SRC_P], 8 +TCP_HEADER_LEN_PLAIN+4,2);
-        buf[TCP_CHECKSUM_H_P]=ck>>8;
-        buf[TCP_CHECKSUM_L_P]=ck& 0xff;
-        // 4 is the tcp mss option:
-        enc28j60PacketSend(IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+ETH_HEADER_LEN+4,buf);
-}
-// call this function externally like this:
-//
-// Declare a callback function: void browserresult(uint8_t statuscode){...your code}
-// client_browser_url(PSTR("/cgi-bin/checkip"),NULL,PSTR("tuxgraphics.org"),&browserresult);
-// urlbuf_varpart is a pointer to a string buffer that contains the second
-// non constant part of the url. You must keep this buffer allocated until the
-// callback function is executed or until you can be sure that the server side
-// has timed out.
-// hoststr is the name of the host. This is needed because many sites host several
-// sites on the same physical machine with only one IP address. The web server needs
-// to know to which site you want to go.
-// statuscode is zero if the answer from the web server is 200 OK (e.g HTTP/1.1 200 OK)
-//
-void client_browse_url(prog_char *urlbuf, char *urlbuf_varpart, prog_char *hoststr,void (*callback)(uint8_t,uint16_t))
-{
-        client_urlbuf=urlbuf;
-        client_urlbuf_var=urlbuf_varpart;
-        client_hoststr=hoststr;
-        client_browser_callback=callback;
-        client_state=1; // send a syn
-        browsertype=0;
-}
-
-// client web browser using http POST operation:
-// additionalheaderline must be set to NULL if not used.
-// method set to NULL if using default POST, remember needs a space after
-// postval is a string buffer which can only be de-allocated by the caller 
-// when the post operation was really done (e.g when callback was executed).
-// postval must be urlencoded.
-void client_http_post(prog_char *urlbuf, prog_char *hoststr, prog_char *additionalheaderline, prog_char *method, char *postval,void (*callback)(uint8_t,uint16_t))
-{
-        client_urlbuf=urlbuf;
-        client_hoststr=hoststr;
-        client_additionalheaderline=additionalheaderline;
-        client_method=method;
-        client_postval=postval;
-        client_browser_callback=callback;
-        client_state=1; // send a syn
-        browsertype=1;
-}
-#endif // WWW_client
 
 void register_ping_rec_callback(void (*callback)(uint8_t *srcip))
 {
         icmp_callback=callback;
 }
 
-#ifdef PING_client
-// loop over this to check if we get a ping reply:
-uint8_t packetloop_icmp_checkreply(uint8_t *buf,uint8_t *ip_monitoredhost)
-{
-        if(buf[IP_PROTO_P]==IP_PROTO_ICMP_V && buf[ICMP_TYPE_P]==ICMP_TYPE_ECHOREPLY_V){
-                if (buf[ICMP_DATA_P]== PINGPATTERN){
-                        if (check_ip_message_is_from(buf,ip_monitoredhost)){
-                                return(1);
-                                // ping reply is from monitored host and ping was from us
-                        }
-                }
-        }
-        return(0);
-}
-#endif // PING_client
-
 // return 0 to just continue in the packet loop and return the position 
 // of the tcp/udp data if there is tcp/udp data part
 uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
 {
         uint16_t len;
-#if defined (WWW_client)
-        char strbuf[5];
-#endif
-
-        //plen will be unequal to zero if there is a valid 
-        // packet (without crc error):
-#if defined (WWW_client) || defined (NTP_client)
-        if(plen==0){
-                if (waitgwmac==2 && delaycnt==0&& enc28j60linkup()){
-                        client_arp_whohas(buf,gwip);
-                }
-                delaycnt++;
-                if (client_state==1){ // send a syn
-                        // the 0 and 80 are the destination port that 
-                        // this web client will connect to:
-                        client_state=2;
-                        tcpclient_src_port_l++; // allocate a new port
-                        client_syn(buf,tcpclient_src_port_l,0,80);
-                }
-                return(0);
-        }
-#endif // WWW_client||NTP_client
 
         // arp is broadcast if unknown but a host may also
         // verify the mac address by sending it to 
@@ -1040,28 +597,12 @@ uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
                         make_arp_answer_from_request(buf);
                 }
 
-#if defined (WWW_client) || defined (NTP_client)
-                if (waitgwmac==2 && (buf[ETH_ARP_OPCODE_L_P]==ETH_ARP_OPCODE_REPLY_L_V)){
-                        // is it an arp reply 
-                        if (client_store_gw_mac(buf)){
-                                waitgwmac=0;
-                        }
-                }
-#endif // WWW_client||NTP_client
-
                 return(0);
-
         }
         // check if ip packets are for us:
         if(eth_type_is_ip_and_my_ip(buf,plen)==0){
                 return(0);
         }
-
-#ifdef NTP_client
-        if(buf[IP_PROTO_P] == IP_PROTO_UDP_V && buf[UDP_SRC_PORT_H_P]==0 && buf[UDP_SRC_PORT_L_P]==0x7b ) {
-                return( UDP_DATA_P );
-        }
-#endif // NTP_client
 
         if(buf[IP_PROTO_P]==IP_PROTO_ICMP_V && buf[ICMP_TYPE_P]==ICMP_TYPE_ECHOREQUEST_V){
                 if (icmp_callback){
@@ -1075,82 +616,6 @@ uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
                 // smaller than the smallest TCP packet and not tcp port
                 return(0);
         }
-
-#ifdef WWW_client
-        // a message for the tcp client, client_state is zero if client was never used
-        if ( buf[TCP_DST_PORT_H_P]==TCPCLIENT_SRC_PORT_H){
-                if (check_ip_message_is_from(buf,wwwip)==0){
-                        return(0);
-                }
-                if ((buf[TCP_FLAGS_P] & TCP_FLAGS_SYN_V) && (buf[TCP_FLAGS_P] &TCP_FLAGS_ACK_V)){
-                        // synack, answer with ack
-                        make_tcp_ack_from_any(buf,0,0);
-                        // Make a tcp/www get/post. When calling this function we must
-                        // still have a valid tcp-ack in the buffer. In other words
-                        // you have just called make_tcp_ack_from_any(buf,0).
-                        buf[TCP_FLAGS_P]=TCP_FLAGS_ACK_V|TCP_FLAGS_PUSH_V;
-
-                        if (browsertype==0){
-                                // GET
-                                len=fill_tcp_data_p(buf,0,PSTR("GET "));
-                                len=fill_tcp_data_p(buf,len,client_urlbuf);
-                                len=fill_tcp_data(buf,len,client_urlbuf_var);
-                                len=fill_tcp_data_p(buf,len,PSTR(" HTTP/1.0\r\nHost: "));
-                                len=fill_tcp_data_p(buf,len,client_hoststr);
-                                len=fill_tcp_data_p(buf,len,PSTR("\r\nUser-Agent: Arduino/1.0\r\nAccept: text/html\r\n\r\n"));
-                        }else{
-                                // POST
-                                if( client_method ) {
-                                       len=fill_tcp_data_p(buf,0, client_method );
-                                } else {
-                                       len=fill_tcp_data_p(buf,0,PSTR("POST "));
-                                }
-                                len=fill_tcp_data_p(buf,len,client_urlbuf);
-                                len=fill_tcp_data_p(buf,len,PSTR(" HTTP/1.0\r\nHost: "));
-                                len=fill_tcp_data_p(buf,len,client_hoststr);
-                                if (client_additionalheaderline){
-                                        len=fill_tcp_data_p(buf,len,PSTR("\r\n"));
-                                        len=fill_tcp_data_p(buf,len,client_additionalheaderline);
-                                }
-                                len=fill_tcp_data_p(buf,len,PSTR("\r\nUser-Agent: Arduino/1.0\r\nAccept: */*\r\n"));
-                                len=fill_tcp_data_p(buf,len,PSTR("Content-Length: "));
-                                itoa(strlen(client_postval),strbuf,10);
-                                len=fill_tcp_data(buf,len,strbuf);
-                                len=fill_tcp_data_p(buf,len,PSTR("\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n"));
-                                len=fill_tcp_data(buf,len,client_postval);
-                        }
-                        client_state=3;
-                        make_tcp_ack_with_data_noflags(buf,len);
-                }else{
-                        len=get_tcp_data_len(buf);
-                        if (client_state==3 && len>12){  // even an http error code has a len>12
-                                client_state=4;
-                                // we might have a http status code
-                                if (client_browser_callback){
-                                        if (strncmp("200",(char *)&(buf[HTTP_HEADER_START+9]),3)==0){
-                                                (*client_browser_callback)(0,HTTP_HEADER_START);
-                                        }else{
-                                                (*client_browser_callback)(1,HTTP_HEADER_START);
-                                        }
-                                }
-                        }
-                        if (buf[TCP_FLAGS_P] & TCP_FLAGS_RST_V){
-                                if (client_browser_callback){
-                                        (*client_browser_callback)(2,0);
-                                }
-                        }
-                        if (buf[TCP_FLAGS_P] & TCP_FLAGS_FIN_V){
-                                make_tcp_ack_from_any(buf,len+1,TCP_FLAGS_PUSH_V|TCP_FLAGS_FIN_V);
-                        }else{
-                                // ack data:
-                                if (len>0){
-                                        make_tcp_ack_from_any(buf,len,0);
-                                }
-                        }
-                }
-                return(0);
-        }
-#endif // WWW_client
 
         // This is a packet that the calling code should handle.
         if (buf[TCP_FLAGS_P] & TCP_FLAGS_SYN_V){

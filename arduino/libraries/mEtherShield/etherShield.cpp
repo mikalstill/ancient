@@ -105,65 +105,9 @@ void EtherShield::ES_www_server_reply(uint8_t *buf,uint16_t dlen) {
 	www_server_reply(buf,dlen);
 }
 	
-#if defined (WWW_client) || defined (NTP_client)
-uint8_t EtherShield::ES_client_store_gw_mac(uint8_t *buf, uint8_t *gwipaddr) {
-	return client_store_gw_mac(buf, gwipaddr);
-}
-
-void EtherShield::ES_client_set_gwip(uint8_t *gwipaddr) {
-	client_set_gwip(gwipaddr);
-}
-
-void EtherShield::ES_client_set_wwwip(uint8_t *wwwipaddr) {
-	client_set_wwwip(wwwipaddr);
-}
-
-void EtherShield::ES_client_arp_whohas(uint8_t *buf,uint8_t *ip_we_search) {
-	client_arp_whohas(buf, ip_we_search);
-}
-#endif
-
-#ifdef WWW_client
-	// ----- http get
-void EtherShield::ES_client_browse_url(prog_char *urlbuf, char *urlbuf_varpart, prog_char *hoststr,void (*callback)(uint8_t,uint16_t)) {
-	client_browse_url(urlbuf, urlbuf_varpart, hoststr,callback);
-}
-
-void EtherShield::ES_client_http_post(prog_char *urlbuf, prog_char *hoststr, prog_char *additionalheaderline, prog_char *method, char *postval,void (*callback)(uint8_t,uint16_t)) {
-	client_http_post(urlbuf, hoststr, additionalheaderline, method, postval,callback);
-}
-#endif
-
-#ifdef NTP_client
-void EtherShield::ES_client_ntp_request(uint8_t *buf,uint8_t *ntpip,uint8_t srcport) {
-	client_ntp_request(buf,ntpip,srcport);
-}
-
-uint8_t EtherShield::ES_client_ntp_process_answer(uint8_t *buf,uint32_t *time,uint8_t dstport_l) {
-	return client_ntp_process_answer(buf,time,dstport_l);
-}
-#endif
-
 void EtherShield::ES_register_ping_rec_callback(void (*callback)(uint8_t *srcip)) {
 	register_ping_rec_callback(callback);
 }
-
-#ifdef PING_client
-void EtherShield::ES_client_icmp_request(uint8_t *buf,uint8_t *destip) {
-	client_icmp_request(buf,destip);
-}
-
-uint8_t EtherShield::ES_packetloop_icmp_checkreply(uint8_t *buf,uint8_t *ip_monitoredhost) {
-	return packetloop_icmp_checkreply(buf,ip_monitoredhost);
-}
-#endif // PING_client
-
-#ifdef WOL_client
-void EtherShield::ES_send_wol(uint8_t *buf,uint8_t *wolmac) {
-	send_wol(buf,wolmac);
-}
-#endif // WOL_client
-
 
 #ifdef FROMDECODE_websrv_help
 uint8_t EtherShield::ES_find_key_val(char *str,char *strbuf, uint8_t maxlen,char *key) {
@@ -174,7 +118,6 @@ void EtherShield::ES_urldecode(char *urlbuf) {
 	urldecode(urlbuf);
 }
 #endif
-
 
 #ifdef URLENCODE_websrv_help
 void EtherShield::ES_urlencode(char *str,char *urlbuf) {
@@ -189,5 +132,3 @@ uint8_t EtherShield::ES_parse_ip(uint8_t *bytestr,char *str) {
 void EtherShield::ES_mk_net_str(char *resultstr,uint8_t *bytestr,uint8_t len,char separator,uint8_t base) {
 	mk_net_str(resultstr,bytestr,len,separator,base);
 }
-
-
