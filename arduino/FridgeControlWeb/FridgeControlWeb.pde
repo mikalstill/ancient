@@ -89,7 +89,8 @@ char *ftoa(char *a, double f, int precision)
 void setup()   {                
   // initialize the digital pin as an output:
   pinMode(COMPRESSOR, OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("FridgeControlWeb");
   sensors.begin();
   
   es.ES_enc28j60Init(mymac);

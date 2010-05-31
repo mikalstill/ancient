@@ -4,8 +4,7 @@ extern "C" {
 	#include "enc28j60.h"
 	#include "ip_arp_udp_tcp.h"
 	#include "websrv_help_functions.h"
-#include "wiring.h"
- 
+	#include "wiring.h"
 }
 #include "EtherShield.h"
 
@@ -66,8 +65,8 @@ uint16_t EtherShield::ES_enc28j60PacketReceive(uint16_t len, uint8_t* packet){
 	return enc28j60PacketReceive(len, packet);
 }
 
-void EtherShield::ES_init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint16_t wwwp){
-	init_ip_arp_udp_tcp(mymac,myip,wwwp);
+void EtherShield::ES_init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip){
+	init_ip_arp_udp_tcp(mymac,myip);
 }
 
 uint8_t EtherShield::ES_eth_type_is_arp_and_my_ip(uint8_t *buf,uint16_t len) {

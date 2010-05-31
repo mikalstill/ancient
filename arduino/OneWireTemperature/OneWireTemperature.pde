@@ -27,7 +27,7 @@ char *ftoa(char *a, double f, int precision)
 
 void setup()
 {                
-  Serial.begin(9600);
+  Serial.begin(115200);
   sensors.begin();
 }
 

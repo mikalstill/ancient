@@ -28,27 +28,30 @@
 static uint8_t wwwport_l=80; // server port
 static uint8_t wwwport_h=0;  // Note: never use same as TCPCLIENT_SRC_PORT_H
 #if defined (WWW_client)
-static uint8_t browsertype=0; // 0 = get, 1 = post
-static uint8_t client_state=0;
-static prog_char *client_additionalheaderline;
-static prog_char *client_method;
-static char *client_postval;
-static void (*client_browser_callback)(uint8_t,uint16_t);
-static prog_char *client_urlbuf;
-static char *client_urlbuf_var;
-static prog_char *client_hoststr;
-// just lower byte, the upper byte is TCPCLIENT_SRC_PORT_H:
-static uint8_t tcpclient_src_port_l=1; 
-#define TCPCLIENT_SRC_PORT_H 11
-static uint8_t wwwip[4];
+  static uint8_t browsertype=0; // 0 = get, 1 = post
+  static uint8_t client_state=0;
+  static prog_char *client_additionalheaderline;
+  static prog_char *client_method;
+  static char *client_postval;
+  static void (*client_browser_callback)(uint8_t,uint16_t);
+  static prog_char *client_urlbuf;
+  static char *client_urlbuf_var;
+  static prog_char *client_hoststr;
+
+  // just lower byte, the upper byte is TCPCLIENT_SRC_PORT_H:
+  static uint8_t tcpclient_src_port_l=1; 
+  #define TCPCLIENT_SRC_PORT_H 11
+  static uint8_t wwwip[4];
 #endif
+
 static void (*icmp_callback)(uint8_t *ip);
 #if defined (WWW_client) || defined (NTP_client)
-static int16_t delaycnt=1;
-static uint8_t gwip[4];
-static uint8_t gwmacaddr[6];
-static volatile uint8_t waitgwmac=1;
+  static int16_t delaycnt=1;
+  static uint8_t gwip[4];
+  static uint8_t gwmacaddr[6];
+  static volatile uint8_t waitgwmac=1;
 #endif
+
 static uint8_t macaddr[6];
 static uint8_t ipaddr[4];
 static int16_t info_hdr_len=0;
@@ -58,10 +61,11 @@ static uint8_t seqnum=0xa; // my initial tcp sequence number
 #define HTTP_HEADER_START ((uint16_t)TCP_SRC_PORT_H_P+(buf[TCP_HEADER_LEN_P]>>4)*4)
 const char arpreqhdr[] PROGMEM ={0,1,8,0,6,4,0,1};
 #if defined (WWW_client) || defined (NTP_client) ||  defined (WOL_client)
-const char iphdr[] PROGMEM ={0x45,0,0,0x82,0,0,0x40,0,0x20}; // 0x82 is the total len on ip, 0x20 is ttl (time to live)
+  const char iphdr[] PROGMEM ={0x45,0,0,0x82,0,0,0x40,0,0x20}; // 0x82 is the total len on ip, 0x20 is ttl (time to live)
 #endif
+
 #ifdef NTP_client
-const char ntpreqhdr[] PROGMEM ={0xe3,0,4,0xfa,0,1,0,1,0,0};
+  const char ntpreqhdr[] PROGMEM ={0xe3,0,4,0xfa,0,1,0,1,0,0};
 #endif
 
 // The Ip checksum is calculated over the ip header only starting
@@ -130,10 +134,8 @@ uint16_t checksum(uint8_t *buf, uint16_t len,uint8_t type){
 
 // This initializes the web server
 // you must call this function once before you use any of the other functions:
-void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint16_t port){
+void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip){
         uint8_t i=0;
-        wwwport_h=(port>>8)&0xff;
-        wwwport_l=(port&0xff);
         while(i<4){
                 ipaddr[i]=myip[i];
                 i++;
@@ -1009,6 +1011,7 @@ uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
 #if defined (WWW_client)
         char strbuf[5];
 #endif
+
         //plen will be unequal to zero if there is a valid 
         // packet (without crc error):
 #if defined (WWW_client) || defined (NTP_client)
@@ -1027,6 +1030,7 @@ uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
                 return(0);
         }
 #endif // WWW_client||NTP_client
+
         // arp is broadcast if unknown but a host may also
         // verify the mac address by sending it to 
         // a unicast address.
@@ -1035,6 +1039,7 @@ uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
                         // is it an arp request 
                         make_arp_answer_from_request(buf);
                 }
+
 #if defined (WWW_client) || defined (NTP_client)
                 if (waitgwmac==2 && (buf[ETH_ARP_OPCODE_L_P]==ETH_ARP_OPCODE_REPLY_L_V)){
                         // is it an arp reply 
@@ -1043,6 +1048,7 @@ uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
                         }
                 }
 #endif // WWW_client||NTP_client
+
                 return(0);
 
         }
@@ -1050,11 +1056,13 @@ uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
         if(eth_type_is_ip_and_my_ip(buf,plen)==0){
                 return(0);
         }
+
 #ifdef NTP_client
         if(buf[IP_PROTO_P] == IP_PROTO_UDP_V && buf[UDP_SRC_PORT_H_P]==0 && buf[UDP_SRC_PORT_L_P]==0x7b ) {
                 return( UDP_DATA_P );
         }
 #endif // NTP_client
+
         if(buf[IP_PROTO_P]==IP_PROTO_ICMP_V && buf[ICMP_TYPE_P]==ICMP_TYPE_ECHOREQUEST_V){
                 if (icmp_callback){
                         (*icmp_callback)(&(buf[IP_SRC_P]));
@@ -1067,6 +1075,7 @@ uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
                 // smaller than the smallest TCP packet and not tcp port
                 return(0);
         }
+
 #ifdef WWW_client
         // a message for the tcp client, client_state is zero if client was never used
         if ( buf[TCP_DST_PORT_H_P]==TCPCLIENT_SRC_PORT_H){
@@ -1142,31 +1151,30 @@ uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen)
                 return(0);
         }
 #endif // WWW_client
-        //
-        // tcp port web server start
-        if (buf[TCP_DST_PORT_H_P]==wwwport_h && buf[TCP_DST_PORT_L_P]==wwwport_l){
-                if (buf[TCP_FLAGS_P] & TCP_FLAGS_SYN_V){
+
+        // This is a packet that the calling code should handle.
+        if (buf[TCP_FLAGS_P] & TCP_FLAGS_SYN_V){
                         make_tcp_synack_from_syn(buf);
                         // make_tcp_synack_from_syn does already send the syn,ack
                         return(0);
-                }
-                if (buf[TCP_FLAGS_P] & TCP_FLAGS_ACK_V){
-                        info_data_len=get_tcp_data_len(buf);
-                        // we can possibly have no data, just ack:
-                        // Here we misuse plen for something else to save a variable.
-                        // plen is now the position of start of the tcp user data.
-                        len=HTTP_HEADER_START;
-                        if (info_data_len==0){
-                                if (buf[TCP_FLAGS_P] & TCP_FLAGS_FIN_V){
-                                        // finack, answer with ack
-                                        make_tcp_ack_from_any(buf,0,0);
-                                }
-                                // just an ack with no data, wait for next packet
-                                return(0);
+        }
+        if (buf[TCP_FLAGS_P] & TCP_FLAGS_ACK_V){
+                info_data_len = get_tcp_data_len(buf);
+
+                // we can possibly have no data, just ack:
+                // Here we misuse plen for something else to save a variable.
+                // plen is now the position of start of the tcp user data.
+                len=HTTP_HEADER_START;
+                if (info_data_len==0){
+                        if (buf[TCP_FLAGS_P] & TCP_FLAGS_FIN_V){
+                               // finack, answer with ack
+                               make_tcp_ack_from_any(buf,0,0);
                         }
-                        // Here we misuse plen for something else to save a variable
-                        return(len);
+                        // just an ack with no data, wait for next packet
+                        return(0);
                 }
+                // Here we misuse plen for something else to save a variable
+                return(len);
         }
         return(0);
 }

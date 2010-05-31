@@ -21,7 +21,7 @@ boolean compressor = false;
 void setup()   {                
   // initialize the digital pin as an output:
   pinMode(COMPRESSOR, OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
   sensors.begin();
 }
 

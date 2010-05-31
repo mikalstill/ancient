@@ -98,7 +98,8 @@ int count_transitions(int ms)
 
 void setup()   {                
   // initialize the digital pin as an output:
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("TemperatureAndHumidity");
   sensors.begin();
   
   es.ES_enc28j60Init(mymac);

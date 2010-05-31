@@ -39,7 +39,7 @@ class EtherShield
 	void ES_enc28j60PhyWrite(uint8_t address, uint16_t data);
 	uint16_t ES_enc28j60PacketReceive(uint16_t len, uint8_t* packet);
 
-	void ES_init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint16_t port);
+	void ES_init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip);
 	// for a UDP server:
 	uint8_t ES_eth_type_is_arp_and_my_ip(uint8_t *buf,uint16_t len);
 

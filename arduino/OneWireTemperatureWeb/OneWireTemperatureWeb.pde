@@ -63,7 +63,8 @@ char *ftoa(char *a, double f, int precision)
 }
 
 void setup()   {                
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("OneWireTemperatureWeb");
   sensors.begin();
   
   es.ES_enc28j60Init(mymac);
