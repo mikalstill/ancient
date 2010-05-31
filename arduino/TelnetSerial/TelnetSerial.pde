@@ -8,7 +8,7 @@ extern "C" {
 }
 #include <etherShield.h>
 
-//#define DEBUG 1
+#define DEBUG 1
 #define BUFFER_SIZE 550
 
 static uint8_t mymac[6] = {0x54, 0x55, 0x58, 0x10, 0x00, 0x27}; 
@@ -101,15 +101,40 @@ void loop()
     #endif
 
     datastart = es.ES_packetloop_icmp_tcp(buf, l);
-    if(datastart != 0){
+    if(datastart > 0){
+      #ifdef DEBUG
+      Serial.print("Data starts at byte: ");
+      Serial.print(datastart);
+      Serial.print(" String of length ");
+      Serial.println(strlen((const char *) buf + datastart));
+      #endif
+    
+      // I have a problem with small packets (those less than 5 bytes of data?) here. It seems
+      // that the buffer returned from the enc28j60 is padded with nulls in that case, which
+      // pushes the ACKs outside the range of valid data, and therefore causes retransmits.
+      // Note this fix wont work for binary data...
+      // TODO(mikal): this might be because the ethernet frame length is being used instead of
+      // the TCP packet length?
+      if(l - datastart < 7)
+        l = datastart + strlen((const char *) buf + datastart);
+
       make_tcp_ack_from_any(buf, l - datastart, 0);
       Serial.print("Acked ");
       Serial.print(l - datastart);
       Serial.println(" bytes");
     
+      Serial.print(">>");
       for(i = datastart; i < l; i++){
-        Serial.print((char) buf[i]);
+        if(buf[i] == '\n') Serial.print("\\n");
+        else if(buf[i] == '\r') Serial.print("\\r");
+        else if(buf[i] == 0) Serial.print("NULL");
+        else Serial.print((char) buf[i]);
+        
+        Serial.print("(");
+        Serial.print((int) buf[i]);
+        Serial.print(") ");
       }
+      Serial.println("<<");
     }
   }
   
