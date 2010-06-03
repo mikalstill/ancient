@@ -143,7 +143,7 @@ uint8_t eth_type_is_arp_req(uint8_t *buf){
 }
 
 // Make a return eth header from a received eth packet
-void make_eth(uint8_t *buf)
+void reply_eth(uint8_t *buf)
 {
   memcpy(buf + ETH_DST_MAC, buf + ETH_SRC_MAC, 6);
   memcpy(buf + ETH_SRC_MAC, macaddr, 6);
@@ -168,11 +168,24 @@ void fill_ip_hdr_checksum(uint8_t *buf)
 }
 
 // Make a return ip header from a received ip packet
-void make_ip(uint8_t *buf)
+void reply_ip(uint8_t *buf)
 {
   memcpy(buf + IP_DST_P, buf + IP_SRC_P, 4);
   memcpy(buf + IP_SRC_P, ipaddr, 4);
   fill_ip_hdr_checksum(buf);
+}
+
+// Swap the port numbers in the packet
+void swap_ports(uint8_t *buf)
+{
+  uint8_t i;
+  // copy ports:
+  i=buf[TCP_DST_PORT_H_P];
+  buf[TCP_DST_PORT_H_P]=buf[TCP_SRC_PORT_H_P];
+  buf[TCP_SRC_PORT_H_P]=i;
+  i=buf[TCP_DST_PORT_L_P];
+  buf[TCP_DST_PORT_L_P]=buf[TCP_SRC_PORT_L_P];
+  buf[TCP_SRC_PORT_L_P]=i;
 }
 
 // Swap seq and ack number and count ack number up
@@ -208,30 +221,24 @@ void step_seq(uint8_t *buf,uint16_t rel_ack_num,uint8_t cp_seq)
 // otherwise it is copied from the packet we received
 void make_tcphead(uint8_t *buf,uint16_t rel_ack_num,uint8_t cp_seq)
 {
-        uint8_t i;
-        // copy ports:
-        i=buf[TCP_DST_PORT_H_P];
-        buf[TCP_DST_PORT_H_P]=buf[TCP_SRC_PORT_H_P];
-        buf[TCP_SRC_PORT_H_P]=i;
-        //
-        i=buf[TCP_DST_PORT_L_P];
-        buf[TCP_DST_PORT_L_P]=buf[TCP_SRC_PORT_L_P];
-        buf[TCP_SRC_PORT_L_P]=i;
-        step_seq(buf,rel_ack_num,cp_seq);
-        // zero the checksum
-        buf[TCP_CHECKSUM_H_P]=0;
-        buf[TCP_CHECKSUM_L_P]=0;
-        // no options:
-        // 20 bytes:
-        // The tcp header length is only a 4 bit field (the upper 4 bits).
-        // It is calculated in units of 4 bytes.
-        // E.g 20 bytes: 20/4=6 => 0x50=header len field
-        buf[TCP_HEADER_LEN_P]=0x50;
+  swap_ports(buf);
+  step_seq(buf,rel_ack_num,cp_seq);
+
+  // zero the checksum
+  buf[TCP_CHECKSUM_H_P]=0;
+  buf[TCP_CHECKSUM_L_P]=0;
+
+  // no options:
+  // 20 bytes:
+  // The tcp header length is only a 4 bit field (the upper 4 bits).
+  // It is calculated in units of 4 bytes.
+  // E.g 20 bytes: 20/4=6 => 0x50=header len field
+  buf[TCP_HEADER_LEN_P]=0x50;
 }
 
 void make_arp_answer_from_request(uint8_t *buf)
 {
-  make_eth(buf);
+  reply_eth(buf);
   buf[ETH_ARP_OPCODE_H_P]=ETH_ARP_OPCODE_REPLY_H_V;
   buf[ETH_ARP_OPCODE_L_P]=ETH_ARP_OPCODE_REPLY_L_V;
   memcpy(buf + ETH_ARP_DST_MAC_P, buf + ETH_ARP_SRC_MAC_P, 6);
@@ -243,8 +250,8 @@ void make_arp_answer_from_request(uint8_t *buf)
 
 void make_echo_reply_from_request(uint8_t *buf,uint16_t len)
 {
-  make_eth(buf);
-  make_ip(buf);
+  reply_eth(buf);
+  reply_ip(buf);
   buf[ICMP_TYPE_P] = ICMP_TYPE_ECHOREPLY_V;
   
   // we changed only the icmp.type field from request(=8) to reply(=0).
@@ -261,14 +268,14 @@ void make_udp_reply_from_request(uint8_t *buf,char *data,uint8_t datalen,uint16_
 {
         uint8_t i=0;
         uint16_t ck;
-        make_eth(buf);
+        reply_eth(buf);
         if (datalen>220){
                 datalen=220;
         }
         // total length field in the IP header must be set:
         buf[IP_TOTLEN_H_P]=0;
         buf[IP_TOTLEN_L_P]=IP_HEADER_LEN+UDP_HEADER_LEN+datalen;
-        make_ip(buf);
+        reply_ip(buf);
         // send to port:
         //buf[UDP_DST_PORT_H_P]=port>>8;
         //buf[UDP_DST_PORT_L_P]=port & 0xff;
@@ -297,12 +304,12 @@ void make_udp_reply_from_request(uint8_t *buf,char *data,uint8_t datalen,uint16_
 void make_tcp_synack_from_syn(uint8_t *buf)
 {
         uint16_t ck;
-        make_eth(buf);
+        reply_eth(buf);
         // total length field in the IP header must be set:
         // 20 bytes IP + 24 bytes (20tcp+4tcp options)
         buf[IP_TOTLEN_H_P]=0;
         buf[IP_TOTLEN_L_P]=IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+4;
-        make_ip(buf);
+        reply_ip(buf);
         buf[TCP_FLAGS_P]=TCP_FLAGS_SYNACK_V;
         make_tcphead(buf,1,0);
         // put an inital seq number
@@ -414,7 +421,7 @@ uint16_t fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s)
 void make_tcp_ack_from_any(uint8_t *buf,int16_t datlentoack,uint8_t addflags)
 {
         uint16_t j;
-        make_eth(buf);
+        reply_eth(buf);
         // fill the header:
         buf[TCP_FLAGS_P]=TCP_FLAGS_ACK_V|addflags;
         if (datlentoack==0){
@@ -428,7 +435,7 @@ void make_tcp_ack_from_any(uint8_t *buf,int16_t datlentoack,uint8_t addflags)
         j=IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN;
         buf[IP_TOTLEN_H_P]=j>>8;
         buf[IP_TOTLEN_L_P]=j& 0xff;
-        make_ip(buf);
+        reply_ip(buf);
         // use a low window size otherwise we have to have
         // timers and can not just react on every packet.
         buf[TCP_WIN_SIZE]=0x4; // 1024=0x400

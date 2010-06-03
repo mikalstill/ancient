@@ -5,109 +5,64 @@ extern "C" {
   #include <ip_arp_udp_tcp.h>
   #include <ip_config.h>
   #include <net.h>
+  
+  #include <dumppacketinfo.h>
 }
-#include <etherShield.h>
 
-#define DEBUG 1
 #define BUFFER_SIZE 550
+#define ERROR_500 "HTTP/1.0 500 Error\r\nContent-Type: text/html\r\n\r\n<h1>500 Error</h1>"
 
 static uint8_t mymac[6] = {0x54, 0x55, 0x58, 0x10, 0x00, 0x27}; 
 static uint8_t myip[4] = {192, 168, 1, 250};
 static uint8_t buf[BUFFER_SIZE + 1];
-
-// The ethernet shield
-EtherShield es = EtherShield();
+char data[BUFFER_SIZE + 1];
 
 void setup()
 {
-  Serial.begin(115200);
-  Serial.println("TelnetSerial");
-
-  es.ES_enc28j60Init(mymac);
-  es.ES_init_ip_arp_udp_tcp(mymac, myip);
+  Serial.begin(9600);
+  enc28j60Init(mymac);
+  init_ip_arp_udp_tcp(mymac, myip);
 }
 
-void dumppacketinfo(uint16_t l)
+uint16_t http200ok(void)
 {
-  int i;
-  uint16_t port, t;
+  return(fill_tcp_data_p(buf, 0, PSTR("HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n"
+                                      "Pragma: no-cache\r\n\r\n")));
+}
 
-  Serial.print("Packet of length ");
-  Serial.print(l);
+// prepare the webpage by writing the data to the tcp send buffer
+uint16_t print_webpage(uint8_t *buf)
+{
+  uint16_t plen;
+  plen = http200ok();
+  plen = fill_tcp_data_p(buf, plen, PSTR("<html><head><title>Temperature sensor</title>"
+                                         "</head><body><pre>"));
+  plen = fill_tcp_data(buf, plen, data);
+  plen = fill_tcp_data_p(buf, plen, PSTR("</pre></body></html>"));
 
-  Serial.print(" type ");
-  t = (byte) buf[ETH_TYPE_H_P];
-  t += (byte) buf[ETH_TYPE_L_P];
-  Serial.print((int) t);
-    
-  if(buf[ETH_TYPE_H_P] == ETHTYPE_ARP_H_V && buf[ETH_TYPE_L_P] == ETHTYPE_ARP_L_V)
-    Serial.println(" ARP");
-  else if(buf[ETH_TYPE_H_P] == ETHTYPE_IP_H_V && buf[ETH_TYPE_L_P] == ETHTYPE_IP_L_V)
-  {
-    Serial.print(" IPv");
-    Serial.print((int) (byte) (buf[IP_HEADER_LEN_VER_P] >> 4));
-    
-    Serial.print(" from ");
-    for(i = 0; i < 4; i++)
-    {
-      Serial.print((int) (byte) buf[IP_SRC_P + i]);
-      if(i != 3) Serial.print(".");
-    }
-
-    Serial.print(" to ");
-    for(i = 0; i < 4; i++)
-    {
-      Serial.print((int) (byte) buf[IP_DST_P + i]);
-      if(i != 3) Serial.print(".");
-    }
-    
-    if(buf[IP_PROTO_P] == IP_PROTO_ICMP_V)
-      Serial.println(" ICMP");
-    else if(buf[IP_PROTO_P] == IP_PROTO_TCP_V)
-    {
-      Serial.print(" TCP [");
-      port = (byte) buf[TCP_SRC_PORT_H_P];
-      port += (byte) buf[TCP_SRC_PORT_L_P];
-      Serial.print((int) port);
-      Serial.print("->");
-      port = (byte) buf[TCP_DST_PORT_H_P];
-      port += (byte) buf[TCP_DST_PORT_L_P];
-      Serial.print((int) port);
-      Serial.println("]");
-    }
-    else if(buf[IP_PROTO_P] == IP_PROTO_UDP_V)
-      Serial.println(" UDP");
-    else
-      Serial.println("");
-  }
-  else
-    Serial.println(" unknown");
+  return(plen);
 }
 
 void loop()
 {
   int i;
-  uint16_t l, datastart;
+  char c[1];
+  uint16_t l, j, datastart, port, packetlength;
   
   // Read: ES_enc28j60PacketReceive is a thin wrapper which returns a packet of the queue.
   // A length of zero means that there were no packets waiting.
   // ES_packetloop_icmp_tcp then processes things like ICMP "for free" and returns non-zero
   // only if we need to further process the packet.
-  l = es.ES_enc28j60PacketReceive(BUFFER_SIZE, buf);
-  if(l > 0)
-  {   
-    #ifdef DEBUG
-    dumppacketinfo(l);
-    #endif
-
-    datastart = es.ES_packetloop_icmp_tcp(buf, l);
-    if(datastart > 0){
-      #ifdef DEBUG
-      Serial.print("Data starts at byte: ");
-      Serial.print(datastart);
-      Serial.print(" String of length ");
-      Serial.println(strlen((const char *) buf + datastart));
-      #endif
+  packetlength = enc28j60PacketReceive(BUFFER_SIZE, buf);
+  if(packetlength > 0)
+  {
+    dumppacketinfo(buf, packetlength);
+  
+    // Handle low level packets
+    datastart = packetloop_icmp_tcp(buf, packetlength);
+    if(datastart < 1) Serial.println(datastart);
+    else if(datastart > 0){
+      // This is a packet which requires further processing
     
       // I have a problem with small packets (those less than 5 bytes of data?) here. It seems
       // that the buffer returned from the enc28j60 is padded with nulls in that case, which
@@ -115,31 +70,76 @@ void loop()
       // Note this fix wont work for binary data...
       // TODO(mikal): this might be because the ethernet frame length is being used instead of
       // the TCP packet length?
-      if(l - datastart < 7)
-        l = datastart + strlen((const char *) buf + datastart);
+      if(packetlength - datastart < 7)
+        packetlength = datastart + strlen((const char *) buf + datastart);
 
-      make_tcp_ack_from_any(buf, l - datastart, 0);
-      Serial.print("Acked ");
-      Serial.print(l - datastart);
-      Serial.println(" bytes");
-    
-      Serial.print(">>");
-      for(i = datastart; i < l; i++){
-        if(buf[i] == '\n') Serial.print("\\n");
-        else if(buf[i] == '\r') Serial.print("\\r");
-        else if(buf[i] == 0) Serial.print("NULL");
-        else Serial.print((char) buf[i]);
-        
-        Serial.print("(");
-        Serial.print((int) buf[i]);
-        Serial.print(") ");
+      port = (byte) buf[TCP_DST_PORT_H_P];
+      port += (byte) buf[TCP_DST_PORT_L_P];
+      switch(port)
+      {
+        case 23:
+          // Simple ethernet serial adapter. We just ack and send the data to serial.
+          make_tcp_ack_from_any(buf, packetlength - datastart, 0);
+          for(i = datastart; i < packetlength; i++){
+            Serial.print((char) buf[i]);
+          }
+          break;
+          
+        case 80:
+          // Simple HTTP server
+          if(strncmp("GET ", (char *) &(buf[datastart]), 4) != 0)
+          {
+            // head, post and other methods:
+            l = http200ok();
+            l = fill_tcp_data_p(buf, l, PSTR("<h1>200 OK</h1>"));
+          }
+          else if(strncmp("/ ", (char *)&(buf[datastart + 4]), 2) == 0)
+          {
+            // Temperature web page
+            sprintf(data, "Time is %d", millis());
+            l = print_webpage(buf);
+          }
+          else{
+            l = fill_tcp_data_p(buf, 0, PSTR(ERROR_500));
+          }
+          
+          make_tcp_ack_from_any(buf, packetlength - datastart, 0);
+          buf[TCP_FLAGS_P] = TCP_FLAGS_ACK_V | TCP_FLAGS_PUSH_V | TCP_FLAGS_FIN_V;
+          make_tcp_ack_with_data_noflags(buf, l);
+          break;
       }
-      Serial.println("<<");
     }
   }
   
   // Write
-  //l = es.ES_fill_tcp_data_p(buf, 0, PSTR("Hello\n"));
-  //buf[TCP_FLAGS_P] = TCP_FLAGS_ACK_V | TCP_FLAGS_PUSH_V;
-  //make_tcp_ack_with_data_noflags(buf, l);
+//  if(Serial.available())
+//  {
+//    c[0] = Serial.read();
+//    c[1] = 0;
+//
+//    Serial.print(c);
+//
+//    l = fill_tcp_data(buf, 0, c);
+//    for(i = 0; i < 6; i++)
+//        {
+//                buf[ETH_DST_MAC +i ] = buf[ETH_SRC_MAC + i];
+//                buf[ETH_SRC_MAC + i] = macaddr[i];
+//                i++;
+//        }
+//
+//    buf[TCP_FLAGS_P] = TCP_FLAGS_PUSH_V;
+//    
+//    buf[IP_TOTLEN_H_P] = (IP_HEADER_LEN + TCP_HEADER_LEN_PLAIN + 1) >> 8;
+//    buf[IP_TOTLEN_L_P] = (IP_HEADER_LEN + TCP_HEADER_LEN_PLAIN + 1) & 0xff;
+//        
+//    fill_ip_hdr_checksum(buf);
+//    buf[TCP_CHECKSUM_H_P] = 0;
+//    buf[TCP_CHECKSUM_L_P] = 0;
+//        
+//    // calculate the checksum, len=8 (start from ip.src) + TCP_HEADER_LEN_PLAIN + data len
+//    j = checksum(&buf[IP_SRC_P], 8 + TCP_HEADER_LEN_PLAIN + 1, 2);
+//    buf[TCP_CHECKSUM_H_P] = j >> 8;
+//    buf[TCP_CHECKSUM_L_P] = j & 0xff;
+//    enc28j60PacketSend(IP_HEADER_LEN + TCP_HEADER_LEN_PLAIN + 1 + ETH_HEADER_LEN, buf);
+//  }
 }

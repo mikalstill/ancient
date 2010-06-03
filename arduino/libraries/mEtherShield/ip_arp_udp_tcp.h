@@ -17,9 +17,16 @@
 #include "ip_config.h"
 #include <avr/pgmspace.h>
 
-// -- web server functions --
 // you must call this function once before you use any of the other server functions:
 extern void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip);
+
+extern void reply_eth(uint8_t *buf);
+extern void reply_ip(uint8_t *buf);
+extern void fill_ip_hdr_checksum(uint8_t *buf);
+extern uint16_t checksum(uint8_t *buf, uint16_t len,uint8_t type);
+extern void swap_ports(uint8_t *buf);
+extern void step_seq(uint8_t *buf,uint16_t rel_ack_num,uint8_t cp_seq);
+
 // for a UDP server:
 extern uint8_t eth_type_is_arp_and_my_ip(uint8_t *buf,uint16_t len);
 extern uint8_t eth_type_is_ip_and_my_ip(uint8_t *buf,uint16_t len);
@@ -37,7 +44,6 @@ extern uint16_t get_tcp_data_pointer(void);
 extern void make_tcp_ack_from_any(uint8_t *buf, uint16_t dlen, uint8_t addflags);
 extern void make_tcp_ack_with_data(uint8_t *buf,uint16_t dlen);
 extern void make_tcp_ack_with_data_noflags(uint8_t *buf,uint16_t dlen);
-
 
 // return 0 to just continue in the packet loop and return the position 
 // of the tcp data if there is tcp data part
