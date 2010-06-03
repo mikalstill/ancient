@@ -41,12 +41,11 @@ extern void make_tcp_ack_with_data_noflags(uint8_t *buf,uint16_t dlen);
 
 // return 0 to just continue in the packet loop and return the position 
 // of the tcp data if there is tcp data part
-extern uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen);
+extern int16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen);
 // functions to fill the web pages with data:
 extern uint16_t fill_tcp_data_p(uint8_t *buf,uint16_t pos, const prog_char *progmem_s);
 extern uint16_t fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s);
 // send data from the web server to the client:
-extern void www_server_reply(uint8_t *buf,uint16_t dlen);
 
 #define HTTP_HEADER_START ((uint16_t)TCP_SRC_PORT_H_P+(buf[TCP_HEADER_LEN_P]>>4)*4)
 
