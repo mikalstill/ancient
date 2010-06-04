@@ -8,7 +8,6 @@ sys.path.append('/data/src/stillhq_public/trunk/python/')
 import asyncore
 import copy
 import datetime
-import gflags
 import os
 import re
 import time
@@ -16,8 +15,10 @@ import uuid
 import urllib
 import MySQLdb
 
+import gflags
 import mhttp
 import mplugin
+import substitute
 
 from mpygooglechart import Chart
 from mpygooglechart import SimpleLineChart
@@ -350,10 +351,10 @@ class http_handler(mhttp.http_handler):
       f = open('ofc-helper.html')
       template = f.read()
       f.close()
-      head = self.substitute(template,
-                             subst={'data_file': urlpath.replace('flash',
-                                                                 'json')
-                                    })
+      head = substitute.substitute(template,
+                                   subst={'data_file': urlpath.replace('flash',
+                                                                       'json')
+                                          })
 
     self.sendfile('index.html', subst={'head': head,
                                        'data': '\n'.join(data),
@@ -697,11 +698,11 @@ class http_handler(mhttp.http_handler):
 
           upto += step_size
 
-        elements.append(self.substitute(template,
-                                       subst={'name': sensor_names.get(r, r),
-                                              'values': ', '.join(float_values),
-                                              'color': colors[returned.index(r)]
-                                             }))
+        elements.append(substitute.substitute(template,
+                                              subst={'name': sensor_names.get(r, r),
+                                                     'values': ', '.join(float_values),
+                                                     'color': colors[returned.index(r)]
+                                                     }))
 
       elements.reverse()
       self.sendfile('data.json',
