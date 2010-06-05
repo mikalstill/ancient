@@ -10,7 +10,7 @@ $|=1; # don't let Perl buffer I/O
 use Device::SerialPort;
 
 # serial port parameters
-$port = "/dev/ttyS0"; 
+$port = "/dev/ttyUSB0"; 
 $baud = "9600";
 
 
