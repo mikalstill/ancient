@@ -302,7 +302,7 @@ class http_handler(mhttp.http_handler):
              '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:]),
              '<a href="/json/%s">JSON</a>' % '/'.join(args[2:])]
 
-    (ranges, times) = self.ParseTimeField(args[2])
+    (ranges, times, step_size) = self.ParseTimeField(args[2])
     self.log('Time ranges: %s' % repr(ranges))
 
     data = []
@@ -334,7 +334,7 @@ class http_handler(mhttp.http_handler):
              '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:]),
              '<a href="/json/%s">JSON</a>' % '/'.join(args[2:])]
 
-    (ranges, times) = self.ParseTimeField(args[2])
+    (ranges, times, step_size) = self.ParseTimeField(args[2])
     self.log('Time ranges: %s' % repr(ranges))
 
     data = []
@@ -371,7 +371,7 @@ class http_handler(mhttp.http_handler):
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
-    (ranges, times) = self.ParseTimeField(args[2])
+    (ranges, times, step_size) = self.ParseTimeField(args[2])
     self.log('Time ranges: %s' % repr(ranges))
 
     # TODO(mikal): add options parsing here
@@ -461,11 +461,26 @@ class http_handler(mhttp.http_handler):
 
     ranges = []
     times = []
-    for time_field in tf.split(';'):
+
+    for time_field in tf.split('!')[0].split(';'):
       # Each range is (start_epoch, end_epoch, day_field)
       ranges.append(self.timewindow(time_field.split(',')))
       times.append(time_field)
-    return (ranges, times)
+
+    step_size = None
+    try:
+      step_size = tf.split(';')[0].split('!')[1]
+      if step_size == 'daily':
+        step_size = 24 * 3600
+      elif step_size == 'hourly':
+        step_size = 3600
+      else:
+        step_size = int(step_size)
+
+    except:
+      pass
+
+    return (ranges, times, step_size)
 
   def FetchTableData(self, args):
     """Fetch a table's worth of data."""
@@ -474,7 +489,10 @@ class http_handler(mhttp.http_handler):
 
     db = MySQLdb.connect(user = 'root', db = 'home')
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
-    (ranges, times) = self.ParseTimeField(args[2])
+    (ranges, times, step_size) = self.ParseTimeField(args[2])
+    if not step_size:
+      step_size = 60
+
     self.log('Time ranges: %s' % repr(ranges))
 
     wideinterp = True
@@ -489,7 +507,6 @@ class http_handler(mhttp.http_handler):
 
     values = {}
     returned = []
-    step_size = 60
     max_window_size = ranges[0][1] - ranges[0][0]
 
     # Fetch data points for the table
@@ -598,7 +615,7 @@ class http_handler(mhttp.http_handler):
     global sensor_names
 
     args = urlpath.split('/')
-    (ranges, times) = self.ParseTimeField(args[2])
+    (ranges, times, step_size) = self.ParseTimeField(args[2])
     data = []
 
     incomplete = True
@@ -618,7 +635,7 @@ class http_handler(mhttp.http_handler):
       # The table
       header = ['timestamp']
       for sensor in returned:
-        header.append('%s' % sensor_names.get(sensor, sensor))
+        header.append('"%s"' % sensor_names.get(sensor, sensor))
       data.append(','.join(header))
 
       if incomplete:
@@ -627,13 +644,13 @@ class http_handler(mhttp.http_handler):
         target = len(returned)
 
       for i in range(start_epoch, end_epoch, step_size):
-        row = '%s' % datetime.datetime.fromtimestamp(i)
+        row = '"%s"' % datetime.datetime.fromtimestamp(i)
         non_null = 0
         for sensor in returned:
           if values[sensor][0]:
-            row += ', %s' % values[sensor][0]
+            row += ',%s' % values[sensor][0]
           else:
-            row += ', '
+            row += ','
 
           if not values[sensor][0] is None:
             non_null += 1
@@ -650,7 +667,7 @@ class http_handler(mhttp.http_handler):
     global sensor_names
 
     args = urlpath.split('/')
-    (ranges, times) = self.ParseTimeField(args[2])
+    (ranges, times, step_size) = self.ParseTimeField(args[2])
     data = []
 
     incomplete = True
@@ -678,8 +695,7 @@ class http_handler(mhttp.http_handler):
       f.close()
 
       colors = ['0000FF', '00FF00', 'FF0000',
-                'dd5500', 'ee11ff', '88ddff',
-                '44cc00', 'bb0011', '11aaff']
+                '88ddff', 'bb0011', '11aaff']
 
       y_max = 0
       elements = []
