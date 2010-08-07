@@ -18,6 +18,20 @@ void cleardisplay() {
   }
 }
 
+void reddisplay() {
+  int i;
+  for(i = 0; i < 8; i++) {
+    red[i] = 255;
+  }
+}
+
+void greendisplay() {
+  int i;
+  for(i = 0; i < 8; i++) {
+    green[i] = 255;
+  }
+}
+
 void setpixel(int x, int y, byte *color) {
   if(!(color[y] & powers[x]))
     color[y] += powers[x];
@@ -50,39 +64,19 @@ void setup() {
   pinMode(DATAPIN, OUTPUT);
   
   cleardisplay();
+  reddisplay();
+  greendisplay();
   randomSeed(analogRead(0));
   MsTimer2::set(2, writedisplay);
   MsTimer2::start();
+  
+  delay(1000);
+  cleardisplay();
 }
 
 void loop() {
-  //if(random(0, 10) == 3) cleardisplay();
-  //setpixel(random(0, 8), random(0, 8), red);
-  //setpixel(random(0, 8), random(0, 8), green);
-  
-  int i, j;
-  
-  cleardisplay();
-  delay(1000);
-  
-  for(i = 0; i < 8; i++){
-    for(j = 0; j < 8; j++){
-      delay(500);
-      if(j != 300){
-        setpixel(i, j, red);
-      }
-    }
-  }
-  delay(1000);
-  
-  cleardisplay();
-  for(i = 0; i < 8; i++){
-    for(j = 0; j < 8; j++){
-      delay(500);
-      if(j != 300){
-        setpixel(i, j, green);
-      }
-    }
-  }
-  delay(1000);
+  if(random(0, 10) == 3) cleardisplay();
+  setpixel(random(0, 8), random(0, 8), red);
+  setpixel(random(0, 8), random(0, 8), green);
+  delay(100);
 }
