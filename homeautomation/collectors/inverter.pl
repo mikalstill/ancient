@@ -15,7 +15,7 @@ $baud = "9600";
 
 
 # output parsed data to this text file
-$logfile="/share/solar/inverter.txt";
+$logfile="/mnt/inverter.txt";
 
 # This appears to tell the inverter to start
 # the init handshake back from the beginning.
@@ -183,7 +183,7 @@ sub parsedata() {
   print "mod: $mod\n";
 
   my $now=time;
-  open (LOGFILE, ">>$logfile");
+  open (LOGFILE, ">$logfile");
   print LOGFILE "$now,$temp,$Vdc,$Iac,$Vac,$Fac,$Pac,$kWh,$run,$mod\n";
   close (LOGFILE);
   #system("/usr/bin/rrdtool", "update", "$rrdfile", "$now,$temp,$Vdc,$Iac,$Vac,$Fac,$Pac,$mod");
@@ -199,7 +199,7 @@ my $pollcount=0;
 while (1) {
   sleep 1; ######
   $pollcount++;
-  if ($pollcount eq 20) {
+  if ($pollcount % 20 == 0) {
     &initialise;
   }
   # Request Data
