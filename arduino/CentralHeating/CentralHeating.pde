@@ -1,10 +1,3 @@
-//
-// rev 1.1 - added proper keyboard handling - good debounce
-//          -  removed all serial output in anticipation of incorporating protocol support
-// rev 1.2 - added serial receive routines....Added support for some receive commands.
-// rev 1.3 - added support for serial programming commands (still to do:  ST, SP
-//
-
 #include <stdio.h>
 #include <string.h>
 
@@ -64,7 +57,7 @@ char line_buffer[100];
 uint8_t setpoint = 18;
 float temp = -1000.0;
 unsigned long last_temp = 0, heater_on = 0;
-uint8_t mode = 0, prev_mode;
+uint8_t mode = 0;
 
 uint8_t num_progs = 0, prev_prog = -1, heater_state = LOW;
 typedef struct program_internal
@@ -83,8 +76,6 @@ char *dow[] = {
 void SerialOutput(char *s)
 {
   char *inset;
-  //  Serial.print("Writing: ");
-  //  Serial.print(s);
 
   while(serial_inset + strlen(s) > SERIAL_OUT_BUFFER_SIZE)
   {
@@ -95,7 +86,7 @@ void SerialOutput(char *s)
 
   sprintf(serial_out + serial_inset, s);
   serial_inset = strlen(serial_out);
-  //  Serial.print("Serial inset: ");
+  
   Serial.println(serial_inset);
 }
 
@@ -139,7 +130,7 @@ void setup()
   //Timer2 Overflow Interrupt Enable
   TIMSK2 |= 1<<TOIE2;
 
-
+  // Ensure RTC is setup
   if(rtc.read_register(0x20) != 0xa5)
   {
     rtc.write_protect(false);
@@ -151,15 +142,12 @@ void setup()
 
   if(rtc.read_register(0x20) == 0xa5)
   {
-    Serial.println("** RTC chip present");
     rtc.write_register(0x09, 169);
   } 
-  else Serial.println("** RTC chip absent");
-
+  
+  // Ensure EEPROM is setup
   if(EEPROM.read(0) != 0xa5)
   {
-    Serial.println("** EEPROM is not initialized");
-
     EEPROM.write(0, 0xa5);    // Signature
     EEPROM.write(1, 0x04);    // Number of programs
     num_progs = 4;
@@ -191,20 +179,12 @@ void setup()
   }
   else
   {
-    Serial.println("** Reading EEPROM");
     num_progs = EEPROM.read(1);
     for(i = 0; i < sizeof(program) * num_progs; i++)
       ((uint8_t *) progs)[i] = EEPROM.read(2 + i);
   }
-
-  //snprintf(line_buffer, 100, "** Programs (%d):\n", num_progs);
-  //Serial.println(line_buffer);
-  //  for(i = 0; i < num_progs; i++)
-  //  {
-  //    snprintf(line_buffer, 100, "** %d -> %d:%d %d\n", i,
-  //             progs[i].hour, progs[i].minute, progs[i].setpoint);
-  //    Serial.println(line_buffer);
-  //  }
+  
+  serial_read = 0;
 }
 
 
@@ -233,7 +213,6 @@ void check_switches()
   lasttime = millis();
 
   for (index = 0; index < NUMBUTTONS; index++) {
-
     currentstate[index] = digitalRead(buttons[index]);   // read the button
 
     if (currentstate[index] == previousstate[index]) {
@@ -247,7 +226,7 @@ void check_switches()
       }
       pressed[index] = !currentstate[index];  // remember, digital HIGH means NOT pressed
     }
-    //Serial.println(pressed[index], DEC);
+    
     previousstate[index] = currentstate[index];   // keep a running tally of the buttons
   }
 }
@@ -272,28 +251,31 @@ void loop()
   Time time = rtc.time();
 
   // While data is available from the serial link, load it into a buffer
-  // he he... - remember abour buffer over runs!
-  while (Serial.available()>0){
-    if (serial_read<SERIAL_IN_BUFFER_SIZE) 
-      serial_in[serial_read++]=Serial.read(); // load the input buffer
-    else  serial_read=0;  // if there is no space for the string to fit, 
-    // then reset the insertion pointer - we have overflowed
-
-
+  // he he... - remember about buffer over runs!
+  while (Serial.available() > 0){
+    if (serial_read < SERIAL_IN_BUFFER_SIZE) 
+      serial_in[serial_read++] = Serial.read(); // load the input buffer
+    else serial_read = 0;  // if there is no space for the string to fit
   } 
 
-  // see if we need to process an incomming serial command
-  //
+  // see if we need to process an incoming serial command
+  if(serial_read > 0)
+  {
+    Serial.print(">> (");
+    Serial.print(serial_read);
+    Serial.print(") ");
+    for(i = 0; i < serial_read; i++) Serial.print(serial_in[i]);
+    Serial.println("");
+  }
+
   if (serial_in[serial_read-1]=='.') // using . for EOL char for test - make <cr> for prod
   {
     // was the message directed at us? (first 2 chars = our ID, and 3rd char ':')
     MSG_ID[0] = serial_in[0]; 
-    MSG_ID[1]=serial_in[1]; 
-    MSG_ID[2]='\0';
-    if (( atoi(MSG_ID) == slave_id ) & (serial_in[2]==':'))
+    MSG_ID[1] = serial_in[1]; 
+    MSG_ID[2] = '\0';
+    if ((atoi(MSG_ID) == slave_id ) & (serial_in[2]==':'))
     { 
-      //Serial.println("ID Matched");
-
       // 
       //  Test for and Process read commands
       //
@@ -444,11 +426,8 @@ void loop()
       }
     } 
 
-
-    //        serial_in[serial_read]='\0'; // add an end of string char to play nicely
-    //        Serial.println(serial_in);
     serial_in[0]='\0'; // and erase the string
-    serial_read=0;
+    serial_read = 0;
   }
 
   // Determine button state
@@ -461,41 +440,36 @@ void loop()
     }
   }
 
-  //  if(buttons > 0)
-  //  {
-  //    snprintf(line_buffer, 100, "** Button events: %d", buttons);
-  //    Serial.println(line_buffer);
-  //  } // else  snprintf(line_buffer, 100, "** NO Button events: %d", buttons);
-
-
   // Paint menu
   switch(mode)
   {
   case 0:
-  case 1:
     // Default mode
     if(buttons == 1){
-      if(mode == 0){
-        mode = 1;
-        setpoint = 0;
-      }
-      else{
-        mode = 0;
-        prev_prog = -1;
-      }
+      mode = 1;
+      setpoint = 0;
     }
     else if(buttons == 2 && setpoint > 0) setpoint -= 1;
     else if(buttons == 4) setpoint += 1;
     else if(buttons == 8){
-      prev_mode = mode;
       mode = 2;
+    }
+    break;
+
+  case 1:
+    if(buttons == 1){
+      mode = 0;
+      prev_prog = -1;
+    }
+    else if(buttons == 8){
+      mode = 6;
     }
     break;
 
   case 2:
     if(buttons == 1) mode = 3;
     else if(buttons == 4) mode = 44;
-    else if(buttons == 8) mode = prev_mode;
+    else if(buttons == 8) mode = 0;
     break;
 
   case 3:
@@ -537,20 +511,28 @@ void loop()
       else minutes += 1;
       rtc.minutes(minutes);
     }
-    else if(buttons == 8) mode = prev_mode;
+    else if(buttons == 8) mode = 0;
+    break;
+    
+  case 6:
+    if(buttons == 1)
+    {
+      mode = 0;
+      prev_prog = -1;
+    }
     break;
   }
 
   switch(mode)
   {
-  case 0: 
-    sprintf(menu, "Off  -   +   Set"); 
+  case 0:
+    sprintf(menu, "Off  -   +   Set");
     break;
-  case 1: 
-    sprintf(menu, " On  -   +   Set"); 
+  case 1:
+    sprintf(menu, "Off      Disable");
     break;
   case 2: 
-    sprintf(menu, "Time    Prog  OK"); 
+    sprintf(menu, "Time    Prog  OK");
     break;
   case 3: 
     sprintf(menu, "Day  -   +    OK"); 
@@ -583,18 +565,13 @@ void loop()
   if(current_prog != prev_prog)
   {
     setpoint = progs[current_prog].setpoint;
-    //snprintf(line_buffer, 100,
-    //         "** Program %d matches (%d vs %d) -- setpoint %d\n",
-    //         i, progs[current_prog].hour, progs[current_prog].minute,
-    //         setpoint);
-    //Serial.println(line_buffer);
     prev_prog = current_prog;
   }
 
   // Determine the temperature
-  if(millis() - last_temp > 5000 || temp < -200.0)
+  while(millis() - last_temp > 5000 || temp < -30.0)
   {
-    //Serial.println("** Read temperature\n");
+    Serial.println("Read temperature");
     sensors.requestTemperatures();
     while(sensors.getDeviceCount() == 0)
     {
@@ -605,12 +582,7 @@ void loop()
     for(i = 0; i < sensors.getDeviceCount(); i++)
       temp += sensors.getTempCByIndex(i);
     temp /= sensors.getDeviceCount();
-
-    //Serial.println(temp);
-    //snprintf(line_buffer, 100, "Inside heater controller: %s\n",
-    //         ftoa(float_conv, temp, 2);
-    //Serial.println(line_buffer);
-
+    
     last_temp = millis();
   }
 
@@ -618,45 +590,39 @@ void loop()
   if(temp < setpoint && setpoint - temp > 0.25)
   {
     if(heater_state != HIGH){
-      //Serial.println("** Heater on\n");
       heater_on = millis();
     }
     heater_state = HIGH;
   }
   else if(millis() - heater_on > 300000)
   {
-    if(heater_state != LOW){
-      //Serial.println("** Heater off\n");
-      //snprintf(line_buffer, 100, "Heater run time: %ul\n",
-      //         (millis() - heater_on));
-      //Serial.println(line_buffer);
-    }
     heater_state = LOW;
   }
   digitalWrite(HEATER, heater_state);
 
   // Display only if the screen has changed
   sprintf(data, "%s %02d:%02d N%02d S%02d", 
-  dow[time.day - 1], time.hr, time.min,
-  (int) temp, setpoint);
+          dow[time.day - 1], time.hr, time.min,
+          (int) temp, setpoint);
+
+  Serial.print("**");
+  Serial.print(strcmp(data, prev_data));
+  Serial.print(" ");
+  Serial.println(strcmp(menu, prev_menu));
 
   if(strcmp(data, prev_data) != 0 || strcmp(menu, prev_menu) != 0)
   {
-    //  Serial.println(">> ");
-    //  Serial.println(data);
-    //  Serial.println("\n");
     lcd.setCursor(0, 0);
     lcd.print(data);
-    strcpy(prev_data, data);
+    Serial.print("..");
+    Serial.println(data);
 
-    //  Serial.println(">> ");
-    //  Serial.println(menu);
-    //  Serial.println("\n");
     lcd.setCursor(0, 1);
     lcd.print(menu);
+    Serial.print("..");
+    Serial.println(menu);
+    
+    strcpy(prev_data, data);
     strcpy(prev_menu, menu);
   }
-
-  // Poor man's debounce
-  //if(buttons > 0) delay(100);
 }
