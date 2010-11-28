@@ -30,6 +30,9 @@ MIN_Y = -30.0
 MAX_Y = 100.0
 MAX_READINGS_PER_GRAPH = 580
 POWER_COST = 0.138
+
+DAILY_DIR = '/data/src/stillhq_public/trunk/homeautomation/daily/'
+FUNCTION_DIR = '/data/src/stillhq_public/trunk/homeautomation/functions/'
 PLUGIN_DIR = '/data/src/stillhq_public/trunk/homeautomation/plugins/'
 
 sensor_names = {}
@@ -40,23 +43,7 @@ requests = {}
 skips = {}
 bytes = 0
 
-
-wiggle = [0]
-backwards = range(-150, 0, 1)
-forwards = range(150, 0, -1)
-while backwards:
-  wiggle.append(backwards.pop())
-  wiggle.append(forwards.pop())
-wiggle.append(None)
-
-bom_wiggle = [0]
-backwards = range(-1800, 0, 1)
-forwards = range(1800, 0, -1)
-while backwards:
-  bom_wiggle.append(backwards.pop())
-  bom_wiggle.append(forwards.pop())
-bom_wiggle.append(None)
-
+one_day = datetime.timedelta(days=1)
 
 class http_server(mhttp.http_server):
   def client_init(self):
@@ -123,7 +110,6 @@ class http_handler(mhttp.http_handler):
       self.log('Time field is %s, day field is %s' %(time_field, day_field))
 
     elif day_field == ['yesterday']:
-      one_day = datetime.timedelta(days=1)
       yesterday = datetime.datetime.now() - one_day
       day_field = yesterday.timetuple()[0:3]
       self.log('Time field is %s, day field is %s' %(time_field, day_field))
@@ -278,10 +264,14 @@ class http_handler(mhttp.http_handler):
     for ent in os.listdir(PLUGIN_DIR):
       if ent.endswith('.py'):
         plugin = mplugin.LoadPlugin(PLUGIN_DIR, ent[:-3], log=self.log)
-        for out in plugin.Returns(cursor):
-          sensors.append('<li><a href="/chart/%d.%d.%d/%s">%s</a>'
-                         % (int(range[2][0]), int(range[2][1]),
-                            int(range[2][2]), out, out))
+        try:
+          for out in plugin.Returns(cursor):
+            sensors.append('<li><a href="/chart/%d.%d.%d/%s">%s</a>'
+                           % (int(range[2][0]), int(range[2][1]),
+                              int(range[2][2]), out, out))
+        except Exception, e:
+          self.log('Exception determining return values for plugin %s: %s'
+                   %(ent, e))
 
     sensors.sort()
     return ['<h1>Available sensors</h1><ul>',
@@ -297,12 +287,14 @@ class http_handler(mhttp.http_handler):
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
-    links = ['<a href="/flash/%s">Flash</a>' % '/'.join(args[2:]),
+    (ranges, times, step_size) = self.ParseTimeField(args[2])
+    links = [self.time_link(urlpath, args[2], ranges[0], -one_day, '&lt;&lt;'),
+             self.time_link(urlpath, args[2], ranges[0], one_day, '&gt;&gt;'),
+             '<a href="/flash/%s">Flash</a>' % '/'.join(args[2:]),
              '<a href="/table/%s">Table</a>' % '/'.join(args[2:]),
              '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:]),
              '<a href="/json/%s">JSON</a>' % '/'.join(args[2:])]
 
-    (ranges, times, step_size) = self.ParseTimeField(args[2])
     self.log('Time ranges: %s' % repr(ranges))
 
     data = []
@@ -329,12 +321,14 @@ class http_handler(mhttp.http_handler):
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
-    links = ['<a href="/chart/%s">Static</a>' % '/'.join(args[2:]),
+    (ranges, times, step_size) = self.ParseTimeField(args[2])
+    links = [self.time_link(urlpath, args[2], ranges[0], -one_day, '&lt;&lt;'),
+             self.time_link(urlpath, args[2], ranges[0], one_day, '&gt;&gt;'),
+             '<a href="/chart/%s">Static</a>' % '/'.join(args[2:]),
              '<a href="/table/%s">Table</a>' % '/'.join(args[2:]),
              '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:]),
              '<a href="/json/%s">JSON</a>' % '/'.join(args[2:])]
 
-    (ranges, times, step_size) = self.ParseTimeField(args[2])
     self.log('Time ranges: %s' % repr(ranges))
 
     data = []
@@ -516,7 +510,8 @@ class http_handler(mhttp.http_handler):
                  %(sensor, r[0], r[1], r[1] - r[0]))
         max_window_size = r[1] - r[0]
         (t_values, t_redirects) = self.ResolveSensor(values, {}, cursor,
-                                                     sensor, r[0], r[1], step_size,
+                                                     sensor, r[0], r[1],
+                                                     step_size,
                                                      wideinterp)
         self.log('Resolved values: %s' % t_values.keys())
 
@@ -532,7 +527,8 @@ class http_handler(mhttp.http_handler):
           returned.append(k)
           self.log('Creating meta value %s from %s at %s' %(k, sensor, t))
 
-    return (ranges[0][0], ranges[0][0] + max_window_size, step_size, returned, values)
+    return (ranges[0][0], ranges[0][0] + max_window_size, step_size, returned,
+            values)
 
   def handleurl_table(self, urlpath, post_data):
     """A table of data."""
@@ -543,7 +539,10 @@ class http_handler(mhttp.http_handler):
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
-    links = ['<a href="/flash/%s">Flash</a>' % '/'.join(args[2:]),
+    (ranges, times, step_size) = self.ParseTimeField(args[2])
+    links = [self.time_link(urlpath, args[2], ranges[0], -one_day, '&lt;&lt;'),
+             self.time_link(urlpath, args[2], ranges[0], one_day, '&gt;&gt;'),
+             '<a href="/flash/%s">Flash</a>' % '/'.join(args[2:]),
              '<a href="/chart/%s">Chart</a>' % '/'.join(args[2:]),
              '<a href="/csv/%s">CSV</a>' % '/'.join(args[2:]),
              '<a href="/json/%s">JSON</a>' % '/'.join(args[2:])]
@@ -644,7 +643,8 @@ class http_handler(mhttp.http_handler):
         target = len(returned)
 
       for i in range(start_epoch, end_epoch, step_size):
-        row = '"%s"' % datetime.datetime.fromtimestamp(i)
+        row = '%s' %(datetime.datetime.fromtimestamp(i).\
+                       strftime('%Y%m%d%H%M'))
         non_null = 0
         for sensor in returned:
           if values[sensor][0]:
@@ -664,6 +664,10 @@ class http_handler(mhttp.http_handler):
   def handleurl_json(self, urlpath, post_data):
     """A table of JSON formatted data."""
 
+    # If terse is set, we drop repeated values and assume the renderer
+    # can handle that with a horizontal line. This is true for the flash
+    # graphing engine for example
+
     global sensor_names
 
     args = urlpath.split('/')
@@ -671,11 +675,16 @@ class http_handler(mhttp.http_handler):
     data = []
 
     incomplete = True
+    terse = False
     for param in args[1].split(','):
       self.log('Considering table param: %s' % param)
       if param == 'noincomplete':
         incomplete = False
-    self.log('Table parameters: incomplete = %s' % incomplete)
+      if param == 'terse':
+        terse = True
+
+    self.log('Table parameters: incomplete = %s, terse = %s'
+             %(incomplete, terse))
 
     if len(args) < 4:
       data = self.AvailableSensors(cursor, ranges[0])
@@ -703,12 +712,26 @@ class http_handler(mhttp.http_handler):
       for r in returned:
         upto = ranges[0][0]
         float_values = []
+
+        previous = None
         for v in values[r]:
           try:
-            float_values.append('{"x": %d, "y": %d}'
-                                %(upto, float(v)))
-            if float(v) > y_max:
-              y_max = float(v)
+            current = float(v)
+            if not terse:
+              float_values.append('{"x": %d, "y": %d}'
+                                  %(upto, current))
+            else:
+              if current != previous:
+                if previous is not None:
+                  float_values.append('{"x": %d, "y": %d}'
+                                      %(upto, previous))
+
+                float_values.append('{"x": %d, "y": %d}'
+                                    %(upto, current))
+            previous = current
+
+            if current > y_max:
+              y_max = current
           except:
             pass
 
@@ -817,16 +840,35 @@ class http_handler(mhttp.http_handler):
     self.log('Values for %s between %s and %s' %(sensor, start_epoch,
                                                      end_epoch))
 
+    plugin = None
+    plugin_is_function = False
     if sensor.startswith('='):
-      plugin = mplugin.LoadPlugin(PLUGIN_DIR, sensor[1:], log=self.log)
+      try:
+        plugin = mplugin.LoadPlugin(PLUGIN_DIR, sensor[1:], log=self.log)
+      except:
+        pass
+
+      if not plugin:
+        try:
+          plugin = mplugin.LoadPlugin(FUNCTION_DIR, sensor[1:].split('(')[0],
+                                      log=self.log)
+        except:
+          pass
+        plugin_is_function = True
+
       if not plugin:
         self.log('No plugin matching %s' % sensor[1:])
         return values
 
       db = MySQLdb.connect(user = 'root', db = 'home')
       cursor = db.cursor(MySQLdb.cursors.DictCursor)
-
-      inputs = plugin.Requires(cursor, sensor_names)
+      
+      # Functions have explicit inputs
+      if not plugin_is_function:
+        inputs = plugin.Requires(cursor, sensor_names)
+      else:
+        inputs = sensor[1:].split('(')[1].split(')')[0].split(',')
+      self.log('Calculation requires: %s' % repr(inputs))
 
       # Fetch missing values
       for input in inputs:
@@ -848,8 +890,12 @@ class http_handler(mhttp.http_handler):
       # Calculate
       self.log('Calculating derived values with inputs: %s'
                % input_values.keys())
-      values[sensor] = plugin.Calculate(input_values, redirects,
-                                        step_size=step_size, log=self.log)
+      if not plugin_is_function:
+        values[sensor] = plugin.Calculate(input_values, redirects,
+                                          step_size=step_size, log=self.log)
+      else:
+        values[sensor] = plugin.Calculate(inputs, input_values, redirects,
+                                          step_size=step_size, log=self.log)
 
     else:
       sensors = self.ExpandSensorName(sensor)
@@ -877,6 +923,8 @@ class http_handler(mhttp.http_handler):
                                            wideinterp=wideinterp)
         self.log('Found %d chart points for %s' %(len(values[name]), name))
 
+    self.log('Resolved values: %s and redirects: %s' %(repr(values),
+                                                       repr(redirects)))
     return (values, redirects)
 
   def ExpandSensorName(self, sensor):
@@ -923,8 +971,21 @@ class http_handler(mhttp.http_handler):
                      sensor, wideinterp=True):
     """Grab an array of values for a chart."""
 
-    global wiggle
-    global bom_wiggle
+    wiggle = [0]
+    if not wideinterp:
+      backwards = range(-150, 0, 1)
+      forwards = range(150, 0, -1)
+    elif sensor.startswith('BOM '):
+      backwards = range(-1800, 0, 1)
+      forwards = range(1800, 0, -1)
+    else:
+      backwards = range(-(step_size / 2), 0, 1)
+      forwards = range(step_size / 2, 0, -1)
+
+    while backwards:
+      wiggle.append(backwards.pop())
+      wiggle.append(forwards.pop())
+    wiggle.append(None)
 
     values = []
     offsets = []
@@ -932,15 +993,9 @@ class http_handler(mhttp.http_handler):
     if step_size < 1:
       step_size = 1
 
-    if not wideinterp:
-      wig = wiggle
-    elif sensor.startswith('BOM '):
-      wig = bom_wiggle
-    else:
-      wig = wiggle
     
     for t in range(start_epoch, end_epoch, step_size):
-      for offset in wig:
+      for offset in wiggle:
         if offset is None:
           offsets.append(None)
           values.append(None)
@@ -953,6 +1008,17 @@ class http_handler(mhttp.http_handler):
 
     # self.log('Offsets: %s' % repr(offsets))
     return values
+
+  def time_link(self, urlpath, time_arg, first_time_tuple, delta, link):
+    first_time_arg = time_arg.split(';')[0]
+    self.log('Convert %s in %s (%s) to offset time'
+             %(repr(first_time_tuple), first_time_arg, urlpath))
+    first_time = datetime.datetime(int(first_time_tuple[2][0]),
+                                   int(first_time_tuple[2][1]),
+                                   int(first_time_tuple[2][2]))
+    first_time += delta
+    new_url = urlpath.replace(first_time_arg, first_time.strftime('%Y.%m.%d'))
+    return '<a href="%s">%s</a>' %(new_url, link)
 
 
 def FetchSensorNames():
@@ -1006,13 +1072,14 @@ def InitializeCleanup():
 
 
 def Cleanup():
-  """Downsample data older than a week to being within one minute accuracy."""
+  """Perform regular down sampling."""
 
   cleaned = False
   db = MySQLdb.connect(user = 'root', db = 'home')
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
   cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
 
+  # Downsample data older than a week to being within one minute accuracy
   cursor.execute('select * from cleanup where upto < %d '
                  'order by upto desc limit 1;'
                  % (time.time() - (3 * 24 * 60 * 60)))
@@ -1071,7 +1138,7 @@ def Cleanup():
                     %(row['sensor'], row['ip']))
     cursor2.execute('commit;')
     cleaned  = True
-
+    
   return cleaned
 
 
@@ -1106,6 +1173,17 @@ def main(argv):
     if time.time() - last_event > timeout:
       # We are idle
       print '%s ...' % datetime.datetime.now()
+
+      db = MySQLdb.connect(user = 'root', db = 'home')
+      cursor = db.cursor(MySQLdb.cursors.DictCursor)
+      for ent in os.listdir(DAILY_DIR):
+        if ent.endswith('.py'):
+          print '%s: Updating daily %s' %(datetime.datetime.now(), ent)
+          try:
+            plugin = mplugin.LoadPlugin(DAILY_DIR, ent[:-3], log=None)
+            plugin.Daily(cursor)
+          except Exception, e:
+            print '%s: Exception: %s' %(datetime.datetime.now(), e)
 
       if time.time() - sensor_names_age > 1800:
         sensor_names = FetchSensorNames()

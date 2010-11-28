@@ -4,11 +4,12 @@
 # code as the outside humidity, except for the humidity and temperature
 # sources. One day I should work out inheritance for plugins.
 
-INSIDE_TEMP = 'Inside lounge'
+INSIDE_TEMP = 'Inside lounge TV'
+INSIDE_HS1101 = 'HS1101 cycles'
 
 def Requires(unused_cursor, unused_sensor_names):
   """What inputs are required?"""
-  return ['HS1101 cycles', INSIDE_TEMP]
+  return [INSIDE_HS1101, INSIDE_TEMP]
 
 
 def Returns(unused_cursor):
@@ -21,10 +22,10 @@ def Calculate(inputs, redirects, step_size=None, log=None):
 
   out = []
 
-  while inputs['HS1101 cycles (192.168.1.251)']:
-    if inputs['HS1101 cycles (192.168.1.251)'][0] and inputs[INSIDE_TEMP][0]:
+  while inputs[INSIDE_HS1101]:
+    if inputs[INSIDE_HS1101][0] and inputs[INSIDE_TEMP][0]:
       raw = (557.1 -
-             (int(inputs['HS1101 cycles (192.168.1.251)'][0]) * 0.0758) + 16)
+             (int(inputs[INSIDE_HS1101][0]) * 0.0758) + 16)
       temp = inputs[INSIDE_TEMP][0]
       corr = (1.0 + (0.001 * (temp - 25))) * raw
 

@@ -10,12 +10,12 @@ $|=1; # don't let Perl buffer I/O
 use Device::SerialPort;
 
 # serial port parameters
-$port = "/dev/ttyUSB0"; 
+$port = "/dev/ttyUSB1"; 
 $baud = "9600";
 
 
 # output parsed data to this text file
-$logfile="/mnt/inverter.txt";
+$logfile="/var/www/inverter.txt";
 
 # This appears to tell the inverter to start
 # the init handshake back from the beginning.

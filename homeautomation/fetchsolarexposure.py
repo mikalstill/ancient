@@ -21,11 +21,11 @@ cursor = db.cursor(MySQLdb.cursors.DictCursor)
 now = datetime.datetime.now()
 one_day = datetime.timedelta(days=1)
 
-for days in xrange(7):
+for days in xrange(14):
   now -= one_day
 
   t = time.mktime((now.year, now.month, now.day, 0, 0, 0, 0, 0 ,0))
-  cursor.execute('select * from sensors where sensor="BOM Solar" and '
+  cursor.execute('select * from sensors_daily where sensor="BOM Solar" and '
                  'epoch_seconds = %d;'
                  % t)
   if cursor.rowcount == 0:
@@ -52,7 +52,7 @@ for days in xrange(7):
       continue
 
     try:
-      cursor.execute('insert into sensors (epoch_seconds, sensor, value, ip) '
+      cursor.execute('insert into sensors_daily (epoch_seconds, sensor, value, ip) '
                      'values(%s, "BOM Solar", "%s", "BOM");'
                      %(t, value))
       cursor.execute('commit;')

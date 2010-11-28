@@ -22,6 +22,9 @@ cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
 for ent in os.listdir(COLLECTOR_DIR):
   if ent.endswith('.py'):
+    if len(sys.argv) > 1 and ent not in sys.argv[1:]:
+      continue
+
     print
     print '----------------------------------------------------------'
     print '%s: Running %s' %(datetime.datetime.now(), ent)

@@ -21,7 +21,7 @@ def Calculate(inputs, redirects, step_size=None, log=None):
       out.append(float(inputs['kWh'][1]) - float(inputs['kWh'][0]))
 
     except:
-     out.append(None)
+      out.append(None)
 
     for input in inputs:
       inputs[input] = inputs[input][1:]
