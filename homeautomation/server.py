@@ -371,9 +371,20 @@ class http_handler(mhttp.http_handler):
     # TODO(mikal): add options parsing here
     sensors = mhttp.urldecode(args[3]).split(',')
     wideinterp = True
+    size = (600, 400)
+    for param in args[1].split(','):
+      self.log('Considering table param: %s' % param)
+      if param == 'nowideinterpolation':
+        wideinterp = False
+
+      elif param.startswith('size'):
+        x, y = param.split('=')[1].split('x')
+        size = (int(x), int(y))
+
+    self.log('Data fetch parameters: wideinterpolation = %s' % wideinterp)
 
     # Build a chart
-    chart = SimpleLineChart(600, 400, y_range=[MIN_Y, MAX_Y])
+    chart = SimpleLineChart(size[0], size[1], y_range=[MIN_Y, MAX_Y])
     chart.set_title('Sensors')
     chart.set_colours(['0000FF', '00FF00', 'FF0000',
                        'dd5500', 'ee11ff', '88ddff',
@@ -718,15 +729,15 @@ class http_handler(mhttp.http_handler):
           try:
             current = float(v)
             if not terse:
-              float_values.append('{"x": %d, "y": %d}'
+              float_values.append('{"x": %d, "y": %.03f}'
                                   %(upto, current))
             else:
               if current != previous:
                 if previous is not None:
-                  float_values.append('{"x": %d, "y": %d}'
+                  float_values.append('{"x": %d, "y": %.03f}'
                                       %(upto, previous))
 
-                float_values.append('{"x": %d, "y": %d}'
+                float_values.append('{"x": %d, "y": %.03f}'
                                     %(upto, current))
             previous = current
 

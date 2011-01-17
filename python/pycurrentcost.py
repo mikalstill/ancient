@@ -54,6 +54,7 @@ XML Response : %s''' % (self.port, self.version, self.radio_id,
   def dom(self, xml_str=None):
     """Returns the DOM object for this object. Overwrites the XML for the
     object, if provided"""
+
     if not xml_str and not self.xml_str:
       raise ValueError, 'cannot generate DOM, no xml present or provided'
     else:
@@ -68,7 +69,7 @@ XML Response : %s''' % (self.port, self.version, self.radio_id,
       self.xml_dom = xml.dom.minidom.parseString(self.xml_str)
     except xml.parsers.expat.ExpatError, e:
       print 'Error parsing XML Response : %s' % (e)
-      print 'XML was : %s' % (xml_str)
+      print 'XML was : %s' % (self.xml_str)
       raise
 
     return self.xml_dom
@@ -77,9 +78,12 @@ XML Response : %s''' % (self.port, self.version, self.radio_id,
     """Populates the object attributes from the xml_str attribute"""
     if not self.xml_str:
       raise CurrentCostException, 'populate() called on object with no XML'
+
     # remove occasional stupidness from the XML the device sends back.
-    logging.debug('Populating reading object from XML : %s', self.xml_str)
+    print 'Populating reading object from XML : %s' % self.xml_str
     self.fix_xml()
+    print 'Fixed XML : %s' % self.xml_str
+
     self.xml_dom = self.dom()
     self.version = get_single_tag_contents(self.xml_dom, 'src')
     self.radio_id = get_single_tag_contents(self.xml_dom, 'id')
@@ -98,6 +102,14 @@ XML Response : %s''' % (self.port, self.version, self.radio_id,
 
     if xml_str.startswith('/<msg'):
       xml_str = xml_str[1:]
+
+    # Mikal: sometimes we get more than one message, with the first one
+    # being truncated...
+    msgs = xml_str.split('<msg><src>')[1:]
+    print 'Messages: %s' % '\n  '.join(msgs)
+    if len(msgs) > 1:
+      print 'Taking the second message'
+      xml_str = '<msg><src>%s' % msgs[1]
 
     self.xml_str = xml_str
 
@@ -129,7 +141,7 @@ class CurrentCostUsageReading(CurrentCostReading):
     for i in range(1, 9):
       data = get_nested_tag_contents(self.xml_dom, 'ch%d' % (i))
       if data:
-        logging.debug('Channel info : ch%s = %s', i, data)
+        print 'Channel info : ch%s = %s' %(i, data)
         self.channels.setdefault(i, data)
     
 def get_single_tag_contents(node, tag):
@@ -221,14 +233,13 @@ class CurrentCostReader(object):
     result = None
     while read_attempts < 3:
       read_attempts = read_attempts + 1
-      logging.debug('Reading from %s, attempt %d',
-                                      self.port, read_attempts)
+      print'Reading from %s, attempt %d' %(self.port, read_attempts)
       result = ser.readline()
       # The unit likes to output random newlines
       if result == '\n':
         continue
       else:
-        logging.debug('Read : %s', result)
+        print 'Read : %s' % result
         break
       
     if read_attempts == 3:

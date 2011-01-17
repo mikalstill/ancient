@@ -11,7 +11,8 @@ DATA_RE = re.compile('.*<pre>(.*)</pre>.*', re.DOTALL)
 
 
 def Collect(cursor):
-  for ip in ['192.168.1.10', '192.168.1.251', '192.168.1.252', '192.168.1.253']:
+  for ip in ['192.168.1.248', '192.168.1.251', '192.168.1.252',
+             '192.168.1.253']:
     try:
       print '%s: Fetching %s' %(datetime.datetime.now(), ip)
 
