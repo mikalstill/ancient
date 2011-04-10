@@ -16,7 +16,7 @@ def GenerateRankSql(skips):
 
   return ('rand() + '
           '  (least(tracks.plays, 15) * 0.00005 * %d) - '
-          '  (usersummary.skips * 0.01 * %d) + '
+          '  (ifnull(usersummary.skips, 0) * 0.01 * %d) + '
           '  (to_days(now()) - '
           '   greatest(to_days(last_played), '
           '            to_days(last_skipped))) * '
@@ -52,12 +52,13 @@ class BusinessLogic(object):
     if recent:
       recent_sql = 'where (to_days(now()) - to_days(creation_time)) < 15'
       self.log('Request is for a recent track')
-    sql = ('select *, %s from tracks join usersummary on '
+    sql = ('select *, %s from tracks left join usersummary on '
            'usersummary.user="%s" and usersummary.track_id = id '
-           '%s order by idx desc limit 100;'
+           '%s order by idx desc limit %s;'
            %(GenerateRankSql(skips), 
              GetClientSetting(self.db, client_id, 'user'),
-             recent_sql))
+             recent_sql, limit))
+    self.log('Bulk pick sql = %s' % sql)
 
     for row in self.db.GetRows(sql):
       self.log('Got %s' % row.keys())

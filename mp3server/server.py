@@ -16,6 +16,7 @@ import urllib
 import MySQLdb
 
 import mhttp
+import substitute
 
 import coverhunt
 import business
@@ -159,29 +160,33 @@ class http_handler(mhttp.http_handler):
        for l in line.split('&'):
          if l:
             (name, value) = l.split('=')
-            if name in ['mp3_source', 'user']:
+            if name in ['mp3_source', 'user', 'volume']:
               self._set_user_var(db, name, value)
 
     elif '?' in urlfile:
       v = urlfile.split('?')[1]
       for l in v.split('&'):
         (name, value) = l.split('=')
-        if name in ['mp3_source', 'user']:
+        if name in ['mp3_source', 'user', 'volume']:
           self._set_user_var(db, name, value)
           
     row = db.GetOneRow('select * from clients where id=%s;'
                        % self.client_id)
     if not row:
       row = {'mp3_source': '',
-             'user': ''}
+             'user': '',
+             'volume': '50'}
     if not row.has_key('mp3_source'):
       row['mp3_source'] = ''
     if not row.has_key('user'):
-      row['user'] = ''
+      row['user'] = 'shared'
+    if not row.has_key('volume'):
+      row['volume'] = '50'
 
     self.sendfile('index.html',
                   subst={'mp3_source': row['mp3_source'],
                          'user': row['user'],
+                         'volume': row['volume']
                         })
 
   def handleurl_play(self):
@@ -292,6 +297,7 @@ class http_handler(mhttp.http_handler):
 
     results = self.renderbrowseresults(sql)
     filters['results'] = '\n'.join(results)
+    filters['volume'] = business.GetClientSetting(db, self.client_id, 'volume')
     self.sendfile('browse.html', subst=filters)
 
   def handleurl_tags(self, urlfile):
@@ -530,10 +536,10 @@ class http_handler(mhttp.http_handler):
           bgcolor = 'bgcolor="#DDDDDD"'
 
         rendered['bgcolor'] = bgcolor
-        results.append(self.substitute(results_template, rendered))
+        results.append(substitute.substitute(results_template, rendered))
       else:
         if includemissing:
-          results.append(self.substitute(missing_template, rendered))
+          results.append(substitute.substitute(missing_template, rendered))
         self.log('Skipping row with no MP3 URL: %s' % repr(rendered))
 
     return results
@@ -668,7 +674,9 @@ class http_handler(mhttp.http_handler):
     """Bulk pick tracks."""
 
     global blogic
-    self.sendtext(repr(blogic.picktrack(limit=int(urlfile.split('/')[-1]),
+    limit = int(urlfile.split('/')[-1])
+    self.log('Limit is %s' % limit)
+    self.sendtext(repr(blogic.picktrack(limit=limit,
                                         client_id=self.client_id)))
 
   # uPnP stuff
@@ -703,7 +711,7 @@ class http_handler(mhttp.http_handler):
 
       results = []
       for title in ['All', 'Recent']:
-        result = self.substitute(results_template, {'title': title})
+        result = substitute.substitute(results_template, {'title': title})
         self.log('XML %s' % result, console=FLAGS.showresponse)
         results.append(self.xmlsafe(result))        
 
@@ -727,7 +735,7 @@ class http_handler(mhttp.http_handler):
       results = f.read()
       f.close()
 
-      results = self.substitute(results, rendered)
+      results = substitute.substitute(results, rendered)
       for l in results.split('\n'):
         self.log('XML %s' % l, console=FLAGS.showresponse)
       results = self.xmlsafe(results)
@@ -811,6 +819,7 @@ def main(argv):
   print '%s Started listening on port %s' %(datetime.datetime.now(),
                                             FLAGS.port)
 
+  ids = []
   last_summary = time.time()
   while running:
     last_event = time.time()
@@ -819,7 +828,8 @@ def main(argv):
     if time.time() - last_event > 9.0:
       # We are idle
       print '%s ...' % datetime.datetime.now()
-      
+
+      # House keeping 
       remove = []
       for ent in requests:
         (t, _) = requests[ent]
@@ -831,6 +841,7 @@ def main(argv):
       for ent in remove:
         del requests[ent]
       
+      # Ensure no null data
       db.ExecuteSql('update tracks set last_played=makedate(1970,1) where '
                     'last_played is null;')
       db.ExecuteSql('update tracks set last_skipped=makedate(1970,1) where '
@@ -839,6 +850,25 @@ def main(argv):
       db.ExecuteSql('update tracks set skips=0 where skips is null;')
       db.ExecuteSql('commit;')
 
+      # Ensure all users have all ids
+      if len(ids) == 0:
+        print '%s Fetching track ids' % datetime.datetime.now()
+        ids = db.GetRows('select distinct(id) from tracks;')
+        ids.reverse()
+        users = db.GetRows('select distinct user from usersummary;')
+
+      else:
+        for id_row in ids[:100]:
+          for row in users:
+            if db.ExecuteSql('insert ignore into usersummary(user, track_id, '
+                            'skips, plays, updated) values '
+                            '("%s", %s, 0, 0, now());'
+                            %(row['user'], id_row['id'])) > 0:
+              print '%s Added %s for user %s' %(datetime.datetime.now(),
+                                                id_row['id'], row['user'])
+        ids = ids[100:]
+
+      # Work out play lengths
       for row in db.GetRows('select path from paths where error is null '
                             'and duration is null limit 1;'):
         try:
