@@ -42,10 +42,22 @@ class http_server(mhttp.http_server):
   def client_init(self):
     """Do local setup."""
     
-    self.http_handler_class = http_handler
+    self.http_handler_class = mp3_http_handler
 
 
-class http_handler(mhttp.http_handler):
+class mp3_http_handler(mhttp.http_handler):
+  def sendfile(self, file, subst={}, chunk=None):
+    global db
+
+    if not 'mp3_source' in subst:
+      subst['mp3_source'] = business.GetClientSetting(db, self.client_id, 'mp3_source', '')
+    if not 'user' in subst:
+      subst['user'] = business.GetClientSetting(db, self.client_id, 'user', 'shared')
+    if not 'volume' in subst:
+      subst['volume'] = business.GetClientSetting(db, self.client_id, 'volume', '50')
+
+    self._sendfile(file, subst)
+
   def dispatch(self, urlfile, post_data, chunk=None):
     global db
     
@@ -170,24 +182,7 @@ class http_handler(mhttp.http_handler):
         if name in ['mp3_source', 'user', 'volume']:
           self._set_user_var(db, name, value)
           
-    row = db.GetOneRow('select * from clients where id=%s;'
-                       % self.client_id)
-    if not row:
-      row = {'mp3_source': '',
-             'user': '',
-             'volume': '50'}
-    if not row.has_key('mp3_source'):
-      row['mp3_source'] = ''
-    if not row.has_key('user'):
-      row['user'] = 'shared'
-    if not row.has_key('volume'):
-      row['volume'] = '50'
-
-    self.sendfile('index.html',
-                  subst={'mp3_source': row['mp3_source'],
-                         'user': row['user'],
-                         'volume': row['volume']
-                        })
+    self.sendfile('index.html')
 
   def handleurl_play(self):
     """The HTTP playback user interface."""
@@ -285,7 +280,7 @@ class http_handler(mhttp.http_handler):
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
            '%s %s order by %s artist, song, album, number %s;'
            %(random_sql_cols,
-             business.GetClientSetting(db, self.client_id, 'user'),
+             business.GetClientSetting(db, self.client_id, 'user', 'shared'),
              filters['artist_filter_compiled'],
              filters['album_filter_compiled'],
              filters['track_filter_compiled'],
@@ -297,7 +292,6 @@ class http_handler(mhttp.http_handler):
 
     results = self.renderbrowseresults(sql)
     filters['results'] = '\n'.join(results)
-    filters['volume'] = business.GetClientSetting(db, self.client_id, 'volume')
     self.sendfile('browse.html', subst=filters)
 
   def handleurl_tags(self, urlfile):
@@ -355,6 +349,11 @@ class http_handler(mhttp.http_handler):
 
   def handleurl_tag(self, urlfile):
     """Show songs with a given tag."""
+
+    # This handles how soundmanager uses null sounds stupidly
+    if urlfile.endswith('/null.mp3'):
+      self.senderror(404, 'No such file')
+      return
 
     (_, _, tag_encoded) = urlfile.split('/')
     tag = mhttp.urldecode(tag_encoded.split('=')[1])

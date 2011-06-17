@@ -25,7 +25,7 @@ def GenerateRankSql(skips):
           % (skips + 1, skips + 1, skips + 1))
 
 
-def GetClientSetting(db, client_id, setting):
+def GetClientSetting(db, client_id, setting, default):
   """Lookup a setting for a client."""
 
   # TODO(mikal): cache this?
@@ -33,7 +33,7 @@ def GetClientSetting(db, client_id, setting):
                                  % client_id)
   if client_settings and client_settings.has_key(setting):
     return client_settings[setting]
-  return None
+  return default
 
 
 class BusinessLogic(object):
@@ -56,7 +56,7 @@ class BusinessLogic(object):
            'usersummary.user="%s" and usersummary.track_id = id '
            '%s order by idx desc limit %s;'
            %(GenerateRankSql(skips), 
-             GetClientSetting(self.db, client_id, 'user'),
+             GetClientSetting(self.db, client_id, 'user', 'shared'),
              recent_sql, limit))
     self.log('Bulk pick sql = %s' % sql)
 
@@ -94,7 +94,7 @@ class BusinessLogic(object):
       self.log('Considering id = %d: %s' %(id, row['path']))
       if row['path'].endswith('.mp3') and os.path.exists(row['path']):
         self.log('MP3 check: %s' % row['path'])
-        mp3_source = GetClientSetting(self.db, client_id, 'mp3_source')
+        mp3_source = GetClientSetting(self.db, client_id, 'mp3_source', '')
         if mp3_source:
           mp3_url = ('%s/%s' %(mp3_source,
                                row['path'].replace(FLAGS.audio_path, '')))
@@ -120,7 +120,7 @@ class BusinessLogic(object):
                        % id)
     self.db.ExecuteSql('commit;')
 
-    user = GetClientSetting(self.db, client_id, 'user')
+    user = GetClientSetting(self.db, client_id, 'user', 'shared')
     self.db.ExecuteSql('insert ignore into usersummary (user, track_id, '
                        'plays, skips) values("%s", %s, 0, 0);'
                        %(user, id))
@@ -143,7 +143,7 @@ class BusinessLogic(object):
                        % id)
     self.db.ExecuteSql('commit;')
 
-    user = GetClientSetting(self.db, client_id, 'user')
+    user = GetClientSetting(self.db, client_id, 'user', 'shared')
     self.db.ExecuteSql('insert ignore into usersummary (user, track_id, '
                        'plays, skips) values("%s", %s, 0, 0);'
                        %(user, id))
