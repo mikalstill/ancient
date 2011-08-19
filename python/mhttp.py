@@ -236,6 +236,10 @@ class http_handler(asyncore.dispatcher):
     return subst
 
   def sendfile(self, path, subst=None, chunk=None):
+    """Make it easy to override."""
+    self._sendfile(path, subst=subst, chunk=chunk)
+
+  def _sendfile(self, path, subst=None, chunk=None):
     """Send a file to the client, including doing the MIME type properly."""
 
     subst = self.global_subst(subst)

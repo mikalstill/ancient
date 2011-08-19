@@ -155,7 +155,7 @@ class mp3_http_handler(mhttp.http_handler):
     if value == '':
       value = None
 
-    self.log('Updating %s to %s' %(name, value))
+    self.log('Updating %s to %s for %s' %(name, value, self.client_id))
     db.ExecuteSql('insert ignore into clients(id, createtime) '
                   'values(%s, now());'
                   % self.client_id)
