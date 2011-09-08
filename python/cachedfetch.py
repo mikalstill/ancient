@@ -9,7 +9,7 @@ import sys
 import time
 import urllib
 
-def Fetch(url):
+def Fetch(url, maxage=3600):
   if not os.path.exists('cache'):
     os.mkdir('cache')
 
@@ -18,7 +18,7 @@ def Fetch(url):
     return _Fetch(url, ent)
 
   mod = os.path.getmtime('cache/%s' % ent)
-  if time.time() - mod > 24 * 3600:
+  if time.time() - mod > 24 * maxage:
     return _Fetch(url, ent)
   
   sys.stderr.write('Cache hit for %s\n' % url)

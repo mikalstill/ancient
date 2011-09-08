@@ -39,7 +39,7 @@ def Collect(cursor):
 
         try:
           cursor.execute('insert into sensors'
-                         '(epoch_seconds, sensor, value, ip) '
+                         '(epoch_seconds, sensor, value, hostname) '
                          'values(%s, "%s", "%s", "%s");'
                          %(time.time(), field, value, ip))
           cursor.execute('commit;')

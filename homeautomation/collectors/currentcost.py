@@ -19,11 +19,11 @@ def Collect(cursor):
          %(datetime.datetime.now(), reading.channels[1]['watts'],
            reading.temperature))
 
-  cursor.execute('insert into sensors (epoch_seconds, sensor, value, ip) '
+  cursor.execute('insert into sensors (epoch_seconds, sensor, value, hostname) '
                  'values(%s, "Watts", "%s", "CC128");'
                  %(time.time(), reading.channels[1]['watts']))
   cursor.execute('commit;')
-  cursor.execute('insert into sensors (epoch_seconds, sensor, value, ip) '
-                 'values(%s, "Inside lounge TV", "%s", "CC128");'
+  cursor.execute('insert into sensors (epoch_seconds, sensor, value, hostname) '
+                 'values(%s, "Study desk", "%s", "CC128");'
                  %(time.time(), reading.temperature))
   cursor.execute('commit;')

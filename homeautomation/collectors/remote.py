@@ -11,8 +11,7 @@ DATA_RE = re.compile('.*<pre>(.*)</pre>.*', re.DOTALL)
 
 
 def Collect(cursor):
-  for ip in ['192.168.1.248', '192.168.1.251', '192.168.1.252',
-             '192.168.1.253']:
+  for ip in []:
     try:
       print '%s: Fetching %s' %(datetime.datetime.now(), ip)
 
@@ -48,7 +47,7 @@ def Collect(cursor):
             if not name in ['Fridge temperature', 'Freezer temperature',
                             'Sensor count']:
               cursor.execute('insert into sensors'
-                             '(epoch_seconds, sensor, value, ip) '
+                             '(epoch_seconds, sensor, value, hostname) '
                              'values(%s, "%s", "%s", "%s");'
                              %(time.time(), name, value, ip))
               cursor.execute('commit;')

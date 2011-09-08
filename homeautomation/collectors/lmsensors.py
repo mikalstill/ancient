@@ -8,6 +8,7 @@ sys.path.append('/data/src/stillhq_public/trunk/python/')
 
 import datetime
 import re
+import socket
 import subprocess
 import time
 import MySQLdb
@@ -27,17 +28,21 @@ def Collect(cursor):
     m = TEMP_RE.match(l)
     if m:
       print 'Matched temp %s = %s' %(m.group(1), m.group(2))
-      cursor.execute('insert into sensors (epoch_seconds, sensor, value, ip) '
-                     'values(%s, "%s", "%s", "molokai");'
-                     %(time.time(), m.group(1), m.group(2)))
+      cursor.execute('insert into sensors '
+                     '(epoch_seconds, sensor, value, hostname) '
+                     'values(%s, "%s", "%s", "%s");'
+                     %(time.time(), m.group(1), m.group(2),
+                       socket.gethostname()))
       cursor.execute('commit;')
 
     m = RPM_RE.match(l)
     if m:
       print 'Matched rpm %s = %s' %(m.group(1), m.group(2))
-      cursor.execute('insert into sensors (epoch_seconds, sensor, value, ip) '
-                     'values(%s, "%s", "%s", "molokai");'
-                     %(time.time(), m.group(1), m.group(2)))
+      cursor.execute('insert into sensors '
+                     '(epoch_seconds, sensor, value, hostname) '
+                     'values(%s, "%s", "%s", "%s");'
+                     %(time.time(), m.group(1), m.group(2),
+                       socket.gethostname()))
       cursor.execute('commit;')
 
 if __name__ == '__main__':

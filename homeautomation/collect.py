@@ -10,26 +10,48 @@ import os
 import time
 import MySQLdb
 
+import gflags
 import mplugin
 
 
-COLLECTOR_DIR = 'collectors'
+FLAGS = gflags.FLAGS
+gflags.DEFINE_string('collector_dir', 'collectors',
+                     'Directory containing collector plugins')
+gflags.DEFINE_string('dbuser', 'home', 'DB username')
+gflags.DEFINE_string('dbname', 'homeautomation', 'DB name')
+gflags.DEFINE_string('only', '', 'Only run these plugins (space separated)')
 
 
-db = MySQLdb.connect(user = 'root', db = 'home')
-cursor = db.cursor(MySQLdb.cursors.DictCursor)
+def main(argv):
+  # Parse flags
+  try:
+    argv = FLAGS(argv)
 
-
-for ent in os.listdir(COLLECTOR_DIR):
-  if ent.endswith('.py'):
-    if len(sys.argv) > 1 and ent not in sys.argv[1:]:
-      continue
-
+  except gflags.FlagsError, e:
+    print 'Flags error: %s' % e
     print
-    print '----------------------------------------------------------'
-    print '%s: Running %s' %(datetime.datetime.now(), ent)
-    try:
-      plugin = mplugin.LoadPlugin(COLLECTOR_DIR, ent[:-3], log=None)
+    print FLAGS
+
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+  plugins = os.listdir(FLAGS.collector_dir)
+  if FLAGS.only:
+    plugins = []
+    for plugin in FLAGS.only.split(' '):
+      plugins.append('%s.py' % plugin)
+
+  for ent in plugins:
+    if ent.endswith('.py'):
+      print
+      print '----------------------------------------------------------'
+      print '%s: Running %s' %(datetime.datetime.now(), ent)
+      #try:
+      plugin = mplugin.LoadPlugin(FLAGS.collector_dir, ent[:-3], log=None)
       plugin.Collect(cursor)
-    except Exception, e:
-      print '%s: Exception: %s' %(datetime.datetime.now(), e)
+      #except Exception, e:
+      #  print '%s: Exception: %s' %(datetime.datetime.now(), e)
+
+
+if __name__ == "__main__":
+  main(sys.argv)
