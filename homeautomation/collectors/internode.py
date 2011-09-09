@@ -17,6 +17,7 @@ import cachedfetch
 BASEURL = 'https://customer-webtools-api.internode.on.net/api/v1.5'
 AUTH = yaml.load(open('/home/mikal/.internode'))
 DAYS_TO_FETCH = 7
+REV = '$Rev$'.split(' ')[1]
 
 # Note that internode data is only updated once per hour
 def req(url=[], params=[], node=['api', 'services'], maxage=3600):
@@ -27,7 +28,7 @@ def req(url=[], params=[], node=['api', 'services'], maxage=3600):
                            maxage=maxage,
                            username=AUTH['username'], 
                            password=AUTH['password'],
-                           useragent='stillhq.com home automation/$Rev$')
+                           useragent='stillhq.com home automation/v%s' % REV)
   x = xml.etree.ElementTree.XML(svcs)
 
   for n in node:
