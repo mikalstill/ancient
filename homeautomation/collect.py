@@ -46,11 +46,11 @@ def main(argv):
       print
       print '----------------------------------------------------------'
       print '%s: Running %s' %(datetime.datetime.now(), ent)
-      #try:
-      plugin = mplugin.LoadPlugin(FLAGS.collector_dir, ent[:-3], log=None)
-      plugin.Collect(cursor)
-      #except Exception, e:
-      #  print '%s: Exception: %s' %(datetime.datetime.now(), e)
+      try:
+        plugin = mplugin.LoadPlugin(FLAGS.collector_dir, ent[:-3], log=None)
+        plugin.Collect(cursor)
+      except Exception, e:
+        print '%s: Exception: %s' %(datetime.datetime.now(), e)
 
 
 if __name__ == "__main__":

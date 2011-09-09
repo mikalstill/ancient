@@ -26,6 +26,9 @@ from mpygooglechart import Axis
 
 
 FLAGS = gflags.FLAGS
+gflags.DEFINE_string('dbuser', 'home', 'DB username')
+gflags.DEFINE_string('dbname', 'homeautomation', 'DB name')
+
 MIN_Y = -30.0
 MAX_Y = 100.0
 MAX_READINGS_PER_GRAPH = 580
@@ -183,7 +186,7 @@ class http_handler(mhttp.http_handler):
     """Get a summary of the chiller time for a given period."""
 
     self.log('Fetching chiller usage from %s to %s' %(start_epoch, end_epoch))
-    db = MySQLdb.connect(user = 'root', db = 'home')
+    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     cursor.execute('select * from sensors where sensor="Chilltime" and '
@@ -283,7 +286,7 @@ class http_handler(mhttp.http_handler):
 
     global sensor_names
 
-    db = MySQLdb.connect(user = 'root', db = 'home')
+    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
@@ -317,7 +320,7 @@ class http_handler(mhttp.http_handler):
 
     global sensor_names
 
-    db = MySQLdb.connect(user = 'root', db = 'home')
+    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
@@ -361,7 +364,7 @@ class http_handler(mhttp.http_handler):
 
     global sensor_names
 
-    db = MySQLdb.connect(user = 'root', db = 'home')
+    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
@@ -492,7 +495,7 @@ class http_handler(mhttp.http_handler):
 
     global sensor_names
 
-    db = MySQLdb.connect(user = 'root', db = 'home')
+    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
     (ranges, times, step_size) = self.ParseTimeField(args[2])
     if not step_size:
@@ -546,7 +549,7 @@ class http_handler(mhttp.http_handler):
 
     global sensor_names
 
-    db = MySQLdb.connect(user = 'root', db = 'home')
+    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
     args = urlpath.split('/')
@@ -770,23 +773,23 @@ class http_handler(mhttp.http_handler):
 
     global sensor_names
     
-    db = MySQLdb.connect(user = 'root', db = 'home')
+    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
     cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
 
     now = []
-    cursor.execute('select distinct(sensor), ip from sensors;')
+    cursor.execute('select distinct(sensor), hostname from sensors;')
     for row in cursor:
-      cursor2.execute('select * from sensors where sensor="%s" and ip="%s" '
+      cursor2.execute('select * from sensors where sensor="%s" and hostname="%s" '
                       'and epoch_seconds > %d '
                       'order by epoch_seconds desc limit 1;'
-                      %(row['sensor'], row['ip'],
+                      %(row['sensor'], row['hostname'],
                         time.time() - (24 * 60 * 60)))
       for row2 in cursor2:
         t = datetime.datetime.fromtimestamp(row2['epoch_seconds'])
         now.append('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
                    %(sensor_names.get(row2['sensor'], row2['sensor']),
-                     row2['ip'], row2['value'], t))
+                     row2['hostname'], row2['value'], t))
 
     self.sendfile('dashboard.html', subst={'now': ('<table>%s</table>'
                                                    % '\n'.join(now))})
@@ -813,7 +816,7 @@ class http_handler(mhttp.http_handler):
         self.log('No plugin matching %s' % sensor[1:])
         return values
 
-      db = MySQLdb.connect(user = 'root', db = 'home')
+      db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
       cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
       out = plugin.Returns(cursor)
@@ -826,21 +829,21 @@ class http_handler(mhttp.http_handler):
         if sensor_names[s] == sensor:
           sensors.append(s)
       
-      ips = []
-      cursor.execute('select distinct(ip) from sensors where '
+      hostnames = []
+      cursor.execute('select distinct(hostname) from sensors where '
                      'sensor in ("%s") and epoch_seconds > %s and '
                      'epoch_seconds < %s;'
                      %('", "'.join(sensors), start_epoch - 1, end_epoch + 1))
       for row in cursor:
-        ips.append(row['ip'])
+        hostnames.append(row['hostname'])
 
-      if len(ips) == 1:
+      if len(hostnames) == 1:
         self.log('Resolving %s would return %s' %(sensors, sensor))
         return [sensor]
 
       out = []
-      for ip in ips:
-        out.append('%s (%s)' %(sensor, ip))
+      for hostname in hostnames:
+        out.append('%s (%s)' %(sensor, hostname))
       self.log('Resolving %s would return %s' %(sensor, repr(out)))
       return out
 
@@ -871,7 +874,7 @@ class http_handler(mhttp.http_handler):
         self.log('No plugin matching %s' % sensor[1:])
         return values
 
-      db = MySQLdb.connect(user = 'root', db = 'home')
+      db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
       cursor = db.cursor(MySQLdb.cursors.DictCursor)
       
       # Functions have explicit inputs
@@ -911,24 +914,25 @@ class http_handler(mhttp.http_handler):
     else:
       sensors = self.ExpandSensorName(sensor)
       
-      ips = []
-      cursor.execute('select distinct(ip) from sensors where '
+      hostnames = []
+      cursor.execute('select distinct(hostname) from sensors where '
                      'sensor in ("%s") and epoch_seconds > %s and '
                      'epoch_seconds < %s;'
                      %('", "'.join(sensors), start_epoch - 1, end_epoch + 1))
       for row in cursor:
-        ips.append(row['ip'])
-      self.log('Found IPs: %s' % repr(ips))
+        hostnames.append(row['hostname'])
+      self.log('Found hostnames: %s' % repr(hostnames))
 
-      for ip in ips:
-        if len(ips) == 1:
+      for hostname in hostnames:
+        if len(hostnames) == 1:
           name = sensor
         else:
-          name = '%s (%s)' %(sensor, ip)
+          name = '%s (%s)' %(sensor, hostname)
           redirects.setdefault(sensor, [])
           redirects[sensor].append(name)
 
-        readings = self.GetData(cursor, sensors, ip, start_epoch, end_epoch)
+        readings = self.GetData(cursor, sensors, hostname,
+                                start_epoch, end_epoch)
         values[name] = self.GetChartPoints(start_epoch, end_epoch,
                                            step_size, readings, sensor,
                                            wideinterp=wideinterp)
@@ -950,14 +954,14 @@ class http_handler(mhttp.http_handler):
 
     return target_sensors
 
-  def GetData(self, cursor, sensors, ip, start_epoch, end_epoch):
+  def GetData(self, cursor, sensors, hostname, start_epoch, end_epoch):
     """Grab the readings from the DB."""
 
     readings = {}
     sql = ('select epoch_seconds, value from sensors where '
-           'sensor in ("%s") and ip="%s" and epoch_seconds > %d and '
+           'sensor in ("%s") and hostname="%s" and epoch_seconds > %d and '
            'epoch_seconds < %d order by epoch_seconds;'
-           %('", "'.join(sensors), ip, start_epoch - 1, end_epoch + 1))
+           %('", "'.join(sensors), hostname, start_epoch - 1, end_epoch + 1))
     self.log('Data select sql: %s' % sql)
     cursor.execute(sql)
     for row in cursor:
@@ -1036,7 +1040,7 @@ def FetchSensorNames():
   """Update the cache of sensor names."""
 
   print '%s: Updating sensor name cache' % datetime.datetime.now()
-  db = MySQLdb.connect(user = 'root', db = 'home')
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
   cursor.execute('select * from sensor_names;')
@@ -1052,32 +1056,32 @@ def InitializeCleanup():
   """Ensure that all sensor names are covered by the cleanup table."""
 
   print '%s: Preparing to cleanup old data' % datetime.datetime.now()
-  db = MySQLdb.connect(user = 'root', db = 'home')
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
   cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
 
   # This query is slow, so don't do it too often
-  cursor.execute('select distinct(sensor), ip from sensors;')
+  cursor.execute('select distinct(sensor), hostname from sensors;')
   for row in cursor:
-    cursor2.execute('select * from cleanup where sensor="%s" and ip="%s";'
-                    %(row['sensor'], row['ip']))
+    cursor2.execute('select * from cleanup where sensor="%s" and hostname="%s";'
+                    %(row['sensor'], row['hostname']))
     if cursor2.rowcount > 0:
       continue
     
     print ('%s: Finding the minimum entry for %s at %s'
-           %(datetime.datetime.now(), row['sensor'], row['ip']))
+           %(datetime.datetime.now(), row['sensor'], row['hostname']))
     cursor2.execute('select min(epoch_seconds) from sensors where sensor="%s" '
-                    'and ip="%s";'
-                    %(row['sensor'], row['ip']))
+                    'and hostname="%s";'
+                    %(row['sensor'], row['hostname']))
     row2 = cursor2.fetchone()
     print '%s: --> %s' %(datetime.datetime.now(), repr(row2))
     start_seconds = row2['min(epoch_seconds)']
-    cursor2.execute('insert ignore into cleanup(sensor, ip, upto) values '
+    cursor2.execute('insert ignore into cleanup(sensor, hostname, upto) values '
                     '("%s", "%s", %s);'
-                    %(row['sensor'], row['ip'], start_seconds))
+                    %(row['sensor'], row['hostname'], start_seconds))
     if cursor2.rowcount > 0:
       print ('%s Initialized cleanup for %s at %s to %s'
-             %(datetime.datetime.now(), row['sensor'], row['ip'],
+             %(datetime.datetime.now(), row['sensor'], row['hostname'],
                start_seconds))
     cursor2.execute('commit;')
 
@@ -1086,7 +1090,7 @@ def Cleanup():
   """Perform regular down sampling."""
 
   cleaned = False
-  db = MySQLdb.connect(user = 'root', db = 'home')
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
   cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
 
@@ -1097,12 +1101,12 @@ def Cleanup():
   for row in cursor:
     t = datetime.datetime.fromtimestamp(row['upto'])
     print ('%s: Cleaning %s at %s (from %s)'
-           %(datetime.datetime.now(), row['sensor'], row['ip'], t))
+           %(datetime.datetime.now(), row['sensor'], row['hostname'], t))
 
-    cursor2.execute('select * from sensors where sensor="%s" and ip="%s" and '
+    cursor2.execute('select * from sensors where sensor="%s" and hostname="%s" and '
                     'epoch_seconds > %d and epoch_seconds < %d '
                     'order by epoch_seconds desc;'
-                    %(row['sensor'], row['ip'], row['upto'] - 1,
+                    %(row['sensor'], row['hostname'], row['upto'] - 1,
                       row['upto'] + 301))
     timestamps = []
     for row2 in cursor2:
@@ -1115,21 +1119,21 @@ def Cleanup():
     if not timestamps:
       # We have found a gap in the data, skip forward
       cursor2.execute('select min(epoch_seconds) from sensors '
-                      'where sensor="%s" and ip="%s" and epoch_seconds > %s;'
-                      %(row['sensor'], row['ip'], row['upto']))
+                      'where sensor="%s" and hostname="%s" and epoch_seconds > %s;'
+                      %(row['sensor'], row['hostname'], row['upto']))
       new_upto = cursor2.fetchone()['min(epoch_seconds)']
 
       if not new_upto:
         print '%s: No more data for %s at %s' %(datetime.datetime.now(),
-                                                row['sensor'], row['ip'])
+                                                row['sensor'], row['hostname'])
         new_upto = time.time()
 
       print ('%s: Found a gap for %s at %s, skipping from %s to %s'
-             %(datetime.datetime.now(), row['sensor'], row['ip'], row['upto'],
+             %(datetime.datetime.now(), row['sensor'], row['hostname'], row['upto'],
                new_upto))
       cursor2.execute('update cleanup set upto=%s where sensor="%s" and '
-                      'ip="%s";'
-                      %(new_upto, row['sensor'], row['ip']))
+                      'hostname="%s";'
+                      %(new_upto, row['sensor'], row['hostname']))
       cursor2.execute('commit;')
       cleaned = True
 
@@ -1137,16 +1141,16 @@ def Cleanup():
     print '%s: Remove %s' %(datetime.datetime.now(), repr(timestamps))
 
     if timestamps:
-      cursor2.execute('delete from sensors where sensor="%s" and ip="%s" and '
+      cursor2.execute('delete from sensors where sensor="%s" and hostname="%s" and '
                       'epoch_seconds in (%s);'
-                      %(row['sensor'], row['ip'], ', '.join(timestamps)))
+                      %(row['sensor'], row['hostname'], ', '.join(timestamps)))
       print '%s: %d rows removed' %(datetime.datetime.now(),
                                     cursor2.rowcount)
       cursor2.execute('commit;')
 
     cursor2.execute('update cleanup set upto=upto + 300 '
-                    'where sensor="%s" and ip="%s";'
-                    %(row['sensor'], row['ip']))
+                    'where sensor="%s" and hostname="%s";'
+                    %(row['sensor'], row['hostname']))
     cursor2.execute('commit;')
     cleaned  = True
     
@@ -1185,7 +1189,7 @@ def main(argv):
       # We are idle
       print '%s ...' % datetime.datetime.now()
 
-      db = MySQLdb.connect(user = 'root', db = 'home')
+      db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
       cursor = db.cursor(MySQLdb.cursors.DictCursor)
       for ent in os.listdir(DAILY_DIR):
         if ent.endswith('.py'):

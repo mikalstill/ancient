@@ -7,14 +7,36 @@ import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
 import datetime
+import re
 import time
 import urllib
 import MySQLdb
 
 import cachedfetch
 
+DATA_RE = re.compile(' *<td headers="t4-(.*)">(.*)</td>')
+ONE_DAY = datetime.timedelta(days=1)
+
+DESCRIPTIONS = {'temp': 'BOM Temperature',
+                'apptmp': 'BOM Apparent Temperature',
+                'dewpoint': 'BOM Dew Point',
+                'relhum': 'BOM Relative Humidity',
+                'delta-t': 'BOM Delta-T',
+                't4-wind-dir': 'BOM Wind Direction',
+                't4-wind-spd-kmh': 'BOM Wind Speed KM/h',
+                't4-wind-gust-kmh': 'BOM Wind Gust KM/h',
+                't4-wind-spd_kts': 'BOM Wind Speed Knots',
+                't4-wind-gust_kts': 'BOM Wind Gust Knots',
+                'press-qnh': 'BOM Pressure QNH kPa',
+                'press-msl': 'BOM Pressure MSL kPa',
+                'rainsince9am': 'BOM Rain since 9am'}
+                
 
 def Collect(cursor):
+  reading_time = None
+  now = datetime.datetime.now()
+
+
   for url in ['http://reg.bom.gov.au/products/IDN60903/IDN60903.94926.shtml',
               'http://reg.bom.gov.au/products/IDN60903/IDN60903.94925.shtml']:
     id = url.split('.')[-2]
@@ -24,60 +46,41 @@ def Collect(cursor):
     remote = cachedfetch.Fetch(url, maxage=1800)
     print '%s: Fetch done' % datetime.datetime.now()
 
-    in_reading = False
-    reading = []
-
     for line in remote.split('\n'):
       line = line.rstrip()
+      m = DATA_RE.match(line)
 
-      if in_reading and line.startswith('  <td>'):
-        if len(reading) > 0:
-          reading.append(line[6:-5])
+      if m:
+        field = m.group(1).split(' ')[-1]
+        value = m.group(2)
+
+        if field == 'datetime':
+          (monthday, timestr) = value.split('/')
+
+          # Find the right day
+          monthday = int(monthday)
+          reading_time = now
+          while monthday != reading_time.day:
+            reading_time -= ONE_DAY
+
+          # And the right time
+          tstruct = time.strptime(timestr, '%I:%M%p')
+          reading_time = datetime.datetime(reading_time.year,
+                                           reading_time.month,
+                                           reading_time.day,
+                                           tstruct.tm_hour,
+                                           tstruct.tm_min)
 
         else:
-          t = line[6:-5]
-          print '%s: Attempting to parse: %s' %(datetime.datetime.now(), t)
+          print '  %s: %s = %s' %(reading_time,
+                                  DESCRIPTIONS.get(field, field),
+                                  value)
 
-          (year, month) = datetime.datetime.now().timetuple()[:2]
-          day = int(t.split('/')[0])
-          hour = int(t.split('/')[1].split(':')[0])
-          minute = int(t.split('/')[1].split(':')[1][:-2])
-
-          if t[-2] == 'p' and hour != 12:
-            hour += 12
-          elif t[-2] == 'a' and hour == 12:
-            hour = 0
-
-          print ('%s: Most recent reading from %s/%s/%s %s:%s'
-                 %(datetime.datetime.now(), year, month, day, hour, minute))
-          dt = datetime.datetime(year, month, day, hour, minute)
-          print '%s: Parsed date: %s' %(datetime.datetime.now(), dt)
-          reading.append(time.mktime(dt.timetuple()))
-
-      if in_reading and line == '</tr>':
-        in_reading = False
-        print '%s: Reading: %s' %(datetime.datetime.now(), repr(reading))
-
-        if reading:
-          epoch = reading[0]
-          reading = reading[1:]
-
-          for field in ['BOM Rain since 9am', 'BOM Pressure hPa',
-                        '-', '-', 'BOM Wind gust km/h', 'BOM Wind speed km/h',
-                        'BOM Wind direction', '-', 'BOM Relative humidity %',
-                        'BOM Dew point', 'BOM Apparent temperature',
-                        'BOM Temperature']:
-            if field != '-':
-              cursor.execute('insert ignore into sensors'
-                             '(epoch_seconds, sensor, value, hostname)'
-                             'values(%s, "%s", "%s", "%s");'
-                             %(epoch, field, reading.pop(), id))
-              cursor.execute('commit;')
-            else:
-              reading.pop()
-
-        break
-
-      if line == '<tr class="rowleftcolumn">':
-        in_reading = True
-        reading = []
+          cursor.execute('insert ignore into sensors'
+                         '(epoch_seconds, sensor, value, hostname) '
+                         'values(%s, "%s", "%s", "%s");'
+                         %(time.mktime(reading_time.timetuple()),
+                           DESCRIPTIONS.get(field, field),
+                           value, id))
+          cursor.execute('commit;')
+                           
