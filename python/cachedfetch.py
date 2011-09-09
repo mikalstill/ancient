@@ -7,19 +7,19 @@ import hashlib
 import os
 import sys
 import time
-import urllib
+import urllib2
 
-def Fetch(url, maxage=3600):
+def Fetch(url, maxage=3600, username=None, password=None, useragent=None):
   if not os.path.exists('cache'):
     os.mkdir('cache')
 
-  ent = hashlib.sha224('url').hexdigest()
+  ent = hashlib.sha224(url).hexdigest()
   if not os.path.exists('cache/%s' % ent):
-    return _Fetch(url, ent)
+    return _Fetch(url, ent, username, password, useragent)
 
   mod = os.path.getmtime('cache/%s' % ent)
-  if time.time() - mod > 24 * maxage:
-    return _Fetch(url, ent)
+  if time.time() - mod > maxage:
+    return _Fetch(url, ent, username, password, useragent)
   
   sys.stderr.write('Cache hit for %s\n' % url)
   f = open('cache/%s' % ent)
@@ -28,8 +28,20 @@ def Fetch(url, maxage=3600):
   finally:
     f.close()
 
-def _Fetch(url, ent):
-  remote = urllib.urlopen(url)
+def _Fetch(url, ent, username, password, useragent):
+  if username:
+    passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
+    passman.add_password(None, url, username, password)
+    auth = urllib2.HTTPBasicAuthHandler(passman)
+    opener = urllib2.build_opener(auth)
+    urllib2.install_opener(opener)
+
+  req = urllib2.Request(url)
+
+  if useragent:
+    req.add_header('User-Agent', useragent)
+
+  remote = urllib2.urlopen(req)
   local = open('cache/%s' % ent, 'w')
   d = remote.read()
   local.write(d)
