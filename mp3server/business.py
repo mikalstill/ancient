@@ -3,6 +3,7 @@
 """Business logic."""
 
 import os
+import time
 
 import database
 import track
@@ -25,23 +26,13 @@ def GenerateRankSql(skips):
           % (skips + 1, skips + 1, skips + 1))
 
 
-def GetClientSetting(db, client_id, setting, default):
-  """Lookup a setting for a client."""
-
-  # TODO(mikal): cache this?
-  client_settings = db.GetOneRow('select * from clients where id=%s;'
-                                 % client_id)
-  if client_settings and client_settings.has_key(setting):
-    return client_settings[setting]
-  return default
-
-
 class BusinessLogic(object):
   """Handle business logic like track selection."""
 
   def __init__(self, db, log):
     self.db = db
     self.log = log
+    self.cache = {}
 
   def picktrack(self, client_id=-1, recent=False, skips=0, limit=1):
     """Pick a track for this client and make sure it exists."""
@@ -56,7 +47,7 @@ class BusinessLogic(object):
            'usersummary.user="%s" and usersummary.track_id = id '
            '%s order by idx desc limit %s;'
            %(GenerateRankSql(skips), 
-             GetClientSetting(self.db, client_id, 'user', 'shared'),
+             self.getclientsetting(client_id, 'user', 'shared'),
              recent_sql, limit))
     self.log('Bulk pick sql = %s' % sql)
 
@@ -94,7 +85,7 @@ class BusinessLogic(object):
       self.log('Considering id = %d: %s' %(id, row['path']))
       if row['path'].endswith('.mp3') and os.path.exists(row['path']):
         self.log('MP3 check: %s' % row['path'])
-        mp3_source = GetClientSetting(self.db, client_id, 'mp3_source', '')
+        mp3_source = self.getclientsetting(client_id, 'mp3_source', '')
         if mp3_source:
           mp3_url = ('%s/%s' %(mp3_source,
                                row['path'].replace(FLAGS.audio_path, '')))
@@ -120,7 +111,7 @@ class BusinessLogic(object):
                        % id)
     self.db.ExecuteSql('commit;')
 
-    user = GetClientSetting(self.db, client_id, 'user', 'shared')
+    user = self.getclientsetting(client_id, 'user', 'shared')
     self.db.ExecuteSql('insert ignore into usersummary (user, track_id, '
                        'plays, skips) values("%s", %s, 0, 0);'
                        %(user, id))
@@ -143,7 +134,7 @@ class BusinessLogic(object):
                        % id)
     self.db.ExecuteSql('commit;')
 
-    user = GetClientSetting(self.db, client_id, 'user', 'shared')
+    user = self.getclientsetting(client_id, 'user', 'shared')
     self.db.ExecuteSql('insert ignore into usersummary (user, track_id, '
                        'plays, skips) values("%s", %s, 0, 0);'
                        %(user, id))
@@ -152,3 +143,47 @@ class BusinessLogic(object):
                        'where user="%s" and track_id=%s;'
                        %(user, id))
     self.db.ExecuteSql('commit;')
+
+  def getclientsetting(self, client_id, setting, default):
+    """Lookup a setting for a client."""
+ 
+    self.log('Lookup for value %s for client %s' %(setting, client_id)) 
+    if (client_id, setting) in self.cache:
+      (when, value) = self.cache[(client_id, setting)]
+      if time.time() - when < 900:
+        self.log('Returning cached value %s for setting %s, client %s'
+                 %(value, setting, client_id))
+        return value
+
+    client_settings = self.db.GetOneRow('select * from clients where id=%s;'
+                                        % client_id)
+    if not client_settings:
+      self.log('Client not found: %s' % client_id)
+    if not client_settings.has_key(setting):
+      self.log('Client %s has not set setting: %s' %(client_id, setting))
+
+    if client_settings and client_settings.has_key(setting):
+      self.cache[(client_id, setting)] = (time.time(), client_settings[setting])
+      return client_settings[setting]
+
+    self.log('Returning default value for setting: %s' % setting)
+    self.cache[(client_id, setting)] = (time.time(), default)
+    return default
+
+  def setclientsetting(self, client_id, setting, value):
+    """Set a user variable."""
+    
+    value = value.replace('%2F', '/').replace('%3A', ':')
+    if value == '':
+      value = None
+
+    self.log('Updating %s to %s for %s' %(setting, value, client_id))
+    self.db.ExecuteSql('insert ignore into clients(id, createtime) '
+                       'values(%s, now());'
+                       % client_id)
+    self.db.ExecuteSql('update clients set %s="%s" '
+                       'where id=%s;'
+                       %(setting, value, client_id))
+    self.db.ExecuteSql('commit;')
+
+    self.cache[(client_id, setting)] = (time.time(), value)

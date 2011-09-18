@@ -21,9 +21,10 @@ gflags.DEFINE_string('audio_path', '/data/mp3',
                      'The directory containing audio files')
 
 gflags.DEFINE_boolean('verbose', False, 'Be verbose')
+gflags.DEFINE_boolean('verbose_writes', False, 'Be verbose just about writes')
 
 
-_PATH_PARSE_RE = re.compile('.*/([^/]*)/([^/]*)/([0-9]*)([^/]*)\.mp3')
+_PATH_PARSE_RE = re.compile('.*/+([^/]*)/+([^/]*)/+([0-9]*)([^/]*)\.mp3')
 
 
 class TrackException(Exception):
@@ -77,18 +78,21 @@ class Track:
   def FromPath(self, path, attemptparse=True):
     """Rehydrate a track from its path."""
 
+    new_track = False
+    updated = False
+    
     id_row = self.db.GetOneRow('select track_id from paths where path = "%s";'
                                % path)
     if id_row:
       id = id_row['track_id']
       self.persistant = self.db.GetOneRow('select * from tracks where id=%d;'
                                           % id)
-      if self.persistant:
-        return
 
-    # This is a new track
-    self.persistant = {}
-    self.persistant['creation_time'] = datetime.datetime.now()
+    else:
+      # This is a new track
+      self.persistant = {}
+      self.persistant['creation_time'] = datetime.datetime.now()
+      new_track = True
 
     # Use ID3 if we're missing information
     if not self.persistant.has_key('artist'):
@@ -96,20 +100,24 @@ class Track:
         id3r = id3reader.Reader(path)
         if id3r.getValue('album'):
           self.persistant['album'] = id3r.getValue('album')
+          updated = True
         if id3r.getValue('performer'):
           self.persistant['artist'] = id3r.getValue('performer')
+          updated = True
         if id3r.getValue('title'):
           self.persistant['song'] = id3r.getValue('title')
+          updated = True
         if id3r.getValue('track'):
           try:
             self.persistant['number'] = int(id3r.getValue('track'))
+            updated = True
           except:
             pass
       except:
         pass
 
     # Attempt to parse the path using Mikal's file naming scheme
-    if attemptparse:
+    if not self.persistant.has_key('artist') and attemptparse:
       m = _PATH_PARSE_RE.match(path)
       if m:
         try:
@@ -117,31 +125,39 @@ class Track:
           self.persistant['album'] = m.group(2)
           self.persistant['song'] = m.group(4)
           self.persistant['number'] = int(m.group(3))
+          updated = True
 
         except:
           pass
 
     # Perhaps we have this MP3 under another path
-    try:
-      self.FromMeta(self.persistant['artist'],
-                    self.persistant['album'],
-                    self.persistant['number'],
-                    self.persistant['song'])
-    except:
-      pass
+    if not self.persistant.has_key('artist'):
+      try:
+        self.FromMeta(self.persistant['artist'],
+                      self.persistant['album'],
+                      self.persistant['number'],
+                      self.persistant['song'])
+        updated = True
+      except:
+        pass
 
-    # Now write this to the database to get an ID
-    self.db.ExecuteSql('insert into tracks(artist, album, song, number) '
-                       'values(%s, %s, %s, %d);'
-                       %(self.db.FormatSqlValue('artist',
-                                                self.persistant['artist']),
-                         self.db.FormatSqlValue('album',
-                                                self.persistant['album']),
-                         self.db.FormatSqlValue('song',
-                                                self.persistant['song']),
-                         self.persistant.get('number', 0)))
-    id = self.db.GetOneRow('select last_insert_id();')['last_insert_id()']
-    self.persistant['id'] = id
+    if new_track:
+      # Now write this to the database to get an ID
+      self.db.ExecuteSql('insert into tracks(artist, album, song, number) '
+                         'values(%s, %s, %s, %d);'
+                         %(self.db.FormatSqlValue('artist',
+                                                  self.persistant['artist']),
+                           self.db.FormatSqlValue('album',
+                                                  self.persistant['album']),
+                           self.db.FormatSqlValue('song',
+                                                  self.persistant['song']),
+                           self.persistant.get('number', 0)))
+      id = self.db.GetOneRow('select last_insert_id();')['last_insert_id()']
+      self.persistant['id'] = id
+
+    if updated:
+      print 'Updated track %s' % self.persistant['id']
+      self.Store()
     
 
   def AddPath(self, path):
@@ -179,6 +195,11 @@ class Track:
 
   def Store(self):
     """Write song to database."""
+
+    if FLAGS.verbose or FLAGS.verbose_writes:
+      print 'Writing track:'
+      for key in sorted(self.persistant):
+        print '  %s = %s' %(key, self.persistant[key])
 
     if not self.persistant:
       return

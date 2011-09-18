@@ -47,14 +47,16 @@ class http_server(mhttp.http_server):
 
 class mp3_http_handler(mhttp.http_handler):
   def sendfile(self, file, subst={}, chunk=None):
-    global db
+    global blogic
 
     if not 'mp3_source' in subst:
-      subst['mp3_source'] = business.GetClientSetting(db, self.client_id, 'mp3_source', '')
+      subst['mp3_source'] = blogic.getclientsetting(self.client_id, 
+                                                    'mp3_source', '')
     if not 'user' in subst:
-      subst['user'] = business.GetClientSetting(db, self.client_id, 'user', 'shared')
+      subst['user'] = blogic.getclientsetting(self.client_id,
+                                              'user', 'shared')
     if not 'volume' in subst:
-      subst['volume'] = business.GetClientSetting(db, self.client_id, 'volume', '50')
+      subst['volume'] = blogic.getclientsetting(self.client_id, 'volume', '50')
 
     self._sendfile(file, subst)
 
@@ -147,25 +149,11 @@ class mp3_http_handler(mhttp.http_handler):
       else:
         self.senderror(404, '%s urlfile not found' % urlfile)
         self.close()
-  
-  def _set_user_var(self, db, name, value):
-    """Set a user variable."""
-    
-    value = value.replace('%2F', '/').replace('%3A', ':')
-    if value == '':
-      value = None
-
-    self.log('Updating %s to %s for %s' %(name, value, self.client_id))
-    db.ExecuteSql('insert ignore into clients(id, createtime) '
-                  'values(%s, now());'
-                  % self.client_id)
-    db.ExecuteSql('update clients set %s="%s" '
-                  'where id=%s;'
-                  %(name, value, self.client_id))
-    db.ExecuteSql('commit;')
 
   def handleurl_root(self, urlfile, post_data):
     """The top level page."""
+
+    global blogic
 
     if post_data:
       for line in post_data.split('\r\n'):
@@ -173,14 +161,14 @@ class mp3_http_handler(mhttp.http_handler):
          if l:
             (name, value) = l.split('=')
             if name in ['mp3_source', 'user', 'volume']:
-              self._set_user_var(db, name, value)
+              blogic.setclientsetting(self.client_id, name, value)
 
     elif '?' in urlfile:
       v = urlfile.split('?')[1]
       for l in v.split('&'):
         (name, value) = l.split('=')
         if name in ['mp3_source', 'user', 'volume']:
-          self._set_user_var(db, name, value)
+          blogic.setclientsetting(self.client_id, name, value)
           
     self.sendfile('index.html')
 
@@ -280,7 +268,7 @@ class mp3_http_handler(mhttp.http_handler):
            'where artist rlike "%s" and album rlike "%s" and song rlike "%s" '
            '%s %s order by %s artist, song, album, number %s;'
            %(random_sql_cols,
-             business.GetClientSetting(db, self.client_id, 'user', 'shared'),
+             blogic.getclientsetting(self.client_id, 'user', 'shared'),
              filters['artist_filter_compiled'],
              filters['album_filter_compiled'],
              filters['track_filter_compiled'],
