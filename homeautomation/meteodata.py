@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
+
 import os
 import re
 import getopt
@@ -12,6 +14,8 @@ import socket
 import urllib2
 import urllib
 import cookielib
+
+import cachedfetch
 
 
 BOMSOLARURL = 'http://www.bom.gov.au/web03/ncc/www/awap/solar/solarave/daily/grid/0.05/history/nat/'
@@ -118,44 +122,6 @@ class Error(Exception):
 	def __str__(self):
 		return repr(self.message)
 
-class Web:
-	def __init__(self, url, timeout=30, data=None):
-		self.handle = None
-	
-		if data:
-			txdata = urllib.urlencode(data)
-		else:
-			txdata = None
-		txheaders =  {'User-agent' : 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'}
-
-		# timeout in seconds
-		socket.setdefaulttimeout(timeout)
-
-		try:
-			req = urllib2.Request(url, txdata, txheaders)
-			# create a request object
-
-			self.handle = urllib2.urlopen(req)
-
-		except IOError, e:
-			errorstr = 'We failed to open "%s".' % url
-			if hasattr(e, 'code'):
-				errorstr += '\nWe failed with error code - %s.' % e.code
-			elif hasattr(e, 'reason'):
-				errorstr += "\nThe error object has the following 'reason' attribute :\n"
-				errorstr += repr(e.reason)
-				errorstr += "\nThis usually means the server doesn't exist, is down, or we don't have an internet connection."
-			raise Error(errorstr,200)
-
-	def read(self):
-		return self.handle.read()
-
-	def close(self):
-		return self.handle.close()
-
-	def readline(self):
-		return self.handle.readline()
-
 def usage():
 	print __doc__
 
@@ -178,29 +144,10 @@ def fetch(date, lat=False, lon=False, raw=False, cache=False, path='.', days = 1
     s = ""
     for i in range(days):
         datetxt = '%04d%02d%02d' % (date.year, date.month, date.day)
-        if not silent:
-            print "retrieving " + datetxt + "/" + datastr[datatype],
-        #Check if data is cached
-        if datatype > 0:
-            filename = "%s/%s%s.%d%s.bz2" % (path, datetxt, datetxt, datatype, SUFFIX)
-        else:
-            filename = "%s/%s%s%s.bz2" % (path, datetxt, datetxt, SUFFIX)
-            
-        found = False
-        try:
-            handle = open(filename,"rb")
-            if not silent:
-                print " (cached)",
-            found = True
-        except:
-            url = '%s%s%s%s%s%s' % (LZWURL, test(datatype,BOMTEMPURL,BOMSOLARURL), datetxt, datetxt, SUFFIX, SUFFIXC )
-            handle = Web(url)
-        if not silent:
-            print
-        content = handle.read()
+        url = '%s%s%s%s%s%s' % (LZWURL, test(datatype,BOMTEMPURL,BOMSOLARURL),
+				datetxt, datetxt, SUFFIX, SUFFIXC)
+	content = cachedfetch.Fetch(url, maxage=24*60*60)
         stream = bz2.decompress(content)
-        handle.close()
-
         if len(stream) == 0:
             raise Error( "Invalid URL (probably incorrect date)", 1)
 

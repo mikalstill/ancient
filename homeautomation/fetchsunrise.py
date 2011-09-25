@@ -3,10 +3,15 @@
 # Determine sunrise and sunset times. These don't actually change each year, but this
 # is the easiest way to plug it into our framework.
 
+import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
+
 import datetime
 import re
 import sys
 import urllib
+
+import cachedfetch
 
 # URL: http://www.earthtools.org/sun/lat/long/25/06/99/0
 # Returns:
@@ -47,9 +52,10 @@ def GetSunInfo(month, day):
   sunrise = None
   sunset = None
 
-  remote = urllib.urlopen('http://www.earthtools.org/sun/%s/%s/%d/%d/99/0'
-                          %(sys.argv[1], sys.argv[2], day, month))
-  for l in remote.readlines():
+  remote = cachedfetch.Fetch('http://www.earthtools.org/sun/%s/%s/%d/%d/99/0'
+                             %(sys.argv[1], sys.argv[2], day, month),
+                             maxage=6*30*24*60*60)
+  for l in remote.split('\n'):
     m = SUNRISE_RE.match(l)
     if m:
       sunrise = m.group(1)
@@ -57,8 +63,6 @@ def GetSunInfo(month, day):
     m = SUNSET_RE.match(l)
     if m:
       sunset = m.group(1)
-
-  remote.close()
 
   # Work out a duration
   (risehour, risemin, risesec) = sunrise.split(':')
@@ -70,10 +74,14 @@ def GetSunInfo(month, day):
   return (sunrise, sunset, duration.seconds)
 
 
-d = datetime.datetime(2010, 1, 1)
+if len(sys.argv) < 4:
+  d = datetime.datetime(datetime.datetime.now().year, 1, 1)
+else:
+  d = datetime.datetime(int(sys.argv[3]), 1, 1)
+
 one_day = datetime.timedelta(days=1)
 
 for i in range(365):
   (up, down, secs) = GetSunInfo(d.month, d.day)
-  print '%d, %d, %s, %s, %s' %(d.month, d.day, up, down, secs)
+  print '%d/%d/%d, %s, %s, %s' %(d.year, d.month, d.day, up, down, secs)
   d += one_day

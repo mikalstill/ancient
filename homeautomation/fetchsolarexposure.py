@@ -3,6 +3,11 @@
 # Fetch solar exposure information using the complicated meteodata.py script,
 # and turn that data into something the home automation system understands.
 
+# Args are:
+#  - lat
+#  - long
+#  - days backward in time to fetch
+
 import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
@@ -14,14 +19,14 @@ import MySQLdb
 
 SCRIPT_PATH = '/data/src/stillhq_public/trunk/homeautomation'
 
-db = MySQLdb.connect(user = 'root', db = 'home')
+db = MySQLdb.connect(user = 'home', db = 'homeautomation')
 cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
 # This only works for days in the past because of BOM limitations...
 now = datetime.datetime.now()
 one_day = datetime.timedelta(days=1)
 
-for days in xrange(14):
+for days in xrange(int(sys.argv[3])):
   now -= one_day
 
   t = time.mktime((now.year, now.month, now.day, 0, 0, 0, 0, 0 ,0))
@@ -30,10 +35,9 @@ for days in xrange(14):
                  % t)
   if cursor.rowcount == 0:
     cmd = ('%s/meteodata.py --lat %s --lon %s '
-           '--date %04d%02d%02d --cache '
-           '--path=%s/meteodata-cache/ --silent'
+           '--date %04d%02d%02d --silent'
            %(SCRIPT_PATH, sys.argv[1], sys.argv[2], now.year,
-             now.month, now.day, SCRIPT_PATH))
+             now.month, now.day))
     value = None
 
     try:
@@ -52,7 +56,8 @@ for days in xrange(14):
       continue
 
     try:
-      cursor.execute('insert into sensors_daily (epoch_seconds, sensor, value, ip) '
+      cursor.execute('insert into sensors_daily '
+                     '(epoch_seconds, sensor, value, hostname) '
                      'values(%s, "BOM Solar", "%s", "BOM");'
                      %(t, value))
       cursor.execute('commit;')
