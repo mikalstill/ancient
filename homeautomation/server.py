@@ -541,8 +541,8 @@ class http_handler(mhttp.http_handler):
           returned.append(k)
           self.log('Creating meta value %s from %s at %s' %(k, sensor, t))
 
-    return (ranges[0][0], ranges[0][0] + max_window_size, step_size, returned,
-            values)
+    return (int(ranges[0][0]), int(ranges[0][0] + max_window_size), step_size,
+            returned, values)
 
   def handleurl_table(self, urlpath, post_data):
     """A table of data."""
@@ -1008,8 +1008,7 @@ class http_handler(mhttp.http_handler):
     if step_size < 1:
       step_size = 1
 
-    
-    for t in range(start_epoch, end_epoch, step_size):
+    for t in range(int(start_epoch), int(end_epoch), step_size):
       for offset in wiggle:
         if offset is None:
           offsets.append(None)

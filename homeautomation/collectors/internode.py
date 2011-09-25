@@ -20,7 +20,7 @@ DAYS_TO_FETCH = 7
 REV = '$Rev$'.split(' ')[1]
 
 # Note that internode data is only updated once per hour
-def req(url=[], params=[], node=['api', 'services'], maxage=3600):
+def req(url=[], params=[], node=['api', 'services'], maxage=1800):
   """Make an internode api request."""
 
   url.insert(0, BASEURL)
