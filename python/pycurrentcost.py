@@ -51,7 +51,7 @@ XML Response : %s''' % (self.port, self.version, self.radio_id,
                         self.poll_time, self.temperature, self.xml_str)
     return doc_str
 
-  def dom(self, xml_str=None):
+  def dom(self, xml_str=None, verbose=False):
     """Returns the DOM object for this object. Overwrites the XML for the
     object, if provided"""
 
@@ -68,21 +68,26 @@ XML Response : %s''' % (self.port, self.version, self.radio_id,
     try:
       self.xml_dom = xml.dom.minidom.parseString(self.xml_str)
     except xml.parsers.expat.ExpatError, e:
-      print 'Error parsing XML Response : %s' % (e)
-      print 'XML was : %s' % (self.xml_str)
+      if verbose:
+        print 'Error parsing XML Response : %s' % (e)
+        print 'XML was : %s' % (self.xml_str)
       raise
 
     return self.xml_dom
 
-  def populate(self):
+  def populate(self, verbose=False):
     """Populates the object attributes from the xml_str attribute"""
     if not self.xml_str:
       raise CurrentCostException, 'populate() called on object with no XML'
 
     # remove occasional stupidness from the XML the device sends back.
-    print 'Populating reading object from XML : %s' % self.xml_str
+    if verbose:
+      print 'Populating reading object from XML : %s' % self.xml_str
+
     self.fix_xml()
-    print 'Fixed XML : %s' % self.xml_str
+
+    if verbose:
+      print 'Fixed XML : %s' % self.xml_str
 
     self.xml_dom = self.dom()
     self.version = get_single_tag_contents(self.xml_dom, 'src')
@@ -91,7 +96,7 @@ XML Response : %s''' % (self.port, self.version, self.radio_id,
     self.temperature = get_single_tag_contents(self.xml_dom, 'tmpr')
 
 
-  def fix_xml(self):
+  def fix_xml(self, verbose=False):
     """The serial interfce sometimes returns something silly.
     The two examples I've seen so far are a forward-slash 
     before the line, or a missing opening <"""
@@ -106,9 +111,12 @@ XML Response : %s''' % (self.port, self.version, self.radio_id,
     # Mikal: sometimes we get more than one message, with the first one
     # being truncated...
     msgs = xml_str.split('<msg><src>')[1:]
-    print 'Messages: %s' % '\n  '.join(msgs)
+    if verbose:
+      print 'Messages: %s' % '\n  '.join(msgs)
+
     if len(msgs) > 1:
-      print 'Taking the second message'
+      if verbose:
+        print 'Taking the second message'
       xml_str = '<msg><src>%s' % msgs[1]
 
     self.xml_str = xml_str
@@ -134,14 +142,15 @@ class CurrentCostUsageReading(CurrentCostReading):
       doc_str = doc_str + '\t%s = %s' % (i, self.channels[i])
     return doc_str
 
-  def populate(self):
+  def populate(self, verbose=False):
     """Populate the object, inclding data from <ch...> tags"""
     CurrentCostReading.populate(self)
     # Get contents of <ch...> tags
     for i in range(1, 9):
       data = get_nested_tag_contents(self.xml_dom, 'ch%d' % (i))
       if data:
-        print 'Channel info : ch%s = %s' %(i, data)
+        if verbose:
+          print 'Channel info : ch%s = %s' %(i, data)
         self.channels.setdefault(i, data)
     
 def get_single_tag_contents(node, tag):
@@ -220,26 +229,31 @@ class CurrentCostReader(object):
     if not os.path.exists(port):
       raise ValueError, 'device %s does not exist' % (port, )  
 
-  def get_xml(self):
+  def get_xml(self, verbose=False):
     """Poll the seril port once, until we get a non-empty line of text from it.
     Return the result unmodified."""
     ser = serial.Serial(self.port,
                         baudrate=57600,
                         bytesize=serial.EIGHTBITS,
                         parity=serial.PARITY_NONE,
-                        stopbits=serial.STOPBITS_ONE)
+                        stopbits=serial.STOPBITS_ONE,
+                        timeout=10)
     # alow 3 attempts at getting a response
     read_attempts = 0
     result = None
     while read_attempts < 3:
       read_attempts = read_attempts + 1
-      print'Reading from %s, attempt %d' %(self.port, read_attempts)
+
+      if verbose:
+        print'Reading from %s, attempt %d' %(self.port, read_attempts)
+
       result = ser.readline()
       # The unit likes to output random newlines
       if result == '\n':
         continue
       else:
-        print 'Read : %s' % result
+        if verbose:
+          print 'Read : %s' % result
         break
       
     if read_attempts == 3:

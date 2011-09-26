@@ -12,7 +12,7 @@ import MySQLdb
 
 
 def Collect(cursor):
-  cc = pycurrentcost.CurrentCostReader(port="/dev/ttyUSB0")
+  cc = pycurrentcost.CurrentCostReader(port="/dev/currentcost")
   reading = cc.get_reading()
 
   print ('%s: %s watts %s degrees'
