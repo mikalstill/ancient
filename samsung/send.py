@@ -5,7 +5,7 @@
 
 import httplib
 
-url = 'http://192.168.1.103:52235/PMR/control/MessageBoxService'
+url = 'http://192.168.1.19:52235/PMR/control/MessageBoxService'
 msg = """<?xml version="1.0" encoding="utf-8"?>
 <s:Envelope s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" >
   <s:Body>
