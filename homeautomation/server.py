@@ -117,8 +117,12 @@ class http_handler(mhttp.http_handler):
       day_field = yesterday.timetuple()[0:3]
       self.log('Time field is %s, day field is %s' %(time_field, day_field))
 
-    day = datetime.datetime(int(day_field[0]), int(day_field[1]),
-                            int(day_field[2]), 0, 0, 0)
+    # Convert the day fields into ints
+    int_day_field = []
+    for df in day_field:
+      int_day_field.append(int(df))
+
+    day = datetime.datetime(*int_day_field)
     day_tuple = day.timetuple()
     start_epoch = time.mktime(day_tuple)
     end_epoch = start_epoch + (60 * 60 * 24)

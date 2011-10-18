@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# If $1 == "--force", then ignore the age of the last backup
+
+export PASSPHRASE=Diu9obie
+export GPG_KEY=6B4768FF
+export OUTPUT_DIR=/data/backups/duplicity-output
+
+# Ensure there isn't a recent backup
+age=$(( `date +%s` - `date +%s -r $OUTPUT_DIR/log` ))
+if [ "%$1%" == "%--force%" ]
+then
+  echo `date`" Backup run forced" >> $OUTPUT_DIR/log
+  age=$(( 100 * 24 * 24 ))
+fi
+
+echo `date`" Previous backup was $age seconds ago" >> $OUTPUT_DIR/log
+if [ $age -lt $(( 8 * 60 * 60 )) ]
+then
+  echo `date`" Previous backup is too recent. Abort" >> $OUTPUT_DIR/log
+  exit 0
+fi
+
+#targets="/data/plans /data/catherine /data/cvs /data/domains /data/ebook /data/mikal /data/mp3 /data/pictures /data/rbl /data/src /home/mikal"
+#targets="/data/temp"
+
+targets="/home/mikal /boot /etc /var"
+for target in `ls /data | egrep -v "(\.du$|^backups$|duplicity|lost\+found|mongodb|mysql|mythtv|squid|temp|video)"`
+do
+  targets="$targets /data/$target"
+done
+
+if [ -e $OUTPUT_DIR/dpkg ]
+then
+  mv $OUTPUT_DIR/dpkg $OUTPUTDIR/dpkg.old
+fi
+if [ -e $OUTPUT_DIR/mikal_crontab ]
+then
+  mv $OUTPUT_DIR/mikal_crontab $OUTPUT_DIR/mikal_crontab.old
+fi
+
+while [ "%$targets%" != "%%" ]
+do
+  echo `date`" Targets: $targets" >> $OUTPUT_DIR/log
+  total_change=0
+  new_targets=""
+
+  for target in $targets
+  do
+    echo `date`" Removing old backups for $target. Size before: "`du -sh $OUTPUT_DIR/$target | cut -f 1 -d " "`
+    /data/src/duplicity/duplicity-bin \
+      remove-all-but-n-full 1 --force \
+      --allow-source-mismatch \
+      file://$OUTPUT_DIR/$target
+    /data/src/duplicity/duplicity-bin \
+      cleanup --force \
+      --allow-source-mismatch \
+      file://$OUTPUT_DIR/$target
+    echo `date`"                                    Size after: "`du -sh $OUTPUT_DIR/$target | cut -f 1 -d " "`
+
+    echo `date`" Backing up $target"
+    /data/src/duplicity/duplicity-bin \
+      --archive-dir=/data/duplicity \
+      --full-if-older-than 2M \
+      --encrypt-key=${GPG_KEY} \
+      --sign-key=${GPG_KEY} \
+      --allow-source-mismatch \
+      -v info \
+      --exclude-if-present --exclude=homedir/.cache \
+      incremental \
+      $target file://$OUTPUT_DIR/$target | tee /tmp/duplicity.log
+    change=`grep TotalDestinationSizeChange /tmp/duplicity.log | cut -f 2 -d " "`
+    total_change=$(( $total_change + $change ))
+    echo `date`" $target: $change" >> $OUTPUT_DIR/log
+
+    if [ $change -lt 2500000000 ]
+    then
+      echo "Backup was short"
+    else
+      new_targets="$new_targets $target"
+    fi
+
+    echo "****** TOTAL CHANGE $total_change ******"
+    echo
+
+    targets="$new_targets"
+  done
+done
+
+# Now sync the backups with a local USB disk if one can be found
+disk=`find /media -type d -name duplicity | head -1 | sed 's/\/duplicity//'`
+if [ "%$disk%" != "%%" ]
+then
+  echo `date`" Syncing backups to $disk" >> $OUTPUT_DIR/log
+  cd $OUTPUT_DIR
+  ./rsync $disk
+  echo `date`" Synced backups to $disk" >> $OUTPUT_DIR/log
+fi

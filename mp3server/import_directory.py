@@ -45,8 +45,8 @@ def ProcessDirectory(db, path):
 
         this_track.Store()
 
-      except:
-        print 'Failed to store: %s' % entpath
+      except Exception, e:
+        print 'Failed to store: %s (%s)' %(entpath, e)
 
 
 if __name__ == '__main__':

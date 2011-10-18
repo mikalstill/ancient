@@ -85,8 +85,8 @@ class BusinessLogic(object):
       self.log('Considering id = %d: %s' %(id, row['path']))
       if row['path'].endswith('.mp3') and os.path.exists(row['path']):
         self.log('MP3 check: %s' % row['path'])
-        mp3_source = self.getclientsetting(client_id, 'mp3_source', '')
-        if mp3_source:
+        mp3_source = self.getclientsetting(client_id, 'mp3_source', '/mp3')
+        if mp3_source != '/mp3':
           mp3_url = ('%s/%s' %(mp3_source,
                                row['path'].replace(FLAGS.audio_path, '')))
         else:

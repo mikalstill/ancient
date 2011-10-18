@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+import datetime
+import re
+import subprocess
+import time
+import MySQLdb
+
+
+p = subprocess.Popen('/data/backups/duplicity-output/listfiles.sh '
+                     '7 /media/backups/duplicity/var',
+                     shell=True, stdout=subprocess.PIPE)
+
+for l in p.stdout.readlines():
+  l = l.rstrip()
+  print l

@@ -94,7 +94,36 @@ class Track:
       self.persistant['creation_time'] = datetime.datetime.now()
       new_track = True
 
-    # Use ID3 if we're missing information
+    # There was a bug a while ago where we left underscores in the database.
+    # Clean that up...
+    for key in 'artist', 'album', 'song':
+      before = self.persistant[key]
+      after = self.persistant[key].replace('_', ' ')
+      if before != after:
+        self.persistant[key] = after
+        updated = True
+
+    # Attempt to parse the path using Mikal's file naming scheme. 30 chars is
+    # is the field length for ID3, and might indicate the tags have been
+    # truncated
+    if attemptparse:
+      if (not 'artist' in self.persistant or
+          len(self.persistant.get('song', ' ')) == 30 or
+          len(self.persistant.get('album', ' ')) == 30):
+        m = _PATH_PARSE_RE.match(path)
+        if m:
+          try:
+            self.persistant['artist'] = m.group(1).replace('_', ' ')
+            self.persistant['album'] = m.group(2).replace('_', ' ')
+            self.persistant['song'] = m.group(4).replace('_', ' ')
+            self.persistant['number'] = int(m.group(3)).replace('_', ' ')
+            updated = True
+
+          except:
+            pass
+
+    # Use ID3 if we're missing information. This isn't as good as file parsing
+    # as the ID3 fields have maximum lengths we sometimes hit.
     if not self.persistant.has_key('artist'):
       try:
         id3r = id3reader.Reader(path)
@@ -115,20 +144,6 @@ class Track:
             pass
       except:
         pass
-
-    # Attempt to parse the path using Mikal's file naming scheme
-    if not self.persistant.has_key('artist') and attemptparse:
-      m = _PATH_PARSE_RE.match(path)
-      if m:
-        try:
-          self.persistant['artist'] = m.group(1)
-          self.persistant['album'] = m.group(2)
-          self.persistant['song'] = m.group(4)
-          self.persistant['number'] = int(m.group(3))
-          updated = True
-
-        except:
-          pass
 
     # Perhaps we have this MP3 under another path
     if not self.persistant.has_key('artist'):

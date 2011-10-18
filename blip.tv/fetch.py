@@ -78,7 +78,18 @@ for i in range(1, 100):
         n = DOWNLOAD_RE.match(vidline)
         if n:
           print 'Found download: %s' % n.group(1)
-          FetchUrl('http://blip.tv/file/get/%s' % n.group(1).split('/')[-1])
+          attempts = 0
+          done = False
+
+          while not done:
+            try:
+              attempts += 1
+              FetchUrl('http://blip.tv/file/get/%s' % n.group(1).split('/')[-1])
+              done = True
+            except:
+              print 'Fetch failed, %d more attempts' % (5 - attempts)
+              if attempts == 5:
+                done = True
 
   if found == 0:
     sys.exit(0)

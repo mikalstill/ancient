@@ -49,9 +49,11 @@ class mp3_http_handler(mhttp.http_handler):
   def sendfile(self, file, subst={}, chunk=None):
     global blogic
 
+    self.log('Sending %s with %s' %(file, repr(subst)))
+
     if not 'mp3_source' in subst:
       subst['mp3_source'] = blogic.getclientsetting(self.client_id, 
-                                                    'mp3_source', '')
+                                                    'mp3_source', '/mp3')
     if not 'user' in subst:
       subst['user'] = blogic.getclientsetting(self.client_id,
                                               'user', 'shared')
@@ -512,7 +514,7 @@ class mp3_http_handler(mhttp.http_handler):
       
       (rendered['mp3_url'],
        rendered['mp3_urlfile']) = blogic.findMP3(row['id'],
-                                              client_id=self.client_id)
+                                                 client_id=self.client_id)
       if not 'creation_time' in rendered:
         rendered['creation_time'] = ''
 
@@ -866,9 +868,12 @@ def main(argv):
           db.ExecuteSql('update paths set duration=%f where path=%s;'
                         %(duration, db.FormatSqlValue('path', row['path'])))
         except Exception, e:
-          db.ExecuteSql('update paths set error=%s where path=%s;'
-                        %(db.FormatSqlValue('error', str(e)),
-                          db.FormatSqlValue('path', row['path'])))
+          try:
+            db.ExecuteSql('update paths set error=%s where path=%s;'
+                          %(db.FormatSqlValue('error', str(e)),
+                            db.FormatSqlValue('path', row['path'])))
+          except:
+            pass
 
       for row in db.GetRows('select distinct tracks.artist, tracks.album, '
                             'art.art from tracks left join art on '
