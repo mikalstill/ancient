@@ -1,16 +1,217 @@
 #!/usr/bin/python
 
+import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
+
 import datetime
+import os
 import re
 import subprocess
+import sys
 import time
 import MySQLdb
 
+import gflags
 
-p = subprocess.Popen('/data/backups/duplicity-output/listfiles.sh '
-                     '7 /media/backups/duplicity/var',
-                     shell=True, stdout=subprocess.PIPE)
 
-for l in p.stdout.readlines():
-  l = l.rstrip()
-  print l
+FLAGS = gflags.FLAGS
+gflags.DEFINE_string('dbuser', 'duplicity', 'DB username')
+gflags.DEFINE_string('dbpassword', 'duplicity', 'DB user password')
+gflags.DEFINE_string('dbname', 'duplicity', 'DB name')
+
+
+SCRIPTS_PATH = '/data/src/stillhq_public/trunk/duplicity'
+BACKUP_PATH = '/media/backups/duplicity'
+VERBOSE = False
+
+# duplicity-full.20110515T032236Z.vol10.difftar.gpg
+DUPLICITY_FULL_RE = re.compile('duplicity-full.([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])T[0-9]+Z.*')
+
+# Thu Apr 28 13:54:45 2011 www.old/index.html (24 bytes)
+FILE_RE = re.compile('[^ ]+ +([^ ]+ +[0-9]+ +[0-9:]+ +[0-9]+) +(.*) +\(([0-9]+) bytes\)')
+
+ONE_DAY = datetime.timedelta(days=1)
+
+processing_queue = []
+total_days = 0
+completed_days = 0
+
+
+def PrintProgress(cursor, elements):
+  global total_days
+  global completed_days
+
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
+                       passwd = FLAGS.dbpassword)
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+  
+  cursor.execute('select count(*) from filesystem;')
+  unique_files = cursor.fetchone()['count(*)']
+  cursor.execute('select count(*) from versions;')
+  unique_versions = cursor.fetchone()['count(*)']
+  print ('    %d of %d days processed, %d elements seen, '
+         '%d unique files, %d unique versions'
+         %(completed_days, total_days, elements, unique_files, unique_versions))
+
+
+def ProcessBackup(path):
+  global processing_queue
+  global total_days
+
+  target = path[len(BACKUP_PATH):]
+  if not target:
+    target = '/'
+  print 'Checking %s (from %s)' %(target, path)
+
+  # First step, examine the target directory and determine what the oldest
+  # backup in it is
+  first_backup = datetime.datetime.now()
+  found_backup = False
+
+  for ent in os.listdir(path):
+    if os.path.isfile(os.path.join(path, ent)):
+      if VERBOSE:
+        print 'Considering %s' % ent
+
+      m = DUPLICITY_FULL_RE.match(ent)
+      if m:
+        found_backup = True
+        when = datetime.datetime(int(m.group(1)), int(m.group(2)),
+                                 int(m.group(3)))
+        if VERBOSE:
+          print '  Found full backup from %s' % when
+
+        if when < first_backup:
+          first_backup = when
+          if VERBOSE:
+            print '  This backup is older than %s' % first_backup
+
+  if not found_backup:
+    print '  No backup found'
+    return
+
+  first_backup_delta = datetime.datetime.now() - first_backup
+  first_backup_in_days = first_backup_delta.days
+  processing_queue.append((path, target, first_backup, first_backup_in_days))
+  total_days += first_backup_in_days
+
+
+def ProcessBackupReal(path, target, first_backup, first_backup_in_days):
+  global completed_days
+
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
+                       passwd = FLAGS.dbpassword)
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+  print 'Checking %s (from %s)' %(target, path)
+  print ('  First backup in this set was %s (%d days ago)'
+         %(first_backup, first_backup_in_days))
+
+  # Walk through days we haven't seen yet and determine what files were present.
+  # Note that file size here is the compressed size in bytes inside the tarball,
+  # as duplicity does not appear to store the pre-compression size anywhere.
+  this_backup = first_backup
+
+  for i in xrange(0, first_backup_in_days):
+    # Check if we've processed this backup already
+    backup_epoch = time.mktime(this_backup.timetuple())
+    cursor.execute('select * from seen where target="%s" and epoch=%d;'
+                   %(target, backup_epoch))
+    if cursor.rowcount > 0:
+      print '  Already seen %s' % this_backup
+      completed_days += 1
+      PrintProgress(cursor, 0)
+
+    else:
+      elements = 0
+      print '  Loading %s' % this_backup
+      cmd = ('%s/listfiles.sh %04d/%02d/%02d %s'
+             %(SCRIPTS_PATH,
+               this_backup.year, this_backup.month, this_backup.day,
+               path))
+      if VERBOSE:
+        print 'Executing %s' % cmd
+
+      p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+
+      for l in p.stdout.readlines():
+        l = l.rstrip()
+
+        m = FILE_RE.match(l)
+        if l.startswith('Local and Remote metadata are synchronized'):
+          pass
+        elif l.startswith('Warning, found incomplete backup sets'):
+          pass
+        elif l.startswith('Last full backup date'):
+          pass
+
+        elif not m:
+          print 'Failed to parse file entry: %s' % l
+
+        else:
+          time_str = m.group(1)
+          (directory, filename) = os.path.split(m.group(2))
+          bytes = m.group(3)
+
+          cursor.execute('insert ignore into filesystem (filename, parent) '
+                         'values ("%s", "%s");'
+                         %(filename, os.path.join(target, directory)))
+          cursor.execute('commit;')
+
+          t = time.strptime(time_str, '%b %d %H:%M:%S %Y')
+          epoch = time.mktime(t)
+
+          cursor.execute('insert ignore into versions '
+                         '(path, epoch, compressed_size) '
+                         'values ("%s", %d, %s);'
+                         %(os.path.join(target, directory, filename), epoch,
+                           bytes))
+          cursor.execute('commit;')
+
+          elements += 1
+
+          if elements % 1000 == 0:
+            PrintProgress(cursor, elements)
+
+      cursor.execute('insert ignore into seen (target, epoch, elements) '
+                     'values("%s", %d, %d);'
+                     %(target, backup_epoch, elements))
+      cursor.execute('commit;')
+
+      completed_days += 1
+      PrintProgress(cursor, elements)
+    
+    this_backup += ONE_DAY
+
+
+def RecurseDirectory(path):
+  print 'Recursing %s' % path
+  for ent in os.listdir(path):
+    if os.path.isdir(os.path.join(path, ent)):
+      RecurseDirectory(os.path.join(path, ent))
+
+  ProcessBackup(path)
+
+
+def main(argv):
+  global processing_queue
+  global total_days
+
+  # Parse flags
+  try:
+    argv = FLAGS(argv)
+
+  except gflags.FlagsError, e:
+    print 'Flags error: %s' % e
+    print
+    print FLAGS
+
+  # This just creates a queue of directories to process
+  RecurseDirectory(BACKUP_PATH)
+
+  # Now process the queued entries
+  for (path, target, first_backup, first_backup_in_days) in processing_queue:
+    ProcessBackupReal(path, target, first_backup, first_backup_in_days)
+
+if __name__ == "__main__":
+  main(sys.argv)
