@@ -16,6 +16,7 @@ import urllib
 import MySQLdb
 
 import mhttp
+import sql
 import substitute
 
 import coverhunt
@@ -394,8 +395,8 @@ class mp3_http_handler(mhttp.http_handler):
     self.log('Fetching art for "%s" "%s"' %(artist, album))
     row = db.GetOneRow('select art from art where artist=%s and '
                        'album=%s;'
-                       %(db.FormatSqlValue('artist', artist),
-                         db.FormatSqlValue('album', album)))
+                       %(sql.FormatSqlValue('artist', artist),
+                         sql.FormatSqlValue('album', album)))
     if not row or not row['art']:
       self.senderror(404, 'No such art')
       return
@@ -485,7 +486,7 @@ class mp3_http_handler(mhttp.http_handler):
       for path in paths:
         try:
           db.ExecuteSql('update paths set track_id=%s where path=%s;'
-                        % (t_id, db.FormatSqlValue('path', path['path'])))
+                        % (t_id, sql.FormatSqlValue('path', path['path'])))
         except:
           pass
 
@@ -571,7 +572,7 @@ class mp3_http_handler(mhttp.http_handler):
                           'where last_action is not null and '
                           'last_action > %s '
                           'order by last_action desc;'
-                          % db.FormatSqlValue('date', one_hour_ago)):
+                          % sql.FormatSqlValue('date', one_hour_ago)):
       if row['last_played']:
         delta = now - row['last_played']
         secs = delta.seconds / 60
@@ -866,12 +867,12 @@ def main(argv):
                                             row['path'], duration)
 
           db.ExecuteSql('update paths set duration=%f where path=%s;'
-                        %(duration, db.FormatSqlValue('path', row['path'])))
+                        %(duration, sql.FormatSqlValue('path', row['path'])))
         except Exception, e:
           try:
             db.ExecuteSql('update paths set error=%s where path=%s;'
-                          %(db.FormatSqlValue('error', str(e)),
-                            db.FormatSqlValue('path', row['path'])))
+                          %(sql.FormatSqlValue('error', str(e)),
+                            sql.FormatSqlValue('path', row['path'])))
           except:
             pass
 
@@ -890,13 +891,13 @@ def main(argv):
         if not art:
           db.ExecuteSql('insert into art(artist, album, error) values '
                         '(%s, %s, "No art found");'
-                        %(db.FormatSqlValue('artist', row['artist']),
-                          db.FormatSqlValue('album', row['album'])))
+                        %(sql.FormatSqlValue('artist', row['artist']),
+                          sql.FormatSqlValue('album', row['album'])))
         else:
           db.ExecuteSql('insert into art(artist, album, art) values '
                         '(%s, %s, "%s");'
-                        %(db.FormatSqlValue('artist', row['artist']),
-                          db.FormatSqlValue('album', row['album']), art))
+                        %(sql.FormatSqlValue('artist', row['artist']),
+                          sql.FormatSqlValue('album', row['album']), art))
 
     if time.time() - last_summary > 60.0:
       print '%s TOTAL BYTES SERVED: %s' %(datetime.datetime.now(),

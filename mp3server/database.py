@@ -3,14 +3,18 @@
 # Copyright (C) Michael Still (mikal@stillhq.com) 2006, 2007, 2008
 # Released under the terms of the GNU GPL v2
 
+import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
+
 import datetime
 import MySQLdb
 import os
-import sys
 import traceback
-import unicodedata
 
 import gflags
+import sql
+
+
 FLAGS = gflags.FLAGS
 gflags.DEFINE_string('db_host', 'localhost',
                      'The name of the host the MySQL database is on')
@@ -26,16 +30,6 @@ gflags.DEFINE_boolean('db_debugging', False,
 
 
 CURRENT_SCHEMA='22'
-
-
-class FormatException(Exception):
-  """ FormatException -- Used for reporting failures for format DB values """
-
-
-def Normalize(value):
-  normalized = unicodedata.normalize('NFKD', unicode(value))
-  normalized = normalized.encode('ascii', 'ignore')
-  return normalized
 
 
 class Database:
@@ -203,32 +197,6 @@ class Database:
 
     return retval
 
-  def FormatSqlValue(self, name, value):
-    """FormatSqlValue -- some values get escaped for SQL use"""
-
-    if type(value) == datetime.datetime:
-      return 'STR_TO_DATE("%s", "%s")' \
-             %(value.strftime('%a, %d %b %Y %H:%M:%S'),
-               '''%a, %d %b %Y %H:%i:%s''')
-
-    if name == 'date':
-      return 'STR_TO_DATE("%s", "%s")' %(value, '''%a, %d %b %Y %H:%i:%s''')
-
-    if type(value) == long or type(value) == int:
-      return '%d' % value
-
-    if value == '':
-      return '""'
-
-    if value is None:
-      return 'NULL'
-
-    try:
-      return '"%s"' % Normalize(value).replace('"', '""')
-    except Exception, e:
-      raise FormatException('Could not format string value %s = %s (%s)'
-                            %(name, value, e))
-
   def WriteOneRow(self, table, key_col, dict):
     """WriteOneRow -- use a dictionary to write a row to the specified table"""
 
@@ -245,7 +213,7 @@ class Database:
     if dict.has_key(key_col) and row_count > 0:
       vals = []
       for col in dict:
-        val = '%s=%s' %(col, self.FormatSqlValue(col, dict[col]))
+        val = '%s=%s' %(col, sql.FormatSqlValue(col, dict[col]))
         vals.append(val)
 
       sql = ('update %s set %s where %s="%s";' %(table, ','.join(vals),
@@ -254,7 +222,7 @@ class Database:
     else:
       vals = []
       for col in dict:
-        val = self.FormatSqlValue(col, dict[col])
+        val = sql.FormatSqlValue(col, dict[col])
         vals.append(val)
 
       sql = ('insert into %s (%s) values(%s);'

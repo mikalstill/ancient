@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
-
 """Data structure for a single song."""
 
+import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
 
 import copy
 import cStringIO
@@ -13,7 +14,8 @@ import re
 import database
 import gflags
 import id3reader
-import sys
+
+import sql
 
 
 FLAGS = gflags.FLAGS
@@ -56,12 +58,12 @@ class Track:
     self.persistant = self.db.GetOneRow('select * from tracks where '
                                         'artist=%s and album=%s '
                                         'and number=%d and song=%s;'
-                                        %(self.db.FormatSqlValue('artist',
+                                        %(sql.FormatSqlValue('artist',
                                                                  artist),
-                                          self.db.FormatSqlValue('album',
+                                          sql.FormatSqlValue('album',
                                                                  album),
                                           track_number,
-                                          self.db.FormatSqlValue('song',
+                                          sql.FormatSqlValue('song',
                                                                  song)))
 
     if not self.persistant:
@@ -160,11 +162,11 @@ class Track:
       # Now write this to the database to get an ID
       self.db.ExecuteSql('insert into tracks(artist, album, song, number) '
                          'values(%s, %s, %s, %d);'
-                         %(self.db.FormatSqlValue('artist',
+                         %(sql.FormatSqlValue('artist',
                                                   self.persistant['artist']),
-                           self.db.FormatSqlValue('album',
+                           sql.FormatSqlValue('album',
                                                   self.persistant['album']),
-                           self.db.FormatSqlValue('song',
+                           sql.FormatSqlValue('song',
                                                   self.persistant['song']),
                            self.persistant.get('number', 0)))
       id = self.db.GetOneRow('select last_insert_id();')['last_insert_id()']
@@ -245,12 +247,12 @@ class Track:
     self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
                        'details) values (now(), %d, "merge: before", %s);'
                        %(self.persistant['id'],
-                         self.db.FormatSqlValue('details',
+                         sql.FormatSqlValue('details',
                                                 repr(self.persistant))))
     self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
                        'details) values (now(), %d, "merge: deleted", %s);'
                        %(other.persistant['id'], 
-                         self.db.FormatSqlValue('details',
+                         sql.FormatSqlValue('details',
                                                 repr(other.persistant))))
 
     # Fields which can be summed
@@ -297,7 +299,7 @@ class Track:
     self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
                        'details) values (now(), %d, "merge: tags: %d", %s);'
                        %(self.persistant['id'], other.persistant['id'],
-                         self.db.FormatSqlValue('details', repr(tags))))
+                         sql.FormatSqlValue('details', repr(tags))))
 
     try:
       self.db.ExecuteSql('update tags set track_id=%d where track_id=%d;'
@@ -313,7 +315,7 @@ class Track:
     self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
                        'details) values (now(), %d, "merge: paths: %d", %s);'
                        %(self.persistant['id'], other.persistant['id'],
-                         self.db.FormatSqlValue('details', repr(paths))))
+                         sql.FormatSqlValue('details', repr(paths))))
     
     self.db.ExecuteSql('update paths set track_id=%d where track_id=%d;'
                        %(self.persistant['id'], other.persistant['id']))
@@ -322,7 +324,7 @@ class Track:
     self.db.ExecuteSql('insert into events(timestamp, track_id, event, '
                        'details) values (now(), %d, "merge: after", %s);'
                        %(self.persistant['id'],
-                         self.db.FormatSqlValue('details',
+                         sql.FormatSqlValue('details',
                                                 repr(self.persistant))))
     self.db.ExecuteSql('commit;')
 

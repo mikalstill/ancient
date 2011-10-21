@@ -5,13 +5,14 @@ sys.path.append('/data/src/stillhq_public/trunk/python/')
 
 import datetime
 import os
+import random
 import re
 import subprocess
-import sys
 import time
 import MySQLdb
 
 import gflags
+import sql
 
 
 FLAGS = gflags.FLAGS
@@ -19,9 +20,13 @@ gflags.DEFINE_string('dbuser', 'duplicity', 'DB username')
 gflags.DEFINE_string('dbpassword', 'duplicity', 'DB user password')
 gflags.DEFINE_string('dbname', 'duplicity', 'DB name')
 
+gflags.DEFINE_string('media', '', 'The name of the backup media')
+gflags.DEFINE_string('path', '', 'The path to the backup media')
+
+gflags.DEFINE_boolean('pool', False, 'Process backups in parallel')
+
 
 SCRIPTS_PATH = '/data/src/stillhq_public/trunk/duplicity'
-BACKUP_PATH = '/media/backups/duplicity'
 VERBOSE = False
 
 # duplicity-full.20110515T032236Z.vol10.difftar.gpg
@@ -37,28 +42,25 @@ total_days = 0
 completed_days = 0
 
 
-def PrintProgress(cursor, elements):
+def PrintProgress(cursor, extra):
   global total_days
   global completed_days
 
-  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
-                       passwd = FLAGS.dbpassword)
-  cursor = db.cursor(MySQLdb.cursors.DictCursor)
-  
   cursor.execute('select count(*) from filesystem;')
   unique_files = cursor.fetchone()['count(*)']
   cursor.execute('select count(*) from versions;')
   unique_versions = cursor.fetchone()['count(*)']
-  print ('    %d of %d days processed, %d elements seen, '
-         '%d unique files, %d unique versions'
-         %(completed_days, total_days, elements, unique_files, unique_versions))
+
+  print ('%s: %d of %d days processed, %d unique files, %d unique versions%s'
+         %(datetime.datetime.now(), completed_days, total_days, unique_files,
+           unique_versions, extra))
 
 
 def ProcessBackup(path):
   global processing_queue
   global total_days
 
-  target = path[len(BACKUP_PATH):]
+  target = path[len(FLAGS.path):]
   if not target:
     target = '/'
   print 'Checking %s (from %s)' %(target, path)
@@ -87,51 +89,53 @@ def ProcessBackup(path):
             print '  This backup is older than %s' % first_backup
 
   if not found_backup:
-    print '  No backup found'
+    if VERBOSE:
+      print '  No backup found'
     return
 
   first_backup_delta = datetime.datetime.now() - first_backup
   first_backup_in_days = first_backup_delta.days
-  processing_queue.append((path, target, first_backup, first_backup_in_days))
   total_days += first_backup_in_days
 
-
-def ProcessBackupReal(path, target, first_backup, first_backup_in_days):
-  global completed_days
-
-  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
-                       passwd = FLAGS.dbpassword)
-  cursor = db.cursor(MySQLdb.cursors.DictCursor)
-
-  print 'Checking %s (from %s)' %(target, path)
-  print ('  First backup in this set was %s (%d days ago)'
-         %(first_backup, first_backup_in_days))
+  if VERBOSE:
+    print ('  First backup in this set was %s (%d days ago)'
+           %(first_backup, first_backup_in_days))
 
   # Walk through days we haven't seen yet and determine what files were present.
   # Note that file size here is the compressed size in bytes inside the tarball,
   # as duplicity does not appear to store the pre-compression size anywhere.
   this_backup = first_backup
-
   for i in xrange(0, first_backup_in_days):
-    # Check if we've processed this backup already
-    backup_epoch = time.mktime(this_backup.timetuple())
-    cursor.execute('select * from seen where target="%s" and epoch=%d;'
-                   %(target, backup_epoch))
-    if cursor.rowcount > 0:
-      print '  Already seen %s' % this_backup
-      completed_days += 1
-      PrintProgress(cursor, 0)
+    processing_queue.append((path, target, first_backup, first_backup_in_days,
+                             this_backup))
+    this_backup += ONE_DAY
 
-    else:
-      elements = 0
-      print '  Loading %s' % this_backup
-      cmd = ('%s/listfiles.sh %04d/%02d/%02d %s'
-             %(SCRIPTS_PATH,
-               this_backup.year, this_backup.month, this_backup.day,
-               path))
-      if VERBOSE:
-        print 'Executing %s' % cmd
 
+def ProcessBackupReal(cursor, (path, target, first_backup, first_backup_in_days,
+                               this_backup)):
+
+  # Check if we've processed this backup already
+  backup_epoch = time.mktime(this_backup.timetuple())
+  s = ('select * from seen where target=%s and epoch=%d and media=%s;'
+       %(sql.FormatSqlValue('target', target), backup_epoch,
+         sql.FormatSqlValue('media', FLAGS.media)))
+  cursor.execute(s)
+  if cursor.rowcount > 0:
+    print '%s: %s at %s: Already seen' %(datetime.datetime.now(),
+                                           path, this_backup)
+    return 0
+
+  else:
+    elements = 0
+    print '%s: %s at %s: Loading' %(datetime.datetime.now(), path, this_backup)
+    cmd = ('%s/listfiles.sh %04d/%02d/%02d %s'
+           %(SCRIPTS_PATH,
+             this_backup.year, this_backup.month, this_backup.day,
+             path))
+    if VERBOSE:
+      print 'Executing %s' % cmd
+
+    try:
       p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
 
       for l in p.stdout.readlines():
@@ -144,51 +148,100 @@ def ProcessBackupReal(path, target, first_backup, first_backup_in_days):
           pass
         elif l.startswith('Last full backup date'):
           pass
+        elif l.startswith('Copying duplicity'):
+          pass
+        elif l.startswith('Synchronizing remote metadata'):
+          pass
+        elif l.startswith('No signature chain for the requested time'):
+          pass
 
         elif not m:
-          print 'Failed to parse file entry: %s' % l
+          print ('%s: Failed to parse file entry: %s'
+                 %(datetime.datetime.now(), l))
 
         else:
           time_str = m.group(1)
           (directory, filename) = os.path.split(m.group(2))
           bytes = m.group(3)
 
-          cursor.execute('insert ignore into filesystem (filename, parent) '
-                         'values ("%s", "%s");'
-                         %(filename, os.path.join(target, directory)))
+          s = ('insert ignore into filesystem (filename, parent) '
+               'values (%s, %s);'
+               %(sql.FormatSqlValue('filename', filename),
+                 sql.FormatSqlValue('parent', 
+                                    os.path.join(target, 
+                                                 directory).rstrip('/'))))
+          cursor.execute(s)
           cursor.execute('commit;')
 
           t = time.strptime(time_str, '%b %d %H:%M:%S %Y')
           epoch = time.mktime(t)
 
-          cursor.execute('insert ignore into versions '
-                         '(path, epoch, compressed_size) '
-                         'values ("%s", %d, %s);'
-                         %(os.path.join(target, directory, filename), epoch,
-                           bytes))
-          cursor.execute('commit;')
+          s = ('select * from versions where path=%s and epoch=%d;'
+               %(sql.FormatSqlValue('path', os.path.join(target, directory,
+                                                         filename)),
+                 epoch))
+          cursor.execute(s)
+
+          if cursor.rowcount == 0:
+            s = ('insert into versions (path, epoch, compressed_size, seen_on) '
+                 'values (%s, %d, %s, %s);'
+                 %(sql.FormatSqlValue('path', os.path.join(target, directory,
+                                                           filename)),
+                   epoch, bytes, sql.FormatSqlValue('seen_on', FLAGS.media)))
+            cursor.execute(s)
+            cursor.execute('commit;')
+
+          else:
+            seen_on = cursor.fetchone()['seen_on'].split()
+            if not FLAGS.media in seen_on:
+              seen_on.append(FLAGS.media)
+
+              s = ('update versions set seen_on=%s where path=%s and epoch=%d;'
+                   %(sql.FormatSqlValue('seen_on', ' '.join(seen_on)),
+                     sql.FormatSqlValue('path', os.path.join(target, directory,
+                                                             filename)), 
+                    epoch))
+              cursor.execute(s)
+              cursor.execute('commit;')
 
           elements += 1
 
-          if elements % 1000 == 0:
-            PrintProgress(cursor, elements)
-
-      cursor.execute('insert ignore into seen (target, epoch, elements) '
-                     'values("%s", %d, %d);'
-                     %(target, backup_epoch, elements))
+      s = ('insert ignore into seen (target, epoch, elements, media) '
+           'values(%s, %d, %d, %s);'
+           %(sql.FormatSqlValue('target', target), backup_epoch,
+             elements, sql.FormatSqlValue('seen_on', FLAGS.media)))
+      cursor.execute(s)
       cursor.execute('commit;')
 
-      completed_days += 1
-      PrintProgress(cursor, elements)
-    
-    this_backup += ONE_DAY
+    except sql.FormatException, e:
+      print ('%s: %s at %s: SQL format exception %s'
+             %(datetime.datetime.now(), path, this_backup, e))
+      f = open('listfiles.problems', 'w+')
+      f.write('%s at %s: SQL format exception %s\n' %(path, this_backup, e))
+      f.close()
+
+    except Exception, e:
+      print '%s: %s at %s: Exception %s' %(datetime.datetime.now(), path,
+                                           this_backup, e)
+      print '  Nearest SQL was:\n\n%s' % s
+      sys.exit(1)
+
+  return elements
 
 
-def RecurseDirectory(path):
-  print 'Recursing %s' % path
+def RecurseDirectory(cursor, path):
+  if len(path) > len(FLAGS.path):
+    target = path[len(FLAGS.path):].rstrip('/')
+    p, f = os.path.split(target)
+    s = ('insert ignore into filesystem (parent, filename) values (%s, %s);'
+         %(sql.FormatSqlValue('parent', p),
+           sql.FormatSqlValue('filesystem', f)))
+    cursor.execute(s)
+    cursor.execute('commit;')
+
   for ent in os.listdir(path):
     if os.path.isdir(os.path.join(path, ent)):
-      RecurseDirectory(os.path.join(path, ent))
+      RecurseDirectory(cursor, os.path.join(path, ent))
 
   ProcessBackup(path)
 
@@ -196,6 +249,7 @@ def RecurseDirectory(path):
 def main(argv):
   global processing_queue
   global total_days
+  global completed_days
 
   # Parse flags
   try:
@@ -206,12 +260,26 @@ def main(argv):
     print
     print FLAGS
 
+  if not FLAGS.media:
+    print 'Please specify the name of this backup set with --media'
+    sys.exit(1)
+
+  if not FLAGS.path:
+    print 'Please specify the path to this backup set with --path'
+    sys.exit(1)
+
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
+                       passwd = FLAGS.dbpassword)
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
   # This just creates a queue of directories to process
-  RecurseDirectory(BACKUP_PATH)
+  RecurseDirectory(cursor, FLAGS.path)
 
   # Now process the queued entries
-  for (path, target, first_backup, first_backup_in_days) in processing_queue:
-    ProcessBackupReal(path, target, first_backup, first_backup_in_days)
+  for workitem in processing_queue:
+    res = ProcessBackupReal(cursor, workitem)
+    completed_days += 1
+    PrintProgress(cursor, ', %d elements' % res)
 
 if __name__ == "__main__":
   main(sys.argv)
