@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+"""Is it safe to delete these files?"""
+
 import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 

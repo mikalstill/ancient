@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+"""What files are backed up on this media?"""
+
 import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
