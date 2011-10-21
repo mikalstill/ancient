@@ -88,11 +88,12 @@ def main(argv):
   # Recurse directories looking for under replicated files
   overall_ok = RecurseDirectory(cursor, argv[1])
   if not overall_ok:
-    print 'Summary: not safe to delete'
+    print ('Summary: not safe to delete, delete would clear %s'
+           % utility.DisplayFriendlySize(total_size))
     sys.exit(1)
 
   print ('Summary: ok to delete, delete would clear %s'
-         % utility.DisplayFriendlyBytes(total_size))
+         % utility.DisplayFriendlySize(total_size))
 
 if __name__ == "__main__":
   main(sys.argv)
