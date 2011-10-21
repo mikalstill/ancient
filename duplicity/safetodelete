@@ -12,12 +12,16 @@ import MySQLdb
 
 import gflags
 import sql
+import utility
 
 
 FLAGS = gflags.FLAGS
 gflags.DEFINE_string('dbuser', 'duplicity', 'DB username')
 gflags.DEFINE_string('dbpassword', 'duplicity', 'DB user password')
 gflags.DEFINE_string('dbname', 'duplicity', 'DB name')
+
+
+total_size = 0
 
 
 def CheckReplication(cursor, path):
@@ -44,15 +48,19 @@ def CheckReplication(cursor, path):
 
 
 def RecurseDirectory(cursor, path):
+  global total_size
+
   overall_ok = True
 
   if os.path.isfile(path):
+    total_size += os.path.getsize(path)
+
     ok, reason = CheckReplication(cursor, path)
     if not ok:
       overall_ok = False
       print '%s not ok to delete, %s' %(path, reason)
 
-  else:
+  elif os.path.isdir(path):
     for ent in os.listdir(path):
       ok = RecurseDirectory(cursor, os.path.join(path, ent))
       if not ok:
@@ -62,6 +70,8 @@ def RecurseDirectory(cursor, path):
 
 
 def main(argv):
+  global total_size
+
   # Parse flags
   try:
     argv = FLAGS(argv)
@@ -81,7 +91,8 @@ def main(argv):
     print 'Summary: not safe to delete'
     sys.exit(1)
 
-  print 'Summary: ok to delete'
+  print ('Summary: ok to delete, delete would clear %s'
+         % utility.DisplayFriendlyBytes(total_size))
 
 if __name__ == "__main__":
   main(sys.argv)

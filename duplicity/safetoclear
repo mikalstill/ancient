@@ -61,6 +61,8 @@ def main(argv):
 
   if not overall_ok:
     print 'Summary: it is not ok to remove this media'
+  else:
+    print 'Summary: ok to clear'
       
 
 if __name__ == "__main__":
