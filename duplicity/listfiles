@@ -11,6 +11,7 @@ import random
 import re
 import subprocess
 import time
+import traceback
 import MySQLdb
 
 import gflags
@@ -34,8 +35,8 @@ VERBOSE = False
 # duplicity-full.20110515T032236Z.vol10.difftar.gpg
 DUPLICITY_FULL_RE = re.compile('duplicity-full.([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])T[0-9]+Z.*')
 
-# Thu Apr 28 13:54:45 2011 www.old/index.html (24 bytes)
-FILE_RE = re.compile('[^ ]+ +([^ ]+ +[0-9]+ +[0-9:]+ +[0-9]+) +(.*) +\(([0-9]+) bytes\)')
+# Thu Apr 28 13:54:45 2011 www.old/index.html
+FILE_RE = re.compile('[^ ]+ +([^ ]+ +[0-9]+ +[0-9:]+ +[0-9]+) +(.*)')
 
 ONE_DAY = datetime.timedelta(days=1)
 
@@ -104,8 +105,6 @@ def ProcessBackup(path):
            %(first_backup, first_backup_in_days))
 
   # Walk through days we haven't seen yet and determine what files were present.
-  # Note that file size here is the compressed size in bytes inside the tarball,
-  # as duplicity does not appear to store the pre-compression size anywhere.
   this_backup = first_backup
   for i in xrange(0, first_backup_in_days):
     processing_queue.append((path, target, first_backup, first_backup_in_days,
@@ -164,7 +163,6 @@ def ProcessBackupReal(cursor, (path, target, first_backup, first_backup_in_days,
         else:
           time_str = m.group(1)
           (directory, filename) = os.path.split(m.group(2))
-          bytes = m.group(3)
 
           s = ('insert ignore into filesystem (filename, parent) '
                'values (%s, %s);'
@@ -185,11 +183,12 @@ def ProcessBackupReal(cursor, (path, target, first_backup, first_backup_in_days,
           cursor.execute(s)
 
           if cursor.rowcount == 0:
-            s = ('insert into versions (path, epoch, compressed_size, seen_on) '
-                 'values (%s, %d, %s, %s);'
+            s = ('insert into versions (path, epoch, seen_on) '
+                 'values (%s, %s, %s);'
                  %(sql.FormatSqlValue('path', os.path.join(target, directory,
                                                            filename)),
-                   epoch, bytes, sql.FormatSqlValue('seen_on', FLAGS.media)))
+                   epoch,
+                   sql.FormatSqlValue('seen_on', FLAGS.media)))
             cursor.execute(s)
             cursor.execute('commit;')
 
@@ -223,8 +222,19 @@ def ProcessBackupReal(cursor, (path, target, first_backup, first_backup_in_days,
       f.close()
 
     except Exception, e:
+      exc = None
       print '%s: %s at %s: Exception %s' %(datetime.datetime.now(), path,
                                            this_backup, e)
+
+      try:
+        exc = sys.exc_info()
+        for tb in traceback.format_exception(exc[0], exc[1], exc[2]):
+          print '  %s' % tb
+        del tb
+
+      finally:
+        del exc
+        
       print '  Nearest SQL was:\n\n%s' % s
       sys.exit(1)
 

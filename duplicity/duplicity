@@ -6,6 +6,8 @@ export PASSPHRASE=Diu9obie
 export GPG_KEY=6B4768FF
 export OUTPUT_DIR=/data/backups/duplicity-output
 
+export SVN_PATH=/data/src/stillhq_public/trunk/duplicity
+
 # Ensure there isn't a recent backup
 age=$(( `date +%s` - `date +%s -r $OUTPUT_DIR/log` ))
 if [ "%$1%" == "%--force%" ]
@@ -39,6 +41,37 @@ then
   mv $OUTPUT_DIR/mikal_crontab $OUTPUT_DIR/mikal_crontab.old
 fi
 
+need_clean=0
+for target in $targets
+do
+  before=`du -s $OUTPUT_DIR/$target | cut -f 1`
+  echo `date`" Removing old backups for $target. " >> $OUTPUT_DIR/log
+  echo `date`" Size before: $before" >> $OUTPUT_DIR/log
+  /data/src/duplicity/duplicity-bin \
+    remove-all-but-n-full 1 --force \
+    --allow-source-mismatch \
+    file://$OUTPUT_DIR/$target
+  /data/src/duplicity/duplicity-bin \
+    cleanup --force \
+    --allow-source-mismatch \
+    file://$OUTPUT_DIR/$target
+
+  after=`du -s $OUTPUT_DIR/$target | cut -f 1`
+  echo `date`" Size after:  $after" >> $OUTPUT_DIR/log
+
+  if [ $after -lt $before ]
+  then
+    need_clean=1
+  fi
+done
+
+if [ $need_clean -gt 0 ]
+then
+  echo `date`" Repository shrunk. Clearing local media" >> $OUTPUT_DIR/log
+  $SVN_PATH/clearmedia --media local
+  echo `date`" Clear complete" >> $OUTPUT_DIR/log
+fi
+
 while [ "%$targets%" != "%%" ]
 do
   echo `date`" Targets: $targets" >> $OUTPUT_DIR/log
@@ -47,17 +80,6 @@ do
 
   for target in $targets
   do
-    echo `date`" Removing old backups for $target. Size before: "`du -sh $OUTPUT_DIR/$target | cut -f 1 -d " "`
-    /data/src/duplicity/duplicity-bin \
-      remove-all-but-n-full 1 --force \
-      --allow-source-mismatch \
-      file://$OUTPUT_DIR/$target
-    /data/src/duplicity/duplicity-bin \
-      cleanup --force \
-      --allow-source-mismatch \
-      file://$OUTPUT_DIR/$target
-    echo `date`"                                    Size after: "`du -sh $OUTPUT_DIR/$target | cut -f 1 -d " "`
-
     echo `date`" Backing up $target"
     /data/src/duplicity/duplicity-bin \
       --archive-dir=/data/duplicity \
@@ -96,3 +118,15 @@ then
   ./rsync $disk
   echo `date`" Synced backups to $disk" >> $OUTPUT_DIR/log
 fi
+
+# Now make sure we have records of what is where
+#$SVN_PATH/listfiles --media local --path $OUTPUT_DIR
+#echo `date`" Finished listing local media" >> $OUTPUT_DIR/log
+
+#if [ ! -e $disk/NAME ]
+#then
+#  echo `date`" Skipping removal media listing as it has no name" >> $OUTPUT_DIR/log
+#else
+#  $SVN_PATH/listfiles --media `cat $disk/NAME` --path $OUTPUT_DIR
+#  echo `date`" Finished listing removable media" >> $OUTPUT_DIR/log
+#fi
