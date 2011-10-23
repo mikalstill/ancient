@@ -10,4 +10,4 @@ source /data/backups/secrets
     --encrypt-key=${GPG_KEY} \
     --sign-key=${GPG_KEY} \
     --time $1 \
-    list-current-files file://$2
+    list-contents file://$2
