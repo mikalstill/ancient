@@ -34,7 +34,7 @@ def GetFileVersions(path):
                  % path)
   ents = []
   for row in cursor:
-    ents.append((row['epoch'], row['seen_on'].split()))
+    ents.append(row['epoch'])
   file_cache[path] = ents
   return ents
 
@@ -67,10 +67,8 @@ def myapp(environ, start_response):
   else:
     ents = GetFileVersions(path)
     results.append('<h1>%s (%d versions)</h1>' %(path, len(ents)))
-    for (age, seen_on) in ents:
-      results.append('%s (contained in: %s)<br/>'
-                     %(datetime.datetime.fromtimestamp(age),
-                       ', '.join(seen_on)))
+    for age in ents:
+      results.append('%s<br/>' % datetime.datetime.fromtimestamp(age))
 
   return results
 

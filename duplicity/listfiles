@@ -14,6 +14,7 @@ import time
 import traceback
 import MySQLdb
 
+import cachedexecution
 import gflags
 import sql
 
@@ -42,21 +43,98 @@ FULL_BACKUP_RE = re.compile('duplicity-full-signatures.'
 
 BACKUP_GAP = datetime.timedelta(hours=1)
 
+filesystem_inserts = []
+version_inserts = []
+version_updates = []
+
+start_time = time.time()
+db_time = 0
+
 
 def PrintProgress(cursor, extra=''):
   global total_days
   global completed_days
+  global start_time
+  global db_time
 
   cursor.execute('select count(*) from filesystem;')
   unique_files = cursor.fetchone()['count(*)']
   cursor.execute('select count(*) from versions;')
   unique_versions = cursor.fetchone()['count(*)']
 
-  print ('%s: %d unique files, %d unique versions%s'
-         %(datetime.datetime.now(), unique_files, unique_versions, extra))
+  run_time = time.time() - start_time
+
+  print ('%s: %d unique files, %d unique versions, '
+         '%.02f sec wall, %.02f sec db%s'
+         %(datetime.datetime.now(), unique_files, unique_versions, 
+           run_time, db_time, extra))
+
+
+def TraceBack():
+  exc = None
+    
+  try:
+    exc = sys.exc_info()
+    for tb in traceback.format_exception(exc[0], exc[1], exc[2]):
+      print '  %s' % tb
+      del tb
+
+  finally:
+    del exc
+
+  sys.exit(1)
+
+
+def CommitChanges(cursor, retry=True):
+  global filesystem_inserts
+  global version_inserts
+  global version_updates
+  global db_time
+
+  db_start = time.time()
+
+  try:
+    if filesystem_inserts:
+      s = ('insert ignore into filesystem (filename, parent) values %s;'
+           % ','.join(filesystem_inserts))
+      cursor.execute(s)
+      cursor.execute('commit;')
+      filesystem_inserts = []
+
+    if version_inserts:
+      s = ('insert ignore into versions (path, epoch) values %s;'
+           % ','.join(version_inserts))
+      cursor.execute(s)
+      cursor.execute('commit;')
+      version_inserts = []
+
+    if version_updates:
+      s = ('update versions set %s="N" where concat_ws("~", path, epoch) in '
+           '(%s);'
+           %(FLAGS.media, ','.join(version_updates)))
+      cursor.execute(s)
+      cursor.execute('commit;')
+      version_updates = []
+
+  except MySQLdb.Error, (errno, errstr):
+    if errno == 1213 and retry:
+      # Deadlock, retry
+      CommitChanges(cursor, retry=False)
+
+    else:
+      print '%s: MySQL Exception %s' %(datetime.datetime.now(), e)
+      TraceBack()
+
+  except Exception, e:
+    print '%s: Exception %s' %(datetime.datetime.now(), e)
+    TraceBack()
+
+  db_time += time.time() - db_start
 
 
 def SaveBackupFile(cursor, target, backup_file, elements):
+  CommitChanges(cursor)
+
   s = ('insert ignore into seen (target, backup_file, elements, media) '
        'values(%s, %s, %d, %s);'
        %(sql.FormatSqlValue('target', target),
@@ -67,6 +145,10 @@ def SaveBackupFile(cursor, target, backup_file, elements):
 
 
 def ProcessBackup(cursor, path):
+  global filesystem_inserts
+  global version_inserts
+  global version_updates
+
   target = path[len(FLAGS.path):]
   if not target:
     target = '/'
@@ -74,14 +156,14 @@ def ProcessBackup(cursor, path):
   print
   print '%s: Checking %s (from %s)' %(datetime.datetime.now(), target, path)
 
-  cmd = '%s/listfiles.sh now %s' %(SCRIPTS_PATH, path)
-  print '%s:   Executing %s' %(datetime.datetime.now(), cmd)
-
-  p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+  now = datetime.datetime.now()
+  cmd = '%s/listfiles.sh %04d%02d%02d %s' %(SCRIPTS_PATH, now.year, now.month,
+                                            now.day, path)
+  
   backup_file = None
   elements = 0
 
-  for l in p.stdout.readlines():
+  for l in cachedexecution.Run(cmd):
     l = l.rstrip()
 
     try:
@@ -103,54 +185,47 @@ def ProcessBackup(cursor, path):
         pass
 
       elif l.startswith('Backup file: '):
-        if backup_file:
+        if backup_file and not skip_backup_file:
           SaveBackupFile(cursor, target, backup_file, elements)
 
         _, backup_file = os.path.split(l[len('Backup file: '):])
-        elements = 0
+        cursor.execute('select * from seen where backup_file=%s and media=%s;'
+                       %(sql.FormatSqlValue('backup_file', backup_file),
+                         sql.FormatSqlValue('media', FLAGS.media)))
+        if cursor.rowcount > 0:
+          skip_backup_file = True
+          print ('%s: ... skipping already seen %s'
+                 %(datetime.datetime.now(), backup_file))
+        else:
+          skip_backup_file = False
 
       elif not m:
         print ('%s: Failed to parse file entry: %s'
                %(datetime.datetime.now(), l))
 
-      else:
+      elif not skip_backup_file:
         (directory, filename) = os.path.split(m.group(1))
         filetype = m.group(2)
         epoch = int(m.group(3))
 
         # Filesystem entry
-        s = ('insert ignore into filesystem (filename, parent) '
-             'values (%s, %s);'
-             %(sql.FormatSqlValue('filename', filename),
-               sql.FormatSqlValue('parent', 
-                                  os.path.join(target, directory).rstrip('/'))))
-        cursor.execute(s)
-        cursor.execute('commit;')
+        parent = os.path.join(target, directory).rstrip('/')
+        filesystem_inserts.append('(%s, %s)'
+                                  %(sql.FormatSqlValue('filename', filename),
+                                    sql.FormatSqlValue('parent', parent)))
 
         # This version of the file
-        path = sql.FormatSqlValue('path', os.path.join(target, directory, filename))
-        s = 'select * from versions where path=%s and epoch=%d;' %(path, epoch)
-        cursor.execute(s)
+        path = sql.FormatSqlValue('path', os.path.join(target, directory,
+                                                       filename))
+       
 
-        if cursor.rowcount == 0:
-          s = ('insert into versions (path, epoch, seen_on) '
-               'values (%s, %s, %s);'
-               %(path, epoch, sql.FormatSqlValue('seen_on', FLAGS.media)))
-          cursor.execute(s)
-          cursor.execute('commit;')
-
-        else:
-          seen_on = cursor.fetchone()['seen_on'].split()
-          if not FLAGS.media in seen_on:
-            seen_on.append(FLAGS.media)
-
-            s = ('update versions set seen_on=%s where path=%s and epoch=%d;'
-                 %(sql.FormatSqlValue('seen_on', ' '.join(seen_on)), path,  epoch))
-            cursor.execute(s)
-            cursor.execute('commit;')
+        version_inserts.append('(%s, %s)' %(path, epoch))
+        version_updates.append(sql.FormatSqlValue('seen', \
+            '%s~%s' %(os.path.join(target, directory, filename), epoch)))
 
         elements += 1
         if elements % 1000 == 0:
+          CommitChanges(cursor)
           print '%s:     ... %d elements' %(datetime.datetime.now(), elements)
 
     except sql.FormatException, e:
@@ -172,9 +247,10 @@ def ProcessBackup(cursor, path):
 
       finally:
         del exc
-        
-      print '  Nearest SQL was:\n\n%s' % s
+
       sys.exit(1)
+
+  CommitChanges(cursor)
 
 
 def RecurseDirectory(cursor, path):
@@ -220,6 +296,16 @@ def main(argv):
   db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
                        passwd = FLAGS.dbpassword)
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+  print '%s: Tweaking database schema' % datetime.datetime.now()
+  try:
+    cursor.execute('alter table versions add column %s varchar(1);'
+                   % FLAGS.media)
+    cursor.execute('alter table versions add index(%s);'
+                   % FLAGS.media)
+    cursor.execute('commit;')
+  except:
+    pass
 
   # This just creates a queue of directories to process
   RecurseDirectory(cursor, FLAGS.path)

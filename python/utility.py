@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+import decimal
+import types
+
 def DisplayFriendlySize(bytes):
   """DisplayFriendlySize -- turn a number of bytes into a nice string"""
 
