@@ -10,21 +10,21 @@ import time
 
 
 def Run(cmd, maxage=3600):
-  if not os.path.exists('cache'):
-    os.mkdir('cache')
+  if not os.path.exists('/data/temp/cache'):
+    os.mkdir('/data/temp/cache')
 
   ent = hashlib.sha224(cmd).hexdigest()
-  if not os.path.exists('cache/%s' % ent):
+  if not os.path.exists('/data/temp/cache/%s' % ent):
     for l in _Run(cmd, ent):
       yield l
 
-  mod = os.path.getmtime('cache/%s' % ent)
+  mod = os.path.getmtime('/data/temp/cache/%s' % ent)
   if time.time() - mod > maxage:
     for l in _Run(cmd, ent):
       yield l
   
   sys.stderr.write('Cache hit for %s\n' % cmd)
-  f = open('cache/%s' % ent)
+  f = open('/data/temp/cache/%s' % ent)
   try:
     l = f.readline()
     while l:
@@ -36,7 +36,7 @@ def Run(cmd, maxage=3600):
 
 
 def _Run(cmd, ent):
-  local = open('cache/%s' % ent, 'w')
+  local = open('/data/temp/cache/%s' % ent, 'w')
 
   sys.stderr.write('Executing %s\n' % cmd)
   p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)

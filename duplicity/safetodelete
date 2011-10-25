@@ -39,10 +39,14 @@ def CheckReplication(cursor, path):
     return (False, ('backup is out of date (%d seconds too old)'
                     % (mtime - row['epoch'])))
 
-  seen = row['seen_on'].split(' ')
-  if len(seen) < 2:
+  locations = []
+  for key in row:
+    if key.startswith('media') and row[key] == 'N':
+      locations.append(key[len('media_'):])
+
+  if len(locations) < 2:
     return (False, ('backup is under replicated (%d locations, %s)'
-                    %(len(seen), row['seen_on'])))
+                    %(len(locations), ' '.join(locations))))
 
   return (True, '')
 

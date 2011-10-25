@@ -41,6 +41,16 @@ then
   mv $OUTPUT_DIR/mikal_crontab $OUTPUT_DIR/mikal_crontab.old
 fi
 
+# First sync the backups with a local USB disk if one can be found
+disk=`find /media -type d -name duplicity | head -1 | sed 's/\/duplicity//'`
+if [ "%$disk%" != "%%" ]
+then
+  echo `date`" Syncing backups to $disk" >> $OUTPUT_DIR/log
+  cd $OUTPUT_DIR
+  ./rsync $disk
+  echo `date`" Synced backups to $disk" >> $OUTPUT_DIR/log
+fi
+
 need_clean=0
 for target in $targets
 do

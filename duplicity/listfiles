@@ -109,8 +109,8 @@ def CommitChanges(cursor, retry=True):
       version_inserts = []
 
     if version_updates:
-      s = ('update versions set %s="N" where concat_ws("~", path, epoch) in '
-           '(%s);'
+      s = ('update versions set media_%s="N" where '
+           'concat_ws("~", path, epoch) in (%s);'
            %(FLAGS.media, ','.join(version_updates)))
       cursor.execute(s)
       cursor.execute('commit;')

@@ -44,35 +44,18 @@ def main(argv):
   cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
 
   # Remove versions
-  removed_versions = 0
-  cursor.execute('select * from versions where seen_on like "%%%s%%";'
-                 % FLAGS.media)
-  for row in cursor:
-    print '%s at %s exists at %s' %(row['path'], row['epoch'], row['seen_on'])
-    if row['seen_on'] == FLAGS.media:
-      print '*** Warning: %s is now orphaned' % row['path']
-    
-    seen = row['seen_on'].split()
-    seen.remove(FLAGS.media)
-
-    prev = []
-    if row['previously_seen_on']:
-      prev = row['previously_seen_on'].split()
-    if not FLAGS.media in prev:
-      prev.append(FLAGS.media)
-
-    cursor2.execute('update versions set seen_on="%s", previously_seen_on="%s" '
-                    'where path="%s" and epoch=%d;'
-                    %(' '.join(seen), ' '.join(prev), row['path'],
-                      row['epoch']))
-    cursor2.execute('commit;')
-    removed_versions += 1
+  deleted_count = 0
+  cursor.execute('update versions set media_%s="P" where media_%s="N";'
+                 %(FLAGS.media, FLAGS.media))
+  deleted_count += cursor.rowcount
+  cursor.execute('commit;')
+  deleted_count += cursor.rowcount
 
   # Remove seen files
   cursor.execute('delete from seen where media="%s";' % FLAGS.media)
   cursor.execute('commit;')
 
-  print 'Done, touching %d versions' % removed_versions
+  print 'Done, touching %d versions' % deleted_count
       
 
 if __name__ == "__main__":
