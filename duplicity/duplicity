@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # If $1 == "--force", then ignore the age of the last backup
+# If $2 is present, it is the name of the backup target
 
-export PASSPHRASE=Diu9obie
-export GPG_KEY=6B4768FF
+source /data/backups/secrets
+
 export OUTPUT_DIR=/data/backups/duplicity-output
-
 export SVN_PATH=/data/src/stillhq_public/trunk/duplicity
 
 # Ensure there isn't a recent backup
@@ -23,14 +23,16 @@ then
   exit 0
 fi
 
-#targets="/data/plans /data/catherine /data/cvs /data/domains /data/ebook /data/mikal /data/mp3 /data/pictures /data/rbl /data/src /home/mikal"
-#targets="/data/temp"
-
-targets="/home/mikal /boot /etc /var"
-for target in `ls /data | egrep -v "(\.du$|^backups$|duplicity|lost\+found|mongodb|mysql|mythtv|squid|temp|video)"`
-do
-  targets="$targets /data/$target"
-done
+if [ "%$2%" == "%%" ]
+then
+  targets="/home/mikal /boot /etc /var"
+  for target in `ls /data | egrep -v "(\.du$|^backups$|duplicity|lost\+found|mongodb|mysql|mythtv|squid|temp|video)"`
+  do
+    targets="$targets /data/$target"
+  done
+else
+  targets=$2
+fi
 
 if [ -e $OUTPUT_DIR/dpkg ]
 then
@@ -60,10 +62,12 @@ do
   /data/src/duplicity/duplicity-bin \
     remove-all-but-n-full 1 --force \
     --allow-source-mismatch \
+    --archive-dir /data/temp/duplicity/ \
     file://$OUTPUT_DIR/$target
   /data/src/duplicity/duplicity-bin \
     cleanup --force \
     --allow-source-mismatch \
+    --archive-dir /data/temp/duplicity/ \
     file://$OUTPUT_DIR/$target
 
   after=`du -s $OUTPUT_DIR/$target | cut -f 1`
@@ -97,6 +101,7 @@ do
       --encrypt-key=${GPG_KEY} \
       --sign-key=${GPG_KEY} \
       --allow-source-mismatch \
+      --archive-dir /data/temp/duplicity/ \
       -v info \
       --exclude-if-present --exclude=homedir/.cache \
       incremental \
@@ -130,13 +135,13 @@ then
 fi
 
 # Now make sure we have records of what is where
-#$SVN_PATH/listfiles --media local --path $OUTPUT_DIR
-#echo `date`" Finished listing local media" >> $OUTPUT_DIR/log
+$SVN_PATH/listfiles --media local --path $OUTPUT_DIR
+echo `date`" Finished listing local media" >> $OUTPUT_DIR/log
 
-#if [ ! -e $disk/NAME ]
-#then
-#  echo `date`" Skipping removal media listing as it has no name" >> $OUTPUT_DIR/log
-#else
-#  $SVN_PATH/listfiles --media `cat $disk/NAME` --path $OUTPUT_DIR
-#  echo `date`" Finished listing removable media" >> $OUTPUT_DIR/log
-#fi
+if [ ! -e $disk/duplicity/NAME ]
+then
+  echo `date`" Skipping removable media listing as it has no name" >> $OUTPUT_DIR/log
+else
+  $SVN_PATH/listfiles --media `cat $disk/NAME` --path $OUTPUT_DIR
+  echo `date`" Finished listing removable media" >> $OUTPUT_DIR/log
+fi

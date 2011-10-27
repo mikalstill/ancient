@@ -122,7 +122,8 @@ def CommitChanges(cursor, retry=True):
       CommitChanges(cursor, retry=False)
 
     else:
-      print '%s: MySQL Exception %s' %(datetime.datetime.now(), e)
+      print '%s: MySQL Exception %s %s' %(datetime.datetime.now(),
+                                          errno, errstr)
       TraceBack()
 
   except Exception, e:
@@ -163,7 +164,7 @@ def ProcessBackup(cursor, path):
   backup_file = None
   elements = 0
 
-  for l in cachedexecution.Run(cmd):
+  for l in cachedexecution.Run(cmd, maxage=24 * 60 * 60):
     l = l.rstrip()
 
     try:
@@ -182,6 +183,8 @@ def ProcessBackup(cursor, path):
       elif l.startswith('Synchronizing remote metadata'):
         pass
       elif l.startswith('No signature chain for the requested time'):
+        pass
+      elif l.startswith('Deleting local'):
         pass
 
       elif l.startswith('Backup file: '):
@@ -299,9 +302,9 @@ def main(argv):
 
   print '%s: Tweaking database schema' % datetime.datetime.now()
   try:
-    cursor.execute('alter table versions add column %s varchar(1);'
+    cursor.execute('alter table versions add column media_%s varchar(1);'
                    % FLAGS.media)
-    cursor.execute('alter table versions add index(%s);'
+    cursor.execute('alter table versions add index(media_%s);'
                    % FLAGS.media)
     cursor.execute('commit;')
   except:

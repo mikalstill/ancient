@@ -41,23 +41,25 @@ def main(argv):
   db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
                        passwd = FLAGS.dbpassword)
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
-  cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
 
   # Check removal
   overall_ok = True
-  cursor.execute('select * from versions where seen_on like "%%%s%%";'
+  cursor.execute('select * from versions where media_%s="N";'
                  % FLAGS.media)
+
   for row in cursor:
-    if row['seen_on'] == FLAGS.media:
+    locations = []
+    for key in row:
+      if key.startswith('media') and row[key] == 'N':
+        locations.append(key[len('media_'):])
+
+    if len(locations) == 1:
       print '%s on %s would be orphaned' %(row['path'], row['epoch'])
       overall_ok = False
 
-    else:
-      seen = row['seen_on'].split()
-      seen.remove(FLAGS.media)
-      if len(seen) < 2:
-        print '%s on %s would be under replicated' %(row['path'], row['epoch'])
-        overall_ok = False
+    if locations < 3:
+      print '%s on %s would be under replicated' %(row['path'], row['epoch'])
+      overall_ok = False
 
   if not overall_ok:
     print 'Summary: it is not ok to remove this media'
