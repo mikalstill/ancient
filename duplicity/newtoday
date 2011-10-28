@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+"""What was files have changed, and been backed, up in the last 24 hours?"""
+
+import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
+
+import datetime
+import time
+import MySQLdb
+
+import gflags
+import sql
+
+
+FLAGS = gflags.FLAGS
+gflags.DEFINE_string('dbuser', 'duplicity', 'DB username')
+gflags.DEFINE_string('dbpassword', 'duplicity', 'DB user password')
+gflags.DEFINE_string('dbname', 'duplicity', 'DB name')
+
+
+def main(argv):
+  # Parse flags
+  try:
+    argv = FLAGS(argv)
+
+  except gflags.FlagsError, e:
+    print 'Flags error: %s' % e
+    print
+    print FLAGS
+
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
+                       passwd = FLAGS.dbpassword)
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+  s = ('select * from versions where epoch > %d order by epoch asc;'
+       % (time.mktime(datetime.datetime.now().timetuple()) - 24 * 60 * 60))
+  cursor.execute(s)
+
+  for row in cursor:
+    dt = datetime.datetime.fromtimestamp(row['epoch'])
+    print '%s: %s' %(dt, row['path'])
+
+if __name__ == "__main__":
+  main(sys.argv)

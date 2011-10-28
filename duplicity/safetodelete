@@ -21,11 +21,18 @@ gflags.DEFINE_string('dbpassword', 'duplicity', 'DB user password')
 gflags.DEFINE_string('dbname', 'duplicity', 'DB name')
 
 
+coverage = {}
+total_count = 0
 total_size = 0
 
 
 def CheckReplication(cursor, path):
   """This only works on files, not directories."""
+
+  global total_count
+  global coverage
+
+  total_count += 1
 
   s = ('select * from versions where path=%s order by epoch desc;'
        % sql.FormatSqlValue('path', path))
@@ -42,7 +49,10 @@ def CheckReplication(cursor, path):
   locations = []
   for key in row:
     if key.startswith('media') and row[key] == 'N':
-      locations.append(key[len('media_'):])
+      loc = key[len('media_'):]
+      locations.append(loc)
+      coverage.setdefault(loc, 0)
+      coverage[loc] += 1
 
   if len(locations) < 2:
     return (False, ('backup is under replicated (%d locations, %s)'
@@ -74,6 +84,8 @@ def RecurseDirectory(cursor, path):
 
 
 def main(argv):
+  global coverage
+  global total_count
   global total_size
 
   # Parse flags
@@ -91,6 +103,12 @@ def main(argv):
 
   # Recurse directories looking for under replicated files
   overall_ok = RecurseDirectory(cursor, argv[1])
+  print
+  print 'Location report:'
+  for loc in coverage:
+    print '  %10s: %.02f%%' %(loc, coverage[loc] / total_count * 100.0)
+  print
+  
   if not overall_ok:
     print ('Summary: not safe to delete, delete would clear %s'
            % utility.DisplayFriendlySize(total_size))
