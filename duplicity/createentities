@@ -48,7 +48,9 @@ def main(argv):
                     'and backup_file="%s";'
                     %(row['media'], row['target'], row['backup_file']))
     cursor2.execute('commit;')
-      
+
+    sys.stdout.write('.')
+    sys.stdout.flush()
 
 if __name__ == "__main__":
   main(sys.argv)
