@@ -8,6 +8,7 @@
 import cPickle
 import datetime
 import os
+import time
 import unicodedata
 
 # This is the location to write the blog files to, you'll need to customize it
@@ -17,9 +18,10 @@ _prefix = '/data/stillhq.com/blather/'
 class DataStore:
   """ Handle everything about storing these messages """
 
-  def __init__(self):
-    self.filename = datetime.datetime.now().strftime('%Y%m%d')
+  def __init__(self, dt = datetime.datetime.now()):
+    self.filename = dt.strftime('%Y%m%d')
     self.data = {}
+    self.dt = dt
 
     # Load the pickle for this day (if it exists)
     self.p_filename = '%s%s.pkl' %(_prefix, self.filename)
@@ -30,15 +32,21 @@ class DataStore:
     else:
       self.data['upto'] = 0
 
-  def AddMessage(self, line):
+  def AddMessage(self, line, type='post', dt=datetime.datetime.now()):
+    # Possible types are post, and status. Status is used for FB and twitter
+
     encoded_line = unicodedata.normalize('NFKD', unicode(line)).encode('ascii', 'ignore')
-    self.data[self.data['upto'] + 1] = ('<b>%s</b>: %s<br/>'
-                          %(datetime.datetime.now().strftime('%H:%M'),
-                            encoded_line))
+    i = self.data['upto'] + 1
+    self.data[i] = ('<b>%s</b>: %s<br/>'
+                    %(dt.strftime('%H:%M'),
+                      encoded_line))
+    self.data['type-%s' % i] = type 
     self.data['upto'] += 1
+    self.dt = dt
 
   def RemoveMessage(self, number):
     self.data[number] = ''
+    self.data['type-%s' % number] = 'removed'
 
   def ListMessages(self):
     retval = ''
@@ -46,29 +54,54 @@ class DataStore:
       retval = '%s[%d] %s\n' %(retval, i, self.data[i])
     return retval
 
+  def FindMessagesOfType(self, t):
+    for i in range(1, self.data['upto'] + 1):
+      if self.data['type-%s' % i] == t:
+         yield i
+
+  def GetMessage(self, number):
+    return self.data[number]
+
   def ChangeMessage(self, number, text):
     self.data[number] = text
 
+  EXTN_MAP = {'post': 'blog',
+              'status': 'sblog',
+              'search': 'gblog'}
   def Save(self):
     p_file = open(self.p_filename, 'w')
     cPickle.dump(self.data, p_file)
     p_file.close()
 
-    # And then churn out some HTML
-    b_filename = '%s%s.blog' %(_prefix, self.filename)
-    b_file = open(b_filename, 'w')
-    b_file.write('Blathering for %s\n'
-                 % datetime.datetime.now().strftime('%A, %d %B %Y'))
+    # Determine what messages to write
+    extns = {}
+
     for i in range(1, self.data['upto'] + 1):
       try:
-        encoded_data = unicodedata.normalize('NFKD', 
+        encoded_data = unicodedata.normalize('NFKD',
                          self.data[i]).encode('ascii', 'ignore')
       except:
         encoded_data = self.data[i]
-      b_file.write('%s\n' % encoded_data)
 
-    b_file.write('\n[btags: ]')
-    b_file.close()
+      t = self.data.get('type-%d' % i, 'post')
+      extns.setdefault(t, [])
+      extns[t].append(encoded_data)
+
+    # And then churn out some HTML
+    epoch = time.mktime(self.dt.timetuple())
+    for extn in extns:
+      filename = '%s%s.%s' %(_prefix, self.filename, self.EXTN_MAP.get(extn, extn))
+      b_file = open(filename, 'w')
+
+      if extn == 'post':
+        b_file.write('Blathering for %s\n%s\n\n[btags: ]\n'
+                     %(self.dt.strftime('%A, %d %B %Y'),
+                     '\n'.join(extns[extn])))
+      else:
+        b_file.write('\n'.join(extns[extn]))
+
+      b_file.close()
+      os.utime(filename, (epoch, epoch))
 
 
 def Verbs():
