@@ -117,18 +117,22 @@ def CommitChanges(cursor, retry=True):
       version_updates = []
 
   except MySQLdb.Error, (errno, errstr):
-    if errno == 1213 and retry:
-      # Deadlock, retry
+    if errno in [1213, 2006, 2013] and retry:
+      # Deadlock // lost connection // server gone away, retry
       CommitChanges(cursor, retry=False)
 
     else:
       print '%s: MySQL Exception %s %s' %(datetime.datetime.now(),
                                           errno, errstr)
       TraceBack()
+      print
+      print '%s: Nearest SQL was: %s' %(datetime.datetime.now(), s[:300])
 
   except Exception, e:
     print '%s: Exception %s' %(datetime.datetime.now(), e)
     TraceBack()
+    print
+    print '%s: Nearest SQL was: %s' %(datetime.datetime.now(), s[:300])
 
   db_time += time.time() - db_start
 
@@ -136,11 +140,18 @@ def CommitChanges(cursor, retry=True):
 def SaveBackupFile(cursor, target, backup_file, elements):
   CommitChanges(cursor)
 
-  s = ('insert ignore into seen (target, backup_file, elements, media) '
-       'values(%s, %s, %d, %s);'
+  s = ('insert ignore into entities (target, backup_file) '
+       'values(%s, %s);'
        %(sql.FormatSqlValue('target', target),
-         sql.FormatSqlValue('backup_file', backup_file),
-         elements, sql.FormatSqlValue('seen_on', FLAGS.media)))
+         sql.FormatSqlValue('backup_file', backup_file)))
+  cursor.execute(s)
+  cursor.execute('commit;')
+
+  s = ('update entities set elements=%d, media_%s="N" where '
+       'target=%s and backup_file=%s;'
+       %(elements, FLAGS.media,
+         sql.FormatSqlValue('target', target),
+         sql.FormatSqlValue('backup_file', backup_file)))
   cursor.execute(s)
   cursor.execute('commit;')
 
@@ -180,7 +191,7 @@ def ProcessBackup(cursor, path):
         pass
       elif l.startswith('Copying duplicity'):
         pass
-      elif l.startswith('Synchronizing remote metadata'):
+      elif l.startswith('Synchronising remote metadata'):
         pass
       elif l.startswith('No signature chain for the requested time'):
         pass
@@ -192,9 +203,11 @@ def ProcessBackup(cursor, path):
           SaveBackupFile(cursor, target, backup_file, elements)
 
         _, backup_file = os.path.split(l[len('Backup file: '):])
-        cursor.execute('select * from seen where backup_file=%s and media=%s;'
-                       %(sql.FormatSqlValue('backup_file', backup_file),
-                         sql.FormatSqlValue('media', FLAGS.media)))
+        cursor.execute('select * from entities where target=%s and '
+                       'backup_file=%s and media_%s="N";'
+                       %(sql.FormatSqlValue('target', target),
+                         sql.FormatSqlValue('backup_file', backup_file),
+                         FLAGS.media))
         if cursor.rowcount > 0:
           skip_backup_file = True
           print ('%s: ... skipping already seen %s'

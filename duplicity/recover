@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# $1 is the directory containing the backup
+# $2 is the path to recover
+
+source /data/backups/secrets
+
+/data/src/duplicity/duplicity-bin \
+  --encrypt-key=${GPG_KEY} \
+  --sign-key=${GPG_KEY} \
+  --allow-source-mismatch \
+  --archive-dir /data/temp/duplicity/ \
+  -v info \
+  --file-to-restore $2
+  target file://$1 .
