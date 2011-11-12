@@ -175,7 +175,11 @@ def ProcessBackup(cursor, path):
   backup_file = None
   elements = 0
 
-  for l in cachedexecution.Run(cmd, maxage=24 * 60 * 60):
+  out = cachedexecution.Run(cmd, maxage=24 * 60 * 60)
+  cache_file = open('listfiles.out/%s' % path.replace('/', '_'), 'w')
+
+  for l in out:
+    cache_file.write(l)
     l = l.rstrip()
 
     try:
@@ -266,6 +270,7 @@ def ProcessBackup(cursor, path):
 
       sys.exit(1)
 
+  cache_file.close()
   CommitChanges(cursor)
 
 

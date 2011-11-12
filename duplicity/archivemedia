@@ -1,0 +1,72 @@
+#!/usr/bin/python
+
+"""Ensure that media is in a reasonable state for archival."""
+
+# Note that this is an expensive operation
+
+import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
+
+import datetime
+import os
+import time
+import MySQLdb
+
+import gflags
+import sql
+
+
+FLAGS = gflags.FLAGS
+gflags.DEFINE_string('dbuser', 'duplicity', 'DB username')
+gflags.DEFINE_string('dbpassword', 'duplicity', 'DB user password')
+gflags.DEFINE_string('dbname', 'duplicity', 'DB name')
+
+gflags.DEFINE_string('media', '', 'The name of the backup media')
+gflags.DEFINE_string('remaining', '', 
+                     'Active media which is not being archived')
+
+
+def main(argv):
+  # Parse flags
+  try:
+    argv = FLAGS(argv)
+
+  except gflags.FlagsError, e:
+    print 'Flags error: %s' % e
+    print
+    print FLAGS
+
+  if not FLAGS.media:
+    print 'Please specify the name of this backup set with --media'
+    sys.exit(1)
+
+  if not FLAGS.remaining:
+    print 'Please specify the remaining sets with --remaining'
+    sys.exit(1)
+
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
+                       passwd = FLAGS.dbpassword)
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+  # Check that this media has everything
+  remaining = []
+  for media in FLAGS.remaining.split(','):
+    remaining.append('ifnull(media_%s, "_")' % media)
+
+  s = ('select *, ifnull(media_%s, "_") as archive, concat(%s) as concat '
+       'from versions where ifnull(media_%s, "_") != "N";'
+       %(FLAGS.media, ', '.join(remaining), FLAGS.media))
+  print s
+  print
+  cursor.execute(s)
+
+  for row in cursor:
+    sys.stdout.write('%-100s %20s %s %s\n'
+                     %(row['path'],
+                       datetime.datetime.fromtimestamp(row['epoch']),
+                       row['archive'], row['concat']))
+                         
+  sys.stdout.write('Done, with %d unarchived versions\n\n' % cursor.rowcount)
+
+if __name__ == "__main__":
+  main(sys.argv)
