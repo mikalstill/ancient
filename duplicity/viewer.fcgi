@@ -34,7 +34,11 @@ def GetFileVersions(path):
                  % path)
   ents = []
   for row in cursor:
-    ents.append(row['epoch'])
+    media = []
+    for key in row:
+      if key.startswith('media_') and row[key] in ['N', 'A']:
+        media.append(key[len('media_'):])
+    ents.append((row['epoch'], media))
   file_cache[path] = ents
   return ents
 
@@ -67,8 +71,10 @@ def myapp(environ, start_response):
   else:
     ents = GetFileVersions(path)
     results.append('<h1>%s (%d versions)</h1>' %(path, len(ents)))
-    for age in ents:
-      results.append('%s<br/>' % datetime.datetime.fromtimestamp(age))
+    for (age, media) in ents:
+      results.append('%s <i>(%s)</i><br/>'
+                     %(datetime.datetime.fromtimestamp(age),
+                       ', '.join(media)))
 
   return results
 

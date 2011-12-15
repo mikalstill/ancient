@@ -52,7 +52,8 @@ def main(argv):
   deleted_count += cursor.rowcount
 
   # Remove seen files
-  cursor.execute('delete from seen where media="%s";' % FLAGS.media)
+  cursor.execute('update entities set media_%s="P" where media_%s="N";'
+                 %(FLAGS.media, FLAGS.media))
   cursor.execute('commit;')
 
   print 'Done, touching %d versions' % deleted_count

@@ -54,7 +54,7 @@ def main(argv):
     remaining.append('ifnull(media_%s, "_")' % media)
 
   s = ('select *, ifnull(media_%s, "_") as archive, concat(%s) as concat '
-       'from versions where ifnull(media_%s, "_") != "N";'
+       'from versions where ifnull(media_%s, "_") == "_";'
        %(FLAGS.media, ', '.join(remaining), FLAGS.media))
   print s
   print
@@ -65,6 +65,10 @@ def main(argv):
                      %(row['path'],
                        datetime.datetime.fromtimestamp(row['epoch']),
                        row['archive'], row['concat']))
+
+  cursor.execute('update versions set media_%s="A" where media_%s="N";'
+                 %(FLAGS.media, FLAGS.media))
+  cursor.execute('commit;')
                          
   sys.stdout.write('Done, with %d unarchived versions\n\n' % cursor.rowcount)
 

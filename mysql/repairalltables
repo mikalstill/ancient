@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+"""What files are backed up on this media?"""
+
+import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
+
+import getpass
+import MySQLdb
+
+import gflags
+
+
+FLAGS = gflags.FLAGS
+gflags.DEFINE_string('dbuser', 'root', 'DB username')
+gflags.DEFINE_string('dbpassword', '', 'DB user password')
+gflags.DEFINE_string('dbname', '', 'DB name')
+
+
+def main(argv):
+  # Parse flags
+  try:
+    argv = FLAGS(argv)
+
+  except gflags.FlagsError, e:
+    print 'Flags error: %s' % e
+    print
+    print FLAGS
+
+  if not FLAGS.dbpassword:
+    FLAGS.dbpassword = getpass.getpass('Database password: ')
+
+  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname,
+                       passwd = FLAGS.dbpassword)
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+  cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
+
+  cursor.execute('show tables;')
+  for row in cursor:
+    print row[row.keys()[0]]
+    cursor2.execute('repair table %s;' % row[row.keys()[0]])
+
+
+if __name__ == "__main__":
+  main(sys.argv)

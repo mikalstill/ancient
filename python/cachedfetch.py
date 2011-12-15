@@ -21,7 +21,7 @@ def Fetch(url, maxage=3600, username=None, password=None, useragent=None):
   if time.time() - mod > maxage:
     return _Fetch(url, ent, username, password, useragent)
   
-  sys.stderr.write('Cache hit for %s\n' % url)
+  sys.stderr.write('Cache hit for %s (%s)\n' %(url, ent))
   f = open('/data/temp/cache/%s' % ent)
   try:
     return f.read()

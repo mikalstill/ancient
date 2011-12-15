@@ -1,0 +1,146 @@
+#!/usr/bin/python
+
+# Find duplicate files in a tree, and dedup them with symlinks (hard links
+# are not supported by duplicity)
+
+import sys
+sys.path.append('/data/src/stillhq_public/trunk/python/')
+
+import datetime
+import hashlib
+import os
+import shutil
+import time
+
+import gflags
+import utility
+
+
+FLAGS = gflags.FLAGS
+gflags.DEFINE_string('path', '',
+                     'The path to the directory tree to deduplicate')
+gflags.DEFINE_string('canonical', '',
+                     'Where to store canonical versions')
+gflags.DEFINE_integer('minsize', 1 * 1024 * 1024,
+                      'Minimum size of file to deduplicate')
+
+files = {}
+
+
+def RecurseDirectory(path):
+  global files
+
+  for ent in os.listdir(path):
+    newpath = os.path.join(path, ent)
+
+    if os.path.islink(newpath):
+      pass
+
+    elif os.path.isdir(newpath):
+      RecurseDirectory(newpath)
+
+    elif os.path.isfile(newpath):
+      s = os.stat(newpath)
+
+      # We only attempt to dedup files over 1mb. This is about disk space,
+      # not completeness.
+      if s.st_size > FLAGS.minsize:
+        files.setdefault(s.st_size, [])
+        files[s.st_size].append(newpath)
+
+  sys.stdout.write('.')
+  sys.stdout.flush()
+
+
+def GetHash(path):
+  f = open(path)
+  d = f.read()
+  f.close()
+  
+  h1 = hashlib.sha256(d).hexdigest()
+  h2 = hashlib.md5(d).hexdigest()
+  return '%s-%s' %(h1, h2)
+
+
+def main(argv):
+  global files
+
+  # Parse flags
+  try:
+    argv = FLAGS(argv)
+
+  except gflags.FlagsError, e:
+    print 'Flags error: %s' % e
+    print
+    print FLAGS
+
+  # Find files large enough to be worth processing
+  print '%s: Traversing directory structure' % datetime.datetime.now()
+  sys.stdout.write('%s: ' % datetime.datetime.now())
+  sys.stdout.flush()
+  start_time = time.time()
+  RecurseDirectory(FLAGS.path)
+
+  print
+  print ('%s: %d distinct file sizes found in %.02f seconds'
+         %(datetime.datetime.now(), len(files), time.time() - start_time))
+
+  # Now find duplicates
+  saved = 0
+  for size in files:
+    if len(files[size]) > 1:
+      hashes = {}
+      for path in files[size]:
+        h = GetHash(path)
+        hashes.setdefault(h, [])
+        hashes[h].append(path)
+
+      for h in hashes:
+        if len(hashes[h]) > 1:
+          print ('%s: %d bytes with hash %s: %d files'
+                 %(datetime.datetime.now(), size,
+                   h, len(hashes[h])))
+
+          canonical = os.path.join(FLAGS.canonical, h)
+          if not os.path.exists(canonical):
+            try:
+              shutil.copyfile(hashes[h][0], canonical)
+              print '%s: Created canonical copy' % datetime.datetime.now()
+            except:
+              print ('%s: Failed to create canonicial copy of %s'
+                     %(datetime.datetime.now(), hashes[h][0]))
+              continue
+
+          newh = GetHash(canonical)
+          if newh != h:
+            print ('%s: ERROR. Canonical file hash does not match'
+                   % datetime.datetime.now())
+            print '%s:     source      = %s' %(datetime.datetime.now(), h)
+            print '%s:     destination = %s' %(datetime.datetime.now(), newh)
+            sys.exit(1)
+
+          for f in hashes[h]:
+            try:
+              os.remove(f)
+            except:
+              continue
+
+            os.symlink(canonical, f)
+            print '%s: %s -> %s' %(datetime.datetime.now(), f, canonical)
+
+            newh = GetHash(f)
+            if newh != h:
+              print ('%s: ERROR. Linked file has does not match'
+                     % datetime.datetime.now())
+              print '%s:     source      = %s' %(datetime.datetime.now(), h)
+              print '%s:     destination = %s' %(datetime.datetime.now(), newh)
+              sys.exit(1)
+
+          saved += (len(hashes[h]) - 1) * size
+
+  # Tell people what we would have saved
+  print '%s: We saved %s' %(datetime.datetime.now(),
+                            utility.DisplayFriendlySize(saved))
+
+if __name__ == "__main__":
+  main(sys.argv)

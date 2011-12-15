@@ -9,6 +9,7 @@ import datetime
 import os
 import random
 import re
+import smtplib
 import subprocess
 import time
 import traceback
@@ -27,7 +28,11 @@ gflags.DEFINE_string('dbname', 'duplicity', 'DB name')
 gflags.DEFINE_string('media', '', 'The name of the backup media')
 gflags.DEFINE_string('path', '', 'The path to the backup media')
 
-gflags.DEFINE_boolean('pool', False, 'Process backups in parallel')
+gflags.DEFINE_boolean('force', False, 'Do not used cached file lists')
+gflags.DEFINE_boolean('verbose', False, 'Be chatty')
+
+gflags.DEFINE_string('admin_email', 'mikal@localhost',
+                     'The email address to email for severe errors')
 
 
 SCRIPTS_PATH = '/data/src/stillhq_public/trunk/duplicity'
@@ -49,6 +54,17 @@ version_updates = []
 
 start_time = time.time()
 db_time = 0
+
+
+def SendErrorEmail(subject, text):
+  s = smtplib.SMTP('localhost')
+  s.sendmail(FLAGS.admin_email, [FLAGS.admin_email],
+             """From: %s\r
+To: %s\r
+Subject: Duplicity backup listing exception\r
+\r
+%s""" %(FLAGS.admin_email, FLAGS.admin_email, e))
+  s.quit()
 
 
 def PrintProgress(cursor, extra=''):
@@ -97,6 +113,8 @@ def CommitChanges(cursor, retry=True):
     if filesystem_inserts:
       s = ('insert ignore into filesystem (filename, parent) values %s;'
            % ','.join(filesystem_inserts))
+      if FLAGS.verbose:
+        print '%s: %s (%s chars)' %(datetime.datetime.now(), s[:100], len(s))
       cursor.execute(s)
       cursor.execute('commit;')
       filesystem_inserts = []
@@ -104,6 +122,8 @@ def CommitChanges(cursor, retry=True):
     if version_inserts:
       s = ('insert ignore into versions (path, epoch) values %s;'
            % ','.join(version_inserts))
+      if FLAGS.verbose:
+        print '%s: %s (%s chars)' %(datetime.datetime.now(), s[:100], len(s))
       cursor.execute(s)
       cursor.execute('commit;')
       version_inserts = []
@@ -112,6 +132,8 @@ def CommitChanges(cursor, retry=True):
       s = ('update versions set media_%s="N" where '
            'concat_ws("~", path, epoch) in (%s);'
            %(FLAGS.media, ','.join(version_updates)))
+      if FLAGS.verbose:
+        print '%s: %s (%s chars)' %(datetime.datetime.now(), s[:100], len(s))
       cursor.execute(s)
       cursor.execute('commit;')
       version_updates = []
@@ -175,8 +197,17 @@ def ProcessBackup(cursor, path):
   backup_file = None
   elements = 0
 
-  out = cachedexecution.Run(cmd, maxage=24 * 60 * 60)
-  cache_file = open('listfiles.out/%s' % path.replace('/', '_'), 'w')
+  maxage = 24 * 60 * 60
+  if FLAGS.force:
+    maxage = 0
+
+  try:
+    out = cachedexecution.Run(cmd, maxage=maxage)
+    cache_file = open('listfiles.out/%s' % path.replace('/', '_'), 'w')
+  except Exception, e:
+    print '%s: Listing exception: %s' %(datetime.datetime.now(), e)
+    SendErrorEmail('Duplicity backup listing exception', e)
+    return
 
   for l in out:
     cache_file.write(l)
@@ -187,7 +218,7 @@ def ProcessBackup(cursor, path):
       if l == 'Last full backup date: none':
         return None
 
-      elif l.startswith('Local and Remote metadata are synchronized'):
+      elif l.startswith('Local and Remote metadata are synchronised'):
         pass
       elif l.startswith('Warning, found incomplete backup sets'):
         pass
@@ -323,6 +354,15 @@ def main(argv):
     cursor.execute('alter table versions add column media_%s varchar(1);'
                    % FLAGS.media)
     cursor.execute('alter table versions add index(media_%s);'
+                   % FLAGS.media)
+    cursor.execute('commit;')
+  except:
+    pass
+
+  try:
+    cursor.execute('alter table entities add column media_%s varchar(1);'
+                   % FLAGS.media)
+    cursor.execute('alter table entities add index(media_%s);'
                    % FLAGS.media)
     cursor.execute('commit;')
   except:

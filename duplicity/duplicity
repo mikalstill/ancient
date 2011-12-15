@@ -64,11 +64,22 @@ do
     --allow-source-mismatch \
     --archive-dir /data/temp/duplicity/ \
     file://$OUTPUT_DIR/$target
+
+  if [ $? -gt 0 ]
+  then
+    echo `date`" $targets returned non-zero exit code $?" >> $OUTPUT_DIR/log
+  fi
+
   /data/src/duplicity/duplicity-bin \
     cleanup --force \
     --allow-source-mismatch \
     --archive-dir /data/temp/duplicity/ \
     file://$OUTPUT_DIR/$target
+
+  if [ $? -gt 0 ]
+  then
+    echo `date`" $targets returned non-zero exit code $?" >> $OUTPUT_DIR/log
+  fi
 
   after=`du -s $OUTPUT_DIR/$target | cut -f 1`
   echo `date`" Size after:  $after" >> $OUTPUT_DIR/log
@@ -86,6 +97,14 @@ then
   echo `date`" Clear complete" >> $OUTPUT_DIR/log
 fi
 
+# Dedup workstation backups
+echo `date`" Dedup workstation backups" >> $OUTPUT_DIR/log
+$SVN_PATH/dedup \
+  --path /data/backups-meta/linux \
+  --canonical /data/backups-meta/linux-canonical
+echo `date`" Dedup finished" >> $OUTPUT_DIR/log
+
+# Now backup
 while [ "%$targets%" != "%%" ]
 do
   echo `date`" Targets: $targets" >> $OUTPUT_DIR/log
@@ -106,6 +125,12 @@ do
       --exclude-if-present --exclude=homedir/.cache \
       incremental \
       $target file://$OUTPUT_DIR/$target | tee /tmp/duplicity.log
+
+    if [ $? -gt 0 ]
+    then
+      echo `date`" $targets returned non-zero exit code $?" >> $OUTPUT_DIR/log
+    fi
+
     change=`grep TotalDestinationSizeChange /tmp/duplicity.log | cut -f 2 -d " "`
     total_change=$(( $total_change + $change ))
     echo `date`" $target: $change" >> $OUTPUT_DIR/log
@@ -135,14 +160,17 @@ then
 fi
 
 # Now make sure we have records of what is where
-$SVN_PATH/listfiles --media local --path $OUTPUT_DIR
+cd $SVN_PATH
+./listfiles --media local --path $OUTPUT_DIR
 echo `date`" Finished listing local media" >> $OUTPUT_DIR/log
 
 if [ ! -e $disk/duplicity/NAME ]
 then
   echo `date`" Skipping removable media listing as it has no name" >> $OUTPUT_DIR/log
 else
-  $SVN_PATH/listfiles --media `cat $disk/duplicity/NAME` --path $OUTPUT_DIR
+  media=`cat $disk/duplicity/NAME`
+  echo `date`" Listing $media" >> $OUTPUT_DIR/log
+  ./listfiles --media $media --path $disk/duplicity
   echo `date`" Finished listing removable media" >> $OUTPUT_DIR/log
 
   echo `date`" "`df -h $disk | tail -1` >> $OUTPUT_DIR/log
