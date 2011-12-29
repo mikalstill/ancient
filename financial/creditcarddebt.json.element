@@ -1,0 +1,15 @@
+    {
+      "type":      "line",
+      "alpha":     0.5,
+      "colour":    "#{{color}}",
+      "text":      "{{name}}",
+      "font-size": 10,
+      "values":    [{{values}}],
+      "steps" :    {{x_step}},
+      "on-show":{
+         "type": "drop",
+         "cascade":0,
+         "delay":0.5
+      }
+    }
+
