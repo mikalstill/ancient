@@ -3,17 +3,13 @@
 # Some simple SQL helpers
 
 import datetime
+import utility
 import unicodedata
 
 
 class FormatException(Exception):
   """ FormatException -- Used for reporting failures for format DB values """
 
-
-def Normalize(value):
-  normalized = unicodedata.normalize('NFKD', unicode(value))
-  normalized = normalized.encode('ascii', 'ignore')
-  return normalized
 
 def FormatSqlValue(name, value):
   """FormatSqlValue -- some values get escaped for SQL use"""
@@ -36,7 +32,7 @@ def FormatSqlValue(name, value):
     return 'NULL'
 
   try:
-    return '"%s"' % Normalize(value).replace('"', '""')
+    return '"%s"' % utility.Normalize(value).replace('"', '""')
   except Exception, e:
     raise FormatException('Could not format string value %s = %s (%s)'
                           %(name, value, e))

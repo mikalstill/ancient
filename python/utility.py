@@ -2,6 +2,8 @@
 
 import decimal
 import types
+import unicodedata
+
 
 def DisplayFriendlySize(bytes):
   """DisplayFriendlySize -- turn a number of bytes into a nice string"""
@@ -20,3 +22,9 @@ def DisplayFriendlySize(bytes):
     return '%d mb (%d bytes)' %((bytes / (1024 * 1024)), bytes)
 
   return '%d gb (%d bytes)' %((bytes / (1024 * 1024 * 1024)), bytes)
+
+
+def Normalize(value):
+  normalized = unicodedata.normalize('NFKD', unicode(value))
+  normalized = normalized.encode('ascii', 'ignore')
+  return normalized

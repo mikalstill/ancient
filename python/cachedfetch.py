@@ -9,26 +9,28 @@ import sys
 import time
 import urllib2
 
-def Fetch(url, maxage=3600, username=None, password=None, useragent=None):
-  if not os.path.exists('/data/temp/cache'):
-    os.mkdir('/data/temp/cache')
+def Fetch(url, maxage=3600, username=None, password=None, useragent=None,
+          cachedir='/data/temp/cache'):
+  if not os.path.exists(cachedir):
+    os.mkdir(cachedir)
 
   ent = hashlib.sha224(url).hexdigest()
-  if not os.path.exists('/data/temp/cache/%s' % ent):
-    return _Fetch(url, ent, username, password, useragent)
+  entpath = os.path.join(cachedir, ent)
+  if not os.path.exists(entpath):
+    return _Fetch(url, ent, username, password, useragent, cachedir)
 
-  mod = os.path.getmtime('/data/temp/cache/%s' % ent)
+  mod = os.path.getmtime(entpath)
   if time.time() - mod > maxage:
-    return _Fetch(url, ent, username, password, useragent)
+    return _Fetch(url, ent, username, password, useragent, cachedir)
   
   sys.stderr.write('Cache hit for %s (%s)\n' %(url, ent))
-  f = open('/data/temp/cache/%s' % ent)
+  f = open(entpath)
   try:
     return f.read()
   finally:
     f.close()
 
-def _Fetch(url, ent, username, password, useragent):
+def _Fetch(url, ent, username, password, useragent, cachedir):
   if username:
     passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
     passman.add_password(None, url, username, password)
@@ -42,7 +44,7 @@ def _Fetch(url, ent, username, password, useragent):
     req.add_header('User-Agent', useragent)
 
   remote = urllib2.urlopen(req)
-  local = open('/data/temp/cache/%s' % ent, 'w')
+  local = open(os.path.join(cachedir, ent), 'w')
   d = remote.read()
   local.write(d)
   remote.close()
