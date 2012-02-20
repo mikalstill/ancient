@@ -13,6 +13,7 @@ import xml.etree.ElementTree
 import yaml
 
 import cachedfetch
+import utility
 
 BASEURL = 'https://customer-webtools-api.internode.on.net/api/v1.5'
 AUTH = yaml.load(open('/home/mikal/.internode'))
@@ -62,7 +63,9 @@ def Collect(cursor):
                                          stat.attrib.get('direction', 'all'),
                                          stat.attrib['unit'])
             value = stat.text
-            print '  %s = %s @ %s' %(field, value, dt)
+            print '  %s = %s @ %s' %(field,
+                                     utility.DisplayFriendlySize(int(value)),
+                                     dt)
 
             cursor.execute('insert ignore into sensors'
                            '(epoch_seconds, sensor, value, hostname) '

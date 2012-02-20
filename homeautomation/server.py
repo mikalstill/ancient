@@ -401,7 +401,7 @@ class http_handler(mhttp.http_handler):
     # Chart axes
     left_axis = []
     right_axis = []
-    for v in range(MIN_Y, MAX_Y + 1.0, 5):
+    for v in range(int(MIN_Y), int(MAX_Y + 1.0), 5):
       left_axis.append('%s' % v)
       right_axis.append('%.01fk' %((v * 50.0) / 1000))
     chart.set_axis_labels(Axis.LEFT, left_axis)
@@ -534,9 +534,10 @@ class http_handler(mhttp.http_handler):
         self.log('Resolved values: %s' % t_values.keys())
 
         if len(ranges) == 1:
-          values[sensor] = t_values[sensor]
-          returned.append(sensor)
-          self.log('Creating simple value for %s' % sensor)
+          for unique_sensor in t_values.keys():
+            values[unique_sensor] = t_values[unique_sensor]
+            returned.append(unique_sensor)
+            self.log('Creating simple value for %s' % unique_sensor)
 
         else:
           t = times[ranges.index(r)]
@@ -721,8 +722,9 @@ class http_handler(mhttp.http_handler):
       template = f.read()
       f.close()
 
-      colors = ['0000FF', '00FF00', 'FF0000',
-                '88ddff', 'bb0011', '11aaff']
+      colors = ['0000FF', '00FF00', 'FF0000', '88ddff', 'bb0011', '11aaff',
+                '9DAF72', '566047', '562F32', '462D44', '859731', '640E27',
+                'AD0066', 'D13D94', 'F5851F', 'CADA2A', '81A4B9', 'CFE8F6']
 
       y_max = 0
       elements = []

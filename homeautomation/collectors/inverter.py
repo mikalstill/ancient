@@ -7,7 +7,7 @@ import urllib
 import MySQLdb
 
 def Collect(cursor):
-  for ip in ['127.0.0.1']:
+  for ip in ['zii.home.stillhq.com']:
     try:
       print '%s: Fetching %s' %(datetime.datetime.now(), ip)
 
