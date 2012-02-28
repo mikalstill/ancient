@@ -9,6 +9,114 @@
      <ttl>180</ttl>
      <docs>http://blogs.law.harvard.edu/tech/rss</docs>
     <item>
+      <title>openstack/nova: Make scheduler filters more pluggable (MERGED)</title>
+      <pubDate>2012-02-28 20:48:09 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; scheduler_filters_pluggable&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I10eb54e9982b6d42316adfb2cc2600b44a9c3bdf&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4477&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Make scheduler filters more pluggable&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4477"&gt;https://review.openstack.org/4477&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:48:09 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b60000000117d&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4477</link>
+      <guid isPermaLink="true">https://review.openstack.org/4477</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Fixes bug 942549 (MERGED)</title>
+      <pubDate>2012-02-28 20:37:23 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942549&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I15ea6c884bb6f326df1d88019ee0ecf070196d1e&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4640&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fixes bug 942549&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; John Garbutt&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; john.garbutt@citrix.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; johngarbutt&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4640"&gt;https://review.openstack.org/4640&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:37:23 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ff500001220&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4640</link>
+      <guid isPermaLink="true">https://review.openstack.org/4640</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Use constant time string comparisons for auth. (MERGED)</title>
+      <pubDate>2012-02-28 20:27:23 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942644&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iaaefb13f7618b06834630d9ccb97aff056b4bf4c&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4642&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Use constant time string comparisons for auth.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Russell Bryant&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; rbryant@redhat.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; russellb&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4642"&gt;https://review.openstack.org/4642&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:27:23 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5feb00001222&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4642</link>
+      <guid isPermaLink="true">https://review.openstack.org/4642</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Rename zones table to cells and Instance.zone_name to cell_name (MERGED)</title>
+      <pubDate>2012-02-28 19:38:06 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; zones_to_cells&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iff0fb01f0c2862a646bfb2d3fd4e218f1d2b7a93&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4624&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Rename zones table to cells and Instance.zone_name to cell_name&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4624"&gt;https://review.openstack.org/4624&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 19:38:06 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5fba00001210&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4624</link>
+      <guid isPermaLink="true">https://review.openstack.org/4624</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Ensure temporary file gets cleaned up after test (MERGED)</title>
+      <pubDate>2012-02-28 19:27:45 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; tempfile-cleanup&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ia70dcddedd9bffcf55c266f93052fe37aca98260&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4636&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Ensure temporary file gets cleaned up after test&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Johannes Erdfelt&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; johannes@erdfelt.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; johannes.erdfelt&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4636"&gt;https://review.openstack.org/4636&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 19:27:45 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5faf0000121c&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4636</link>
+      <guid isPermaLink="true">https://review.openstack.org/4636</guid>
+    </item>
+      <item>
+      <title>openstack/nova: OS X Support fixed, bug 942352 (MERGED)</title>
+      <pubDate>2012-02-28 19:17:07 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942352&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I3aa28ba46b0418310637dfeacbdea60361a7a280&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4605&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; OS X Support fixed, bug 942352&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joe Gordon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jogo@cloudscaling.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; joe-gordon0&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4605"&gt;https://review.openstack.org/4605&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 19:17:07 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5fa5000011fd&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4605</link>
+      <guid isPermaLink="true">https://review.openstack.org/4605</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add NoopFirewallDriver (MERGED)</title>
+      <pubDate>2012-02-28 19:06:50 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Icfda92534421fa908b398acd8a811c01d4bc3dbd&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4618&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add NoopFirewallDriver&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4618"&gt;https://review.openstack.org/4618&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 19:06:50 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5f9a0000120a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4618</link>
+      <guid isPermaLink="true">https://review.openstack.org/4618</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Do not hit the network_api every poll (MERGED)</title>
+      <pubDate>2012-02-28 17:02:00 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I58ccb314d1fcd218ddd0bbd7857223e6435952fb&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4494&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Do not hit the network_api every poll&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Jason Kölker&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jason@koelker.net&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jason-koelker&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4494"&gt;https://review.openstack.org/4494&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 17:02:00 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5f1e0000118e&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4494</link>
+      <guid isPermaLink="true">https://review.openstack.org/4494</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Call detach_volume when attach fails (MERGED)</title>
+      <pubDate>2012-02-28 16:09:45 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/914974&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ie18377ba6acd6226612c70fa209185cc579c2d85&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4611&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Call detach_volume when attach fails&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Waldon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.waldon@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bcwaldon&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4611"&gt;https://review.openstack.org/4611&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 16:09:45 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ee900001203&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4611</link>
+      <guid isPermaLink="true">https://review.openstack.org/4611</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Use assertDictMatch to keep 2.6 unit tests passing (MERGED)</title>
+      <pubDate>2012-02-28 15:35:12 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; unbreak-2.6-unittests&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I5cdcbeec8bd36250e6d6dff34b2bbbd12f10d280&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4630&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Use assertDictMatch to keep 2.6 unit tests passing&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mark Washenberger&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mark.washenberger@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; markwash&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4630"&gt;https://review.openstack.org/4630&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 15:35:12 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ec700001216&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4630</link>
+      <guid isPermaLink="true">https://review.openstack.org/4630</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Handle case where instance['info_cache'] is None (MERGED)</title>
+      <pubDate>2012-02-28 15:04:30 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942443&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I77c3495d1de0a9b73acc576dd0638b430a4ce16e&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4623&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Handle case where instance['info_cache'] is None&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4623"&gt;https://review.openstack.org/4623&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 15:04:30 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ea80000120f&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4623</link>
+      <guid isPermaLink="true">https://review.openstack.org/4623</guid>
+    </item>
+      <item>
+      <title>openstack/nova: TypeError API exceptions get logged incorrectly (MERGED)</title>
+      <pubDate>2012-02-28 14:54:39 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942431&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I0c3728a9ee740597feb828a513aea76e7849efc6&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4620&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; TypeError API exceptions get logged incorrectly&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4620"&gt;https://review.openstack.org/4620&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 14:54:39 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5e9e0000120c&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+      </description>
+      <link>https://review.openstack.org/4620</link>
+      <guid isPermaLink="true">https://review.openstack.org/4620</guid>
+    </item>
+      <item>
       <title>openstack/nova: Fixes cloudpipe extension to work with keystone (MERGED)</title>
       <pubDate>2012-02-28 09:17:18 UTC</pubDate>
       <description>
@@ -4399,114 +4507,6 @@
       </description>
       <link>https://review.openstack.org/3086</link>
       <guid isPermaLink="true">https://review.openstack.org/3086</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Update some extensions (1) (MERGED)</title>
-      <pubDate>2012-01-16 23:18:27 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/extension-refactor&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ica7b44db22835971703cc72d831410d7e7660f1d&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3020&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Update some extensions (1)&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Kevin L. Mitchell&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; kevin.mitchell@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; klmitch&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3020"&gt;https://review.openstack.org/3020&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 23:18:27 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6eb600000bcc&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3020</link>
-      <guid isPermaLink="true">https://review.openstack.org/3020</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Fixed the log line (MERGED)</title>
-      <pubDate>2012-01-16 23:08:29 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/877417&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iddb9a6d4eb798b0f41f0ef1ab01cb02d16d16dbe&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3077&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fixed the log line&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Philip Knouff&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; philip.knouff@mailtrust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; philip-knouff&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3077"&gt;https://review.openstack.org/3077&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 23:08:29 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6eac00000c05&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3077</link>
-      <guid isPermaLink="true">https://review.openstack.org/3077</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Modify the fake ldap driver to fix compatibility. (MERGED)</title>
-      <pubDate>2012-01-16 21:58:46 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/public-and-private-dns&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ia86a776afe19ffce72b285bb4c96ce3ed0ae7c4a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3024&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Modify the fake ldap driver to fix compatibility.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; AndrewBogott@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3024"&gt;https://review.openstack.org/3024&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 21:58:46 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6e6600000bd0&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3024</link>
-      <guid isPermaLink="true">https://review.openstack.org/3024</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Typofix for impl_kombu. (MERGED)</title>
-      <pubDate>2012-01-16 21:48:28 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/917377&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I375f70bc35fe96813f8706f1691d1619f46b8f84&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3073&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Typofix for impl_kombu.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Rick Harris&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; rconradharris@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; rconradharris&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3073"&gt;https://review.openstack.org/3073&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 21:48:28 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6e5c00000c01&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3073</link>
-      <guid isPermaLink="true">https://review.openstack.org/3073</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Refactoring logging _log function. (MERGED)</title>
-      <pubDate>2012-01-16 21:38:58 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/915597&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I1d1f6dc142cd822030a671f7f2f477a44acafe46&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3004&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Refactoring logging _log function.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Naveed Massjouni&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; naveedm9@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; ironcamel&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3004"&gt;https://review.openstack.org/3004&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 21:38:58 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6e5200000bbc&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3004</link>
-      <guid isPermaLink="true">https://review.openstack.org/3004</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Take the availability zone from the instance if available (MERGED)</title>
-      <pubDate>2012-01-16 21:09:32 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; availability_zone&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I80041ee384751b5bd4f08fc38192f414a27ec07a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 2979&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Take the availability zone from the instance if available&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brad Hall&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brad@nicira.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bgh&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/2979"&gt;https://review.openstack.org/2979&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 21:09:32 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6e3500000ba3&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/2979</link>
-      <guid isPermaLink="true">https://review.openstack.org/2979</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add support for port security to QuantumManager (MERGED)</title>
-      <pubDate>2012-01-16 20:50:47 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I640658036789b319ecefbb5e7dcdcf6b4f4ab34e&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 2809&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add support for port security to QuantumManager&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brad Hall&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brad@nicira.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bgh&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/2809"&gt;https://review.openstack.org/2809&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 20:50:47 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6e2200000af9&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/2809</link>
-      <guid isPermaLink="true">https://review.openstack.org/2809</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Update some extensions (2) (MERGED)</title>
-      <pubDate>2012-01-16 20:21:27 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/extension-refactor&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ie00968c4cdcd67a2cf659a2b8c2ca2b31e8dcc9d&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3049&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Update some extensions (2)&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Kevin L. Mitchell&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; kevin.mitchell@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; klmitch&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3049"&gt;https://review.openstack.org/3049&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 20:21:27 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6e0500000be9&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3049</link>
-      <guid isPermaLink="true">https://review.openstack.org/3049</guid>
-    </item>
-      <item>
-      <title>openstack/nova: DECLARE osapi_compute_listen_port for auth manager (MERGED)</title>
-      <pubDate>2012-01-16 19:54:45 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/916267&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I3bce5c8825b5245d9c58d93a25ac0daaedb6d47c&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3071&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; DECLARE osapi_compute_listen_port for auth manager&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Waldon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.waldon@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bcwaldon&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3071"&gt;https://review.openstack.org/3071&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 19:54:45 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6dea00000bff&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3071</link>
-      <guid isPermaLink="true">https://review.openstack.org/3071</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Increase robustness of image filtering by server (MERGED)</title>
-      <pubDate>2012-01-16 18:47:05 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/912837&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I5eed1611b1e885553d0c91380e414e9476dc251c&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3032&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Increase robustness of image filtering by server&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Waldon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.waldon@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bcwaldon&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3032"&gt;https://review.openstack.org/3032&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 18:47:05 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6da700000bd8&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3032</link>
-      <guid isPermaLink="true">https://review.openstack.org/3032</guid>
-    </item>
-      <item>
-      <title>openstack/nova: greenlet version inconsistency (MERGED)</title>
-      <pubDate>2012-01-16 18:35:31 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/917003&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I145deb46a8edc41e87634dc5ca839baf5acd8065&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3060&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; greenlet version inconsistency&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Zhongyue Luo&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; lzyeval@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; lzyeval&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3060"&gt;https://review.openstack.org/3060&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 18:35:31 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6d9b00000bf4&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3060</link>
-      <guid isPermaLink="true">https://review.openstack.org/3060</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Remove unused extension decorator require_admin (MERGED)</title>
-      <pubDate>2012-01-16 18:00:15 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; remove-require-admin&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I93bb5c8fb7fe95365d0062d20581a87f324837d5&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3059&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Remove unused extension decorator require_admin&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Waldon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.waldon@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bcwaldon&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3059"&gt;https://review.openstack.org/3059&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-01-16 18:00:15 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001a6d7800000bf3&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-      </description>
-      <link>https://review.openstack.org/3059</link>
-      <guid isPermaLink="true">https://review.openstack.org/3059</guid>
     </item>
     </channel>
   </rss>

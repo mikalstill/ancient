@@ -9,6 +9,96 @@
      <ttl>180</ttl>
      <docs>http://blogs.law.harvard.edu/tech/rss</docs>
     <item>
+      <title>openstack/nova: Fix bug 942893 (NEW)</title>
+      <pubDate>2012-02-28 21:28:18 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942893&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I4b4f6a493ef0bbe81224c7408d0985e14fa9f1bc&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4649&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix bug 942893&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Lamar&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.lamar@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; blamar&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4649"&gt;https://review.openstack.org/4649&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 21:28:18 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b602800001229&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4649</link>
+      <guid isPermaLink="true">https://review.openstack.org/4649</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Provide retry-after guidance on throttled requests (NEW)</title>
+      <pubDate>2012-02-28 21:13:04 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I8b1a28f964a111008b1a88d9c0f96c5a0abd8314&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4645&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Provide retry-after guidance on throttled requests&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; eglynn&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; eglynn&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4645"&gt;https://review.openstack.org/4645&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 21:13:04 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b601900001225&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4645</link>
+      <guid isPermaLink="true">https://review.openstack.org/4645</guid>
+    </item>
+      <item>
+      <title>openstack/nova: periodic task moves stuck building instances to error (NEW)</title>
+      <pubDate>2012-02-28 21:08:56 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I364358d64e9dbabaaf6872cc3982ee96371a5afe&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4648&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; periodic task moves stuck building instances to error&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Aaron Lee&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; aaron.lee@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; aaron-lee&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4648"&gt;https://review.openstack.org/4648&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 21:08:56 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b601400001228&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4648</link>
+      <guid isPermaLink="true">https://review.openstack.org/4648</guid>
+    </item>
+      <item>
+      <title>openstack/nova: bug #941794 Adding VIF and interface drivers for the Linux Bridge plugin recently added in Quantum. Drivers have been reviewed earlier by Quantum reviewers and are being moved here on their request. (NEW)</title>
+      <pubDate>2012-02-28 20:46:01 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/941794&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If04807c473542e2f0259faa6d243c3e6e9539f64&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4582&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; bug #941794 Adding VIF and interface drivers for the Linux Bridge plugin recently added in Quantum. Drivers have been reviewed earlier by Quantum reviewers and are being moved here on their request.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Sumit Naiksatam&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; snaiksat@cisco.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; snaiksat&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4582"&gt;https://review.openstack.org/4582&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:46:01 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ffe000011e6&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4582</link>
+      <guid isPermaLink="true">https://review.openstack.org/4582</guid>
+    </item>
+      <item>
+      <title>openstack/nova: fixes lp939060 (NEW)</title>
+      <pubDate>2012-02-28 20:40:19 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I2c86989ab7c6593bf346611cde8c043116d55bc5&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4646&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; fixes lp939060&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Trey Morris&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; trey.morris@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; tr3buchet&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4646"&gt;https://review.openstack.org/4646&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:40:19 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ff800001226&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4646</link>
+      <guid isPermaLink="true">https://review.openstack.org/4646</guid>
+    </item>
+      <item>
+      <title>openstack/nova: temporary fix for lp#939060 (NEW)</title>
+      <pubDate>2012-02-28 20:34:52 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/939060&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ibeea59d67133c3a95d425a21940c649e0185323a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4635&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; temporary fix for lp#939060&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joe Breu&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; breu@breu.org&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; breu&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4635"&gt;https://review.openstack.org/4635&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:34:52 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ff20000121b&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4635</link>
+      <guid isPermaLink="true">https://review.openstack.org/4635</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Remove duplication between volume extension and api. (NEW)</title>
+      <pubDate>2012-02-28 20:09:59 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; volume-api&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I44a0ba62bc9920e86a32527dfc9e445a933d1042&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4633&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Remove duplication between volume extension and api.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Yuriy Taraday&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; yorik.sar@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; yorik-sar&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4633"&gt;https://review.openstack.org/4633&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:09:59 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5fd900001219&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4633</link>
+      <guid isPermaLink="true">https://review.openstack.org/4633</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Ensures that keypair names are only AlphaNumeric. (NEW)</title>
+      <pubDate>2012-02-28 17:11:30 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/937408&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If9b1393ee8f36113d2fa8a3b97ca526cc2e6ccf1&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4579&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Ensures that keypair names are only AlphaNumeric.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Justin Shepherd&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jshepher@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jshepher&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4579"&gt;https://review.openstack.org/4579&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 17:11:30 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5f27000011e3&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4579</link>
+      <guid isPermaLink="true">https://review.openstack.org/4579</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add 'nova-manage export auth' (NEW)</title>
+      <pubDate>2012-02-28 17:04:52 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; stable/diablo&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/keystone-export-rewrite&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ic8c0ade8350daa449fb6df7ad3c55c3ae2b0c2c7&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4571&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add 'nova-manage export auth'&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Waldon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.waldon@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bcwaldon&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4571"&gt;https://review.openstack.org/4571&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 17:04:52 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5f20000011db&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4571</link>
+      <guid isPermaLink="true">https://review.openstack.org/4571</guid>
+    </item>
+      <item>
+      <title>openstack/nova: bug 942527 network/quantum/manager: fix key error in get_instance_nw_info() (NEW)</title>
+      <pubDate>2012-02-28 16:44:29 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942527&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I536bd88cd662346c09c04315e63dc5c266be3878&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4628&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; bug 942527 network/quantum/manager: fix key error in get_instance_nw_info()&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Isaku Yamahata&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; yamahata&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4628"&gt;https://review.openstack.org/4628&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 16:44:29 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5f0c00001214&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/4628</link>
+      <guid isPermaLink="true">https://review.openstack.org/4628</guid>
+    </item>
+      <item>
       <title>openstack/nova: sm volume driver: fix backend adding failure (NEW)</title>
       <pubDate>2012-02-28 10:35:03 UTC</pubDate>
       <description>
@@ -25,69 +115,6 @@
       </description>
       <link>https://review.openstack.org/4621</link>
       <guid isPermaLink="true">https://review.openstack.org/4621</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add 'nova-manage export auth' (NEW)</title>
-      <pubDate>2012-02-28 10:04:59 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; stable/diablo&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/keystone-export-rewrite&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ic8c0ade8350daa449fb6df7ad3c55c3ae2b0c2c7&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4571&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add 'nova-manage export auth'&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Waldon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.waldon@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bcwaldon&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4571"&gt;https://review.openstack.org/4571&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 10:04:59 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5d7c000011db&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4571</link>
-      <guid isPermaLink="true">https://review.openstack.org/4571</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Handle case where instance['info_cache'] is None (NEW)</title>
-      <pubDate>2012-02-28 09:35:18 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942443&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I77c3495d1de0a9b73acc576dd0638b430a4ce16e&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4623&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Handle case where instance['info_cache'] is None&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4623"&gt;https://review.openstack.org/4623&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 09:35:18 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5d5f0000120f&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4623</link>
-      <guid isPermaLink="true">https://review.openstack.org/4623</guid>
-    </item>
-      <item>
-      <title>openstack/nova: bug #941794 Adding VIF and interface drivers for the Linux Bridge plugin recently added in Quantum. Drivers have been reviewed earlier by Quantum reviewers and are being moved here on their request. (NEW)</title>
-      <pubDate>2012-02-28 09:28:33 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/941794&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If04807c473542e2f0259faa6d243c3e6e9539f64&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4582&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; bug #941794 Adding VIF and interface drivers for the Linux Bridge plugin recently added in Quantum. Drivers have been reviewed earlier by Quantum reviewers and are being moved here on their request.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Sumit Naiksatam&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; snaiksat@cisco.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; snaiksat&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4582"&gt;https://review.openstack.org/4582&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 09:28:33 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5d58000011e6&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4582</link>
-      <guid isPermaLink="true">https://review.openstack.org/4582</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Do not hit the network_api every poll (NEW)</title>
-      <pubDate>2012-02-28 09:17:42 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I58ccb314d1fcd218ddd0bbd7857223e6435952fb&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4494&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Do not hit the network_api every poll&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Jason Kölker&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jason@koelker.net&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jason-koelker&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4494"&gt;https://review.openstack.org/4494&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 09:17:42 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5d4d0000118e&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4494</link>
-      <guid isPermaLink="true">https://review.openstack.org/4494</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Rename zones table to cells and Instance.zone_name to cell_name (NEW)</title>
-      <pubDate>2012-02-28 09:14:32 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; zones_to_cells&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iff0fb01f0c2862a646bfb2d3fd4e218f1d2b7a93&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4624&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Rename zones table to cells and Instance.zone_name to cell_name&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4624"&gt;https://review.openstack.org/4624&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 09:14:32 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5d4a00001210&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4624</link>
-      <guid isPermaLink="true">https://review.openstack.org/4624</guid>
-    </item>
-      <item>
-      <title>openstack/nova: TypeError API exceptions get logged incorrectly (NEW)</title>
-      <pubDate>2012-02-28 08:09:18 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942431&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I0c3728a9ee740597feb828a513aea76e7849efc6&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4620&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; TypeError API exceptions get logged incorrectly&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4620"&gt;https://review.openstack.org/4620&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 08:09:18 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5d090000120c&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4620</link>
-      <guid isPermaLink="true">https://review.openstack.org/4620</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add NoopFirewallDriver (NEW)</title>
-      <pubDate>2012-02-28 07:27:59 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Icfda92534421fa908b398acd8a811c01d4bc3dbd&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4618&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add NoopFirewallDriver&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4618"&gt;https://review.openstack.org/4618&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 07:27:59 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5cdf0000120a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4618</link>
-      <guid isPermaLink="true">https://review.openstack.org/4618</guid>
     </item>
       <item>
       <title>openstack/nova: Improved localization testing. (NEW)</title>
@@ -117,15 +144,6 @@
       <guid isPermaLink="true">https://review.openstack.org/4509</guid>
     </item>
       <item>
-      <title>openstack/nova: OS X Support fixed, bug 942352 (NEW)</title>
-      <pubDate>2012-02-28 04:42:53 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942352&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I3aa28ba46b0418310637dfeacbdea60361a7a280&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4605&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; OS X Support fixed, bug 942352&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joe Gordon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jogo@cloudscaling.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; joe-gordon0&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4605"&gt;https://review.openstack.org/4605&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 04:42:53 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5c3a000011fd&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4605</link>
-      <guid isPermaLink="true">https://review.openstack.org/4605</guid>
-    </item>
-      <item>
       <title>openstack/nova: Include launch_index when creating instances. (NEW)</title>
       <pubDate>2012-02-28 04:04:18 UTC</pubDate>
       <description>
@@ -133,15 +151,6 @@
       </description>
       <link>https://review.openstack.org/4459</link>
       <guid isPermaLink="true">https://review.openstack.org/4459</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Call detach_volume when attach fails (NEW)</title>
-      <pubDate>2012-02-28 04:01:30 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/914974&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ie18377ba6acd6226612c70fa209185cc579c2d85&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4611&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Call detach_volume when attach fails&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Waldon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.waldon@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bcwaldon&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4611"&gt;https://review.openstack.org/4611&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 04:01:30 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5c1100001203&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4611</link>
-      <guid isPermaLink="true">https://review.openstack.org/4611</guid>
     </item>
       <item>
       <title>openstack/nova: better tox support (NEW)</title>
@@ -198,15 +207,6 @@
       <guid isPermaLink="true">https://review.openstack.org/4542</guid>
     </item>
       <item>
-      <title>openstack/nova: Make scheduler filters more pluggable (NEW)</title>
-      <pubDate>2012-02-28 00:23:15 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; scheduler_filters_pluggable&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I10eb54e9982b6d42316adfb2cc2600b44a9c3bdf&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4477&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Make scheduler filters more pluggable&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4477"&gt;https://review.openstack.org/4477&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 00:23:15 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5b370000117d&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4477</link>
-      <guid isPermaLink="true">https://review.openstack.org/4477</guid>
-    </item>
-      <item>
       <title>openstack/nova: Raise 409 when rescuing instance in RESCUE mode (NEW)</title>
       <pubDate>2012-02-27 21:38:53 UTC</pubDate>
       <description>
@@ -232,15 +232,6 @@
       </description>
       <link>https://review.openstack.org/4376</link>
       <guid isPermaLink="true">https://review.openstack.org/4376</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Ensures that keypair names are only AlphaNumeric. (NEW)</title>
-      <pubDate>2012-02-27 17:12:53 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/937408&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If9b1393ee8f36113d2fa8a3b97ca526cc2e6ccf1&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4579&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Ensures that keypair names are only AlphaNumeric.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Justin Shepherd&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jshepher@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jshepher&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4579"&gt;https://review.openstack.org/4579&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-27 17:12:53 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5988000011e3&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4579</link>
-      <guid isPermaLink="true">https://review.openstack.org/4579</guid>
     </item>
       <item>
       <title>openstack/nova: Decode nova-manage args into unicode. (NEW)</title>
