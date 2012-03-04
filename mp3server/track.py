@@ -85,25 +85,32 @@ class Track:
     
     id_row = self.db.GetOneRow('select track_id from paths where path = "%s";'
                                % path)
+
     if id_row:
       id = id_row['track_id']
       self.persistant = self.db.GetOneRow('select * from tracks where id=%d;'
                                           % id)
+      if not self.persistant:
+        raise Exception('No persistant data for track id: %s' % id)
+
+      # There was a bug a while ago where we left underscores in the database.
+      # Clean that up...
+      for key in 'artist', 'album', 'song':
+        if not key in self.persistant:
+          raise Exception('Required key %s missing for track path %s'
+                          %(key, path))
+
+        before = self.persistant[key]
+        after = self.persistant[key].replace('_', ' ')
+        if before != after:
+          self.persistant[key] = after
+          updated = True
 
     else:
       # This is a new track
       self.persistant = {}
       self.persistant['creation_time'] = datetime.datetime.now()
       new_track = True
-
-    # There was a bug a while ago where we left underscores in the database.
-    # Clean that up...
-    for key in 'artist', 'album', 'song':
-      before = self.persistant[key]
-      after = self.persistant[key].replace('_', ' ')
-      if before != after:
-        self.persistant[key] = after
-        updated = True
 
     # Attempt to parse the path using Mikal's file naming scheme. 30 chars is
     # is the field length for ID3, and might indicate the tags have been
@@ -227,7 +234,7 @@ class Track:
       if errno != 1064:
         raise TrackException(self.db, 'Could not store track %s: %s "%s"'
                              %(self.persistant['id'], errno, errstr))
-    except database.FormatException, e:
+    except sql.FormatException, e:
       raise e
     except Exception, e:
       raise TrackException(self.db, 'Could not store track: %s: "%s" (%s)'

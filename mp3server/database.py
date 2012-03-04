@@ -157,18 +157,18 @@ class Database:
     self.WriteOneRow('settings', 'name',
                      {'name': name, 'value': value})
 
-  def GetOneRow(self, sql):
+  def GetOneRow(self, sqlcmd):
     """GetOneRow -- get one row which matches a query"""
 
     try:
       cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
-      cursor.execute(sql)
+      cursor.execute(sqlcmd)
       retval = cursor.fetchone()
       cursor.close()
 
       if retval == None:
         if FLAGS.db_debugging:
-          print 'Database: no result for %s' % sql
+          print 'Database: no result for %s' % sqlcmd
         return retval
 
       for key in retval.keys():
@@ -181,15 +181,15 @@ class Database:
       print 'Database error:'
       traceback.print_exc()
       print
-      print 'Problem SQL: %s' % sql
+      print 'Problem SQL: %s' % sqlcmd
       sys.exit(1)
 
-  def GetRows(self, sql):
+  def GetRows(self, sqlcmd):
     """GetRows -- return a bunch of rows as an array of dictionaries"""
 
     retval = []
     cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(sql)
+    cursor.execute(sqlcmd)
 
     for i in range(cursor.rowcount):
       row = cursor.fetchone()
@@ -216,8 +216,8 @@ class Database:
         val = '%s=%s' %(col, sql.FormatSqlValue(col, dict[col]))
         vals.append(val)
 
-      sql = ('update %s set %s where %s="%s";' %(table, ','.join(vals),
-                                                 key_col, dict[key_col]))
+      sqlcmd = ('update %s set %s where %s="%s";' %(table, ','.join(vals),
+                                                    key_col, dict[key_col]))
 
     else:
       vals = []
@@ -225,11 +225,10 @@ class Database:
         val = sql.FormatSqlValue(col, dict[col])
         vals.append(val)
 
-      sql = ('insert into %s (%s) values(%s);'
-             %(table, ','.join(dict.keys()), ','.join(vals)))
+      sqlcmd = ('insert into %s (%s) values(%s);'
+                %(table, ','.join(dict.keys()), ','.join(vals)))
 
-
-    self.db_connection.query(sql)
+    self.db_connection.query(sqlcmd)
     self.db_connection.query('commit;')
 
   def CreateTable(self, tablename):
@@ -427,12 +426,12 @@ class Database:
     self.db_connection.query('commit;')
     self.WriteSetting('schema', self.version)
 
-  def ExecuteSql(self, sql):
+  def ExecuteSql(self, sqlcmd):
     """ ExecuteSql -- execute some SQL and return the number of rows affected
     """
 
     cursor = self.db_connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(sql)
+    cursor.execute(sqlcmd)
 
     changed = cursor.rowcount
     cursor.close()

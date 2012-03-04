@@ -37,7 +37,7 @@ def ProcessDirectory(db, path):
       ProcessDirectory(db, entpath)
 
     elif entpath.endswith('.mp3'):
-      try:
+      #try:
         this_track = track.Track(db)
         this_track.FromPath(entpath)
         if this_track.AddPath(entpath):
@@ -45,8 +45,8 @@ def ProcessDirectory(db, path):
 
         this_track.Store()
 
-      except Exception, e:
-        print 'Failed to store: %s (%s)' %(entpath, e)
+      #except Exception, e:
+        #print 'Failed to store: %s (%s)' %(entpath, e)
 
 
 if __name__ == '__main__':
