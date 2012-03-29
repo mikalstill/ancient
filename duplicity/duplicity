@@ -26,7 +26,7 @@ fi
 if [ "%$2%" == "%%" ]
 then
   targets="/home/mikal /boot /etc /var"
-  for target in `ls /data | egrep -v "(\.du$|^backups$|duplicity|lost\+found|mongodb|mysql|mythtv|squid|temp|video)"`
+  for target in `ls /data | egrep -v "(\.du$|^backups$|^backups-linux$|^backups-linux-canonical$|duplicity|lost\+found|mongodb|mysql|mythtv|openstack|squid|temp|video|virtualbox)"`
   do
     targets="$targets /data/$target"
   done
@@ -97,11 +97,15 @@ then
   echo `date`" Clear complete" >> $OUTPUT_DIR/log
 fi
 
-# Dedup workstation backups
+# Dedup workstation backups, and make sure we can iterate directories
+echo `date`" Ensure sensible permissions for workstation backups" >> $OUTPUT_DIR/log
+find /data/backups-linux -type d -exec chmod u+rx {} \;
+echo `date`" Permissions fix finished" >> $OUTPUT_DIR/log
+
 echo `date`" Dedup workstation backups" >> $OUTPUT_DIR/log
 $SVN_PATH/dedup \
-  --path /data/backups-meta/linux \
-  --canonical /data/backups-meta/linux-canonical
+  --path /data/backups-linux \
+  --canonical /data/backups-linux-canonical >> /data/backups-linux/dedup.log
 echo `date`" Dedup finished" >> $OUTPUT_DIR/log
 
 # Now backup

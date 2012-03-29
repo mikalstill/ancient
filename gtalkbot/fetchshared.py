@@ -25,12 +25,10 @@ data = shelve.open('fetchshared.slf', writeback=True)
 
 # Load passwords
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-for feed in data['feeds']:
-  if feed in data['usernames']:
-    password_mgr.add_password(None, feed, 
-                              data['usernames'][feed],
-                              data['passwords'][feed])
-    print 'Added authentication for %s' % feed
+for feed in data['passwords']:
+  realm, domain, user, password = data['passwords'][feed]
+  password_mgr.add_password(realm, feed, user, password)
+  print 'Added authentication for %s' % feed
 
 handler = urllib2.HTTPBasicAuthHandler(password_mgr)
 opener = urllib2.build_opener(handler)
@@ -68,11 +66,10 @@ for feed in data['feeds']:
   entries = d.entries
   entries.reverse()
   for ent in entries:
-    print
-    print 'Considering %s' % ent.link
-    print '  guid = %s' % ent.guid
     if ent.guid not in data['guids'][feed]:
-      print '  ... is new'
+      print
+      print 'New post %s' % ent.link
+      print '  guid = %s' % ent.guid
       if ent.has_key('gr_annotation') or t in ['status', 'search']:
         if t == 'post':
           post = ('Mikal shared: <a href="%s">%s</a><br/><ul><i>%s</i></ul>'
@@ -105,7 +102,5 @@ for feed in data['feeds']:
         print '  ... ignored because no comment found'
 
       data['guids'][feed].append(ent.guid)
-    else:
-      print '  ... already processed'
 
 data.close()

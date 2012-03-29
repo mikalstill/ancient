@@ -29,7 +29,6 @@ def CreateRss(component, status):
   values = {}
   for l in p.stdout.readlines():
     l = l.strip().rstrip()
-    print l
 
     if len(l) == 0 and values and 'subject' in values:
       description = []

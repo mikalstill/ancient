@@ -54,6 +54,10 @@ class DataStore:
       retval = '%s[%d] %s\n' %(retval, i, self.data[i])
     return retval
 
+  def __iter__(self):
+    for i in range(1, self.data['upto'] + 1):
+      yield (i, self.data.get('type-%s' % i, 'unknown'), self.data[i])
+
   def FindMessagesOfType(self, t):
     for i in range(1, self.data['upto'] + 1):
       if self.data['type-%s' % i] == t:
@@ -149,6 +153,3 @@ def Command(verb, line):
 def Cleanup():
   """Cleanup -- you're about to be unloaded"""
   return
-
-# Do initialization here
-print u'blather_bot is loading'

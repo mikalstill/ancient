@@ -876,28 +876,28 @@ def main(argv):
           except:
             pass
 
-      for row in db.GetRows('select distinct tracks.artist, tracks.album, '
-                            'art.art from tracks left join art on '
-                            'tracks.artist = art.artist and '
-                            'tracks.album = art.album where '
-                            'art.art is null and art.error is null and '
-                            'tracks.artist is not null '
-                            'and tracks.album is not null '
-                            'group by tracks.album, tracks.artist limit 1;'):
-        print '%s Fetching art for "%s" "%s"' %(datetime.datetime.now(),
-                                                row['artist'], row['album'])
-        a = coverhunt.Art(row['artist'], row['album'])
-        art = a.Search()
-        if not art:
-          db.ExecuteSql('insert into art(artist, album, error) values '
-                        '(%s, %s, "No art found");'
-                        %(sql.FormatSqlValue('artist', row['artist']),
-                          sql.FormatSqlValue('album', row['album'])))
-        else:
-          db.ExecuteSql('insert into art(artist, album, art) values '
-                        '(%s, %s, "%s");'
-                        %(sql.FormatSqlValue('artist', row['artist']),
-                          sql.FormatSqlValue('album', row['album']), art))
+      #for row in db.GetRows('select distinct tracks.artist, tracks.album, '
+      #                      'art.art from tracks left join art on '
+      #                      'tracks.artist = art.artist and '
+      #                      'tracks.album = art.album where '
+      #                      'art.art is null and art.error is null and '
+      #                      'tracks.artist is not null '
+      #                      'and tracks.album is not null '
+      #                      'group by tracks.album, tracks.artist limit 1;'):
+      #  print '%s Fetching art for "%s" "%s"' %(datetime.datetime.now(),
+      #                                          row['artist'], row['album'])
+      #  a = coverhunt.Art(row['artist'], row['album'])
+      #  art = a.Search()
+      #  if not art:
+      #    db.ExecuteSql('insert into art(artist, album, error) values '
+      #                  '(%s, %s, "No art found");'
+      #                  %(sql.FormatSqlValue('artist', row['artist']),
+      #                    sql.FormatSqlValue('album', row['album'])))
+      #  else:
+      #    db.ExecuteSql('insert into art(artist, album, art) values '
+      #                  '(%s, %s, "%s");'
+      #                  %(sql.FormatSqlValue('artist', row['artist']),
+      #                    sql.FormatSqlValue('album', row['album']), art))
 
     if time.time() - last_summary > 60.0:
       print '%s TOTAL BYTES SERVED: %s' %(datetime.datetime.now(),

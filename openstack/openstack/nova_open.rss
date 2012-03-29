@@ -9,400 +9,364 @@
      <ttl>180</ttl>
      <docs>http://blogs.law.harvard.edu/tech/rss</docs>
     <item>
-      <title>openstack/nova: Fix bug 942893 (NEW)</title>
-      <pubDate>2012-02-28 21:28:18 UTC</pubDate>
+      <title>openstack/nova: bug fix for #967989 1. it should only restart the instances whose state is running 2. change flag name start_guests_on_host_boot -> restart_guests_on_host_boot resume_guests_state_on_host_boot -> start_guests_on_host_boot 3. ensure_filtering_rules_for_ins (NEW)</title>
+      <pubDate>2012-03-29 06:03:50 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942893&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I4b4f6a493ef0bbe81224c7408d0985e14fa9f1bc&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4649&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix bug 942893&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Lamar&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.lamar@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; blamar&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4649"&gt;https://review.openstack.org/4649&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 21:28:18 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b602800001229&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; reboot_instance&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I654765c4b0a7ae42f2e34edf0aebda8d4e1c40b8&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5945&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; bug fix for #967989 1. it should only restart the instances whose state is running 2. change flag name start_guests_on_host_boot -> restart_guests_on_host_boot resume_guests_state_on_host_boot -> start_guests_on_host_boot 3. ensure_filtering_rules_for_ins&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Peng Yong&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; ppyy@pubyun.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; ppyy&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5945"&gt;https://review.openstack.org/5945&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-29 06:03:50 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c054b00001739&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4649</link>
-      <guid isPermaLink="true">https://review.openstack.org/4649</guid>
+      <link>https://review.openstack.org/5945</link>
+      <guid isPermaLink="true">https://review.openstack.org/5945</guid>
     </item>
       <item>
-      <title>openstack/nova: Provide retry-after guidance on throttled requests (NEW)</title>
-      <pubDate>2012-02-28 21:13:04 UTC</pubDate>
+      <title>openstack/nova: fix log level (NEW)</title>
+      <pubDate>2012-03-29 05:02:34 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I8b1a28f964a111008b1a88d9c0f96c5a0abd8314&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4645&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Provide retry-after guidance on throttled requests&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; eglynn&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; eglynn&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4645"&gt;https://review.openstack.org/4645&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 21:13:04 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b601900001225&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; log_info&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I07d42169a9b3ef0bcaa0a3b033607669361f78e5&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5944&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; fix log level&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Peng Yong&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; ppyy@pubyun.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; ppyy&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5944"&gt;https://review.openstack.org/5944&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-29 05:02:34 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c050e00001738&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4645</link>
-      <guid isPermaLink="true">https://review.openstack.org/4645</guid>
+      <link>https://review.openstack.org/5944</link>
+      <guid isPermaLink="true">https://review.openstack.org/5944</guid>
     </item>
       <item>
-      <title>openstack/nova: periodic task moves stuck building instances to error (NEW)</title>
-      <pubDate>2012-02-28 21:08:56 UTC</pubDate>
+      <title>openstack/nova: When dnsmasq fails to HUP log an error. (NEW)</title>
+      <pubDate>2012-03-29 03:03:52 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I364358d64e9dbabaaf6872cc3982ee96371a5afe&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4648&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; periodic task moves stuck building instances to error&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Aaron Lee&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; aaron.lee@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; aaron-lee&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4648"&gt;https://review.openstack.org/4648&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 21:08:56 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b601400001228&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/967937&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I492de5094bfb740499a65b8483d6a6f26b070042&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5941&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; When dnsmasq fails to HUP log an error.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Dan Prince&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; dprince@redhat.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; dan-prince&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5941"&gt;https://review.openstack.org/5941&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-29 03:03:52 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c049700001735&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4648</link>
-      <guid isPermaLink="true">https://review.openstack.org/4648</guid>
+      <link>https://review.openstack.org/5941</link>
+      <guid isPermaLink="true">https://review.openstack.org/5941</guid>
     </item>
       <item>
-      <title>openstack/nova: bug #941794 Adding VIF and interface drivers for the Linux Bridge plugin recently added in Quantum. Drivers have been reviewed earlier by Quantum reviewers and are being moved here on their request. (NEW)</title>
-      <pubDate>2012-02-28 20:46:01 UTC</pubDate>
+      <title>openstack/nova: Update KillFilter to handle 'deleted' exe's. (NEW)</title>
+      <pubDate>2012-03-29 02:02:46 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/941794&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If04807c473542e2f0259faa6d243c3e6e9539f64&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4582&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; bug #941794 Adding VIF and interface drivers for the Linux Bridge plugin recently added in Quantum. Drivers have been reviewed earlier by Quantum reviewers and are being moved here on their request.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Sumit Naiksatam&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; snaiksat@cisco.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; snaiksat&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4582"&gt;https://review.openstack.org/4582&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:46:01 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ffe000011e6&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/967931&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I368a01383bf62b64b7579d573b8b84640dec03ae&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5940&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Update KillFilter to handle 'deleted' exe's.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Dan Prince&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; dprince@redhat.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; dan-prince&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5940"&gt;https://review.openstack.org/5940&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-29 02:02:46 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c045a00001734&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4582</link>
-      <guid isPermaLink="true">https://review.openstack.org/4582</guid>
+      <link>https://review.openstack.org/5940</link>
+      <guid isPermaLink="true">https://review.openstack.org/5940</guid>
     </item>
       <item>
-      <title>openstack/nova: fixes lp939060 (NEW)</title>
-      <pubDate>2012-02-28 20:40:19 UTC</pubDate>
+      <title>openstack/nova: Ensure a functional database connection (NEW)</title>
+      <pubDate>2012-03-29 01:53:25 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I2c86989ab7c6593bf346611cde8c043116d55bc5&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4646&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; fixes lp939060&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Trey Morris&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; trey.morris@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; tr3buchet&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4646"&gt;https://review.openstack.org/4646&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:40:19 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ff800001226&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/959426&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Id34eda9e0bad6b477a74e9a7d3575e513e6291d5&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5939&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Ensure a functional database connection&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Adam Gandelman&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; adam.gandelman@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; gandelman-a&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5939"&gt;https://review.openstack.org/5939&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-29 01:53:25 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c045100001733&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4646</link>
-      <guid isPermaLink="true">https://review.openstack.org/4646</guid>
+      <link>https://review.openstack.org/5939</link>
+      <guid isPermaLink="true">https://review.openstack.org/5939</guid>
     </item>
       <item>
-      <title>openstack/nova: temporary fix for lp#939060 (NEW)</title>
-      <pubDate>2012-02-28 20:34:52 UTC</pubDate>
+      <title>openstack/nova: Support timestamps as prefixes for traceback log lines. (NEW)</title>
+      <pubDate>2012-03-29 00:24:59 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/939060&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ibeea59d67133c3a95d425a21940c649e0185323a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4635&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; temporary fix for lp#939060&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joe Breu&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; breu@breu.org&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; breu&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4635"&gt;https://review.openstack.org/4635&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:34:52 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5ff20000121b&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/967842&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ie017317f7e0b636016a220cb21a3543ab569dea5&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5828&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Support timestamps as prefixes for traceback log lines.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Michael Still&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mikal@stillhq.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mikalstill&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5828"&gt;https://review.openstack.org/5828&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-29 00:24:59 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c03f8000016c4&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4635</link>
-      <guid isPermaLink="true">https://review.openstack.org/4635</guid>
+      <link>https://review.openstack.org/5828</link>
+      <guid isPermaLink="true">https://review.openstack.org/5828</guid>
     </item>
       <item>
-      <title>openstack/nova: Remove duplication between volume extension and api. (NEW)</title>
-      <pubDate>2012-02-28 20:09:59 UTC</pubDate>
+      <title>openstack/nova: Base image signature files are not images. (NEW)</title>
+      <pubDate>2012-03-28 23:49:39 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; volume-api&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I44a0ba62bc9920e86a32527dfc9e445a933d1042&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4633&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Remove duplication between volume extension and api.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Yuriy Taraday&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; yorik.sar@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; yorik-sar&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4633"&gt;https://review.openstack.org/4633&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 20:09:59 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5fd900001219&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/967843&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iad2f27e07a6a9887785bb4dab44476c62cd11a69&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5898&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Base image signature files are not images.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Michael Still&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mikal@stillhq.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mikalstill&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5898"&gt;https://review.openstack.org/5898&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 23:49:39 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c03d50000170a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4633</link>
-      <guid isPermaLink="true">https://review.openstack.org/4633</guid>
+      <link>https://review.openstack.org/5898</link>
+      <guid isPermaLink="true">https://review.openstack.org/5898</guid>
     </item>
       <item>
-      <title>openstack/nova: Ensures that keypair names are only AlphaNumeric. (NEW)</title>
-      <pubDate>2012-02-28 17:11:30 UTC</pubDate>
+      <title>openstack/nova: Touch in use image files when they're checked. (NEW)</title>
+      <pubDate>2012-03-28 23:32:00 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/937408&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If9b1393ee8f36113d2fa8a3b97ca526cc2e6ccf1&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4579&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Ensures that keypair names are only AlphaNumeric.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Justin Shepherd&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jshepher@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jshepher&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4579"&gt;https://review.openstack.org/4579&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 17:11:30 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5f27000011e3&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/967845&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I75bf06cf758c9a2d7a8bde5ce67c789d7e299174&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5900&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Touch in use image files when they're checked.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Michael Still&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mikal@stillhq.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mikalstill&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5900"&gt;https://review.openstack.org/5900&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 23:32:00 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c03c40000170c&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4579</link>
-      <guid isPermaLink="true">https://review.openstack.org/4579</guid>
+      <link>https://review.openstack.org/5900</link>
+      <guid isPermaLink="true">https://review.openstack.org/5900</guid>
     </item>
       <item>
-      <title>openstack/nova: Add 'nova-manage export auth' (NEW)</title>
-      <pubDate>2012-02-28 17:04:52 UTC</pubDate>
+      <title>openstack/nova: Improve performance of safe_log(). (NEW)</title>
+      <pubDate>2012-03-28 23:24:21 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; stable/diablo&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/keystone-export-rewrite&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ic8c0ade8350daa449fb6df7ad3c55c3ae2b0c2c7&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4571&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add 'nova-manage export auth'&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Waldon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; brian.waldon@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; bcwaldon&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4571"&gt;https://review.openstack.org/4571&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 17:04:52 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5f20000011db&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; milestone-proposed&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp-5810&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I190c5963ecaf70b0aea4e12a2fdc19deb5c1fea2&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5933&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Improve performance of safe_log().&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Vish Ishaya&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; vishvananda@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; vishvananda&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5933"&gt;https://review.openstack.org/5933&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 23:24:21 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c03bc0000172d&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4571</link>
-      <guid isPermaLink="true">https://review.openstack.org/4571</guid>
+      <link>https://review.openstack.org/5933</link>
+      <guid isPermaLink="true">https://review.openstack.org/5933</guid>
     </item>
       <item>
-      <title>openstack/nova: bug 942527 network/quantum/manager: fix key error in get_instance_nw_info() (NEW)</title>
-      <pubDate>2012-02-28 16:44:29 UTC</pubDate>
+      <title>openstack/nova: Fix disassociate query to remove foreign keys (NEW)</title>
+      <pubDate>2012-03-28 23:17:18 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942527&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I536bd88cd662346c09c04315e63dc5c266be3878&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4628&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; bug 942527 network/quantum/manager: fix key error in get_instance_nw_info()&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Isaku Yamahata&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; yamahata&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4628"&gt;https://review.openstack.org/4628&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 16:44:29 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5f0c00001214&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/965333&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I3f7605717825f91fc34d15c14a5fe86824bd3799&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5893&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix disassociate query to remove foreign keys&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Vish Ishaya&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; vishvananda@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; vishvananda&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5893"&gt;https://review.openstack.org/5893&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 23:17:18 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c03b500001705&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4628</link>
-      <guid isPermaLink="true">https://review.openstack.org/4628</guid>
+      <link>https://review.openstack.org/5893</link>
+      <guid isPermaLink="true">https://review.openstack.org/5893</guid>
     </item>
       <item>
-      <title>openstack/nova: sm volume driver: fix backend adding failure (NEW)</title>
-      <pubDate>2012-02-28 10:35:03 UTC</pubDate>
+      <title>openstack/nova: Monitor console.log for indefinite growth (NEW)</title>
+      <pubDate>2012-03-28 22:27:41 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/915085&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I908d2090815a90bae479d5caf8516e52fd879c8e&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4622&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; sm volume driver: fix backend adding failure&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; renukaapte&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; renuka.apte@citrix.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; renukaapte&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4622"&gt;https://review.openstack.org/4622&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 10:35:03 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5d9b0000120e&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/832507&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I310adfe00a3ad6c3631a71c9d2b1befb12a31f5a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5873&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Monitor console.log for indefinite growth&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chuck Short&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; chuck.short@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zulcss&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5873"&gt;https://review.openstack.org/5873&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 22:27:41 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c0383000016f1&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4622</link>
-      <guid isPermaLink="true">https://review.openstack.org/4622</guid>
+      <link>https://review.openstack.org/5873</link>
+      <guid isPermaLink="true">https://review.openstack.org/5873</guid>
     </item>
       <item>
-      <title>openstack/nova: sm vol driver: Fix regression in sm_backend_conf_update (NEW)</title>
-      <pubDate>2012-02-28 10:29:51 UTC</pubDate>
+      <title>openstack/nova: Add headroom reporting to os-quota-sets extension (NEW)</title>
+      <pubDate>2012-03-28 22:11:05 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/915085&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iffa9a1a51f6e9da0cba9fdae373135ea6a70990f&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4621&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; sm vol driver: Fix regression in sm_backend_conf_update&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; renukaapte&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; renuka.apte@citrix.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; renukaapte&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4621"&gt;https://review.openstack.org/4621&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 10:29:51 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5d950000120d&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I8bd9cdcd2d29c4b33d9b406aa6ea02e366fd3e7c&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5910&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add headroom reporting to os-quota-sets extension&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; eglynn&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; eglynn&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5910"&gt;https://review.openstack.org/5910&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 22:11:05 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c037300001716&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4621</link>
-      <guid isPermaLink="true">https://review.openstack.org/4621</guid>
+      <link>https://review.openstack.org/5910</link>
+      <guid isPermaLink="true">https://review.openstack.org/5910</guid>
     </item>
       <item>
-      <title>openstack/nova: Improved localization testing. (NEW)</title>
-      <pubDate>2012-02-28 06:57:12 UTC</pubDate>
+      <title>openstack/nova: get_instance_uuids_by_ip_filter to QM (NEW)</title>
+      <pubDate>2012-03-28 21:46:15 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; test-l12n&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I903b90dfb09a46a72b1c64c30301f90661999f5b&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4499&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Improved localization testing.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Yuriy Taraday&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; yorik.sar@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; yorik-sar&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4499"&gt;https://review.openstack.org/4499&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 06:57:12 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5cc100001193&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; filter_instancs_by_ip&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I9468de130c6cd1e0520f9d92c43f98aa6b36dce6&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5718&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; get_instance_uuids_by_ip_filter to QM&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Aaron Lee&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; aaron.lee@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; aaron-lee&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5718"&gt;https://review.openstack.org/5718&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 21:46:15 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c035a00001656&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4499</link>
-      <guid isPermaLink="true">https://review.openstack.org/4499</guid>
+      <link>https://review.openstack.org/5718</link>
+      <guid isPermaLink="true">https://review.openstack.org/5718</guid>
     </item>
       <item>
-      <title>openstack/nova: Check all migrations have downgrade in test_misc (NEW)</title>
-      <pubDate>2012-02-28 06:56:18 UTC</pubDate>
+      <title>openstack/nova: WIP -- Implement Cells service -- WIP (NEW)</title>
+      <pubDate>2012-03-28 21:21:02 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/942406&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ifbc74c12a4c58d4e2117295c088051062a0b3b1c&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4614&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Check all migrations have downgrade in test_misc&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Hengqing Hu&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; hudayou@hotmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; hudayou&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4614"&gt;https://review.openstack.org/4614&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 06:56:18 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5cc000001206&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4614</link>
-      <guid isPermaLink="true">https://review.openstack.org/4614</guid>
-    </item>
-      <item>
-      <title>openstack/nova: blueprint netapp-volume-driver (NEW)</title>
-      <pubDate>2012-02-28 04:57:23 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/netapp-volume-driver&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I8e2781e8bd4a552354f46a32c4a7ecdfd19f3e7a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4509&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; blueprint netapp-volume-driver&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Robert Esker&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; esker@netapp.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; esker&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4509"&gt;https://review.openstack.org/4509&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 04:57:23 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5c490000119d&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4509</link>
-      <guid isPermaLink="true">https://review.openstack.org/4509</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Include launch_index when creating instances. (NEW)</title>
-      <pubDate>2012-02-28 04:04:18 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/934534&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ifc45abf4cd9f50f732ba4a4b68c0a6242a6c9710&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4459&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Include launch_index when creating instances.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mike Milner&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mike.milner@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; milner&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4459"&gt;https://review.openstack.org/4459&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 04:04:18 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5c140000116b&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4459</link>
-      <guid isPermaLink="true">https://review.openstack.org/4459</guid>
-    </item>
-      <item>
-      <title>openstack/nova: better tox support (NEW)</title>
-      <pubDate>2012-02-28 04:01:32 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; tox&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I6af2baa5f4e33ca877880d3fb8559f6729e151f6&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4610&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; better tox support&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joe Gordon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jogo@cloudscaling.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; joe-gordon0&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4610"&gt;https://review.openstack.org/4610&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 04:01:32 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5c1100001202&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4610</link>
-      <guid isPermaLink="true">https://review.openstack.org/4610</guid>
-    </item>
-      <item>
-      <title>openstack/nova: blueprint auto-create-boot-volumes https://blueprints.launchpad.net/nova/+spec/auto-create-boot-volumes (NEW)</title>
-      <pubDate>2012-02-28 02:41:17 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/auto-create-boot-volumes&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I7763aaf6d0aba4aa92e3164ee9fb5aabb14f2191&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4576&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; blueprint auto-create-boot-volumes https://blueprints.launchpad.net/nova/+spec/auto-create-boot-volumes&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; dan-kim&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; dan-kim&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4576"&gt;https://review.openstack.org/4576&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 02:41:17 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5bc1000011e0&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4576</link>
-      <guid isPermaLink="true">https://review.openstack.org/4576</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Fixing unknown floating ips to return 404. (NEW)</title>
-      <pubDate>2012-02-28 02:39:36 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/940500&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Id29c59cff189a03cba2ebeb53a7d1fd445e3c40e&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4595&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fixing unknown floating ips to return 404.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Alex Meade&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; alex.meade@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; alex-meade&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4595"&gt;https://review.openstack.org/4595&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 02:39:36 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5bbf000011f3&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4595</link>
-      <guid isPermaLink="true">https://review.openstack.org/4595</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Fixes depreciation warnings. (NEW)</title>
-      <pubDate>2012-02-28 02:07:08 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/941951&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iaee75cb1c00dc1a4f8446011755cbbfa44b8e4c2&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4590&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fixes depreciation warnings.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chuck Short&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; chuck.short@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zulcss&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4590"&gt;https://review.openstack.org/4590&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 02:07:08 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5b9f000011ee&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4590</link>
-      <guid isPermaLink="true">https://review.openstack.org/4590</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Support create/delete floating ip pools in os-floating-ip-pools api (NEW)</title>
-      <pubDate>2012-02-28 01:52:55 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/os-floating-ip-pools-create-delete&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I65fde7813614180621b1c92454de8a0919b9815f&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4500&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Support create/delete floating ip pools in os-floating-ip-pools api&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Tomoe Sugihara&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; tomoe@midokura.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; tomoe&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4500"&gt;https://review.openstack.org/4500&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 01:52:55 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5b9000001194&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4500</link>
-      <guid isPermaLink="true">https://review.openstack.org/4500</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add missing directive to tox.ini. (NEW)</title>
-      <pubDate>2012-02-28 01:17:25 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; align-tox&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ib6d178af62f631de76e66c2bb6c07fd6b277fa97&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4542&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add missing directive to tox.ini.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4542"&gt;https://review.openstack.org/4542&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-28 01:17:25 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5b6d000011be&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4542</link>
-      <guid isPermaLink="true">https://review.openstack.org/4542</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Raise 409 when rescuing instance in RESCUE mode (NEW)</title>
-      <pubDate>2012-02-27 21:38:53 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/940581&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I8c6b600d36a35ef4e32f35b888f8f2eb8effebcd&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4599&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Raise 409 when rescuing instance in RESCUE mode&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Philip Knouff&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; philip.knouff@mailtrust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; philip-knouff&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4599"&gt;https://review.openstack.org/4599&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-27 21:38:53 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5a92000011f7&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4599</link>
-      <guid isPermaLink="true">https://review.openstack.org/4599</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add support for lxc consoles. (NEW)</title>
-      <pubDate>2012-02-27 20:06:38 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/853602&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ib39953b804dc3284132651f29f33ad5783d1959a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4589&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add support for lxc consoles.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chuck Short&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; chuck.short@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zulcss&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4589"&gt;https://review.openstack.org/4589&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-27 20:06:38 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5a36000011ed&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4589</link>
-      <guid isPermaLink="true">https://review.openstack.org/4589</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Shorten FLAGS.rpc_response_timeout (NEW)</title>
-      <pubDate>2012-02-27 19:33:41 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/938287&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I0f38fe0bdfc950386f1fce221069e395e7e81f2a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4376&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Shorten FLAGS.rpc_response_timeout&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; sleepsonthefloor&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; sleepsonthefloor&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4376"&gt;https://review.openstack.org/4376&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-27 19:33:41 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b5a1500001118&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4376</link>
-      <guid isPermaLink="true">https://review.openstack.org/4376</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Decode nova-manage args into unicode. (NEW)</title>
-      <pubDate>2012-02-27 14:01:23 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/931667&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Icc2aabe9c0c521732003f7013438630ebc8d2238&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4209&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Decode nova-manage args into unicode.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; AndrewBogott@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4209"&gt;https://review.openstack.org/4209&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-27 14:01:23 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b58c900001071&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4209</link>
-      <guid isPermaLink="true">https://review.openstack.org/4209</guid>
-    </item>
-      <item>
-      <title>openstack/nova: populate glance 'name' field through ec2-register (NEW)</title>
-      <pubDate>2012-02-26 21:09:15 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/930314&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I10bcac9ab298a2bf127b5228c62c3cf4f009abd6&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4025&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; populate glance 'name' field through ec2-register&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Scott Moser&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; ssmoser2@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; smoser&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4025"&gt;https://review.openstack.org/4025&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-26 21:09:15 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b54d500000fb9&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4025</link>
-      <guid isPermaLink="true">https://review.openstack.org/4025</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Get rid of all of the autodoc import errors. (NEW)</title>
-      <pubDate>2012-02-25 20:45:06 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; fix-autodoc&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I4db20ce97f920cdb7254d51e18a0630b0283b39d&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4536&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Get rid of all of the autodoc import errors.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4536"&gt;https://review.openstack.org/4536&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-25 20:45:06 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b4f1d000011b8&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4536</link>
-      <guid isPermaLink="true">https://review.openstack.org/4536</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Implement the missing create method in os-networks API (NEW)</title>
-      <pubDate>2012-02-25 15:07:13 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/os-networks-create&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ib8c43f6e3f3a9b831ec81738ac4c3b0852c3d851&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4348&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Implement the missing create method in os-networks API&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Tomoe Sugihara&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; tomoe@midokura.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; tomoe&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4348"&gt;https://review.openstack.org/4348&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-25 15:07:13 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b4dcb000010fc&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4348</link>
-      <guid isPermaLink="true">https://review.openstack.org/4348</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Fix nova-manage floating create docs. (NEW)</title>
-      <pubDate>2012-02-25 00:18:09 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; floating-docfix&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I743a750b55b2007cc756cfd3c1b34d07c479fb5a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4508&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix nova-manage floating create docs.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Lorin Hochstein&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; lorin@nimbisservices.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; lorinh&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4508"&gt;https://review.openstack.org/4508&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-25 00:18:09 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b4a520000119c&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4508</link>
-      <guid isPermaLink="true">https://review.openstack.org/4508</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add test_migrations.conf to Manifest. (NEW)</title>
-      <pubDate>2012-02-24 19:09:36 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/940365&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I2c191c5d6152a4e1bd09c74efdf076b9d5f5abde&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4505&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add test_migrations.conf to Manifest.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chuck Short&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; chuck.short@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zulcss&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4505"&gt;https://review.openstack.org/4505&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-24 19:09:36 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b491d00001199&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4505</link>
-      <guid isPermaLink="true">https://review.openstack.org/4505</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Set PolicyNotAuthorized HTTP Return Code (NEW)</title>
-      <pubDate>2012-02-24 06:23:35 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/917897&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I6ba27e3f42bc45fe470500c828c63afac2a1fea0&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4493&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Set PolicyNotAuthorized HTTP Return Code&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Jason Cannavale&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jcannava&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4493"&gt;https://review.openstack.org/4493&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-24 06:23:35 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b461f0000118d&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4493</link>
-      <guid isPermaLink="true">https://review.openstack.org/4493</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add lun number to provider_location in create_volume * Fixes bug 938876 (NEW)</title>
-      <pubDate>2012-02-24 00:56:24 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/938876&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I22ccda1df7a0b718697588b0a808af5c58181ed8&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4403&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add lun number to provider_location in create_volume * Fixes bug 938876&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; John Griffith&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; john.griffith@solidfire.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; john-griffith&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4403"&gt;https://review.openstack.org/4403&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-24 00:56:24 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b44d800001133&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4403</link>
-      <guid isPermaLink="true">https://review.openstack.org/4403</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Nova options tool enhancements (NEW)</title>
-      <pubDate>2012-02-24 00:51:10 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/936898&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I15835bb437bc6d575e8311d7c55b3a29d67b006d&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4347&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Nova options tool enhancements&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Zhongyue Luo&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; lzyeval@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; lzyeval&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4347"&gt;https://review.openstack.org/4347&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-24 00:51:10 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b44d3000010fb&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4347</link>
-      <guid isPermaLink="true">https://review.openstack.org/4347</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Display error for invalid CIDR. (NEW)</title>
-      <pubDate>2012-02-23 19:25:20 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/917982&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I5def054f5cc8e14bc8ebd981744d7d7af7f5710b&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4277&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Display error for invalid CIDR.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chuck Short&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; chuck.short@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zulcss&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4277"&gt;https://review.openstack.org/4277&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-23 19:25:20 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b438d000010b5&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4277</link>
-      <guid isPermaLink="true">https://review.openstack.org/4277</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add option to disable file injection. (NEW)</title>
-      <pubDate>2012-02-23 18:11:19 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/833499&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ia968b36524a104d396e59c61f15dccd68425b85c&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4430&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add option to disable file injection.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chuck Short&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; chuck.short@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zulcss&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4430"&gt;https://review.openstack.org/4430&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-23 18:11:19 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b43430000114e&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4430</link>
-      <guid isPermaLink="true">https://review.openstack.org/4430</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Update floating auto assignment to use the model (NEW)</title>
-      <pubDate>2012-02-23 18:07:03 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I1f07b2f8cadfd38a0d0c53d9b97ea7b3ea051eec&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4236&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Update floating auto assignment to use the model&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Jason Kölker&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jason@koelker.net&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jason-koelker&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4236"&gt;https://review.openstack.org/4236&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-23 18:07:03 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b433f0000108c&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
-      </description>
-      <link>https://review.openstack.org/4236</link>
-      <guid isPermaLink="true">https://review.openstack.org/4236</guid>
-    </item>
-      <item>
-      <title>openstack/nova: WIP -- Implement new zones service -- WIP (NEW)</title>
-      <pubDate>2012-02-22 19:30:49 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/932395&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I01f35e390bb148692426a367c9a552e89e721968&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4378&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; WIP -- Implement new zones service -- WIP&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4378"&gt;https://review.openstack.org/4378&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-22 19:30:49 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b3df20000111a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; cells_service&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I01f35e390bb148692426a367c9a552e89e721968&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4378&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; WIP -- Implement Cells service -- WIP&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chris Behrens&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; cbehrens+gerrit@codestud.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cbehrens&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4378"&gt;https://review.openstack.org/4378&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 21:21:02 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c03410000111a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
       <link>https://review.openstack.org/4378</link>
       <guid isPermaLink="true">https://review.openstack.org/4378</guid>
     </item>
       <item>
-      <title>openstack/nova: nova-manage: allow use of /32 IP range (NEW)</title>
-      <pubDate>2012-02-22 15:21:50 UTC</pubDate>
+      <title>openstack/nova: Continue on the the next tenant_id on 400 codes (NEW)</title>
+      <pubDate>2012-03-28 20:35:00 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; jd/nova-manage-slash-32&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I38685e6f1a3541519d1f2a9ec8d3b00dd522b44a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4391&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; nova-manage: allow use of /32 IP range&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Julien Danjou&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; julien.danjou@enovance.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jdanjou&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4391"&gt;https://review.openstack.org/4391&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-22 15:21:50 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b3cf900001127&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I4592e5907276d290f4a54aa27dd4e91a62cc83e8&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5912&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Continue on the the next tenant_id on 400 codes&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Jason Kölker&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jason@koelker.net&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jason-koelker&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5912"&gt;https://review.openstack.org/5912&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 20:35:00 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c031300001718&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4391</link>
-      <guid isPermaLink="true">https://review.openstack.org/4391</guid>
+      <link>https://review.openstack.org/5912</link>
+      <guid isPermaLink="true">https://review.openstack.org/5912</guid>
     </item>
       <item>
-      <title>openstack/nova: Implements blueprint zeromq-rpc-driver (NEW)</title>
-      <pubDate>2012-02-21 20:42:03 UTC</pubDate>
+      <title>openstack/nova: Minor xenapi driver cleanups (NEW)</title>
+      <pubDate>2012-03-28 19:42:48 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/zeromq-rpc-driver&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iffdc403b2db135a38c5767959009ddea596d4344&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3955&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Implements blueprint zeromq-rpc-driver&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Eric Windisch&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; eric@cloudscaling.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; ewindisch&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3955"&gt;https://review.openstack.org/3955&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-21 20:42:03 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b389a00000f73&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; xenapi-deferred&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ice754ece564e88d46cd71d8ba56767d9df19dc0d&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5921&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Minor xenapi driver cleanups&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Johannes Erdfelt&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; johannes@erdfelt.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; johannes.erdfelt&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5921"&gt;https://review.openstack.org/5921&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 19:42:48 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c02de00001721&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/3955</link>
-      <guid isPermaLink="true">https://review.openstack.org/3955</guid>
+      <link>https://review.openstack.org/5921</link>
+      <guid isPermaLink="true">https://review.openstack.org/5921</guid>
     </item>
       <item>
-      <title>openstack/nova: Fix quantum manager deallocate_for_instance (NEW)</title>
-      <pubDate>2012-02-21 14:21:32 UTC</pubDate>
+      <title>openstack/nova: Support sql_connection_debug to get SQL diagnostic information (NEW)</title>
+      <pubDate>2012-03-28 19:18:05 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; deallocate-tenant-ids&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iac55258ab34904ff004017048301116d44e139a0&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4327&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix quantum manager deallocate_for_instance&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mark Washenberger&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mark.washenberger@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; markwash&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4327"&gt;https://review.openstack.org/4327&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-21 14:21:32 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b371d000010e7&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/964844&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I9d08991a3677bc6cbed45a930ede9271d685cac1&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5816&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Support sql_connection_debug to get SQL diagnostic information&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; justinsb&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; justin@fathomdb.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; justin-fathomdb&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5816"&gt;https://review.openstack.org/5816&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 19:18:05 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c02c6000016b8&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4327</link>
-      <guid isPermaLink="true">https://review.openstack.org/4327</guid>
+      <link>https://review.openstack.org/5816</link>
+      <guid isPermaLink="true">https://review.openstack.org/5816</guid>
     </item>
       <item>
-      <title>openstack/nova: Add requirements freezing. (NEW)</title>
-      <pubDate>2012-02-20 19:54:56 UTC</pubDate>
+      <title>openstack/nova: Add the serialization of exceptions for RPC calls. (NEW)</title>
+      <pubDate>2012-03-28 19:07:24 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; fix-unittests&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I3d82bc7f26c7cfdf3070e98dec19a65820df0cbf&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3872&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add requirements freezing.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3872"&gt;https://review.openstack.org/3872&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-20 19:54:56 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b32ca00000f20&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/920705&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ife3b64b19fe8abbc730184d4ee7d9fcabfd29db3&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5749&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add the serialization of exceptions for RPC calls.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Alex Meade&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; alex.meade@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; alex-meade&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5749"&gt;https://review.openstack.org/5749&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 19:07:24 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c02bb00001675&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/3872</link>
-      <guid isPermaLink="true">https://review.openstack.org/3872</guid>
+      <link>https://review.openstack.org/5749</link>
+      <guid isPermaLink="true">https://review.openstack.org/5749</guid>
     </item>
       <item>
-      <title>openstack/nova: Adjusted the conf settings to be parameterized like the other core components. (NEW)</title>
-      <pubDate>2012-02-20 08:49:46 UTC</pubDate>
+      <title>openstack/nova: Fix marker behavior for flavors (NEW)</title>
+      <pubDate>2012-03-28 18:52:00 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I791bdfa1c55a978fa12a2066c71737da5398f52b&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 4026&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Adjusted the conf settings to be parameterized like the other core components.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; harlowja&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; harlowja@yahoo-inc.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; harlowja&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/4026"&gt;https://review.openstack.org/4026&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-20 08:49:46 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b303100000fba&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/956096&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ifa94a70f2aec3b9527c291e27d4710336a1d1834&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5693&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix marker behavior for flavors&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Philip Knouff&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; philip.knouff@mailtrust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; philip-knouff&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5693"&gt;https://review.openstack.org/5693&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 18:52:00 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c02ac0000163d&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/4026</link>
-      <guid isPermaLink="true">https://review.openstack.org/4026</guid>
+      <link>https://review.openstack.org/5693</link>
+      <guid isPermaLink="true">https://review.openstack.org/5693</guid>
     </item>
       <item>
-      <title>openstack/nova: Tell user instance not found. (NEW)</title>
-      <pubDate>2012-02-17 19:52:05 UTC</pubDate>
+      <title>openstack/nova: Proposed HACKING guidelines for string encoding. (NEW)</title>
+      <pubDate>2012-03-28 18:18:57 UTC</pubDate>
       <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/836978&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I956fa16aa989b31ea8b6d6daeb6d78ccdc32ba66&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 3978&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Tell user instance not found.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chuck Short&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; chuck.short@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zulcss&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/3978"&gt;https://review.openstack.org/3978&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-02-17 19:52:05 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001b21e800000f8a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; hacking2&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I9e0a8259bf0ba18136a6a4a8754afa9240ecc1ad&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5756&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Proposed HACKING guidelines for string encoding.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; AndrewBogott@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5756"&gt;https://review.openstack.org/5756&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 18:18:57 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c028a0000167c&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
       </description>
-      <link>https://review.openstack.org/3978</link>
-      <guid isPermaLink="true">https://review.openstack.org/3978</guid>
+      <link>https://review.openstack.org/5756</link>
+      <guid isPermaLink="true">https://review.openstack.org/5756</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Changes allowed VM states for snapshot. (NEW)</title>
+      <pubDate>2012-03-28 14:17:58 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/900934&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Id41fa174bab4e49dba95ade9f84eb92f819c1c69&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5902&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Changes allowed VM states for snapshot.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Ilya Alekseyev&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; ilyaalekseyev&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5902"&gt;https://review.openstack.org/5902&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 14:17:58 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c01990000170e&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5902</link>
+      <guid isPermaLink="true">https://review.openstack.org/5902</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Adds SSL support for API server. (NEW)</title>
+      <pubDate>2012-03-28 10:42:15 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/869884&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I52f24882326120708ebc12359882ce2f7e6b0fd9&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5560&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Adds SSL support for API server.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Ilya Alekseyev&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; ilyaalekseyev&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5560"&gt;https://review.openstack.org/5560&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 10:42:15 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c00c2000015b8&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5560</link>
+      <guid isPermaLink="true">https://review.openstack.org/5560</guid>
+    </item>
+      <item>
+      <title>openstack/nova: ensure atomic manipulation of libvirt disk images (NEW)</title>
+      <pubDate>2012-03-28 10:32:42 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; atomic-images&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I81a5407665a6998128c0dee41387ef00ebddeb4d&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5442&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; ensure atomic manipulation of libvirt disk images&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; p-draigbrady&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; P@draigBrady.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; p-draigbrady&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5442"&gt;https://review.openstack.org/5442&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-28 10:32:42 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001c00b800001542&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5442</link>
+      <guid isPermaLink="true">https://review.openstack.org/5442</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Remove auth_uri, already have auth_host, auth_port (NEW)</title>
+      <pubDate>2012-03-27 23:37:35 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; auth_uri&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I4349cd9545c571b37886ae38416c27b841e797f8&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5883&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Remove auth_uri, already have auth_host, auth_port&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joe Gordon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jogo@cloudscaling.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; joe-gordon0&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5883"&gt;https://review.openstack.org/5883&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-27 23:37:35 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bfe29000016fb&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5883</link>
+      <guid isPermaLink="true">https://review.openstack.org/5883</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Default scheduler to spread-first (NEW)</title>
+      <pubDate>2012-03-27 22:31:08 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/965732&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I239b2b235905b30879974144263037eba6ed409f&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5836&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Default scheduler to spread-first&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Vish Ishaya&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; vishvananda@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; vishvananda&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5836"&gt;https://review.openstack.org/5836&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-27 22:31:08 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bfde7000016cc&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5836</link>
+      <guid isPermaLink="true">https://review.openstack.org/5836</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Added img metadata validation. Fixes bug 962117. (NEW)</title>
+      <pubDate>2012-03-27 15:50:57 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/962117&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I0e9dad97c03070363d14977897701e146870e41a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5852&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Added img metadata validation. Fixes bug 962117.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; unmesh-gurjar&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; unmesh-gurjar&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5852"&gt;https://review.openstack.org/5852&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-27 15:50:57 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bfc56000016dc&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5852</link>
+      <guid isPermaLink="true">https://review.openstack.org/5852</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Allow self-referential groups to be created (NEW)</title>
+      <pubDate>2012-03-26 21:51:48 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/965674&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I41db135f6437e1f1cb496528ae4d134c0d9cb744&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5834&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Allow self-referential groups to be created&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Vish Ishaya&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; vishvananda@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; vishvananda&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5834"&gt;https://review.openstack.org/5834&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-26 21:51:48 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bf81f000016ca&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5834</link>
+      <guid isPermaLink="true">https://review.openstack.org/5834</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Handle instances being missing while listing floating IPs (NEW)</title>
+      <pubDate>2012-03-26 21:23:36 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/964950&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ib628356608bc0cbb9089029876ab1df7e9f02531&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5799&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Handle instances being missing while listing floating IPs&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Michael Still&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mikal@stillhq.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mikalstill&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5799"&gt;https://review.openstack.org/5799&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-26 21:23:36 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bf803000016a7&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5799</link>
+      <guid isPermaLink="true">https://review.openstack.org/5799</guid>
+    </item>
+      <item>
+      <title>openstack/nova: blueprint MULTI-PROCESS-API-SERVICE (NEW)</title>
+      <pubDate>2012-03-26 18:56:56 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/MULTI-PROCESS-API-SERVICE&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ia045e595543ddfd192894b2a05801cc4b7ca90cb&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5762&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; blueprint MULTI-PROCESS-API-SERVICE&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Huang Zhiteng&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; zhiteng.huang@intel.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zhiteng-huang&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5762"&gt;https://review.openstack.org/5762&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-26 18:56:56 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bf77000001682&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5762</link>
+      <guid isPermaLink="true">https://review.openstack.org/5762</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Fix traceback when sending invalid data. (NEW)</title>
+      <pubDate>2012-03-26 17:56:46 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/965225&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I0b547d527bca5fb86ff650188ac903066361d933&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5809&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix traceback when sending invalid data.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chuck Short&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; chuck.short@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zulcss&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5809"&gt;https://review.openstack.org/5809&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-26 17:56:46 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bf734000016b1&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5809</link>
+      <guid isPermaLink="true">https://review.openstack.org/5809</guid>
+    </item>
+      <item>
+      <title>openstack/nova: fix bug lp:961991,update instance actions to db. (NEW)</title>
+      <pubDate>2012-03-26 16:19:12 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/961991&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I0c592ff2f3fd385a9fa753b4c246f70d8a000cb8&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5728&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; fix bug lp:961991,update instance actions to db.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Yaguang Tang&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; heut2008@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; heut2008&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5728"&gt;https://review.openstack.org/5728&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-26 16:19:12 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bf6d300001660&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5728</link>
+      <guid isPermaLink="true">https://review.openstack.org/5728</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Simulator integration test for Distributed Scheduler (NEW)</title>
+      <pubDate>2012-03-26 15:27:33 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; scheduler_sim&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I6a55d2eddb54d9a58b5cdfad7a79a7716dbe8754&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5399&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Simulator integration test for Distributed Scheduler&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Sandy Walsh&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; sandy.walsh@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; sandy-walsh&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5399"&gt;https://review.openstack.org/5399&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-26 15:27:33 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bf69f00001517&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5399</link>
+      <guid isPermaLink="true">https://review.openstack.org/5399</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Imported Translations from Launchpad (NEW)</title>
+      <pubDate>2012-03-26 13:07:55 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; launchpad/translations&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I5beaa21750c3d957343ad538c5cf9a953d6d12a6&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5794&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Imported Translations from Launchpad&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Jenkins&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jenkins&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5794"&gt;https://review.openstack.org/5794&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-26 13:07:55 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bf613000016a2&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5794</link>
+      <guid isPermaLink="true">https://review.openstack.org/5794</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Clean up read_deleted support in host aggregates code (NEW)</title>
+      <pubDate>2012-03-25 21:15:03 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I916a8d189a33d7f30838cccb26531a024066ef96&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5792&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Clean up read_deleted support in host aggregates code&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mark McLoughlin&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; markmc@redhat.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; markmc&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5792"&gt;https://review.openstack.org/5792&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-25 21:15:03 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bf25b000016a0&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5792</link>
+      <guid isPermaLink="true">https://review.openstack.org/5792</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Implement blueprint nova-sharedfs (NEW)</title>
+      <pubDate>2012-03-23 21:46:09 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/nova-sharedfs&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I70b3c235f33b3e418c9fc7d5fb02d328850f921d&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5292&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Implement blueprint nova-sharedfs&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; AndrewBogott@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5292"&gt;https://review.openstack.org/5292&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-23 21:46:09 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001be73a000014ac&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5292</link>
+      <guid isPermaLink="true">https://review.openstack.org/5292</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Removed HACKING.rst in favor of openstack-common. (NEW)</title>
+      <pubDate>2012-03-22 21:32:59 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; hacking&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ic6b22d894685a045a4b254acc1fb70ecc941cbe4&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5704&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Removed HACKING.rst in favor of openstack-common.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; AndrewBogott@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; andrewbogott&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5704"&gt;https://review.openstack.org/5704&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-22 21:32:59 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001be18c00001648&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5704</link>
+      <guid isPermaLink="true">https://review.openstack.org/5704</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Check that DescribeInstance works with deleted image (NEW)</title>
+      <pubDate>2012-03-22 20:48:37 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/948286&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I34df7a3fbc492f4418b2751b2b8bc527a7bbe335&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5678&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Check that DescribeInstance works with deleted image&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Julien Danjou&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; julien.danjou@enovance.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jdanjou&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5678"&gt;https://review.openstack.org/5678&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-22 20:48:37 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001be1600000162e&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5678</link>
+      <guid isPermaLink="true">https://review.openstack.org/5678</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Fixing coverage call for Jenkins. (NEW)</title>
+      <pubDate>2012-03-22 19:45:59 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I6e2bc2abdb1447ab9ae0d20e2cfbf36245edebab&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5021&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fixing coverage call for Jenkins.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5021"&gt;https://review.openstack.org/5021&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-22 19:45:59 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001be1210000139d&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5021</link>
+      <guid isPermaLink="true">https://review.openstack.org/5021</guid>
+    </item>
+      <item>
+      <title>openstack/nova: set net.ipv4.ip_forward=1 on network (NEW)</title>
+      <pubDate>2012-03-20 01:36:09 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; ip_forward&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I1588fb68eb0c351bd2a702a9a3717811d1288789&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5506&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; set net.ipv4.ip_forward=1 on network&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Peng Yong&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; ppyy@pubyun.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; ppyy&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5506"&gt;https://review.openstack.org/5506&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-20 01:36:09 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bd1a000001582&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5506</link>
+      <guid isPermaLink="true">https://review.openstack.org/5506</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Remove Depreciation warnings. (NEW)</title>
+      <pubDate>2012-03-19 15:43:45 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/959386&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I8e64802cb4568e44a32033c5a585e5792aa50c5a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 5512&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Remove Depreciation warnings.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Chuck Short&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; chuck.short@canonical.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; zulcss&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/5512"&gt;https://review.openstack.org/5512&lt;/a&gt;&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-03-19 15:43:45 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001bcf4f00001588&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+      </description>
+      <link>https://review.openstack.org/5512</link>
+      <guid isPermaLink="true">https://review.openstack.org/5512</guid>
     </item>
     </channel>
   </rss>

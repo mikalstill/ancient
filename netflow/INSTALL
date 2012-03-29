@@ -1,1 +1,0 @@
-gcc netflow.c -o netflow -lpcap -lm -I/usr/include/pcap

@@ -25,16 +25,33 @@ gflags.DEFINE_integer('minsize', 1 * 1024 * 1024,
                       'Minimum size of file to deduplicate')
 
 files = {}
+links = {}
+
+
+def FindExistingCanonical(path):
+  global links
+
+  for ent in os.listdir(path):
+    newpath = os.path.join(path, ent)
+    if os.path.isfile(newpath):
+      links[newpath] = 0
 
 
 def RecurseDirectory(path):
   global files
+  global links
 
   for ent in os.listdir(path):
     newpath = os.path.join(path, ent)
 
     if os.path.islink(newpath):
-      pass
+      target = os.path.realpath(newpath)
+
+      if target.find('linux-canonical') != -1:
+        links.setdefault(target, 0)
+        links[target] += 1
+        sys.stdout.write('*')
+        sys.stdout.flush()
 
     elif os.path.isdir(newpath):
       RecurseDirectory(newpath)
@@ -48,8 +65,9 @@ def RecurseDirectory(path):
         files.setdefault(s.st_size, [])
         files[s.st_size].append(newpath)
 
-  sys.stdout.write('.')
-  sys.stdout.flush()
+        if len(files) % 1000 == 0:
+          sys.stdout.write('.')
+          sys.stdout.flush()
 
 
 def GetHash(path):
@@ -64,6 +82,7 @@ def GetHash(path):
 
 def main(argv):
   global files
+  global links
 
   # Parse flags
   try:
@@ -73,6 +92,11 @@ def main(argv):
     print 'Flags error: %s' % e
     print
     print FLAGS
+
+  # Find existing canonical files
+  print '%s: Finding existing canonical files' % datetime.datetime.now()
+  FindExistingCanonical(FLAGS.canonical)
+  print '%s: %d existing canonical files' %(datetime.datetime.now(), len(links))
 
   # Find files large enough to be worth processing
   print '%s: Traversing directory structure' % datetime.datetime.now()
@@ -126,7 +150,11 @@ def main(argv):
               continue
 
             os.symlink(canonical, f)
-            print '%s: %s -> %s' %(datetime.datetime.now(), f, canonical)
+            links.setdefault(canonical, 0)
+            links[canonical] += 1
+
+            print '%s: %s -> %s (%d now)' %(datetime.datetime.now(), f,
+                                            canonical, links[canonical])
 
             newh = GetHash(f)
             if newh != h:
@@ -138,9 +166,23 @@ def main(argv):
 
           saved += (len(hashes[h]) - 1) * size
 
+  # Find canonical files which are no longer used
+  wasted = 0
+  for ent in links:
+    if links[ent] == 0:
+      print '%s: Unused canonical file %s' %(datetime.datetime.now(), ent)
+      s = os.stat(ent)
+      wasted += s.st_size
+
+      if time.time() - s.st_mtime > 7 * 24 * 3600:
+        os.remove(ent)
+        print '%s: Removed unused %s' %(datetime.datetime.now(), ent)
+
   # Tell people what we would have saved
   print '%s: We saved %s' %(datetime.datetime.now(),
                             utility.DisplayFriendlySize(saved))
+  print '%s: We wasted %s' %(datetime.datetime.now(),
+                             utility.DisplayFriendlySize(wasted))
 
 if __name__ == "__main__":
   main(sys.argv)

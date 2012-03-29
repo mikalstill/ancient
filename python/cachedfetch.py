@@ -24,7 +24,7 @@ def Fetch(url, maxage=3600, username=None, password=None, useragent=None,
     return _Fetch(url, ent, username, password, useragent, cachedir)
   
   sys.stderr.write('Cache hit for %s (%s)\n' %(url, ent))
-  f = open(entpath)
+  f = open('/data/temp/cache/%s' % ent)
   try:
     return f.read()
   finally:
