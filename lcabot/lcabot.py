@@ -12,7 +12,7 @@ A simple LCA2013 irc bot.
 Run this script with two arguments, the channel name the bot should
 connect to, and file to log to, e.g.:
 
-  $ python lcabot.py <channel> <logfile>
+  $ python lcabot.py <channel>
 
 will log channel #test to the file 'test.log'.
 """
@@ -168,7 +168,8 @@ if __name__ == '__main__':
     log.startLogging(sys.stdout)
     
     # create factory protocol and application
-    f = LogBotFactory(sys.argv[1], sys.argv[2])
+    logfile = datetime.datetime.now().strftime('%Y%m%%d-%H%M%S.log')
+    f = LogBotFactory(sys.argv[1], logfile)
 
     # connect factory to this host and port
     reactor.connectTCP("irc.freenode.net", 6667, f)
