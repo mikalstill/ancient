@@ -90,6 +90,7 @@ class Lcabot(irc.IRCClient):
         plugin_directory = 'commands'
         re_plugin = re.compile('[^.].*\.py$')
         for plugin_file in os.listdir(plugin_directory):
+            self._writeLog('Possible plugin: %s' % plugin_file)
             if re_plugin.match(plugin_file):
                 name = plugin_file[:-3]
                 self._writeLog('>> %s' % name)
