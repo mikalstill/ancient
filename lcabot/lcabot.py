@@ -173,12 +173,6 @@ class Lcabot(irc.IRCClient):
         user = user.split('!', 1)[0]
         self._writeLog('%s >> <%s> %s' % (channel, user, msg))
         
-        # Check to see if they're sending me a private message
-        if channel == self.nickname:
-            self._msg(user, ('I understand the following commands: %s'
-                             % ', '.join(self.verbs.keys())))
-            return
-
         # Otherwise check to see if it is a message directed at me
         msg = msg.rstrip()
         if msg.startswith(self.nickname + ':'):
@@ -200,9 +194,13 @@ class Lcabot(irc.IRCClient):
                     self._writeLog('Exception from %s: %s' %(module, e))
 
             else:
-                self._describe(channel, 'is confused')
-                self._msg(channel, ('%s: I am the linux.conf.au bot. PM me '
-                                    'for help.' % user))
+                if channel == self.nickname:
+                    self._msg(user, ('I understand the following commands: %s'
+                                     % ', '.join(self.verbs.keys())))
+                else:
+                    self._describe(channel, 'is confused')
+                    self._msg(channel, ('%s: I am the linux.conf.au bot. PM me '
+                                        'for help.' % user))
 
     def action(self, user, channel, msg):
         """This will get called when the bot sees someone do an action."""
