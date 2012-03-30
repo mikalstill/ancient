@@ -33,7 +33,7 @@ class CountDown(object):
             return 'Count down the number of days to important events.'
         return ''
 
-    def Command(self, verb, line):
+    def Command(self, channel, verb, line):
         """Execute a given verb with these arguments
         
         Takes the verb which the user entered, and the remainder of the line.
@@ -42,13 +42,17 @@ class CountDown(object):
 
         if verb == 'countdown':
             for event, days in self._get_days():
-                yield ('msg', 'Days until %s: %d' %(event, days))
+                yield (channel, 'msg', 'Days until %s: %d' %(event, days))
 
         elif verb == 'settopic':
-            yield('topic', self._make_topic())
+            yield(channel, 'topic', self._make_topic())
 
         else:
             yield
+
+    def NoticeUser(self, channel, user):
+        """We just noticed this user. Either they joined, or we did."""
+        yield
 
     def HeartBeat(self):
         """Gets called at regular intervals"""
@@ -56,7 +60,7 @@ class CountDown(object):
         # Check if its time for the daily topic update
         now = datetime.datetime.now()
         if now.day != self.last_topic.day:
-            yield ('topic', self._make_topic())
+            yield (None, 'topic', self._make_topic())
 
     def Cleanup(self):
         """We're about to be torn down."""

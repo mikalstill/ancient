@@ -30,6 +30,8 @@ import re
 import sys
 import time
 
+VERBOSE = False
+
 
 class MessageLogger:
     """
@@ -60,7 +62,10 @@ class Lcabot(irc.IRCClient):
         self.last_heartbeat = time.time()
 
     def _writeLog(self, msg):
-        self.logger.log(msg)
+        try:
+            self.logger.log(msg)
+        except:
+            pass
         log.msg(msg)
 
     def _msg(self, channel, msg):
@@ -95,6 +100,7 @@ class Lcabot(irc.IRCClient):
 
                     for module in plugin.Init(self._writeLog):
                         self.plugins.append(module)
+                        yield module
                         for verb in module.Verbs():
                             self.verbs[verb] = module
                             self._writeLog('   implements verb %s' % verb)
@@ -109,10 +115,12 @@ class Lcabot(irc.IRCClient):
             except Exception, e:
                 self._writeLog('Exception from %s: %s' %(module, e))
 
-    def _handleResponse(self, channel, responses):
+    def _handleResponse(self, responses):
         for resp in responses:
             if resp:
-                kind, body = resp
+                channel, kind, body = resp
+                if not channel:
+                    channel = self.factory.channel
                 if kind == 'msg':
                     self._msg(channel, body)
                 elif kind == 'topic':
@@ -126,8 +134,7 @@ class Lcabot(irc.IRCClient):
             for module in self.plugins:
                 try:
                     self._writeLog('[Heartbeat sent to %s]' % module.Name())
-                    self._handleResponse(self.factory.channel,
-                                         list(module.HeartBeat()))
+                    self._handleResponse(list(module.HeartBeat()))
                 except Exception, e:
                     self._writeLog('Exception from %s: %s' %(module, e))
 
@@ -179,14 +186,15 @@ class Lcabot(irc.IRCClient):
             elems = command.split(' ')
 
             if elems[0] == 'reload':
-                self._loadPlugins()
+                for module in self._loadPlugins():
+                    self._msg(channel, '%s: Loaded %s' %(user, module.Name()))
 
             elif elems[0] in self.verbs:
                 module = self.verbs[elems[0]]
                 try:
                     self._writeLog('[Command sent to %s]' % module.Name())
-                    self._handleResponse(channel,
-                                         list(module.Command(elems[0],
+                    self._handleResponse(list(module.Command(channel,
+                                                             elems[0],
                                                              command)))
                 except Exception, e:
                     self._writeLog('Exception from %s: %s' %(module, e))
@@ -201,6 +209,17 @@ class Lcabot(irc.IRCClient):
 
         user = user.split('!', 1)[0]
         self._writeLog('%s >> * %s %s' % (channel, user, msg))
+
+    def userJoined(self, user, channel):
+        """This is called when a user joins a channel."""
+
+        for module in self.plugins:
+            try:
+                self._writeLog('[Join event for %s on %s sent to %s]'
+                               %(user, channel, module.Name()))
+                self._handleResponse(list(module.NoticeUser(channel, user)))
+            except Exception, e:
+                self._writeLog('Exception from %s: %s' %(module, e))
 
     # irc callbacks
     def irc_NICK(self, prefix, params):
@@ -221,14 +240,24 @@ class Lcabot(irc.IRCClient):
 
     # Scary inner goo
     def dataReceived(self, data):
-        """Log all data because its interesting looking."""
+        """Log all incoming data."""
 
-        for l in data.replace('\r', '').split('\n'):
-            self._writeLog('DATA: %s' % l)
+        if VERBOSE:
+            for l in data.replace('\r', '').split('\n'):
+                self._writeLog('IN: %s' % l)
         irc.IRCClient.dataReceived(self, data)
 
         if data.startswith('PING :') and data.endswith('\n'):
             self._doHeartbeat()
+
+    def sendLine(self, line):
+        """Log all outgoing data."""
+
+        if VERBOSE:
+            for l in line.replace('\r', '').split('\n'):
+                self._writeLog('OUT: %s' % l)
+
+        irc.IRCClient.sendLine(self, line)
 
 
 class LcaBotFactory(protocol.ClientFactory):
@@ -261,7 +290,7 @@ if __name__ == '__main__':
     log.startLogging(sys.stdout)
     
     # create factory protocol and application
-    logfile = datetime.datetime.now().strftime('%Y%m%%d-%H%M%S.log')
+    logfile = datetime.datetime.now().strftime('%Y%m%d-%H%M%S.log')
     f = LcaBotFactory(sys.argv[1], sys.argv[2], logfile)
 
     # connect factory to this host and port
