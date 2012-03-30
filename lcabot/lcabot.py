@@ -57,6 +57,7 @@ class Lcabot(irc.IRCClient):
     def __init__(self):
         self.plugins = []
         self.verbs = {}
+        self.last_heartbeat = time.time()
 
     def _writeLog(self, msg):
         self.logger.log(msg)
@@ -65,7 +66,15 @@ class Lcabot(irc.IRCClient):
     def _msg(self, channel, msg):
         self.msg(channel, msg)
         self._writeLog('%s >> <%s> %s' %(channel, self.nickname, msg))
+
+    def _topic(self, channel, topic):
+        self.topic(channel, topic)
+        self._writeLog('%s >> Set topic to "%s"' %(channel, topic))
     
+    def _describe(self, channel, action):
+        self.describe(channel, action)
+        self._writeLog('%s >> /me %s' %(channel, action))
+
     def _loadPlugins(self):
         self._unloadPlugins()
 
@@ -79,19 +88,48 @@ class Lcabot(irc.IRCClient):
             if re_plugin.match(plugin_file):
                 name = plugin_file[:-3]
                 self._writeLog('>> %s' % name)
-                plugin_info = imp.find_module(name, [plugin_directory])
-                plugin = imp.load_module(name, *plugin_info)
 
-                for module in plugin.Init(self._writeLog):
-                    self.plugins.append(module)
-                    for verb in module.Verbs():
-                        self.verbs[verb] = module
-                        self._writeLog('   implements verb %s' % verb)
+                try:
+                    plugin_info = imp.find_module(name, [plugin_directory])
+                    plugin = imp.load_module(name, *plugin_info)
+
+                    for module in plugin.Init(self._writeLog):
+                        self.plugins.append(module)
+                        for verb in module.Verbs():
+                            self.verbs[verb] = module
+                            self._writeLog('   implements verb %s' % verb)
+                except Exception, e:
+                    self._writeLog('Exception from %s: %s' %(module, e))
 
     def _unloadPlugins(self):
         self._writeLog('[Unloading plugins]')
         for module in self.plugins:
-            module.Cleanup()
+            try:
+                module.Cleanup()
+            except Exception, e:
+                self._writeLog('Exception from %s: %s' %(module, e))
+
+    def _handleResponse(self, channel, responses):
+        for resp in responses:
+            if resp:
+                kind, body = resp
+                if kind == 'msg':
+                    self._msg(channel, body)
+                elif kind == 'topic':
+                    self._topic(channel, body)
+
+    def _doHeartbeat(self):
+        """Heartbeat our modules."""
+
+        if time.time() - self.last_heartbeat > 60:
+            self.last_heartbeat = time.time()
+            for module in self.plugins:
+                try:
+                    self._writeLog('[Heartbeat sent to %s]' % module.Name())
+                    self._handleResponse(self.factory.channel,
+                                         list(module.HeartBeat()))
+                except Exception, e:
+                    self._writeLog('Exception from %s: %s' %(module, e))
 
     def connectionMade(self):
         irc.IRCClient.connectionMade(self)
@@ -117,6 +155,11 @@ class Lcabot(irc.IRCClient):
         """This will get called when the bot joins the channel."""
         self._writeLog("[I have joined %s]" % channel)
 
+    def topicUpdated(self, user, channel, topic):
+        """Called when the topic changes or we join a channel."""
+        self._writeLog('%s >> topic set by %s is "%s"'
+                       %(channel, user, topic))
+
     def privmsg(self, user, channel, msg):
         """This will get called when the bot receives a message."""
 
@@ -135,25 +178,31 @@ class Lcabot(irc.IRCClient):
             command = ':'.join(msg.split(':')[1:]).lstrip()
             elems = command.split(' ')
 
-            #self._writeLog('[Command is: "%s"]' % command)
-            #self._writeLog('[Verb is: "%s"]' % elems[0])
-            if elems[0] in self.verbs:
+            if elems[0] == 'reload':
+                self._loadPlugins()
+
+            elif elems[0] in self.verbs:
                 module = self.verbs[elems[0]]
-                self._writeLog('[Command send to %s]' % module.Name())
-                for msg in module.Command(elems[0], command):
-                    self._msg(channel, msg)
+                try:
+                    self._writeLog('[Command sent to %s]' % module.Name())
+                    self._handleResponse(channel,
+                                         list(module.Command(elems[0],
+                                                             command)))
+                except Exception, e:
+                    self._writeLog('Exception from %s: %s' %(module, e))
 
             else:
-                msg = '%s: I am the linux.conf.au bot. PM me for help.' % user
-                self._msg(channel, msg)
+                self._describe(channel, 'is confused')
+                self._msg(channel, ('%s: I am the linux.conf.au bot. PM me '
+                                    'for help.' % user))
 
     def action(self, user, channel, msg):
         """This will get called when the bot sees someone do an action."""
+
         user = user.split('!', 1)[0]
-        self._writeLog("* %s %s" % (user, msg))
+        self._writeLog('%s >> * %s %s' % (channel, user, msg))
 
     # irc callbacks
-
     def irc_NICK(self, prefix, params):
         """Called when an IRC user changes their nickname."""
         old_nick = prefix.split('!')[0]
@@ -169,6 +218,17 @@ class Lcabot(irc.IRCClient):
         effort to create an unused related name for subsequent registration.
         """
         return nickname + '^'
+
+    # Scary inner goo
+    def dataReceived(self, data):
+        """Log all data because its interesting looking."""
+
+        for l in data.replace('\r', '').split('\n'):
+            self._writeLog('DATA: %s' % l)
+        irc.IRCClient.dataReceived(self, data)
+
+        if data.startswith('PING :') and data.endswith('\n'):
+            self._doHeartbeat()
 
 
 class LcaBotFactory(protocol.ClientFactory):

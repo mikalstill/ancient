@@ -7,7 +7,9 @@ import datetime
 class CountDown(object):
     def __init__(self, log):
         self.log = log
+        self.last_topic = datetime.datetime(1970,1,1)
 
+    # Things you're expected to implement
     def Name(self):
         """Who am I?"""
         return 'countdown'
@@ -18,7 +20,7 @@ class CountDown(object):
         Takes no arguments, and returns an array of strings.
         """
 
-        return ['countdown']
+        return ['countdown', 'settopic']
 
     def Help(self, verb):
         """Display help for a verb
@@ -39,21 +41,45 @@ class CountDown(object):
         """
 
         if verb == 'countdown':
-            for event, year, month, day in [('CFP opens', 2012, 06, 01),
-                                            ('early bird registration',
-                                             2012, 10, 01),
-                                            ('conference', 2013, 01, 28)]:
-                dt = datetime.datetime(year, month, day)
-                delta = dt - datetime.datetime.now()
-                yield 'Days until %s: %d' %(event, delta.days)
+            for event, days in self._get_days():
+                yield ('msg', 'Days until %s: %d' %(event, days))
+
+        elif verb == 'settopic':
+            yield('topic', self._make_topic())
+
+        else:
+            yield
 
     def HeartBeat(self):
         """Gets called at regular intervals"""
-        pass
+
+        # Check if its time for the daily topic update
+        now = datetime.datetime.now()
+        if now.day != self.last_topic.day:
+            yield ('topic', self._make_topic())
 
     def Cleanup(self):
         """We're about to be torn down."""
         pass
+
+    # Your own internal helpers
+    def _get_days(self):
+        for event, year, month, day in [('CFP opens', 2012, 06, 01),
+                                        ('early bird registration',
+                                         2012, 10, 01),
+                                        ('conference', 2013, 01, 28)]:
+            dt = datetime.datetime(year, month, day)
+            delta = dt - datetime.datetime.now()
+            if delta.days > 0:
+                yield(event, delta.days)
+
+    def _make_topic(self):
+        now = datetime.datetime.now()
+        topic = []
+        for event, days in self._get_days():
+            topic.append('%d days until %s' %(days, event))
+        self.last_topic = now            
+        return '; '.join(topic)
 
 
 def Init(log):
