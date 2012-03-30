@@ -12,7 +12,7 @@ A simple LCA2013 irc bot.
 Run this script with two arguments, the channel name the bot should
 connect to, and file to log to, e.g.:
 
-  $ python lcabot.py <channel>
+  $ python lcabot.py <channel> <channel password>
 
 will log channel #test to the file 'test.log'.
 """
@@ -46,7 +46,7 @@ class MessageLogger:
         self.file.close()
 
 
-class LogBot(irc.IRCClient):
+class Lcabot(irc.IRCClient):
     """A logging IRC bot."""
     
     nickname = "lcabot"
@@ -76,7 +76,8 @@ class LogBot(irc.IRCClient):
 
     def signedOn(self):
         """Called when bot has succesfully signed on to server."""
-        self.join(self.factory.channel)
+        self._writeLog("[I have signed on]")
+        self.join(self.factory.channel, self.factory.channel_password)
 
     def joined(self, channel):
         """This will get called when the bot joins the channel."""
@@ -139,18 +140,19 @@ class LogBot(irc.IRCClient):
 
 
 
-class LogBotFactory(protocol.ClientFactory):
-    """A factory for LogBots.
+class LcaBotFactory(protocol.ClientFactory):
+    """A factory for LcaBots.
 
     A new protocol instance will be created each time we connect to the server.
     """
 
-    def __init__(self, channel, filename):
+    def __init__(self, channel, channel_password, filename):
         self.channel = channel
+        self.channel_password = channel_password
         self.filename = filename
 
     def buildProtocol(self, addr):
-        p = LogBot()
+        p = Lcabot()
         p.factory = self
         return p
 
@@ -169,7 +171,7 @@ if __name__ == '__main__':
     
     # create factory protocol and application
     logfile = datetime.datetime.now().strftime('%Y%m%%d-%H%M%S.log')
-    f = LogBotFactory(sys.argv[1], logfile)
+    f = LcaBotFactory(sys.argv[1], sys.argv[2], logfile)
 
     # connect factory to this host and port
     reactor.connectTCP("irc.freenode.net", 6667, f)
