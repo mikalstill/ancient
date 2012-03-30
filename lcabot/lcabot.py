@@ -24,6 +24,9 @@ from twisted.internet import reactor, protocol
 from twisted.python import log
 
 import datetime
+import imp
+import os
+import re
 import sys
 import time
 
@@ -51,14 +54,45 @@ class Lcabot(irc.IRCClient):
     
     nickname = "lcabot"
 
+    def __init__(self):
+        self.plugins = []
+        self.verbs = {}
+
     def _writeLog(self, msg):
         self.logger.log(msg)
         log.msg(msg)
 
     def _msg(self, channel, msg):
         self.msg(channel, msg)
-        self._writeLog('%s >> %s' %(channel, msg))
+        self._writeLog('%s >> <%s> %s' %(channel, self.nickname, msg))
     
+    def _loadPlugins(self):
+        self._unloadPlugins()
+
+        self._writeLog('[Loading plugins]')
+        self.plugins = []
+        self.verbs = {}
+
+        plugin_directory = 'commands'
+        re_plugin = re.compile('[^.].*\.py$')
+        for plugin_file in os.listdir(plugin_directory):
+            if re_plugin.match(plugin_file):
+                name = plugin_file[:-3]
+                self._writeLog('>> %s' % name)
+                plugin_info = imp.find_module(name, [plugin_directory])
+                plugin = imp.load_module(name, *plugin_info)
+
+                for module in plugin.Init(self._writeLog):
+                    self.plugins.append(module)
+                    for verb in module.Verbs():
+                        self.verbs[verb] = module
+                        self._writeLog('   implements verb %s' % verb)
+
+    def _unloadPlugins(self):
+        self._writeLog('[Unloading plugins]')
+        for module in self.plugins:
+            module.Cleanup()
+
     def connectionMade(self):
         irc.IRCClient.connectionMade(self)
         self.logger = MessageLogger(open(self.factory.filename, "a"))
@@ -71,12 +105,12 @@ class Lcabot(irc.IRCClient):
                        time.asctime(time.localtime(time.time())))
         self.logger.close()
 
-
+    ###########
     # callbacks for events
-
     def signedOn(self):
         """Called when bot has succesfully signed on to server."""
         self._writeLog("[I have signed on]")
+        self._loadPlugins()
         self.join(self.factory.channel, self.factory.channel_password)
 
     def joined(self, channel):
@@ -87,33 +121,31 @@ class Lcabot(irc.IRCClient):
         """This will get called when the bot receives a message."""
 
         user = user.split('!', 1)[0]
-        self._writeLog("<%s> %s" % (user, msg))
+        self._writeLog('%s >> <%s> %s' % (channel, user, msg))
         
         # Check to see if they're sending me a private message
         if channel == self.nickname:
-            self._msg(user,
-                     """I know how to do these things:
-  countdown: how many days is it until LCA?
-""")
+            self._msg(user, ('I understand the following commands: %s'
+                             % ', '.join(self.verbs.keys())))
             return
 
         # Otherwise check to see if it is a message directed at me
         msg = msg.rstrip()
         if msg.startswith(self.nickname + ':'):
-            elems = msg.split(': ')
-            if elems[1] == 'countdown':
-                for event, year, month, day in [('CFP opens', 2012, 06, 01),
-                                                ('early bird registration',
-                                                 2012, 10, 01),
-                                                ('conference', 2013, 01, 28)]:
-                    dt = datetime.datetime(year, month, day)
-                    delta = dt - datetime.datetime.now()
-                    self._msg(channel, 'Days until %s: %d' %(event, delta.days))
+            command = ':'.join(msg.split(':')[1:]).lstrip()
+            elems = command.split(' ')
+
+            #self._writeLog('[Command is: "%s"]' % command)
+            #self._writeLog('[Verb is: "%s"]' % elems[0])
+            if elems[0] in self.verbs:
+                module = self.verbs[elems[0]]
+                self._writeLog('[Command send to %s]' % module.Name())
+                for msg in module.Command(elems[0], command):
+                    self._msg(channel, msg)
 
             else:
                 msg = '%s: I am the linux.conf.au bot. PM me for help.' % user
                 self._msg(channel, msg)
-                self._writeLog("<%s> %s" % (self.nickname, msg))
 
     def action(self, user, channel, msg):
         """This will get called when the bot sees someone do an action."""
@@ -137,7 +169,6 @@ class Lcabot(irc.IRCClient):
         effort to create an unused related name for subsequent registration.
         """
         return nickname + '^'
-
 
 
 class LcaBotFactory(protocol.ClientFactory):
