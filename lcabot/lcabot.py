@@ -156,12 +156,12 @@ class Lcabot(irc.IRCClient):
     def signedOn(self):
         """Called when bot has succesfully signed on to server."""
         self._writeLog("[I have signed on]")
-        self._loadPlugins()
         self.join(self.factory.channel, self.factory.channel_password)
 
     def joined(self, channel):
         """This will get called when the bot joins the channel."""
         self._writeLog("[I have joined %s]" % channel)
+        self._loadPlugins()
 
     def topicUpdated(self, user, channel, topic):
         """Called when the topic changes or we join a channel."""
