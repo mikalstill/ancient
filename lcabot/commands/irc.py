@@ -9,8 +9,9 @@ OPS = ['evil_steve', 'mikal']
 
 
 class IRCHelper(object):
-    def __init__(self, log):
+    def __init__(self, log, conf):
         self.log = log
+        self.conf = conf
 
     # Things you're expected to implement
     def Name(self):
@@ -56,6 +57,6 @@ class IRCHelper(object):
         pass
 
 
-def Init(log):
+def Init(log, conf):
     """Initialize all command classes."""
-    yield IRCHelper(log)
+    yield IRCHelper(log, conf)

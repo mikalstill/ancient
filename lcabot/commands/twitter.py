@@ -22,8 +22,10 @@ def Normalize(value):
 
 
 class TwitterWatcher(object):
-    def __init__(self, log):
+    def __init__(self, log, conf):
         self.log = log
+        self.conf = conf
+
         self.data = shelve.open('commands/twitter.slf', writeback=True)
         self.data.setdefault('guids', {})
 
@@ -88,6 +90,6 @@ class TwitterWatcher(object):
         self.data.close()
 
 
-def Init(log):
+def Init(log, conf):
     """Initialize all command classes."""
-    yield TwitterWatcher(log)
+    yield TwitterWatcher(log, conf)

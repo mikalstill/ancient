@@ -12,7 +12,7 @@ A simple LCA2013 irc bot.
 Run this script with two arguments, the channel name the bot should
 connect to, and file to log to, e.g.:
 
-  $ python lcabot.py <channel> <channel password>
+  $ python lcabot.py
 
 will log channel #test to the file 'test.log'.
 """
@@ -29,9 +29,7 @@ import os
 import re
 import sys
 import time
-
-OPS = ['mikal', 'evil_steve']
-VERBOSE = False
+import yaml
 
 
 class MessageLogger:
@@ -55,13 +53,15 @@ class MessageLogger:
 class Lcabot(irc.IRCClient):
     """A logging IRC bot."""
     
-    nickname = "lcabot"
-
-    def __init__(self):
+    def __init__(self, factory):
         self.plugins = []
         self.verbs = {}
-        self.last_heartbeat = time.time()
 
+        self.last_heartbeat = time.time()
+        self.current_topic = None
+
+        self.factory = factory
+        self.nickname = self.factory.conf['nickname']
         self.lineRate = None
 
     def _writeLog(self, msg):
@@ -101,7 +101,8 @@ class Lcabot(irc.IRCClient):
                     plugin_info = imp.find_module(name, [plugin_directory])
                     plugin = imp.load_module(name, *plugin_info)
 
-                    for module in plugin.Init(self._writeLog):
+                    for module in plugin.Init(self._writeLog,
+                                              self.factory.conf):
                         self.plugins.append(module)
                         yield module
                         for verb in module.Verbs():
@@ -124,12 +125,15 @@ class Lcabot(irc.IRCClient):
                 self._writeLog('Response: %s' %(repr(resp)))
                 channel, kind, body = resp
                 if channel is None:
-                    channel = '#%s' % self.factory.channel
+                    channel = '#%s' % self.factory.conf['channels'][0]['name']
 
                 if kind == 'msg':
                     self._msg(channel, body)
                 elif kind == 'topic':
-                    self._topic(channel, body)
+                    if body != self.current_topic:
+                        self._topic(channel, body)
+                    else:
+                        self._writeLog('[Skipping topic update, no change]')
                 else:
                     self._writeLog('Unknown response type')
 
@@ -161,11 +165,12 @@ class Lcabot(irc.IRCClient):
     def signedOn(self):
         """Called when bot has succesfully signed on to server."""
         self._writeLog("[I have signed on]")
-        if self.factory.nick_password:
+        if self.factory.conf.get('password', None):
             self._msg('nickserv',
                       'identify %s %s' %(self.nickname,
-                                         self.factory.nick_password))
-        self.join(self.factory.channel, self.factory.channel_password)
+                                         self.factory.conf['password']))
+        self.join(self.factory.conf['channels'][0]['name'],
+                  self.factory.conf['channels'][0]['password'])
 
     def joined(self, channel):
         """This will get called when the bot joins the channel."""
@@ -173,17 +178,19 @@ class Lcabot(irc.IRCClient):
         for module in self._loadPlugins():
             self._writeLog('[Loaded %s]' % module.Name())
         self._writeLog('[Setup complete]')
+        self._msg('chanserv', 'op %s %s' %(channel, self.nickname))
 
     def topicUpdated(self, user, channel, topic):
         """Called when the topic changes or we join a channel."""
         self._writeLog('%s >> topic set by %s is "%s"'
                        %(channel, user, topic))
+        self.current_topic = topic
 
     def privmsg(self, user, channel, msg):
         """This will get called when the bot receives a message."""
 
         user = user.split('!', 1)[0]
-        self._writeLog('%s >> <%s> %s' % (channel, user, msg))
+        self._writeLog('channel: %s, user: %s, msg: %s' % (channel, user, msg))
 
         # We don't reply to ourselves
         if user == self.nickname:
@@ -192,7 +199,7 @@ class Lcabot(irc.IRCClient):
         # If this is a privmsg, then we need to handle channels. Ignore in
         # channel messages which aren't addressed to us
         outchannel = channel
-        if channel == self.username:
+        if channel == self.nickname:
             outchannel = user
         elif not msg.startswith(self.nickname + ':'):
             return
@@ -206,7 +213,7 @@ class Lcabot(irc.IRCClient):
 
         # Execute commands
         if elems[0] == 'reload':
-            if user in OPS:
+            if user in self.factory.conf.get('operators', []):
                 for module in self._loadPlugins():
                     self._msg(outchannel,
                               '%s: Loaded %s' %(user, module.Name()))
@@ -214,7 +221,7 @@ class Lcabot(irc.IRCClient):
                 self._msg(outchannel, 'Damn kids today')
 
         elif elems[0] == 'heartbeat':
-            if user in OPS:
+            if user in self.factory.conf.get('operators', []):
                 self._doHeartbeat()
             else:
                 self._msg(outchannel, 
@@ -277,7 +284,7 @@ class Lcabot(irc.IRCClient):
     def dataReceived(self, data):
         """Log all incoming data."""
 
-        if VERBOSE:
+        if self.factory.conf['verbose']:
             for l in data.replace('\r', '').split('\n'):
                 self._writeLog('IN: %s' % l)
         irc.IRCClient.dataReceived(self, data)
@@ -289,7 +296,7 @@ class Lcabot(irc.IRCClient):
     def sendLine(self, line):
         """Log all outgoing data."""
 
-        if VERBOSE:
+        if self.factory.conf['verbose']:
             for l in line.replace('\r', '').split('\n'):
                 self._writeLog('OUT: %s' % l)
 
@@ -302,15 +309,12 @@ class LcaBotFactory(protocol.ClientFactory):
     A new protocol instance will be created each time we connect to the server.
     """
 
-    def __init__(self, channel, channel_password, nick_password, filename):
-        self.channel = channel
-        self.channel_password = channel_password
-        self.nick_password = nick_password
+    def __init__(self, conf, filename):
+        self.conf = conf
         self.filename = filename
 
     def buildProtocol(self, addr):
-        p = Lcabot()
-        p.factory = self
+        p = Lcabot(self)
         return p
 
     def clientConnectionLost(self, connector, reason):
@@ -323,15 +327,21 @@ class LcaBotFactory(protocol.ClientFactory):
 
 
 if __name__ == '__main__':
-    # initialize logging
+    # Initialize logging
     log.startLogging(sys.stdout)
-    
-    # create factory protocol and application
-    logfile = datetime.datetime.now().strftime('%Y%m%d-%H%M%S.log')
-    f = LcaBotFactory(sys.argv[1], sys.argv[2], sys.argv[3], logfile)
 
-    # connect factory to this host and port
+    # Load config
+    conf_file = open('bot.yaml')
+    conf = yaml.load(conf_file.read())
+    conf_file.close()
+    print conf
+
+    # Create factory protocol and application
+    logfile = datetime.datetime.now().strftime('%Y%m%d-%H%M%S.log')
+    f = LcaBotFactory(conf, logfile)
+
+    # Connect factory to this host and port
     reactor.connectTCP("irc.freenode.net", 6667, f)
 
-    # run bot
+    # Run bot
     reactor.run()

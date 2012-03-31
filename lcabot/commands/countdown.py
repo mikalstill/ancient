@@ -5,8 +5,9 @@
 import datetime
 
 class CountDown(object):
-    def __init__(self, log):
+    def __init__(self, log, conf):
         self.log = log
+        self.conf = conf
         self.last_topic = datetime.datetime(1970,1,1)
 
     # Things you're expected to implement
@@ -86,6 +87,6 @@ class CountDown(object):
         return '; '.join(topic)
 
 
-def Init(log):
+def Init(log, conf):
     """Initialize all command classes."""
-    yield CountDown(log)
+    yield CountDown(log, conf)
