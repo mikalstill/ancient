@@ -30,6 +30,7 @@ import re
 import sys
 import time
 
+OPS = ['mikal', 'evil_steve']
 VERBOSE = False
 
 
@@ -60,6 +61,7 @@ class Lcabot(irc.IRCClient):
         self.plugins = []
         self.verbs = {}
         self.last_heartbeat = time.time()
+        self.lineRate = None
 
     def _writeLog(self, msg):
         try:
@@ -69,8 +71,8 @@ class Lcabot(irc.IRCClient):
         log.msg(msg)
 
     def _msg(self, channel, msg):
-        self.msg(channel, msg)
         self._writeLog('%s >> <%s> %s' %(channel, self.nickname, msg))
+        self.msg(channel, msg)
 
     def _topic(self, channel, topic):
         self.topic(channel, topic)
@@ -90,7 +92,6 @@ class Lcabot(irc.IRCClient):
         plugin_directory = 'commands'
         re_plugin = re.compile('[^.].*\.py$')
         for plugin_file in os.listdir(plugin_directory):
-            self._writeLog('Possible plugin: %s' % plugin_file)
             if re_plugin.match(plugin_file):
                 name = plugin_file[:-3]
                 self._writeLog('>> %s' % name)
@@ -119,25 +120,28 @@ class Lcabot(irc.IRCClient):
     def _handleResponse(self, responses):
         for resp in responses:
             if resp:
+                self._writeLog('Response: %s' %(repr(resp)))
                 channel, kind, body = resp
-                if not channel:
-                    channel = self.factory.channel
+                if channel is None:
+                    channel = '#%s' % self.factory.channel
+
                 if kind == 'msg':
                     self._msg(channel, body)
                 elif kind == 'topic':
                     self._topic(channel, body)
+                else:
+                    self._writeLog('Unknown response type')
 
     def _doHeartbeat(self):
         """Heartbeat our modules."""
 
-        if time.time() - self.last_heartbeat > 60:
-            self.last_heartbeat = time.time()
-            for module in self.plugins:
-                try:
-                    self._writeLog('[Heartbeat sent to %s]' % module.Name())
-                    self._handleResponse(list(module.HeartBeat()))
-                except Exception, e:
-                    self._writeLog('Exception from %s: %s' %(module, e))
+        self.last_heartbeat = time.time()
+        for module in self.plugins:
+            try:
+                self._writeLog('[Heartbeat sent to %s]' % module.Name())
+                self._handleResponse(list(module.HeartBeat()))
+            except Exception, e:
+                self._writeLog('Exception from %s: %s' %(module, e))
 
     def connectionMade(self):
         irc.IRCClient.connectionMade(self)
@@ -160,8 +164,10 @@ class Lcabot(irc.IRCClient):
 
     def joined(self, channel):
         """This will get called when the bot joins the channel."""
-        self._writeLog("[I have joined %s]" % channel)
-        self._loadPlugins()
+        self._writeLog('[I have joined %s]' % channel)
+        for module in self._loadPlugins():
+            self._writeLog('[Loaded %s]' % module.Name())
+        self._writeLog('[Setup complete]')
 
     def topicUpdated(self, user, channel, topic):
         """Called when the topic changes or we join a channel."""
@@ -173,35 +179,60 @@ class Lcabot(irc.IRCClient):
 
         user = user.split('!', 1)[0]
         self._writeLog('%s >> <%s> %s' % (channel, user, msg))
+
+        # We don't reply to ourselves
+        if user == self.nickname:
+            return
+
+        # If this is a privmsg, then we need to handle channels. Ignore in
+        # channel messages which aren't addressed to us
+        outchannel = channel
+        if channel == self.username:
+            outchannel = user
+        elif not msg.startswith(self.nickname + ':'):
+            return
         
-        # Otherwise check to see if it is a message directed at me
-        msg = msg.rstrip()
+        # Determine the command
+        command = msg.rstrip()
         if msg.startswith(self.nickname + ':'):
-            command = ':'.join(msg.split(':')[1:]).lstrip()
-            elems = command.split(' ')
+            command = ':'.join(command.split(':')[1:]).lstrip()
+        elems = command.split(' ')
+        self._writeLog('* %s *' % repr(elems))
 
-            if elems[0] == 'reload':
+        # Execute commands
+        if elems[0] == 'reload':
+            if user in OPS:
                 for module in self._loadPlugins():
-                    self._msg(channel, '%s: Loaded %s' %(user, module.Name()))
-
-            elif elems[0] in self.verbs:
-                module = self.verbs[elems[0]]
-                try:
-                    self._writeLog('[Command sent to %s]' % module.Name())
-                    self._handleResponse(list(module.Command(channel,
-                                                             elems[0],
-                                                             command)))
-                except Exception, e:
-                    self._writeLog('Exception from %s: %s' %(module, e))
-
+                    self._msg(outchannel,
+                              '%s: Loaded %s' %(user, module.Name()))
             else:
-                if channel == self.nickname:
-                    self._msg(user, ('I understand the following commands: %s'
-                                     % ', '.join(self.verbs.keys())))
-                else:
-                    self._describe(channel, 'is confused')
-                    self._msg(channel, ('%s: I am the linux.conf.au bot. PM me '
-                                        'for help.' % user))
+                self._msg(outchannel, 'Damn kids today')
+
+        elif elems[0] == 'heartbeat':
+            if user in OPS:
+                self._doHeartbeat()
+            else:
+                self._msg(outchannel, 
+                          'I\'m sorry sonny, I can\'t quite hear you')
+
+        elif elems[0] in self.verbs:
+            module = self.verbs[elems[0]]
+            try:
+                self._writeLog('[Command sent to %s]' % module.Name())
+                self._handleResponse(list(module.Command(outchannel,
+                                                         elems[0],
+                                                         command)))
+            except Exception, e:
+                self._writeLog('Exception from %s: %s' %(module, e))
+
+        else:
+            if channel == self.nickname:
+                self._msg(user, ('I understand the following commands: %s'
+                                 % ', '.join(self.verbs.keys())))
+            else:
+                self._describe(outchannel, 'is confused')
+                self._msg(outchannel, ('%s: I am the linux.conf.au bot. PM me '
+                                       'for help.' % user))
 
     def action(self, user, channel, msg):
         """This will get called when the bot sees someone do an action."""
@@ -247,7 +278,8 @@ class Lcabot(irc.IRCClient):
         irc.IRCClient.dataReceived(self, data)
 
         if data.startswith('PING :') and data.endswith('\n'):
-            self._doHeartbeat()
+            if time.time() - self.last_heartbeat > 60:
+                self._doHeartbeat()
 
     def sendLine(self, line):
         """Log all outgoing data."""
