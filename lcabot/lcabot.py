@@ -61,6 +61,7 @@ class Lcabot(irc.IRCClient):
         self.plugins = []
         self.verbs = {}
         self.last_heartbeat = time.time()
+
         self.lineRate = None
 
     def _writeLog(self, msg):
@@ -160,6 +161,10 @@ class Lcabot(irc.IRCClient):
     def signedOn(self):
         """Called when bot has succesfully signed on to server."""
         self._writeLog("[I have signed on]")
+        if self.factory.nick_password:
+            self._msg('nickserv',
+                      'identify %s %s' %(self.nickname,
+                                         self.factory.nick_password))
         self.join(self.factory.channel, self.factory.channel_password)
 
     def joined(self, channel):
@@ -297,9 +302,10 @@ class LcaBotFactory(protocol.ClientFactory):
     A new protocol instance will be created each time we connect to the server.
     """
 
-    def __init__(self, channel, channel_password, filename):
+    def __init__(self, channel, channel_password, nick_password, filename):
         self.channel = channel
         self.channel_password = channel_password
+        self.nick_password = nick_password
         self.filename = filename
 
     def buildProtocol(self, addr):
@@ -322,7 +328,7 @@ if __name__ == '__main__':
     
     # create factory protocol and application
     logfile = datetime.datetime.now().strftime('%Y%m%d-%H%M%S.log')
-    f = LcaBotFactory(sys.argv[1], sys.argv[2], logfile)
+    f = LcaBotFactory(sys.argv[1], sys.argv[2], sys.argv[3], logfile)
 
     # connect factory to this host and port
     reactor.connectTCP("irc.freenode.net", 6667, f)
