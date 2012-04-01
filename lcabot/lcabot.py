@@ -143,7 +143,8 @@ class Lcabot(irc.IRCClient):
         self.last_heartbeat = time.time()
         for module in self.plugins:
             try:
-                self._writeLog('[Heartbeat sent to %s]' % module.Name())
+                if self.factory.conf['verbose']:
+                    self._writeLog('[Heartbeat sent to %s]' % module.Name())
                 self._handleResponse(list(module.HeartBeat()))
             except Exception, e:
                 self._writeLog('Exception from %s: %s' %(module, e))
@@ -178,7 +179,11 @@ class Lcabot(irc.IRCClient):
         for module in self._loadPlugins():
             self._writeLog('[Loaded %s]' % module.Name())
         self._writeLog('[Setup complete]')
+
+        # Do some opping
         self._msg('chanserv', 'op %s %s' %(channel, self.nickname))
+        for op IN self.factory.conf['operators']:
+            self._msg('chanserv', 'op %s %s' %(channel, op))
 
     def topicUpdated(self, user, channel, topic):
         """Called when the topic changes or we join a channel."""

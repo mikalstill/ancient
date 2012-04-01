@@ -66,20 +66,16 @@ class TwitterWatcher(object):
         """Gets called at regular intervals"""
 
         for feed in FEEDS:
-            self.log('TwitterWatcher is fetching %s' % feed)
-
             remote = urllib2.urlopen(feed)
             lines = ''.join(remote.readlines())
             remote.close()
             d = feedparser.parse(lines)
-            self.log('TwitterWatcher saw %d bytes' % len(lines))
 
             # Newest entries are first
             entries = d.entries
             entries.reverse()
             for ent in entries[:5]:
                 if ent.guid not in self.data['guids']:
-                    self.log('Saw tweet: %s (%s)' %(ent.title, ent.link))
                     self.data['guids'][ent.guid] = True
                     tweet = ent.title.replace('\r', '').replace('\n', ' ')
                     yield(None, 'msg',
