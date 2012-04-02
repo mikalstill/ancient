@@ -235,12 +235,14 @@ class Lcabot(irc.IRCClient):
         elif elems[0] in self.verbs:
             module = self.verbs[elems[0]]
             try:
+                args = command[len(elems[0]):].lstrip()
                 self._writeLog('[Command sent to %s]' % module.Name())
                 self._handleResponse(list(module.Command(outchannel,
                                                          elems[0],
-                                                         command)))
+                                                         args)))
             except Exception, e:
                 self._writeLog('Exception from %s: %s' %(module, e))
+                self._msg(outchannel, 'Error while handling command')
 
         else:
             if channel == self.nickname:
