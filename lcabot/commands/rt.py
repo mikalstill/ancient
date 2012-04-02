@@ -49,22 +49,27 @@ class RtHelper(object):
     def HeartBeat(self):
         """Gets called at regular intervals"""
 
-        s = rtlib.Rt(self.conf['rt']['url'],
+        s = rtlib.Rt('%s/REST/1.0' % self.conf['rt']['url'],
                      self.conf['rt']['user'],
                      self.conf['rt']['password'])
         if not s.login():
             yield (None, 'msg', ('RT login for %s failed'
                                  % self.conf['rt']['user']))
+        self.log('[Logged into RT]')
 
         for queue in self.conf['rt']['queues']:
+            self.log('[Checking RT queue %s]' % queue)
             self.data['tickets'].setdefault(queue, {})
             for ticket in s.search(Queue=queue, Status='open'):
                 tid = ticket['id']
+                short_tid = tid.split('/')[1]
+                url = ('%s/Ticket/Display.html?id=%s'
+                       %(self.conf['rt']['url'], short_tid))
+
                 if not tid in self.data['tickets'][queue]:
                     yield (None, 'msg',
-                           '[rt] new %s in %s: %s' %(tid,
-                                                     ticket['Queue'],
-                                                     ticket['Subject']))
+                           ('[rt] new %s in %s: %s ( %s )'
+                            %(tid, ticket['Queue'], ticket['Subject'], url)))
                     self.data['tickets'][queue][tid] = datetime.datetime.now()
 
                 else:
@@ -72,8 +77,9 @@ class RtHelper(object):
                              self.data['tickets'][queue][tid])
                     if delay.days > 0:
                         yield (None, 'msg',
-                               ('[rt] reminder for %s in %s: %s'
-                                %(tid, ticket['Queue'], ticket['Subject'])))
+                               ('[rt] reminder for %s in %s: %s ( %s )'
+                                %(tid, ticket['Queue'], ticket['Subject'],
+                                  url)))
                         self.data['tickets'][queue][tid] = \
                             datetime.datetime.now()
         

@@ -143,8 +143,7 @@ class Lcabot(irc.IRCClient):
         self.last_heartbeat = time.time()
         for module in self.plugins:
             try:
-                if self.factory.conf['verbose']:
-                    self._writeLog('[Heartbeat sent to %s]' % module.Name())
+                self._writeLog('[Heartbeat sent to %s]' % module.Name())
                 self._handleResponse(list(module.HeartBeat()))
             except Exception, e:
                 self._writeLog('Exception from %s: %s' %(module, e))
