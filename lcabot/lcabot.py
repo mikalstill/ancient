@@ -182,7 +182,7 @@ class Lcabot(irc.IRCClient):
 
         # Do some opping
         self._msg('chanserv', 'op %s %s' %(channel, self.nickname))
-        for op IN self.factory.conf['operators']:
+        for op in self.factory.conf['operators']:
             self._msg('chanserv', 'op %s %s' %(channel, op))
 
     def topicUpdated(self, user, channel, topic):
