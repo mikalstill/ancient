@@ -244,8 +244,16 @@ class Lcabot(irc.IRCClient):
 
         else:
             if channel == self.nickname:
-                self._msg(user, ('I understand the following commands: %s'
-                                 % ', '.join(self.verbs.keys())))
+                if elems[0] == 'help' and len(elems) > 1:
+                    module = self.verbs.get(elems[1])
+                    if module:
+                        self._msg(user, module.Help(elems[1]))
+                    else:
+                        self._mg(user, 'That command is not registered')
+
+                else:
+                    self._msg(user, ('I understand the following commands: %s'
+                                     % ', '.join(self.verbs.keys())))
             else:
                 self._describe(outchannel, 'is confused')
                 self._msg(outchannel, ('%s: I am the linux.conf.au bot. PM me '
