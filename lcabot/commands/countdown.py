@@ -31,9 +31,9 @@ class CountDown(object):
         """
 
         if verb == 'countdown':
-            return 'Count down the number of days to important events'
+            return 'count down the number of days to important events'
         elif verb == 'settopic':
-            return 'Set the channel topic to a motivational countdown'
+            return 'set the channel topic to a motivational countdown'
         return ''
 
     def Command(self, channel, verb, line):
