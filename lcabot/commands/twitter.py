@@ -9,10 +9,13 @@ import unicodedata
 import urllib2
 
 
+# This should be in the config yaml
 TWITTER_SEARCH = ('http://search.twitter.com/search.atom?q=%s&rpp=100'
                   '&result_type=mixed')
+
 FEEDS = [TWITTER_SEARCH % 'lca2013',
-         TWITTER_SEARCH % 'linux.conf.au']
+         TWITTER_SEARCH % 'linux.conf.au',
+         'http://identi.ca/search/notice/rss?q=lca2013']
 
 
 def Normalize(value):

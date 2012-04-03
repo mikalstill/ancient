@@ -253,8 +253,10 @@ class Lcabot(irc.IRCClient):
                         self._mg(user, 'That command is not registered')
 
                 else:
+                    sorted_verbs = self.verbs.keys()
+                    sorted_verbs.sort()
                     self._msg(user, ('I understand the following commands: %s'
-                                     % ', '.join(self.verbs.keys())))
+                                     % ', '.join(sorted_verbs)))
             else:
                 self._describe(outchannel, 'is confused')
                 self._msg(outchannel, ('%s: I am the linux.conf.au bot. PM me '

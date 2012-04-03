@@ -82,7 +82,6 @@ class RtHelper(object):
                                   url)))
                         self.data['tickets'][queue][tid] = \
                             datetime.datetime.now()
-        
 
     def Cleanup(self):
         """We're about to be torn down."""
