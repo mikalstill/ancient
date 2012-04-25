@@ -4,6 +4,8 @@
 
 import datetime
 
+import utility
+
 class CountDown(object):
     def __init__(self, log, conf):
         self.log = log
@@ -71,11 +73,10 @@ class CountDown(object):
 
     # Your own internal helpers
     def _get_days(self):
-        for event, year, month, day in [('CFP opens', 2012, 06, 01),
-                                        ('early bird registration',
-                                         2012, 10, 01),
-                                        ('conference', 2013, 01, 28)]:
-            dt = datetime.datetime(year, month, day)
+        for e in self.conf['countdown']:
+            event = e['name']
+            dt = utility.ParseDateTime(e['datetime'])
+
             delta = dt - datetime.datetime.now()
             if delta.days > 0:
                 yield(event, delta.days)
