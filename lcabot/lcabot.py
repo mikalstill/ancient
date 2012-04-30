@@ -305,7 +305,8 @@ class Lcabot(irc.IRCClient):
                 self._writeLog('IN: %s' % l)
         irc.IRCClient.dataReceived(self, data)
 
-        if data.startswith('PING :') and data.endswith('\n'):
+        if data.find(' PONG ') != -1:
+            self._writeLog('Considering heartbeat')
             if time.time() - self.last_heartbeat > 60:
                 self._doHeartbeat()
 
