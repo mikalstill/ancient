@@ -24,6 +24,7 @@ from twisted.internet import reactor, protocol
 from twisted.python import log
 
 import datetime
+import gzip
 import imp
 import os
 import re
@@ -150,7 +151,7 @@ class Lcabot(irc.IRCClient):
 
     def connectionMade(self):
         irc.IRCClient.connectionMade(self)
-        self.logger = MessageLogger(open(self.factory.filename, "a"))
+        self.logger = MessageLogger(gzip.open(self.factory.filename, "a"))
         self._writeLog("[connected at %s]" % 
                        time.asctime(time.localtime(time.time())))
 
@@ -354,7 +355,7 @@ if __name__ == '__main__':
     print conf
 
     # Create factory protocol and application
-    logfile = datetime.datetime.now().strftime('%Y%m%d-%H%M%S.log')
+    logfile = datetime.datetime.now().strftime('%Y%m%d-%H%M%S.log.gz')
     f = LcaBotFactory(conf, logfile)
 
     # Connect factory to this host and port

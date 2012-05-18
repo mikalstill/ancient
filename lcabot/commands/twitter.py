@@ -69,6 +69,7 @@ class TwitterWatcher(object):
         """Gets called at regular intervals"""
 
         for feed in FEEDS:
+            self.log('[Fetching %s]' % feed)
             remote = urllib2.urlopen(feed)
             lines = ''.join(remote.readlines())
             remote.close()
@@ -77,12 +78,13 @@ class TwitterWatcher(object):
             # Newest entries are first
             entries = d.entries
             entries.reverse()
-            for ent in entries[:5]:
+            for ent in entries:
+                tweet = Normalize(ent.title).replace('\r', '').replace('\n', ' ')
+                self.log('Tweet found: %s' % tweet)
                 if ent.guid not in self.data['guids']:
                     self.data['guids'][ent.guid] = True
-                    tweet = ent.title.replace('\r', '').replace('\n', ' ')
                     yield(None, 'msg',
-                          Normalize('[tweet] %s ( %s )' %(tweet, ent.link)))
+                          '[tweet] %s ( %s )' %(tweet, ent.link))
 
     def Cleanup(self):
         """We're about to be torn down."""
