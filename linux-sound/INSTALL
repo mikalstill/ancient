@@ -1,3 +1,0 @@
-Just do this to compile the example -- you will need to provide your own main()
-
-gcc sound.c -o sound

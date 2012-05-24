@@ -1,7 +1,0 @@
-<chapter id="chapter-k"><title>k</title>
-<para>
-...
-</para>
-
-<execute><cmd>insertall</cmd><args>builddb . "entry-k-(.*).sgml"</args></execute>
-</chapter>

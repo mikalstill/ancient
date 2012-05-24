@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# -R vs -al
-cp -al `cat latestmm` `cat latestmm`-$1
-echo `cat latestmm`-$1

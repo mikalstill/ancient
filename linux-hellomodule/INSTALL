@@ -1,8 +1,0 @@
-Simply type:
-
-  make
-  insmod ./hellomod.o
-
-and to get rid of it
-
-  rmmod hellomod

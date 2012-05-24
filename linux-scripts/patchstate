@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# Find the state of the named patch
-loc=`find /home/httpd/html/linux/patches -name "$1" -print`
-echo "Location: $loc"
-echo "State: "`cat $loc-state`
