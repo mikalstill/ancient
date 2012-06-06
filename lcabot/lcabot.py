@@ -151,7 +151,7 @@ class Lcabot(irc.IRCClient):
 
     def connectionMade(self):
         irc.IRCClient.connectionMade(self)
-        self.logger = MessageLogger(gzip.open(self.factory.filename, "a"))
+        self.logger = MessageLogger(open(self.factory.filename, "a"))
         self._writeLog("[connected at %s]" % 
                        time.asctime(time.localtime(time.time())))
 
@@ -170,8 +170,9 @@ class Lcabot(irc.IRCClient):
             self._msg('nickserv',
                       'identify %s %s' %(self.nickname,
                                          self.factory.conf['password']))
-        self.join(self.factory.conf['channels'][0]['name'],
-                  self.factory.conf['channels'][0]['password'])
+
+        for channel in self.factory.conf['channels']:
+            self.join(channel['name'], channel['password'])
 
     def joined(self, channel):
         """This will get called when the bot joins the channel."""
@@ -241,7 +242,7 @@ class Lcabot(irc.IRCClient):
                                                          elems[0],
                                                          args)))
             except Exception, e:
-                self._writeLog('Exception from %s: %s' %(module, e))
+                self._writeLog('Exception: %s' % e)
                 self._msg(outchannel, 'Error while handling command')
 
         else:
@@ -355,7 +356,7 @@ if __name__ == '__main__':
     print conf
 
     # Create factory protocol and application
-    logfile = datetime.datetime.now().strftime('%Y%m%d-%H%M%S.log.gz')
+    logfile = datetime.datetime.now().strftime('%Y%m%d-%H%M%S.log')
     f = LcaBotFactory(conf, logfile)
 
     # Connect factory to this host and port

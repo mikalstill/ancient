@@ -57,6 +57,9 @@ class RtHelper(object):
                                  % self.conf['rt']['user']))
         self.log('[Logged into RT]')
 
+        new_channel = '#%s' % self.conf['rt']['new-channel']
+        reminder_channel = '#%s' % self.conf['rt']['reminder-channel']
+
         for queue in self.conf['rt']['queues']:
             self.log('[Checking RT queue %s]' % queue)
             self.data['tickets'].setdefault(queue, {})
@@ -67,7 +70,7 @@ class RtHelper(object):
                        %(self.conf['rt']['url'], short_tid))
 
                 if not tid in self.data['tickets'][queue]:
-                    yield (None, 'msg',
+                    yield (new_channel, 'msg',
                            ('[rt] new %s in %s: %s ( %s )'
                             %(tid, ticket['Queue'], ticket['Subject'], url)))
                     self.data['tickets'][queue][tid] = datetime.datetime.now()
@@ -76,7 +79,7 @@ class RtHelper(object):
                     delay = (datetime.datetime.now() -
                              self.data['tickets'][queue][tid])
                     if delay.days > 0:
-                        yield (None, 'msg',
+                        yield (reminder_channel, 'msg',
                                ('[rt] reminder for %s in %s: %s ( %s )'
                                 %(tid, ticket['Queue'], ticket['Subject'],
                                   url)))

@@ -21,7 +21,7 @@ FEEDS = [TWITTER_SEARCH % 'lca2013',
 def Normalize(value):
   normalized = unicodedata.normalize('NFKD', unicode(value))
   normalized = normalized.encode('ascii', 'replace')
-  return normalized
+  return str(normalized)
 
 
 class TwitterWatcher(object):
@@ -68,6 +68,8 @@ class TwitterWatcher(object):
     def HeartBeat(self):
         """Gets called at regular intervals"""
 
+        channel = '#%s' % self.conf['twitter']['channel']
+                    
         for feed in FEEDS:
             self.log('[Fetching %s]' % feed)
             remote = urllib2.urlopen(feed)
@@ -80,11 +82,10 @@ class TwitterWatcher(object):
             entries.reverse()
             for ent in entries:
                 tweet = Normalize(ent.title).replace('\r', '').replace('\n', ' ')
-                self.log('Tweet found: %s' % tweet)
                 if ent.guid not in self.data['guids']:
-                    self.data['guids'][ent.guid] = True
-                    yield(None, 'msg',
-                          '[tweet] %s ( %s )' %(tweet, ent.link))
+                    yield(channel, 'msg',
+                          str('[tweet] %s ( %s )' %(tweet, ent.link)))
+                    self.data['guids'][ent.guid] = datetime.datetime.now()
 
     def Cleanup(self):
         """We're about to be torn down."""
