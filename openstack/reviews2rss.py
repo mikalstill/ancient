@@ -5,15 +5,18 @@
 import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
-import base64
 import datetime
+import json
 import re
-import subprocess
 import time
 import MySQLdb
 
-import gflags
+from dateutil import tz
 
+import gflags
+import sql
+
+import dbcachingexecute
 
 FLAGS = gflags.FLAGS
 gflags.DEFINE_string('dbuser', 'openstack', 'DB username')
@@ -37,11 +40,34 @@ def CreateRss(db, component, status):
      <docs>http://blogs.law.harvard.edu/tech/rss</docs>
   """ %(component, status))
 
+  cursor = db.cursor(MySQLdb.cursors.DictCursor)
   for change in ParseReviewList(db, component, status):
+    # Attempt to parse the time in the review
+    # 2012-05-13 21:29:57 UTC
+    updated_at = datetime.datetime(*time.strptime(change['lastUpdated'],
+                                                  '%Y-%m-%d %H:%M:%S %Z')[0:5])
+    from_zone = tz.tzutc()
+    to_zone = tz.tzlocal()
+    utc_updated_at = updated_at.replace(tzinfo=from_zone)
+    local_updated_at = utc_updated_at.astimezone(to_zone)
+
+    print (' ... Time %s converted to %s UTC and %s local'
+           %(change['lastUpdated'], utc_updated_at, local_updated_at))
+
     files = []
-    for filename in GetFileList(db, change['change']):
+    for filename in GetFileList(db,
+                                time.mktime(local_updated_at.timetuple()),
+                                change['change']):
       files.append(filename)
     change['files'] = '\n&lt;li&gt;'.join(files)
+
+    # Save to the DB
+    cursor.execute('insert ignore into changes (changeid, timestamp, parsed) '
+                   'values("%s", %s, "%s");'
+                   %(change['change'],
+                     sql.FormatSqlValue('timestamp', local_updated_at),
+                     base64.encodestring(repr(change))))
+    cursor.execute('commit;')
 
     f.write("""  <item>
       <title>%(component)s: %(subject)s (%(status)s)</title>
@@ -69,8 +95,11 @@ def CreateRss(db, component, status):
 def ParseReviewList(db, component, status):
   keys = []
   values = {}
-  for l in CachingExecute(db, ('ssh review.openstack.org gerrit query '
-                               'status:%s project:%s' %(status, component))):
+  for l in dbcachingexecute.Execute(db, time.time(),
+                                    'gerrit_query',
+                                    'ssh review.openstack.org gerrit query %s',
+                                    'status:%s project:%s' %(status,
+                                                             component)):
     l = l.strip().rstrip()
 
     if len(l) == 0 and values and 'subject' in values:
@@ -86,7 +115,6 @@ def ParseReviewList(db, component, status):
           description.append('&lt;b&gt;%s:&lt;/b&gt; %s' %(key, v))
 
       values['description'] = '&lt;br/&gt;'.join(description)
-
       values['component'] = component
       yield values
 
@@ -103,42 +131,69 @@ def ParseReviewList(db, component, status):
         keys.append(elems[0])
 
 
-def GetFileList(db, changeid):
+def GetFileList(db, last_change, changeid):
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
-  for l in CachingExecute(db, ('ssh review.openstack.org gerrit query '
-                               'change:%s --current-patch-set --files'
-                               % changeid)):
+  for l in dbcachingexecute.Execute(db, last_change,
+                                    'gerrit_query_change',
+                                    ('ssh review.openstack.org gerrit query '
+                                     'change:%s --current-patch-set --files'),
+                                    changeid):
     if l.startswith('      file: '):
       filename = l.split(': ')[-1]
       if filename != '/COMMIT_MSG':
+        top_dirs = '_'.join(filename.split('/')[:2]).replace('.', '_').replace('-', '_')
+        try:
+          cursor.execute('create table files_%s (path varchar(500), '
+                         'timestamp datetime, epoch int, '
+                         'changeid varchar(100), '
+                         'primary key(path, changeid, timestamp), '
+                         'index(timestamp), index(epoch)) engine=innodb;'
+                         % top_dirs)
+        except:
+          pass
+
+        sql = ('insert ignore into files_%s '
+               '(path, timestamp, epoch, changeid) '
+               'values ("%s", now(), %d, "%s");'
+               %(top_dirs, filename, int(time.time()), changeid))
+        # print sql
+        cursor.execute(sql)
+        cursor.execute('commit;')
+
         yield filename
 
 
-def CachingExecute(db, cmd):
-  print 'Executing: %s' % cmd
-
+def Reviews(db, component):
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
-  cursor.execute('select timestamp, epoch, result from commands '
-                 'where cmd="%s" order by timestamp desc limit 1;'
-                 % cmd)
-  if cursor.rowcount > 0:
-    row = cursor.fetchone()
-    if time.time() - row['epoch'] < 300:
-      print ' ... Using cached result'
-      return base64.decodestring(row['result']).split('\n')
+  for l in dbcachingexecute.Execute(db, 0,
+                                    'gerrit_query_approvals_json',
+                                    ('ssh review.openstack.org gerrit query '
+                                     'project:%s --all-approvals --patch-sets '
+                                     '--format JSON'),
+                                    component):
 
-  p = subprocess.Popen(cmd,
-                       shell=True,
-                       stdout=subprocess.PIPE,
-                       stderr=subprocess.PIPE)
-  out = p.stdout.read()
-  print ' ... Got %d bytes' % len(out)
+    try:
+      d = json.loads(l)
+    except:
+      continue
 
-  cursor.execute('insert into commands (cmd, timestamp, epoch, result) values '
-                 '("%s", now(), %d, "%s");'
-                 %(cmd, int(time.time()), base64.encodestring(out)))
-  cursor.execute('commit;')
-  return out.split('\n')
+    for ps in d['patchSets']:
+      for review in ps.get('approvals', []):
+        print '%s review by %s at %d' %(d['id'], review['by']['username'],
+                                        review['grantedOn'])
+
+        updated_at = datetime.datetime.fromtimestamp(review['grantedOn'])
+        from_zone = tz.tzutc()
+        to_zone = tz.tzlocal()
+        utc_updated_at = updated_at.replace(tzinfo=from_zone)
+        local_updated_at = utc_updated_at.astimezone(to_zone)
+        
+        cursor.execute('insert ignore into reviews '
+                       '(changeid, username, timestamp) values '
+                       '("%s", "%s", %s);'
+                       %(d['id'], review['by']['username'],
+                         sql.FormatSqlValue('timestamp', local_updated_at)))
+        cursor.execute('commit;')
 
 
 if __name__ == '__main__':
@@ -159,3 +214,5 @@ if __name__ == '__main__':
 
   CreateRss(db, 'openstack/nova', 'open')
   CreateRss(db, 'openstack/nova', 'merged')
+
+  Reviews(db, 'openstack/nova')
