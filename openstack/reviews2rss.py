@@ -5,6 +5,7 @@
 import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
+import base64
 import datetime
 import json
 import re
@@ -99,7 +100,8 @@ def ParseReviewList(db, component, status):
                                     'gerrit_query',
                                     'ssh review.openstack.org gerrit query %s',
                                     'status:%s project:%s' %(status,
-                                                             component)):
+                                                             component),
+                                    cleanup=True):
     l = l.strip().rstrip()
 
     if len(l) == 0 and values and 'subject' in values:
@@ -165,34 +167,33 @@ def GetFileList(db, last_change, changeid):
 
 def Reviews(db, component):
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
-  for l in dbcachingexecute.Execute(db, 0,
+  for l in dbcachingexecute.Execute(db, time.time() - 300,
                                     'gerrit_query_approvals_json',
                                     ('ssh review.openstack.org gerrit query '
                                      'project:%s --all-approvals --patch-sets '
                                      '--format JSON'),
-                                    component):
+                                    component, cleanup=True):
 
     try:
       d = json.loads(l)
     except:
       continue
 
-    for ps in d['patchSets']:
+    for ps in d.get('patchSets', {}):
       for review in ps.get('approvals', []):
-        print '%s review by %s at %d' %(d['id'], review['by']['username'],
-                                        review['grantedOn'])
-
+        # Deliberately leave the timezone alone here so its consistant with
+        # reports others generate.
         updated_at = datetime.datetime.fromtimestamp(review['grantedOn'])
-        from_zone = tz.tzutc()
-        to_zone = tz.tzlocal()
-        utc_updated_at = updated_at.replace(tzinfo=from_zone)
-        local_updated_at = utc_updated_at.astimezone(to_zone)
+
+        print '%s review by %s at %d' %(d['id'],
+                                        review['by'].get('username', 'unknown'),
+                                        review['grantedOn'])
         
         cursor.execute('insert ignore into reviews '
                        '(changeid, username, timestamp) values '
                        '("%s", "%s", %s);'
-                       %(d['id'], review['by']['username'],
-                         sql.FormatSqlValue('timestamp', local_updated_at)))
+                       %(d['id'], review['by'].get('username', 'unknown'),
+                         sql.FormatSqlValue('timestamp', updated_at)))
         cursor.execute('commit;')
 
 
@@ -212,7 +213,7 @@ if __name__ == '__main__':
                        db = FLAGS.dbname,
                        passwd = FLAGS.dbpassword)
 
+  Reviews(db, 'openstack/nova')
   CreateRss(db, 'openstack/nova', 'open')
   CreateRss(db, 'openstack/nova', 'merged')
 
-  Reviews(db, 'openstack/nova')

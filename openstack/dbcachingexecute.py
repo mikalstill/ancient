@@ -1,19 +1,22 @@
 #!/usr/bin/python
 
 import base64
+import datetime
 import subprocess
 import time
 import MySQLdb
 
+import sql
 
-def Execute(db, last_change, cmd_name, cmd, arg):
+
+def Execute(db, last_change, cmd_name, cmd, arg, cleanup=False):
   actual_cmd = cmd % arg
   print 'Executing: %s' % actual_cmd
 
   cursor = db.cursor(MySQLdb.cursors.DictCursor)
   try:
     cursor.execute('create table commands_%s (arg varchar(500), '
-                   'timestamp datetime, epoch int, result text, '
+                   'timestamp datetime, epoch int, result longtext, '
                    'primary key(arg, timestamp), index(timestamp), '
                    'index(epoch)) '
                    'engine=innodb;' % cmd_name)
@@ -40,4 +43,13 @@ def Execute(db, last_change, cmd_name, cmd, arg):
                  'values ("%s", now(), %d, "%s");'
                  %(cmd_name, arg, int(time.time()), base64.encodestring(out)))
   cursor.execute('commit;')
+
+  if cleanup:
+    too_old = datetime.datetime.now()
+    too_old -= datetime.timedelta(days=14)
+
+    cursor.execute('delete from commands_%s where timestamp < %s;'
+                   %(cmd_name, sql.FormatSqlValue('timestamp', too_old)))
+    cursor.execute('commit;')
+
   return out.split('\n')
