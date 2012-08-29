@@ -59,7 +59,7 @@ class http_handler(mhttp.http_handler):
   def dispatch(self, urlpath, post_data, chunk=None):
     if urlpath == '/':
       now_tuple = datetime.datetime.now().timetuple()
-      self.sendredirect('/dashboard')
+      self.sendredirect('/local/dashboard.html')
 
     elif urlpath.startswith('/sensor/'):
       self.sendredirect(urlpath.replace('/sensor/', '/chart/'))
@@ -81,12 +81,6 @@ class http_handler(mhttp.http_handler):
 
     elif urlpath.startswith('/json'):
       self.handleurl_json(urlpath, post_data)
-
-    elif urlpath.startswith('/chilltime'):
-      self.handleurl_chilltime(urlpath, post_data)
-
-    elif urlpath.startswith('/dashboard'):
-      self.handleurl_dashboard(urlpath, post_data)
 
     # TODO(mikal): this should be in mhttp
     elif urlpath.startswith('/local/'):
@@ -151,104 +145,6 @@ class http_handler(mhttp.http_handler):
       previous = v
       
     return space.join(out)
-
-  def handleurl_chilltime(self, urlpath, post_data):
-    """Analyse the expense of running a fridge."""
-
-    args = urlpath.split('/')
-    (start_epoch, end_epoch, day_field) = self.timewindow(args[2].split(','))
-
-    data = ['<h1>Chiller use summary</h1><ul>',
-            ('<table><tr><td>When</td><td>Use seconds</td>'
-             '<td></td><td>Max outdoor temperature</td><td>Cost</td></tr>')]
-    total = 0.0
-
-    t = start_epoch
-    while t < end_epoch:
-      when = time.localtime(t)
-      (total_seconds, summary, cost, max_temp) = self.getchilltime(t,
-           t + 24 * 60 * 60)
-      data.append('<tr><td>%s.%s.%s</td><td>%s</td><td>'
-                  '<a href="javascript:void(0);" '
-                  'onmouseover="Tip(\'%s\')" '
-                  'onmouseout="UnTip()">Why</a></td><td>%s</td>'
-                  '<td>$%.02f</td></tr>'
-                  %(when[0], when[1], when[2], total_seconds, summary,
-                    max_temp, cost))
-      total += cost
-      t += 24 * 60 * 60
-
-    data.append('<tr><td></td><td></td><td>Total</td><td>$%.02f</td></tr>'
-                % total)
-    data.append('</table>')
-
-    self.sendfile('index.html', subst={'head': '',
-                                       'data': '\n'.join(data),
-                                       'refresh': '3600'})
-
-  def getchilltime(self, start_epoch, end_epoch):
-    """Get a summary of the chiller time for a given period."""
-
-    self.log('Fetching chiller usage from %s to %s' %(start_epoch, end_epoch))
-    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
-    cursor = db.cursor(MySQLdb.cursors.DictCursor)
-
-    cursor.execute('select * from sensors where sensor="Chilltime" and '
-                   'epoch_seconds > %d and epoch_seconds < %d '
-                   'order by epoch_seconds;'
-                   %(start_epoch - 1, end_epoch - 1))
-
-    total_cost = 0.0
-    total_seconds = 0
-    start_cost = None
-    start_seconds = 0
-    start_deducted = False
-    previous = 0
-    preamble = []
-    row = None
-
-    for row in cursor:
-      if not start_cost:
-        start_cost = int(row['value']) * 85.0 / 1000 / 3600 * POWER_COST
-        start_seconds = int(row['value'])
-        self.log('Start cost = %s, seconds = %s' %(start_cost, start_seconds))
-
-      else:
-        preamble.append(str(previous))
-        
-      if int(row['value']) < previous:
-        cost = previous * 85.0 / 1000 / 3600 * POWER_COST
-        seconds = previous
-
-        if not start_deducted:
-          cost -= start_cost
-          seconds -= start_seconds
-          start_deducted = True
-
-        total_cost += cost
-        total_seconds += seconds
-
-      previous = int(row['value'])
-
-    cost = previous * 85.0 / 1000 / 3600 * POWER_COST
-    total_cost += cost
-    total_seconds += previous
-
-    if row:
-      self.log('End seconds = %s' % row['value'])
-
-    cursor.execute('select * from sensors where '
-                   'sensor="t105912dd010800fd" and '
-                   'epoch_seconds > %d and epoch_seconds < %d '
-                   'order by epoch_seconds;'
-                   %(start_epoch - 1, end_epoch - 1))
-    max_temp = 0.0
-    for row in cursor:
-      if float(row['value']) > max_temp:
-        max_temp = float(row['value'])
-      
-    return (total_seconds, self.summarizingjoin(' ', '...', preamble),
-            total_cost, max_temp)
 
   def AvailableSensors(self, cursor, range):
     """Return a HTML encoded list of the available sensors for a given day."""
@@ -401,7 +297,7 @@ class http_handler(mhttp.http_handler):
     # Chart axes
     left_axis = []
     right_axis = []
-    for v in range(int(MIN_Y), int(MAX_Y + 1.0), 5):
+    for v in range(MIN_Y, MAX_Y + 1.0, 5):
       left_axis.append('%s' % v)
       right_axis.append('%.01fk' %((v * 50.0) / 1000))
     chart.set_axis_labels(Axis.LEFT, left_axis)
@@ -443,7 +339,7 @@ class http_handler(mhttp.http_handler):
         (values, redirects) = self.ResolveSensor(values, redirects, cursor,
                                                  sensor, r[0], r[1],
                                                  step_size, wideinterp)
-      self.log('Resolved values: %s' % values.keys())
+      # self.log('Resolved values: %s' % values.keys())
 
       for value in returned:
         self.log('Adding %s' % value)
@@ -527,22 +423,22 @@ class http_handler(mhttp.http_handler):
         self.log('Fetching values for %s between %s and %s (%s seconds)'
                  %(sensor, r[0], r[1], r[1] - r[0]))
         max_window_size = r[1] - r[0]
-        (t_values, t_redirects) = self.ResolveSensor(values, {}, cursor,
+        (t_values, t_redirects) = self.ResolveSensor({}, {}, cursor,
                                                      sensor, r[0], r[1],
                                                      step_size,
                                                      wideinterp)
-        self.log('Resolved values: %s' % t_values.keys())
+        # self.log('Resolved values: %s' % t_values.keys())
 
         if len(ranges) == 1:
           for unique_sensor in t_values.keys():
-            values[unique_sensor] = t_values[unique_sensor]
+            values[unique_sensor] = t_values.get(unique_sensor, [])
             returned.append(unique_sensor)
             self.log('Creating simple value for %s' % unique_sensor)
 
         else:
           t = times[ranges.index(r)]
           k = '%s %s' %(sensor, t)
-          values[k] = t_values[sensor]
+          values[k] = t_values.get(sensor, [])
           returned.append(k)
           self.log('Creating meta value %s from %s at %s' %(k, sensor, t))
 
@@ -729,6 +625,7 @@ class http_handler(mhttp.http_handler):
       y_max = 0
       elements = []
 
+      self.log('Iterating returned values: %s' % returned)
       for r in returned:
         upto = ranges[0][0]
         float_values = []
@@ -773,32 +670,6 @@ class http_handler(mhttp.http_handler):
                            'x_step': (ranges[0][1] - ranges[0][0]) / 10,
                            'x_format': xformat
                           })
-
-  def handleurl_dashboard(self, urlpath, post_data):
-    """A simple dashboard."""
-
-    global sensor_names
-    
-    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
-    cursor = db.cursor(MySQLdb.cursors.DictCursor)
-    cursor2 = db.cursor(MySQLdb.cursors.DictCursor)
-
-    now = []
-    cursor.execute('select distinct(sensor), hostname from sensors;')
-    for row in cursor:
-      cursor2.execute('select * from sensors where sensor="%s" and hostname="%s" '
-                      'and epoch_seconds > %d '
-                      'order by epoch_seconds desc limit 1;'
-                      %(row['sensor'], row['hostname'],
-                        time.time() - (24 * 60 * 60)))
-      for row2 in cursor2:
-        t = datetime.datetime.fromtimestamp(row2['epoch_seconds'])
-        now.append('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
-                   %(sensor_names.get(row2['sensor'], row2['sensor']),
-                     row2['hostname'], row2['value'], t))
-
-    self.sendfile('dashboard.html', subst={'now': ('<table>%s</table>'
-                                                   % '\n'.join(now))})
 
   def HandleRedirects(self, values, redirects, name):
     """Lookup a value which might have a redirect."""
@@ -858,7 +729,7 @@ class http_handler(mhttp.http_handler):
     """Resolve a time series of this sensor value. This could be recursive."""
 
     self.log('Values for %s between %s and %s' %(sensor, start_epoch,
-                                                     end_epoch))
+                                                 end_epoch))
 
     plugin = None
     plugin_is_function = False
@@ -944,8 +815,8 @@ class http_handler(mhttp.http_handler):
                                            wideinterp=wideinterp)
         self.log('Found %d chart points for %s' %(len(values[name]), name))
 
-    self.log('Resolved values: %s and redirects: %s' %(repr(values),
-                                                       repr(redirects)))
+    # self.log('Resolved values: %s and redirects: %s' %(repr(values),
+    #                                                   repr(redirects)))
     return (values, redirects)
 
   def ExpandSensorName(self, sensor):

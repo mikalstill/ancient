@@ -4,10 +4,7 @@
 // version 2.1 of the License, or (at your option) any later version.
 
 #include "DallasTemperature.h"
-
-extern "C" {
-  #include "WConstants.h"
-}
+#include "Arduino.h"
 
 DallasTemperature::DallasTemperature(OneWire* _oneWire) 
   #if REQUIRESALARMS

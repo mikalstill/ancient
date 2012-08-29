@@ -19,7 +19,7 @@
 #include <avr/interrupt.h>
 
 #include "enc28j60.h"
-#include "Arduino.h"  //all things wiring / arduino
+#include "Arduino.h"
 
 static uint8_t Enc28j60Bank;
 static uint16_t gNextPacketPtr;

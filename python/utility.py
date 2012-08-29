@@ -28,3 +28,24 @@ def Normalize(value):
   normalized = unicodedata.normalize('NFKD', unicode(value))
   normalized = normalized.encode('ascii', 'ignore')
   return normalized
+
+
+def ReadFile(filename):
+  try:
+    f = open(filename, 'r')
+    out = f.read()
+    f.close()
+    return out
+
+  except:
+    return None
+
+
+def GetOsRelease():
+  release = None
+  f = open('/etc/lsb-release')
+  for l in f.readlines():
+    if l.startswith('DISTRIB_DESCRIPTION='):
+      release = l.split('=')[-1].rstrip().lstrip('"').rstrip('"')
+  f.close()
+  return release

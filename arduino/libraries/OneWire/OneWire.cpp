@@ -63,11 +63,11 @@ sample code bearing this copyright.
 #include "OneWire.h"
 
 extern "C" {
-#include "WConstants.h"
 #include <avr/io.h>
 #include "pins_arduino.h"
 }
 
+#include "Arduino.h"
 
 OneWire::OneWire( uint8_t pinArg)
 {

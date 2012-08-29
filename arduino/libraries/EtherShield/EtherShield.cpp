@@ -4,11 +4,12 @@ extern "C" {
 	#include "enc28j60.h"
 	#include "ip_arp_udp_tcp.h"
 	#include "websrv_help_functions.h"
-	#include "wiring.h"
 #ifdef DNS_client
 	#include "dnslkup.h"
 #endif
 }
+
+#include "Arduino.h"
 #include "EtherShield.h"
 
 //constructor

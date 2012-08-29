@@ -67,6 +67,9 @@ def Collect(cursor):
                                      utility.DisplayFriendlySize(int(value)),
                                      dt)
 
+            cursor.execute('delete from sensors where epoch_seconds=%d '
+                           'and sensor="%s" and hostname="internode";'
+                           %(epoch, field))
             cursor.execute('insert ignore into sensors'
                            '(epoch_seconds, sensor, value, hostname) '
                            'values(%d, "%s", "%s", "internode");'
@@ -76,7 +79,7 @@ def Collect(cursor):
       elif rsc_type == 'usage':
         dt = datetime.datetime.now()
         epoch = time.mktime(dt.timetuple())
-        traffic = req([srv_id, rsc_id], [], ['api', 'traffic'])
+        traffic = req([srv_id, rsc_id], [], ['api', 'traffic'], maxage=300)
         field = 'Traffic %s %s' %(stat.attrib['name'], stat.attrib['unit'])
         value = stat.text
         print '  %s = %s @ %s' %(field, value, dt)

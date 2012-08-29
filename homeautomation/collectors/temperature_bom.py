@@ -14,7 +14,7 @@ import MySQLdb
 
 import cachedfetch
 
-DATA_RE = re.compile(' *<td headers="t4-(.*)">(.*)</td>')
+DATA_RE = re.compile(' *<td headers="t[0-9]-(.*)">(.*)</td>')
 ONE_DAY = datetime.timedelta(days=1)
 
 DESCRIPTIONS = {'temp': 'BOM Temperature',
@@ -55,6 +55,7 @@ def Collect(cursor):
         value = m.group(2)
 
         if field == 'datetime':
+          print '%s: timestr --> %s' %(datetime.datetime.now(), line)
           (monthday, timestr) = value.split('/')
 
           # Find the right day
@@ -72,9 +73,9 @@ def Collect(cursor):
                                            tstruct.tm_min)
 
         else:
-          print '  %s: %s = %s' %(reading_time,
-                                  DESCRIPTIONS.get(field, field),
-                                  value)
+          print '  %s: %s = %s (%s, %s)' %(reading_time,
+                                           DESCRIPTIONS.get(field, field),
+                                           value, monthday, timestr)
 
           cursor.execute('insert ignore into sensors'
                          '(epoch_seconds, sensor, value, hostname) '

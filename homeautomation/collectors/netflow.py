@@ -10,6 +10,7 @@ import subprocess
 import sys
 import time
 import yaml
+import DNS
 import MySQLdb
 
 import gflags
@@ -20,6 +21,9 @@ AUTH = yaml.load(open('/home/mikal/.netflow'))
 
 
 def Collect(cursor):
+  DNS.DiscoverNameServers()
+  user_cache = {}
+
   remote_db = MySQLdb.connect(user = AUTH['username'],
                               db = AUTH['database'],
                               passwd = AUTH['password'],
@@ -36,19 +40,52 @@ def Collect(cursor):
                  %(sql.FormatSqlValue('date', now - five_minutes),
                    sql.FormatSqlValue('date', now)))
     remote_cursor.execute(statement)
-    for row in remote_cursor:
-        print '%s %s %s' %(now - five_minutes, row['internalip'],
-                           row['sum(bytes)'])
 
-        epoch = time.mktime((now - five_minutes).timetuple())
-        name = 'Netflow'
-        if row['internalip'] == '192.168.1.14':
-          name = 'Gateway Netflow'
-        cursor.execute('insert into sensors '
-                       '(epoch_seconds, sensor, value, hostname) '
-                       'values(%s, "%s", "%s", "%s");'
-                       %(epoch, name, row['sum(bytes)'], row['internalip']))
-        cursor.execute('commit;')
+    usage = {}
+    epoch = time.mktime((now - five_minutes).timetuple())
+
+    for row in remote_cursor:
+      ip = row['internalip']
+      print '%s %s %s' %(now - five_minutes, ip,
+                         row['sum(bytes)'])
+      
+      name = 'Netflow'
+      if ip == '192.168.1.14':
+        name = 'Gateway Netflow'
+
+      cursor.execute('insert into sensors '
+                     '(epoch_seconds, sensor, value, hostname) '
+                     'values(%s, "%s", "%s", "%s");'
+                     %(epoch, name, row['sum(bytes)'], ip))
+      cursor.execute('commit;')
+      
+      # Determine the "user" for this IP
+      if ip not in user_cache:
+        try:
+          ip_rev = ip.split('.')
+          ip_rev.reverse()
+          arpa = '%s.in-addr.arpa' % '.'.join(ip_rev)
+          hostname = DNS.dnslookup(arpa, qtype='PTR')[0]
+          owner = DNS.dnslookup(hostname, qtype='TXT')[0][0]
+          print ('%s Looking up the owner of %s gave %s'
+                 %(datetime.datetime.now(), ip, owner))
+        except Exception, e:
+          print 'Owner lookup error for %s: %s' %(ip, e)
+          owner = 'Unknown'
+
+        user_cache[ip] = owner
+
+      print '%s Owner of this IP is %s' %(datetime.datetime.now(),
+                                          user_cache[ip])
+      usage.setdefault(user_cache[ip], 0)
+      usage[user_cache[ip]] += row['sum(bytes)']
+
+    for owner in usage:
+      cursor.execute('insert into sensors '
+                     '(epoch_seconds, sensor, value, hostname) '
+                     'values(%s, "User Netflow", "%s", "%s");'
+                     %(epoch, usage[owner], owner))
+      cursor.execute('commit;')
 
     now -= one_minute
 
