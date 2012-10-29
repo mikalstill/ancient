@@ -214,6 +214,8 @@ if __name__ == '__main__':
                        passwd = FLAGS.dbpassword)
 
   Reviews(db, 'openstack/nova')
+  Reviews(db, 'openstack/openstack-nova')
+  Reviews(db, 'openstack/glance')
   CreateRss(db, 'openstack/nova', 'open')
   CreateRss(db, 'openstack/nova', 'merged')
 
