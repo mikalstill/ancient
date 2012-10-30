@@ -82,7 +82,7 @@ if __name__ == '__main__':
         day_total += count
 
     for user in USERS:
-      if d_sums[user] > 0:
+      if d_sums.get(user, 0) > 0:
         sys.stdout.write('\t%s' % d_sums[user])
       else:
         sys.stdout.write('\t')
