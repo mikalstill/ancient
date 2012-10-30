@@ -185,14 +185,15 @@ def Reviews(db, component):
         # reports others generate.
         updated_at = datetime.datetime.fromtimestamp(review['grantedOn'])
 
-        print '%s review by %s at %d' %(d['id'],
-                                        review['by'].get('username', 'unknown'),
-                                        review['grantedOn'])
+        print ('%s review by %s at %d for %s'
+               %(d['id'], review['by'].get('username', 'unknown'),
+                 review['grantedOn'], component)
         
         cursor.execute('insert ignore into reviews '
-                       '(changeid, username, timestamp) values '
-                       '("%s", "%s", %s);'
+                       '(changeid, username, timestamp, component) values '
+                       '("%s", "%s", "%s", %s);'
                        %(d['id'], review['by'].get('username', 'unknown'),
+                         component,
                          sql.FormatSqlValue('timestamp', updated_at)))
         cursor.execute('commit;')
 
@@ -214,7 +215,7 @@ if __name__ == '__main__':
                        passwd = FLAGS.dbpassword)
 
   Reviews(db, 'openstack/nova')
-  Reviews(db, 'openstack/openstack-nova')
+  Reviews(db, 'openstack/openstack-common')
   Reviews(db, 'openstack/glance')
   CreateRss(db, 'openstack/nova', 'open')
   CreateRss(db, 'openstack/nova', 'merged')
