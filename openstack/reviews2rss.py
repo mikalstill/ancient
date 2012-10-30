@@ -193,8 +193,8 @@ def Reviews(db, component):
                        '(changeid, username, timestamp, component) values '
                        '("%s", "%s", "%s", %s);'
                        %(d['id'], review['by'].get('username', 'unknown'),
-                         component,
-                         sql.FormatSqlValue('timestamp', updated_at)))
+                         sql.FormatSqlValue('timestamp', updated_at),
+                         component))
         cursor.execute('commit;')
 
 
