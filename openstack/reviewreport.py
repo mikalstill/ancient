@@ -2,6 +2,8 @@
 
 # Summarize reviews for the last 14 days
 
+# $1 is the project -- i.e. openstack/nova
+
 import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
@@ -50,8 +52,9 @@ if __name__ == '__main__':
     sum[user] = 0
     cursor.execute('select distinct(date(timestamp)) as date, '
                    'count(*) as count from reviews where username="%s" '
-                   'group by date order by timestamp desc limit 14;'
-                   % user)
+                   'and component="%s" group by date order by timestamp desc '
+                   'limit 14;'
+                   %(user, sys.argv[1]))
 
     for row in cursor:
       d = row['date']

@@ -217,6 +217,10 @@ if __name__ == '__main__':
   Reviews(db, 'openstack/nova')
   Reviews(db, 'openstack/openstack-common')
   Reviews(db, 'openstack/glance')
+  Reviews(db, 'openstack/horizon')
+  Reviews(db, 'openstack/keystone')
+  Reviews(db, 'openstack/swift')
+  Reviews(db, 'openstack/cinder')
   CreateRss(db, 'openstack/nova', 'open')
   CreateRss(db, 'openstack/nova', 'merged')
 
