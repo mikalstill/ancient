@@ -187,7 +187,7 @@ def Reviews(db, component):
 
         print ('%s review by %s at %d for %s'
                %(d['id'], review['by'].get('username', 'unknown'),
-                 review['grantedOn'], component)
+                 review['grantedOn'], component))
         
         cursor.execute('insert ignore into reviews '
                        '(changeid, username, timestamp, component) values '
