@@ -55,8 +55,9 @@ if __name__ == '__main__':
 
     for row in cursor:
       d = row['date']
-      d_str = '%04d-%02d-%02d' %(d.year, d.month, d.day)
-      reviews[user][d_str] = row['count']
+      if d:
+        d_str = '%04d-%02d-%02d' %(d.year, d.month, d.day)
+        reviews[user][d_str] = row['count']
 
   now = datetime.datetime.now()
   d = datetime.datetime(now.year, now.month, now.day)
