@@ -191,7 +191,7 @@ def Reviews(db, component):
         
         cursor.execute('insert ignore into reviews '
                        '(changeid, username, timestamp, component) values '
-                       '("%s", "%s", "%s", %s);'
+                       '("%s", "%s", %s, "%s");'
                        %(d['id'], review['by'].get('username', 'unknown'),
                          sql.FormatSqlValue('timestamp', updated_at),
                          component))
