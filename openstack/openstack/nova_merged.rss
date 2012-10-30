@@ -9,6 +9,201 @@
      <ttl>180</ttl>
      <docs>http://blogs.law.harvard.edu/tech/rss</docs>
     <item>
+      <title>openstack/nova: Fix typo in xenapi/host.py (MERGED)</title>
+      <pubDate>2012-10-29 23:25:36 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; xenapi-typo&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If45ea907b411ffc8c751c608e487828972337c5c&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 15003&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix typo in xenapi/host.py&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Dan Smith&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; dms@danplanet.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; danms&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/15003"&gt;https://review.openstack.org/15003&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 22:41:10 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 23:25:36 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bd1d00003a9b&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/virt/xenapi/host.py
+
+      </description>
+      <link>https://review.openstack.org/15003</link>
+      <guid isPermaLink="true">https://review.openstack.org/15003</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Remove extra print line in hacking.py (MERGED)</title>
+      <pubDate>2012-10-29 20:47:20 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; hackingPrint&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If3d5da52a55c1834f4dfa49d817010d314d1403a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14985&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Remove extra print line in hacking.py&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joe Gordon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jogo@cloudscaling.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; joe-gordon0&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14985"&gt;https://review.openstack.org/14985&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 18:48:37 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 20:47:20 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bc7f00003a89&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;tools/hacking.py
+
+      </description>
+      <link>https://review.openstack.org/14985</link>
+      <guid isPermaLink="true">https://review.openstack.org/14985</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Validates Timestamp or Expiry time in EC2 requests (MERGED)</title>
+      <pubDate>2012-10-29 20:26:57 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1036343&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I2b63d85dc1d658a58ceda67c0dfd0a8eac807577&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 13194&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Validates Timestamp or Expiry time in EC2 requests&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Sirisha Devineni&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; sirisha_devineni@persistent.co.in&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; sirisha-devineni&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/13194"&gt;https://review.openstack.org/13194&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-09-18 12:23:26 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 20:26:57 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bc6a0000338a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/api/ec2/__init__.py
+&lt;li&gt;nova/api/ec2/ec2utils.py
+&lt;li&gt;nova/tests/api/ec2/test_ec2_validate.py
+
+      </description>
+      <link>https://review.openstack.org/13194</link>
+      <guid isPermaLink="true">https://review.openstack.org/13194</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add API samples to Admin Actions (MERGED)</title>
+      <pubDate>2012-10-29 19:27:04 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; api-samples-admin-actions&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If072bf9e9a55c79c71fd3911776045ee46483a00&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14844&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add API samples to Admin Actions&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mauro S. M. Rodrigues&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; maurosr@linux.vnet.ibm.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; maurosr&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14844"&gt;https://review.openstack.org/14844&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-25 19:57:02 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 19:27:04 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bc2f000039fc&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-backup-server.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-backup-server.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-inject-network-info.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-inject-network-info.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-live-migrate.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-live-migrate.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-lock-server.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-lock-server.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-lock.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-migrate.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-migrate.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-pause.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-pause.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-reset-network.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-reset-network.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-reset-server-state.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-reset-server-state.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-reset-state.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-reset-state.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-resume.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-resume.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-suspend.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-suspend.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-unlock-server.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-unlock-server.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-unlock.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-unpause.json
+&lt;li&gt;doc/api_samples/os-admin-actions/admin-actions-unpause.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/server-post-req.json
+&lt;li&gt;doc/api_samples/os-admin-actions/server-post-req.xml
+&lt;li&gt;doc/api_samples/os-admin-actions/server-post-resp.json
+&lt;li&gt;doc/api_samples/os-admin-actions/server-post-resp.xml
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-backup-server.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-backup-server.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-inject-network-info.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-inject-network-info.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-live-migrate.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-live-migrate.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-lock-server.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-lock-server.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-migrate.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-migrate.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-pause.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-pause.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-reset-network.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-reset-network.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-reset-server-state.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-reset-server-state.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-reset-state.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-reset-state.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-resume.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-resume.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-suspend.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-suspend.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-unlock-server.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-unlock-server.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-unpause.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/admin-actions-unpause.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/server-post-req.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/server-post-req.xml.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/server-post-resp.json.tpl
+&lt;li&gt;nova/tests/integrated/api_samples/os-admin-actions/server-post-resp.xml.tpl
+&lt;li&gt;nova/tests/integrated/test_api_samples.py
+
+      </description>
+      <link>https://review.openstack.org/14844</link>
+      <guid isPermaLink="true">https://review.openstack.org/14844</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add live migration helper methods to fake hypervisor driver (MERGED)</title>
+      <pubDate>2012-10-29 19:09:49 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; api-samples-admin-actions&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I49315a7376b4165d0a51f4110711ccd16bc83aa0&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14843&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add live migration helper methods to fake hypervisor driver&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mauro S. M. Rodrigues&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; maurosr@linux.vnet.ibm.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; maurosr&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14843"&gt;https://review.openstack.org/14843&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-25 19:57:01 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 19:09:49 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bc1d000039fb&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/virt/fake.py
+
+      </description>
+      <link>https://review.openstack.org/14843</link>
+      <guid isPermaLink="true">https://review.openstack.org/14843</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Use testtools as the base testcase class. (MERGED)</title>
+      <pubDate>2012-10-29 19:04:08 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/grizzly-testtools&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ia2025e1b7191b65130b85b30ce6239d5c431c8ba&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14835&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Use testtools as the base testcase class.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14835"&gt;https://review.openstack.org/14835&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-25 18:20:20 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 19:04:08 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bc18000039f3&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/test.py
+&lt;li&gt;nova/tests/image/test_fake.py
+&lt;li&gt;nova/tests/network/test_manager.py
+&lt;li&gt;nova/tests/network/test_quantumv2.py
+&lt;li&gt;nova/tests/test_api.py
+&lt;li&gt;nova/tests/test_migrations.py
+&lt;li&gt;nova/tests/test_nova_rootwrap.py
+&lt;li&gt;nova/tests/test_skip_examples.py
+&lt;li&gt;nova/tests/test_virt.py
+&lt;li&gt;nova/tests/test_virt_drivers.py
+&lt;li&gt;nova/tests/utils.py
+&lt;li&gt;tools/test-requires
+
+      </description>
+      <link>https://review.openstack.org/14835</link>
+      <guid isPermaLink="true">https://review.openstack.org/14835</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Make nova-rootwrap optional (MERGED)</title>
+      <pubDate>2012-10-29 18:35:50 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; keep_rootwrap_optional&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I2cf5c743c6f4d6f235a54ca70c11d8191deeed6a&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14979&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Make nova-rootwrap optional&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Elliott&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; bdelliott@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; belliott&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14979"&gt;https://review.openstack.org/14979&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 16:53:16 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 18:35:50 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bbfb00003a83&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/utils.py
+
+      </description>
+      <link>https://review.openstack.org/14979</link>
+      <guid isPermaLink="true">https://review.openstack.org/14979</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Addtional 2 packages for dev environment on ubuntu (MERGED)</title>
+      <pubDate>2012-10-29 18:26:22 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I4af775386469deecf122a9e165457f241339b20b&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14612&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Addtional 2 packages for dev environment on ubuntu&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; jolyon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; git@limilo.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jolyon&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14612"&gt;https://review.openstack.org/14612&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-22 19:04:22 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 18:26:22 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bbf200003914&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;doc/source/devref/development.environment.rst
+
+      </description>
+      <link>https://review.openstack.org/14612</link>
+      <guid isPermaLink="true">https://review.openstack.org/14612</guid>
+    </item>
+      <item>
       <title>openstack/nova: Let scheduler know services' capabilities at startup (MERGED)</title>
       <pubDate>2012-10-29 10:35:59 UTC</pubDate>
       <description>
@@ -9727,193 +9922,6 @@
       </description>
       <link>https://review.openstack.org/12322</link>
       <guid isPermaLink="true">https://review.openstack.org/12322</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add method to manage 'put' requests in api-sample tests (MERGED)</title>
-      <pubDate>2012-09-04 01:50:24 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; api-samples-images&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I1407f908592fcda8d83506ccb98f17f3af84c13c&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 12314&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add method to manage 'put' requests in api-sample tests&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mauro S. M. Rodrigues&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; maurosr@linux.vnet.ibm.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; maurosr&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/12314"&gt;https://review.openstack.org/12314&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-09-03 11:58:06 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-09-04 01:50:24 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001f82ae0000301a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-
-      &lt;br/&gt;&lt;br/&gt;
-
-      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
-      &lt;li&gt;nova/tests/integrated/test_api_samples.py
-
-      </description>
-      <link>https://review.openstack.org/12314</link>
-      <guid isPermaLink="true">https://review.openstack.org/12314</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Adds API sample test for limits (MERGED)</title>
-      <pubDate>2012-09-04 01:50:56 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; tmello-api-samples&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ie6b42119a9d60273d5d4d0c17fb44082009bc847&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 12285&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Adds API sample test for limits&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Tiago Mello&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; tmello@linux.vnet.ibm.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; tmello&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/12285"&gt;https://review.openstack.org/12285&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-08-31 22:43:05 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-09-04 01:50:56 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001f82ae00002ffd&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-
-      &lt;br/&gt;&lt;br/&gt;
-
-      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
-      &lt;li&gt;nova/tests/integrated/api_samples/limit-get-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/limit-get-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/limit-get-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/limit-get-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/test_api_samples.py
-
-      </description>
-      <link>https://review.openstack.org/12285</link>
-      <guid isPermaLink="true">https://review.openstack.org/12285</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add API samples to images api (MERGED)</title>
-      <pubDate>2012-09-04 01:50:34 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; api-samples-images&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Idcdd24d7e785026e50b9abf4762466fd55a8d42f&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 12272&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add API samples to images api&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mauro S. M. Rodrigues&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; maurosr@linux.vnet.ibm.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; maurosr&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/12272"&gt;https://review.openstack.org/12272&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-08-31 17:04:40 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-09-04 01:50:34 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001f82ae00002ff0&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-
-      &lt;br/&gt;&lt;br/&gt;
-
-      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
-      &lt;li&gt;nova/api/openstack/compute/image_metadata.py
-&lt;li&gt;nova/api/openstack/compute/views/images.py
-&lt;li&gt;nova/tests/integrated/api_samples/image-get-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-get-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-get-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/image-get-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-get.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-get.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-get.xml
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-get.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-put-req.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-put-req.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-put-req.xml
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-put-req.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-put-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-put-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-put-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/image-meta-key-put-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-get-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-get-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-get-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-get-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-post-req.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-post-req.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-post-req.xml
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-post-req.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-post-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-post-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-post-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-post-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-put-req.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-put-req.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-put-req.xml
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-put-req.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-put-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-put-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-put-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-put-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/image-metadata-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/images-details-get-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/images-details-get-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/images-details-get-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/images-details-get-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/images-details-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/images-details-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/images-details-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/images-details-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/images-list-get-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/images-list-get-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/images-list-get-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/images-list-get-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/images-list-resp.json
-&lt;li&gt;nova/tests/integrated/api_samples/images-list-resp.json.tpl
-&lt;li&gt;nova/tests/integrated/api_samples/images-list-resp.xml
-&lt;li&gt;nova/tests/integrated/api_samples/images-list-resp.xml.tpl
-&lt;li&gt;nova/tests/integrated/test_api_samples.py
-
-      </description>
-      <link>https://review.openstack.org/12272</link>
-      <guid isPermaLink="true">https://review.openstack.org/12272</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Fix vmwareapi driver spawn() signature (MERGED)</title>
-      <pubDate>2012-09-04 01:45:10 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1045393&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ifc4279a05127dcc5c01388882c40570bf6de5ff2&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 12323&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix vmwareapi driver spawn() signature&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mark McLoughlin&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; markmc@redhat.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; markmc&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/12323"&gt;https://review.openstack.org/12323&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-09-03 15:49:49 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-09-04 01:45:10 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001f82a900003023&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-
-      &lt;br/&gt;&lt;br/&gt;
-
-      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
-      &lt;li&gt;nova/tests/test_vmwareapi.py
-&lt;li&gt;nova/virt/vmwareapi/driver.py
-
-      </description>
-      <link>https://review.openstack.org/12323</link>
-      <guid isPermaLink="true">https://review.openstack.org/12323</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Add full python path to test stubbing modules for libvirt (MERGED)</title>
-      <pubDate>2012-09-04 01:33:34 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; libvirt_test_imports&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I81f019bf635e10ca90f77f7a30b2e19065fee8f4&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 12325&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add full python path to test stubbing modules for libvirt&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; ijw-ubuntu&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; iawells@cisco.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; ijw-ubuntu&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/12325"&gt;https://review.openstack.org/12325&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-09-03 18:43:01 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-09-04 01:33:34 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001f829d00003025&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-
-      &lt;br/&gt;&lt;br/&gt;
-
-      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
-      &lt;li&gt;nova/tests/test_fakelibvirt.py
-&lt;li&gt;nova/tests/test_virt_drivers.py
-
-      </description>
-      <link>https://review.openstack.org/12325</link>
-      <guid isPermaLink="true">https://review.openstack.org/12325</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Fixes spawn method signature for PowerVM driver. (MERGED)</title>
-      <pubDate>2012-09-03 15:49:41 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1040770&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I0a45fa45c942f2d0381c5a7310d386ae655073fe&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 12065&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fixes spawn method signature for PowerVM driver.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Tiago Mello&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; tmello@linux.vnet.ibm.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; tmello&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/12065"&gt;https://review.openstack.org/12065&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-08-28 19:03:17 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-09-03 15:49:41 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001f805500002f21&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-
-      &lt;br/&gt;&lt;br/&gt;
-
-      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
-      &lt;li&gt;nova/tests/test_powervm.py
-&lt;li&gt;nova/virt/powervm/driver.py
-
-      </description>
-      <link>https://review.openstack.org/12065</link>
-      <guid isPermaLink="true">https://review.openstack.org/12065</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Rename imagebackend arguments. (MERGED)</title>
-      <pubDate>2012-09-03 14:49:37 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; ensure-base&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Iedbc5477ac54527b60c520fd7c774e608adb07c0&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 12312&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Rename imagebackend arguments.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Michael Still&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mikal@stillhq.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mikalstill&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/12312"&gt;https://review.openstack.org/12312&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-09-03 10:51:02 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-09-03 14:49:37 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001f801900003018&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-
-      &lt;br/&gt;&lt;br/&gt;
-
-      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
-      &lt;li&gt;nova/tests/fake_imagebackend.py
-&lt;li&gt;nova/tests/test_libvirt.py
-&lt;li&gt;nova/virt/baremetal/driver.py
-&lt;li&gt;nova/virt/libvirt/driver.py
-&lt;li&gt;nova/virt/libvirt/imagebackend.py
-
-      </description>
-      <link>https://review.openstack.org/12312</link>
-      <guid isPermaLink="true">https://review.openstack.org/12312</guid>
-    </item>
-      <item>
-      <title>openstack/nova: Fixes sqlalchemy.api.compute_node_get_by_host (MERGED)</title>
-      <pubDate>2012-09-03 14:47:56 UTC</pubDate>
-      <description>
-      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1044238&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I082a46847e63a1e21083a625c3b07ec9be05412f&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 12292&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fixes sqlalchemy.api.compute_node_get_by_host&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Jian Wen&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; wenjianhn@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; wenjianhn&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/12292"&gt;https://review.openstack.org/12292&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-09-01 14:25:48 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-09-03 14:47:56 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 001f801700003004&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; false&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; MERGED
-
-      &lt;br/&gt;&lt;br/&gt;
-
-      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
-      &lt;li&gt;nova/db/sqlalchemy/api.py
-
-      </description>
-      <link>https://review.openstack.org/12292</link>
-      <guid isPermaLink="true">https://review.openstack.org/12292</guid>
     </item>
     </channel>
   </rss>

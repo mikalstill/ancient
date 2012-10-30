@@ -8,4 +8,657 @@
      <generator>stillhq.com</generator>
      <ttl>180</ttl>
      <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-  
+    <item>
+      <title>openstack/nova: Enable Quantum linux bridge VIF driver to use "bridge" type (NEW)</title>
+      <pubDate>2012-10-30 14:14:47 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1046766&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ifd79864db147fe3141e03bf1c931fd153d413305&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14830&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Enable Quantum linux bridge VIF driver to use "bridge" type&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; garyk&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; gkotton@redhat.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; garyk&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14830"&gt;https://review.openstack.org/14830&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-25 17:07:03 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 14:14:47 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c096000039ee&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/network/linux_net.py
+&lt;li&gt;nova/tests/test_libvirt_vif.py
+&lt;li&gt;nova/virt/libvirt/config.py
+&lt;li&gt;nova/virt/libvirt/vif.py
+
+      </description>
+      <link>https://review.openstack.org/14830</link>
+      <guid isPermaLink="true">https://review.openstack.org/14830</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add coverage extension to nova API. (WORKINPROGRESS)</title>
+      <pubDate>2012-10-30 14:07:04 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; coverage-plugin&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I47497f5be3fd5956250f2dcd1630c86c72725ce8&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14468&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add coverage extension to nova API.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Matthew Treinish&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; treinish@linux.vnet.ibm.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; treinish&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14468"&gt;https://review.openstack.org/14468&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-15 18:52:24 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 14:07:04 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c08f00003884&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; WORKINPROGRESS
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/api/openstack/compute/contrib/coverage_ext.py
+&lt;li&gt;nova/tests/api/openstack/compute/contrib/test_coverage_ext.py
+
+      </description>
+      <link>https://review.openstack.org/14468</link>
+      <guid isPermaLink="true">https://review.openstack.org/14468</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add support for entrypoints virt drivers. (NEW)</title>
+      <pubDate>2012-10-30 14:03:45 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/entrpoints-plugins&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ia57ea4c5de7c1a5c2ac445ea9b9f49a013487f9b&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 11027&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add support for entrypoints virt drivers.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/11027"&gt;https://review.openstack.org/11027&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-08-08 15:09:15 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 14:03:45 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c08b00002b13&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/compute/manager.py
+&lt;li&gt;nova/tests/test_virt_drivers.py
+&lt;li&gt;nova/utils.py
+&lt;li&gt;setup.py
+&lt;li&gt;tools/pip-requires
+
+      </description>
+      <link>https://review.openstack.org/11027</link>
+      <guid isPermaLink="true">https://review.openstack.org/11027</guid>
+    </item>
+      <item>
+      <title>openstack/nova: details the reboot behavior that a virt driver should follow. (NEW)</title>
+      <pubDate>2012-10-30 13:53:02 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1000774&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I5a1cd62181d6f3772b890006ae73113eee0a0e0e&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14846&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; details the reboot behavior that a virt driver should follow.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Armando Migliaccio&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; amigliaccio@internap.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; armando-migliaccio&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14846"&gt;https://review.openstack.org/14846&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-25 20:25:58 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:53:02 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c081000039fe&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/virt/driver.py
+
+      </description>
+      <link>https://review.openstack.org/14846</link>
+      <guid isPermaLink="true">https://review.openstack.org/14846</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Updated bare-metal provisioning framework. (NEW)</title>
+      <pubDate>2012-10-30 13:50:38 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/general-bare-metal-provisioning-framework&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I55617a8da52d20d4df727b8bbde8e5f72d3bf130&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 11354&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Updated bare-metal provisioning framework.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Mikyung Kang&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mkkang&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/11354"&gt;https://review.openstack.org/11354&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-08-14 17:02:13 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:50:38 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c07e00002c5a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;etc/nova/rootwrap.d/baremetal_compute.filters
+&lt;li&gt;nova/tests/baremetal/test_driver.py
+&lt;li&gt;nova/tests/baremetal/test_proxy_bare_metal.py
+&lt;li&gt;nova/tests/baremetal/test_tilera.py
+&lt;li&gt;nova/tests/baremetal/test_tilera_pdu.py
+&lt;li&gt;nova/tests/baremetal/test_volume_driver.py
+&lt;li&gt;nova/virt/baremetal/__init__.py
+&lt;li&gt;nova/virt/baremetal/baremetal_states.py
+&lt;li&gt;nova/virt/baremetal/doc/tilera-bm-installation.rst
+&lt;li&gt;nova/virt/baremetal/doc/tilera-bm-instance-creation.rst
+&lt;li&gt;nova/virt/baremetal/dom.py
+&lt;li&gt;nova/virt/baremetal/driver.py
+&lt;li&gt;nova/virt/baremetal/fake.py
+&lt;li&gt;nova/virt/baremetal/interfaces.template
+&lt;li&gt;nova/virt/baremetal/nodes.py
+&lt;li&gt;nova/virt/baremetal/tilera.py
+&lt;li&gt;nova/virt/baremetal/tilera_pdu.py
+&lt;li&gt;nova/virt/baremetal/utils.py
+&lt;li&gt;nova/virt/baremetal/vif_driver.py
+&lt;li&gt;nova/virt/baremetal/volume_driver.py
+
+      </description>
+      <link>https://review.openstack.org/11354</link>
+      <guid isPermaLink="true">https://review.openstack.org/11354</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Move network_manager to entry points. (NEW)</title>
+      <pubDate>2012-10-30 13:49:21 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/entrypoints-plugins&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ie92273a972778a670bc9d640cfe0ec883af39ec9&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 11558&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Move network_manager to entry points.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/11558"&gt;https://review.openstack.org/11558&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-08-17 15:32:37 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:49:21 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c07d00002d26&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/compute/manager.py
+&lt;li&gt;nova/flags.py
+&lt;li&gt;setup.py
+
+      </description>
+      <link>https://review.openstack.org/11558</link>
+      <guid isPermaLink="true">https://review.openstack.org/11558</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Move console scripts to entrypoints. (NEW)</title>
+      <pubDate>2012-10-30 13:49:22 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/entrypoints-plugins&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I5f17348b7b3cc896c92263dd518abb128757d81f&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 11556&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Move console scripts to entrypoints.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/11556"&gt;https://review.openstack.org/11556&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-08-17 15:32:37 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:49:22 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c07d00002d24&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/cmd/__init__.py
+&lt;li&gt;nova/cmd/nova_all.py
+&lt;li&gt;nova/cmd/nova_api.py
+&lt;li&gt;nova/cmd/nova_api_ec2.py
+&lt;li&gt;nova/cmd/nova_api_metadata.py
+&lt;li&gt;nova/cmd/nova_api_os_compute.py
+&lt;li&gt;nova/cmd/nova_cert.py
+&lt;li&gt;nova/cmd/nova_clear_rabbit_queues.py
+&lt;li&gt;nova/cmd/nova_compute.py
+&lt;li&gt;nova/cmd/nova_console.py
+&lt;li&gt;nova/cmd/nova_consoleauth.py
+&lt;li&gt;nova/cmd/nova_dhcpbridge.py
+&lt;li&gt;nova/cmd/nova_manage.py
+&lt;li&gt;nova/cmd/nova_network.py
+&lt;li&gt;nova/cmd/nova_novncproxy.py
+&lt;li&gt;nova/cmd/nova_objectstore.py
+&lt;li&gt;nova/cmd/nova_rootwrap.py
+&lt;li&gt;nova/cmd/nova_rpc_zmq_receiver.py
+&lt;li&gt;nova/cmd/nova_scheduler.py
+&lt;li&gt;nova/cmd/nova_xvpvncproxy.py
+&lt;li&gt;nova/service.py
+&lt;li&gt;nova/tests/test_nova_manage.py
+&lt;li&gt;run_tests.sh
+&lt;li&gt;setup.py
+
+      </description>
+      <link>https://review.openstack.org/11556</link>
+      <guid isPermaLink="true">https://review.openstack.org/11556</guid>
+    </item>
+      <item>
+      <title>openstack/nova: refactor: extract _terminate_volume_connections (NEW)</title>
+      <pubDate>2012-10-30 13:46:36 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; volume-refactors-2&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ib9bede24d051700fe297fdd5a619f4a3a21bb88e&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14969&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; refactor: extract _terminate_volume_connections&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; mate-lakat&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mate.lakat@citrix.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mate-lakat&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14969"&gt;https://review.openstack.org/14969&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 14:56:26 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:46:36 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c07a00003a79&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/compute/manager.py
+
+      </description>
+      <link>https://review.openstack.org/14969</link>
+      <guid isPermaLink="true">https://review.openstack.org/14969</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Detect and fix issues caused by vol ID migration (NEW)</title>
+      <pubDate>2012-10-30 13:27:01 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; stable/folsom&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1065702&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ib41ebdc849ebc31a9225bdc4902209c5a23da104&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 15005&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Detect and fix issues caused by vol ID migration&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; John Griffith&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; john.griffith@solidfire.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; john-griffith&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/15005"&gt;https://review.openstack.org/15005&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 23:58:47 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:27:01 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c06700003a9d&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;etc/nova/rootwrap.d/volume.filters
+&lt;li&gt;nova/tests/api/ec2/test_cloud.py
+&lt;li&gt;nova/volume/driver.py
+&lt;li&gt;nova/volume/iscsi.py
+&lt;li&gt;nova/volume/manager.py
+
+      </description>
+      <link>https://review.openstack.org/15005</link>
+      <guid isPermaLink="true">https://review.openstack.org/15005</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Support for nova client list hosts with specific zone (NEW)</title>
+      <pubDate>2012-10-30 13:23:35 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/apis-for-nova-manage&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I89f2c0bf50f8ea1ef9f06da664f5c4b24098e5df&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14741&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Support for nova client list hosts with specific zone&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Ivan-Zhu&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; bozhu@linux.vnet.ibm.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; ivan-zhu&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14741"&gt;https://review.openstack.org/14741&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-24 09:13:44 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:23:35 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c06300003995&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/api/openstack/compute/contrib/hosts.py
+&lt;li&gt;nova/tests/api/openstack/compute/contrib/test_hosts.py
+
+      </description>
+      <link>https://review.openstack.org/14741</link>
+      <guid isPermaLink="true">https://review.openstack.org/14741</guid>
+    </item>
+      <item>
+      <title>openstack/nova: More robust checking for empty requested_networks (NEW)</title>
+      <pubDate>2012-10-30 13:21:50 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; empty_requested_network&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I131dbb3f6cc6167e150d4a46386e6b0b51035579&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14867&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; More robust checking for empty requested_networks&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Andrew Laski&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; andrew.laski@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; alaski&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14867"&gt;https://review.openstack.org/14867&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-26 02:41:54 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:21:50 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c06100003a13&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/compute/api.py
+
+      </description>
+      <link>https://review.openstack.org/14867</link>
+      <guid isPermaLink="true">https://review.openstack.org/14867</guid>
+    </item>
+      <item>
+      <title>openstack/nova: xenapi: refactor: Agent class (NEW)</title>
+      <pubDate>2012-10-30 13:20:58 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/xenapi-config-drive&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I3928c0776ff98c830c19487eb8ff7820e41ca025&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14899&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; xenapi: refactor: Agent class&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; mate-lakat&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mate.lakat@citrix.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mate-lakat&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14899"&gt;https://review.openstack.org/14899&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-26 17:07:29 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:20:58 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c06000003a33&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/virt/xenapi/agent.py
+&lt;li&gt;nova/virt/xenapi/vmops.py
+
+      </description>
+      <link>https://review.openstack.org/14899</link>
+      <guid isPermaLink="true">https://review.openstack.org/14899</guid>
+    </item>
+      <item>
+      <title>openstack/nova: refactor: extract method vm_ref_or_raise (NEW)</title>
+      <pubDate>2012-10-30 13:19:26 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/xenapi-volume-drivers&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I8caca173266890bd99a360671e7af86759b89201&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14959&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; refactor: extract method vm_ref_or_raise&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; mate-lakat&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mate.lakat@citrix.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mate-lakat&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14959"&gt;https://review.openstack.org/14959&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 13:17:57 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:19:26 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c05f00003a6f&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/tests/xenapi/test_vm_utils.py
+&lt;li&gt;nova/virt/xenapi/vm_utils.py
+&lt;li&gt;nova/virt/xenapi/volumeops.py
+
+      </description>
+      <link>https://review.openstack.org/14959</link>
+      <guid isPermaLink="true">https://review.openstack.org/14959</guid>
+    </item>
+      <item>
+      <title>openstack/nova: remove session parameter from fixed_ip_get (NEW)</title>
+      <pubDate>2012-10-30 13:18:14 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; session-fixed_ip_get&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I435bfc4f2f4175049fd164fea37b4724871e1eb1&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14928&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; remove session parameter from fixed_ip_get&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Devananda van der Veen&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; devananda.vdv@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; devananda&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14928"&gt;https://review.openstack.org/14928&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-28 00:11:07 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:18:14 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c05e00003a50&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/db/sqlalchemy/api.py
+
+      </description>
+      <link>https://review.openstack.org/14928</link>
+      <guid isPermaLink="true">https://review.openstack.org/14928</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Ability to specify a host restricted to admin (NEW)</title>
+      <pubDate>2012-10-30 13:17:59 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1070880&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ibb0e43492dfa2699ab26318736ca55a60b7b4468&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14769&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Ability to specify a host restricted to admin&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; dave-mcnally&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; dave-mcnally&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14769"&gt;https://review.openstack.org/14769&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-24 15:51:34 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:17:59 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c05d000039b1&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;etc/nova/policy.json
+&lt;li&gt;nova/compute/api.py
+&lt;li&gt;nova/tests/compute/test_compute.py
+
+      </description>
+      <link>https://review.openstack.org/14769</link>
+      <guid isPermaLink="true">https://review.openstack.org/14769</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Made scheduler loading entrypoint aware. (NEW)</title>
+      <pubDate>2012-10-30 13:16:02 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/entrpoints-plugins&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ic3e492d4728c096f662f3d62e13cd84f8b135eab&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 11557&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Made scheduler loading entrypoint aware.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/11557"&gt;https://review.openstack.org/11557&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-08-17 15:32:37 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 13:16:02 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c05c00002d25&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/scheduler/driver.py
+&lt;li&gt;nova/scheduler/driver_options.py
+&lt;li&gt;nova/scheduler/manager.py
+&lt;li&gt;nova/scheduler/multi.py
+&lt;li&gt;nova/tests/scheduler/test_scheduler.py
+&lt;li&gt;setup.py
+
+      </description>
+      <link>https://review.openstack.org/11557</link>
+      <guid isPermaLink="true">https://review.openstack.org/11557</guid>
+    </item>
+      <item>
+      <title>openstack/nova: improve sessions around compute_node_* (NEW)</title>
+      <pubDate>2012-10-30 12:07:14 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; session-compute_node&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I943306be014b61d8818fdbe7891f6ad5ef934751&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14936&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; improve sessions around compute_node_*&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Devananda van der Veen&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; devananda.vdv@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; devananda&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14936"&gt;https://review.openstack.org/14936&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-28 16:56:31 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 12:07:14 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c01700003a58&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/db/sqlalchemy/api.py
+
+      </description>
+      <link>https://review.openstack.org/14936</link>
+      <guid isPermaLink="true">https://review.openstack.org/14936</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Ensures compute_driver flag can be used by bdm (NEW)</title>
+      <pubDate>2012-10-30 11:49:42 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1063851&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I06891fd65550b63ffe83da18b6af41cf46938667&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14991&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Ensures compute_driver flag can be used by bdm&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Vish Ishaya&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; vishvananda@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; vishvananda&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14991"&gt;https://review.openstack.org/14991&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 19:59:11 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 11:49:42 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020c00500003a8f&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/compute/manager.py
+&lt;li&gt;nova/flags.py
+
+      </description>
+      <link>https://review.openstack.org/14991</link>
+      <guid isPermaLink="true">https://review.openstack.org/14991</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Move global fixture setup into nova/test.py (NEW)</title>
+      <pubDate>2012-10-30 11:25:23 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/grizzly-testtools&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ia0b0ae380069a212bc20e009d1088c2bad7d9177&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14935&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Move global fixture setup into nova/test.py&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14935"&gt;https://review.openstack.org/14935&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-28 15:51:15 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 11:25:23 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bfed00003a57&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/test.py
+&lt;li&gt;nova/tests/__init__.py
+
+      </description>
+      <link>https://review.openstack.org/14935</link>
+      <guid isPermaLink="true">https://review.openstack.org/14935</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Remove duplicate api_paste_config setting. (NEW)</title>
+      <pubDate>2012-10-30 08:56:43 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; api-paste_dup&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Id0d95d222a9c57c88abb3071c0b682f644747e20&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14862&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Remove duplicate api_paste_config setting.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Clark Boylan&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; clark.boylan@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; cboylan&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14862"&gt;https://review.openstack.org/14862&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-25 23:16:02 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 08:56:43 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bf5800003a0e&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/tests/fake_flags.py
+
+      </description>
+      <link>https://review.openstack.org/14862</link>
+      <guid isPermaLink="true">https://review.openstack.org/14862</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Remove custom test assertions. (NEW)</title>
+      <pubDate>2012-10-30 08:24:05 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/grizzly-testtools&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I26d1dbac8dc3c322eb55c96c48330c0e38636107&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14933&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Remove custom test assertions.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14933"&gt;https://review.openstack.org/14933&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-28 15:51:14 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 08:24:05 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bf3800003a55&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/test.py
+&lt;li&gt;nova/tests/api/ec2/test_cinder_cloud.py
+&lt;li&gt;nova/tests/api/ec2/test_cloud.py
+&lt;li&gt;nova/tests/api/openstack/compute/contrib/test_aggregates.py
+&lt;li&gt;nova/tests/api/openstack/compute/contrib/test_cloudpipe.py
+&lt;li&gt;nova/tests/api/openstack/compute/test_consoles.py
+&lt;li&gt;nova/tests/api/openstack/compute/test_extensions.py
+&lt;li&gt;nova/tests/api/openstack/compute/test_flavors.py
+&lt;li&gt;nova/tests/api/openstack/compute/test_images.py
+&lt;li&gt;nova/tests/api/openstack/compute/test_limits.py
+&lt;li&gt;nova/tests/api/openstack/compute/test_server_actions.py
+&lt;li&gt;nova/tests/api/openstack/compute/test_servers.py
+&lt;li&gt;nova/tests/api/openstack/compute/test_versions.py
+&lt;li&gt;nova/tests/compute/test_compute.py
+&lt;li&gt;nova/tests/image/test_glance.py
+&lt;li&gt;nova/tests/matchers.py
+&lt;li&gt;nova/tests/network/test_manager.py
+&lt;li&gt;nova/tests/scheduler/test_host_manager.py
+&lt;li&gt;nova/tests/scheduler/test_least_cost.py
+&lt;li&gt;nova/tests/scheduler/test_scheduler.py
+&lt;li&gt;nova/tests/test_api.py
+&lt;li&gt;nova/tests/test_bdm.py
+&lt;li&gt;nova/tests/test_db_api.py
+&lt;li&gt;nova/tests/test_libvirt.py
+&lt;li&gt;nova/tests/test_xenapi.py
+
+      </description>
+      <link>https://review.openstack.org/14933</link>
+      <guid isPermaLink="true">https://review.openstack.org/14933</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Make session.py reusable (NEW)</title>
+      <pubDate>2012-10-30 05:30:44 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; reusable-session.py&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ia4ee4336871f22cfcdb67a0417fcfb76d78b6fa3&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14598&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Make session.py reusable&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Arata Notsu&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; notsu@virtualtech.jp&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; arata776&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14598"&gt;https://review.openstack.org/14598&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-22 10:37:05 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 05:30:44 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020be8a00003906&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/db/sqlalchemy/session.py
+
+      </description>
+      <link>https://review.openstack.org/14598</link>
+      <guid isPermaLink="true">https://review.openstack.org/14598</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add rxtx_factor to network migration logic (NEW)</title>
+      <pubDate>2012-10-30 03:37:01 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; network-instance-migration&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; If4e1e96b84ee082c2d277c3d91da7df0325fc1ff&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 15002&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add rxtx_factor to network migration logic&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Kevin L. Mitchell&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; kevin.mitchell@rackspace.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; klmitch&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/15002"&gt;https://review.openstack.org/15002&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 22:34:51 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 03:37:01 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020be1900003a9a&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/compute/manager.py
+&lt;li&gt;nova/network/api.py
+&lt;li&gt;nova/network/manager.py
+&lt;li&gt;nova/network/quantumv2/api.py
+&lt;li&gt;nova/network/rpcapi.py
+&lt;li&gt;nova/tests/network/test_manager.py
+
+      </description>
+      <link>https://review.openstack.org/15002</link>
+      <guid isPermaLink="true">https://review.openstack.org/15002</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Fix VM deletion from down compute node (NEW)</title>
+      <pubDate>2012-10-30 02:37:38 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1067214&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I0d4a7dc5836d39e405824528de214f23b214849f&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14805&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix VM deletion from down compute node&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joe Gordon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jogo@cloudscaling.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; joe-gordon0&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14805"&gt;https://review.openstack.org/14805&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-25 01:10:17 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 02:37:38 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bddd000039d5&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/compute/api.py
+&lt;li&gt;nova/network/manager.py
+&lt;li&gt;nova/tests/compute/test_compute.py
+
+      </description>
+      <link>https://review.openstack.org/14805</link>
+      <guid isPermaLink="true">https://review.openstack.org/14805</guid>
+    </item>
+      <item>
+      <title>openstack/nova: WIP - Do Not merge. Disable Quotas by default (WORKINPROGRESS)</title>
+      <pubDate>2012-10-30 01:28:25 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; quota&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I8f23ff5da0193ef9cba9d4f2205c2eba3f5aa671&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 15012&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; WIP - Do Not merge. Disable Quotas by default&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joe Gordon&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; jogo@cloudscaling.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; joe-gordon0&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/15012"&gt;https://review.openstack.org/15012&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-30 01:01:06 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 01:28:25 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bd9800003aa4&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; WORKINPROGRESS
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/quota.py
+&lt;li&gt;nova/tests/test_quota.py
+
+      </description>
+      <link>https://review.openstack.org/15012</link>
+      <guid isPermaLink="true">https://review.openstack.org/15012</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add pluggable ServiceGroup monitoring APIs (NEW)</title>
+      <pubDate>2012-10-30 01:26:48 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/zk-service-heartbeat&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I51645687249c75e7776a684f19529a1e78f33a41&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 10903&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add pluggable ServiceGroup monitoring APIs&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Yun Mao&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; yunmao@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; yunmao&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/10903"&gt;https://review.openstack.org/10903&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-08-06 16:48:26 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 01:26:48 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bd9600002a97&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;etc/nova/nova.conf.sample
+&lt;li&gt;nova/api/ec2/cloud.py
+&lt;li&gt;nova/compute/api.py
+&lt;li&gt;nova/scheduler/driver.py
+&lt;li&gt;nova/scheduler/filters/compute_filter.py
+&lt;li&gt;nova/scheduler/simple.py
+&lt;li&gt;nova/service.py
+&lt;li&gt;nova/servicegroup/__init__.py
+&lt;li&gt;nova/servicegroup/api.py
+&lt;li&gt;nova/servicegroup/db_driver.py
+&lt;li&gt;nova/tests/scheduler/test_host_filters.py
+&lt;li&gt;nova/tests/scheduler/test_scheduler.py
+&lt;li&gt;nova/tests/test_db_servicegroup.py
+&lt;li&gt;nova/tests/test_service.py
+&lt;li&gt;nova/tests/test_utils.py
+&lt;li&gt;nova/utils.py
+
+      </description>
+      <link>https://review.openstack.org/10903</link>
+      <guid isPermaLink="true">https://review.openstack.org/10903</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add call to trigger_instance[add/remove]_security_group_refresh quantum (NEW)</title>
+      <pubDate>2012-10-30 00:53:11 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; stable/folsom&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1057069&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ia76d37ebf2546a26f893dcbc8d5a05f02324ad6b&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 15009&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add call to trigger_instance[add/remove]_security_group_refresh quantum&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Aaron Rosen&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; arosen@nicira.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; arosen&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/15009"&gt;https://review.openstack.org/15009&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-30 00:24:04 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 00:53:11 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bd7500003aa1&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/network/quantumv2/api.py
+&lt;li&gt;nova/network/quantumv2/api.py
+
+      </description>
+      <link>https://review.openstack.org/15009</link>
+      <guid isPermaLink="true">https://review.openstack.org/15009</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Remove database usage from libvirt check_can_live_migrate_destination (NEW)</title>
+      <pubDate>2012-10-30 00:45:20 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/no-db-compute&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I7049879fcec3894165f1bece9beeb045ed78c94b&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14791&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Remove database usage from libvirt check_can_live_migrate_destination&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Dan Smith&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; dms@danplanet.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; danms&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14791"&gt;https://review.openstack.org/14791&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-24 22:52:21 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 00:45:20 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bd6d000039c7&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/compute/manager.py
+&lt;li&gt;nova/tests/compute/test_compute.py
+&lt;li&gt;nova/tests/test_libvirt.py
+&lt;li&gt;nova/tests/test_xenapi.py
+&lt;li&gt;nova/virt/driver.py
+&lt;li&gt;nova/virt/hyperv/driver.py
+&lt;li&gt;nova/virt/libvirt/driver.py
+&lt;li&gt;nova/virt/xenapi/driver.py
+
+      </description>
+      <link>https://review.openstack.org/14791</link>
+      <guid isPermaLink="true">https://review.openstack.org/14791</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Imported Translations from Transifex (NEW)</title>
+      <pubDate>2012-10-30 00:36:56 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; transifex/translations&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I6f8aa2ceb34979db35ff77312d6f4398f5fc4c2d&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 15007&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Imported Translations from Transifex&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Jenkins&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; jenkins&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/15007"&gt;https://review.openstack.org/15007&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-30 00:02:41 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-30 00:36:56 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bd6400003a9f&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/locale/bs/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/cs/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/da/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/de/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/en_AU/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/en_GB/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/en_US/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/es/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/fr/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/it/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/ja/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/ko/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/nb/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/nova.pot
+&lt;li&gt;nova/locale/pt_BR/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/ru/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/tl/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/tr/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/uk/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/zh_CN/LC_MESSAGES/nova.po
+&lt;li&gt;nova/locale/zh_TW/LC_MESSAGES/nova.po
+
+      </description>
+      <link>https://review.openstack.org/15007</link>
+      <guid isPermaLink="true">https://review.openstack.org/15007</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Fix nova-network MAC collision logic (NEW)</title>
+      <pubDate>2012-10-29 23:07:52 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; stable/folsom&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1059366&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I89d17eb8606a18f102e4de0dc76c77205cafbc8d&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14977&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Fix nova-network MAC collision logic&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Dan Smith&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; dms@danplanet.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; danms&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14977"&gt;https://review.openstack.org/14977&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 16:15:59 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 23:07:52 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bd0b00003a81&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/db/sqlalchemy/api.py
+&lt;li&gt;nova/tests/network/test_manager.py
+
+      </description>
+      <link>https://review.openstack.org/14977</link>
+      <guid isPermaLink="true">https://review.openstack.org/14977</guid>
+    </item>
+      <item>
+      <title>openstack/nova: add draft of session doc (NEW)</title>
+      <pubDate>2012-10-29 22:37:12 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; add-session-doc&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ib91a7fa3263e415fb6b8f88e79325c730550e576&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14966&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; add draft of session doc&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Devananda van der Veen&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; devananda.vdv@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; devananda&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14966"&gt;https://review.openstack.org/14966&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-29 14:32:53 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 22:37:12 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bced00003a76&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/db/sqlalchemy/session.py
+
+      </description>
+      <link>https://review.openstack.org/14966</link>
+      <guid isPermaLink="true">https://review.openstack.org/14966</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Add scheduler retries for prep_resize operations. (NEW)</title>
+      <pubDate>2012-10-29 19:33:36 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bug/1065267&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I1b32c0a282772d9580e322b50990932016058329&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14347&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Add scheduler retries for prep_resize operations.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Brian Elliott&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; bdelliott@gmail.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; belliott&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14347"&gt;https://review.openstack.org/14347&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-11 18:45:41 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 19:33:36 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bc350000380b&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/compute/manager.py
+&lt;li&gt;nova/compute/rpcapi.py
+&lt;li&gt;nova/scheduler/filter_scheduler.py
+&lt;li&gt;nova/tests/compute/test_compute.py
+&lt;li&gt;nova/tests/compute/test_rpcapi.py
+&lt;li&gt;nova/tests/scheduler/test_filter_scheduler.py
+
+      </description>
+      <link>https://review.openstack.org/14347</link>
+      <guid isPermaLink="true">https://review.openstack.org/14347</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Removed two unused imports. (NEW)</title>
+      <pubDate>2012-10-29 18:22:32 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; bp/grizzly-testtools&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; I047ab79807c6c02510cc1d8e69d12d211d23b992&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 14934&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Removed two unused imports.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Monty Taylor&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; mordred@inaugust.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; mordred&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/14934"&gt;https://review.openstack.org/14934&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-10-28 15:51:14 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 18:22:32 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bbee00003a56&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      &lt;b&gt;Files:&lt;/b&gt;&lt;br/&gt;
+      &lt;li&gt;nova/test.py
+
+      </description>
+      <link>https://review.openstack.org/14934</link>
+      <guid isPermaLink="true">https://review.openstack.org/14934</guid>
+    </item>
+      <item>
+      <title>openstack/nova: Move to a more canonicalized output from qemu-img info. (NEW)</title>
+      <pubDate>2012-10-29 17:42:06 UTC</pubDate>
+      <description>
+      &lt;b&gt;project:&lt;/b&gt; openstack/nova&lt;br/&gt;&lt;b&gt;branch:&lt;/b&gt; master&lt;br/&gt;&lt;b&gt;topic:&lt;/b&gt; qemu-canon-work&lt;br/&gt;&lt;b&gt;id:&lt;/b&gt; Ie098dbd9f06dd4ef966768e2caa128f1d09b019c&lt;br/&gt;&lt;b&gt;number:&lt;/b&gt; 13166&lt;br/&gt;&lt;b&gt;subject:&lt;/b&gt; Move to a more canonicalized output from qemu-img info.&lt;br/&gt;&lt;b&gt;owner::&lt;/b&gt; &lt;br/&gt;&lt;b&gt;name:&lt;/b&gt; Joshua Harlow&lt;br/&gt;&lt;b&gt;email:&lt;/b&gt; harlowja@yahoo-inc.com&lt;br/&gt;&lt;b&gt;username:&lt;/b&gt; harlowja&lt;br/&gt;&lt;b&gt;url:&lt;/b&gt; &lt;a href="https://review.openstack.org/13166"&gt;https://review.openstack.org/13166&lt;/a&gt;&lt;br/&gt;&lt;b&gt;createdOn:&lt;/b&gt; 2012-09-17 21:54:50 UTC&lt;br/&gt;&lt;b&gt;lastUpdated:&lt;/b&gt; 2012-10-29 17:42:06 UTC&lt;br/&gt;&lt;b&gt;sortKey:&lt;/b&gt; 0020bbc60000336e&lt;br/&gt;&lt;b&gt;open:&lt;/b&gt; true&lt;br/&gt;&lt;b&gt;status:&lt;/b&gt; NEW
+
+      &lt;br/&gt;&lt;br/&gt;
+
+      
