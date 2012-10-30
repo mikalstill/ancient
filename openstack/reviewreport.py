@@ -54,7 +54,7 @@ if __name__ == '__main__':
                    'count(*) as count from reviews where username="%s" '
                    'and component="%s" group by date order by timestamp desc '
                    'limit 14;'
-                   %(user, sys.argv[1]))
+                   %(user, argv[1]))
 
     for row in cursor:
       d = row['date']
