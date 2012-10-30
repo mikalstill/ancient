@@ -97,7 +97,7 @@ if __name__ == '__main__':
 
   sys.stdout.write('\t')  
   for user in USERS:
-    sys.stdout.write('\t%d' % sum[user])
+    sys.stdout.write('\t%d' % sum.get(user, 0))
   sys.stdout.write('\n')
 
   print
