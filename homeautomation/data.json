@@ -29,6 +29,7 @@
     "steps":       {{y_step}},
     "tick_length": 1,
     "offset":      0,
+    "min":	   {{y_min}},
     "max":         {{y_max}}
   }
 }

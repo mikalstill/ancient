@@ -622,6 +622,7 @@ class http_handler(mhttp.http_handler):
                 '9DAF72', '566047', '562F32', '462D44', '859731', '640E27',
                 'AD0066', 'D13D94', 'F5851F', 'CADA2A', '81A4B9', 'CFE8F6']
 
+      y_min = 0
       y_max = 0
       elements = []
 
@@ -649,21 +650,27 @@ class http_handler(mhttp.http_handler):
 
             if current > y_max:
               y_max = current
+
+            if current < y_min:
+              y_min = current
+
           except:
             pass
 
           upto += step_size
 
-        elements.append(substitute.substitute(template,
-                                              subst={'name': sensor_names.get(r, r),
-                                                     'values': ', '.join(float_values),
-                                                     'color': colors[returned.index(r)]
-                                                     }))
+        elements.append(substitute.substitute(
+            template,
+            subst={'name': sensor_names.get(r, r),
+                   'values': ', '.join(float_values),
+                   'color': colors[returned.index(r)]
+                   }))
 
       elements.reverse()
       self.sendfile('data.json',
-                    subst={'y_max': y_max,
-                           'y_step': y_max / 15,
+                    subst={'y_min': y_min,
+                           'y_max': y_max,
+                           'y_step': (y_max - y_min) / 15,
                            'elements': ', '.join(elements),
                            'x_min': ranges[0][0],
                            'x_max': ranges[0][1],

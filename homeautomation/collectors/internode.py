@@ -8,6 +8,7 @@ import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
 import datetime
+import subprocess
 import time
 import xml.etree.ElementTree
 import yaml
@@ -96,3 +97,31 @@ def Collect(cursor):
 
       else:
         print 'Unknown resource %s!' % rsc_type
+
+  # Measure network performance as well
+  for (name, target) in [('internode', 'www.internode.on.net'),
+                         ('google', 'www.google.com')]:
+    try:
+      avg = 0.0
+      count = 0
+
+      p = subprocess.Popen('ping -c 5 %s' % target, shell=True,
+                           stdout=subprocess.PIPE)
+      for l in p.stdout.readlines():
+        if l.startswith('64 bytes from '):
+          print l.rstrip()
+          avg += float(l.split(' ')[-2].split('=')[1])
+          count += 1
+
+      avg /= count
+
+      print 'Average latency to %s %.02f ms' %(target, avg)
+
+      cursor.execute('insert ignore into sensors'
+                     '(epoch_seconds, sensor, value, hostname) '
+                     'values(%d, "latency", "%.02f", "%s");'
+                     %(time.time(), avg, name))
+      cursor.execute('commit;')
+
+    except Exception, e:
+      print 'Error: %s' % e
