@@ -34,9 +34,14 @@ def Collect(cursor):
   one_minute = datetime.timedelta(minutes=1)
   five_minutes = datetime.timedelta(minutes=5)
 
-  for i in range(60):
+  # We need to be five minutes behind so the summary db can keep up
+  now -= five_minutes
+
+  for i in range(30 * 24 * 60):
+    # Internal flows aren't logged in the db, so we ignore molokai here to
+    # avoid double counting flows originating from molokai
     statement = ('select internalip, sum(bytes) from flows where '
-                 'time >= %s and time < %s group by internalip;'
+                 'time >= %s and time < %s and node="zii" group by internalip;'
                  %(sql.FormatSqlValue('date', now - five_minutes),
                    sql.FormatSqlValue('date', now)))
     remote_cursor.execute(statement)
@@ -48,9 +53,9 @@ def Collect(cursor):
       ip = row['internalip']
       print '%s %s %s' %(now - five_minutes, ip,
                          row['sum(bytes)'])
-      
+
       name = 'Netflow'
-      if ip == '192.168.1.14':
+      if ip == '192.168.1.20':
         name = 'Gateway Netflow'
 
       cursor.execute('insert into sensors '
@@ -58,7 +63,7 @@ def Collect(cursor):
                      'values(%s, "%s", "%s", "%s");'
                      %(epoch, name, row['sum(bytes)'], ip))
       cursor.execute('commit;')
-      
+
       # Determine the "user" for this IP
       if ip not in user_cache:
         try:
@@ -87,7 +92,7 @@ def Collect(cursor):
                      %(epoch, usage[owner], owner))
       cursor.execute('commit;')
 
-    now -= one_minute
+  now -= one_minute
 
 
 if __name__ == '__main__':

@@ -6,6 +6,7 @@ import sys
 sys.path.append('/data/src/stillhq_public/trunk/python/')
 
 import datetime
+import lockfile
 import os
 import time
 import MySQLdb
@@ -32,26 +33,36 @@ def main(argv):
     print
     print FLAGS
 
-  db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
-  cursor = db.cursor(MySQLdb.cursors.DictCursor)
+  lock = lockfile.FileLock('/tmp/collector')
+  if lock.is_locked():
+    print 'There is already another collector running'
+    sys.exit(1)
 
-  plugins = os.listdir(FLAGS.collector_dir)
-  if FLAGS.only:
-    plugins = []
-    for plugin in FLAGS.only.split(' '):
-      plugins.append('%s.py' % plugin)
+  lock.acquire()
 
-  for ent in plugins:
-    if ent.endswith('.py'):
-      print
-      print '----------------------------------------------------------'
-      print '%s: Running %s' %(datetime.datetime.now(), ent)
-      try:
-        plugin = mplugin.LoadPlugin(FLAGS.collector_dir, ent[:-3], log=None)
-        plugin.Collect(cursor)
-      except Exception, e:
-        print '%s: Exception: %s' %(datetime.datetime.now(), e)
+  try:
+    db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
 
+    plugins = os.listdir(FLAGS.collector_dir)
+    if FLAGS.only:
+      plugins = []
+      for plugin in FLAGS.only.split(' '):
+        plugins.append('%s.py' % plugin)
+
+    for ent in plugins:
+      if ent.endswith('.py'):
+        print
+        print '----------------------------------------------------------'
+        print '%s: Running %s' %(datetime.datetime.now(), ent)
+        try:
+          plugin = mplugin.LoadPlugin(FLAGS.collector_dir, ent[:-3], log=None)
+          plugin.Collect(cursor)
+        except Exception, e:
+          print '%s: Exception: %s' %(datetime.datetime.now(), e)
+
+  finally:
+    lock.release()
 
 if __name__ == "__main__":
   main(sys.argv)
