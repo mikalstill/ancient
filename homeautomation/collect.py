@@ -21,6 +21,7 @@ gflags.DEFINE_string('collector_dir', 'collectors',
 gflags.DEFINE_string('dbuser', 'home', 'DB username')
 gflags.DEFINE_string('dbname', 'homeautomation', 'DB name')
 gflags.DEFINE_string('only', '', 'Only run these plugins (space separated)')
+gflags.DEFINE_boolean('lock', True, 'Should we use locking?')
 
 
 def main(argv):
@@ -33,12 +34,13 @@ def main(argv):
     print
     print FLAGS
 
-  lock = lockfile.FileLock('/tmp/collector')
-  if lock.is_locked():
-    print 'There is already another collector running'
-    sys.exit(1)
+  lock = lockfile.FileLock('/tmp/collector2')
+  if FLAGS.lock:
+    if lock.is_locked():
+      print 'There is already another collector running'
+      sys.exit(1)
 
-  lock.acquire()
+    lock.acquire()
 
   try:
     db = MySQLdb.connect(user = FLAGS.dbuser, db = FLAGS.dbname)
@@ -62,7 +64,8 @@ def main(argv):
           print '%s: Exception: %s' %(datetime.datetime.now(), e)
 
   finally:
-    lock.release()
+    if FLAGS.lock:
+      lock.release()
 
 if __name__ == "__main__":
   main(sys.argv)

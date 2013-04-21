@@ -37,12 +37,13 @@ def Collect(cursor):
   # We need to be five minutes behind so the summary db can keep up
   now -= five_minutes
 
-  for i in range(30 * 24 * 60):
-    # Internal flows aren't logged in the db, so we ignore molokai here to
-    # avoid double counting flows originating from molokai
-    statement = ('select internalip, sum(bytes) from flows where '
+  for i in range(24 * 60):
+    # Internal flows aren't logged in the db, so we ignore zii here to
+    # avoid double counting flows originating from zii 
+    statement = ('select internalip, sum(bytes) from flows_%04d%02d where '
                  'time >= %s and time < %s and node="zii" group by internalip;'
-                 %(sql.FormatSqlValue('date', now - five_minutes),
+                 %(now.year, now.month,
+                   sql.FormatSqlValue('date', now - five_minutes),
                    sql.FormatSqlValue('date', now)))
     remote_cursor.execute(statement)
 
@@ -58,7 +59,7 @@ def Collect(cursor):
       if ip == '192.168.1.20':
         name = 'Gateway Netflow'
 
-      cursor.execute('insert into sensors '
+      cursor.execute('insert ignore into sensors '
                      '(epoch_seconds, sensor, value, hostname) '
                      'values(%s, "%s", "%s", "%s");'
                      %(epoch, name, row['sum(bytes)'], ip))
@@ -86,13 +87,13 @@ def Collect(cursor):
       usage[user_cache[ip]] += row['sum(bytes)']
 
     for owner in usage:
-      cursor.execute('insert into sensors '
+      cursor.execute('insert ignore into sensors '
                      '(epoch_seconds, sensor, value, hostname) '
                      'values(%s, "User Netflow", "%s", "%s");'
                      %(epoch, usage[owner], owner))
       cursor.execute('commit;')
 
-  now -= one_minute
+    now -= one_minute
 
 
 if __name__ == '__main__':

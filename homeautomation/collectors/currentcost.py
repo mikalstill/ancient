@@ -12,12 +12,15 @@ import time
 import MySQLdb
 
 
-NUMSENSORS=4
+NUMSENSORS=7
 RADIO_IDS = {
   '02638': 'Watts',
-  '00513': 'Deep Freeze Watts',
+  '02789': 'Deep Freeze Watts',
   '03061': 'Dryer Watts',
-  '00022': 'Fridge Watts'
+  '00022': 'Fridge Watts',
+  '00592': 'Entertain Watts',
+  '02052': 'Server Watts',
+  '02476': 'Study Watts',
 }
 
 
@@ -33,12 +36,13 @@ def Collect(cursor):
         print ('%s: %s watts %s degrees from radio %s (%s)'
                %(datetime.datetime.now(), reading.channels[1]['watts'],
                  reading.temperature, reading.radio_id,
-                 RADIO_IDS[reading.radio_id]))
+                 RADIO_IDS.get(reading.radio_id, reading.radio_id)))
         sensors_seen.append(reading.radio_id)
 
         cursor.execute('insert into sensors (epoch_seconds, sensor, value, '
                        'hostname) values(%s, "%s", "%s", "CC128");'
-                       %(time.time(), RADIO_IDS[reading.radio_id],
+                       %(time.time(),
+                         RADIO_IDS.get(reading.radio_id, reading.radio_id),
                          reading.channels[1]['watts']))
         cursor.execute('commit;')
       else:
